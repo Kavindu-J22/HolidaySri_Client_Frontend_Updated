@@ -1,0 +1,59 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import Layout from './components/layout/Layout';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
+import Home from './pages/Home';
+import Services from './pages/Services';
+import About from './pages/About';
+import Contact from './pages/Contact';
+import Download from './pages/Download';
+import Profile from './pages/Profile';
+import HSCWallet from './pages/HSCWallet';
+import ProtectedRoute from './components/ProtectedRoute';
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
+          <div className="App">
+            <Routes>
+              {/* Auth routes */}
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+
+              {/* Main app routes */}
+              <Route path="/" element={<Layout />}>
+                <Route index element={<Home />} />
+                <Route path="services" element={<Services />} />
+                <Route path="about" element={<About />} />
+                <Route path="contact" element={<Contact />} />
+                <Route path="download" element={<Download />} />
+
+                {/* Protected routes */}
+                <Route path="profile" element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                } />
+                <Route path="hsc" element={
+                  <ProtectedRoute>
+                    <HSCWallet />
+                  </ProtectedRoute>
+                } />
+              </Route>
+
+              {/* Catch all route */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </div>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}
+
+export default App;
