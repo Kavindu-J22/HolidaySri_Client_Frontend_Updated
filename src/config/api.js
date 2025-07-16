@@ -46,6 +46,9 @@ export const authAPI = {
   login: (email, password) => api.post('/auth/login', { email, password }),
   googleAuth: (googleData) => api.post('/auth/google', googleData),
   getCurrentUser: () => api.get('/auth/me'),
+  forgotPassword: (email) => api.post('/auth/forgot-password', { email }),
+  resetPassword: (token, newPassword, confirmPassword) =>
+    api.post('/auth/reset-password', { token, newPassword, confirmPassword }),
 };
 
 // User API calls
