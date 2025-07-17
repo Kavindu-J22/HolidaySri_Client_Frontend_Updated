@@ -149,4 +149,46 @@
   .dark .loading-logo {
     filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.4));
   }
+
+  /* Button Loading Spinner */
+  .loading-spinner {
+    @apply animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent;
+  }
+
+  /* Enhanced Loading Spinner with Pulse Effect */
+  .loading-spinner-enhanced {
+    @apply relative inline-flex items-center justify-center;
+  }
+
+  .loading-spinner-enhanced::before {
+    content: '';
+    @apply absolute animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent;
+  }
+
+  .loading-spinner-enhanced::after {
+    content: '';
+    @apply absolute animate-pulse rounded-full h-3 w-3 bg-white opacity-50;
+    animation-delay: 0.5s;
+  }
+
+  /* Loading Dots Animation */
+  .loading-dots {
+    @apply inline-flex space-x-1;
+  }
+
+  .loading-dots span {
+    @apply w-2 h-2 bg-white rounded-full animate-bounce;
+  }
+
+  .loading-dots span:nth-child(1) {
+    animation-delay: 0ms;
+  }
+
+  .loading-dots span:nth-child(2) {
+    animation-delay: 150ms;
+  }
+
+  .loading-dots span:nth-child(3) {
+    animation-delay: 300ms;
+  }
 }
