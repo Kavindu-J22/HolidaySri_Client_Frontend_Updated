@@ -48,9 +48,16 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">HS</span>
+            <Link to="/" className="flex items-center space-x-3 group">
+              <div className="logo-container logo-md">
+                <img
+                  src={isDarkMode
+                    ? "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712704/4_xi6zj7.png"
+                    : "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712705/Hsllogo_3_gye6nd.png"
+                  }
+                  alt="Holidaysri Logo"
+                  className="logo-image group-hover:scale-110"
+                />
               </div>
               <span className="text-xl font-bold text-gray-900 dark:text-white">
                 Holidaysri

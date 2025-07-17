@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/layout/Layout';
+import LoadingScreen from './components/common/LoadingScreen';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import ForgotPassword from './pages/ForgotPassword';
@@ -17,6 +18,36 @@ import HSCWallet from './pages/HSCWallet';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAppReady, setIsAppReady] = useState(false);
+
+  useEffect(() => {
+    // Simulate app initialization
+    const initializeApp = async () => {
+      // You can add actual initialization logic here
+      // For example: loading user preferences, checking auth state, etc.
+
+      // Minimum loading time for better UX
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      setIsAppReady(true);
+    };
+
+    initializeApp();
+  }, []);
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
+
+  if (isLoading) {
+    return (
+      <ThemeProvider>
+        <LoadingScreen onLoadingComplete={isAppReady ? handleLoadingComplete : null} />
+      </ThemeProvider>
+    );
+  }
+
   return (
     <ThemeProvider>
       <AuthProvider>

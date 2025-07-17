@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Facebook, 
-  Twitter, 
-  Instagram, 
-  Youtube, 
-  Mail, 
-  Phone, 
+import { useTheme } from '../../contexts/ThemeContext';
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  Youtube,
+  Mail,
+  Phone,
   MapPin,
   Globe,
   Heart,
@@ -17,6 +18,7 @@ import {
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { isDarkMode } = useTheme();
 
   const quickLinks = [
     { name: 'Home', path: '/' },
@@ -57,9 +59,16 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-primary-600 to-primary-700 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">HS</span>
+            <div className="flex items-center space-x-3 mb-4 group">
+              <div className="logo-container logo-lg">
+                <img
+                  src={isDarkMode
+                    ? "https://res.cloudinary.com/dqdcmluxj/image/upload/v1745534094/Hsllogo_lvqdty.png"
+                    : "https://res.cloudinary.com/dqdcmluxj/image/upload/v1745534156/logo_qhmvav.png"
+                  }
+                  alt="Holidaysri Logo"
+                  className="logo-image group-hover:scale-105"
+                />
               </div>
               <span className="text-2xl font-bold text-gray-900 dark:text-white">
                 Holidaysri
