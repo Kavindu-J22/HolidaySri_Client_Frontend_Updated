@@ -73,7 +73,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-blue-200',
       textColor: 'text-blue-800',
       description: 'Premium benefits for established businesses',
-      features: ['Premium promotional benefits', 'Highest earning rates', 'Advertise your promo code for free on our platform and reach thousands of potential customers. (Life_time)']
+      features: ['Premium promotional benefits', 'Highest earning rates', 'Advertise your promo code for free on our platform and reach thousands of potential customers. (Life_time)', 'Unlock the "Top Agent" badge']
     },
     {
       key: 'free',
