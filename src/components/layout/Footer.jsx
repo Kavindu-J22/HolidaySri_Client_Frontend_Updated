@@ -63,8 +63,8 @@ const Footer = () => {
               <div className="logo-container logo-lg">
                 <img
                   src={isDarkMode
-                    ? "https://res.cloudinary.com/dqdcmluxj/image/upload/v1745534094/Hsllogo_lvqdty.png"
-                    : "https://res.cloudinary.com/dqdcmluxj/image/upload/v1745534156/logo_qhmvav.png"
+                    ? "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712704/4_xi6zj7.png"
+                    : "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712705/Hsllogo_3_gye6nd.png"
                   }
                   alt="Holidaysri Logo"
                   className="logo-image group-hover:scale-105"

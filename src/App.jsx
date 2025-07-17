@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/layout/Layout';
-import LoadingScreen from './components/common/LoadingScreen';
+import Loader from './components/common/LoadingScreen';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import ForgotPassword from './pages/ForgotPassword';
@@ -19,7 +19,6 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  const [isAppReady, setIsAppReady] = useState(false);
 
   useEffect(() => {
     // Simulate app initialization
@@ -27,23 +26,19 @@ function App() {
       // You can add actual initialization logic here
       // For example: loading user preferences, checking auth state, etc.
 
-      // Minimum loading time for better UX
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Loading time for better UX (3 seconds)
+      await new Promise(resolve => setTimeout(resolve, 3000));
 
-      setIsAppReady(true);
+      setIsLoading(false);
     };
 
     initializeApp();
   }, []);
 
-  const handleLoadingComplete = () => {
-    setIsLoading(false);
-  };
-
   if (isLoading) {
     return (
       <ThemeProvider>
-        <LoadingScreen onLoadingComplete={isAppReady ? handleLoadingComplete : null} />
+        <Loader />
       </ThemeProvider>
     );
   }
