@@ -96,15 +96,15 @@ const Navbar = () => {
 
             {/* User authentication */}
             {user ? (
-              <div className="relative">
+              <div className="flex items-center space-x-2">
                 {/* Notifications */}
                 <button className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 relative">
                   <Bell className="w-5 h-5" />
-                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
                 </button>
 
                 {/* Profile dropdown */}
-                <div className="relative ml-2">
+                <div className="relative">
                   <button
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                     className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
@@ -113,57 +113,99 @@ const Navbar = () => {
                       <img
                         src={user.profileImage}
                         alt={user.name}
-                        className="w-8 h-8 rounded-full object-cover"
+                        className="w-8 h-8 rounded-full object-cover border-2 border-transparent hover:border-primary-500 transition-colors duration-200"
                       />
                     ) : (
-                      <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center hover:bg-primary-700 transition-colors duration-200">
                         <User className="w-4 h-4 text-white" />
                       </div>
                     )}
-                    <span className="hidden sm:block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <span className="hidden md:block text-sm font-medium text-gray-700 dark:text-gray-300 max-w-24 truncate">
                       {user.name}
                     </span>
                   </button>
 
                   {/* Dropdown menu */}
                   {isProfileOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
-                      <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">{user.name}</p>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">{user.email}</p>
-                        <p className="text-xs text-primary-600 dark:text-primary-400 mt-1">
-                          HSC Balance: {user.hscBalance || 0}
-                        </p>
+                    <div className="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50 animate-slide-down">
+                      {/* User Info Header */}
+                      <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-t-xl">
+                        <div className="flex items-center space-x-3">
+                          {user.profileImage ? (
+                            <img
+                              src={user.profileImage}
+                              alt={user.name}
+                              className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm"
+                            />
+                          ) : (
+                            <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center shadow-sm">
+                              <User className="w-6 h-6 text-white" />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                              {user.name}
+                            </p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 truncate">
+                              {user.email}
+                            </p>
+                            <div className="flex items-center space-x-1 mt-1">
+                              <div className="w-2 h-2 bg-primary-500 rounded-full"></div>
+                              <p className="text-xs text-primary-600 dark:text-primary-400 font-medium">
+                                HSC: {user.hscBalance || 0}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      
-                      <Link
-                        to="/profile"
-                        className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        onClick={() => setIsProfileOpen(false)}
-                      >
-                        <Settings className="w-4 h-4" />
-                        <span>Profile Settings</span>
-                      </Link>
-                      
-                      <Link
-                        to="/hsc"
-                        className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                        onClick={() => setIsProfileOpen(false)}
-                      >
-                        <CreditCard className="w-4 h-4" />
-                        <span>HSC Wallet</span>
-                      </Link>
-                      
-                      <button
-                        onClick={handleLogout}
-                        className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        <span>Logout</span>
-                      </button>
+
+                      {/* Menu Items */}
+                      <div className="py-2">
+                        <Link
+                          to="/profile"
+                          className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          <div className="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center group-hover:bg-primary-100 dark:group-hover:bg-primary-900/30 transition-colors duration-200">
+                            <Settings className="w-4 h-4" />
+                          </div>
+                          <div className="flex-1">
+                            <span className="font-medium">Profile Settings</span>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Manage your account</p>
+                          </div>
+                        </Link>
+
+                        <Link
+                          to="/hsc"
+                          className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 dark:text-gray-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 hover:text-primary-600 dark:hover:text-primary-400 transition-all duration-200 group"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          <div className="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center group-hover:bg-primary-100 dark:group-hover:bg-primary-900/30 transition-colors duration-200">
+                            <CreditCard className="w-4 h-4" />
+                          </div>
+                          <div className="flex-1">
+                            <span className="font-medium">HSC Wallet</span>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Manage your coins</p>
+                          </div>
+                        </Link>
+
+                        <div className="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
+                          <button
+                            onClick={handleLogout}
+                            className="flex items-center space-x-3 w-full px-4 py-3 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 group"
+                          >
+                            <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center group-hover:bg-red-200 dark:group-hover:bg-red-900/50 transition-colors duration-200">
+                              <LogOut className="w-4 h-4" />
+                            </div>
+                            <div className="flex-1">
+                              <span className="font-medium">Logout</span>
+                              <p className="text-xs text-red-500 dark:text-red-400">Sign out of your account</p>
+                            </div>
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   )}
-                </div>
               </div>
             ) : (
               <div className="flex items-center space-x-2">

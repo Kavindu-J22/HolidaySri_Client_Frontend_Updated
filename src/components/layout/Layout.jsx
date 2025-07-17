@@ -32,15 +32,18 @@ const Layout = () => {
       <Footer />
 
       {/* Sidebar toggle button for mobile */}
-      <button
-        onClick={toggleSidebar}
-        className="lg:hidden fixed bottom-6 right-6 z-40 bg-primary-600 text-white p-3 rounded-full shadow-lg hover:bg-primary-700 transition-colors duration-200"
-        aria-label="Toggle sidebar"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
+      {!isSidebarOpen && (
+        <button
+          onClick={toggleSidebar}
+          className="lg:hidden fixed bottom-6 right-6 z-40 bg-primary-600 text-white p-4 rounded-full shadow-xl hover:bg-primary-700 transition-all duration-300 hover:scale-110 active:scale-95"
+          aria-label="Toggle sidebar"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+        </button>
+      )}
     </div>
   );
 };

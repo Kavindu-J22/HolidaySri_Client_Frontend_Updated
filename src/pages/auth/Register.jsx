@@ -3,6 +3,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, Phone, AlertCircle, CheckCircle, Globe } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import PasswordStrength from '../../components/common/PasswordStrength';
+import { checkPasswordStrength } from '../../utils/passwordStrength';
 
 const Register = () => {
   const [step, setStep] = useState(1); // 1: Email verification, 2: Registration form
@@ -356,8 +358,10 @@ const countryCodes = [
       return;
     }
 
-    if (formData.password.length < 6) {
-      setLocalError('Password must be at least 6 characters long');
+    // Check password strength
+    const passwordStrength = checkPasswordStrength(formData.password);
+    if (!passwordStrength.isStrong) {
+      setLocalError('Please create a stronger password. Your password should have at least 4 of the following: 8+ characters, uppercase letter, lowercase letter, number, and special character.');
       setIsLoading(false);
       return;
     }
@@ -651,6 +655,9 @@ const countryCodes = [
                     )}
                   </button>
                 </div>
+
+                {/* Password Strength Indicator */}
+                <PasswordStrength password={formData.password} />
               </div>
 
               <div>
