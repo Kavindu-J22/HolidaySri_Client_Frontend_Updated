@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CreditCard, ArrowLeft, AlertCircle, Loader } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { userAPI, hscAPI } from '../config/api';
+import { hscAPI } from '../config/api';
 
 const PayHerePayment = () => {
   const location = useLocation();
@@ -238,9 +238,9 @@ const PayHerePayment = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
           {/* Payment Form */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <div className="card p-6">
               <div className="flex items-center mb-6">
                 <CreditCard className="w-6 h-6 text-primary-600 mr-2" />
@@ -358,44 +358,93 @@ const PayHerePayment = () => {
           </div>
 
           {/* Order Summary */}
-          <div className="lg:col-span-1">
-            <div className="card p-6 sticky top-8">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                Order Summary
-              </h3>
-              
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Item:</span>
-                  <span className="text-gray-900 dark:text-white font-medium">
-                    {paymentData.items}
-                  </span>
+          <div className="lg:col-span-2">
+            <div className="card p-8 sticky top-8">
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4">
+                  <img
+                    src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734337684/hsc_resll6_1_q0eksv.webp"
+                    alt="HSC Coin"
+                    className="w-10 h-10 object-contain"
+                  />
                 </div>
-                
-                <div className="flex justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">HSC Amount:</span>
-                  <span className="text-gray-900 dark:text-white font-medium">
-                    {paymentData.HSCamount} HSC
-                  </span>
-                </div>
-                
-                <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
-                  <div className="flex justify-between">
-                    <span className="text-lg font-semibold text-gray-900 dark:text-white">
-                      Total:
-                    </span>
-                    <span className="text-lg font-bold text-primary-600 dark:text-primary-400">
-                      {paymentData.Amount.toFixed(2)} {paymentData.currency}
-                    </span>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  Order Summary
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Review your HSC purchase details
+                </p>
+              </div>
+
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-6">
+                <div className="space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Package:</span>
+                      <p className="text-gray-900 dark:text-white font-semibold mt-1 leading-tight">
+                        {paymentData.items}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">HSC Tokens:</span>
+                      <div className="text-right">
+                        <span className="text-lg font-bold text-primary-600 dark:text-primary-400">
+                          {paymentData.HSCamount} HSC
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Amount to Pay:</span>
+                      <div className="text-right">
+                        <span className="text-xl font-bold text-green-600 dark:text-green-400">
+                          {paymentData.Amount.toFixed(2)} {paymentData.currency}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                <p className="text-xs text-blue-700 dark:text-blue-300">
-                  <strong>Secure Payment:</strong> Your payment is processed securely through PayHere, 
-                  Sri Lanka's leading payment gateway.
-                </p>
+              <div className="space-y-4">
+                <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-4">
+                  <div className="flex items-center mb-2">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                    <span className="text-sm font-semibold text-green-800 dark:text-green-300">
+                      Secure Payment
+                    </span>
+                  </div>
+                  <p className="text-xs text-green-700 dark:text-green-400 leading-relaxed">
+                    Your payment is processed securely through PayHere, Sri Lanka's leading payment gateway with bank-level security.
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-4">
+                  <div className="flex items-center mb-2">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                    <span className="text-sm font-semibold text-blue-800 dark:text-blue-300">
+                      Instant Delivery
+                    </span>
+                  </div>
+                  <p className="text-xs text-blue-700 dark:text-blue-400 leading-relaxed">
+                    HSC tokens will be added to your account immediately after successful payment.
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-4">
+                  <div className="flex items-center mb-2">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
+                    <span className="text-sm font-semibold text-purple-800 dark:text-purple-300">
+                      24/7 Support
+                    </span>
+                  </div>
+                  <p className="text-xs text-purple-700 dark:text-purple-400 leading-relaxed">
+                    Need help? Our support team is available around the clock to assist you.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

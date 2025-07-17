@@ -17,6 +17,7 @@ import Profile from './pages/Profile';
 import HSCWallet from './pages/HSCWallet';
 import HSCTreasure from './pages/HSCTreasure';
 import PayHerePayment from './pages/PayHerePayment';
+import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <Router>
+          <ScrollToTop />
           <div className="App">
             <Routes>
               {/* Auth routes */}

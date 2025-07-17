@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Coins, 
-  Package, 
-  ShoppingCart, 
-  Star, 
-  DollarSign, 
+import {
+  Package,
+  ShoppingCart,
+  Star,
+  DollarSign,
   Calculator,
   CreditCard,
   AlertCircle,
@@ -42,7 +41,7 @@ const HSCTreasure = () => {
       // Clear success message after 5 seconds
       setTimeout(() => setSuccess(null), 5000);
     }
-  }, [user, location.state, navigate]);
+  }, [user, navigate]); // Removed location.state from dependencies
 
   const fetchHSCInfo = async () => {
     try {
@@ -135,8 +134,12 @@ const HSCTreasure = () => {
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
-        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl mb-4">
-          <Coins className="w-8 h-8 text-white" />
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-xl mb-4 overflow-hidden">
+          <img
+            src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734337684/hsc_resll6_1_q0eksv.webp"
+            alt="HSC Coin"
+            className="w-10 h-10 object-contain"
+          />
         </div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
           Coins (HSC) and Treasure
@@ -257,7 +260,7 @@ const HSCTreasure = () => {
         {/* Packages Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {packages.map((pkg) => (
-            <div key={pkg._id} className="card p-6 relative hover:shadow-lg transition-shadow duration-200">
+            <div key={pkg._id} className="card p-6 relative hover:shadow-lg transition-shadow duration-200 flex flex-col">
               {/* Discount Badge */}
               {pkg.discount > 0 && (
                 <div className="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
@@ -274,7 +277,7 @@ const HSCTreasure = () => {
               <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                 {pkg.name}
               </h3>
-              
+
               <div className="mb-4">
                 <div className="text-2xl font-bold text-primary-600 dark:text-primary-400 mb-1">
                   {pkg.hscAmount} HSC
@@ -304,28 +307,32 @@ const HSCTreasure = () => {
               )}
 
               {/* Features */}
-              {pkg.features && pkg.features.length > 0 && (
-                <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Features:</h4>
-                  <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
-                    {pkg.features.map((feature, index) => (
-                      <li key={index} className="flex items-start">
-                        <Star className="w-3 h-3 text-yellow-500 mr-1 mt-0.5 flex-shrink-0" />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <div className="flex-grow">
+                {pkg.features && pkg.features.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Features:</h4>
+                    <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                      {pkg.features.map((feature, index) => (
+                        <li key={index} className="flex items-start">
+                          <Star className="w-3 h-3 text-yellow-500 mr-1 mt-0.5 flex-shrink-0" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
 
-              {/* Purchase Button */}
-              <button
-                onClick={() => handlePackagePurchase(pkg)}
-                className="btn-primary w-full flex items-center justify-center space-x-2"
-              >
-                <ShoppingCart className="w-4 h-4" />
-                <span>Purchase Package</span>
-              </button>
+              {/* Purchase Button - Always at bottom */}
+              <div className="mt-auto">
+                <button
+                  onClick={() => handlePackagePurchase(pkg)}
+                  className="btn-primary w-full flex items-center justify-center space-x-2"
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  <span>Purchase Package</span>
+                </button>
+              </div>
             </div>
           ))}
         </div>
