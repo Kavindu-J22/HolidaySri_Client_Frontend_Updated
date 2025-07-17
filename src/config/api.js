@@ -82,6 +82,7 @@ export const adminAPI = {
   getHSCPackages: () => api.get('/admin/hsc-packages'),
   createHSCPackage: (packageData) => api.post('/admin/hsc-packages', packageData),
   updateHSCPackage: (packageId, packageData) => api.put(`/admin/hsc-packages/${packageId}`, packageData),
+  deleteHSCPackage: (packageId) => api.delete(`/admin/hsc-packages/${packageId}`),
 };
 
 export default api;

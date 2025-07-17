@@ -15,6 +15,8 @@ import Contact from './pages/Contact';
 import Download from './pages/Download';
 import Profile from './pages/Profile';
 import HSCWallet from './pages/HSCWallet';
+import HSCTreasure from './pages/HSCTreasure';
+import PayHerePayment from './pages/PayHerePayment';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -72,6 +74,12 @@ function App() {
                 <Route path="hsc" element={
                   <ProtectedRoute>
                     <HSCWallet />
+                  </ProtectedRoute>
+                } />
+                <Route path="hsc-treasure" element={<HSCTreasure />} />
+                <Route path="payment/payhere" element={
+                  <ProtectedRoute>
+                    <PayHerePayment />
                   </ProtectedRoute>
                 } />
               </Route>
