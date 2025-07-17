@@ -16,6 +16,7 @@ import Download from './pages/Download';
 import Profile from './pages/Profile';
 import HSCWallet from './pages/HSCWallet';
 import HSCTreasure from './pages/HSCTreasure';
+import PromoCodesAndTravelAgents from './pages/PromoCodesAndTravelAgents';
 import PayHerePayment from './pages/PayHerePayment';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -81,6 +82,7 @@ function App() {
                   </ProtectedRoute>
                 } />
                 <Route path="hsc-treasure" element={<HSCTreasure />} />
+                <Route path="promo-codes-travel-agents" element={<PromoCodesAndTravelAgents />} />
                 <Route path="payment/payhere" element={
                   <ProtectedRoute>
                     <PayHerePayment />

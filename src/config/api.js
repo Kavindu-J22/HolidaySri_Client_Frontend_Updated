@@ -70,6 +70,12 @@ export const hscAPI = {
   spendHSC: (spendData) => api.post('/hsc/spend', spendData),
 };
 
+// Promo Code API calls
+export const promoCodeAPI = {
+  getConfig: () => api.get('/promocodes/config'),
+  getTransactions: (params) => api.get('/promocodes/transactions', { params }),
+};
+
 // Admin API calls
 export const adminAPI = {
   login: (username, password) => api.post('/admin/login', { username, password }),
