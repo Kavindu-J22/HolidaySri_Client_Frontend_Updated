@@ -51,7 +51,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-gray-200',
       textColor: 'text-gray-800',
       description: 'Perfect for getting started with promotional benefits',
-      features: ['Basic promotional benefits', 'Standard earning rates', 'Monthly advertisement support', 'Promote 1,500 ads and get Free Upgrade to Gold Promo Code', 'For just 5 HSC, you can advertise your promo code to thousands of targeted customers on our site. (Life_time).']
+      features: ['Basic promotional benefits', 'Standard earning rates', 'Promote 1,500 ads and get Free Upgrade to Gold Promo Code', 'For just 5 HSC, you can advertise your promo code to thousands of targeted customers on our site. (Life_time).']
     },
     {
       key: 'gold',
@@ -62,7 +62,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-yellow-200',
       textColor: 'text-yellow-800',
       description: 'Enhanced benefits for growing businesses',
-      features: ['Enhanced promotional benefits', 'Better earning rates', 'Priority advertisement support', 'Promote 2,500 ads and get Free Upgrade to Gold Promo Code', 'For just 3 HSC, you can advertise your promo code to thousands of targeted customers on our site. (Life_time).']
+      features: ['Enhanced promotional benefits', 'Better earning rates', 'Promote 2,500 ads and get Free Upgrade to Gold Promo Code', 'For just 3 HSC, you can advertise your promo code to thousands of targeted customers on our site. (Life_time).']
     },
     {
       key: 'diamond',
@@ -73,7 +73,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-blue-200',
       textColor: 'text-blue-800',
       description: 'Premium benefits for established businesses',
-      features: ['Premium promotional benefits', 'Highest earning rates', 'VIP advertisement support', 'Advertise your promo code for free on our platform and reach thousands of potential customers. (Life_time)']
+      features: ['Premium promotional benefits', 'Highest earning rates', 'Advertise your promo code for free on our platform and reach thousands of potential customers. (Life_time)']
     },
     {
       key: 'free',
@@ -84,7 +84,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-green-200',
       textColor: 'text-green-800',
       description: 'Basic benefits at no cost',
-      features: ['Basic promotional benefits', 'Limited earning rates', 'Standard support', 'Promote your promo code to help others purchase Silver, Gold or Diamond promo code and earn Related referral for each successful purchase.', 'Earn free upgrades: If You Promote using your free promo code, you will earn free upgrades based on the number of ads you promote: 700 ads → Silver Promo Code | 1,500 ads → Gold Promo Code| 2,500 ads → Diamond Promo Code.']
+      features: ['Basic promotional benefits', 'Limited earning rates', 'Standard support', 'Promote your promo code to help others purchase Silver, Gold or Diamond promo code and earn Related referral for each successful purchase.', 'Earn free upgrades: If You Promote using your free promo code, you will earn free upgrades based on the number of ads you promote: 700 ads → Silver Promo Code | 1,500 ads → Gold Promo Code| 2,500 ads → Diamond Promo Code.', 'The in-site advertising feature is locked for free promo codes.']
     }
   ];
 
