@@ -238,10 +238,10 @@ const PayHerePayment = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-1 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Payment Form */}
-          <div className="lg:col-span-3">
-            <div className="card p-6">
+          <div className="lg:col-span-1">
+            <div className="card p-6 h-full">
               <div className="flex items-center mb-6">
                 <CreditCard className="w-6 h-6 text-primary-600 mr-2" />
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -358,8 +358,8 @@ const PayHerePayment = () => {
           </div>
 
           {/* Order Summary */}
-          <div className="lg:col-span-2">
-            <div className="card p-8 sticky top-8">
+          <div className="lg:col-span-1">
+            <div className="card p-6 h-full sticky top-8">
               <div className="text-center mb-6">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4">
                   <img

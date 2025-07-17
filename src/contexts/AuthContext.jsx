@@ -15,6 +15,7 @@ const initialState = {
 const AUTH_ACTIONS = {
   SET_LOADING: 'SET_LOADING',
   SET_USER: 'SET_USER',
+  UPDATE_USER: 'UPDATE_USER',
   SET_ERROR: 'SET_ERROR',
   LOGOUT: 'LOGOUT',
   CLEAR_ERROR: 'CLEAR_ERROR',
@@ -32,6 +33,11 @@ const authReducer = (state, action) => {
         token: action.payload.token,
         loading: false,
         error: null,
+      };
+    case AUTH_ACTIONS.UPDATE_USER:
+      return {
+        ...state,
+        user: { ...state.user, ...action.payload },
       };
     case AUTH_ACTIONS.SET_ERROR:
       return { ...state, error: action.payload, loading: false };
@@ -225,6 +231,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Update user data
+  const updateUser = (userData) => {
+    dispatch({ type: AUTH_ACTIONS.UPDATE_USER, payload: userData });
+  };
+
   // Clear error
   const clearError = () => {
     dispatch({ type: AUTH_ACTIONS.CLEAR_ERROR });
@@ -238,6 +249,7 @@ export const AuthProvider = ({ children }) => {
     logout,
     sendOTP,
     verifyOTP,
+    updateUser,
     clearError,
   };
 

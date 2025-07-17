@@ -19,6 +19,7 @@ import HSCTreasure from './pages/HSCTreasure';
 import PayHerePayment from './pages/PayHerePayment';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
+import HSGPopup from './components/common/HSGPopup';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -51,6 +52,7 @@ function App() {
       <AuthProvider>
         <Router>
           <ScrollToTop />
+          <HSGPopup />
           <div className="App">
             <Routes>
               {/* Auth routes */}
