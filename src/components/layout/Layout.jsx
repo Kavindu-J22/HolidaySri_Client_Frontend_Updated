@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
+import Footer from './Footer';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -15,18 +16,20 @@ const Layout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
       <Navbar />
-      
-      <div className="flex">
+
+      <div className="flex flex-1">
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
-        
-        <main className="flex-1 lg:ml-0">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <main className="flex-1 lg:ml-0 flex flex-col">
+          <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
             <Outlet />
           </div>
         </main>
       </div>
+
+      <Footer />
 
       {/* Sidebar toggle button for mobile */}
       <button

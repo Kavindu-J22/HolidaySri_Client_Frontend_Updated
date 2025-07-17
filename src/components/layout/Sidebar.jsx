@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  Hotel, 
-  MapPin, 
-  Car, 
-  UtensilsCrossed, 
+import {
+  Hotel,
+  MapPin,
+  Car,
+  UtensilsCrossed,
   Camera,
   Compass,
   Mountain,
@@ -16,7 +16,53 @@ import {
   Star,
   TrendingUp,
   Clock,
-  DollarSign
+  DollarSign,
+  PlusCircle,
+  Gift,
+  Coins,
+  Users,
+  Shield,
+  Wrench,
+  Calendar,
+  Briefcase,
+  Heart,
+  ShoppingBag,
+  Music,
+  Zap,
+  Settings,
+  Stethoscope,
+  Scale,
+  MessageCircle,
+  Languages,
+  Home as HomeIcon,
+  Stars,
+  Truck,
+  Monitor,
+  GraduationCap,
+  CreditCard,
+  Baby,
+  PawPrint,
+  HandHeart,
+  Store,
+  Package,
+  Gem,
+  Laptop,
+  Shirt,
+  Apple,
+  Leaf,
+  Book,
+  Plus,
+  Dumbbell,
+  Film,
+  Share2,
+  Bitcoin,
+  Smartphone,
+  Target,
+  Handshake,
+  Percent,
+  AlertTriangle,
+  FileText,
+  Bell
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onClose }) => {
@@ -25,99 +71,160 @@ const Sidebar = ({ isOpen, onClose }) => {
 
   const advertisementCategories = [
     {
-      id: 'hotels',
-      name: 'Hotels & Accommodation',
-      icon: Hotel,
+      id: 'tourism-travel',
+      name: 'Tourism And Travel',
+      icon: Compass,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
       subcategories: [
-        { name: 'Luxury Hotels', path: '/ads/hotels/luxury' },
-        { name: 'Budget Hotels', path: '/ads/hotels/budget' },
-        { name: 'Boutique Hotels', path: '/ads/hotels/boutique' },
-        { name: 'Resorts', path: '/ads/hotels/resorts' },
-        { name: 'Guesthouses', path: '/ads/hotels/guesthouses' },
-        { name: 'Homestays', path: '/ads/hotels/homestays' },
+        { name: 'Explore Locations', path: '/ads/tourism/explore-locations' },
+        { name: 'Find Travel Buddys', path: '/ads/tourism/travel-buddys' },
+        { name: 'Expert Tour Guiders', path: '/ads/tourism/tour-guiders' },
+        { name: 'Local Tour Packages', path: '/ads/tourism/local-packages' },
+        { name: 'Customize Tour Package', path: '/ads/tourism/customize-package' },
+        { name: 'TravelSafe & Help Professionals', path: '/ads/tourism/travel-safe' },
+        { name: 'Rent a Land for Camping or Parking purposes', path: '/ads/tourism/land-rental' },
       ]
     },
     {
-      id: 'guides',
-      name: 'Tour Guides & Services',
-      icon: Compass,
+      id: 'accommodation-dining',
+      name: 'Accommodation & Dining',
+      icon: Hotel,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
       subcategories: [
-        { name: 'Professional Guides', path: '/ads/guides/professional' },
-        { name: 'Local Guides', path: '/ads/guides/local' },
-        { name: 'Adventure Guides', path: '/ads/guides/adventure' },
-        { name: 'Cultural Tours', path: '/ads/guides/cultural' },
-        { name: 'Wildlife Tours', path: '/ads/guides/wildlife' },
-        { name: 'Photography Tours', path: '/ads/guides/photography' },
+        { name: 'Hotels & Accommodations', path: '/ads/accommodation/hotels' },
+        { name: 'Cafes & restaurants', path: '/ads/accommodation/cafes-restaurants' },
+        { name: 'Foods & Beverages', path: '/ads/accommodation/foods-beverages' },
       ]
     },
     {
-      id: 'vehicles',
-      name: 'Transportation',
+      id: 'vehicles-transport',
+      name: 'Vehicles & Transport',
       icon: Car,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
       subcategories: [
-        { name: 'Car Rentals', path: '/ads/vehicles/cars' },
-        { name: 'Van Rentals', path: '/ads/vehicles/vans' },
-        { name: 'Bus Services', path: '/ads/vehicles/buses' },
-        { name: 'Tuk Tuk Services', path: '/ads/vehicles/tuktuk' },
-        { name: 'Bike Rentals', path: '/ads/vehicles/bikes' },
-        { name: 'Boat Services', path: '/ads/vehicles/boats' },
+        { name: 'Vehicle Rentals & Hire Services', path: '/ads/transport/vehicle-rentals' },
+        { name: 'Live Rides Updates & Carpooling', path: '/ads/transport/rides-carpooling' },
+        { name: 'Professional Drivers', path: '/ads/transport/professional-drivers' },
+        { name: 'Vehicle Repairs & Mechanics', path: '/ads/transport/repairs-mechanics' },
       ]
     },
     {
-      id: 'restaurants',
-      name: 'Restaurants & Dining',
-      icon: UtensilsCrossed,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50',
-      subcategories: [
-        { name: 'Fine Dining', path: '/ads/restaurants/fine-dining' },
-        { name: 'Local Cuisine', path: '/ads/restaurants/local' },
-        { name: 'Street Food', path: '/ads/restaurants/street-food' },
-        { name: 'Cafes & Bakeries', path: '/ads/restaurants/cafes' },
-        { name: 'Seafood', path: '/ads/restaurants/seafood' },
-        { name: 'Vegetarian', path: '/ads/restaurants/vegetarian' },
-      ]
-    },
-    {
-      id: 'attractions',
-      name: 'Attractions & Activities',
-      icon: Camera,
+      id: 'events-management',
+      name: 'Events & Management',
+      icon: Calendar,
       color: 'text-red-600',
       bgColor: 'bg-red-50',
       subcategories: [
-        { name: 'Historical Sites', path: '/ads/attractions/historical' },
-        { name: 'Natural Attractions', path: '/ads/attractions/natural' },
-        { name: 'Adventure Sports', path: '/ads/attractions/adventure' },
-        { name: 'Water Sports', path: '/ads/attractions/water-sports' },
-        { name: 'Cultural Shows', path: '/ads/attractions/cultural' },
-        { name: 'Wildlife Parks', path: '/ads/attractions/wildlife' },
+        { name: 'Events Updates & Manage or Customize Your Event', path: '/ads/events/manage-events' },
+        { name: 'Expert Event Planners & day Coordinators', path: '/ads/events/planners-coordinators' },
+        { name: 'Creative Photographers', path: '/ads/events/photographers' },
+        { name: 'Decorators & Florists', path: '/ads/events/decorators-florists' },
+        { name: 'Salon & Makeup Artists', path: '/ads/events/salon-makeup' },
+        { name: 'Fashion Designers', path: '/ads/events/fashion-designers' },
       ]
     },
     {
-      id: 'destinations',
-      name: 'Popular Destinations',
-      icon: MapPin,
+      id: 'professionals-services',
+      name: 'Professionals & Services',
+      icon: Briefcase,
       color: 'text-indigo-600',
       bgColor: 'bg-indigo-50',
       subcategories: [
-        { name: 'Colombo', path: '/ads/destinations/colombo' },
-        { name: 'Kandy', path: '/ads/destinations/kandy' },
-        { name: 'Galle', path: '/ads/destinations/galle' },
-        { name: 'Nuwara Eliya', path: '/ads/destinations/nuwara-eliya' },
-        { name: 'Sigiriya', path: '/ads/destinations/sigiriya' },
-        { name: 'Ella', path: '/ads/destinations/ella' },
+        { name: 'Meet Expert Doctors', path: '/ads/professionals/doctors' },
+        { name: 'Professional Lawyers', path: '/ads/professionals/lawyers' },
+        { name: 'Experienced Advisors & Counselors', path: '/ads/professionals/advisors-counselors' },
+        { name: 'Language Translators & Interpreters', path: '/ads/professionals/translators' },
+        { name: 'Expert Architects', path: '/ads/professionals/architects' },
+        { name: 'Trusted Astrologists', path: '/ads/professionals/astrologists' },
+        { name: 'Delivery Partners', path: '/ads/professionals/delivery' },
+        { name: 'Graphics/IT Supports & Tech Repair Services', path: '/ads/professionals/it-tech' },
+        { name: 'Educational & Tutoring Services', path: '/ads/professionals/education' },
+        { name: 'Currency Exchange Rates & Services', path: '/ads/professionals/currency-exchange' },
+        { name: 'Other Professionals & Services (Cleaning, Clinic Ect.)', path: '/ads/professionals/other' },
+      ]
+    },
+    {
+      id: 'caring-donations',
+      name: 'Caring & Donations',
+      icon: Heart,
+      color: 'text-pink-600',
+      bgColor: 'bg-pink-50',
+      subcategories: [
+        { name: 'Compassionate Caregivers & Earn Time Currency', path: '/ads/caring/caregivers' },
+        { name: 'Trusted Babysitters & Childcare Help', path: '/ads/caring/babysitters' },
+        { name: 'Pet Care & Animal Services', path: '/ads/caring/pet-care' },
+        { name: 'Donations / Raise Your Fund', path: '/ads/caring/donations' },
+      ]
+    },
+    {
+      id: 'marketplace-shopping',
+      name: 'Marketplace & Shopping',
+      icon: ShoppingBag,
+      color: 'text-orange-600',
+      bgColor: 'bg-orange-50',
+      subcategories: [
+        { name: 'Rent & Property Buying & Selling Platform', path: '/ads/marketplace/property' },
+        { name: 'Exclusive Gift Packs', path: '/ads/marketplace/gift-packs' },
+        { name: 'Souvenirs & Collectibles', path: '/ads/marketplace/souvenirs' },
+        { name: 'Jewelry & Gem Sellers', path: '/ads/marketplace/jewelry-gems' },
+        { name: 'Home/Office Accessories & Tech Gadgets', path: '/ads/marketplace/accessories-gadgets' },
+        { name: 'Fashion/Beauty & Clothing Items', path: '/ads/marketplace/fashion-beauty' },
+        { name: 'Daily Grocery Essentials', path: '/ads/marketplace/grocery' },
+        { name: 'Organic Herbal Products & Spices', path: '/ads/marketplace/herbal-spices' },
+        { name: 'Books, Magazines & Educational Materials', path: '/ads/marketplace/books-education' },
+        { name: 'Other Items', path: '/ads/marketplace/other-items' },
+        { name: 'Create Your Own Store : It\'s Time To Shoping', path: '/ads/marketplace/create-store' },
+      ]
+    },
+    {
+      id: 'entertainment-fitness',
+      name: 'Entertainment & Fitness',
+      icon: Music,
+      color: 'text-cyan-600',
+      bgColor: 'bg-cyan-50',
+      subcategories: [
+        { name: 'Holiday Memories (BLog Posts & Photos)', path: '/ads/entertainment/holiday-memories' },
+        { name: 'Exclusive Combo Packages (Wedding, Tour and More)', path: '/ads/entertainment/combo-packages' },
+        { name: 'Talented Entertainers & Artists', path: '/ads/entertainment/entertainers-artists' },
+        { name: 'Fitness & Health : Spas, Gym Ect. & Professionals', path: '/ads/entertainment/fitness-health' },
+        { name: 'Cinema & Movie Hub', path: '/ads/entertainment/cinema-movies' },
+        { name: 'Social Media Promotions', path: '/ads/entertainment/social-media' },
+      ]
+    },
+    {
+      id: 'special-opportunities',
+      name: 'Special Opportunities',
+      icon: Zap,
+      color: 'text-yellow-600',
+      bgColor: 'bg-yellow-50',
+      subcategories: [
+        { name: 'Exciting Job Opportunities', path: '/ads/opportunities/jobs' },
+        { name: 'Crypto Consulting & Signals', path: '/ads/opportunities/crypto' },
+        { name: 'Local SIM Cards & Mobile Data Plans', path: '/ads/opportunities/sim-data' },
+        { name: 'Custom Ads Campaigns', path: '/ads/opportunities/ads-campaigns' },
+        { name: 'Com.Partners & Partnerships', path: '/ads/opportunities/partnerships' },
+        { name: 'Exclusive Offers & Promotions', path: '/ads/opportunities/offers-promotions' },
+      ]
+    },
+    {
+      id: 'essential-services',
+      name: 'Essential Services',
+      icon: Settings,
+      color: 'text-gray-600',
+      bgColor: 'bg-gray-50',
+      subcategories: [
+        { name: 'Emergency Services & insurance', path: '/ads/essential/emergency-insurance' },
+        { name: 'Pricing & Memberships', path: '/ads/essential/pricing-memberships' },
+        { name: 'Mission Board, User Manual & Important Notice', path: '/ads/essential/mission-manual' },
       ]
     }
   ];
 
   const featuredSections = [
-    {
+        {
       title: 'Featured Ads',
       icon: Star,
       color: 'text-yellow-600',
@@ -140,6 +247,30 @@ const Sidebar = ({ isOpen, onClose }) => {
       icon: DollarSign,
       color: 'text-emerald-600',
       path: '/ads/premium'
+    },
+    {
+      title: 'Post Your Advertisement',
+      icon: PlusCircle,
+      color: 'text-blue-600',
+      path: '/post-advertisement'
+    },
+    {
+      title: 'Promo codes & Travel Agents',
+      icon: Gift,
+      color: 'text-purple-600',
+      path: '/promo-codes-travel-agents'
+    },
+    {
+      title: 'Coins (HSC) and Treasure',
+      icon: Coins,
+      color: 'text-yellow-600',
+      path: '/hsc-treasure'
+    },
+    {
+      title: 'Plan Your Dream Tour',
+      icon: MapPin,
+      color: 'text-green-600',
+      path: '/plan-dream-tour'
     }
   ];
 
