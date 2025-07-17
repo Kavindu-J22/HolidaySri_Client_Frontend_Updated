@@ -51,7 +51,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-gray-200',
       textColor: 'text-gray-800',
       description: 'Perfect for getting started with promotional benefits',
-      features: ['Basic promotional benefits', 'Standard earning rates', 'Monthly advertisement support']
+      features: ['Basic promotional benefits', 'Standard earning rates', 'Monthly advertisement support', 'Promote 1,500 ads and get Free Upgrade to Gold Promo Code', 'For just 5 HSC, you can advertise your promo code to thousands of targeted customers on our site. (Life_time).']
     },
     {
       key: 'gold',
@@ -62,7 +62,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-yellow-200',
       textColor: 'text-yellow-800',
       description: 'Enhanced benefits for growing businesses',
-      features: ['Enhanced promotional benefits', 'Better earning rates', 'Priority advertisement support']
+      features: ['Enhanced promotional benefits', 'Better earning rates', 'Priority advertisement support', 'Promote 2,500 ads and get Free Upgrade to Gold Promo Code', 'For just 3 HSC, you can advertise your promo code to thousands of targeted customers on our site. (Life_time).']
     },
     {
       key: 'diamond',
@@ -73,7 +73,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-blue-200',
       textColor: 'text-blue-800',
       description: 'Premium benefits for established businesses',
-      features: ['Premium promotional benefits', 'Highest earning rates', 'VIP advertisement support']
+      features: ['Premium promotional benefits', 'Highest earning rates', 'VIP advertisement support', 'Advertise your promo code for free on our platform and reach thousands of potential customers. (Life_time)']
     },
     {
       key: 'free',
@@ -84,7 +84,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-green-200',
       textColor: 'text-green-800',
       description: 'Basic benefits at no cost',
-      features: ['Basic promotional benefits', 'Limited earning rates', 'Standard support']
+      features: ['Basic promotional benefits', 'Limited earning rates', 'Standard support', 'Promote your promo code to help others purchase Silver, Gold or Diamond promo code and earn Related referral for each successful purchase.', 'Earn free upgrades: If You Promote using your free promo code, you will earn free upgrades based on the number of ads you promote: 700 ads → Silver Promo Code | 1,500 ads → Gold Promo Code| 2,500 ads → Diamond Promo Code.']
     }
   ];
 
@@ -248,14 +248,43 @@ const PromoCodesAndTravelAgents = () => {
 
               {/* Features */}
               <div className="px-6 pb-6 flex-grow">
-                <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Features</h4>
-                <ul className="space-y-1">
+                <h4 className="font-semibold text-gray-800 dark:text-gray-200 mb-3">Features & Benefits</h4>
+                <ul className="space-y-2">
+                  {/* Original Features */}
                   {promoType.features.map((feature, index) => (
-                    <li key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                      <div className="w-1.5 h-1.5 bg-primary-500 rounded-full mr-2"></div>
-                      {feature}
+                    <li key={index} className="flex items-center text-sm text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 p-2 rounded-lg">
+                      <div className="w-1.5 h-1.5 bg-primary-500 rounded-full mr-2 flex-shrink-0"></div>
+                      <span><strong>Feature:</strong> {feature}</span>
                     </li>
                   ))}
+
+                  {/* Promote Earning Feature - Only for non-free promo codes */}
+                  {promoType.key !== 'free' && (
+                    <li className="flex items-start text-sm text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/20 p-2 rounded-lg">
+                      <TrendingUp className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>
+                        <strong>Promote & Earn:</strong> Promote your promo code to help others purchase this {promoType.name.toLowerCase()} and earn{' '}
+                        <span className="font-bold">{promoData?.earningForPurchase || 0} LKR</span> for each successful referral
+                      </span>
+                    </li>
+                  )}
+
+                  {/* Purchase Discount Feature - Only for non-free promo codes */}
+                  {promoType.key !== 'free' && (
+                    <li className="flex items-start text-sm text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg">
+                      <Gift className="w-4 h-4 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>
+                        <strong>Agent Discount:</strong> Use another agent's promo code when purchasing and get{' '}
+                        <span className="font-bold">
+                          {promoConfig?.discounts?.purchaseDiscountInHSC || 0} HSC
+                        </span>{' '}
+                        discount. Final price:{' '}
+                        <span className="font-bold text-purple-600 dark:text-purple-400">
+                          {promoData && promoConfig ? Math.max(0, Math.round((promoData.priceInHSC - promoConfig.discounts.purchaseDiscountInHSC) * 100) / 100) : 0} HSC
+                        </span>
+                      </span>
+                    </li>
+                  )}
                 </ul>
               </div>
 
