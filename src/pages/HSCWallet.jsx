@@ -56,7 +56,7 @@ const HSCWallet = () => {
           My Holidaysri Wallet
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Manage your HSC tokens, HSG gifts, and HSD earnings
+          Manage your HSC tokens, HSG Gems, and HSD earnings
         </p>
       </div>
 
@@ -84,7 +84,7 @@ const HSCWallet = () => {
             <Gift className="w-6 h-6 text-white" />
           </div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-            HSG Gifts
+            HSG Gems
           </h3>
           <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
             {user?.hsgBalance || 0} HSG
@@ -100,7 +100,7 @@ const HSCWallet = () => {
             <DollarSign className="w-6 h-6 text-white" />
           </div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-            HSD Dollars
+            HSD Diamond
           </h3>
           <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
             {user?.hsdBalance || 0} HSD

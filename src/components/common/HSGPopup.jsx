@@ -46,7 +46,7 @@ const HSGPopup = () => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[1000] p-4">
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
         {/* Header with close button */}
         <div className="relative bg-gradient-to-r from-green-500 to-emerald-600 p-6 text-white">
@@ -82,7 +82,7 @@ const HSGPopup = () => {
                 <Star className="w-6 h-6 text-yellow-500 ml-1" />
               </div>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Free Holidaysri Gift Tokens
+                Free Holidaysri Gem Tokens
               </p>
             </div>
 
