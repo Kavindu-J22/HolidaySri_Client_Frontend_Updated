@@ -59,7 +59,7 @@ const Navbar = () => {
                   className="logo-image group-hover:scale-110"
                 />
               </div>
-              <span className="text-xl font-bold text-gray-900 dark:text-white">
+              <span className="hidden md:block text-xl font-bold text-gray-900 dark:text-white">
                 Holidaysri
               </span>
             </Link>
