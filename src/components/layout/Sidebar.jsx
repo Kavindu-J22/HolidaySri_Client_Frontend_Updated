@@ -224,7 +224,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   ];
 
   const featuredSections = [
-        {
+    {
       title: 'Featured Ads',
       icon: Star,
       color: 'text-yellow-600',
@@ -358,21 +358,115 @@ const Sidebar = ({ isOpen, onClose }) => {
 
                   {/* Subcategories */}
                   {expandedCategories[category.id] && (
-                    <div className="ml-6 mt-2 space-y-1">
-                      {category.subcategories.map((subcategory) => (
-                        <Link
-                          key={subcategory.path}
-                          to={subcategory.path}
-                          className={`block px-3 py-1.5 text-sm rounded-md transition-colors duration-200 ${
-                            isActive(subcategory.path)
-                              ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
-                              : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200'
-                          }`}
-                          onClick={onClose}
-                        >
-                          {subcategory.name}
-                        </Link>
-                      ))}
+                    <div className="ml-6 mt-3 space-y-1 relative animate-slide-down">
+                      {/* Connecting line */}
+                      <div className="absolute left-3 top-0 bottom-0 w-px bg-gradient-to-b from-gray-300 via-gray-200 to-transparent dark:from-gray-600 dark:via-gray-700 dark:to-transparent" />
+
+                      {category.subcategories.map((subcategory, index) => {
+                        const isActiveSubcat = isActive(subcategory.path);
+                        const categoryColorClass = category.color;
+                        const categoryBgClass = category.bgColor;
+
+                        return (
+                          <Link
+                            key={subcategory.path}
+                            to={subcategory.path}
+                            className={`sidebar-subcategory flex items-center space-x-3 px-4 py-2.5 text-sm rounded-lg transition-all duration-300 group relative transform hover:translate-x-1 animate-slide-in-left ${
+                              isActiveSubcat
+                                ? `${categoryBgClass} dark:bg-gray-800 ${categoryColorClass} dark:text-white border-l-3 shadow-sm`
+                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 hover:shadow-sm'
+                            } ${
+                              isActiveSubcat && categoryColorClass === 'text-blue-600' ? 'border-blue-600' :
+                              isActiveSubcat && categoryColorClass === 'text-green-600' ? 'border-green-600' :
+                              isActiveSubcat && categoryColorClass === 'text-purple-600' ? 'border-purple-600' :
+                              isActiveSubcat && categoryColorClass === 'text-red-600' ? 'border-red-600' :
+                              isActiveSubcat && categoryColorClass === 'text-indigo-600' ? 'border-indigo-600' :
+                              isActiveSubcat && categoryColorClass === 'text-pink-600' ? 'border-pink-600' :
+                              isActiveSubcat && categoryColorClass === 'text-orange-600' ? 'border-orange-600' :
+                              isActiveSubcat && categoryColorClass === 'text-cyan-600' ? 'border-cyan-600' :
+                              isActiveSubcat && categoryColorClass === 'text-yellow-600' ? 'border-yellow-600' :
+                              isActiveSubcat && categoryColorClass === 'text-gray-600' ? 'border-gray-600' :
+                              'hover:border-l-3 hover:border-gray-300 dark:hover:border-gray-600'
+                            }`}
+                            onClick={onClose}
+                            style={{ animationDelay: `${index * 50}ms` }}
+                          >
+                            {/* Creative bullet point with category-specific colors */}
+                            <div className={`relative flex-shrink-0 ${isActiveSubcat ? 'animate-pulse' : ''}`}>
+                              <div className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                                isActiveSubcat
+                                  ? `shadow-lg ${
+                                      categoryColorClass === 'text-blue-600' ? 'bg-blue-600' :
+                                      categoryColorClass === 'text-green-600' ? 'bg-green-600' :
+                                      categoryColorClass === 'text-purple-600' ? 'bg-purple-600' :
+                                      categoryColorClass === 'text-red-600' ? 'bg-red-600' :
+                                      categoryColorClass === 'text-indigo-600' ? 'bg-indigo-600' :
+                                      categoryColorClass === 'text-pink-600' ? 'bg-pink-600' :
+                                      categoryColorClass === 'text-orange-600' ? 'bg-orange-600' :
+                                      categoryColorClass === 'text-cyan-600' ? 'bg-cyan-600' :
+                                      categoryColorClass === 'text-yellow-600' ? 'bg-yellow-600' :
+                                      'bg-gray-600'
+                                    }`
+                                  : `bg-gray-300 dark:bg-gray-600 group-hover:shadow-md group-hover:scale-110 ${
+                                      categoryColorClass === 'text-blue-600' ? 'group-hover:bg-blue-600' :
+                                      categoryColorClass === 'text-green-600' ? 'group-hover:bg-green-600' :
+                                      categoryColorClass === 'text-purple-600' ? 'group-hover:bg-purple-600' :
+                                      categoryColorClass === 'text-red-600' ? 'group-hover:bg-red-600' :
+                                      categoryColorClass === 'text-indigo-600' ? 'group-hover:bg-indigo-600' :
+                                      categoryColorClass === 'text-pink-600' ? 'group-hover:bg-pink-600' :
+                                      categoryColorClass === 'text-orange-600' ? 'group-hover:bg-orange-600' :
+                                      categoryColorClass === 'text-cyan-600' ? 'group-hover:bg-cyan-600' :
+                                      categoryColorClass === 'text-yellow-600' ? 'group-hover:bg-yellow-600' :
+                                      'group-hover:bg-gray-600'
+                                    }`
+                              }`} />
+                              {/* Outer ring on hover */}
+                              <div className={`absolute inset-0 w-2.5 h-2.5 rounded-full opacity-0 group-hover:opacity-30 transition-all duration-300 group-hover:scale-150 ${
+                                categoryColorClass === 'text-blue-600' ? 'bg-blue-600' :
+                                categoryColorClass === 'text-green-600' ? 'bg-green-600' :
+                                categoryColorClass === 'text-purple-600' ? 'bg-purple-600' :
+                                categoryColorClass === 'text-red-600' ? 'bg-red-600' :
+                                categoryColorClass === 'text-indigo-600' ? 'bg-indigo-600' :
+                                categoryColorClass === 'text-pink-600' ? 'bg-pink-600' :
+                                categoryColorClass === 'text-orange-600' ? 'bg-orange-600' :
+                                categoryColorClass === 'text-cyan-600' ? 'bg-cyan-600' :
+                                categoryColorClass === 'text-yellow-600' ? 'bg-yellow-600' :
+                                'bg-gray-600'
+                              }`} />
+                            </div>
+
+                            {/* Subcategory name with enhanced typography */}
+                            <span className="flex-1 leading-relaxed font-medium group-hover:font-semibold transition-all duration-200">
+                              {subcategory.name}
+                            </span>
+
+                            {/* Enhanced arrow indicator with slide animation */}
+                            <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                              <div className={`w-1 h-1 rounded-full ${
+                                isActiveSubcat
+                                  ? categoryColorClass.replace('text-', 'bg-')
+                                  : `bg-gray-400 dark:bg-gray-500 ${
+                                      categoryColorClass === 'text-blue-600' ? 'group-hover:bg-blue-600' :
+                                      categoryColorClass === 'text-green-600' ? 'group-hover:bg-green-600' :
+                                      categoryColorClass === 'text-purple-600' ? 'group-hover:bg-purple-600' :
+                                      categoryColorClass === 'text-red-600' ? 'group-hover:bg-red-600' :
+                                      categoryColorClass === 'text-indigo-600' ? 'group-hover:bg-indigo-600' :
+                                      categoryColorClass === 'text-pink-600' ? 'group-hover:bg-pink-600' :
+                                      categoryColorClass === 'text-orange-600' ? 'group-hover:bg-orange-600' :
+                                      categoryColorClass === 'text-cyan-600' ? 'group-hover:bg-cyan-600' :
+                                      categoryColorClass === 'text-yellow-600' ? 'group-hover:bg-yellow-600' :
+                                      'group-hover:bg-gray-600'
+                                    }`
+                              }`} />
+                              <ChevronRight className={`w-3.5 h-3.5 flex-shrink-0 ${
+                                isActiveSubcat
+                                  ? categoryColorClass
+                                  : `text-gray-400 dark:text-gray-500 ${categoryColorClass.replace('text-', 'group-hover:text-')}`
+                              }`} />
+                            </div>
+                          </Link>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
