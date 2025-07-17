@@ -296,10 +296,10 @@ const PromoCodesAndTravelAgents = () => {
         {/* CTA */}
         <div className="text-center mt-8">
           <button className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 transition-colors">
-            Apply to Become a Travel Agent
+            Explore & Find Promo Code
           </button>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-            Application review typically takes 2-3 business days
+            Explore and Find Promo Code From Our Agents
           </p>
         </div>
       </div>
