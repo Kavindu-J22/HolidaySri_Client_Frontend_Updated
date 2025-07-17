@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { CreditCard, TrendingUp, History, Gift, DollarSign, Coins } from 'lucide-react';
+import { TrendingUp, History } from 'lucide-react';
 import { hscAPI, userAPI } from '../config/api';
 
 const HSCWallet = () => {
@@ -65,7 +65,11 @@ const HSCWallet = () => {
         {/* HSC Balance */}
         <div className="card p-6 text-center bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-xl mb-4">
-            <CreditCard className="w-6 h-6 text-white" />
+            <img
+              src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734337684/hsc_resll6_1_q0eksv.webp"
+              alt="HSC Coin"
+              className="w-8 h-8 object-contain"
+            />
           </div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
             HSC Tokens
@@ -81,7 +85,11 @@ const HSCWallet = () => {
         {/* HSG Balance */}
         <div className="card p-6 text-center bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-green-600 rounded-xl mb-4">
-            <Gift className="w-6 h-6 text-white" />
+            <img
+              src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734594961/Untitled-12_mcloq6.webp"
+              alt="HSG Gem"
+              className="w-8 h-8 object-contain"
+            />
           </div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
             HSG Gems
@@ -97,7 +105,11 @@ const HSCWallet = () => {
         {/* HSD Balance */}
         <div className="card p-6 text-center bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-600 rounded-xl mb-4">
-            <DollarSign className="w-6 h-6 text-white" />
+            <img
+              src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734609205/file_g75vh2.png"
+              alt="HSD Diamond"
+              className="w-8 h-8 object-contain"
+            />
           </div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
             HSD Diamond
