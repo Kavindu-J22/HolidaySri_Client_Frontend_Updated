@@ -192,7 +192,7 @@ const AgentDashboard = () => {
           Your Promo Code
         </h2>
         
-        <div className={`relative bg-gradient-to-r ${getPromoTypeColor(agentData.promoCodeType)} rounded-2xl p-8 text-white shadow-2xl transform hover:scale-105 transition-transform duration-200`}>
+        <div className={`relative bg-gradient-to-r ${getPromoTypeColor(agentData.promoCodeType)} rounded-2xl p-8 text-white shadow-2xl transform hover:scale-95 transition-transform duration-200`}>
           {/* Card Background Pattern */}
           <div className="absolute inset-0 opacity-10">
             <div className="absolute top-4 right-4 w-20 h-20 border-2 border-white rounded-full"></div>
