@@ -128,8 +128,8 @@ const GeneratePromoCode = () => {
       promoType: promoTypeData.type
     };
 
-    // Navigate to payment page with data
-    navigate('/payment/payhere', { state: paymentData });
+    // Navigate to promo code payment page with data
+    navigate('/promo-code-payment', { state: paymentData });
   };
 
   if (loading) {

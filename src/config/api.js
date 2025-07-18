@@ -74,6 +74,8 @@ export const hscAPI = {
 export const promoCodeAPI = {
   getConfig: () => api.get('/promocodes/config'),
   getTransactions: (params) => api.get('/promocodes/transactions', { params }),
+  validatePromoCode: (promoCode) => api.post('/promocodes/validate', { promoCode }),
+  processPayment: (paymentData) => api.post('/promocodes/process-payment', paymentData),
 };
 
 // Admin API calls
