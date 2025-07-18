@@ -21,7 +21,7 @@ const Profile = () => {
   const { user } = useAuth();
   const location = useLocation();
   const [activeSection, setActiveSection] = useState('personal');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   // Check if we should navigate to specific section from navigation state
@@ -41,7 +41,7 @@ const Profile = () => {
       if (mobile) {
         setSidebarOpen(false);
       } else {
-        setSidebarOpen(true);
+        setSidebarOpen(false); // Keep closed by default on desktop too
       }
     };
 
@@ -120,11 +120,12 @@ const Profile = () => {
       <div className="flex min-h-screen">
         {/* Sidebar */}
         <div className={`
-          ${sidebarOpen ? 'w-80' : 'w-16'}
+          ${sidebarOpen ? 'w-80' : 'w-20'}
           ${isMobile ? 'fixed inset-y-0 left-0 z-50' : 'relative'}
           ${isMobile && !sidebarOpen ? '-translate-x-full' : 'translate-x-0'}
           bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 ease-in-out
           ${isMobile ? 'top-16' : ''}
+          h-screen rounded-2xl border-r border-gray-200 dark:border-gray-700
         `}>
           {/* Desktop Header */}
           <div className="hidden md:flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
@@ -141,11 +142,11 @@ const Profile = () => {
                 </div>
               )}
               {sidebarOpen && (
-                <div>
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <div className="min-w-0 flex-1">
+                  <h2 className="text-sm font-semibold text-gray-900 dark:text-white truncate">
                     {user?.name}
                   </h2>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate" title={user?.email}>
                     {user?.email}
                   </p>
                 </div>
@@ -178,10 +179,11 @@ const Profile = () => {
                       ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 shadow-sm'
                       : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50'
                     }
-                    ${!sidebarOpen && 'justify-center'}
+                    ${!sidebarOpen && 'justify-center p-4'}
                   `}
+                  title={!sidebarOpen ? item.name : ''}
                 >
-                  <Icon className={`w-5 h-5 ${isActive ? 'text-primary-600 dark:text-primary-400' : ''}`} />
+                  <Icon className={`${sidebarOpen ? 'w-5 h-5' : 'w-7 h-7'} transition-all duration-200 ${isActive ? 'text-primary-600 dark:text-primary-400' : ''}`} />
                   {sidebarOpen && (
                     <div className="text-left">
                       <div className="font-medium">{item.name}</div>
