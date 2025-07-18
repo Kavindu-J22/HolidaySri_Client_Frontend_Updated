@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import { promoCodeAPI } from '../config/api';
 import { 
   Gift, 
@@ -19,6 +21,8 @@ import {
 } from 'lucide-react';
 
 const PromoCodesAndTravelAgents = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [promoConfig, setPromoConfig] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -39,6 +43,30 @@ const PromoCodesAndTravelAgents = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlePurchase = (promoType, promoData) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    // Prepare data to pass to GeneratePromoCode page
+    const promoTypeData = {
+      type: promoType.key,
+      name: promoType.name,
+      priceInHSC: promoData.priceInHSC,
+      priceInLKR: promoData.priceInLKR,
+      originalPriceInHSC: promoData.originalPriceInHSC,
+      originalPriceInLKR: promoData.originalPriceInLKR,
+      discountRate: promoData.discountRate,
+      earningForPurchase: promoData.earningForPurchase,
+      earningForMonthlyAd: promoData.earningForMonthlyAd,
+      earningForDailyAd: promoData.earningForDailyAd,
+      discountAmountHSC: promoConfig?.discounts?.purchaseDiscountInHSC || 0
+    };
+
+    navigate('/generate-promo-code', { state: promoTypeData });
   };
 
   const promoTypes = [
@@ -290,7 +318,10 @@ const PromoCodesAndTravelAgents = () => {
 
               {/* Action Button - Always at bottom */}
               <div className="px-6 pb-6 mt-auto">
-                <button className={`w-full py-3 px-4 rounded-lg font-medium transition-colors bg-gradient-to-r ${promoType.color} text-white hover:opacity-90 shadow-md hover:shadow-lg`}>
+                <button
+                  onClick={() => handlePurchase(promoType, promoData)}
+                  className={`w-full py-3 px-4 rounded-lg font-medium transition-colors bg-gradient-to-r ${promoType.color} text-white hover:opacity-90 shadow-md hover:shadow-lg`}
+                >
                   {promoType.key === 'free' ? 'Get Free Code' : 'Purchase Now'}
                 </button>
               </div>
