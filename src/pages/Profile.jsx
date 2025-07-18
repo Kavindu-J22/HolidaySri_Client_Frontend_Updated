@@ -6,7 +6,7 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  Menu,
+  List,
   X,
   UserCircle,
   Megaphone,
@@ -111,7 +111,7 @@ const Profile = () => {
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             >
-              {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {sidebarOpen ? <X className="w-5 h-5" /> : <List className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -125,7 +125,7 @@ const Profile = () => {
           ${isMobile && !sidebarOpen ? '-translate-x-full' : 'translate-x-0'}
           bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 ease-in-out
           ${isMobile ? 'top-16' : ''}
-          h-screen rounded-2xl border-r border-gray-200 dark:border-gray-700
+          h-screen ${isMobile ? '' : 'rounded-2xl'} border-r border-gray-200 dark:border-gray-700
         `}>
           {/* Desktop Header */}
           <div className="hidden md:flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
