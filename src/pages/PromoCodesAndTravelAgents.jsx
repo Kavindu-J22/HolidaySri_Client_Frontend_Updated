@@ -515,69 +515,81 @@ const PromoCodesAndTravelAgents = () => {
         </div>
       )}
 
-      {/* Already Has Promo Code Modal */}
+      {/* Already Has Promo Code Modal - Responsive */}
       {showPromoCodeModal && userPromoCodeData && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 relative">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-4 sm:p-6 relative">
             <button
               onClick={() => setShowPromoCodeModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 z-10"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
 
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full mb-6">
-                <Gift className="w-10 h-10 text-white" />
+              <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full mb-4 sm:mb-6">
+                <Gift className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
               </div>
 
-              <h2 className="text-2xl font-bold text-amber-800 dark:text-amber-300 mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-amber-800 dark:text-amber-300 mb-3 sm:mb-4 px-2">
                 You Already Have a Promocode! 🎉
               </h2>
 
-              <p className="text-amber-700 dark:text-amber-400 text-lg mb-6">
-                Great news! You already have a <strong>{userPromoCodeData.promoCodeType}</strong> promo code.
+              <p className="text-amber-700 dark:text-amber-400 text-base sm:text-lg mb-4 sm:mb-6 px-2">
+                Great news! You already have a <strong className="capitalize">{userPromoCodeData.promoCodeType}</strong> promo code.
               </p>
 
-              <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4 mb-6 border border-amber-200 dark:border-amber-700">
-                <p className="text-2xl font-bold text-amber-600 dark:text-amber-400 font-mono tracking-wider mb-2">
+              <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 border border-amber-200 dark:border-amber-700">
+                <p className="text-xl sm:text-2xl font-bold text-amber-600 dark:text-amber-400 font-mono tracking-wider mb-1 sm:mb-2 break-all">
                   {userPromoCodeData.promoCode}
                 </p>
-                <p className="text-sm text-amber-600 dark:text-amber-400">Your Active Promo Code</p>
+                <p className="text-xs sm:text-sm text-amber-600 dark:text-amber-400">Your Active Promo Code</p>
               </div>
 
-              <div className="bg-white dark:bg-gray-700 rounded-xl p-4 mb-6 border border-amber-200 dark:border-amber-600">
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
+              <div className="bg-white dark:bg-gray-700 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 border border-amber-200 dark:border-amber-600">
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-3 text-sm sm:text-base">
                   What you can do with your existing promocode:
                 </h3>
-                <ul className="text-left space-y-2 text-gray-600 dark:text-gray-400 text-sm">
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                    Promote it to earn referral bonuses
+                <ul className="text-left space-y-2 text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+                  <li className="flex items-start">
+                    <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Promote it to earn referral bonuses</span>
                   </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                    Use it for advertisement discounts
+                  <li className="flex items-start">
+                    <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Use it for advertisement discounts</span>
                   </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                    Share with friends and family
+                  <li className="flex items-start">
+                    <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Share with friends and family</span>
                   </li>
-                  <li className="flex items-center">
-                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                    Start earning from day one
+                  <li className="flex items-start">
+                    <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                    <span>Start earning from day one</span>
                   </li>
                 </ul>
               </div>
 
-              <button
-                onClick={() => setShowPromoCodeModal(false)}
-                className="w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white px-6 py-3 rounded-lg font-medium hover:from-amber-700 hover:to-orange-700 transition-colors"
-              >
-                Got It! Let's Use My Promo Code
-              </button>
+              <div className="space-y-3">
+                <button
+                  onClick={() => setShowPromoCodeModal(false)}
+                  className="w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:from-amber-700 hover:to-orange-700 transition-colors text-sm sm:text-base"
+                >
+                  Got It! Let's Use My Promo Code
+                </button>
+
+                <button
+                  onClick={() => {
+                    setShowPromoCodeModal(false);
+                    navigate('/profile');
+                  }}
+                  className="w-full border border-amber-600 dark:border-amber-400 text-amber-600 dark:text-amber-400 px-4 sm:px-6 py-3 rounded-lg font-medium hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors text-sm sm:text-base"
+                >
+                  View My Profile
+                </button>
+              </div>
             </div>
           </div>
         </div>

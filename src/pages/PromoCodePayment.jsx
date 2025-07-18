@@ -32,6 +32,8 @@ const PromoCodePayment = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [validatingPromo, setValidatingPromo] = useState(false);
+  const [showCongratulations, setShowCongratulations] = useState(false);
+  const [paymentResult, setPaymentResult] = useState(null);
 
   // Get order data from navigation state
   const orderData = location.state;
@@ -126,15 +128,13 @@ const PromoCodePayment = () => {
       const response = await promoCodeAPI.processPayment(paymentData);
 
       if (response.data.success) {
-        setSuccess('Payment successful! Your promo code has been created.');
-        setTimeout(() => {
-          navigate('/profile', { 
-            state: { 
-              message: 'Promo code purchased successfully!',
-              promoCode: orderData.promoCode 
-            }
-          });
-        }, 2000);
+        setPaymentResult({
+          promoCode: orderData.promoCode,
+          promoType: orderData.promoType,
+          transactionId: response.data.transactionId,
+          newBalance: response.data.newBalance
+        });
+        setShowCongratulations(true);
       } else {
         setError('Payment failed. Please try again.');
       }
@@ -393,6 +393,94 @@ const PromoCodePayment = () => {
         <div className="flex items-center space-x-2 p-4 bg-green-50 dark:bg-green-900/20 text-green-800 dark:text-green-400 rounded-lg border border-green-200 dark:border-green-800">
           <CheckCircle className="w-5 h-5" />
           <span>{success}</span>
+        </div>
+      )}
+
+      {/* Congratulations Modal */}
+      {showCongratulations && paymentResult && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-lg w-full p-8 relative animate-pulse">
+            <div className="text-center">
+              {/* Celebration Icon */}
+              <div className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-6 animate-bounce">
+                <Sparkles className="w-12 h-12 text-white" />
+              </div>
+
+              {/* Main Message */}
+              <h2 className="text-3xl font-bold text-green-600 dark:text-green-400 mb-4">
+                🎉 Congratulations! 🎉
+              </h2>
+
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+                You are Now an Agent With Us!
+              </h3>
+
+              {/* Promo Code Display */}
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl p-6 mb-6 border-2 border-green-200 dark:border-green-800">
+                <p className="text-sm text-green-600 dark:text-green-400 mb-2">Your New Promo Code:</p>
+                <p className="text-3xl font-bold text-green-700 dark:text-green-300 font-mono tracking-wider mb-2">
+                  {paymentResult.promoCode}
+                </p>
+                <p className="text-sm text-green-600 dark:text-green-400 capitalize">
+                  {paymentResult.promoType} Agent Status
+                </p>
+              </div>
+
+              {/* Benefits */}
+              <div className="bg-white dark:bg-gray-700 rounded-xl p-6 mb-6 border border-gray-200 dark:border-gray-600">
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-4">
+                  🚀 What's Next? Start Earning Today!
+                </h4>
+                <ul className="text-left space-y-3 text-gray-600 dark:text-gray-400 text-sm">
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
+                    <span><strong>Share your promo code</strong> with friends and family</span>
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                    <span><strong>Earn money</strong> for every successful referral</span>
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
+                    <span><strong>Get discounts</strong> on advertisements</span>
+                  </li>
+                  <li className="flex items-center">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full mr-3"></div>
+                    <span><strong>Build your network</strong> and grow your business</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Transaction Details */}
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6 text-sm">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-gray-600 dark:text-gray-400">Transaction ID:</span>
+                  <span className="font-mono text-gray-900 dark:text-white">{paymentResult.transactionId}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600 dark:text-gray-400">Remaining Balance:</span>
+                  <span className="font-bold text-blue-600 dark:text-blue-400">{paymentResult.newBalance} HSC</span>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <button
+                onClick={() => {
+                  setShowCongratulations(false);
+                  navigate('/profile', {
+                    state: {
+                      message: 'Welcome to our agent network! Start promoting your promo code today.',
+                      promoCode: paymentResult.promoCode,
+                      isNewAgent: true
+                    }
+                  });
+                }}
+                className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-green-700 hover:to-emerald-700 transition-colors shadow-lg hover:shadow-xl"
+              >
+                Go to My Profile & Start Earning! 🚀
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
