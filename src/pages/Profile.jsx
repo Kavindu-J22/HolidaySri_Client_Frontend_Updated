@@ -1,47 +1,215 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import {
+  User,
+  Settings,
+  ChevronLeft,
+  ChevronRight,
+  Menu,
+  X,
+  UserCircle,
+  Megaphone,
+  TrendingUp,
+  Home
+} from 'lucide-react';
+import PersonalDetails from '../components/profile/PersonalDetails';
+import AgentDashboard from '../components/profile/AgentDashboard';
+import Advertisements from '../components/profile/Advertisements';
 
 const Profile = () => {
   const { user } = useAuth();
+  const location = useLocation();
+  const [activeSection, setActiveSection] = useState('personal');
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check if we should navigate to specific section from navigation state
+  useEffect(() => {
+    if (location.state?.activeSection) {
+      setActiveSection(location.state.activeSection);
+    } else if (location.state?.isNewAgent) {
+      setActiveSection('agent');
+    }
+  }, [location.state]);
+
+  // Handle responsive sidebar
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (mobile) {
+        setSidebarOpen(false);
+      } else {
+        setSidebarOpen(true);
+      }
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const sidebarItems = [
+    {
+      id: 'personal',
+      name: 'Personal Details',
+      icon: UserCircle,
+      description: 'Manage your personal information'
+    },
+    {
+      id: 'advertisements',
+      name: 'Advertisements',
+      icon: Megaphone,
+      description: 'View and manage your ads'
+    },
+    {
+      id: 'agent',
+      name: 'Agent Dashboard',
+      icon: TrendingUp,
+      description: 'Track your agent performance'
+    }
+  ];
+
+  const renderContent = () => {
+    switch (activeSection) {
+      case 'personal':
+        return <PersonalDetails />;
+      case 'advertisements':
+        return <Advertisements />;
+      case 'agent':
+        return <AgentDashboard />;
+      default:
+        return <PersonalDetails />;
+    }
+  };
 
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-          Profile Settings
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Manage your account settings and preferences
-        </p>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Mobile Header */}
+      <div className="md:hidden bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white">Profile</h1>
+          </div>
+          <div className="flex items-center space-x-3">
+            {user?.profileImage ? (
+              <img
+                src={user.profileImage}
+                alt={user.name}
+                className="w-8 h-8 rounded-full object-cover"
+              />
+            ) : (
+              <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center">
+                <User className="w-4 h-4 text-white" />
+              </div>
+            )}
+            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              {user?.name}
+            </span>
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            >
+              {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className="card p-8">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-          User Information
-        </h2>
-        {user && (
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
-              <p className="text-gray-900 dark:text-white">{user.name}</p>
+      <div className="flex min-h-screen">
+        {/* Sidebar */}
+        <div className={`
+          ${sidebarOpen ? 'w-80' : 'w-16'}
+          ${isMobile ? 'fixed inset-y-0 left-0 z-50' : 'relative'}
+          ${isMobile && !sidebarOpen ? '-translate-x-full' : 'translate-x-0'}
+          bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 ease-in-out
+          ${isMobile ? 'top-16' : ''}
+        `}>
+          {/* Desktop Header */}
+          <div className="hidden md:flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+            <div className={`flex items-center space-x-3 ${!sidebarOpen && 'justify-center'}`}>
+              {user?.profileImage ? (
+                <img
+                  src={user.profileImage}
+                  alt={user.name}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center">
+                  <User className="w-5 h-5 text-white" />
+                </div>
+              )}
+              {sidebarOpen && (
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {user?.name}
+                  </h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {user?.email}
+                  </p>
+                </div>
+              )}
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
-              <p className="text-gray-900 dark:text-white">{user.email}</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Contact Number</label>
-              <p className="text-gray-900 dark:text-white">{user.countryCode} {user.contactNumber}</p>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">HSC Balance</label>
-              <p className="text-gray-900 dark:text-white">{user.hscBalance || 0} HSC</p>
-            </div>
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+            >
+              {sidebarOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+            </button>
           </div>
+
+          {/* Navigation Items */}
+          <nav className="p-4 space-y-2">
+            {sidebarItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeSection === item.id;
+
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => {
+                    setActiveSection(item.id);
+                    if (isMobile) setSidebarOpen(false);
+                  }}
+                  className={`
+                    w-full flex items-center space-x-3 p-3 rounded-xl transition-all duration-200
+                    ${isActive
+                      ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700/50'
+                    }
+                    ${!sidebarOpen && 'justify-center'}
+                  `}
+                >
+                  <Icon className={`w-5 h-5 ${isActive ? 'text-primary-600 dark:text-primary-400' : ''}`} />
+                  {sidebarOpen && (
+                    <div className="text-left">
+                      <div className="font-medium">{item.name}</div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                        {item.description}
+                      </div>
+                    </div>
+                  )}
+                </button>
+              );
+            })}
+          </nav>
+        </div>
+
+        {/* Mobile Overlay */}
+        {isMobile && sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 top-16"
+            onClick={() => setSidebarOpen(false)}
+          />
         )}
-        <p className="text-gray-600 dark:text-gray-400 mt-6">
-          Full profile management features coming soon.
-        </p>
+
+        {/* Main Content */}
+        <div className="flex-1 min-h-screen">
+          <div className="p-6 md:p-8">
+            {renderContent()}
+          </div>
+        </div>
       </div>
     </div>
   );

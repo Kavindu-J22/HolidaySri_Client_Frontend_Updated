@@ -59,6 +59,8 @@ export const userAPI = {
   getHSCBalance: () => api.get('/users/hsc'),
   getAdvertisements: (params) => api.get('/users/advertisements', { params }),
   deleteAccount: (password) => api.delete('/users/account', { data: { password } }),
+  getAgentDashboard: () => api.get('/users/agent-dashboard'),
+  getAgentEarnings: (params) => api.get('/users/agent-earnings', { params }),
 };
 
 // HSC API calls

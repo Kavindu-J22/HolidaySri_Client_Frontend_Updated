@@ -471,7 +471,8 @@ const PromoCodePayment = () => {
                     state: {
                       message: 'Welcome to our agent network! Start promoting your promo code today.',
                       promoCode: paymentResult.promoCode,
-                      isNewAgent: true
+                      isNewAgent: true,
+                      activeSection: 'agent'
                     }
                   });
                 }}
