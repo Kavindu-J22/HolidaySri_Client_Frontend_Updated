@@ -80,6 +80,14 @@ export const promoCodeAPI = {
   processPayment: (paymentData) => api.post('/promocodes/process-payment', paymentData),
 };
 
+// Notification API calls
+export const notificationAPI = {
+  getNotifications: (params) => api.get('/notifications', { params }),
+  getUnreadCount: () => api.get('/notifications/unread-count'),
+  markAsRead: (notificationIds) => api.put('/notifications/mark-read', { notificationIds }),
+  deleteNotification: (id) => api.delete(`/notifications/${id}`),
+};
+
 // Admin API calls
 export const adminAPI = {
   login: (username, password) => api.post('/admin/login', { username, password }),

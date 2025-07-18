@@ -382,9 +382,15 @@ const countryCodes = [
     };
 
     const result = await register(registrationData);
-    
+
     if (result.success) {
-      navigate('/', { replace: true });
+      navigate('/login', {
+        replace: true,
+        state: {
+          message: 'Registration successful! Please login to continue and enjoy your 100 HSG welcome bonus.',
+          email: formData.email
+        }
+      });
     }
     
     setIsLoading(false);

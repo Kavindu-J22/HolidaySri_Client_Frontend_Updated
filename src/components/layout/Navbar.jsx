@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { 
-  Menu, 
-  X, 
-  Sun, 
-  Moon, 
-  User, 
-  Bell, 
+import {
+  Menu,
+  X,
+  Sun,
+  Moon,
+  User,
+  Bell,
   LogOut,
   Download,
   Home,
@@ -15,10 +15,12 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
+import { notificationAPI } from '../../config/api';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
   const { user, logout } = useAuth();
   const { isDarkMode, toggleDarkMode } = useTheme();
   const location = useLocation();
@@ -31,6 +33,30 @@ const Navbar = () => {
     { name: 'Contact', path: '/contact' },
     { name: 'Download', path: '/download', icon: Download },
   ];
+
+  // Fetch unread notification count
+  useEffect(() => {
+    if (user) {
+      fetchUnreadCount();
+      // Set up interval to refresh count every 30 seconds
+      const interval = setInterval(fetchUnreadCount, 30000);
+      return () => clearInterval(interval);
+    }
+  }, [user]);
+
+  const fetchUnreadCount = async () => {
+    try {
+      const response = await notificationAPI.getUnreadCount();
+      setUnreadCount(response.data.unreadCount);
+    } catch (error) {
+      console.error('Error fetching unread count:', error);
+    }
+  };
+
+  const handleNotificationClick = () => {
+    navigate('/notifications');
+    setIsProfileOpen(false); // Close profile dropdown if open
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -98,9 +124,17 @@ const Navbar = () => {
             {user ? (
               <div className="flex items-center space-x-2">
                 {/* Notifications */}
-                <button className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 relative">
+                <button
+                  onClick={handleNotificationClick}
+                  className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 relative"
+                  title={`${unreadCount} unread notifications`}
+                >
                   <Bell className="w-5 h-5" />
-                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center animate-pulse">
+                      {unreadCount > 99 ? '99+' : unreadCount}
+                    </span>
+                  )}
                 </button>
 
                 {/* Profile dropdown */}
