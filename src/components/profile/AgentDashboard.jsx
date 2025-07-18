@@ -136,19 +136,19 @@ const AgentDashboard = () => {
 
       const data = await response.json();
 
-      // TODO: Update agent verification status with document
-      // const updateResponse = await userAPI.updateAgentVerification({
-      //   documentType,
-      //   documentUrl: data.secure_url
-      // });
+      // Submit verification to backend
+      const verificationResponse = await userAPI.submitAgentVerification({
+        documentType,
+        documentUrl: data.secure_url
+      });
 
-      // Mock success for now
-      setVerificationSuccess(`${documentType} uploaded successfully! Verification pending.`);
-      setTimeout(() => {
+      setVerificationSuccess(`${documentType} uploaded successfully! ${verificationResponse.data.verificationStatus === 'verified' ? 'You are now verified!' : 'Verification pending.'}`);
+
+      // Refresh agent data to get updated verification status
+      setTimeout(async () => {
         setVerificationSuccess('');
         setShowVerification(false);
-        // Mock update agent data to show verified status
-        setAgentData(prev => ({ ...prev, isVerified: true }));
+        await fetchAgentData(); // Refresh the agent data
       }, 2000);
 
     } catch (error) {
@@ -293,23 +293,23 @@ const AgentDashboard = () => {
                 <h4 className="font-medium text-yellow-800 dark:text-yellow-300 mb-4">
                   Upload Identity Document
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="border-2 border-dashed border-yellow-300 dark:border-yellow-600 rounded-lg p-4 text-center">
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={(e) => handleVerificationUpload(e.target.files[0], 'NIC')}
+                      onChange={(e) => handleVerificationUpload(e.target.files[0], 'NIC_FRONT')}
                       className="hidden"
-                      id="nic-upload"
+                      id="nic-front-upload"
                       disabled={uploadingVerification}
                     />
-                    <label htmlFor="nic-upload" className="cursor-pointer">
+                    <label htmlFor="nic-front-upload" className="cursor-pointer">
                       <Camera className="w-8 h-8 text-yellow-600 dark:text-yellow-400 mx-auto mb-2" />
                       <p className="text-sm font-medium text-yellow-800 dark:text-yellow-300">
-                        Upload NIC
+                        Upload NIC Front
                       </p>
                       <p className="text-xs text-yellow-600 dark:text-yellow-400">
-                        Front and back side
+                        Front side only
                       </p>
                     </label>
                   </div>
@@ -318,15 +318,35 @@ const AgentDashboard = () => {
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={(e) => handleVerificationUpload(e.target.files[0], 'Passport')}
+                      onChange={(e) => handleVerificationUpload(e.target.files[0], 'NIC_BACK')}
+                      className="hidden"
+                      id="nic-back-upload"
+                      disabled={uploadingVerification}
+                    />
+                    <label htmlFor="nic-back-upload" className="cursor-pointer">
+                      <Upload className="w-8 h-8 text-yellow-600 dark:text-yellow-400 mx-auto mb-2" />
+                      <p className="text-sm font-medium text-yellow-800 dark:text-yellow-300">
+                        Upload NIC Back
+                      </p>
+                      <p className="text-xs text-yellow-600 dark:text-yellow-400">
+                        Back side only
+                      </p>
+                    </label>
+                  </div>
+
+                  <div className="border-2 border-dashed border-yellow-300 dark:border-yellow-600 rounded-lg p-4 text-center sm:col-span-2 lg:col-span-1">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => handleVerificationUpload(e.target.files[0], 'PASSPORT')}
                       className="hidden"
                       id="passport-upload"
                       disabled={uploadingVerification}
                     />
                     <label htmlFor="passport-upload" className="cursor-pointer">
-                      <Upload className="w-8 h-8 text-yellow-600 dark:text-yellow-400 mx-auto mb-2" />
+                      <Camera className="w-8 h-8 text-yellow-600 dark:text-yellow-400 mx-auto mb-2" />
                       <p className="text-sm font-medium text-yellow-800 dark:text-yellow-300">
-                        Upload Passport
+                        Upload Passport (Alternative)
                       </p>
                       <p className="text-xs text-yellow-600 dark:text-yellow-400">
                         Photo page only

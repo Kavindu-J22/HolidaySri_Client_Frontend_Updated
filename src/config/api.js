@@ -61,6 +61,8 @@ export const userAPI = {
   deleteAccount: (password) => api.delete('/users/account', { data: { password } }),
   getAgentDashboard: () => api.get('/users/agent-dashboard'),
   getAgentEarnings: (params) => api.get('/users/agent-earnings', { params }),
+  submitAgentVerification: (verificationData) => api.post('/users/agent-verification', verificationData),
+  getAgentVerificationStatus: () => api.get('/users/agent-verification-status'),
 };
 
 // HSC API calls

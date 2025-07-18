@@ -284,9 +284,9 @@ const PersonalDetails = () => {
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Email Address (Read-only)
               </label>
-              <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <Mail className="w-5 h-5 text-gray-400" />
-                <span className="text-gray-900 dark:text-white">{user?.email}</span>
+              <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg min-w-0">
+                <Mail className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                <span className="text-gray-900 dark:text-white truncate" title={user?.email}>{user?.email}</span>
               </div>
             </div>
 
