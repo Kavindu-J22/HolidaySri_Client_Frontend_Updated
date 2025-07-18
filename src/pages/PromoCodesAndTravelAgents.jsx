@@ -26,6 +26,8 @@ const PromoCodesAndTravelAgents = () => {
   const [promoConfig, setPromoConfig] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [showPromoCodeModal, setShowPromoCodeModal] = useState(false);
+  const [userPromoCodeData, setUserPromoCodeData] = useState(null);
 
   useEffect(() => {
     fetchPromoConfig();
@@ -45,28 +47,43 @@ const PromoCodesAndTravelAgents = () => {
     }
   };
 
-  const handlePurchase = (promoType, promoData) => {
+  const handlePurchase = async (promoType, promoData) => {
     if (!user) {
       navigate('/login');
       return;
     }
 
-    // Prepare data to pass to GeneratePromoCode page
-    const promoTypeData = {
-      type: promoType.key,
-      name: promoType.name,
-      priceInHSC: promoData.priceInHSC,
-      priceInLKR: promoData.priceInLKR,
-      originalPriceInHSC: promoData.originalPriceInHSC,
-      originalPriceInLKR: promoData.originalPriceInLKR,
-      discountRate: promoData.discountRate,
-      earningForPurchase: promoData.earningForPurchase,
-      earningForMonthlyAd: promoData.earningForMonthlyAd,
-      earningForDailyAd: promoData.earningForDailyAd,
-      discountAmountHSC: promoConfig?.discounts?.purchaseDiscountInHSC || 0
-    };
+    try {
+      // Check if user already has a promo code
+      const response = await promoCodeAPI.checkUserHasPromoCode();
 
-    navigate('/generate-promo-code', { state: promoTypeData });
+      if (response.data.hasPromoCode) {
+        // Show creative modal that user already has a promo code
+        setUserPromoCodeData(response.data);
+        setShowPromoCodeModal(true);
+        return;
+      }
+
+      // Prepare data to pass to GeneratePromoCode page
+      const promoTypeData = {
+        type: promoType.key,
+        name: promoType.name,
+        priceInHSC: promoData.priceInHSC,
+        priceInLKR: promoData.priceInLKR,
+        originalPriceInHSC: promoData.originalPriceInHSC,
+        originalPriceInLKR: promoData.originalPriceInLKR,
+        discountRate: promoData.discountRate,
+        earningForPurchase: promoData.earningForPurchase,
+        earningForMonthlyAd: promoData.earningForMonthlyAd,
+        earningForDailyAd: promoData.earningForDailyAd,
+        discountAmountHSC: promoConfig?.discounts?.purchaseDiscountInHSC || 0
+      };
+
+      navigate('/generate-promo-code', { state: promoTypeData });
+    } catch (error) {
+      console.error('Error checking user promo code:', error);
+      setError('Failed to check promo code status. Please try again.');
+    }
   };
 
   const promoTypes = [
@@ -495,6 +512,74 @@ const PromoCodesAndTravelAgents = () => {
               </span>
             )}
           </p>
+        </div>
+      )}
+
+      {/* Already Has Promo Code Modal */}
+      {showPromoCodeModal && userPromoCodeData && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full p-6 relative">
+            <button
+              onClick={() => setShowPromoCodeModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full mb-6">
+                <Gift className="w-10 h-10 text-white" />
+              </div>
+
+              <h2 className="text-2xl font-bold text-amber-800 dark:text-amber-300 mb-4">
+                You Already Have a Promocode! 🎉
+              </h2>
+
+              <p className="text-amber-700 dark:text-amber-400 text-lg mb-6">
+                Great news! You already have a <strong>{userPromoCodeData.promoCodeType}</strong> promo code.
+              </p>
+
+              <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-4 mb-6 border border-amber-200 dark:border-amber-700">
+                <p className="text-2xl font-bold text-amber-600 dark:text-amber-400 font-mono tracking-wider mb-2">
+                  {userPromoCodeData.promoCode}
+                </p>
+                <p className="text-sm text-amber-600 dark:text-amber-400">Your Active Promo Code</p>
+              </div>
+
+              <div className="bg-white dark:bg-gray-700 rounded-xl p-4 mb-6 border border-amber-200 dark:border-amber-600">
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-3">
+                  What you can do with your existing promocode:
+                </h3>
+                <ul className="text-left space-y-2 text-gray-600 dark:text-gray-400 text-sm">
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                    Promote it to earn referral bonuses
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                    Use it for advertisement discounts
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                    Share with friends and family
+                  </li>
+                  <li className="flex items-center">
+                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                    Start earning from day one
+                  </li>
+                </ul>
+              </div>
+
+              <button
+                onClick={() => setShowPromoCodeModal(false)}
+                className="w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white px-6 py-3 rounded-lg font-medium hover:from-amber-700 hover:to-orange-700 transition-colors"
+              >
+                Got It! Let's Use My Promo Code
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

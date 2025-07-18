@@ -43,10 +43,8 @@ const GeneratePromoCode = () => {
   const checkUserPromoCode = async () => {
     try {
       setLoading(true);
-      // TODO: Add API call to check if user already has a promo code
-      // For now, simulate the check
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setUserHasPromoCode(false); // Set to true to test the blocking message
+      const response = await promoCodeAPI.checkUserHasPromoCode();
+      setUserHasPromoCode(response.data.hasPromoCode);
     } catch (error) {
       console.error('Error checking user promo code:', error);
     } finally {
@@ -54,20 +52,42 @@ const GeneratePromoCode = () => {
     }
   };
 
-  const generateRandomCode = () => {
+  const generateRandomCode = async () => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let result = 'HS';
-    for (let i = 0; i < 5; i++) {
-      result += characters.charAt(Math.floor(Math.random() * characters.length));
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    while (attempts < maxAttempts) {
+      let result = 'HS';
+      for (let i = 0; i < 5; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+
+      try {
+        // Check if this code is unique
+        const response = await promoCodeAPI.checkUnique(result);
+        if (response.data.isUnique) {
+          return result;
+        }
+        attempts++;
+      } catch (error) {
+        console.error('Error checking uniqueness:', error);
+        attempts++;
+      }
     }
-    return result;
+
+    throw new Error('Unable to generate unique promo code. Please try again.');
   };
 
-  const handleGenerateCode = () => {
-    const newCode = generateRandomCode();
-    setPromoCode(newCode);
-    setSelectedOption('generate');
-    setError('');
+  const handleGenerateCode = async () => {
+    try {
+      setError('');
+      const newCode = await generateRandomCode();
+      setPromoCode(newCode);
+      setSelectedOption('generate');
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   const handleCustomCodeChange = (value) => {
@@ -81,16 +101,11 @@ const GeneratePromoCode = () => {
   const validatePromoCode = async (codeToValidate) => {
     try {
       setIsValidating(true);
-      // TODO: Add API call to validate promo code uniqueness
-      // For now, simulate validation
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Simulate some codes already existing
-      const existingCodes = ['HSABC12', 'HSTEST1', 'HS12345'];
-      if (existingCodes.includes(codeToValidate)) {
-        return false;
-      }
-      return true;
+
+      // Check if promo code is unique
+      const response = await promoCodeAPI.checkUnique(codeToValidate);
+      return response.data.isUnique;
+
     } catch (error) {
       console.error('Error validating promo code:', error);
       return false;
