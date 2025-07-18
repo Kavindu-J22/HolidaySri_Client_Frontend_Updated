@@ -51,7 +51,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-gray-200',
       textColor: 'text-gray-800',
       description: 'Perfect for getting started with promotional benefits',
-      features: ['Basic promotional benefits', 'Standard earning rates', 'Promote 1,500 ads and get Free Upgrade to Gold Promo Code', 'For just 5 HSC, you can advertise your promo code to thousands of targeted customers on our site. (Life_time).']
+      features: ['Basic promotional benefits', 'Standard earning rates', 'Promote 1,500 ads and get Free Upgrade to Gold Promo Code', 'For just 5 HSC, you can advertise your promo code to thousands of targeted customers on our site. (Annually).']
     },
     {
       key: 'gold',
@@ -62,7 +62,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-yellow-200',
       textColor: 'text-yellow-800',
       description: 'Enhanced benefits for growing businesses',
-      features: ['Enhanced promotional benefits', 'Better earning rates', 'Promote 2,500 ads and get Free Upgrade to Gold Promo Code', 'For just 3 HSC, you can advertise your promo code to thousands of targeted customers on our site. (Life_time).']
+      features: ['Enhanced promotional benefits', 'Better earning rates', 'Promote 2,500 ads and get Free Upgrade to Gold Promo Code', 'For just 3 HSC, you can advertise your promo code to thousands of targeted customers on our site. (Annually).']
     },
     {
       key: 'diamond',
@@ -73,7 +73,7 @@ const PromoCodesAndTravelAgents = () => {
       borderColor: 'border-blue-200',
       textColor: 'text-blue-800',
       description: 'Premium benefits for established businesses',
-      features: ['Premium promotional benefits', 'Highest earning rates', 'Advertise your promo code for free on our platform and reach thousands of potential customers. (Life_time)', 'Unlock the "Top Agent" badge']
+      features: ['Premium promotional benefits', 'Highest earning rates', 'Advertise your promo code for free on our platform and reach thousands of potential customers. (Annually)', 'Unlock the "Top Agent" badge']
     },
     {
       key: 'free',
@@ -184,7 +184,7 @@ const PromoCodesAndTravelAgents = () => {
                       </div>
                       {promoData?.priceInLKR > 0 && (
                         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                          ({promoData.discountedPriceInLKR} LKR)
+                          ( {promoData.discountedPriceInLKR} LKR | Annually )
                         </p>
                       )}
                     </div>
@@ -198,7 +198,7 @@ const PromoCodesAndTravelAgents = () => {
                       </div>
                       {promoData?.priceInLKR > 0 && (
                         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                          ({promoData.priceInLKR} LKR)
+                          ( {promoData.priceInLKR} LKR | Annually )
                         </p>
                       )}
                     </div>
