@@ -232,11 +232,11 @@ const RenewPromoCode = () => {
       const response = await userAPI.renewPromoCode(renewalData);
 
       if (response.data.success) {
-        setSuccess(`Promo code ${selectedOption === 'upgrade' ? 'upgraded and renewed' : 'renewed'} successfully!`);
+        setSuccess(`Promo code ${selectedOption === 'upgrade' ? 'upgraded and renewed' : 'renewed'} successfully! Redirecting to Agent Dashboard...`);
 
-        // Redirect to profile after 2 seconds
+        // Redirect to Agent Dashboard after 2 seconds
         setTimeout(() => {
-          navigate('/profile');
+          navigate('/profile', { state: { activeTab: 'agent-dashboard' } });
         }, 2000);
       } else {
         setError(response.data.message || 'Failed to process renewal');
