@@ -16,6 +16,7 @@ import Download from './pages/Download';
 import Profile from './pages/Profile';
 import HSCWallet from './pages/HSCWallet';
 import HSCTreasure from './pages/HSCTreasure';
+import ClaimEarnings from './pages/ClaimEarnings';
 import PromoCodesAndTravelAgents from './pages/PromoCodesAndTravelAgents';
 import GeneratePromoCode from './pages/GeneratePromoCode';
 import PromoCodePayment from './pages/PromoCodePayment';
@@ -83,6 +84,11 @@ function App() {
                 <Route path="hsc" element={
                   <ProtectedRoute>
                     <HSCWallet />
+                  </ProtectedRoute>
+                } />
+                <Route path="claim-earnings" element={
+                  <ProtectedRoute>
+                    <ClaimEarnings />
                   </ProtectedRoute>
                 } />
                 <Route path="hsc-treasure" element={<HSCTreasure />} />

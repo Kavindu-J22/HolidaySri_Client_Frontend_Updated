@@ -940,32 +940,44 @@ const AgentDashboard = () => {
           <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
             Earning Records
           </h3>
-          {!showEarnings ? (
+          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
+            {/* Claim Earnings Button */}
             <button
-              onClick={() => fetchEarningsRecords()}
-              disabled={loadingEarnings}
-              className="flex items-center justify-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 w-full sm:w-auto"
+              onClick={() => navigate('/hsc')}
+              className="flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-lg transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 w-full sm:w-auto"
             >
-              {loadingEarnings ? (
-                <>
-                  <Loader className="w-4 h-4 animate-spin" />
-                  <span>Loading...</span>
-                </>
-              ) : (
-                <>
-                  <Eye className="w-4 h-4" />
-                  <span>View Records</span>
-                </>
-              )}
+              <Gift className="w-4 h-4" />
+              <span>Claim Earnings</span>
             </button>
-          ) : (
-            <button
-              onClick={() => setShowEarnings(false)}
-              className="flex items-center justify-center space-x-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors w-full sm:w-auto"
-            >
-              <span>Hide Records</span>
-            </button>
-          )}
+
+            {/* View/Hide Records Button */}
+            {!showEarnings ? (
+              <button
+                onClick={() => fetchEarningsRecords()}
+                disabled={loadingEarnings}
+                className="flex items-center justify-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 w-full sm:w-auto"
+              >
+                {loadingEarnings ? (
+                  <>
+                    <Loader className="w-4 h-4 animate-spin" />
+                    <span>Loading...</span>
+                  </>
+                ) : (
+                  <>
+                    <Eye className="w-4 h-4" />
+                    <span>View Records</span>
+                  </>
+                )}
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowEarnings(false)}
+                className="flex items-center justify-center space-x-2 px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors w-full sm:w-auto"
+              >
+                <span>Hide Records</span>
+              </button>
+            )}
+          </div>
         </div>
 
         {showEarnings && (

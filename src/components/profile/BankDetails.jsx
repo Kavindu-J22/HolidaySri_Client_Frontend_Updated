@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { userAPI } from '../../config/api';
 import {
@@ -36,10 +37,21 @@ const sriLankanBanks = [
 
 const BankDetails = () => {
   const { user, updateUser } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  // Handle navigation state message
+  useEffect(() => {
+    if (location.state?.message) {
+      setError(location.state.message);
+      // Clear the state to prevent showing the message again on refresh
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   const [bankDetails, setBankDetails] = useState({
     bank: user?.bankDetails?.bank || '',
@@ -119,6 +131,13 @@ const BankDetails = () => {
         setIsEditing(false);
         setSuccess('Bank details updated successfully!');
         setTimeout(() => setSuccess(''), 3000);
+
+        // If user came from claim process, navigate back
+        if (location.state?.returnTo) {
+          setTimeout(() => {
+            navigate(location.state.returnTo);
+          }, 2000);
+        }
       }
     } catch (error) {
       console.error('Error updating bank details:', error);

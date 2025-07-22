@@ -66,6 +66,9 @@ export const userAPI = {
   toggleAgentStatus: () => api.put('/users/agent-toggle-status'),
   upgradeAgentTier: () => api.put('/users/agent-upgrade-tier'),
   renewPromoCode: (renewalData) => api.post('/users/agent-renew-promo-code', renewalData),
+  getPromocodeEarnings: () => api.get('/users/promocode-earnings'),
+  getBankDetailsStatus: () => api.get('/users/bank-details-status'),
+  claimEarnings: (earningIds) => api.post('/users/claim-earnings', { earningIds }),
 };
 
 // HSC API calls
