@@ -90,6 +90,7 @@ const AgentDashboard = () => {
       const formattedEarnings = response.data.earnings.map(earning => ({
         id: earning._id,
         buyerEmail: earning.buyerEmail,
+        buyerName: earning.buyerId?.name || 'Unknown User', // Use buyer name if available
         amount: earning.amount,
         category: earning.category,
         item: earning.item,
@@ -959,7 +960,10 @@ const AgentDashboard = () => {
                   {earningsData.map((earning) => (
                     <tr key={earning.id} className="border-b border-gray-100 dark:border-gray-700">
                       <td className="py-3 px-4 text-gray-900 dark:text-white">
-                        {earning.buyerEmail}
+                        <div>
+                          <div className="font-medium">{earning.buyerName}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">{earning.buyerEmail}</div>
+                        </div>
                       </td>
                       <td className="py-3 px-4 text-gray-600 dark:text-gray-400">
                         {earning.item}
@@ -988,8 +992,11 @@ const AgentDashboard = () => {
                   <div className="flex justify-between items-start mb-3">
                     <div className="flex-1 min-w-0">
                       <h4 className="font-medium text-gray-900 dark:text-white truncate">
-                        {earning.buyerEmail}
+                        {earning.buyerName}
                       </h4>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                        {earning.buyerEmail}
+                      </p>
                       <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
                         {earning.item}
                       </p>
