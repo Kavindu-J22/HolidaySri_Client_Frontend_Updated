@@ -39,6 +39,10 @@ const AgentDashboard = () => {
   const [earningsData, setEarningsData] = useState([]);
   const [showEarnings, setShowEarnings] = useState(false);
   const [loadingEarnings, setLoadingEarnings] = useState(false);
+  const [earningsPage, setEarningsPage] = useState(1);
+  const [earningsTotalPages, setEarningsTotalPages] = useState(1);
+  const [earningsTotal, setEarningsTotal] = useState(0);
+  const [loadingMoreEarnings, setLoadingMoreEarnings] = useState(false);
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState('');
   const [showVerification, setShowVerification] = useState(false);
@@ -93,10 +97,15 @@ const AgentDashboard = () => {
     return `${maskedLocal}@${maskedDomain}`;
   };
 
-  const fetchEarningsRecords = async () => {
+  const fetchEarningsRecords = async (page = 1, append = false) => {
     try {
-      setLoadingEarnings(true);
-      const response = await userAPI.getAgentEarnings({ page: 1, limit: 10 });
+      if (page === 1) {
+        setLoadingEarnings(true);
+      } else {
+        setLoadingMoreEarnings(true);
+      }
+
+      const response = await userAPI.getAgentEarnings({ page, limit: 10 });
 
       const formattedEarnings = response.data.earnings.map(earning => ({
         id: earning._id,
@@ -110,13 +119,28 @@ const AgentDashboard = () => {
         createdAt: new Date(earning.createdAt)
       }));
 
-      setEarningsData(formattedEarnings);
-      setShowEarnings(true);
+      if (append) {
+        setEarningsData(prev => [...prev, ...formattedEarnings]);
+      } else {
+        setEarningsData(formattedEarnings);
+        setShowEarnings(true);
+      }
+
+      setEarningsPage(page);
+      setEarningsTotalPages(response.data.totalPages);
+      setEarningsTotal(response.data.total);
     } catch (error) {
       console.error('Error fetching earnings:', error);
       setError('Failed to load earnings records');
     } finally {
       setLoadingEarnings(false);
+      setLoadingMoreEarnings(false);
+    }
+  };
+
+  const loadMoreEarnings = () => {
+    if (earningsPage < earningsTotalPages && !loadingMoreEarnings) {
+      fetchEarningsRecords(earningsPage + 1, true);
     }
   };
 
@@ -918,7 +942,7 @@ const AgentDashboard = () => {
           </h3>
           {!showEarnings ? (
             <button
-              onClick={fetchEarningsRecords}
+              onClick={() => fetchEarningsRecords()}
               disabled={loadingEarnings}
               className="flex items-center justify-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 w-full sm:w-auto"
             >
@@ -946,6 +970,18 @@ const AgentDashboard = () => {
 
         {showEarnings && (
           <div className="space-y-4">
+            {/* Pagination Info */}
+            {earningsTotal > 0 && (
+              <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-400 mb-4">
+                <span>
+                  Showing {earningsData.length} of {earningsTotal} records
+                </span>
+                <span>
+                  Page {earningsPage} of {earningsTotalPages}
+                </span>
+              </div>
+            )}
+
             {/* Desktop Table */}
             <div className="hidden md:block overflow-x-auto">
               <table className="w-full">
@@ -1028,6 +1064,53 @@ const AgentDashboard = () => {
                 </div>
               ))}
             </div>
+
+            {/* Show More Button */}
+            {earningsPage < earningsTotalPages && (
+              <div className="flex justify-center mt-6">
+                <button
+                  onClick={loadMoreEarnings}
+                  disabled={loadingMoreEarnings}
+                  className="flex items-center space-x-2 px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loadingMoreEarnings ? (
+                    <>
+                      <Loader className="w-4 h-4 animate-spin" />
+                      <span>Loading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Show More ({earningsTotal - earningsData.length} remaining)</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
+
+            {/* No more records message */}
+            {earningsPage >= earningsTotalPages && earningsData.length > 0 && (
+              <div className="text-center py-4">
+                <p className="text-gray-500 dark:text-gray-400 text-sm">
+                  All records loaded ({earningsTotal} total)
+                </p>
+              </div>
+            )}
+
+            {/* No records message */}
+            {earningsData.length === 0 && !loadingEarnings && (
+              <div className="text-center py-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-full mb-4">
+                  <DollarSign className="w-8 h-8 text-gray-400" />
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                  No Earnings Yet
+                </h3>
+                <p className="text-gray-500 dark:text-gray-400">
+                  Start promoting your promo code to earn commissions!
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>

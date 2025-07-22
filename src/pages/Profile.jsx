@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
   User,
-  Settings,
   ChevronLeft,
   ChevronRight,
   List,
@@ -11,11 +10,12 @@ import {
   UserCircle,
   Megaphone,
   TrendingUp,
-  Home
+  CreditCard
 } from 'lucide-react';
 import PersonalDetails from '../components/profile/PersonalDetails';
 import AgentDashboard from '../components/profile/AgentDashboard';
 import Advertisements from '../components/profile/Advertisements';
+import BankDetails from '../components/profile/BankDetails';
 
 const Profile = () => {
   const { user } = useAuth();
@@ -58,6 +58,12 @@ const Profile = () => {
       description: 'Manage your personal information'
     },
     {
+      id: 'bank',
+      name: 'Bank Details',
+      icon: CreditCard,
+      description: 'Manage your banking information'
+    },
+    {
       id: 'advertisements',
       name: 'Advertisements',
       icon: Megaphone,
@@ -75,6 +81,8 @@ const Profile = () => {
     switch (activeSection) {
       case 'personal':
         return <PersonalDetails />;
+      case 'bank':
+        return <BankDetails />;
       case 'advertisements':
         return <Advertisements />;
       case 'agent':

@@ -1,13 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { userAPI } from '../../config/api';
-import { 
-  User, 
-  Mail, 
-  Phone, 
-  Camera, 
-  Save, 
-  X, 
+import {
+  User,
+  Mail,
+  Phone,
+  Camera,
+  Save,
+  X,
   Edit3,
   Upload,
   Loader,
@@ -24,11 +24,14 @@ const PersonalDetails = () => {
   const [success, setSuccess] = useState('');
   const fileInputRef = useRef(null);
 
+  // Personal details form data
   const [formData, setFormData] = useState({
     name: user?.name || '',
     contactNumber: user?.contactNumber || '',
     countryCode: user?.countryCode || '+94'
   });
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,6 +40,8 @@ const PersonalDetails = () => {
       [name]: value
     }));
   };
+
+
 
   const handleImageUpload = async (file) => {
     if (!file) return;
@@ -151,6 +156,8 @@ const PersonalDetails = () => {
     setIsEditing(false);
     setError('');
   };
+
+
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -608,6 +615,8 @@ const PersonalDetails = () => {
           </div>
         </div>
       </div>
+
+
     </div>
   );
 };
