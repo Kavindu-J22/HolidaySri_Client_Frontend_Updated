@@ -82,6 +82,17 @@ const AgentDashboard = () => {
     }
   };
 
+  // Helper function to mask email (show first 2 characters, rest as asterisks)
+  const maskEmail = (email) => {
+    if (!email || email.length < 2) return email;
+    const [localPart, domain] = email.split('@');
+    if (!domain) return email;
+
+    const maskedLocal = localPart.substring(0, 2) + '*'.repeat(Math.max(0, localPart.length - 2));
+    const maskedDomain = domain.substring(0, 2) + '*'.repeat(Math.max(0, domain.length - 2));
+    return `${maskedLocal}@${maskedDomain}`;
+  };
+
   const fetchEarningsRecords = async () => {
     try {
       setLoadingEarnings(true);
@@ -90,6 +101,7 @@ const AgentDashboard = () => {
       const formattedEarnings = response.data.earnings.map(earning => ({
         id: earning._id,
         buyerEmail: earning.buyerEmail,
+        maskedEmail: maskEmail(earning.buyerEmail), // Add masked email
         buyerName: earning.buyerId?.name || 'Unknown User', // Use buyer name if available
         amount: earning.amount,
         category: earning.category,
@@ -962,7 +974,7 @@ const AgentDashboard = () => {
                       <td className="py-3 px-4 text-gray-900 dark:text-white">
                         <div>
                           <div className="font-medium">{earning.buyerName}</div>
-                          <div className="text-sm text-gray-500 dark:text-gray-400">{earning.buyerEmail}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">{earning.maskedEmail}</div>
                         </div>
                       </td>
                       <td className="py-3 px-4 text-gray-600 dark:text-gray-400">
@@ -995,7 +1007,7 @@ const AgentDashboard = () => {
                         {earning.buyerName}
                       </h4>
                       <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                        {earning.buyerEmail}
+                        {earning.maskedEmail}
                       </p>
                       <p className="text-sm text-gray-600 dark:text-gray-400 truncate">
                         {earning.item}
