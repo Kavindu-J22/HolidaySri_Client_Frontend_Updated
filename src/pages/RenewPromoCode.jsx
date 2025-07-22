@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { userAPI, promoCodeAPI } from '../config/api';
 import {
@@ -22,10 +22,12 @@ import {
 const RenewPromoCode = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
+  const upgradeMode = searchParams.get('mode') === 'upgrade';
   const [loading, setLoading] = useState(true);
   const [agentData, setAgentData] = useState(null);
   const [promoConfig, setPromoConfig] = useState(null);
-  const [selectedOption, setSelectedOption] = useState('renew'); // 'renew' or 'upgrade'
+  const [selectedOption, setSelectedOption] = useState(upgradeMode ? 'upgrade' : 'renew'); // 'renew' or 'upgrade'
   const [selectedTier, setSelectedTier] = useState('');
   const [appliedPromoCode, setAppliedPromoCode] = useState('');
   const [promoCodeInput, setPromoCodeInput] = useState('');
@@ -236,7 +238,7 @@ const RenewPromoCode = () => {
 
         // Redirect to Agent Dashboard after 2 seconds
         setTimeout(() => {
-          navigate('/profile', { state: { activeTab: 'agent-dashboard' } });
+          navigate('/profile', { state: { activeSection: 'agent' } });
         }, 2000);
       } else {
         setError(response.data.message || 'Failed to process renewal');
@@ -290,10 +292,13 @@ const RenewPromoCode = () => {
           
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Renew Your Promo Code
+              {upgradeMode ? 'Upgrade Your Promo Code' : 'Renew Your Promo Code'}
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400">
-              Keep your agent status active and continue earning commissions
+              {upgradeMode
+                ? 'Upgrade to a higher tier and unlock better earning potential'
+                : 'Keep your agent status active and continue earning commissions'
+              }
             </p>
           </div>
         </div>
@@ -350,44 +355,46 @@ const RenewPromoCode = () => {
           {/* Option Selection */}
           <div className="space-y-6">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              Choose Renewal Option
+              {upgradeMode ? 'Choose Upgrade Option' : 'Choose Renewal Option'}
             </h2>
-            
-            {/* Renew Option */}
-            <div
-              className={`border-2 rounded-xl p-6 cursor-pointer transition-all ${
-                selectedOption === 'renew'
-                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
-              }`}
-              onClick={() => setSelectedOption('renew')}
-            >
-              <div className="flex items-center space-x-3 mb-3">
-                <RefreshCw className="w-6 h-6 text-blue-600" />
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                  Renew Current Tier
-                </h3>
-              </div>
-              
-              <p className="text-gray-600 dark:text-gray-400 mb-3">
-                Extend your current {agentData.promoCodeType} promo code for another year
-              </p>
-              
-              <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {getCurrentTierData()?.priceInHSC || 0} HSC
-                </span>
-                <div className={`w-4 h-4 rounded-full border-2 ${
-                  selectedOption === 'renew' 
-                    ? 'border-blue-500 bg-blue-500' 
-                    : 'border-gray-300 dark:border-gray-600'
-                }`}>
-                  {selectedOption === 'renew' && (
-                    <Check className="w-2 h-2 text-white m-0.5" />
-                  )}
+
+            {/* Renew Option - Only show if not in upgrade mode */}
+            {!upgradeMode && (
+              <div
+                className={`border-2 rounded-xl p-6 cursor-pointer transition-all ${
+                  selectedOption === 'renew'
+                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                }`}
+                onClick={() => setSelectedOption('renew')}
+              >
+                <div className="flex items-center space-x-3 mb-3">
+                  <RefreshCw className="w-6 h-6 text-blue-600" />
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Renew Current Tier
+                  </h3>
+                </div>
+
+                <p className="text-gray-600 dark:text-gray-400 mb-3">
+                  Extend your current {agentData.promoCodeType} promo code for another year
+                </p>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {getCurrentTierData()?.priceInHSC || 0} HSC
+                  </span>
+                  <div className={`w-4 h-4 rounded-full border-2 ${
+                    selectedOption === 'renew'
+                      ? 'border-blue-500 bg-blue-500'
+                      : 'border-gray-300 dark:border-gray-600'
+                  }`}>
+                    {selectedOption === 'renew' && (
+                      <Check className="w-2 h-2 text-white m-0.5" />
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             
             {/* Upgrade Options */}
             {getAvailableUpgrades().length > 0 && (

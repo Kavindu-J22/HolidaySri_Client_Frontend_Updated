@@ -866,6 +866,35 @@ const AgentDashboard = () => {
             )}
           </div>
         )}
+
+        {/* Upgrade with HSC Button - Always show */}
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl shadow-lg p-6 border border-blue-200 dark:border-blue-800">
+          <div className="flex items-center space-x-3 mb-4">
+            <div className="p-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg">
+              <DollarSign className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                Instant Upgrade
+              </h3>
+              <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
+                Upgrade to any tier with HSC
+              </p>
+            </div>
+          </div>
+
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+            Don't want to wait? Upgrade your promo code instantly using your HSC balance and unlock higher earning potential right away.
+          </p>
+
+          <button
+            onClick={() => navigate('/renew-promo-code?mode=upgrade')}
+            className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          >
+            <DollarSign className="w-4 h-4" />
+            <span>Upgrade with HSC</span>
+          </button>
+        </div>
       </div>
 
       {/* Earnings Records Section */}
