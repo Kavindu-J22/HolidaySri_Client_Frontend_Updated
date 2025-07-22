@@ -63,6 +63,8 @@ export const userAPI = {
   getAgentEarnings: (params) => api.get('/users/agent-earnings', { params }),
   submitAgentVerification: (verificationData) => api.post('/users/agent-verification', verificationData),
   getAgentVerificationStatus: () => api.get('/users/agent-verification-status'),
+  toggleAgentStatus: () => api.put('/users/agent-toggle-status'),
+  upgradeAgentTier: () => api.put('/users/agent-upgrade-tier'),
 };
 
 // HSC API calls
