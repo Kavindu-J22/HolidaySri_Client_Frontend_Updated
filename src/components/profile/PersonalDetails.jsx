@@ -77,21 +77,38 @@ const PersonalDetails = () => {
       }
 
       const data = await response.json();
-      
+
       // Update user profile with new image URL
       const updateResponse = await userAPI.updateProfile({
         profileImage: data.secure_url
       });
 
-      if (updateResponse.data.user) {
-        updateUser(updateResponse.data.user);
+      // Handle different possible response structures
+      const userData = updateResponse.data?.user || updateResponse.user || updateResponse.data;
+
+      if (userData && userData._id) {
+        updateUser(userData);
         setSuccess('Profile image updated successfully!');
         setTimeout(() => setSuccess(''), 3000);
+      } else {
+        // Fallback: manually update just the profileImage in the context
+        updateUser({ profileImage: data.secure_url });
+        setSuccess('Profile image updated successfully!');
+        setTimeout(() => setSuccess(''), 3000);
+      }
+
+      // Clear the file input
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
       }
 
     } catch (error) {
       console.error('Error uploading image:', error);
       setError('Failed to upload image. Please try again.');
+      // Clear the file input on error too
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     } finally {
       setUploadingImage(false);
     }
