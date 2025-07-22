@@ -26,7 +26,9 @@ import {
   Zap,
   Gift,
   Target,
-  Crown
+  Crown,
+  RefreshCw,
+  Clock
 } from 'lucide-react';
 
 const AgentDashboard = () => {
@@ -260,6 +262,12 @@ const AgentDashboard = () => {
     } finally {
       setUpgrading(false);
     }
+  };
+
+  // Check if promo code is expired
+  const isPromoCodeExpired = () => {
+    if (!agentData || !agentData.expirationDate) return false;
+    return new Date(agentData.expirationDate) < new Date();
   };
 
   const getUpgradeInfo = () => {
@@ -702,7 +710,11 @@ const AgentDashboard = () => {
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
-              {agentData.isActive ? (
+              {isPromoCodeExpired() ? (
+                <div className="p-3 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
+                  <Clock className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                </div>
+              ) : agentData.isActive ? (
                 <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
                   <Power className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
@@ -716,43 +728,69 @@ const AgentDashboard = () => {
                   Promo Code Status
                 </h3>
                 <p className={`text-sm font-medium ${
-                  agentData.isActive
+                  isPromoCodeExpired()
+                    ? 'text-orange-600 dark:text-orange-400'
+                    : agentData.isActive
                     ? 'text-green-600 dark:text-green-400'
                     : 'text-red-600 dark:text-red-400'
                 }`}>
-                  {agentData.isActive ? 'Active & Earning' : 'Inactive'}
+                  {isPromoCodeExpired()
+                    ? 'Expired'
+                    : agentData.isActive
+                    ? 'Active & Earning'
+                    : 'Inactive'
+                  }
                 </p>
               </div>
             </div>
           </div>
 
           <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-            {agentData.isActive
+            {isPromoCodeExpired()
+              ? 'Your promo code has expired and is no longer active. Renew it to continue earning commissions.'
+              : agentData.isActive
               ? 'Your promo code is active and customers can use it for discounts. You earn commissions on every use.'
               : 'Your promo code is inactive. Customers cannot use it for discounts and you won\'t earn commissions.'
             }
           </p>
 
-          <button
-            onClick={() => setShowStatusConfirm(true)}
-            className={`w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-medium transition-colors ${
-              agentData.isActive
-                ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 border border-red-200 dark:border-red-800'
-                : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 border border-green-200 dark:border-green-800'
-            }`}
-          >
-            {agentData.isActive ? (
-              <>
-                <PowerOff className="w-4 h-4" />
-                <span>Deactivate Promo Code</span>
-              </>
-            ) : (
-              <>
-                <Power className="w-4 h-4" />
-                <span>Activate Promo Code</span>
-              </>
-            )}
-          </button>
+          {isPromoCodeExpired() ? (
+            <div className="space-y-3">
+              <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg p-3">
+                <p className="text-orange-800 dark:text-orange-300 text-sm font-medium text-center">
+                  Renew your Promo Code to Activate
+                </p>
+              </div>
+              <button
+                onClick={() => navigate('/renew-promo-code')}
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-medium transition-colors bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white"
+              >
+                <RefreshCw className="w-4 h-4" />
+                <span>Renew Promo Code</span>
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowStatusConfirm(true)}
+              className={`w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-medium transition-colors ${
+                agentData.isActive
+                  ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 border border-red-200 dark:border-red-800'
+                  : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 border border-green-200 dark:border-green-800'
+              }`}
+            >
+              {agentData.isActive ? (
+                <>
+                  <PowerOff className="w-4 h-4" />
+                  <span>Deactivate Promo Code</span>
+                </>
+              ) : (
+                <>
+                  <Power className="w-4 h-4" />
+                  <span>Activate Promo Code</span>
+                </>
+              )}
+            </button>
+          )}
         </div>
 
         {/* Upgrade Card */}

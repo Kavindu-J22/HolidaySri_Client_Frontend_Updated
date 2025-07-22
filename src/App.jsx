@@ -19,6 +19,7 @@ import HSCTreasure from './pages/HSCTreasure';
 import PromoCodesAndTravelAgents from './pages/PromoCodesAndTravelAgents';
 import GeneratePromoCode from './pages/GeneratePromoCode';
 import PromoCodePayment from './pages/PromoCodePayment';
+import RenewPromoCode from './pages/RenewPromoCode';
 import Notifications from './pages/Notifications';
 import PayHerePayment from './pages/PayHerePayment';
 import ScrollToTop from './components/ScrollToTop';
@@ -94,6 +95,11 @@ function App() {
                 <Route path="promo-code-payment" element={
                   <ProtectedRoute>
                     <PromoCodePayment />
+                  </ProtectedRoute>
+                } />
+                <Route path="renew-promo-code" element={
+                  <ProtectedRoute>
+                    <RenewPromoCode />
                   </ProtectedRoute>
                 } />
                 <Route path="notifications" element={
