@@ -55,7 +55,7 @@ const BankDetails = () => {
     accountNo: user?.bankDetails?.accountNo || '',
     accountName: user?.bankDetails?.accountName || user?.name || '',
     postalCode: user?.bankDetails?.postalCode || '',
-    buynanId: user?.bankDetails?.buynanId || ''
+    binanceId: user?.bankDetails?.binanceId || ''
   });
 
   const handleInputChange = (e) => {
@@ -94,7 +94,7 @@ const BankDetails = () => {
       accountNo: user?.bankDetails?.accountNo || '',
       accountName: user?.bankDetails?.accountName || user?.name || '',
       postalCode: user?.bankDetails?.postalCode || '',
-      buynanId: user?.bankDetails?.buynanId || ''
+      binanceId: user?.bankDetails?.binanceId || ''
     });
     setIsEditing(false);
     setError('');
@@ -304,28 +304,28 @@ const BankDetails = () => {
             )}
           </div>
 
-          {/* Buynan ID (Alternative) */}
+          {/* binance Id (Alternative) */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Buynan ID (Alternative)
+              binance ID (Alternative)
             </label>
             <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-              You can provide your Buynan ID as an alternative to bank details
+              You can provide your binance ID as an alternative to bank details
             </p>
             {isEditing ? (
               <input
                 type="text"
-                name="buynanId"
-                value={bankDetails.buynanId}
+                name="binanceId"
+                value={bankDetails.binanceId}
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                placeholder="Enter Buynan ID"
+                placeholder="Enter binance ID"
               />
             ) : (
               <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                 <CreditCard className="w-5 h-5 text-gray-400" />
                 <span className="text-gray-900 dark:text-white">
-                  {bankDetails.buynanId || 'Not specified'}
+                  {bankDetails.binanceId || 'Not specified'}
                 </span>
               </div>
             )}
@@ -339,7 +339,7 @@ const BankDetails = () => {
             <ul className="text-sm text-blue-700 dark:text-blue-400 space-y-1">
               <li>• Ensure all bank details are accurate for payment processing</li>
               <li>• Account name should match your registered name</li>
-              <li>• Buynan ID can be used as an alternative payment method</li>
+              <li>• binance ID can be used as an alternative payment method</li>
               <li>• All information is securely encrypted and stored</li>
             </ul>
           </div>
