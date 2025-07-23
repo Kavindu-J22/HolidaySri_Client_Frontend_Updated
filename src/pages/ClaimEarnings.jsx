@@ -60,10 +60,30 @@ const ClaimEarnings = () => {
     }
   };
 
-  // Filter and sort earnings (last in, first out)
+  // Filter and sort earnings (last in, first out) - newest first for all tabs
   const allFilteredEarnings = earnings
     .filter(earning => earning.status === activeTab)
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    .sort((a, b) => {
+      // Use the most relevant date field based on status
+      let dateA, dateB;
+
+      if (activeTab === 'processed') {
+        // For processed earnings, use processedAt if available, otherwise createdAt
+        dateA = new Date(a.processedAt || a.createdAt);
+        dateB = new Date(b.processedAt || b.createdAt);
+      } else if (activeTab === 'paid') {
+        // For paid earnings, use paidAt if available, otherwise processedAt, otherwise createdAt
+        dateA = new Date(a.paidAt || a.processedAt || a.createdAt);
+        dateB = new Date(b.paidAt || b.processedAt || b.createdAt);
+      } else {
+        // For pending earnings, use createdAt
+        dateA = new Date(a.createdAt);
+        dateB = new Date(b.createdAt);
+      }
+
+      // Sort in descending order (newest first)
+      return dateB - dateA;
+    });
 
   // Apply pagination
   const filteredEarnings = allFilteredEarnings.slice(0, displayCount);
