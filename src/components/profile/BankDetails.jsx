@@ -62,6 +62,22 @@ const BankDetails = () => {
     binanceId: user?.bankDetails?.binanceId || ''
   });
 
+  // Sync form with user data when user object updates
+  useEffect(() => {
+    if (user) {
+      // Always update form with user data (even if bankDetails is empty/null)
+      const userBankDetails = user.bankDetails || {};
+      setBankDetails({
+        bank: userBankDetails.bank || '',
+        branch: userBankDetails.branch || '',
+        accountNo: userBankDetails.accountNo || '',
+        accountName: userBankDetails.accountName || '',
+        postalCode: userBankDetails.postalCode || '',
+        binanceId: userBankDetails.binanceId || ''
+      });
+    }
+  }, [user]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setBankDetails(prev => ({

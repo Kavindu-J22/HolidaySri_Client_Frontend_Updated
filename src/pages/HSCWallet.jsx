@@ -23,6 +23,7 @@ const HSCWallet = () => {
     hasBinanceId: false
   });
   const [loading, setLoading] = useState(false);
+  const [showBankDetailsModal, setShowBankDetailsModal] = useState(false);
 
   const fetchTokenValues = async () => {
     try {
@@ -79,13 +80,8 @@ const HSCWallet = () => {
       const bankResponse = await userAPI.getBankDetailsStatus();
 
       if (!bankResponse.data.canClaim) {
-        // Navigate to bank details page with a message
-        navigate('/profile/bank-details', {
-          state: {
-            message: 'Please complete your bank details or add Binance ID to claim earnings',
-            returnTo: '/hsc'
-          }
-        });
+        setLoading(false);
+        setShowBankDetailsModal(true);
         return;
       }
 
@@ -93,6 +89,10 @@ const HSCWallet = () => {
       navigate('/claim-earnings');
     } catch (error) {
       console.error('Error during claim process:', error);
+      setLoading(false);
+
+      // Show error message
+      alert('❌ Error\n\nUnable to check bank details. Please try again or contact support if the problem persists.');
     } finally {
       setLoading(false);
     }
@@ -269,6 +269,72 @@ const HSCWallet = () => {
           Full HSC wallet functionality including purchases, packages, and transaction history will be available soon.
         </p>
       </div>
+
+      {/* Bank Details Required Modal */}
+      {showBankDetailsModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-orange-500 to-yellow-500 rounded-t-2xl p-6 text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Bank Details Required</h3>
+              <p className="text-white text-opacity-90 text-sm">Complete your payment information to claim earnings</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="text-center mb-6">
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  To claim your promocode earnings, you need to complete your bank details or add your Binance ID for secure payments.
+                </p>
+
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-4">
+                  <div className="flex items-center justify-center mb-2">
+                    <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span className="text-sm font-medium text-blue-800 dark:text-blue-300">What you need:</span>
+                  </div>
+                  <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
+                    <li>• Bank name and branch details</li>
+                    <li>• Account number and account name</li>
+                    <li>• Or your Binance ID for crypto payments</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <button
+                  onClick={() => setShowBankDetailsModal(false)}
+                  className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Maybe Later
+                </button>
+                <button
+                  onClick={() => {
+                    setShowBankDetailsModal(false);
+                    navigate('/profile', {
+                      state: {
+                        activeSection: 'bank',
+                        message: 'Please complete your bank details or add Binance ID to claim earnings',
+                        returnTo: '/hsc'
+                      }
+                    });
+                  }}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                >
+                  Complete Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
