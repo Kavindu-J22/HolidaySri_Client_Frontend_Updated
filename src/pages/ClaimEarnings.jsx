@@ -30,6 +30,8 @@ const ClaimEarnings = () => {
   const [loading, setLoading] = useState(true);
   const [claiming, setClaiming] = useState(false);
   const [bankDetails, setBankDetails] = useState(null);
+  const [displayCount, setDisplayCount] = useState(10);
+  const RECORDS_PER_PAGE = 10;
 
   useEffect(() => {
     fetchEarnings();
@@ -58,7 +60,24 @@ const ClaimEarnings = () => {
     }
   };
 
-  const filteredEarnings = earnings.filter(earning => earning.status === activeTab);
+  // Filter and sort earnings (last in, first out)
+  const allFilteredEarnings = earnings
+    .filter(earning => earning.status === activeTab)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  // Apply pagination
+  const filteredEarnings = allFilteredEarnings.slice(0, displayCount);
+  const hasMoreRecords = allFilteredEarnings.length > displayCount;
+
+  const handleShowMore = () => {
+    setDisplayCount(prev => prev + RECORDS_PER_PAGE);
+  };
+
+  // Reset display count when tab changes
+  const handleTabChange = (tabKey) => {
+    setActiveTab(tabKey);
+    setDisplayCount(RECORDS_PER_PAGE);
+  };
 
   const handleSelectEarning = (earning) => {
     if (activeTab !== 'pending') return;
@@ -205,24 +224,24 @@ const ClaimEarnings = () => {
       {/* Tabs */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
         <div className="border-b border-gray-200 dark:border-gray-700">
-          <nav className="flex space-x-8 px-6">
+          <nav className="flex flex-col sm:flex-row sm:space-x-8 px-4 sm:px-6">
             {[
-              { key: 'pending', label: 'Pending', count: totals.pending, color: 'text-yellow-600' },
-              { key: 'processed', label: 'Processing', count: totals.processed, color: 'text-blue-600' },
-              { key: 'paid', label: 'Paid', count: totals.paid, color: 'text-green-600' }
+              { key: 'pending', label: 'Pending', count: totals.pending, chipColor: 'bg-yellow-500' },
+              { key: 'processed', label: 'Processing', count: totals.processed, chipColor: 'bg-blue-500' },
+              { key: 'paid', label: 'Paid', count: totals.paid, chipColor: 'bg-green-500' }
             ].map((tab) => (
               <button
                 key={tab.key}
-                onClick={() => setActiveTab(tab.key)}
-                className={`py-4 px-2 border-b-2 font-medium text-sm transition-colors ${
+                onClick={() => handleTabChange(tab.key)}
+                className={`py-3 sm:py-4 px-2 sm:px-2 border-b-2 font-medium text-sm transition-colors w-full sm:w-auto ${
                   activeTab === tab.key
                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'
                     : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
                 }`}
               >
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center justify-between sm:justify-center sm:space-x-2">
                   <span>{tab.label}</span>
-                  <span className={`px-2 py-1 rounded-full text-xs font-semibold bg-current bg-opacity-10`}>
+                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${tab.chipColor}`}>
                     <span className="text-white">{tab.count.toLocaleString()} LKR</span>
                   </span>
                 </div>
@@ -233,9 +252,9 @@ const ClaimEarnings = () => {
 
         {/* Selection Summary for Pending Tab */}
         {activeTab === 'pending' && selectedEarnings.length > 0 && (
-          <div className="bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 border-b border-orange-200 dark:border-orange-800 p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
+          <div className="bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 border-b border-orange-200 dark:border-orange-800 p-3 sm:p-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-3 sm:space-y-0">
+              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                 <div className="text-sm text-gray-600 dark:text-gray-400">
                   {selectedEarnings.length} item(s) selected
                 </div>
@@ -243,7 +262,7 @@ const ClaimEarnings = () => {
                   {selectedTotal.toLocaleString()} LKR
                 </div>
               </div>
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                 {canClaim ? (
                   <div className="flex items-center text-green-600 dark:text-green-400 text-sm">
                     <CheckCircle className="w-4 h-4 mr-1" />
@@ -258,7 +277,7 @@ const ClaimEarnings = () => {
                 <button
                   onClick={handleClaimSelected}
                   disabled={!canClaim || claiming}
-                  className={`px-6 py-2 rounded-lg font-semibold text-sm transition-all duration-200 ${
+                  className={`px-4 sm:px-6 py-2 rounded-lg font-semibold text-sm transition-all duration-200 w-full sm:w-auto ${
                     canClaim && !claiming
                       ? 'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-md hover:shadow-lg'
                       : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
@@ -292,7 +311,7 @@ const ClaimEarnings = () => {
                 <div
                   key={earning._id}
                   onClick={() => handleSelectEarning(earning)}
-                  className={`border rounded-lg p-4 transition-all duration-200 ${
+                  className={`border rounded-lg p-3 sm:p-4 transition-all duration-200 ${
                     activeTab === 'pending'
                       ? 'cursor-pointer hover:shadow-md'
                       : 'cursor-default'
@@ -302,21 +321,21 @@ const ClaimEarnings = () => {
                       : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between">
                     <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-3 mb-3">
                         <div className="flex items-center space-x-2">
                           {getStatusIcon(earning.status)}
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(earning.status)}`}>
                             {earning.status.charAt(0).toUpperCase() + earning.status.slice(1)}
                           </span>
                         </div>
-                        <div className="text-lg font-bold text-gray-900 dark:text-white">
+                        <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                           {earning.amount.toLocaleString()} LKR
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 text-sm">
                         <div className="flex items-center space-x-2">
                           <User className="w-4 h-4 text-gray-400" />
                           <div>
@@ -357,7 +376,7 @@ const ClaimEarnings = () => {
                     </div>
 
                     {activeTab === 'pending' && (
-                      <div className="ml-4">
+                      <div className="mt-3 sm:mt-0 sm:ml-4 flex justify-end sm:justify-center">
                         <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                           selectedEarnings.find(e => e._id === earning._id)
                             ? 'border-orange-500 bg-orange-500'
@@ -372,6 +391,18 @@ const ClaimEarnings = () => {
                   </div>
                 </div>
               ))}
+
+              {/* Show More Records Button */}
+              {hasMoreRecords && (
+                <div className="flex justify-center mt-6">
+                  <button
+                    onClick={handleShowMore}
+                    className="px-4 sm:px-6 py-2 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 shadow-md hover:shadow-lg text-sm sm:text-base"
+                  >
+                    Show More Records ({allFilteredEarnings.length - displayCount} remaining)
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
