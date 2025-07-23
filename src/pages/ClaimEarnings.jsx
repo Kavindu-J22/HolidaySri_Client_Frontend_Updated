@@ -222,8 +222,8 @@ const ClaimEarnings = () => {
               >
                 <div className="flex items-center space-x-2">
                   <span>{tab.label}</span>
-                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${tab.color} bg-current bg-opacity-10`}>
-                    {tab.count.toLocaleString()} LKR
+                  <span className={`px-2 py-1 rounded-full text-xs font-semibold bg-current bg-opacity-10`}>
+                    <span className="text-white">{tab.count.toLocaleString()} LKR</span>
                   </span>
                 </div>
               </button>

@@ -216,12 +216,8 @@ const HSCWallet = () => {
           {/* Claim Button */}
           <button
             onClick={handleClaimNow}
-            disabled={loading || promocodeEarnings.pending < 5000}
-            className={`w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 ${
-              promocodeEarnings.pending >= 5000
-                ? 'bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-md hover:shadow-lg transform hover:scale-105'
-                : 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-            }`}
+            disabled={loading}
+            className="w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50"
           >
             {loading ? 'Processing...' : 'Claim Now'}
           </button>
