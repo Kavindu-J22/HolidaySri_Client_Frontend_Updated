@@ -219,7 +219,7 @@ const HSCWallet = () => {
             disabled={loading}
             className="w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50"
           >
-            {loading ? 'Processing...' : 'Claim Now'}
+            {loading ? 'Processing...' : 'View & Claim Now'}
           </button>
         </div>
       </div>
