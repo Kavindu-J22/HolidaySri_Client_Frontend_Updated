@@ -73,7 +73,7 @@ const Profile = () => {
       id: 'agent',
       name: 'Agent Dashboard',
       icon: TrendingUp,
-      description: 'Track your agent performance'
+      description: 'Track your promocode & agent performance'
     }
   ];
 
