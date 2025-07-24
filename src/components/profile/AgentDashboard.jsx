@@ -803,6 +803,9 @@ const AgentDashboard = () => {
           <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
             Lifetime commission earned
           </p>
+          <p className="text-gray-500 dark:text-gray-500 text-xs mt-1">
+            Current Promocode Total Earnings: <strong>LKR {agentData.currentPromocodeTotalEarnings?.toLocaleString() || '0'}</strong>
+          </p>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
@@ -819,6 +822,9 @@ const AgentDashboard = () => {
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
             People you've referred (Lifetime )
+          </p>
+          <p className="text-gray-500 dark:text-gray-500 text-xs mt-1">
+            Current Promocode Total Referrals: <strong>{agentData.currentPromocodeTotalReferrals || 0}</strong>
           </p>
         </div>
 
