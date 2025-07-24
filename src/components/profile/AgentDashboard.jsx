@@ -1184,23 +1184,24 @@ const AgentDashboard = () => {
             </button>
           )}
         </div>
-      </div>
 
-      {/* Promotion Section */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
-        <div className="flex items-center space-x-3 mb-4">
-          <div className="p-3 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg">
-            <Target className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+        {/* Advertise (Promote) Your Promocode Card */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-3">
+              <div className="p-3 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg">
+                <Target className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Advertise (Promote) Your Promocode
+                </h3>
+                <p className="text-sm font-medium text-purple-600 dark:text-purple-400">
+                  {agentData.promoteStatus === 'on' ? 'Currently Promoted' : 'Not Promoted'}
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Advertise (Promote) Your Promocode
-            </h3>
-            <p className="text-sm font-medium text-purple-600 dark:text-purple-400">
-              {agentData.promoteStatus === 'on' ? 'Currently Promoted' : 'Not Promoted'}
-            </p>
-          </div>
-        </div>
 
         <div className="flex-grow mb-4">
           {agentData.promoCodeType === 'free' ? (
@@ -1221,7 +1222,7 @@ const AgentDashboard = () => {
               <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/10 dark:to-pink-900/10 border border-purple-200 dark:border-purple-800 rounded-lg p-4">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-purple-800 dark:text-purple-300 text-sm font-medium">
-                    Promotion Cost ({agentData.promoCodeType}):
+                    Annually Promotion Cost ({agentData.promoCodeType}):
                   </span>
                   <div className="text-right">
                     <span className="text-purple-600 dark:text-purple-400 font-bold">
@@ -1319,6 +1320,7 @@ const AgentDashboard = () => {
             )}
           </div>
         )}
+        </div>
       </div>
 
       {/* Earnings Records Section */}
