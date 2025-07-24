@@ -798,7 +798,7 @@ const AgentDashboard = () => {
             </span>
           </div>
           <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1">
-            Total Earnings
+            Agent Total Earnings
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
             Lifetime commission earned
@@ -815,7 +815,7 @@ const AgentDashboard = () => {
             </span>
           </div>
           <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1">
-            Total Referrals
+            Agent Total Referrals
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
             People you've referred (Lifetime )
@@ -832,7 +832,7 @@ const AgentDashboard = () => {
             </span>
           </div>
           <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1">
-            Used Count
+           Promocode Used Count
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
             Times your code was used
