@@ -196,6 +196,21 @@ const AgentDashboard = () => {
     return `${maskedLocal}@${maskedDomain}`;
   };
 
+  // Helper function to format numbers in K/M format
+  const formatNumber = (num) => {
+    if (!num || num === 0) return '0';
+
+    if (num >= 1000000) {
+      const millions = num / 1000000;
+      return millions % 1 === 0 ? `${millions}M` : `${millions.toFixed(1)}M`;
+    } else if (num >= 1000) {
+      const thousands = num / 1000;
+      return thousands % 1 === 0 ? `${thousands}K` : `${thousands.toFixed(1)}K`;
+    } else {
+      return num.toString();
+    }
+  };
+
   const fetchEarningsRecords = async (page = 1, append = false) => {
     try {
       if (page === 1) {
@@ -804,7 +819,7 @@ const AgentDashboard = () => {
             Lifetime commission earned
           </p>
           <p className="text-gray-500 dark:text-gray-500 text-xs mt-1">
-            Current Promocode Total Earnings: <strong>LKR {agentData.currentPromocodeTotalEarnings?.toLocaleString() || '0'}</strong>
+            Current Promocode Total Earnings: <strong>{formatNumber(agentData.currentPromocodeTotalEarnings)} LKR</strong>
           </p>
         </div>
 
