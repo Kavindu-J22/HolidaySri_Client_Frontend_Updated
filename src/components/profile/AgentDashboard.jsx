@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { userAPI } from '../../config/api';
+import { userAPI, hscAPI, promoCodeAPI } from '../../config/api';
 import {
   CreditCard,
   TrendingUp,
@@ -28,6 +28,8 @@ import {
   Target,
   Crown,
   RefreshCw,
+  ShoppingCart,
+  Calculator,
   Clock
 } from 'lucide-react';
 
@@ -56,13 +58,77 @@ const AgentDashboard = () => {
   const [showStatusConfirm, setShowStatusConfirm] = useState(false);
   const [togglingStatus, setTogglingStatus] = useState(false);
   const [showUpgradeConfirm, setShowUpgradeConfirm] = useState(false);
+  const [showSellModal, setShowSellModal] = useState(false);
+  const [sellPrice, setSellPrice] = useState('');
+  const [hscValue, setHscValue] = useState(100); // Default HSC value
+  const [sellAdFee, setSellAdFee] = useState(0); // HSC fee for selling advertisement
+  const [showSellConfirm, setShowSellConfirm] = useState(false);
+  const [sellProcessing, setSellProcessing] = useState(false);
+  const [showSellSuccess, setShowSellSuccess] = useState(false);
   const [upgrading, setUpgrading] = useState(false);
   const [showCongratulations, setShowCongratulations] = useState(false);
   const [upgradeResult, setUpgradeResult] = useState(null);
 
   useEffect(() => {
     fetchAgentData();
+    fetchHSCInfo();
+    fetchSellAdFee();
   }, []);
+
+  const fetchHSCInfo = async () => {
+    try {
+      const response = await hscAPI.getInfo();
+      setHscValue(response.data.currentValue || 100);
+    } catch (error) {
+      console.error('Error fetching HSC info:', error);
+    }
+  };
+
+  const fetchSellAdFee = async () => {
+    try {
+      const response = await promoCodeAPI.getConfig();
+      setSellAdFee(response.data.sellAdFee || 0);
+    } catch (error) {
+      console.error('Error fetching sell ad fee:', error);
+    }
+  };
+
+  const handleSellPayment = async () => {
+    try {
+      setSellProcessing(true);
+
+      const response = await userAPI.sellPromocode(sellPrice);
+
+      if (response.data.success) {
+        setShowSellConfirm(false);
+        setShowSellSuccess(true);
+        setSellPrice('');
+
+        // Refresh agent data
+        await fetchAgentData();
+      }
+    } catch (error) {
+      console.error('Sell payment error:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to process payment. Please try again.';
+      alert(errorMessage);
+    } finally {
+      setSellProcessing(false);
+    }
+  };
+
+  const handleToggleSelling = async () => {
+    try {
+      const response = await userAPI.toggleSelling();
+
+      if (response.data.success) {
+        // Refresh agent data
+        await fetchAgentData();
+      }
+    } catch (error) {
+      console.error('Toggle selling error:', error);
+      alert(error.response?.data?.message || 'Failed to update selling status');
+    }
+  };
 
   const fetchAgentData = async () => {
     try {
@@ -742,7 +808,7 @@ const AgentDashboard = () => {
       </div>
 
       {/* Promo Code Management Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Status Toggle Card */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
           <div className="flex items-center justify-between mb-4">
@@ -931,6 +997,62 @@ const AgentDashboard = () => {
             <DollarSign className="w-4 h-4" />
             <span>Upgrade with HSC</span>
           </button>
+        </div>
+
+        {/* Sell Your Promocode Card */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-3">
+              <div className="p-3 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
+                <ShoppingCart className="w-6 h-6 text-green-600 dark:text-green-400" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Sell Your Promocode
+                </h3>
+                <p className="text-sm font-medium text-green-600 dark:text-green-400">
+                  {agentData.isSelling ? 'Currently Selling' : 'Not Selling'}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+            {agentData.isSelling
+              ? `Your promocode is listed for sale at ${agentData.sellingPrice || 0} HSC. You can turn off selling anytime.`
+              : 'List your promocode for sale and let other users purchase it. Set your own price in HSC.'
+            }
+          </p>
+
+          {agentData.isSelling ? (
+            <div className="space-y-3">
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-green-800 dark:text-green-300 text-sm font-medium">
+                    Selling Price: {agentData.sellingPrice || 0} HSC
+                  </span>
+                  <span className="text-green-600 dark:text-green-400 text-xs">
+                    ≈ {((agentData.sellingPrice || 0) * hscValue).toLocaleString()} LKR
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={handleToggleSelling}
+                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+              >
+                <PowerOff className="w-4 h-4" />
+                <span>Stop Selling</span>
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setShowSellModal(true)}
+              className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              <span>Sell Your Promocode</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -1272,6 +1394,218 @@ const AgentDashboard = () => {
                   setUpgradeResult(null);
                 }}
                 className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-colors"
+              >
+                Awesome! Continue
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sell Promocode Modal */}
+      {showSellModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-t-2xl p-6 text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <ShoppingCart className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Sell Your Promocode</h3>
+              <p className="text-white text-opacity-90 text-sm">Set your selling price in HSC</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Selling Price (HSC)
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={sellPrice}
+                    onChange={(e) => setSellPrice(e.target.value)}
+                    placeholder="Enter price in HSC"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">HSC</span>
+                  </div>
+                </div>
+                {sellPrice && (
+                  <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-blue-700 dark:text-blue-300">LKR Equivalent:</span>
+                      <span className="text-sm font-semibold text-blue-800 dark:text-blue-200">
+                        {(parseFloat(sellPrice || 0) * hscValue).toLocaleString()} LKR
+                      </span>
+                    </div>
+                    <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                      Based on current HSC rate: {hscValue} LKR per HSC
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 mb-6">
+                <div className="flex items-center mb-2">
+                  <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-2" />
+                  <span className="text-sm font-medium text-yellow-800 dark:text-yellow-300">Important Note</span>
+                </div>
+                <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                  Once you proceed, you'll need to pay an advertisement fee to list your promocode for sale.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <button
+                  onClick={() => {
+                    setShowSellModal(false);
+                    setSellPrice('');
+                  }}
+                  className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    if (sellPrice && parseFloat(sellPrice) > 0) {
+                      setShowSellModal(false);
+                      setShowSellConfirm(true);
+                    }
+                  }}
+                  disabled={!sellPrice || parseFloat(sellPrice) <= 0}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                  Continue
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sell Confirmation Modal */}
+      {showSellConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-t-2xl p-6 text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <DollarSign className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Confirm Payment</h3>
+              <p className="text-white text-opacity-90 text-sm">Pay advertisement fee to list your promocode</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-6">
+                <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-3">Transaction Summary</h4>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-blue-700 dark:text-blue-400">Selling Price:</span>
+                    <span className="font-semibold text-blue-800 dark:text-blue-200">
+                      {sellPrice} HSC (≈ {(parseFloat(sellPrice || 0) * hscValue).toLocaleString()} LKR)
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-blue-700 dark:text-blue-400">Advertisement Fee:</span>
+                    <span className="font-semibold text-blue-800 dark:text-blue-200">
+                      {sellAdFee} HSC (≈ {(sellAdFee * hscValue).toLocaleString()} LKR)
+                    </span>
+                  </div>
+                  <div className="border-t border-blue-200 dark:border-blue-700 pt-2 mt-2">
+                    <div className="flex justify-between">
+                      <span className="text-blue-700 dark:text-blue-400">Your HSC Balance:</span>
+                      <span className="font-semibold text-blue-800 dark:text-blue-200">
+                        {user?.hscBalance || 0} HSC
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 mb-6">
+                <div className="flex items-center mb-2">
+                  <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-2" />
+                  <span className="text-sm font-medium text-yellow-800 dark:text-yellow-300">Payment Required</span>
+                </div>
+                <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                  You need to pay <strong>{sellAdFee} HSC</strong> to post your promocode for sale.
+                  This fee will be deducted from your HSC balance.
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <button
+                  onClick={() => {
+                    setShowSellConfirm(false);
+                    setSellPrice('');
+                  }}
+                  className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSellPayment}
+                  disabled={sellProcessing || (user?.hscBalance || 0) < sellAdFee}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                  {sellProcessing ? 'Processing...' :
+                   (user?.hscBalance || 0) < sellAdFee ? 'Insufficient HSC Balance' :
+                   `Pay ${sellAdFee} HSC`}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sell Success Modal */}
+      {showSellSuccess && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-t-2xl p-6 text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Success!</h3>
+              <p className="text-white text-opacity-90 text-sm">Your promocode is now listed for sale</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="text-center mb-6">
+                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 mb-4">
+                  <div className="flex items-center justify-center mb-2">
+                    <ShoppingCart className="w-5 h-5 text-green-600 dark:text-green-400 mr-2" />
+                    <span className="font-medium text-green-800 dark:text-green-300">Promocode Listed Successfully</span>
+                  </div>
+                  <p className="text-sm text-green-700 dark:text-green-400">
+                    Your promocode <strong>{agentData?.promoCode}</strong> is now available for purchase by other users.
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                  <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-2">What happens next?</h4>
+                  <ul className="text-sm text-blue-700 dark:text-blue-400 space-y-1 text-left">
+                    <li>• Your promocode appears in the marketplace</li>
+                    <li>• Users can purchase it at your set price</li>
+                    <li>• You can turn off selling anytime</li>
+                    <li>• Payment will be processed automatically</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <button
+                onClick={() => setShowSellSuccess(false)}
+                className="w-full px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
               >
                 Awesome! Continue
               </button>
