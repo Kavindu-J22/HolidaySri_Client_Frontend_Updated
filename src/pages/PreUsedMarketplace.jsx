@@ -157,6 +157,21 @@ const PreUsedMarketplace = () => {
     return `${promoCode.substring(0, 4)}***`;
   };
 
+  const formatEarnings = (amount) => {
+    if (!amount || amount === 0) return '0';
+
+    const num = parseFloat(amount);
+
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    if (num >= 1000) {
+      return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+
+    return num.toLocaleString();
+  };
+
   const handleBuyNow = async (promoCode) => {
     if (!user) {
       navigate('/login');
@@ -512,7 +527,7 @@ const PreUsedMarketplace = () => {
                       </div>
                       <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">Earnings</p>
                       <p className="font-bold text-green-600 text-sm">
-                        {promoCode.totalEarnings?.toLocaleString()} LKR
+                        {formatEarnings(promoCode.totalEarnings)} LKR
                       </p>
                     </div>
 
