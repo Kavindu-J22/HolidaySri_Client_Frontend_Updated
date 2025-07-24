@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { promoCodeAPI } from '../config/api';
-import { 
-  Search, 
-  Star, 
-  Crown, 
-  Diamond, 
+import {
+  Search,
+  Star,
+  Crown,
+  Diamond,
   Sparkles,
   Copy,
   Heart,
@@ -21,7 +21,8 @@ import {
   CheckCircle,
   XCircle,
   ArrowLeft,
-  ShoppingCart
+  ShoppingCart,
+  Shield
 } from 'lucide-react';
 
 const ExplorePromoCodes = () => {
@@ -302,9 +303,17 @@ const ExplorePromoCodes = () => {
                 {/* Content */}
                 <div className="p-6">
                   <div className="mb-4">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                      {promoCode.userName}
-                    </h3>
+                    <div className="flex items-center space-x-2 mb-1">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                        {promoCode.userName}
+                      </h3>
+                      {promoCode.isVerified && (
+                        <div className="flex items-center space-x-1 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 px-2 py-1 rounded-full text-xs font-medium">
+                          <Shield className="w-3 h-3" />
+                          <span>Verified</span>
+                        </div>
+                      )}
+                    </div>
                     <div className="flex items-center space-x-2">
                       <span className="text-2xl font-mono font-bold text-primary-600 dark:text-primary-400">
                         {promoCode.promoCode}
@@ -317,7 +326,7 @@ const ExplorePromoCodes = () => {
                         <Copy className="w-4 h-4 text-gray-600 dark:text-gray-400" />
                       </button>
                     </div>
-                  </div>                 
+                  </div>
 
                   {/* Expiration */}
                   <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">

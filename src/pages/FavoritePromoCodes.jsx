@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { promoCodeAPI } from '../config/api';
-import { 
-  Heart, 
-  Star, 
-  Crown, 
-  Diamond, 
+import {
+  Heart,
+  Star,
+  Crown,
+  Diamond,
   Gift,
   Copy,
   HeartOff,
@@ -18,7 +18,8 @@ import {
   Users,
   CheckCircle,
   XCircle,
-  Search
+  Search,
+  Shield
 } from 'lucide-react';
 
 const FavoritePromoCodes = () => {
@@ -257,9 +258,17 @@ const FavoritePromoCodes = () => {
                 {/* Content */}
                 <div className="p-6">
                   <div className="mb-4">
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                      {favorite.userName}
-                    </h3>
+                    <div className="flex items-center space-x-2 mb-1">
+                      <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                        {favorite.userName}
+                      </h3>
+                      {favorite.isVerified && (
+                        <div className="flex items-center space-x-1 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-400 px-2 py-1 rounded-full text-xs font-medium">
+                          <Shield className="w-3 h-3" />
+                          <span>Verified</span>
+                        </div>
+                      )}
+                    </div>
                     <div className="flex items-center space-x-2">
                       <span className="text-2xl font-mono font-bold text-primary-600 dark:text-primary-400">
                         {favorite.promoCode}
