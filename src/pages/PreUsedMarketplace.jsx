@@ -1,30 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { promoCodeAPI, hscAPI, userAPI } from '../config/api';
+import { promoCodeAPI, userAPI } from '../config/api';
 import { 
   Star, 
   Crown, 
   Diamond, 
   ShoppingCart,
   Filter,
-  SortAsc,
-  SortDesc,
-  Calendar,
-  Clock,
   Users,
   TrendingUp,
   CheckCircle,
   AlertTriangle,
   Loader,
   RefreshCw,
-  Eye,
-  EyeOff,
   Badge,
-  Sparkles
+  Sparkles,
+  Search
 } from 'lucide-react';
 
-const PreUsedPromoCodesMarketplace = () => {
+const PreUsedMarketplace = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [promoCodes, setPromoCodes] = useState([]);
@@ -32,7 +27,6 @@ const PreUsedPromoCodesMarketplace = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [stats, setStats] = useState({});
-  const [hscValue, setHscValue] = useState(100);
   const [userBalance, setUserBalance] = useState(0);
   
   // Filter and pagination states
@@ -40,7 +34,8 @@ const PreUsedPromoCodesMarketplace = () => {
     promoCodeType: 'all',
     isActive: 'all',
     sortBy: 'sellingListedAt',
-    sortOrder: 'desc'
+    sortOrder: 'desc',
+    search: ''
   });
   const [pagination, setPagination] = useState({
     current: 1,
@@ -51,19 +46,11 @@ const PreUsedPromoCodesMarketplace = () => {
   });
   const [expandedDescriptions, setExpandedDescriptions] = useState({});
 
-  useEffect(() => {
-    fetchMarketplaceData();
-    fetchStats();
-    if (user) {
-      fetchUserBalance();
-    }
-  }, [filters, pagination.current]);
-
-  const fetchMarketplaceData = async () => {
+  const fetchMarketplaceData = useCallback(async () => {
     try {
       setLoading(true);
       setError('');
-      
+
       const params = {
         page: pagination.current,
         limit: 12,
@@ -73,33 +60,39 @@ const PreUsedPromoCodesMarketplace = () => {
       const response = await promoCodeAPI.getMarketplace(params);
       setPromoCodes(response.data.promoCodes);
       setPagination(response.data.pagination);
-      setHscValue(response.data.hscValue);
     } catch (error) {
       console.error('Error fetching marketplace data:', error);
       setError('Failed to load marketplace data');
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters, pagination.current]); // Fixed: Only use pagination.current, not the entire pagination object
 
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
       const response = await promoCodeAPI.getMarketplaceStats();
       setStats(response.data);
     } catch (error) {
       console.error('Error fetching stats:', error);
     }
-  };
+  }, []);
 
-  const fetchUserBalance = async () => {
+  const fetchUserBalance = useCallback(async () => {
     try {
-      // Get user balance from user API
-      const response = await userAPI.getProfile();
-      setUserBalance(response.data.hscBalance || 0);
+      const response = await userAPI.getHSCBalance();
+      setUserBalance(response.data.balance || 0);
     } catch (error) {
       console.error('Error fetching user balance:', error);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchMarketplaceData();
+    fetchStats();
+    if (user) {
+      fetchUserBalance();
+    }
+  }, [fetchMarketplaceData, fetchStats, fetchUserBalance, user]);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -130,35 +123,23 @@ const PreUsedPromoCodesMarketplace = () => {
     switch (type) {
       case 'silver':
         return {
-          bg: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
-          border: 'border-gray-300 dark:border-gray-600',
-          text: 'text-gray-700 dark:text-gray-300',
-          badge: 'bg-gray-500 text-white',
-          icon: 'text-gray-600 dark:text-gray-400'
+          bg: 'from-slate-500 to-gray-600',
+          badge: 'bg-slate-600 text-white'
         };
       case 'gold':
         return {
-          bg: 'from-yellow-100 to-amber-200 dark:from-yellow-900/30 dark:to-amber-900/30',
-          border: 'border-yellow-300 dark:border-yellow-600',
-          text: 'text-yellow-800 dark:text-yellow-300',
-          badge: 'bg-yellow-500 text-white',
-          icon: 'text-yellow-600 dark:text-yellow-400'
+          bg: 'from-amber-500 to-yellow-600',
+          badge: 'bg-amber-600 text-white'
         };
       case 'diamond':
         return {
-          bg: 'from-blue-100 to-purple-200 dark:from-blue-900/30 dark:to-purple-900/30',
-          border: 'border-blue-300 dark:border-blue-600',
-          text: 'text-blue-800 dark:text-blue-300',
-          badge: 'bg-gradient-to-r from-blue-500 to-purple-500 text-white',
-          icon: 'text-blue-600 dark:text-blue-400'
+          bg: 'from-indigo-500 to-purple-600',
+          badge: 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white'
         };
       default:
         return {
-          bg: 'from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800',
-          border: 'border-gray-300 dark:border-gray-600',
-          text: 'text-gray-700 dark:text-gray-300',
-          badge: 'bg-gray-500 text-white',
-          icon: 'text-gray-600 dark:text-gray-400'
+          bg: 'from-slate-500 to-gray-600',
+          badge: 'bg-slate-600 text-white'
         };
     }
   };
@@ -171,21 +152,24 @@ const PreUsedPromoCodesMarketplace = () => {
     });
   };
 
+  const formatPromoCode = (promoCode) => {
+    if (!promoCode || promoCode.length < 4) return promoCode;
+    return `${promoCode.substring(0, 4)}***`;
+  };
+
   const handleBuyNow = async (promoCode) => {
     if (!user) {
       navigate('/login');
       return;
     }
 
-    // Check if user has sufficient balance
     if (userBalance < promoCode.sellingPriceHSC) {
       setError(`Insufficient HSC balance. You need ${promoCode.sellingPriceHSC} HSC but only have ${userBalance} HSC.`);
       return;
     }
 
-    // Confirm purchase
     const confirmPurchase = window.confirm(
-      `Are you sure you want to buy promo code "${promoCode.promoCode}" for ${promoCode.sellingPriceHSC} HSC (≈ ${promoCode.sellingPriceLKR.toLocaleString()} LKR)?`
+      `Are you sure you want to buy promo code "${promoCode.promoCode}" for ${promoCode.sellingPriceHSC} HSC?`
     );
 
     if (!confirmPurchase) return;
@@ -193,23 +177,19 @@ const PreUsedPromoCodesMarketplace = () => {
     try {
       setError('');
       setSuccess('');
-
+      
       const response = await promoCodeAPI.buyPreUsed(promoCode._id);
-
-      setSuccess(`Successfully purchased promo code: ${response.data.promoCode}! Redirecting to your profile...`);
-
-      // Update user balance
+      
+      setSuccess(`Successfully purchased promo code: ${response.data.promoCode}!`);
       setUserBalance(response.data.newBalance);
-
-      // Refresh the marketplace data
+      
       fetchMarketplaceData();
       fetchStats();
-
-      // Redirect to profile after 3 seconds
+      
       setTimeout(() => {
         navigate('/profile');
       }, 3000);
-
+      
     } catch (error) {
       console.error('Error buying promo code:', error);
       setError(error.response?.data?.message || 'Failed to purchase promo code');
@@ -270,10 +250,9 @@ const PreUsedPromoCodesMarketplace = () => {
           Pre-Used Promo Codes Selling Platform
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-4">
-          Discover verified pre-used promo codes from our community. Get exclusive deals and maximize your promotional advantages.
+          Discover verified pre-used promo codes from our community.
         </p>
-
-        {/* User Balance Display */}
+        
         {user && (
           <div className="inline-flex items-center bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg px-4 py-2">
             <Sparkles className="w-5 h-5 text-blue-600 dark:text-blue-400 mr-2" />
@@ -350,14 +329,31 @@ const PreUsedPromoCodesMarketplace = () => {
       <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
         <div className="flex items-center mb-4">
           <Filter className="w-5 h-5 text-gray-600 dark:text-gray-400 mr-2" />
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filters & Sorting</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filters & Search</h3>
         </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+          {/* Search */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Search
+            </label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search by username or promo code..."
+                value={filters.search}
+                onChange={(e) => handleFilterChange('search', e.target.value)}
+                className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* Promo Code Type Filter */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Promo Code Type
+              Type
             </label>
             <select
               value={filters.promoCodeType}
@@ -444,138 +440,165 @@ const PreUsedPromoCodesMarketplace = () => {
             return (
               <div
                 key={promoCode._id}
-                className={`bg-gradient-to-br ${colors.bg} rounded-xl p-6 border-2 ${colors.border} shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden`}
+                className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-200 dark:border-gray-700 overflow-hidden"
               >
-                {/* Background Pattern */}
-                <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
-                  {getPromoTypeIcon(promoCode.promoCodeType)}
-                </div>
-
-                {/* Header */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center space-x-2">
-                    <div className={`p-2 rounded-lg ${colors.icon}`}>
-                      {getPromoTypeIcon(promoCode.promoCodeType)}
-                    </div>
-                    <div>
-                      <h3 className={`font-bold text-lg ${colors.text}`}>
-                        {promoCode.promoCode}
-                      </h3>
-                      <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${colors.badge} capitalize`}>
-                        {promoCode.promoCodeType}
-                      </span>
-                    </div>
+                {/* Premium Header with Gradient */}
+                <div className={`bg-gradient-to-r ${colors.bg} p-6 relative`}>
+                  {/* Decorative Elements */}
+                  <div className="absolute top-0 right-0 w-20 h-20 opacity-20">
+                    <div className="w-full h-full rounded-full bg-white/30 transform rotate-45"></div>
+                  </div>
+                  <div className="absolute bottom-0 left-0 w-16 h-16 opacity-20 text-white">
+                    {getPromoTypeIcon(promoCode.promoCodeType)}
                   </div>
 
-                  {/* Status Badges */}
-                  <div className="flex flex-col items-end space-y-1">
-                    {isExpired && (
-                      <span className="inline-block px-2 py-1 bg-red-500 text-white text-xs font-medium rounded-full">
-                        Expired
-                      </span>
-                    )}
-                    {promoCode.isVerified && (
-                      <span className="inline-block px-2 py-1 bg-green-500 text-white text-xs font-medium rounded-full">
-                        Verified
-                      </span>
-                    )}
-                    {promoCode.isActive && !isExpired && (
-                      <span className="inline-block px-2 py-1 bg-blue-500 text-white text-xs font-medium rounded-full">
-                        Active
-                      </span>
-                    )}
-                  </div>
-                </div>
+                  {/* Header Content */}
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center space-x-3">
+                        <div className="p-3 rounded-xl bg-white/20 backdrop-blur-sm text-white">
+                          {getPromoTypeIcon(promoCode.promoCodeType)}
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-xl text-white mb-1">
+                            {formatPromoCode(promoCode.promoCode)}
+                          </h3>
+                          <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${colors.badge} capitalize shadow-lg`}>
+                            {promoCode.promoCodeType}
+                          </span>
+                        </div>
+                      </div>
 
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-3 mb-4">
-                  <div className="text-center">
-                    <div className="flex items-center justify-center mb-1">
-                      <TrendingUp className="w-4 h-4 text-green-600 mr-1" />
+                      {/* Status Badges */}
+                      <div className="flex flex-col items-end space-y-1">
+                        {isExpired && (
+                          <span className="inline-block px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full shadow-lg animate-pulse">
+                            Expired
+                          </span>
+                        )}
+                        {promoCode.isVerified && (
+                          <span className="inline-block px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full shadow-lg">
+                            ✓ Verified
+                          </span>
+                        )}
+                        {promoCode.isActive && !isExpired && (
+                          <span className="inline-block px-3 py-1 bg-blue-500 text-white text-xs font-bold rounded-full shadow-lg">
+                            ● Active
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">Earnings</p>
-                    <p className={`font-semibold ${colors.text}`}>
-                      {promoCode.totalEarnings.toLocaleString()} LKR
-                    </p>
-                  </div>
 
-                  <div className="text-center">
-                    <div className="flex items-center justify-center mb-1">
-                      <Users className="w-4 h-4 text-blue-600 mr-1" />
+                    {/* Price Display */}
+                    <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4 text-center">
+                      <p className="text-white/80 text-sm font-medium mb-1">Price</p>
+                      <p className="text-white text-2xl font-bold">
+                        {promoCode.sellingPriceHSC} HSC
+                      </p>
+                      <p className="text-white/70 text-sm">
+                        ≈ {promoCode.sellingPriceLKR?.toLocaleString()} LKR
+                      </p>
                     </div>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">Referrals</p>
-                    <p className={`font-semibold ${colors.text}`}>
-                      {promoCode.totalReferrals}
-                    </p>
-                  </div>
-
-                  <div className="text-center">
-                    <div className="flex items-center justify-center mb-1">
-                      <Badge className="w-4 h-4 text-purple-600 mr-1" />
-                    </div>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">Used</p>
-                    <p className={`font-semibold ${colors.text}`}>
-                      {promoCode.usedCount}
-                    </p>
                   </div>
                 </div>
 
-                {/* User Info */}
-                <div className="mb-4">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    <strong>Owner:</strong> {promoCode.userName}
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-500">
-                    <strong>Joined:</strong> {formatDate(promoCode.createdAt)}
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-500">
-                    <strong>Last Updated:</strong> {formatDate(promoCode.updatedAt)}
-                  </p>
-                  {!isExpired && (
-                    <p className="text-xs text-gray-500 dark:text-gray-500">
-                      <strong>Expires:</strong> {formatDate(promoCode.expirationDate)}
-                    </p>
-                  )}
-                  <p className="text-xs text-gray-500 dark:text-gray-500">
-                    <strong>Listed:</strong> {formatDate(promoCode.sellingListedAt)}
-                  </p>
-                </div>
+                {/* Card Body */}
+                <div className="p-6">
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="text-center p-3 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl border border-green-200 dark:border-green-800">
+                      <div className="flex items-center justify-center mb-2">
+                        <TrendingUp className="w-5 h-5 text-green-600" />
+                      </div>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">Earnings</p>
+                      <p className="font-bold text-green-600 text-sm">
+                        {promoCode.totalEarnings?.toLocaleString()} LKR
+                      </p>
+                    </div>
 
-                {/* Description */}
-                {renderDescription(promoCode)}
+                    <div className="text-center p-3 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
+                      <div className="flex items-center justify-center mb-2">
+                        <Users className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">Referrals</p>
+                      <p className="font-bold text-blue-600 text-sm">
+                        {promoCode.totalReferrals}
+                      </p>
+                    </div>
 
-                {/* Price */}
-                <div className="mb-4 p-3 bg-white/50 dark:bg-gray-900/50 rounded-lg">
-                  <div className="text-center">
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Price</p>
-                    <p className={`text-2xl font-bold ${colors.text}`}>
-                      {promoCode.sellingPriceHSC} HSC
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      ≈ {promoCode.sellingPriceLKR.toLocaleString()} LKR
-                    </p>
+                    <div className="text-center p-3 bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
+                      <div className="flex items-center justify-center mb-2">
+                        <Badge className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 font-medium">Used</p>
+                      <p className="font-bold text-purple-600 text-sm">
+                        {promoCode.usedCount}
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                {/* Buy Button */}
-                <button
-                  onClick={() => handleBuyNow(promoCode)}
-                  disabled={!user || isExpired || (user && userBalance < promoCode.sellingPriceHSC)}
-                  className={`w-full py-3 px-4 rounded-lg font-medium transition-colors ${
-                    !user || isExpired || (user && userBalance < promoCode.sellingPriceHSC)
-                      ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
-                      : 'bg-gradient-to-r from-green-600 to-blue-600 text-white hover:from-green-700 hover:to-blue-700 shadow-md hover:shadow-lg'
-                  }`}
-                >
-                  {!user
-                    ? 'Login to Buy'
-                    : isExpired
-                    ? 'Expired'
-                    : (user && userBalance < promoCode.sellingPriceHSC)
-                    ? 'Insufficient Balance'
-                    : 'Buy Now'
-                  }
-                </button>
+                  {/* Owner Info */}
+                  <div className="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                    <div className="flex items-center space-x-3 mb-3">
+                      <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                        <span className="text-white font-bold text-sm">
+                          {promoCode.userName?.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900 dark:text-white">
+                          {promoCode.userName}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          Joined {formatDate(promoCode.createdAt)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3 text-xs text-gray-600 dark:text-gray-400">
+                      <div>
+                        <span className="font-medium">Last Updated:</span>
+                        <br />
+                        {formatDate(promoCode.updatedAt)}
+                      </div>
+                      <div>
+                        <span className="font-medium">Listed:</span>
+                        <br />
+                        {formatDate(promoCode.sellingListedAt)}
+                      </div>
+                      {!isExpired && (
+                        <div className="col-span-2">
+                          <span className="font-medium">Expires:</span>
+                          <br />
+                          {formatDate(promoCode.expirationDate)}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  {renderDescription(promoCode)}
+
+                  {/* Buy Button - Made smaller and more professional */}
+                  <button
+                    onClick={() => handleBuyNow(promoCode)}
+                    disabled={!user || isExpired || (user && userBalance < promoCode.sellingPriceHSC)}
+                    className={`w-full py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-300 transform hover:scale-105 ${
+                      !user || isExpired || (user && userBalance < promoCode.sellingPriceHSC)
+                        ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
+                        : 'bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 text-white hover:from-green-600 hover:via-blue-600 hover:to-purple-600 shadow-lg hover:shadow-xl'
+                    }`}
+                  >
+                    {!user
+                      ? '🔐 Login to Buy'
+                      : isExpired
+                      ? '⏰ Expired'
+                      : (user && userBalance < promoCode.sellingPriceHSC)
+                      ? '💰 Insufficient Balance'
+                      : '🛒 Buy Now'
+                    }
+                  </button>
+                </div>
               </div>
             );
           })}
@@ -620,4 +643,4 @@ const PreUsedPromoCodesMarketplace = () => {
   );
 };
 
-export default PreUsedPromoCodesMarketplace;
+export default PreUsedMarketplace;

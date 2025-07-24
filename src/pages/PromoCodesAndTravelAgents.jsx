@@ -29,6 +29,7 @@ const PromoCodesAndTravelAgents = () => {
   const [showPromoCodeModal, setShowPromoCodeModal] = useState(false);
   const [userPromoCodeData, setUserPromoCodeData] = useState(null);
   const [marketplaceStats, setMarketplaceStats] = useState({ totalCount: 0, activeCount: 0 });
+  const [showMarketplaceInfo, setShowMarketplaceInfo] = useState(false);
 
   useEffect(() => {
     fetchPromoConfig();
@@ -103,7 +104,7 @@ const PromoCodesAndTravelAgents = () => {
 
   const handleCheckAvailability = () => {
     fetchMarketplaceStats();
-    navigate('/pre-used-promo-codes-marketplace');
+    setShowMarketplaceInfo(true);
   };
 
   const promoTypes = [
@@ -452,6 +453,64 @@ const PromoCodesAndTravelAgents = () => {
             </div>
           </button>
         </div>
+
+        {/* Marketplace Info Display */}
+        {showMarketplaceInfo && (
+          <div className="mt-6 bg-white dark:bg-gray-800 rounded-xl p-6 border-2 border-amber-300 dark:border-amber-600 shadow-lg">
+            <div className="text-center mb-4">
+              <h3 className="text-xl font-bold text-amber-800 dark:text-amber-300 mb-2">
+                📊 Pre-Used Promo Codes Marketplace Statistics
+              </h3>
+              <p className="text-amber-700 dark:text-amber-400">
+                Current marketplace overview and availability
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-lg p-4 text-center border border-blue-200 dark:border-blue-800">
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-1">
+                  {marketplaceStats.totalCount}
+                </div>
+                <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">
+                  Total Available
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-4 text-center border border-green-200 dark:border-green-800">
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-1">
+                  {marketplaceStats.activeCount}
+                </div>
+                <p className="text-sm text-green-700 dark:text-green-300 font-medium">
+                  Active Codes
+                </p>
+              </div>
+
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg p-4 text-center border border-purple-200 dark:border-purple-800">
+                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-1">
+                  {((marketplaceStats.typeStats?.gold || 0) + (marketplaceStats.typeStats?.diamond || 0))}
+                </div>
+                <p className="text-sm text-purple-700 dark:text-purple-300 font-medium">
+                  Premium Codes
+                </p>
+              </div>
+            </div>
+
+            <div className="text-center">
+              <button
+                onClick={handleExplorePreUsedCodes}
+                className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-6 py-2 rounded-lg font-medium hover:from-amber-700 hover:to-orange-700 transition-colors shadow-md hover:shadow-lg mr-3"
+              >
+                🛒 Explore Marketplace
+              </button>
+              <button
+                onClick={() => setShowMarketplaceInfo(false)}
+                className="bg-gray-500 text-white px-6 py-2 rounded-lg font-medium hover:bg-gray-600 transition-colors"
+              >
+                ✕ Close
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Additional Info */}
         <div className="mt-6 text-center">
