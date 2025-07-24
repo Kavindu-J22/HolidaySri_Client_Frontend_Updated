@@ -2,10 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { promoCodeAPI, userAPI } from '../config/api';
-import { 
-  Star, 
-  Crown, 
-  Diamond, 
+import PaymentProcessPopup from '../components/common/PaymentProcessPopup';
+import {
+  Star,
+  Crown,
+  Diamond,
   ShoppingCart,
   Filter,
   Users,
@@ -28,7 +29,17 @@ const PreUsedMarketplace = () => {
   const [success, setSuccess] = useState('');
   const [stats, setStats] = useState({});
   const [userBalance, setUserBalance] = useState(0);
-  
+
+  // Payment popup states
+  const [paymentPopup, setPaymentPopup] = useState({
+    isOpen: false,
+    status: 'loading', // 'loading', 'success', 'error', 'warning'
+    title: '',
+    message: '',
+    promoCode: null,
+    showConfirmation: false
+  });
+
   // Filter and pagination states
   const [filters, setFilters] = useState({
     promoCodeType: 'all',
@@ -178,38 +189,87 @@ const PreUsedMarketplace = () => {
       return;
     }
 
+    // Check for insufficient balance
     if (userBalance < promoCode.sellingPriceHSC) {
-      setError(`Insufficient HSC balance. You need ${promoCode.sellingPriceHSC} HSC but only have ${userBalance} HSC.`);
+      setPaymentPopup({
+        isOpen: true,
+        status: 'warning',
+        title: 'Insufficient HSC Balance',
+        message: `You need ${promoCode.sellingPriceHSC} HSC but only have ${userBalance} HSC. Please top up your HSC balance to continue.`,
+        promoCode: null,
+        showConfirmation: false
+      });
       return;
     }
 
-    const confirmPurchase = window.confirm(
-      `Are you sure you want to buy promo code "${promoCode.promoCode}" for ${promoCode.sellingPriceHSC} HSC?`
-    );
+    // Show confirmation popup
+    setPaymentPopup({
+      isOpen: true,
+      status: 'confirm',
+      title: 'Confirm Purchase',
+      message: '',
+      promoCode: promoCode,
+      showConfirmation: true
+    });
+  };
 
-    if (!confirmPurchase) return;
+  const handleConfirmPurchase = async () => {
+    const promoCode = paymentPopup.promoCode;
+
+    // Show loading state
+    setPaymentPopup(prev => ({
+      ...prev,
+      status: 'loading',
+      title: 'Processing Payment',
+      message: 'Please wait while we process your purchase. This may take a few moments...',
+      showConfirmation: false
+    }));
 
     try {
       setError('');
       setSuccess('');
-      
+
       const response = await promoCodeAPI.buyPreUsed(promoCode._id);
 
-      setSuccess(`${response.data.message} Redirecting to your agent dashboard...`);
-      setUserBalance(response.data.newBalance);
+      // Show success state
+      setPaymentPopup(prev => ({
+        ...prev,
+        status: 'success',
+        title: '🎉 Purchase Successful!',
+        message: `Congratulations! You are now an agent with Holidaysri Tourism. You've successfully purchased promo code "${response.data.promoCode}" and can start earning commissions right away!`,
+        showConfirmation: false
+      }));
 
+      setUserBalance(response.data.newBalance);
       fetchMarketplaceData();
       fetchStats();
 
-      // Redirect to agent dashboard (profile page)
+      // Auto redirect to agent dashboard after 4 seconds
       setTimeout(() => {
-        navigate(response.data.redirectTo || '/profile');
-      }, 3000);
-      
+        setPaymentPopup(prev => ({ ...prev, isOpen: false }));
+        navigate('/profile', { state: { activeSection: 'agent', isNewAgent: true } });
+      }, 4000);
+
     } catch (error) {
       console.error('Error buying promo code:', error);
-      setError(error.response?.data?.message || 'Failed to purchase promo code');
+
+      // Show error state
+      setPaymentPopup(prev => ({
+        ...prev,
+        status: 'error',
+        title: 'Purchase Failed',
+        message: error.response?.data?.message || 'Failed to purchase promo code. Please try again or contact support if the problem persists.',
+        showConfirmation: false
+      }));
     }
+  };
+
+  const handleCancelPurchase = () => {
+    setPaymentPopup(prev => ({ ...prev, isOpen: false }));
+  };
+
+  const handleClosePopup = () => {
+    setPaymentPopup(prev => ({ ...prev, isOpen: false }));
   };
 
   const renderDescription = (promoCode) => {
@@ -653,6 +713,22 @@ const PreUsedMarketplace = () => {
           </button>
         </div>
       )}
+
+      {/* Payment Process Popup */}
+      <PaymentProcessPopup
+        isOpen={paymentPopup.isOpen}
+        onClose={handleClosePopup}
+        status={paymentPopup.status}
+        title={paymentPopup.title}
+        message={paymentPopup.message}
+        promoCode={paymentPopup.promoCode}
+        amount={paymentPopup.promoCode?.sellingPriceHSC}
+        amountLKR={paymentPopup.promoCode?.sellingPriceLKR}
+        onConfirm={handleConfirmPurchase}
+        onCancel={handleCancelPurchase}
+        showConfirmation={paymentPopup.showConfirmation}
+        autoCloseDelay={paymentPopup.status === 'success' ? 4 : null}
+      />
     </div>
   );
 };
