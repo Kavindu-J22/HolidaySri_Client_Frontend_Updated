@@ -73,6 +73,9 @@ const AgentDashboard = () => {
   const [upgrading, setUpgrading] = useState(false);
   const [showCongratulations, setShowCongratulations] = useState(false);
   const [upgradeResult, setUpgradeResult] = useState(null);
+  const [showPromoteConfirm, setShowPromoteConfirm] = useState(false);
+  const [promotionProcessing, setPromotionProcessing] = useState(false);
+  const [showPromoteSuccess, setShowPromoteSuccess] = useState(false);
 
   useEffect(() => {
     fetchAgentData();
@@ -161,6 +164,46 @@ const AgentDashboard = () => {
     setSellPrice(agentData.sellingPrice?.toString() || '');
     setSellDescription(agentData.sellingDescription || '');
     setShowEditModal(true);
+  };
+
+  const handlePromotePayment = async () => {
+    try {
+      setPromotionProcessing(true);
+
+      const response = await userAPI.promotePromocode();
+
+      if (response.data.success) {
+        setShowPromoteConfirm(false);
+        setShowPromoteSuccess(true);
+
+        // Refresh agent data
+        await fetchAgentData();
+      }
+    } catch (error) {
+      console.error('Promote payment error:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to process promotion payment. Please try again.';
+      alert(errorMessage);
+    } finally {
+      setPromotionProcessing(false);
+    }
+  };
+
+  const handleTogglePromotion = async () => {
+    try {
+      setPromotionProcessing(true);
+
+      const response = await userAPI.togglePromotion();
+
+      if (response.data.success) {
+        // Refresh agent data
+        await fetchAgentData();
+      }
+    } catch (error) {
+      console.error('Toggle promotion error:', error);
+      alert(error.response?.data?.message || 'Failed to update promotion status');
+    } finally {
+      setPromotionProcessing(false);
+    }
   };
 
   const fetchAgentData = async () => {
@@ -1143,6 +1186,141 @@ const AgentDashboard = () => {
         </div>
       </div>
 
+      {/* Promotion Section */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+        <div className="flex items-center space-x-3 mb-4">
+          <div className="p-3 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg">
+            <Target className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Advertise (Promote) Your Promocode
+            </h3>
+            <p className="text-sm font-medium text-purple-600 dark:text-purple-400">
+              {agentData.promoteStatus === 'on' ? 'Currently Promoted' : 'Not Promoted'}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex-grow mb-4">
+          {agentData.promoCodeType === 'free' ? (
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              Free promocodes cannot be promoted. Upgrade to a paid tier to enable promotion.
+            </p>
+          ) : (
+            <div className="space-y-3">
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                Promote your promocode to increase visibility and attract more customers.
+                {agentData.promoteStatus === 'on'
+                  ? ' Your promocode is currently being promoted and visible to potential customers.'
+                  : ' Promote now to get more referrals and earnings.'
+                }
+              </p>
+
+              {/* Promotion Cost Display */}
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/10 dark:to-pink-900/10 border border-purple-200 dark:border-purple-800 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-purple-800 dark:text-purple-300 text-sm font-medium">
+                    Promotion Cost ({agentData.promoCodeType}):
+                  </span>
+                  <div className="text-right">
+                    <span className="text-purple-600 dark:text-purple-400 font-bold">
+                      {agentData.promoCodeType === 'silver' ? '5 HSC' :
+                       agentData.promoCodeType === 'gold' ? '3 HSC' :
+                       agentData.promoCodeType === 'diamond' ? 'FREE' : '0 HSC'}
+                    </span>
+                    {agentData.promoCodeType !== 'diamond' && (
+                      <div className="text-xs text-purple-500 dark:text-purple-400">
+                        ≈ {(
+                          (agentData.promoCodeType === 'silver' ? 5 :
+                           agentData.promoCodeType === 'gold' ? 3 : 0) * hscValue
+                        ).toLocaleString()} LKR
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Warning for inactive promocode */}
+              {!agentData.isActive && agentData.promoteStatus === 'on' && (
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3">
+                  <div className="flex items-center space-x-2">
+                    <AlertCircle className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
+                    <span className="text-yellow-800 dark:text-yellow-300 text-sm font-medium">
+                      Warning: Your Promo code not Appear in Promote page because your Promocode in inactive status
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {agentData.promoCodeType === 'free' ? (
+          <div className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+            <div className="flex items-center justify-center space-x-2 text-gray-500 dark:text-gray-400">
+              <Target className="w-5 h-5" />
+              <span className="font-medium">Free Promocodes Can't Be Promoted</span>
+            </div>
+            <p className="text-xs text-gray-400 dark:text-gray-500 text-center mt-2">
+              Upgrade to Silver, Gold, or Diamond tier to enable promotion
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {agentData.promotePayment === 'paid' ? (
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  onClick={handleTogglePromotion}
+                  disabled={promotionProcessing}
+                  className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 ${
+                    agentData.promoteStatus === 'on'
+                      ? 'bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white'
+                      : 'bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white'
+                  } ${promotionProcessing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                >
+                  {promotionProcessing ? (
+                    <Loader className="w-4 h-4 animate-spin" />
+                  ) : agentData.promoteStatus === 'on' ? (
+                    <PowerOff className="w-4 h-4" />
+                  ) : (
+                    <Power className="w-4 h-4" />
+                  )}
+                  <span>{agentData.promoteStatus === 'on' ? 'Turn Off' : 'Turn On'}</span>
+                </button>
+                <button
+                  onClick={() => navigate('/agent-promotions')}
+                  className="flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                >
+                  <Eye className="w-4 h-4" />
+                  <span>View</span>
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowPromoteConfirm(true)}
+                disabled={isPromoCodeExpired() || !agentData.isActive}
+                className={`w-full flex items-center justify-center space-x-2 px-4 py-3 rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 ${
+                  isPromoCodeExpired() || !agentData.isActive
+                    ? 'bg-gray-400 cursor-not-allowed text-white'
+                    : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white'
+                }`}
+              >
+                <Target className="w-4 h-4" />
+                <span>
+                  {isPromoCodeExpired()
+                    ? 'Renew Promocode First'
+                    : !agentData.isActive
+                      ? 'Activate Promocode First'
+                      : 'Promote Now'
+                  }
+                </span>
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+
       {/* Earnings Records Section */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 space-y-4 sm:space-y-0">
@@ -1866,6 +2044,156 @@ const AgentDashboard = () => {
                   className="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
                 >
                   Stop Selling
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Promote Confirmation Modal */}
+      {showPromoteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-t-2xl p-6 text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Target className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Promote Your Promocode</h3>
+              <p className="text-white text-opacity-90 text-sm">Increase visibility and attract more customers</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 mb-6">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-purple-800 dark:text-purple-300 font-medium">Promocode:</span>
+                  <span className="text-purple-600 dark:text-purple-400 font-bold">{agentData?.promoCode}</span>
+                </div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-purple-800 dark:text-purple-300 font-medium">Type:</span>
+                  <span className="text-purple-600 dark:text-purple-400 font-bold capitalize">{agentData?.promoCodeType}</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-purple-800 dark:text-purple-300 font-medium">Promotion Cost:</span>
+                  <div className="text-right">
+                    <span className="text-purple-600 dark:text-purple-400 font-bold">
+                      {agentData?.promoCodeType === 'silver' ? '5 HSC' :
+                       agentData?.promoCodeType === 'gold' ? '3 HSC' :
+                       agentData?.promoCodeType === 'diamond' ? 'FREE' : '0 HSC'}
+                    </span>
+                    {agentData?.promoCodeType !== 'diamond' && (
+                      <div className="text-xs text-purple-500 dark:text-purple-400">
+                        ≈ {(
+                          (agentData?.promoCodeType === 'silver' ? 5 :
+                           agentData?.promoCodeType === 'gold' ? 3 : 0) * hscValue
+                        ).toLocaleString()} LKR
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-6">
+                <div className="flex items-center mb-2">
+                  <AlertCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 mr-2" />
+                  <span className="text-sm font-medium text-blue-800 dark:text-blue-300">What happens after promotion?</span>
+                </div>
+                <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
+                  <li>• Your promocode will appear in the promotion page</li>
+                  <li>• Increased visibility to potential customers</li>
+                  <li>• You can turn promotion on/off anytime after payment</li>
+                  <li>• Payment is one-time for lifetime promotion access</li>
+                </ul>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <button
+                  onClick={() => setShowPromoteConfirm(false)}
+                  className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handlePromotePayment}
+                  disabled={promotionProcessing}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                  {promotionProcessing ? (
+                    <div className="flex items-center justify-center space-x-2">
+                      <Loader className="w-4 h-4 animate-spin" />
+                      <span>Processing...</span>
+                    </div>
+                  ) : (
+                    `Pay ${agentData?.promoCodeType === 'silver' ? '5' :
+                          agentData?.promoCodeType === 'gold' ? '3' :
+                          agentData?.promoCodeType === 'diamond' ? '0' : '0'} HSC & Promote Now`
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Promote Success Modal */}
+      {showPromoteSuccess && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-t-2xl p-6 text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Promotion Successful!</h3>
+              <p className="text-white text-opacity-90 text-sm">Your promocode is now being promoted</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="text-center mb-6">
+                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 mb-4">
+                  <div className="flex items-center justify-center mb-2">
+                    <Target className="w-5 h-5 text-green-600 dark:text-green-400 mr-2" />
+                    <span className="font-medium text-green-800 dark:text-green-300">Promocode Promoted Successfully</span>
+                  </div>
+                  <p className="text-sm text-green-700 dark:text-green-400">
+                    Your promocode <strong>{agentData?.promoCode}</strong> is now visible in the promotion page and will attract more customers.
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                  <div className="flex items-center justify-center mb-2">
+                    <Eye className="w-5 h-5 text-blue-600 dark:text-blue-400 mr-2" />
+                    <span className="font-medium text-blue-800 dark:text-blue-300">What's Next?</span>
+                  </div>
+                  <ul className="text-sm text-blue-700 dark:text-blue-300 space-y-1">
+                    <li>• Your promocode is now live in the promotion page</li>
+                    <li>• You can turn promotion on/off anytime</li>
+                    <li>• Monitor your increased referrals and earnings</li>
+                    <li>• View promotion page to see your promocode</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <button
+                  onClick={() => setShowPromoteSuccess(false)}
+                  className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Continue
+                </button>
+                <button
+                  onClick={() => {
+                    setShowPromoteSuccess(false);
+                    navigate('/agent-promotions');
+                  }}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                >
+                  View Promotion Page
                 </button>
               </div>
             </div>
