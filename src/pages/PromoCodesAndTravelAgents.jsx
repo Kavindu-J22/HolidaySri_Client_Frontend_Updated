@@ -284,7 +284,7 @@ const PromoCodesAndTravelAgents = () => {
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center text-gray-600 dark:text-gray-400">
                       <ShoppingCart className="w-3 h-3 mr-1" />
-                      Purchase-Promo
+                      Referral-Promo
                     </span>
                     <span className="font-medium text-green-600 dark:text-green-400">
                       {promoData?.earningForPurchase || 0} LKR
