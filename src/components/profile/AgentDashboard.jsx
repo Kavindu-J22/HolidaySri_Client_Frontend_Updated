@@ -7,6 +7,7 @@ import {
   TrendingUp,
   Users,
   Eye,
+  Edit,
   Calendar,
   DollarSign,
   Award,
@@ -60,11 +61,15 @@ const AgentDashboard = () => {
   const [showUpgradeConfirm, setShowUpgradeConfirm] = useState(false);
   const [showSellModal, setShowSellModal] = useState(false);
   const [sellPrice, setSellPrice] = useState('');
+  const [sellDescription, setSellDescription] = useState('');
+  const [sellStep, setSellStep] = useState(1); // 1: Price, 2: Description
   const [hscValue, setHscValue] = useState(100); // Default HSC value
   const [sellAdFee, setSellAdFee] = useState(0); // HSC fee for selling advertisement
   const [showSellConfirm, setShowSellConfirm] = useState(false);
   const [sellProcessing, setSellProcessing] = useState(false);
   const [showSellSuccess, setShowSellSuccess] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [showStopConfirm, setShowStopConfirm] = useState(false);
   const [upgrading, setUpgrading] = useState(false);
   const [showCongratulations, setShowCongratulations] = useState(false);
   const [upgradeResult, setUpgradeResult] = useState(null);
@@ -97,12 +102,14 @@ const AgentDashboard = () => {
     try {
       setSellProcessing(true);
 
-      const response = await userAPI.sellPromocode(sellPrice);
+      const response = await userAPI.sellPromocode(sellPrice, sellDescription);
 
       if (response.data.success) {
         setShowSellConfirm(false);
         setShowSellSuccess(true);
         setSellPrice('');
+        setSellDescription('');
+        setSellStep(1);
 
         // Refresh agent data
         await fetchAgentData();
@@ -121,6 +128,7 @@ const AgentDashboard = () => {
       const response = await userAPI.toggleSelling();
 
       if (response.data.success) {
+        setShowStopConfirm(false);
         // Refresh agent data
         await fetchAgentData();
       }
@@ -128,6 +136,31 @@ const AgentDashboard = () => {
       console.error('Toggle selling error:', error);
       alert(error.response?.data?.message || 'Failed to update selling status');
     }
+  };
+
+  const handleEditSelling = async () => {
+    try {
+      const response = await userAPI.editSelling(sellPrice, sellDescription);
+
+      if (response.data.success) {
+        setShowEditModal(false);
+        setSellPrice('');
+        setSellDescription('');
+
+        // Refresh agent data
+        await fetchAgentData();
+        alert('Selling details updated successfully!');
+      }
+    } catch (error) {
+      console.error('Edit selling error:', error);
+      alert(error.response?.data?.message || 'Failed to update selling details');
+    }
+  };
+
+  const openEditModal = () => {
+    setSellPrice(agentData.sellingPrice?.toString() || '');
+    setSellDescription(agentData.sellingDescription || '');
+    setShowEditModal(true);
   };
 
   const fetchAgentData = async () => {
@@ -1051,20 +1084,27 @@ const AgentDashboard = () => {
                   Listed: {agentData.sellingListedAt ? new Date(agentData.sellingListedAt).toLocaleDateString() : 'N/A'}
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 <button
                   onClick={() => navigate('/selling-platform')}
-                  className="flex items-center justify-center space-x-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-sm"
+                  className="flex items-center justify-center space-x-1 px-2 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-xs"
                 >
-                  <Eye className="w-4 h-4" />
-                  <span>View Platform</span>
+                  <Eye className="w-3 h-3" />
+                  <span>Platform</span>
                 </button>
                 <button
-                  onClick={handleToggleSelling}
-                  className="flex items-center justify-center space-x-1 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors text-sm"
+                  onClick={openEditModal}
+                  className="flex items-center justify-center space-x-1 px-2 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg font-medium transition-colors text-xs"
                 >
-                  <PowerOff className="w-4 h-4" />
-                  <span>Stop Selling</span>
+                  <Edit className="w-3 h-3" />
+                  <span>Edit</span>
+                </button>
+                <button
+                  onClick={() => setShowStopConfirm(true)}
+                  className="flex items-center justify-center space-x-1 px-2 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors text-xs"
+                >
+                  <PowerOff className="w-3 h-3" />
+                  <span>Stop</span>
                 </button>
               </div>
             </div>
@@ -1435,42 +1475,66 @@ const AgentDashboard = () => {
               <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ShoppingCart className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-2">Sell Your Promocode</h3>
-              <p className="text-white text-opacity-90 text-sm">Set your selling price in HSC</p>
+              <h3 className="text-xl font-bold text-white mb-2">
+                {sellStep === 1 ? 'Set Selling Price' : 'Add Description (Optional)'}
+              </h3>
+              <p className="text-white text-opacity-90 text-sm">
+                {sellStep === 1 ? 'Set your selling price in HSC' : 'Add a description to attract buyers'}
+              </p>
             </div>
 
             {/* Content */}
             <div className="p-6">
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Selling Price (HSC)
-                </label>
-                <div className="relative">
-                  <input
-                    type="number"
-                    value={sellPrice}
-                    onChange={(e) => setSellPrice(e.target.value)}
-                    placeholder="Enter price in HSC"
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  />
-                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">HSC</span>
+              {sellStep === 1 ? (
+                // Step 1: Price
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Selling Price (HSC)
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      value={sellPrice}
+                      onChange={(e) => setSellPrice(e.target.value)}
+                      placeholder="Enter price in HSC"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    />
+                    <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                      <span className="text-sm font-medium text-gray-500 dark:text-gray-400">HSC</span>
+                    </div>
                   </div>
+                  {sellPrice && (
+                    <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-blue-700 dark:text-blue-300">LKR Equivalent:</span>
+                        <span className="text-sm font-semibold text-blue-800 dark:text-blue-200">
+                          {(parseFloat(sellPrice || 0) * hscValue).toLocaleString()} LKR
+                        </span>
+                      </div>
+                      <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                        Based on current HSC rate: {hscValue} LKR per HSC
+                      </div>
+                    </div>
+                  )}
                 </div>
-                {sellPrice && (
-                  <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-blue-700 dark:text-blue-300">LKR Equivalent:</span>
-                      <span className="text-sm font-semibold text-blue-800 dark:text-blue-200">
-                        {(parseFloat(sellPrice || 0) * hscValue).toLocaleString()} LKR
-                      </span>
-                    </div>
-                    <div className="text-xs text-blue-600 dark:text-blue-400 mt-1">
-                      Based on current HSC rate: {hscValue} LKR per HSC
-                    </div>
-                  </div>
-                )}
-              </div>
+              ) : (
+                // Step 2: Description
+                <div className="mb-6">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Selling Description (Optional)
+                  </label>
+                  <textarea
+                    value={sellDescription}
+                    onChange={(e) => setSellDescription(e.target.value)}
+                    placeholder="Describe your promocode to attract buyers (optional)"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    rows={4}
+                  />
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    A good description can help your promocode sell faster
+                  </p>
+                </div>
+              )}
 
               <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-4 mb-6">
                 <div className="flex items-center mb-2">
@@ -1478,7 +1542,9 @@ const AgentDashboard = () => {
                   <span className="text-sm font-medium text-yellow-800 dark:text-yellow-300">Important Note</span>
                 </div>
                 <p className="text-sm text-yellow-700 dark:text-yellow-300">
-                  Once you proceed, you'll need to pay an advertisement fee to list your promocode for sale.
+                  {sellStep === 1
+                    ? "You'll need to pay an advertisement fee to list your promocode for sale."
+                    : "You can skip adding a description if you prefer. The price is the most important factor."}
                 </p>
               </div>
 
@@ -1486,24 +1552,34 @@ const AgentDashboard = () => {
               <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
                 <button
                   onClick={() => {
-                    setShowSellModal(false);
-                    setSellPrice('');
+                    if (sellStep === 1) {
+                      setShowSellModal(false);
+                      setSellPrice('');
+                      setSellDescription('');
+                      setSellStep(1);
+                    } else {
+                      setSellStep(1);
+                    }
                   }}
                   className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors duration-200"
                 >
-                  Cancel
+                  {sellStep === 1 ? 'Cancel' : 'Back'}
                 </button>
                 <button
                   onClick={() => {
-                    if (sellPrice && parseFloat(sellPrice) > 0) {
+                    if (sellStep === 1) {
+                      if (sellPrice && parseFloat(sellPrice) > 0) {
+                        setSellStep(2);
+                      }
+                    } else {
                       setShowSellModal(false);
                       setShowSellConfirm(true);
                     }
                   }}
-                  disabled={!sellPrice || parseFloat(sellPrice) <= 0}
+                  disabled={sellStep === 1 && (!sellPrice || parseFloat(sellPrice) <= 0)}
                   className="flex-1 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                  Continue
+                  {sellStep === 1 ? 'Next' : 'Continue'}
                 </button>
               </div>
             </div>
@@ -1633,6 +1709,142 @@ const AgentDashboard = () => {
               >
                 Awesome! Continue
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Selling Modal */}
+      {showEditModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-orange-500 to-amber-500 rounded-t-2xl p-6 text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Edit className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Edit Selling Details</h3>
+              <p className="text-white text-opacity-90 text-sm">Update your price and description</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Selling Price (HSC)
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={sellPrice}
+                    onChange={(e) => setSellPrice(e.target.value)}
+                    placeholder="Enter price in HSC"
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  />
+                  <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                    <span className="text-sm font-medium text-gray-500 dark:text-gray-400">HSC</span>
+                  </div>
+                </div>
+                {sellPrice && (
+                  <div className="mt-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-blue-700 dark:text-blue-300">LKR Equivalent:</span>
+                      <span className="text-sm font-semibold text-blue-800 dark:text-blue-200">
+                        {(parseFloat(sellPrice || 0) * hscValue).toLocaleString()} LKR
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Selling Description (Optional)
+                </label>
+                <textarea
+                  value={sellDescription}
+                  onChange={(e) => setSellDescription(e.target.value)}
+                  placeholder="Describe your promocode to attract buyers (optional)"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  rows={3}
+                />
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <button
+                  onClick={() => {
+                    setShowEditModal(false);
+                    setSellPrice('');
+                    setSellDescription('');
+                  }}
+                  className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleEditSelling}
+                  disabled={!sellPrice || parseFloat(sellPrice) <= 0}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                  Update Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Stop Selling Confirmation Modal */}
+      {showStopConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-red-500 to-pink-500 rounded-t-2xl p-6 text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <PowerOff className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Stop Selling</h3>
+              <p className="text-white text-opacity-90 text-sm">Remove your promocode from the selling platform</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4 mb-6">
+                <div className="flex items-center mb-2">
+                  <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 mr-2" />
+                  <span className="text-sm font-medium text-red-800 dark:text-red-300">Important Information</span>
+                </div>
+                <ul className="text-sm text-red-700 dark:text-red-300 space-y-1">
+                  <li>• Your promocode will be removed from the selling platform</li>
+                  <li>• If you want to sell again, you'll need to pay the advertisement fee again</li>
+                  <li>• This action cannot be undone</li>
+                </ul>
+              </div>
+
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 mb-6">
+                <h4 className="font-semibold text-blue-800 dark:text-blue-300 mb-2">Current Listing Details</h4>
+                <div className="text-sm text-blue-700 dark:text-blue-400 space-y-1">
+                  <div>Price: {agentData?.sellingPrice || 0} HSC</div>
+                  <div>Listed: {agentData?.sellingListedAt ? new Date(agentData.sellingListedAt).toLocaleDateString() : 'N/A'}</div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <button
+                  onClick={() => setShowStopConfirm(false)}
+                  className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Keep Selling
+                </button>
+                <button
+                  onClick={handleToggleSelling}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                >
+                  Stop Selling
+                </button>
+              </div>
             </div>
           </div>
         </div>

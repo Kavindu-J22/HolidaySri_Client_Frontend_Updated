@@ -69,8 +69,9 @@ export const userAPI = {
   getPromocodeEarnings: () => api.get('/users/promocode-earnings'),
   getBankDetailsStatus: () => api.get('/users/bank-details-status'),
   claimEarnings: (earningIds) => api.post('/users/claim-earnings', { earningIds }),
-  sellPromocode: (sellingPrice) => api.post('/users/sell-promocode', { sellingPrice }),
+  sellPromocode: (sellingPrice, sellingDescription) => api.post('/users/sell-promocode', { sellingPrice, sellingDescription }),
   toggleSelling: () => api.post('/users/toggle-selling'),
+  editSelling: (sellingPrice, sellingDescription) => api.post('/users/edit-selling', { sellingPrice, sellingDescription }),
 };
 
 // HSC API calls
