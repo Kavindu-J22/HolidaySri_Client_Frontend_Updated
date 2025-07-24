@@ -17,7 +17,8 @@ import {
   AlertCircle,
   Users,
   MapPin,
-  CheckCircle
+  CheckCircle,
+  AlertTriangle
 } from 'lucide-react';
 
 const PromoCodesAndTravelAgents = () => {
@@ -623,37 +624,94 @@ const PromoCodesAndTravelAgents = () => {
               </h2>
 
               <p className="text-amber-700 dark:text-amber-400 text-base sm:text-lg mb-4 sm:mb-6 px-2">
-                Great news! You already have a <strong className="capitalize">{userPromoCodeData.promoCodeType}</strong> promo code.
+                You already have a <strong className="capitalize">{userPromoCodeData.promoCodeType}</strong> promo code
+                {userPromoCodeData.isExpired ? ' (Expired)' : userPromoCodeData.isCurrentlyActive ? ' (Active)' : ' (Inactive)'}.
+                You cannot purchase another promo code.
               </p>
 
-              <div className="bg-amber-50 dark:bg-amber-900/20 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 border border-amber-200 dark:border-amber-700">
-                <p className="text-xl sm:text-2xl font-bold text-amber-600 dark:text-amber-400 font-mono tracking-wider mb-1 sm:mb-2 break-all">
+              <div className={`rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 border ${
+                userPromoCodeData.isExpired
+                  ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700'
+                  : userPromoCodeData.isCurrentlyActive
+                  ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700'
+                  : 'bg-gray-50 dark:bg-gray-900/20 border-gray-200 dark:border-gray-700'
+              }`}>
+                <p className={`text-xl sm:text-2xl font-bold font-mono tracking-wider mb-1 sm:mb-2 break-all ${
+                  userPromoCodeData.isExpired
+                    ? 'text-red-600 dark:text-red-400'
+                    : userPromoCodeData.isCurrentlyActive
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-gray-600 dark:text-gray-400'
+                }`}>
                   {userPromoCodeData.promoCode}
                 </p>
-                <p className="text-xs sm:text-sm text-amber-600 dark:text-amber-400">Your Active Promo Code</p>
+                <p className={`text-xs sm:text-sm ${
+                  userPromoCodeData.isExpired
+                    ? 'text-red-600 dark:text-red-400'
+                    : userPromoCodeData.isCurrentlyActive
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-gray-600 dark:text-gray-400'
+                }`}>
+                  Your {userPromoCodeData.isExpired ? 'Expired' : userPromoCodeData.isCurrentlyActive ? 'Active' : 'Inactive'} Promo Code
+                  {userPromoCodeData.expirationDate && (
+                    <span className="block mt-1">
+                      Expires: {new Date(userPromoCodeData.expirationDate).toLocaleDateString()}
+                    </span>
+                  )}
+                </p>
               </div>
 
               <div className="bg-white dark:bg-gray-700 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 border border-amber-200 dark:border-amber-600">
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-3 text-sm sm:text-base">
-                  What you can do with your existing promocode:
+                  {userPromoCodeData.isExpired
+                    ? 'Your promo code has expired, but you still cannot purchase another one:'
+                    : userPromoCodeData.isCurrentlyActive
+                    ? 'What you can do with your active promocode:'
+                    : 'Your promo code is inactive, but you still cannot purchase another one:'
+                  }
                 </h3>
                 <ul className="text-left space-y-2 text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
-                  <li className="flex items-start">
-                    <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Promote it to earn referral bonuses</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Use it for advertisement discounts</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Share with friends and family</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                    <span>Start earning from day one</span>
-                  </li>
+                  {userPromoCodeData.isCurrentlyActive ? (
+                    <>
+                      <li className="flex items-start">
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Promote it to earn referral bonuses</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Use it for advertisement discounts</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Share with friends and family</span>
+                      </li>
+                      <li className="flex items-start">
+                        <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Start earning from day one</span>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li className="flex items-start">
+                        <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Each user can only have one promo code at a time</span>
+                      </li>
+                      <li className="flex items-start">
+                        <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>You cannot purchase additional promo codes</span>
+                      </li>
+                      <li className="flex items-start">
+                        <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4 text-amber-500 mr-2 mt-0.5 flex-shrink-0" />
+                        <span>Contact support if you need assistance</span>
+                      </li>
+                      {userPromoCodeData.totalEarnings > 0 && (
+                        <li className="flex items-start">
+                          <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                          <span>Total earnings: {userPromoCodeData.totalEarnings.toLocaleString()} LKR</span>
+                        </li>
+                      )}
+                    </>
+                  )}
                 </ul>
               </div>
 
@@ -662,7 +720,10 @@ const PromoCodesAndTravelAgents = () => {
                   onClick={() => setShowPromoCodeModal(false)}
                   className="w-full bg-gradient-to-r from-amber-600 to-orange-600 text-white px-4 sm:px-6 py-3 rounded-lg font-medium hover:from-amber-700 hover:to-orange-700 transition-colors text-sm sm:text-base"
                 >
-                  Got It! Let's Use My Promo Code
+                  {userPromoCodeData.isCurrentlyActive
+                    ? "Got It! Let's Use My Promo Code"
+                    : "I Understand"
+                  }
                 </button>
 
                 <button

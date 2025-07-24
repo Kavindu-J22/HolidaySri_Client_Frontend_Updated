@@ -582,17 +582,15 @@ const PreUsedMarketplace = () => {
                   {/* Buy Button - Made smaller and more professional */}
                   <button
                     onClick={() => handleBuyNow(promoCode)}
-                    disabled={!user || isExpired || (user && userBalance < promoCode.sellingPriceHSC)}
+                    disabled={!user || (user && userBalance < promoCode.sellingPriceHSC)}
                     className={`w-full py-3 px-4 rounded-xl font-semibold text-sm transition-all duration-300 transform hover:scale-105 ${
-                      !user || isExpired || (user && userBalance < promoCode.sellingPriceHSC)
+                      !user || (user && userBalance < promoCode.sellingPriceHSC)
                         ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
                         : 'bg-gradient-to-r from-green-500 via-blue-500 to-purple-500 text-white hover:from-green-600 hover:via-blue-600 hover:to-purple-600 shadow-lg hover:shadow-xl'
                     }`}
                   >
                     {!user
                       ? '🔐 Login to Buy'
-                      : isExpired
-                      ? '⏰ Expired'
                       : (user && userBalance < promoCode.sellingPriceHSC)
                       ? '💰 Insufficient Balance'
                       : '🛒 Buy Now'
