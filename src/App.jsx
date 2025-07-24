@@ -23,6 +23,8 @@ import GeneratePromoCode from './pages/GeneratePromoCode';
 import PromoCodePayment from './pages/PromoCodePayment';
 import RenewPromoCode from './pages/RenewPromoCode';
 import PreUsedMarketplace from './pages/PreUsedMarketplace';
+import ExplorePromoCodes from './pages/ExplorePromoCodes';
+import FavoritePromoCodes from './pages/FavoritePromoCodes';
 import Notifications from './pages/Notifications';
 import PayHerePayment from './pages/PayHerePayment';
 import ScrollToTop from './components/ScrollToTop';
@@ -101,6 +103,16 @@ function App() {
                 <Route path="hsc-treasure" element={<HSCTreasure />} />
                 <Route path="promo-codes-travel-agents" element={<PromoCodesAndTravelAgents />} />
                 <Route path="pre-used-promo-codes-marketplace" element={<PreUsedMarketplace />} />
+                <Route path="explore-promo-codes" element={
+                  <ProtectedRoute>
+                    <ExplorePromoCodes />
+                  </ProtectedRoute>
+                } />
+                <Route path="favorite-promo-codes" element={
+                  <ProtectedRoute>
+                    <FavoritePromoCodes />
+                  </ProtectedRoute>
+                } />
                 <Route path="generate-promo-code" element={
                   <ProtectedRoute>
                     <GeneratePromoCode />

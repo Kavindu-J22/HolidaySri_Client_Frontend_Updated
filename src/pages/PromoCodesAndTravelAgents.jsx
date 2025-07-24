@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { promoCodeAPI } from '../config/api';
+import PromoCodeAccessControl from '../components/PromoCodeAccessControl';
 import { 
   Gift, 
   Star, 
@@ -31,6 +32,7 @@ const PromoCodesAndTravelAgents = () => {
   const [userPromoCodeData, setUserPromoCodeData] = useState(null);
   const [marketplaceStats, setMarketplaceStats] = useState({ totalCount: 0, activeCount: 0 });
   const [showMarketplaceInfo, setShowMarketplaceInfo] = useState(false);
+  const [showAccessControl, setShowAccessControl] = useState(false);
 
   useEffect(() => {
     fetchPromoConfig();
@@ -106,6 +108,19 @@ const PromoCodesAndTravelAgents = () => {
   const handleCheckAvailability = () => {
     fetchMarketplaceStats();
     setShowMarketplaceInfo(true);
+  };
+
+  const handleExplorePromoCodes = () => {
+    setShowAccessControl(true);
+  };
+
+  const handleAccessGranted = () => {
+    setShowAccessControl(false);
+    navigate('/explore-promo-codes');
+  };
+
+  const handleAccessCancelled = () => {
+    setShowAccessControl(false);
   };
 
   const promoTypes = [
@@ -578,7 +593,10 @@ const PromoCodesAndTravelAgents = () => {
 
         {/* CTA */}
         <div className="text-center mt-8">
-          <button className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 transition-colors shadow-md hover:shadow-lg">
+          <button
+            onClick={handleExplorePromoCodes}
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 transition-colors shadow-md hover:shadow-lg"
+          >
             Explore & Find Promo Code
           </button>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
@@ -739,6 +757,14 @@ const PromoCodesAndTravelAgents = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Access Control Modal */}
+      {showAccessControl && (
+        <PromoCodeAccessControl
+          onAccessGranted={handleAccessGranted}
+          onCancel={handleAccessCancelled}
+        />
       )}
     </div>
   );

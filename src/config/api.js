@@ -99,6 +99,15 @@ export const promoCodeAPI = {
   getMarketplace: (params) => api.get('/promocodes/marketplace', { params }),
   getMarketplaceStats: () => api.get('/promocodes/marketplace/stats'),
   buyPreUsed: (agentId) => api.post('/promocodes/buy-preused', { agentId }),
+  // Access control endpoints
+  checkAccess: () => api.get('/promocodes/check-access'),
+  payAccess: () => api.post('/promocodes/pay-access'),
+  // Explore page endpoints
+  getExplorePromoCodes: (params) => api.get('/promocodes/explore', { params }),
+  // Favorites endpoints
+  addToFavorites: (agentId, promoCode) => api.post('/promocodes/favorites/add', { agentId, promoCode }),
+  removeFromFavorites: (agentId) => api.post('/promocodes/favorites/remove', { agentId }),
+  getFavorites: () => api.get('/promocodes/favorites'),
 };
 
 // Notification API calls
