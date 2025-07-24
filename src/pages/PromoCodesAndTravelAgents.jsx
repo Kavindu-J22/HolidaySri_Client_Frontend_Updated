@@ -28,9 +28,11 @@ const PromoCodesAndTravelAgents = () => {
   const [error, setError] = useState('');
   const [showPromoCodeModal, setShowPromoCodeModal] = useState(false);
   const [userPromoCodeData, setUserPromoCodeData] = useState(null);
+  const [marketplaceStats, setMarketplaceStats] = useState({ totalCount: 0, activeCount: 0 });
 
   useEffect(() => {
     fetchPromoConfig();
+    fetchMarketplaceStats();
   }, []);
 
   const fetchPromoConfig = async () => {
@@ -44,6 +46,15 @@ const PromoCodesAndTravelAgents = () => {
       setError('Failed to load promo code information');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchMarketplaceStats = async () => {
+    try {
+      const response = await promoCodeAPI.getMarketplaceStats();
+      setMarketplaceStats(response.data);
+    } catch (error) {
+      console.error('Error fetching marketplace stats:', error);
     }
   };
 
@@ -84,6 +95,15 @@ const PromoCodesAndTravelAgents = () => {
       console.error('Error checking user promo code:', error);
       setError('Failed to check promo code status. Please try again.');
     }
+  };
+
+  const handleExplorePreUsedCodes = () => {
+    navigate('/pre-used-promo-codes-marketplace');
+  };
+
+  const handleCheckAvailability = () => {
+    fetchMarketplaceStats();
+    navigate('/pre-used-promo-codes-marketplace');
   };
 
   const promoTypes = [
@@ -413,15 +433,21 @@ const PromoCodesAndTravelAgents = () => {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-8 py-3 rounded-lg font-medium hover:from-amber-700 hover:to-orange-700 transition-colors shadow-md hover:shadow-lg">
+          <button
+            onClick={handleExplorePreUsedCodes}
+            className="bg-gradient-to-r from-amber-600 to-orange-600 text-white px-8 py-3 rounded-lg font-medium hover:from-amber-700 hover:to-orange-700 transition-colors shadow-md hover:shadow-lg"
+          >
             <div className="flex items-center justify-center space-x-2">
               <span>Explore Pre-Used Codes</span>
               <TrendingUp className="w-4 h-4" />
             </div>
           </button>
-          <button className="bg-white dark:bg-gray-800 text-amber-600 dark:text-amber-400 border-2 border-amber-600 dark:border-amber-400 px-8 py-3 rounded-lg font-medium hover:bg-amber-50 dark:hover:bg-gray-700 transition-colors">
+          <button
+            onClick={handleCheckAvailability}
+            className="bg-white dark:bg-gray-800 text-amber-600 dark:text-amber-400 border-2 border-amber-600 dark:border-amber-400 px-8 py-3 rounded-lg font-medium hover:bg-amber-50 dark:hover:bg-gray-700 transition-colors"
+          >
             <div className="flex items-center justify-center space-x-2">
-              <span>Check Availability</span>
+              <span>Check Availability ({marketplaceStats.totalCount} Available)</span>
               <RefreshCw className="w-4 h-4" />
             </div>
           </button>

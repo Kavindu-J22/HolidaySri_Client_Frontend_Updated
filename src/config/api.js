@@ -91,6 +91,9 @@ export const promoCodeAPI = {
   checkUnique: (promoCode) => api.post('/promocodes/check-unique', { promoCode }),
   validatePromoCode: (promoCode) => api.post('/promocodes/validate', { promoCode }),
   processPayment: (paymentData) => api.post('/promocodes/process-payment', paymentData),
+  getMarketplace: (params) => api.get('/promocodes/marketplace', { params }),
+  getMarketplaceStats: () => api.get('/promocodes/marketplace/stats'),
+  buyPreUsed: (agentId) => api.post('/promocodes/buy-preused', { agentId }),
 };
 
 // Notification API calls
