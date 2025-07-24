@@ -72,6 +72,9 @@ export const userAPI = {
   sellPromocode: (sellingPrice, sellingDescription) => api.post('/users/sell-promocode', { sellingPrice, sellingDescription }),
   toggleSelling: () => api.post('/users/toggle-selling'),
   editSelling: (sellingPrice, sellingDescription) => api.post('/users/edit-selling', { sellingPrice, sellingDescription }),
+  getHSCEarned: () => api.get('/users/hsc-earned'),
+  convertHSCEarnedToTokens: () => api.post('/users/convert-hsc-earned-to-tokens'),
+  claimHSCEarned: (hscEarnedIds) => api.post('/users/claim-hsc-earned', { hscEarnedIds }),
 };
 
 // HSC API calls
@@ -117,6 +120,9 @@ export const adminAPI = {
   createHSCPackage: (packageData) => api.post('/admin/hsc-packages', packageData),
   updateHSCPackage: (packageId, packageData) => api.put(`/admin/hsc-packages/${packageId}`, packageData),
   deleteHSCPackage: (packageId) => api.delete(`/admin/hsc-packages/${packageId}`),
+  getHSCEarnedClaims: (params) => api.get('/admin/hsc-earned-claims', { params }),
+  approveHSCEarnedClaim: (requestId, adminNote) => api.post(`/admin/hsc-earned-claims/${requestId}/approve`, { adminNote }),
+  getHSCEarnedClaimStats: () => api.get('/admin/hsc-earned-claims/stats'),
 };
 
 export default api;

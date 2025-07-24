@@ -22,8 +22,20 @@ const HSCWallet = () => {
     hasCompleteBankDetails: false,
     hasBinanceId: false
   });
+  const [hscEarned, setHscEarned] = useState({
+    totals: {
+      completed: 0,
+      processing: 0,
+      paidAsLKR: 0,
+      paidAsHSC: 0,
+      total: 0
+    },
+    hscValue: 100,
+    currency: 'LKR'
+  });
   const [loading, setLoading] = useState(false);
   const [showBankDetailsModal, setShowBankDetailsModal] = useState(false);
+  const [showHSCConvertModal, setShowHSCConvertModal] = useState(false);
 
   const fetchTokenValues = async () => {
     try {
@@ -73,6 +85,19 @@ const HSCWallet = () => {
     }
   }, []);
 
+  const fetchHSCEarned = useCallback(async () => {
+    try {
+      const response = await userAPI.getHSCEarned();
+      setHscEarned({
+        totals: response.data.totals,
+        hscValue: response.data.hscValue,
+        currency: response.data.currency
+      });
+    } catch (error) {
+      console.error('Failed to fetch HSC earned data:', error);
+    }
+  }, []);
+
   const handleClaimNow = async () => {
     setLoading(true);
     try {
@@ -102,13 +127,65 @@ const HSCWallet = () => {
     fetchTokenValues();
   }, []);
 
+  const handleConvertToHSC = async () => {
+    try {
+      setLoading(true);
+      const response = await userAPI.convertHSCEarnedToTokens();
+
+      if (response.data.success) {
+        alert(`Successfully converted ${response.data.data.convertedAmount} HSC earnings to tokens!\n\nNew HSC Balance: ${response.data.data.newHSCBalance} HSC`);
+
+        // Refresh data
+        await fetchUserBalances();
+        await fetchHSCEarned();
+        setShowHSCConvertModal(false);
+      }
+    } catch (error) {
+      console.error('Failed to convert HSC earned to tokens:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to convert earnings. Please try again.';
+      alert(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleViewWithdrawLKR = async () => {
+    setLoading(true);
+    try {
+      // Check bank details first
+      const bankResponse = await userAPI.getBankDetailsStatus();
+
+      if (!bankResponse.data.canClaim) {
+        setLoading(false);
+        setShowBankDetailsModal(true);
+        return;
+      }
+
+      // Navigate to HSC earnings claim page
+      navigate('/hsc-earnings-claim');
+    } catch (error) {
+      console.error('Error during HSC claim process:', error);
+      setLoading(false);
+
+      // Show error message
+      alert('❌ Error\n\nUnable to check bank details. Please try again or contact support if the problem persists.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTokenValues();
+  }, []);
+
   useEffect(() => {
     if (user) {
       fetchUserBalances();
       fetchPromocodeEarnings();
       fetchBankDetailsStatus();
+      fetchHSCEarned();
     }
-  }, [user, fetchUserBalances, fetchPromocodeEarnings, fetchBankDetailsStatus]);
+  }, [user, fetchUserBalances, fetchPromocodeEarnings, fetchBankDetailsStatus, fetchHSCEarned]);
 
   return (
     <div className="space-y-8">
@@ -122,7 +199,7 @@ const HSCWallet = () => {
       </div>
 
       {/* Multi-Token Balance Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {/* HSC Balance */}
         <div className="card p-6 text-center bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
           <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-xl mb-4">
@@ -184,8 +261,8 @@ const HSCWallet = () => {
         </div>
 
         {/* Promocode Earnings */}
-        <div className="card p-6 text-center bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 border-2 border-orange-200 dark:border-orange-800">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-xl mb-4">
+        <div className="card p-6 text-center bg-gradient-to-r from-orange-50 to-yellow-50 dark:from-orange-900/20 dark:to-yellow-900/20 border-2 border-orange-200 dark:border-orange-800 flex flex-col">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-orange-500 to-yellow-500 rounded-xl mb-4 mx-auto">
             <Gift className="w-6 h-6 text-white" />
           </div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
@@ -194,7 +271,7 @@ const HSCWallet = () => {
           <div className="text-2xl font-bold text-orange-600 dark:text-orange-400 mb-2">
             {promocodeEarnings.pending.toLocaleString()} LKR
           </div>
-          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4">
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4 flex-grow">
             Pending earnings from referrals
           </p>
 
@@ -217,10 +294,44 @@ const HSCWallet = () => {
           <button
             onClick={handleClaimNow}
             disabled={loading}
-            className="w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50"
+            className="w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50 mt-auto"
           >
             {loading ? 'Processing...' : 'View & Claim Now'}
           </button>
+        </div>
+
+        {/* HSC Earned */}
+        <div className="card p-6 text-center bg-gradient-to-r from-teal-50 to-cyan-50 dark:from-teal-900/20 dark:to-cyan-900/20 border-2 border-teal-200 dark:border-teal-800 flex flex-col">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-teal-500 to-cyan-500 rounded-xl mb-4 mx-auto">
+            <TrendingUp className="w-6 h-6 text-white" />
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+            HSC Earned
+          </h3>
+          <div className="text-2xl font-bold text-teal-600 dark:text-teal-400 mb-2">
+            {hscEarned.totals.completed.toLocaleString()} HSC
+          </div>
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4 flex-grow">
+            ≈ {Math.round(hscEarned.totals.completed * hscEarned.hscValue).toLocaleString()} {hscEarned.currency}
+          </p>
+
+          {/* Action Buttons */}
+          <div className="space-y-2 mt-auto">
+            <button
+              onClick={() => setShowHSCConvertModal(true)}
+              disabled={loading || hscEarned.totals.completed === 0}
+              className="w-full py-2 px-3 rounded-lg font-semibold text-xs transition-all duration-200 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50"
+            >
+              Add to HSC Tokens
+            </button>
+            <button
+              onClick={handleViewWithdrawLKR}
+              disabled={loading}
+              className="w-full py-2 px-3 rounded-lg font-semibold text-xs transition-all duration-200 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50"
+            >
+              View & Withdraw as LKR
+            </button>
+          </div>
         </div>
       </div>
 
@@ -329,6 +440,65 @@ const HSCWallet = () => {
                   className="flex-1 px-4 py-3 bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
                 >
                   Complete Details
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* HSC Convert to Tokens Modal */}
+      {showHSCConvertModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-md w-full mx-4 shadow-2xl transform transition-all">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-teal-500 to-cyan-500 rounded-t-2xl p-6 text-center">
+              <div className="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <TrendingUp className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Convert HSC Earnings</h3>
+              <p className="text-white text-opacity-90 text-sm">Add your earned HSC to your token balance</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-6">
+              <div className="text-center mb-6">
+                <div className="bg-teal-50 dark:bg-teal-900/20 rounded-lg p-4 mb-4">
+                  <div className="text-2xl font-bold text-teal-600 dark:text-teal-400 mb-2">
+                    {hscEarned.totals.completed.toLocaleString()} HSC
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    Will be added to your HSC token balance
+                  </p>
+                </div>
+
+                <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-4 mb-4">
+                  <div className="flex items-center justify-center mb-2">
+                    <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 mr-2" />
+                    <span className="text-sm font-medium text-amber-800 dark:text-amber-300">Important Notice:</span>
+                  </div>
+                  <p className="text-sm text-amber-700 dark:text-amber-300">
+                    Once converted to HSC tokens, you cannot withdraw them as LKR.
+                    However, you can use them for professional actions and earn more through the platform.
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3">
+                <button
+                  onClick={() => setShowHSCConvertModal(false)}
+                  disabled={loading}
+                  className="flex-1 px-4 py-3 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg font-medium transition-colors duration-200 disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConvertToHSC}
+                  disabled={loading}
+                  className="flex-1 px-4 py-3 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50"
+                >
+                  {loading ? 'Converting...' : 'Confirm & Convert'}
                 </button>
               </div>
             </div>
