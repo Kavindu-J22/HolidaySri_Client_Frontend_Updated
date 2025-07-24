@@ -1011,23 +1011,35 @@ const AgentDashboard = () => {
                   Sell Your Promocode
                 </h3>
                 <p className="text-sm font-medium text-green-600 dark:text-green-400">
-                  {agentData.isSelling ? 'Currently Selling' : 'Not Selling'}
+                  {agentData.isSelling ? 'Listed for Sale' : 'Not Selling'}
                 </p>
               </div>
             </div>
           </div>
 
           <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-            {agentData.isSelling
-              ? `Your promocode is listed for sale at ${agentData.sellingPrice || 0} HSC. You can turn off selling anytime.`
-              : 'List your promocode for sale and let other users purchase it. Set your own price in HSC.'
+            {agentData.promoCodeType === 'free'
+              ? 'Free promocodes cannot be sold. Upgrade to a paid tier to enable selling.'
+              : agentData.isSelling
+                ? `Your promocode is listed for sale at ${agentData.sellingPrice || 0} HSC. Listed on ${agentData.sellingListedAt ? new Date(agentData.sellingListedAt).toLocaleDateString() : 'N/A'}. You can turn off selling anytime.`
+                : 'List your promocode for sale and let other users purchase it. Set your own price in HSC.'
             }
           </p>
 
-          {agentData.isSelling ? (
+          {agentData.promoCodeType === 'free' ? (
+            <div className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
+              <div className="flex items-center justify-center space-x-2 text-gray-500 dark:text-gray-400">
+                <ShoppingCart className="w-5 h-5" />
+                <span className="font-medium">Free Promocodes Can't Be Sold</span>
+              </div>
+              <p className="text-xs text-gray-400 dark:text-gray-500 text-center mt-2">
+                Upgrade to Silver, Gold, or Diamond tier to enable selling
+              </p>
+            </div>
+          ) : agentData.isSelling ? (
             <div className="space-y-3">
               <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-2">
                   <span className="text-green-800 dark:text-green-300 text-sm font-medium">
                     Selling Price: {agentData.sellingPrice || 0} HSC
                   </span>
@@ -1035,14 +1047,26 @@ const AgentDashboard = () => {
                     ≈ {((agentData.sellingPrice || 0) * hscValue).toLocaleString()} LKR
                   </span>
                 </div>
+                <div className="text-xs text-green-600 dark:text-green-400">
+                  Listed: {agentData.sellingListedAt ? new Date(agentData.sellingListedAt).toLocaleDateString() : 'N/A'}
+                </div>
               </div>
-              <button
-                onClick={handleToggleSelling}
-                className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
-              >
-                <PowerOff className="w-4 h-4" />
-                <span>Stop Selling</span>
-              </button>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => navigate('/selling-platform')}
+                  className="flex items-center justify-center space-x-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-sm"
+                >
+                  <Eye className="w-4 h-4" />
+                  <span>View Platform</span>
+                </button>
+                <button
+                  onClick={handleToggleSelling}
+                  className="flex items-center justify-center space-x-1 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors text-sm"
+                >
+                  <PowerOff className="w-4 h-4" />
+                  <span>Stop Selling</span>
+                </button>
+              </div>
             </div>
           ) : (
             <button
