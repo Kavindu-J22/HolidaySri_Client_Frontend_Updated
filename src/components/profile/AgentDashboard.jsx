@@ -818,7 +818,7 @@ const AgentDashboard = () => {
             Total Referrals
           </h3>
           <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
-            People you've referred
+            People you've referred (Lifetime )
           </p>
         </div>
 
@@ -1088,7 +1088,7 @@ const AgentDashboard = () => {
               </div>
               <div className="grid grid-cols-3 gap-2">
                 <button
-                  onClick={() => navigate('/selling-platform')}
+                  onClick={() => navigate('/pre-used-promo-codes-marketplace')}
                   className="flex items-center justify-center space-x-1 px-2 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-xs"
                 >
                   <Eye className="w-3 h-3" />
@@ -1126,7 +1126,7 @@ const AgentDashboard = () => {
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 space-y-4 sm:space-y-0">
           <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
-            Earning Records
+            Agent Earning Records
           </h3>
           <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
             {/* Claim Earnings Button */}

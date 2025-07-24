@@ -194,15 +194,16 @@ const PreUsedMarketplace = () => {
       setSuccess('');
       
       const response = await promoCodeAPI.buyPreUsed(promoCode._id);
-      
-      setSuccess(`Successfully purchased promo code: ${response.data.promoCode}!`);
+
+      setSuccess(`${response.data.message} Redirecting to your agent dashboard...`);
       setUserBalance(response.data.newBalance);
-      
+
       fetchMarketplaceData();
       fetchStats();
-      
+
+      // Redirect to agent dashboard (profile page)
       setTimeout(() => {
-        navigate('/profile');
+        navigate(response.data.redirectTo || '/profile');
       }, 3000);
       
     } catch (error) {
