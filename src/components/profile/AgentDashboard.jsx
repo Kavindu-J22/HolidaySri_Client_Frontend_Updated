@@ -843,7 +843,7 @@ const AgentDashboard = () => {
       {/* Promo Code Management Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {/* Status Toggle Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
               {isPromoCodeExpired() ? (
@@ -881,7 +881,7 @@ const AgentDashboard = () => {
             </div>
           </div>
 
-          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow">
             {isPromoCodeExpired()
               ? 'Your promo code has expired and is no longer active. Renew it to continue earning commissions.'
               : agentData.isActive
@@ -931,7 +931,7 @@ const AgentDashboard = () => {
 
         {/* Upgrade Card */}
         {getUpgradeInfo() && (
-          <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl shadow-lg p-6 border border-purple-200 dark:border-purple-800">
+          <div className="bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-xl shadow-lg p-6 border border-purple-200 dark:border-purple-800 flex flex-col">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center space-x-3">
                 <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
@@ -973,7 +973,7 @@ const AgentDashboard = () => {
             </div>
 
             {/* Tip */}
-            <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-3 mb-4">
+            <div className="bg-white/50 dark:bg-gray-800/50 rounded-lg p-3 mb-4 flex-grow">
               <div className="flex items-start space-x-2">
                 <Target className="w-4 h-4 text-purple-600 dark:text-purple-400 mt-0.5 flex-shrink-0" />
                 <p className="text-sm text-gray-700 dark:text-gray-300">
@@ -1004,7 +1004,7 @@ const AgentDashboard = () => {
         )}
 
         {/* Upgrade with HSC Button - Always show */}
-        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl shadow-lg p-6 border border-blue-200 dark:border-blue-800">
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 rounded-xl shadow-lg p-6 border border-blue-200 dark:border-blue-800 flex flex-col">
           <div className="flex items-center space-x-3 mb-4">
             <div className="p-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg">
               <DollarSign className="w-6 h-6 text-white" />
@@ -1019,7 +1019,7 @@ const AgentDashboard = () => {
             </div>
           </div>
 
-          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow">
             Don't want to wait? Upgrade your promo code instantly using your HSC balance and unlock higher earning potential right away.
           </p>
 
@@ -1033,7 +1033,7 @@ const AgentDashboard = () => {
         </div>
 
         {/* Sell Your Promocode Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
               <div className="p-3 bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg">
@@ -1050,14 +1050,16 @@ const AgentDashboard = () => {
             </div>
           </div>
 
-          <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-            {agentData.promoCodeType === 'free'
-              ? 'Free promocodes cannot be sold. Upgrade to a paid tier to enable selling.'
-              : agentData.isSelling
-                ? `Your promocode is listed for sale at ${agentData.sellingPrice || 0} HSC. Listed on ${agentData.sellingListedAt ? new Date(agentData.sellingListedAt).toLocaleDateString() : 'N/A'}. You can turn off selling anytime.`
-                : 'List your promocode for sale and let other users purchase it. Set your own price in HSC.'
-            }
-          </p>
+          <div className="flex-grow mb-4">
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              {agentData.promoCodeType === 'free'
+                ? 'Free promocodes cannot be sold. Upgrade to a paid tier to enable selling.'
+                : agentData.isSelling
+                  ? `Your promocode is listed for sale at ${agentData.sellingPrice || 0} HSC. Listed on ${agentData.sellingListedAt ? new Date(agentData.sellingListedAt).toLocaleDateString() : 'N/A'}. You can turn off selling anytime.`
+                  : 'List your promocode for sale and let other users purchase it. Set your own price in HSC.'
+              }
+            </p>
+          </div>
 
           {agentData.promoCodeType === 'free' ? (
             <div className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg p-4">
