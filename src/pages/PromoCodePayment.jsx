@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { userAPI, promoCodeAPI } from '../config/api';
-import { 
-  ShoppingCart, 
-  Tag, 
-  DollarSign, 
+import FavoritePromoCodeSelector from '../components/FavoritePromoCodeSelector';
+import {
+  ShoppingCart,
+  Tag,
+  DollarSign,
   Gift,
   CheckCircle,
   AlertCircle,
@@ -14,7 +15,8 @@ import {
   ArrowLeft,
   Sparkles,
   User,
-  Mail
+  Mail,
+  Heart
 } from 'lucide-react';
 
 const PromoCodePayment = () => {
@@ -34,6 +36,7 @@ const PromoCodePayment = () => {
   const [validatingPromo, setValidatingPromo] = useState(false);
   const [showCongratulations, setShowCongratulations] = useState(false);
   const [paymentResult, setPaymentResult] = useState(null);
+  const [showFavoriteSelector, setShowFavoriteSelector] = useState(false);
 
   // Get order data from navigation state
   const orderData = location.state;
@@ -98,6 +101,11 @@ const PromoCodePayment = () => {
     setPromoCodeInput('');
     setSuccess('');
     setError('');
+  };
+
+  const handleSelectFromFavorites = (promoCode) => {
+    setPromoCodeInput(promoCode);
+    setShowFavoriteSelector(false);
   };
 
   const handlePayment = async () => {
@@ -221,33 +229,46 @@ const PromoCodePayment = () => {
                 <p className="text-gray-600 dark:text-gray-400 text-sm">
                   Have a promo code from another agent? Apply it to get a discount on your purchase.
                 </p>
-                
-                <div className="flex space-x-3">
-                  <input
-                    type="text"
-                    value={promoCodeInput}
-                    onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
-                    placeholder="Enter promo code (e.g., HSABC12)"
-                    className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white font-mono"
-                    maxLength={7}
-                  />
-                  <button
-                    onClick={validateAndApplyPromoCode}
-                    disabled={validatingPromo || !promoCodeInput.trim()}
-                    className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
-                  >
-                    {validatingPromo ? (
-                      <>
-                        <Loader className="w-4 h-4 animate-spin" />
-                        <span>Validating...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Tag className="w-4 h-4" />
-                        <span>Apply</span>
-                      </>
-                    )}
-                  </button>
+
+                <div className="space-y-3">
+                  <div className="flex space-x-3">
+                    <input
+                      type="text"
+                      value={promoCodeInput}
+                      onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
+                      placeholder="Enter promo code (e.g., HSABC12)"
+                      className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:text-white font-mono"
+                      maxLength={7}
+                    />
+                    <button
+                      onClick={validateAndApplyPromoCode}
+                      disabled={validatingPromo || !promoCodeInput.trim()}
+                      className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+                    >
+                      {validatingPromo ? (
+                        <>
+                          <Loader className="w-4 h-4 animate-spin" />
+                          <span>Validating...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Tag className="w-4 h-4" />
+                          <span>Apply</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  <div className="flex justify-center">
+                    <button
+                      onClick={() => setShowFavoriteSelector(true)}
+                      className="group relative inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-pink-50 to-red-50 dark:from-pink-900/20 dark:to-red-900/20 border border-pink-200 dark:border-pink-800 rounded-lg text-pink-700 dark:text-pink-400 hover:from-pink-100 hover:to-red-100 dark:hover:from-pink-900/30 dark:hover:to-red-900/30 hover:border-pink-300 dark:hover:border-pink-700 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md"
+                    >
+                      <Heart className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                      <span>Select from Favorites</span>
+                      <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-pink-400/0 to-red-400/0 group-hover:from-pink-400/5 group-hover:to-red-400/5 transition-all duration-200"></div>
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (
@@ -484,6 +505,13 @@ const PromoCodePayment = () => {
           </div>
         </div>
       )}
+
+      {/* Favorite Promo Code Selector */}
+      <FavoritePromoCodeSelector
+        isOpen={showFavoriteSelector}
+        onClose={() => setShowFavoriteSelector(false)}
+        onSelect={handleSelectFromFavorites}
+      />
     </div>
   );
 };

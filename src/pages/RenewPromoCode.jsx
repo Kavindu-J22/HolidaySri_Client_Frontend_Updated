@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { userAPI, promoCodeAPI } from '../config/api';
+import FavoritePromoCodeSelector from '../components/FavoritePromoCodeSelector';
 import {
   RefreshCw,
   ArrowUp,
@@ -16,7 +17,8 @@ import {
   Loader,
   ArrowLeft,
   Copy,
-  Tag
+  Tag,
+  Heart
 } from 'lucide-react';
 
 const RenewPromoCode = () => {
@@ -37,6 +39,7 @@ const RenewPromoCode = () => {
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showFavoriteSelector, setShowFavoriteSelector] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -167,6 +170,11 @@ const RenewPromoCode = () => {
     } finally {
       setValidatingPromo(false);
     }
+  };
+
+  const handleSelectFromFavorites = (promoCode) => {
+    setPromoCodeInput(promoCode);
+    setShowFavoriteSelector(false);
   };
 
   const applyUsedPromoCode = async () => {
@@ -517,35 +525,48 @@ const RenewPromoCode = () => {
                   Or enter a different promo code:
                 </label>
 
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <div className="flex-1">
-                    <input
-                      type="text"
-                      value={promoCodeInput}
-                      onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
-                      placeholder="Enter promo code (e.g., ABC1234)"
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm sm:text-base"
-                      disabled={validatingPromo}
-                      maxLength={7}
-                    />
+                <div className="space-y-3">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        value={promoCodeInput}
+                        onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
+                        placeholder="Enter promo code (e.g., ABC1234)"
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm sm:text-base"
+                        disabled={validatingPromo}
+                        maxLength={7}
+                      />
+                    </div>
+                    <button
+                      onClick={validatePromoCode}
+                      disabled={validatingPromo || !promoCodeInput.trim()}
+                      className="px-4 sm:px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 font-medium transition-colors min-w-[100px] sm:min-w-[120px]"
+                    >
+                      {validatingPromo ? (
+                        <>
+                          <Loader className="w-4 h-4 animate-spin" />
+                          <span className="hidden sm:inline">Checking...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Check className="w-4 h-4" />
+                          <span>Apply</span>
+                        </>
+                      )}
+                    </button>
                   </div>
-                  <button
-                    onClick={validatePromoCode}
-                    disabled={validatingPromo || !promoCodeInput.trim()}
-                    className="px-4 sm:px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 font-medium transition-colors min-w-[100px] sm:min-w-[120px]"
-                  >
-                    {validatingPromo ? (
-                      <>
-                        <Loader className="w-4 h-4 animate-spin" />
-                        <span className="hidden sm:inline">Checking...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Check className="w-4 h-4" />
-                        <span>Apply</span>
-                      </>
-                    )}
-                  </button>
+
+                  <div className="flex justify-center">
+                    <button
+                      onClick={() => setShowFavoriteSelector(true)}
+                      className="group relative inline-flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-pink-50 to-red-50 dark:from-pink-900/20 dark:to-red-900/20 border border-pink-200 dark:border-pink-800 rounded-lg text-pink-700 dark:text-pink-400 hover:from-pink-100 hover:to-red-100 dark:hover:from-pink-900/30 dark:hover:to-red-900/30 hover:border-pink-300 dark:hover:border-pink-700 transition-all duration-200 font-medium text-sm shadow-sm hover:shadow-md"
+                    >
+                      <Heart className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                      <span>Select from Favorites</span>
+                      <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-pink-400/0 to-red-400/0 group-hover:from-pink-400/5 group-hover:to-red-400/5 transition-all duration-200"></div>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Applied Promo Code Display */}
@@ -681,6 +702,13 @@ const RenewPromoCode = () => {
             </p>
           </div>
         )}
+
+        {/* Favorite Promo Code Selector */}
+        <FavoritePromoCodeSelector
+          isOpen={showFavoriteSelector}
+          onClose={() => setShowFavoriteSelector(false)}
+          onSelect={handleSelectFromFavorites}
+        />
       </div>
     </div>
   );
