@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { promoCodeAPI } from '../config/api';
@@ -50,6 +50,7 @@ const ExplorePromoCodes = () => {
     promoCodeType: 'all',
     sortBy: 'random'
   });
+  const [searchInput, setSearchInput] = useState(''); // Separate state for input
   const [showFilters, setShowFilters] = useState(false);
 
   const fetchPromoCodes = useCallback(async () => {
@@ -82,6 +83,16 @@ const ExplorePromoCodes = () => {
   useEffect(() => {
     fetchPromoCodes();
   }, [fetchPromoCodes]);
+
+  // Debounce search input
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setFilters(prev => ({ ...prev, search: searchInput }));
+      setPagination(prev => ({ ...prev, current: 1 }));
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [searchInput]);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({ ...prev, [key]: value }));
@@ -298,8 +309,8 @@ const ExplorePromoCodes = () => {
             <input
               type="text"
               placeholder="Search by username or promo code..."
-              value={filters.search}
-              onChange={(e) => handleFilterChange('search', e.target.value)}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
               className="w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
@@ -352,17 +363,18 @@ const ExplorePromoCodes = () => {
         <div className="text-center py-12">
           <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-            {filters.search || filters.promoCodeType !== 'all' ? 'No Matching Promo Codes' : 'No Active Promo Codes'}
+            {searchInput || filters.promoCodeType !== 'all' ? 'No Matching Promo Codes' : 'No Active Promo Codes'}
           </h3>
           <p className="text-gray-600 dark:text-gray-400">
-            {filters.search || filters.promoCodeType !== 'all'
+            {searchInput || filters.promoCodeType !== 'all'
               ? 'Try adjusting your search criteria or filters to find more results.'
               : 'There are currently no active promoted promo codes. Check back later!'
             }
           </p>
-          {(filters.search || filters.promoCodeType !== 'all') && (
+          {(searchInput || filters.promoCodeType !== 'all') && (
             <button
               onClick={() => {
+                setSearchInput(''); // Clear search input
                 setFilters({ search: '', promoCodeType: 'all', sortBy: 'random' });
                 setPagination(prev => ({ ...prev, current: 1 }));
               }}
