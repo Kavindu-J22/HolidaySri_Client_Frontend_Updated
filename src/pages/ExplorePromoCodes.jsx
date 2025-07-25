@@ -271,7 +271,7 @@ const ExplorePromoCodes = () => {
                 Active & Promoted Promo Codes
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                {pagination.total} verified codes available
+                {pagination.total} active codes available
               </p>
             </div>
           </div>
