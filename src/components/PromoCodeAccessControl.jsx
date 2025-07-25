@@ -282,7 +282,7 @@ const PromoCodeAccessControl = ({ onAccessGranted, onCancel }) => {
               <div className="space-y-2 mb-4">
                 <div className="flex items-center space-x-2 text-blue-700 dark:text-blue-400">
                   <CheckCircle className="w-4 h-4" />
-                  <span className="text-sm">Browse all active promo codes</span>
+                  <span className="text-sm">Browse all active & promoted promo codes</span>
                 </div>
                 <div className="flex items-center space-x-2 text-blue-700 dark:text-blue-400">
                   <CheckCircle className="w-4 h-4" />
@@ -295,6 +295,10 @@ const PromoCodeAccessControl = ({ onAccessGranted, onCancel }) => {
                 <div className="flex items-center space-x-2 text-blue-700 dark:text-blue-400">
                   <CheckCircle className="w-4 h-4" />
                   <span className="text-sm">Lifetime access (pay once)</span>
+                </div>
+                <div className="flex items-center space-x-2 text-blue-700 dark:text-blue-400">
+                  <CheckCircle className="w-4 h-4" />
+                  <span className="text-sm">Get Exclusive Discounts Easily</span>
                 </div>
               </div>
             </div>
