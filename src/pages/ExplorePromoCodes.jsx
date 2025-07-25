@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { promoCodeAPI } from '../config/api';
@@ -22,7 +22,10 @@ import {
   XCircle,
   ArrowLeft,
   ShoppingCart,
-  Shield
+  Shield,
+  Filter,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 const ExplorePromoCodes = () => {
@@ -41,18 +44,23 @@ const ExplorePromoCodes = () => {
     hasPrev: false
   });
 
-  useEffect(() => {
-    fetchPromoCodes();
-  }, [pagination.current]);
+  // Filter and search states
+  const [filters, setFilters] = useState({
+    search: '',
+    promoCodeType: 'all',
+    sortBy: 'random'
+  });
+  const [showFilters, setShowFilters] = useState(false);
 
-  const fetchPromoCodes = async () => {
+  const fetchPromoCodes = useCallback(async () => {
     try {
       setLoading(true);
       setError('');
 
       const params = {
         page: pagination.current,
-        limit: 12
+        limit: 12,
+        ...filters
       };
 
       const response = await promoCodeAPI.getExplorePromoCodes(params);
@@ -69,6 +77,19 @@ const ExplorePromoCodes = () => {
     } finally {
       setLoading(false);
     }
+  }, [filters, pagination.current]);
+
+  useEffect(() => {
+    fetchPromoCodes();
+  }, [fetchPromoCodes]);
+
+  const handleFilterChange = (key, value) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+    setPagination(prev => ({ ...prev, current: 1 }));
+  };
+
+  const handlePageChange = (page) => {
+    setPagination(prev => ({ ...prev, current: page }));
   };
 
   const handleCopyPromoCode = async (promoCode) => {
@@ -148,9 +169,7 @@ const ExplorePromoCodes = () => {
     }
   };
 
-  const handlePageChange = (newPage) => {
-    setPagination(prev => ({ ...prev, current: newPage }));
-  };
+
 
   if (loading) {
     return (
@@ -256,16 +275,102 @@ const ExplorePromoCodes = () => {
         </div>
       </div>
 
+      {/* Search and Filters */}
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center">
+            <Search className="w-5 h-5 mr-2" />
+            Search & Filter
+          </h3>
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="flex items-center space-x-2 px-3 py-2 text-sm bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+          >
+            <Filter className="w-4 h-4" />
+            <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
+          </button>
+        </div>
+
+        {/* Search Bar */}
+        <div className="mb-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search by username or promo code..."
+              value={filters.search}
+              onChange={(e) => handleFilterChange('search', e.target.value)}
+              className="w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+        </div>
+
+        {/* Advanced Filters */}
+        {showFilters && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+            {/* Promo Code Type Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Promo Code Type
+              </label>
+              <select
+                value={filters.promoCodeType}
+                onChange={(e) => handleFilterChange('promoCodeType', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="all">All Types</option>
+                <option value="silver">Silver</option>
+                <option value="gold">Gold</option>
+                <option value="diamond">Diamond</option>
+                <option value="free">Free</option>
+              </select>
+            </div>
+
+            {/* Sort By Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Sort By
+              </label>
+              <select
+                value={filters.sortBy}
+                onChange={(e) => handleFilterChange('sortBy', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="random">Random Order</option>
+                <option value="createdAt">Recently Created</option>
+                <option value="totalEarnings">Highest Earnings</option>
+                <option value="totalReferrals">Most Referrals</option>
+                <option value="usedCount">Most Used</option>
+              </select>
+            </div>
+          </div>
+        )}
+      </div>
+
       {/* Promo Codes Grid */}
       {promoCodes.length === 0 ? (
         <div className="text-center py-12">
           <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-            No Active Promo Codes
+            {filters.search || filters.promoCodeType !== 'all' ? 'No Matching Promo Codes' : 'No Active Promo Codes'}
           </h3>
           <p className="text-gray-600 dark:text-gray-400">
-            There are currently no active promoted promo codes. Check back later!
+            {filters.search || filters.promoCodeType !== 'all'
+              ? 'Try adjusting your search criteria or filters to find more results.'
+              : 'There are currently no active promoted promo codes. Check back later!'
+            }
           </p>
+          {(filters.search || filters.promoCodeType !== 'all') && (
+            <button
+              onClick={() => {
+                setFilters({ search: '', promoCodeType: 'all', sortBy: 'random' });
+                setPagination(prev => ({ ...prev, current: 1 }));
+              }}
+              className="mt-4 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+            >
+              Clear Filters
+            </button>
+          )}
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
