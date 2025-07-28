@@ -264,7 +264,7 @@ const DestinationCard = ({ destination }) => {
           className="w-full btn-primary flex items-center justify-center space-x-2"
         >
           <Eye className="w-4 h-4" />
-          <span>View More</span>
+          <span>Explore Now</span>
         </button>
       </div>
     </div>

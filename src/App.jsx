@@ -29,6 +29,7 @@ import Notifications from './pages/Notifications';
 import PayHerePayment from './pages/PayHerePayment';
 import PlanDreamTour from './pages/PlanDreamTour';
 import DestinationDetail from './pages/DestinationDetail';
+import Favorites from './pages/Favorites';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
 import HSGPopup from './components/common/HSGPopup';
@@ -142,6 +143,11 @@ function App() {
                 } />
                 <Route path="plan-dream-tour" element={<PlanDreamTour />} />
                 <Route path="destinations/:id" element={<DestinationDetail />} />
+                <Route path="favorites" element={
+                  <ProtectedRoute>
+                    <Favorites />
+                  </ProtectedRoute>
+                } />
               </Route>
 
               {/* Catch all route */}

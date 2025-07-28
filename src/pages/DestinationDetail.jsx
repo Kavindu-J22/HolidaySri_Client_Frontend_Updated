@@ -263,30 +263,31 @@ const DestinationDetail = () => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <button
           onClick={() => navigate('/plan-dream-tour')}
-          className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+          className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 self-start"
         >
           <ArrowLeft className="w-5 h-5" />
           <span>Back to Destinations</span>
         </button>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <button
             onClick={toggleFavorite}
             disabled={favoriteLoading}
-            className={`btn-secondary flex items-center space-x-2 ${
+            className={`btn-secondary flex items-center justify-center space-x-2 ${
               isFavorite ? 'text-red-600 border-red-600' : ''
             }`}
           >
             <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
-            <span>{isFavorite ? 'Favorited' : 'Add to Favorites'}</span>
+            <span className="hidden sm:inline">{isFavorite ? 'Favorited' : 'Add to Favorites'}</span>
+            <span className="sm:hidden">{isFavorite ? 'Favorited' : 'Favorite'}</span>
           </button>
 
           <button
             onClick={handleShare}
-            className="btn-secondary flex items-center space-x-2"
+            className="btn-secondary flex items-center justify-center space-x-2"
           >
             <Share2 className="w-5 h-5" />
             <span>Share</span>
@@ -295,9 +296,9 @@ const DestinationDetail = () => {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Left Column - Main Content */}
-        <div className="lg:col-span-2 space-y-8">
+        <div className="lg:col-span-2 space-y-6 lg:space-y-8">
           {/* Image Gallery */}
           <ImageGallery images={destination.images} />
 
@@ -351,16 +352,16 @@ const DestinationDetail = () => {
           </div>
 
           {/* Reviews Section */}
-          <div className="card p-6">
-            <div className="flex items-center justify-between mb-6">
+          <div className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 Reviews & Ratings
               </h2>
-              
+
               {user && !userReview && (
                 <button
                   onClick={() => setShowReviewForm(true)}
-                  className="btn-primary flex items-center space-x-2"
+                  className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto"
                 >
                   <MessageSquare className="w-5 h-5" />
                   <span>Write a Review</span>
@@ -381,7 +382,7 @@ const DestinationDetail = () => {
 
             {/* User's Review */}
             {userReview && (
-              <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+              <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
                 <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-2">
                   Your Review
                 </h3>
@@ -391,16 +392,16 @@ const DestinationDetail = () => {
 
             {/* Rating Statistics */}
             {ratingStats.length > 0 && (
-              <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                   Rating Breakdown
                 </h3>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {[5, 4, 3, 2, 1].map(rating => {
                     const stat = ratingStats.find(s => s._id === rating);
                     const count = stat ? stat.count : 0;
-                    const percentage = destination.totalReviews > 0 
-                      ? (count / destination.totalReviews) * 100 
+                    const percentage = destination.totalReviews > 0
+                      ? (count / destination.totalReviews) * 100
                       : 0;
 
                     return (
@@ -408,13 +409,13 @@ const DestinationDetail = () => {
                         <span className="text-sm font-medium text-gray-700 dark:text-gray-300 w-8">
                           {rating}★
                         </span>
-                        <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div className="flex-1 bg-gray-200 dark:bg-gray-600 rounded-full h-3">
                           <div
-                            className="bg-yellow-400 h-2 rounded-full transition-all duration-300"
+                            className="bg-yellow-400 dark:bg-yellow-500 h-3 rounded-full transition-all duration-300"
                             style={{ width: `${percentage}%` }}
                           ></div>
                         </div>
-                        <span className="text-sm text-gray-600 dark:text-gray-400 w-12">
+                        <span className="text-sm text-gray-600 dark:text-gray-400 w-12 text-right">
                           {count}
                         </span>
                       </div>
@@ -501,6 +502,192 @@ const DestinationDetail = () => {
                   )}
                 </>
               )}
+            </div>
+          </div>
+
+          {/* Explore Around Section */}
+          <div className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              Explore Around {destination.name}
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=locations+around+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                className="p-4 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-700 transition-colors duration-200 text-left"
+              >
+                <div className="text-blue-600 dark:text-blue-400 font-semibold mb-1">
+                  Explore Locations
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Discover nearby attractions
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=hotels+accommodation+near+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                className="p-4 bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30 rounded-lg border border-green-200 dark:border-green-700 transition-colors duration-200 text-left"
+              >
+                <div className="text-green-600 dark:text-green-400 font-semibold mb-1">
+                  Find Perfect Stay
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Hotels & accommodations
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=cafes+restaurants+near+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                className="p-4 bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/30 rounded-lg border border-orange-200 dark:border-orange-700 transition-colors duration-200 text-left"
+              >
+                <div className="text-orange-600 dark:text-orange-400 font-semibold mb-1">
+                  Cafes & Restaurants
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Dining options nearby
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=food+beverages+local+cuisine+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                className="p-4 bg-purple-50 dark:bg-purple-900/20 hover:bg-purple-100 dark:hover:bg-purple-900/30 rounded-lg border border-purple-200 dark:border-purple-700 transition-colors duration-200 text-left"
+              >
+                <div className="text-purple-600 dark:text-purple-400 font-semibold mb-1">
+                  Foods & Beverages
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Local cuisine & drinks
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=live+traffic+updates+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                className="p-4 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg border border-red-200 dark:border-red-700 transition-colors duration-200 text-left"
+              >
+                <div className="text-red-600 dark:text-red-400 font-semibold mb-1">
+                  Live Ride Updates
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Traffic & transport info
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=vehicle+rentals+car+bike+rental+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                className="p-4 bg-indigo-50 dark:bg-indigo-900/20 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 rounded-lg border border-indigo-200 dark:border-indigo-700 transition-colors duration-200 text-left"
+              >
+                <div className="text-indigo-600 dark:text-indigo-400 font-semibold mb-1">
+                  Vehicle Rentals
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Cars, bikes & more
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=travel+buddy+companions+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                className="p-4 bg-pink-50 dark:bg-pink-900/20 hover:bg-pink-100 dark:hover:bg-pink-900/30 rounded-lg border border-pink-200 dark:border-pink-700 transition-colors duration-200 text-left"
+              >
+                <div className="text-pink-600 dark:text-pink-400 font-semibold mb-1">
+                  Find Travel Buddy
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Travel companions
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=tour+guides+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                className="p-4 bg-teal-50 dark:bg-teal-900/20 hover:bg-teal-100 dark:hover:bg-teal-900/30 rounded-lg border border-teal-200 dark:border-teal-700 transition-colors duration-200 text-left"
+              >
+                <div className="text-teal-600 dark:text-teal-400 font-semibold mb-1">
+                  Find Tour Guides
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Local expert guides
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=exclusive+combo+packages+tours+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                className="p-4 bg-yellow-50 dark:bg-yellow-900/20 hover:bg-yellow-100 dark:hover:bg-yellow-900/30 rounded-lg border border-yellow-200 dark:border-yellow-700 transition-colors duration-200 text-left"
+              >
+                <div className="text-yellow-600 dark:text-yellow-400 font-semibold mb-1">
+                  Exclusive Combo Packages
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Special tour deals
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=local+tour+packages+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                className="p-4 bg-cyan-50 dark:bg-cyan-900/20 hover:bg-cyan-100 dark:hover:bg-cyan-900/30 rounded-lg border border-cyan-200 dark:border-cyan-700 transition-colors duration-200 text-left"
+              >
+                <div className="text-cyan-600 dark:text-cyan-400 font-semibold mb-1">
+                  Local Tour Packages
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Guided local tours
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=event+updates+delivery+services+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                className="p-4 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg border border-gray-200 dark:border-gray-600 transition-colors duration-200 text-left"
+              >
+                <div className="text-gray-600 dark:text-gray-300 font-semibold mb-1">
+                  Event Updates & Services
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Local events & delivery
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* Additional Information Section */}
+          <div className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+              More About {destination.name}
+            </h2>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=${encodeURIComponent(destination.name)}+images&tbm=isch`, '_blank')}
+                className="p-4 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg border border-blue-200 dark:border-blue-700 transition-colors duration-200 text-center"
+              >
+                <div className="text-blue-600 dark:text-blue-400 font-semibold mb-1">
+                  View More Images
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Google Images
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=${encodeURIComponent(destination.name)}+Sri+Lanka+information`, '_blank')}
+                className="p-4 bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/30 rounded-lg border border-green-200 dark:border-green-700 transition-colors duration-200 text-center"
+              >
+                <div className="text-green-600 dark:text-green-400 font-semibold mb-1">
+                  Know More About
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Detailed information
+                </div>
+              </button>
+
+              <button
+                onClick={() => window.open(`https://www.google.com/search?q=${encodeURIComponent(destination.name)}+weather+Sri+Lanka`, '_blank')}
+                className="p-4 bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-900/30 rounded-lg border border-orange-200 dark:border-orange-700 transition-colors duration-200 text-center"
+              >
+                <div className="text-orange-600 dark:text-orange-400 font-semibold mb-1">
+                  Check Current Weather
+                </div>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  Weather updates
+                </div>
+              </button>
             </div>
           </div>
         </div>
