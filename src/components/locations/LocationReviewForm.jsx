@@ -23,8 +23,8 @@ const LocationReviewForm = ({ locationId, onSubmit, onCancel, existingReview = n
     if (files.length === 0) return;
 
     // Check if adding these files would exceed the limit
-    if (formData.images.length + files.length > 5) {
-      alert('You can upload a maximum of 5 images');
+    if (formData.images.length + files.length > 6) {
+      alert('You can upload a maximum of 6 images');
       return;
     }
 
@@ -210,18 +210,18 @@ const LocationReviewForm = ({ locationId, onSubmit, onCancel, existingReview = n
                   onChange={handleImageUpload}
                   className="hidden"
                   id="review-image-upload"
-                  disabled={imageUploading || formData.images.length >= 5}
+                  disabled={imageUploading || formData.images.length >= 6}
                 />
                 <label
                   htmlFor="review-image-upload"
-                  className={`cursor-pointer ${imageUploading || formData.images.length >= 5 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`cursor-pointer ${imageUploading || formData.images.length >= 6 ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                   <p className="text-gray-600 dark:text-gray-400">
                     {imageUploading ? 'Uploading...' : 'Click to upload photos'}
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-500 mt-1">
-                    PNG, JPG, GIF up to 10MB each ({formData.images.length}/5)
+                    PNG, JPG, GIF up to 10MB each ({formData.images.length}/6)
                   </p>
                 </label>
               </div>

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, MapPin, Star, SlidersHorizontal, ArrowLeft } from 'lucide-react';
+import { Search, Filter, MapPin, Star, SlidersHorizontal, ArrowLeft, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 import LocationCard from '../components/locations/LocationCard';
 import LocationFilterPanel from '../components/locations/LocationFilterPanel';
 
 const ExploreLocations = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -169,15 +171,29 @@ const ExploreLocations = () => {
               </div>
             </div>
             
-            {/* Stats */}
-            <div className="hidden md:flex items-center space-x-6 text-sm text-gray-600 dark:text-gray-400">
-              <div className="flex items-center space-x-2">
-                <MapPin className="w-4 h-4" />
-                <span>{stats.total} locations</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Filter className="w-4 h-4" />
-                <span>{Object.keys(stats.byType).length} types</span>
+            {/* Stats and Actions */}
+            <div className="flex items-center space-x-4">
+              {/* View Favourites Button */}
+              {user && (
+                <button
+                  onClick={() => navigate('/favorites')}
+                  className="flex items-center space-x-2 px-4 py-2 bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-800 transition-colors"
+                >
+                  <Heart className="w-4 h-4 fill-current" />
+                  <span className="hidden sm:inline">View Favourites</span>
+                </button>
+              )}
+
+              {/* Stats */}
+              <div className="hidden md:flex items-center space-x-6 text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center space-x-2">
+                  <MapPin className="w-4 h-4" />
+                  <span>{stats.total} locations</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Filter className="w-4 h-4" />
+                  <span>{Object.keys(stats.byType).length} types</span>
+                </div>
               </div>
             </div>
           </div>
