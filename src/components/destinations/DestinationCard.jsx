@@ -243,11 +243,16 @@ const DestinationCard = ({ destination }) => {
           )}
         </div>
 
-        {/* Climate */}
-        <div className="mb-4">
+        {/* Climate and Recommended Visit Time */}
+        <div className="mb-4 space-y-2">
           <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
             {destination.climate}
           </span>
+          {destination.recommendedToVisit && (
+            <div className="text-xs text-gray-600 dark:text-gray-400">
+              <span className="font-medium">Best time to visit:</span> {destination.recommendedToVisit}
+            </div>
+          )}
         </div>
 
         {/* View More Button */}

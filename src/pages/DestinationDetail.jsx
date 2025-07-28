@@ -536,11 +536,20 @@ const DestinationDetail = () => {
               </div>
               
               <div className="flex items-center justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Distance:</span>
+                <span className="text-gray-600 dark:text-gray-400">Distance from colombo:</span>
                 <span className="font-medium text-gray-900 dark:text-white">
                   {destination.distanceFromColombo} km
                 </span>
               </div>
+
+              {destination.recommendedToVisit && (
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-600 dark:text-gray-400">Best time to visit:</span>
+                  <span className="font-medium text-gray-900 dark:text-white">
+                    {destination.recommendedToVisit}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
