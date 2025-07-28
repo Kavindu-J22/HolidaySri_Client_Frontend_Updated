@@ -27,6 +27,8 @@ import ExplorePromoCodes from './pages/ExplorePromoCodes';
 import FavoritePromoCodes from './pages/FavoritePromoCodes';
 import Notifications from './pages/Notifications';
 import PayHerePayment from './pages/PayHerePayment';
+import PlanDreamTour from './pages/PlanDreamTour';
+import DestinationDetail from './pages/DestinationDetail';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
 import HSGPopup from './components/common/HSGPopup';
@@ -138,6 +140,8 @@ function App() {
                     <PayHerePayment />
                   </ProtectedRoute>
                 } />
+                <Route path="plan-dream-tour" element={<PlanDreamTour />} />
+                <Route path="destinations/:id" element={<DestinationDetail />} />
               </Route>
 
               {/* Catch all route */}
