@@ -101,7 +101,7 @@ const ReviewCard = ({ review, isOwn = false, onUpdate }) => {
   }
 
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 space-y-4">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 space-y-4 shadow-sm">
       {/* Header */}
       <div className="flex items-start justify-between">
         <div className="flex items-start space-x-4">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Star, Heart, Eye, Share2, Navigation } from 'lucide-react';
+import { MapPin, Star, Heart, Eye, Share2, Navigation, Calendar, Thermometer } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const DestinationCard = ({ destination }) => {
@@ -150,84 +150,105 @@ const DestinationCard = ({ destination }) => {
     : destination.description;
 
   return (
-    <div className="card overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer group">
+    <div className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 dark:border-gray-700">
       {/* Image */}
-      <div className="relative h-48 bg-gray-200 dark:bg-gray-700" onClick={handleViewMore}>
+      <div className="relative h-56 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800" onClick={handleViewMore}>
         {destination.images && destination.images.length > 0 ? (
           <img
             src={destination.images[0].url}
             alt={destination.images[0].alt || destination.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center">
-            <MapPin className="w-12 h-12 text-gray-400" />
+            <MapPin className="w-12 h-12 text-gray-400 dark:text-gray-500" />
           </div>
         )}
-        
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
         {/* Type Badge */}
-        <div className="absolute top-3 left-3">
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getTypeColor(destination.type)}`}>
+        <div className="absolute top-4 left-4">
+          <span className={`px-3 py-1.5 rounded-full text-xs font-semibold backdrop-blur-sm ${getTypeColor(destination.type)} shadow-lg`}>
             {destination.type}
           </span>
         </div>
 
         {/* Action Buttons */}
-        <div className="absolute top-3 right-3 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute top-4 right-4 flex space-x-2 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
           <button
             onClick={toggleFavorite}
             disabled={favoriteLoading}
-            className={`p-2 rounded-full shadow-md transition-colors duration-200 ${
-              isFavorite 
-                ? 'bg-red-500 text-white hover:bg-red-600' 
-                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+            className={`p-2.5 rounded-full backdrop-blur-md shadow-lg transition-all duration-200 ${
+              isFavorite
+                ? 'bg-red-500/90 text-white hover:bg-red-600/90 scale-110'
+                : 'bg-white/90 dark:bg-gray-800/90 text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 hover:scale-110'
             }`}
             title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
           >
             <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
           </button>
-          
+
           <button
             onClick={handleShare}
-            className="p-2 bg-white dark:bg-gray-800 rounded-full shadow-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+            className="p-2.5 bg-white/90 dark:bg-gray-800/90 rounded-full backdrop-blur-md shadow-lg hover:bg-white dark:hover:bg-gray-800 hover:scale-110 transition-all duration-200"
             title="Share destination"
           >
-            <Share2 className="w-4 h-4 text-gray-600 dark:text-gray-400" />
+            <Share2 className="w-4 h-4 text-gray-600 dark:text-gray-300" />
           </button>
         </div>
+
+        {/* Rating Badge */}
+        {destination.averageRating > 0 && (
+          <div className="absolute bottom-4 left-4 flex items-center space-x-1 bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm rounded-full px-3 py-1.5 shadow-lg">
+            <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
+            <span className="text-sm font-semibold text-gray-900 dark:text-white">
+              {destination.averageRating.toFixed(1)}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Content */}
       <div className="p-6" onClick={handleViewMore}>
         {/* Header */}
-        <div className="mb-3">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 line-clamp-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
+        <div className="mb-4">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 leading-tight">
             {destination.name}
           </h3>
-          
-          {/* Rating */}
-          <div className="flex items-center space-x-2 mb-2">
-            <div className="flex items-center space-x-1">
-              {renderStars(destination.averageRating)}
+
+          {/* Location & Distance */}
+          <div className="flex flex-col space-y-2 mb-3">
+            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+              <MapPin className="w-4 h-4 mr-2 text-primary-500" />
+              <span className="font-medium">{destination.district}, {destination.province}</span>
             </div>
-            <span className="text-sm text-gray-600 dark:text-gray-400">
-              {destination.averageRating.toFixed(1)} ({destination.totalReviews} reviews)
-            </span>
+            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
+              <Navigation className="w-4 h-4 mr-2 text-primary-500" />
+              <span>{destination.distanceFromColombo} km from Colombo</span>
+            </div>
           </div>
 
-          {/* Location */}
-          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-3">
-            <MapPin className="w-4 h-4 mr-1" />
-            <span>{destination.district}, {destination.province}</span>
-            <span className="mx-2">•</span>
-            <Navigation className="w-4 h-4 mr-1" />
-            <span>{destination.distanceFromColombo} km from Colombo</span>
+          {/* Rating */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-1">
+                {renderStars(destination.averageRating)}
+              </div>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                {destination.averageRating.toFixed(1)}
+              </span>
+            </div>
+            <span className="text-xs text-gray-500 dark:text-gray-400">
+              {destination.totalReviews} reviews
+            </span>
           </div>
         </div>
 
         {/* Description */}
         <div className="mb-4">
-          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3">
             {showMore ? destination.description : truncatedDescription}
           </p>
           {destination.description.length > 120 && (
@@ -236,7 +257,7 @@ const DestinationCard = ({ destination }) => {
                 e.stopPropagation();
                 setShowMore(!showMore);
               }}
-              className="text-primary-600 dark:text-primary-400 text-sm font-medium hover:underline mt-1"
+              className="text-primary-600 dark:text-primary-400 text-xs font-semibold hover:underline mt-2 transition-colors duration-200"
             >
               {showMore ? 'Show less' : 'Show more'}
             </button>
@@ -244,13 +265,19 @@ const DestinationCard = ({ destination }) => {
         </div>
 
         {/* Climate and Recommended Visit Time */}
-        <div className="mb-4 space-y-2">
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-            {destination.climate}
-          </span>
+        <div className="mb-5 space-y-3">
+          <div className="flex items-center space-x-2">
+            <Thermometer className="w-4 h-4 text-blue-500" />
+            <span className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-blue-50 dark:bg-blue-900/20 px-2 py-1 rounded-full">
+              {destination.climate}
+            </span>
+          </div>
           {destination.recommendedToVisit && (
-            <div className="text-xs text-gray-600 dark:text-gray-400">
-              <span className="font-medium">Best time to visit:</span> {destination.recommendedToVisit}
+            <div className="flex items-center space-x-2">
+              <Calendar className="w-4 h-4 text-green-500" />
+              <div className="text-xs text-gray-600 dark:text-gray-400">
+                <span className="font-semibold text-green-600 dark:text-green-400">Best time:</span> {destination.recommendedToVisit}
+              </div>
             </div>
           )}
         </div>
@@ -261,7 +288,7 @@ const DestinationCard = ({ destination }) => {
             e.stopPropagation();
             handleViewMore();
           }}
-          className="w-full btn-primary flex items-center justify-center space-x-2"
+          className="w-full bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
         >
           <Eye className="w-4 h-4" />
           <span>Explore Now</span>

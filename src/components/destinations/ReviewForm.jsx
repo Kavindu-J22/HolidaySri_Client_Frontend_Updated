@@ -180,7 +180,7 @@ const ReviewForm = ({ destinationId, onSubmit, onCancel, existingReview = null }
   };
 
   return (
-    <div className="card p-6">
+    <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
         {existingReview ? 'Edit Your Review' : 'Write a Review'}
       </h3>
@@ -213,7 +213,9 @@ const ReviewForm = ({ destinationId, onSubmit, onCancel, existingReview = null }
             value={formData.comment}
             onChange={handleCommentChange}
             rows={4}
-            className={`input w-full resize-none ${errors.comment ? 'border-red-500' : ''}`}
+            className={`w-full px-4 py-3 border rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent transition-colors duration-200 resize-none ${
+              errors.comment ? 'border-red-500 dark:border-red-400' : 'border-gray-300 dark:border-gray-600'
+            }`}
             placeholder="Share your experience about this destination..."
           />
           <div className="flex justify-between items-center mt-1">
@@ -247,7 +249,7 @@ const ReviewForm = ({ destinationId, onSubmit, onCancel, existingReview = null }
               />
               <label
                 htmlFor="review-images"
-                className={`inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer transition-colors duration-200 ${
+                className={`inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer transition-colors duration-200 ${
                   uploading ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
