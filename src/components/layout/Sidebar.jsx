@@ -80,7 +80,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
       subcategories: [
-        { name: 'Explore Locations', path: '/ads/tourism/explore-locations' },
+        { name: 'Explore Locations', path: '/explore-locations' },
         { name: 'Find Travel Buddys', path: '/ads/tourism/travel-buddys' },
         { name: 'Expert Tour Guiders', path: '/ads/tourism/tour-guiders' },
         { name: 'Local Tour Packages', path: '/ads/tourism/local-packages' },

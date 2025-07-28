@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Heart, MapPin, ArrowLeft } from 'lucide-react';
+import { Heart, MapPin, ArrowLeft, Filter } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import DestinationCard from '../components/destinations/DestinationCard';
+import LocationCard from '../components/locations/LocationCard';
 
 const Favorites = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [favorites, setFavorites] = useState([]);
+  const [destinationFavorites, setDestinationFavorites] = useState([]);
+  const [locationFavorites, setLocationFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [activeTab, setActiveTab] = useState('destinations'); // 'destinations' or 'locations'
 
   useEffect(() => {
     if (!user) {
@@ -18,28 +21,42 @@ const Favorites = () => {
       return;
     }
     fetchFavorites();
-  }, [user, currentPage]);
+  }, [user, currentPage, activeTab]);
 
   const fetchFavorites = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      
+
       const params = new URLSearchParams({
         page: currentPage,
         limit: 12
       });
 
-      const response = await fetch(`/api/favorites?${params}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
+      if (activeTab === 'destinations') {
+        const response = await fetch(`/api/favorites?${params}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        setFavorites(data.favorites);
-        setTotalPages(data.pagination.pages);
+        if (response.ok) {
+          const data = await response.json();
+          setDestinationFavorites(data.favorites);
+          setTotalPages(data.pagination.pages);
+        }
+      } else {
+        const response = await fetch(`/api/location-favorites?${params}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setLocationFavorites(data.favorites);
+          setTotalPages(data.pagination.pages);
+        }
       }
     } catch (error) {
       console.error('Error fetching favorites:', error);
@@ -52,6 +69,13 @@ const Favorites = () => {
     // Refresh the favorites list when a favorite is removed
     fetchFavorites();
   };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setCurrentPage(1);
+  };
+
+  const currentFavorites = activeTab === 'destinations' ? destinationFavorites : locationFavorites;
 
   if (!user) {
     return null;
@@ -76,12 +100,40 @@ const Favorites = () => {
         <div className="flex items-center justify-center space-x-3 mb-4">
           <Heart className="w-8 h-8 text-red-500 fill-current" />
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            My Favorite Destinations
+            My Favorites
           </h1>
         </div>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Your saved destinations for future travel planning
+          Your saved destinations and locations for future travel planning
         </p>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex justify-center">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-1">
+          <div className="flex space-x-1">
+            <button
+              onClick={() => handleTabChange('destinations')}
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeTab === 'destinations'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              Destinations
+            </button>
+            <button
+              onClick={() => handleTabChange('locations')}
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${
+                activeTab === 'locations'
+                  ? 'bg-blue-600 text-white'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+              }`}
+            >
+              Locations
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Content */}
@@ -99,20 +151,20 @@ const Favorites = () => {
             </div>
           ))}
         </div>
-      ) : favorites.length === 0 ? (
+      ) : currentFavorites.length === 0 ? (
         <div className="card p-12 text-center">
           <Heart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-            No favorites yet
+            No {activeTab} favorites yet
           </h3>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Start exploring destinations and add them to your favorites for easy access later
+            Start exploring {activeTab} and add them to your favorites for easy access later
           </p>
           <button
-            onClick={() => navigate('/plan-dream-tour')}
+            onClick={() => navigate(activeTab === 'destinations' ? '/plan-dream-tour' : '/explore-locations')}
             className="btn-primary"
           >
-            Explore Destinations
+            Explore {activeTab === 'destinations' ? 'Destinations' : 'Locations'}
           </button>
         </div>
       ) : (
@@ -120,19 +172,29 @@ const Favorites = () => {
           {/* Results Summary */}
           <div className="flex justify-between items-center">
             <p className="text-gray-600 dark:text-gray-400">
-              {favorites.length} favorite destination{favorites.length !== 1 ? 's' : ''}
+              {currentFavorites.length} favorite {activeTab === 'destinations' ? 'destination' : 'location'}{currentFavorites.length !== 1 ? 's' : ''}
             </p>
           </div>
 
           {/* Favorites Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {favorites.map((favorite) => (
-              <DestinationCard
-                key={favorite._id}
-                destination={favorite.destinationId}
-                onFavoriteChange={handleRemoveFavorite}
-              />
-            ))}
+            {activeTab === 'destinations' ? (
+              destinationFavorites.map((favorite) => (
+                <DestinationCard
+                  key={favorite._id}
+                  destination={favorite.destinationId}
+                  onFavoriteChange={handleRemoveFavorite}
+                />
+              ))
+            ) : (
+              locationFavorites.map((favorite) => (
+                <LocationCard
+                  key={favorite._id}
+                  location={favorite.locationId}
+                  onFavoriteChange={handleRemoveFavorite}
+                />
+              ))
+            )}
           </div>
 
           {/* Pagination */}

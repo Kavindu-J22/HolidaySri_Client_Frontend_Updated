@@ -30,6 +30,8 @@ import PayHerePayment from './pages/PayHerePayment';
 import PlanDreamTour from './pages/PlanDreamTour';
 import DestinationDetail from './pages/DestinationDetail';
 import Favorites from './pages/Favorites';
+import ExploreLocations from './pages/ExploreLocations';
+import LocationDetail from './pages/LocationDetail';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
 import HSGPopup from './components/common/HSGPopup';
@@ -143,6 +145,8 @@ function App() {
                 } />
                 <Route path="plan-dream-tour" element={<PlanDreamTour />} />
                 <Route path="destinations/:id" element={<DestinationDetail />} />
+                <Route path="explore-locations" element={<ExploreLocations />} />
+                <Route path="locations/:id" element={<LocationDetail />} />
                 <Route path="favorites" element={
                   <ProtectedRoute>
                     <Favorites />
