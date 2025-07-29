@@ -236,6 +236,26 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: AUTH_ACTIONS.UPDATE_USER, payload: userData });
   };
 
+  // Refresh user data from server
+  const refreshUser = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (token) {
+        const response = await authAPI.getCurrentUser();
+        dispatch({
+          type: AUTH_ACTIONS.UPDATE_USER,
+          payload: response.data.user,
+        });
+        // Update localStorage
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        return response.data.user;
+      }
+    } catch (error) {
+      console.error('Error refreshing user data:', error);
+      return null;
+    }
+  };
+
   // Clear error
   const clearError = () => {
     dispatch({ type: AUTH_ACTIONS.CLEAR_ERROR });
@@ -250,6 +270,7 @@ export const AuthProvider = ({ children }) => {
     sendOTP,
     verifyOTP,
     updateUser,
+    refreshUser,
     clearError,
   };
 

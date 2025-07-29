@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Crown, 
-  Star, 
-  Check, 
-  Loader, 
-  AlertCircle, 
+import {
+  Crown,
+  Star,
+  Check,
+  Loader,
+  AlertCircle,
   Calendar,
-  DollarSign,
-  Coins,
-  Zap,
-  TrendingUp,
-  Shield,
-  Gift
+  Coins
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { membershipAPI, hscAPI } from '../config/api';
+import { membershipAPI } from '../config/api';
+import MembershipSuccessModal from '../components/MembershipSuccessModal';
 
 const MembershipPage = () => {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
   const navigate = useNavigate();
   const [membershipConfig, setMembershipConfig] = useState(null);
   const [membershipStatus, setMembershipStatus] = useState(null);
@@ -26,6 +22,8 @@ const MembershipPage = () => {
   const [loading, setLoading] = useState(true);
   const [purchasing, setPurchasing] = useState(false);
   const [error, setError] = useState('');
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [purchaseResult, setPurchaseResult] = useState(null);
 
   useEffect(() => {
     fetchMembershipData();
@@ -62,10 +60,17 @@ const MembershipPage = () => {
       setError('');
 
       const response = await membershipAPI.purchase({ membershipType: selectedPlan });
-      
-      // Show success message and refresh status
-      alert('Membership purchased successfully! Welcome to Holidaysri Premium!');
-      await fetchMembershipData();
+
+      // Store purchase result and show success modal
+      setPurchaseResult({
+        membershipType: selectedPlan,
+        features: membershipConfig.features,
+        ...response.data
+      });
+      setShowSuccessModal(true);
+
+      // Refresh user data to show membership status in profile
+      await refreshUser();
       
     } catch (error) {
       console.error('Purchase error:', error);
@@ -359,6 +364,18 @@ const MembershipPage = () => {
           </p>
         )}
       </div>
+
+      {/* Success Modal */}
+      <MembershipSuccessModal
+        isOpen={showSuccessModal}
+        onClose={async () => {
+          setShowSuccessModal(false);
+          // Refresh membership data after modal is closed
+          await fetchMembershipData();
+        }}
+        membershipType={purchaseResult?.membershipType}
+        features={purchaseResult?.features}
+      />
     </div>
   );
 };
