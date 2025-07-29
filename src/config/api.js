@@ -136,4 +136,12 @@ export const adminAPI = {
   getHSCEarnedClaimStats: () => api.get('/admin/hsc-earned-claims/stats'),
 };
 
+// Membership API calls
+export const membershipAPI = {
+  getConfig: () => api.get('/membership/config'),
+  getStatus: () => api.get('/membership/status'),
+  purchase: (membershipData) => api.post('/membership/purchase', membershipData),
+  getTransactions: (params) => api.get('/membership/transactions', { params }),
+};
+
 export default api;

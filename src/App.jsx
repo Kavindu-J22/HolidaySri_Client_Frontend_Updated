@@ -27,6 +27,7 @@ import ExplorePromoCodes from './pages/ExplorePromoCodes';
 import FavoritePromoCodes from './pages/FavoritePromoCodes';
 import Notifications from './pages/Notifications';
 import PayHerePayment from './pages/PayHerePayment';
+import MembershipPage from './pages/MembershipPage';
 import PlanDreamTour from './pages/PlanDreamTour';
 import DestinationDetail from './pages/DestinationDetail';
 import Favorites from './pages/Favorites';
@@ -152,6 +153,7 @@ function App() {
                     <Favorites />
                   </ProtectedRoute>
                 } />
+                <Route path="ads/essential/pricing-memberships" element={<MembershipPage />} />
               </Route>
 
               {/* Catch all route */}

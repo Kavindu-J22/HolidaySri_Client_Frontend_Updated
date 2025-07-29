@@ -12,7 +12,8 @@ import {
   Upload,
   Loader,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  Crown
 } from 'lucide-react';
 
 const PersonalDetails = () => {
@@ -227,12 +228,25 @@ const PersonalDetails = () => {
             </div>
 
             <div className="text-center sm:text-left flex-1 min-w-0">
-              <h2 className="text-xl sm:text-2xl font-bold text-white mb-1 truncate">
-                {user?.name}
-              </h2>
+              <div className="flex items-center justify-center sm:justify-start space-x-2 mb-1">
+                <h2 className="text-xl sm:text-2xl font-bold text-white truncate">
+                  {user?.name}
+                </h2>
+                {user?.isMember && (
+                  <div className="flex items-center space-x-1 bg-yellow-500/20 px-2 py-1 rounded-full border border-yellow-400/30">
+                    <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" />
+                    <span className="text-yellow-400 text-xs font-medium">Member</span>
+                  </div>
+                )}
+              </div>
               <p className="text-primary-100 mb-2 text-sm sm:text-base truncate">
                 {user?.email}
               </p>
+              {user?.isMember && user?.membershipExpirationDate && (
+                <p className="text-primary-200 mb-2 text-xs sm:text-sm">
+                  Member until {new Date(user.membershipExpirationDate).toLocaleDateString()}
+                </p>
+              )}
               <div className="flex items-center justify-center sm:justify-start space-x-2 text-primary-100 text-sm sm:text-base">
                 <Phone className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
                 <span className="truncate">{user?.countryCode} {user?.contactNumber}</span>
