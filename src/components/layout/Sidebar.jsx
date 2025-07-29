@@ -210,7 +210,6 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Crypto Consulting & Signals', path: '/ads/opportunities/crypto' },
         { name: 'Local SIM Cards & Mobile Data Plans', path: '/ads/opportunities/sim-data' },
         { name: 'Custom Ads Campaigns', path: '/ads/opportunities/ads-campaigns' },
-        { name: 'Com.Partners & Partnerships', path: '/ads/opportunities/partnerships' },
         { name: 'Exclusive Offers & Promotions', path: '/ads/opportunities/offers-promotions' },
       ]
     },
@@ -222,7 +221,8 @@ const Sidebar = ({ isOpen, onClose }) => {
       bgColor: 'bg-gray-50',
       subcategories: [
         { name: 'Emergency Services & insurance', path: '/ads/essential/emergency-insurance' },
-        { name: 'Pricing & Memberships', path: '/ads/essential/pricing-memberships' },
+        { name: 'Become a Holidaysri Member', path: '/ads/essential/pricing-memberships' },
+        { name: 'Com.Partners & Partnerships', path: '/ads/opportunities/partnerships' },
         { name: 'Mission Board, User Manual & Important Notice', path: '/ads/essential/mission-manual' },
       ]
     }
