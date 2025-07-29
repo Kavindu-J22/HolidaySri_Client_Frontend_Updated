@@ -16,6 +16,7 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
 import { notificationAPI } from '../../config/api';
+import ProfileImage from '../common/ProfileImage';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -143,17 +144,12 @@ const Navbar = () => {
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
                     className="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
                   >
-                    {user.profileImage ? (
-                      <img
-                        src={user.profileImage}
-                        alt={user.name}
-                        className="w-8 h-8 rounded-full object-cover border-2 border-transparent hover:border-primary-500 transition-colors duration-200"
-                      />
-                    ) : (
-                      <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center hover:bg-primary-700 transition-colors duration-200">
-                        <User className="w-4 h-4 text-white" />
-                      </div>
-                    )}
+                    <ProfileImage
+                      src={user.profileImage}
+                      alt={user.name}
+                      size="sm"
+                      className="border-2 border-transparent hover:border-primary-500 transition-colors duration-200"
+                    />
                     <span className="hidden md:block text-sm font-medium text-gray-700 dark:text-gray-300 max-w-24 truncate">
                       {user.name}
                     </span>
@@ -165,17 +161,12 @@ const Navbar = () => {
                       {/* User Info Header */}
                       <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-t-xl">
                         <div className="flex items-center space-x-3">
-                          {user.profileImage ? (
-                            <img
-                              src={user.profileImage}
-                              alt={user.name}
-                              className="w-12 h-12 rounded-full object-cover border-2 border-white dark:border-gray-700 shadow-sm"
-                            />
-                          ) : (
-                            <div className="w-12 h-12 bg-primary-600 rounded-full flex items-center justify-center shadow-sm">
-                              <User className="w-6 h-6 text-white" />
-                            </div>
-                          )}
+                          <ProfileImage
+                            src={user.profileImage}
+                            alt={user.name}
+                            size="lg"
+                            className="border-2 border-white dark:border-gray-700 shadow-sm"
+                          />
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
                               {user.name}

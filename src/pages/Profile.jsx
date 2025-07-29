@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import ProfileImage from '../components/common/ProfileImage';
 import {
   User,
   ChevronLeft,
@@ -101,17 +102,11 @@ const Profile = () => {
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">Profile</h1>
           </div>
           <div className="flex items-center space-x-3">
-            {user?.profileImage ? (
-              <img
-                src={user.profileImage}
-                alt={user.name}
-                className="w-8 h-8 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-8 h-8 rounded-full bg-primary-600 flex items-center justify-center">
-                <User className="w-4 h-4 text-white" />
-              </div>
-            )}
+            <ProfileImage
+              src={user?.profileImage}
+              alt={user?.name}
+              size="sm"
+            />
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
               {user?.name}
             </span>
@@ -138,17 +133,11 @@ const Profile = () => {
           {/* Desktop Header */}
           <div className="hidden md:flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
             <div className={`flex items-center space-x-3 ${!sidebarOpen && 'justify-center'}`}>
-              {user?.profileImage ? (
-                <img
-                  src={user.profileImage}
-                  alt={user.name}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-primary-600 flex items-center justify-center">
-                  <User className="w-5 h-5 text-white" />
-                </div>
-              )}
+              <ProfileImage
+                src={user?.profileImage}
+                alt={user?.name}
+                size="md"
+              />
               {sidebarOpen && (
                 <div className="min-w-0 flex-1">
                   <h2 className="text-sm font-semibold text-gray-900 dark:text-white truncate">

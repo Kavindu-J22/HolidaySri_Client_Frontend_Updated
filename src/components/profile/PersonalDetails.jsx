@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { userAPI } from '../../config/api';
+import ProfileImage from '../common/ProfileImage';
 import {
   User,
   Mail,
@@ -204,23 +205,21 @@ const PersonalDetails = () => {
         <div className="relative bg-gradient-to-r from-primary-500 to-primary-600 p-4 sm:p-6 md:p-8">
           <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
             <div className="relative">
-              {user?.profileImage ? (
-                <img
-                  src={user.profileImage}
-                  alt={user.name}
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white shadow-lg"
-                />
-              ) : (
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white/20 border-4 border-white shadow-lg flex items-center justify-center">
-                  <User className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
-                </div>
-              )}
+              <ProfileImage
+                src={user?.profileImage}
+                alt={user?.name}
+                size="2xl"
+                className="border-4 border-white shadow-lg"
+                fallbackIcon={User}
+                showSkeleton={true}
+              />
 
               {/* Upload Button */}
               <button
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploadingImage}
                 className="absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 w-8 h-8 sm:w-10 sm:h-10 bg-white dark:bg-gray-800 rounded-full shadow-lg flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+                title="Change profile picture"
               >
                 {uploadingImage ? (
                   <Loader className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
