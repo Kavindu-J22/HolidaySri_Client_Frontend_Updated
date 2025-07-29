@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Hotel,
@@ -28,6 +28,8 @@ import {
   Heart,
   ShoppingBag,
   Music,
+  Search,
+  X,
   Zap,
   Settings,
   Stethoscope,
@@ -62,14 +64,14 @@ import {
   Percent,
   AlertTriangle,
   FileText,
-  Bell,
-  X
+  Bell
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const [expandedCategories, setExpandedCategories] = useState({});
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
   const location = useLocation();
 
   const advertisementCategories = [
@@ -277,11 +279,57 @@ const Sidebar = ({ isOpen, onClose }) => {
     }
   ];
 
+  // Filter categories and subcategories based on search term
+  const filteredCategories = useMemo(() => {
+    if (!searchTerm.trim()) {
+      return advertisementCategories;
+    }
+
+    const searchLower = searchTerm.toLowerCase();
+    return advertisementCategories.map(category => {
+      // Check if category name matches
+      const categoryMatches = category.name.toLowerCase().includes(searchLower);
+
+      // Filter subcategories that match the search term
+      const filteredSubcategories = category.subcategories.filter(subcategory =>
+        subcategory.name.toLowerCase().includes(searchLower)
+      );
+
+      // Include category if either the category name matches or it has matching subcategories
+      if (categoryMatches || filteredSubcategories.length > 0) {
+        return {
+          ...category,
+          subcategories: categoryMatches ? category.subcategories : filteredSubcategories,
+          // Auto-expand categories when searching and they have matching subcategories
+          autoExpand: !categoryMatches && filteredSubcategories.length > 0
+        };
+      }
+      return null;
+    }).filter(Boolean);
+  }, [searchTerm, advertisementCategories]);
+
+  // Auto-expand categories when searching
+  React.useEffect(() => {
+    if (searchTerm.trim()) {
+      const newExpandedCategories = {};
+      filteredCategories.forEach(category => {
+        if (category.autoExpand) {
+          newExpandedCategories[category.id] = true;
+        }
+      });
+      setExpandedCategories(prev => ({ ...prev, ...newExpandedCategories }));
+    }
+  }, [searchTerm, filteredCategories]);
+
   const toggleCategory = (categoryId) => {
     setExpandedCategories(prev => ({
       ...prev,
       [categoryId]: !prev[categoryId]
     }));
+  };
+
+  const clearSearch = () => {
+    setSearchTerm('');
   };
 
   const isActive = (path) => {
@@ -375,11 +423,57 @@ const Sidebar = ({ isOpen, onClose }) => {
 
           {/* Advertisement Categories */}
           <div>
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
-              Categories
-            </h3>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Categories
+              </h3>
+              {searchTerm && (
+                <span className="text-xs text-gray-400 dark:text-gray-500">
+                  {filteredCategories.length} found
+                </span>
+              )}
+            </div>
+
+            {/* Search Input */}
+            <div className="mb-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
+                <input
+                  type="text"
+                  placeholder="Search categories..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-10 py-2.5 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200"
+                />
+                {searchTerm && (
+                  <button
+                    onClick={clearSearch}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* No Results Message */}
+            {searchTerm && filteredCategories.length === 0 && (
+              <div className="text-center py-8">
+                <Search className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  No categories found for "{searchTerm}"
+                </p>
+                <button
+                  onClick={clearSearch}
+                  className="mt-2 text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-200"
+                >
+                  Clear search
+                </button>
+              </div>
+            )}
+
             <div className="space-y-2">
-              {advertisementCategories.map((category) => (
+              {filteredCategories.map((category) => (
                 <div key={category.id}>
                   <button
                     onClick={() => toggleCategory(category.id)}
