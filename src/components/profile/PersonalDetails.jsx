@@ -14,7 +14,8 @@ import {
   Loader,
   CheckCircle,
   AlertCircle,
-  Crown
+  Crown,
+  Briefcase
 } from 'lucide-react';
 
 const PersonalDetails = () => {
@@ -248,6 +249,12 @@ const PersonalDetails = () => {
                     <span className="text-yellow-400 text-xs font-medium">Member</span>
                   </div>
                 )}
+                {user?.isPartner && (
+                  <div className="flex items-center space-x-1 bg-blue-500/20 px-2 py-1 rounded-full border border-blue-400/30">
+                    <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
+                    <span className="text-blue-400 text-xs font-medium">Partner</span>
+                  </div>
+                )}
               </div>
               <p className="text-primary-100 mb-2 text-sm sm:text-base truncate">
                 {user?.email}
@@ -255,6 +262,11 @@ const PersonalDetails = () => {
               {user?.isMember && user?.membershipExpirationDate && (
                 <p className="text-primary-200 mb-2 text-xs sm:text-sm">
                   Member until {new Date(user.membershipExpirationDate).toLocaleDateString()}
+                </p>
+              )}
+              {user?.isPartner && user?.partnerExpirationDate && (
+                <p className="text-primary-200 mb-2 text-xs sm:text-sm">
+                  Partner until {new Date(user.partnerExpirationDate).toLocaleDateString()}
                 </p>
               )}
               <div className="flex items-center justify-center sm:justify-start space-x-2 text-primary-100 text-sm sm:text-base">

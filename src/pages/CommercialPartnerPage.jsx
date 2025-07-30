@@ -29,6 +29,7 @@ const CommercialPartnerPage = () => {
   const [purchasing, setPurchasing] = useState(false);
   const [error, setError] = useState('');
   const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const [hscValue, setHscValue] = useState(100);
 
   // Registration form state
@@ -42,6 +43,25 @@ const CommercialPartnerPage = () => {
       passport: ''
     }
   });
+
+  // Business type options
+  const businessTypes = [
+    'Tourism Agency',
+    'Event Planning Company',
+    'Advertising Agency',
+    'Software Company',
+    'Hotel',
+    'Restaurant',
+    'Travel Service Provider',
+    'Transportation Service',
+    'Entertainment Company',
+    'Photography & Videography',
+    'Wedding Planning Service',
+    'Real Estate Agency',
+    'Construction Company',
+    'Consulting Firm',
+    'Other'
+  ];
   const [uploading, setUploading] = useState({
     logo: false,
     nicFront: false,
@@ -140,26 +160,32 @@ const CommercialPartnerPage = () => {
     setShowRegistrationForm(true);
   };
 
-  const handleSubmitRegistration = async () => {
-    try {
-      // Validate form
-      if (!formData.companyName.trim()) {
-        setError('Company name is required');
-        return;
-      }
-      if (!formData.businessLogo) {
-        setError('Business logo is required');
-        return;
-      }
-      if (!formData.documents.passport && (!formData.documents.nicFront || !formData.documents.nicBack)) {
-        setError('Please upload either passport or both NIC front and back images');
-        return;
-      }
+  const handleProceedClick = () => {
+    // Validate form
+    if (!formData.companyName.trim()) {
+      setError('Company name is required');
+      return;
+    }
+    if (!formData.businessLogo) {
+      setError('Business logo is required');
+      return;
+    }
+    if (!formData.documents.passport && (!formData.documents.nicFront || !formData.documents.nicBack)) {
+      setError('Please upload either passport or both NIC front and back images');
+      return;
+    }
 
+    setError('');
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmRegistration = async () => {
+    try {
       setPurchasing(true);
       setError('');
+      setShowConfirmation(false);
 
-      const response = await commercialPartnerAPI.purchase({
+      await commercialPartnerAPI.purchase({
         partnershipType: selectedPlan,
         companyName: formData.companyName.trim(),
         businessType: formData.businessType,
@@ -170,7 +196,7 @@ const CommercialPartnerPage = () => {
       // Refresh user data and partner status
       await refreshUser();
       await fetchPartnerData();
-      
+
       setShowRegistrationForm(false);
       setFormData({
         companyName: '',
@@ -178,6 +204,9 @@ const CommercialPartnerPage = () => {
         businessLogo: '',
         documents: { nicFront: '', nicBack: '', passport: '' }
       });
+
+      // Auto scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (error) {
       console.error('Registration error:', error);
@@ -601,10 +630,9 @@ const CommercialPartnerPage = () => {
                     onChange={(e) => setFormData(prev => ({ ...prev, businessType: e.target.value }))}
                     className="input"
                   >
-                    <option value="Tourism Agency">Tourism Agency</option>
-                    <option value="Event Planning Company">Event Planning Company</option>
-                    <option value="Advertising Agency">Advertising Agency</option>
-                    <option value="Other">Other</option>
+                    {businessTypes.map((type) => (
+                      <option key={type} value={type}>{type}</option>
+                    ))}
                   </select>
                 </div>
 
@@ -756,7 +784,7 @@ const CommercialPartnerPage = () => {
                     Cancel
                   </button>
                   <button
-                    onClick={handleSubmitRegistration}
+                    onClick={handleProceedClick}
                     disabled={purchasing}
                     className="btn-primary flex items-center space-x-2"
                   >
@@ -772,6 +800,90 @@ const CommercialPartnerPage = () => {
                     )}
                   </button>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {showConfirmation && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-900 rounded-lg max-w-md w-full">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Confirm Registration
+                </h3>
+                <button
+                  onClick={() => setShowConfirmation(false)}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="mb-6">
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4 mb-4">
+                  <div className="flex items-start space-x-3">
+                    <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h4 className="text-sm font-medium text-yellow-800 dark:text-yellow-200 mb-1">
+                        Important Notice
+                      </h4>
+                      <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                        Are you sure the provided details are correct? After registration, you cannot edit your business name or type for security purposes. Only your logo can be updated.
+                        If you need to change other details, you'll need to contact our support team with a valid reason.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-3 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">Company Name:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{formData.companyName}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">Business Type:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">{formData.businessType}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">Partnership Type:</span>
+                    <span className="font-medium text-gray-900 dark:text-white capitalize">{selectedPlan}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600 dark:text-gray-400">HSC Cost:</span>
+                    <span className="font-medium text-gray-900 dark:text-white">
+                      {selectedPlan === 'monthly' ? monthlyHSC : yearlyHSC} HSC
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setShowConfirmation(false)}
+                  className="btn-secondary"
+                >
+                  Go Back
+                </button>
+                <button
+                  onClick={handleConfirmRegistration}
+                  disabled={purchasing}
+                  className="btn-primary flex items-center space-x-2"
+                >
+                  {purchasing ? (
+                    <>
+                      <Loader className="w-4 h-4 animate-spin" />
+                      <span>Processing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Confirm & Proceed</span>
+                    </>
+                  )}
+                </button>
               </div>
             </div>
           </div>
