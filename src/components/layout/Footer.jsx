@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../../contexts/ThemeContext';
+import { newsletterAPI } from '../../config/api';
 import {
   Facebook,
   Twitter,
@@ -13,12 +14,22 @@ import {
   Heart,
   Shield,
   Award,
-  Users
+  Users,
+  CheckCircle,
+  AlertCircle,
+  X
 } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const { isDarkMode } = useTheme();
+
+  // Newsletter subscription state
+  const [email, setEmail] = useState('');
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState('');
+  const [popupType, setPopupType] = useState('success'); // 'success' or 'error'
 
   const quickLinks = [
     { name: 'Home', path: '/' },
@@ -51,6 +62,62 @@ const Footer = () => {
     { name: 'Partner with Us', path: '/partners' },
     { name: 'Advertise with Us', path: '/advertise' }
   ];
+
+  // Newsletter subscription handler
+  const handleNewsletterSubscription = async (e) => {
+    e.preventDefault();
+
+    if (!email.trim()) {
+      showPopupMessage('Please enter your email address', 'error');
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showPopupMessage('Please enter a valid email address', 'error');
+      return;
+    }
+
+    setIsSubscribing(true);
+
+    try {
+      const response = await newsletterAPI.subscribe(email);
+
+      if (response.data.newSubscriber) {
+        showPopupMessage('Thank you for subscribing to our newsletter! We will keep you updated with the latest travel news and offers.', 'success');
+      } else if (response.data.resubscribed) {
+        showPopupMessage('Welcome back! You have been resubscribed to our newsletter.', 'success');
+      }
+
+      setEmail(''); // Clear the input
+    } catch (error) {
+      if (error.response?.data?.alreadySubscribed) {
+        showPopupMessage('This email is already subscribed to our newsletter. Thank you for your continued interest!', 'error');
+      } else {
+        showPopupMessage(error.response?.data?.message || 'Failed to subscribe. Please try again later.', 'error');
+      }
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
+
+  // Show popup message
+  const showPopupMessage = (message, type) => {
+    setPopupMessage(message);
+    setPopupType(type);
+    setShowPopup(true);
+
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 5000);
+  };
+
+  // Close popup
+  const closePopup = () => {
+    setShowPopup(false);
+  };
 
   return (
     <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
@@ -238,16 +305,30 @@ const Footer = () => {
             {/* Newsletter */}
             <div className="text-center md:text-right">
               <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Stay Updated</h4>
-              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+              <form onSubmit={handleNewsletterSubscription} className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                 <input
                   type="email"
                   placeholder="Enter your email"
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={isSubscribing}
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                 />
-                <button className="btn-primary whitespace-nowrap">
-                  Subscribe
+                <button
+                  type="submit"
+                  disabled={isSubscribing}
+                  className="btn-primary whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                >
+                  {isSubscribing ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Subscribing...
+                    </>
+                  ) : (
+                    'Subscribe'
+                  )}
                 </button>
-              </div>
+              </form>
             </div>
           </div>
         </div>
@@ -276,6 +357,59 @@ const Footer = () => {
           </div>
         </div>
       </div>
+
+      {/* Newsletter Subscription Popup */}
+      {showPopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full mx-4 animate-scale-in">
+            <div className="p-6">
+              <div className="flex items-start space-x-4">
+                <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
+                  popupType === 'success'
+                    ? 'bg-green-100 dark:bg-green-900/20'
+                    : 'bg-red-100 dark:bg-red-900/20'
+                }`}>
+                  {popupType === 'success' ? (
+                    <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  ) : (
+                    <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-400" />
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className={`text-lg font-semibold ${
+                    popupType === 'success'
+                      ? 'text-green-800 dark:text-green-200'
+                      : 'text-red-800 dark:text-red-200'
+                  }`}>
+                    {popupType === 'success' ? 'Success!' : 'Notice'}
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                    {popupMessage}
+                  </p>
+                </div>
+                <button
+                  onClick={closePopup}
+                  className="flex-shrink-0 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
+                >
+                  <X className="w-5 h-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+                </button>
+              </div>
+              <div className="mt-6 flex justify-end">
+                <button
+                  onClick={closePopup}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+                    popupType === 'success'
+                      ? 'bg-green-600 hover:bg-green-700 text-white'
+                      : 'bg-red-600 hover:bg-red-700 text-white'
+                  }`}
+                >
+                  OK
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </footer>
   );
 };

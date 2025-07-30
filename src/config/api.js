@@ -118,6 +118,12 @@ export const notificationAPI = {
   deleteNotification: (id) => api.delete(`/notifications/${id}`),
 };
 
+// Newsletter API calls
+export const newsletterAPI = {
+  subscribe: (email) => api.post('/newsletter/subscribe', { email }),
+  unsubscribe: (email) => api.post('/newsletter/unsubscribe', { email }),
+};
+
 // Admin API calls
 export const adminAPI = {
   login: (username, password) => api.post('/admin/login', { username, password }),
