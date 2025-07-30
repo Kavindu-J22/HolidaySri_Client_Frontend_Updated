@@ -21,12 +21,22 @@ import {
 const PersonalDetails = () => {
   const { user, updateUser, refreshUser } = useAuth();
 
-  // Refresh user data when component mounts to ensure latest membership status
+  // Refresh user data when component mounts to ensure latest membership and partner status
   useEffect(() => {
     if (refreshUser) {
       refreshUser();
     }
   }, [refreshUser]);
+
+  // Debug: Log user data to see if partner fields are present
+  useEffect(() => {
+    console.log('PersonalDetails - User data:', {
+      isPartner: user?.isPartner,
+      partnerExpirationDate: user?.partnerExpirationDate,
+      isMember: user?.isMember,
+      membershipExpirationDate: user?.membershipExpirationDate
+    });
+  }, [user]);
 
 
 
@@ -250,9 +260,9 @@ const PersonalDetails = () => {
                   </div>
                 )}
                 {user?.isPartner && (
-                  <div className="flex items-center space-x-1 bg-blue-500/20 px-2 py-1 rounded-full border border-blue-400/30">
-                    <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400" />
-                    <span className="text-blue-400 text-xs font-medium">Partner</span>
+                  <div className="flex items-center space-x-1 bg-green-500/20 px-2 py-1 rounded-full border border-blue-400/30">
+                    <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                    <span className="text-green-400 text-xs font-medium">Partner</span>
                   </div>
                 )}
               </div>

@@ -193,9 +193,11 @@ const CommercialPartnerPage = () => {
         documents: formData.documents
       });
 
-      // Refresh user data and partner status
-      await refreshUser();
-      await fetchPartnerData();
+      // Refresh user data and partner status with a small delay to ensure DB consistency
+      setTimeout(async () => {
+        await refreshUser();
+        await fetchPartnerData();
+      }, 500);
 
       setShowRegistrationForm(false);
       setFormData({
@@ -614,7 +616,7 @@ const CommercialPartnerPage = () => {
                       type="text"
                       value={formData.companyName}
                       onChange={(e) => setFormData(prev => ({ ...prev, companyName: e.target.value }))}
-                      className="input pl-10"
+                      className="input-field pl-10"
                       placeholder="Enter your company name"
                     />
                   </div>
@@ -628,7 +630,7 @@ const CommercialPartnerPage = () => {
                   <select
                     value={formData.businessType}
                     onChange={(e) => setFormData(prev => ({ ...prev, businessType: e.target.value }))}
-                    className="input"
+                    className="input-field"
                   >
                     {businessTypes.map((type) => (
                       <option key={type} value={type}>{type}</option>
