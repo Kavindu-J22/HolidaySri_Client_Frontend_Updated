@@ -27,6 +27,7 @@ import ExplorePromoCodes from './pages/ExplorePromoCodes';
 import FavoritePromoCodes from './pages/FavoritePromoCodes';
 import Notifications from './pages/Notifications';
 import PayHerePayment from './pages/PayHerePayment';
+import CommercialPartnerPage from './pages/CommercialPartnerPage';
 import MembershipPage from './pages/MembershipPage';
 import PlanDreamTour from './pages/PlanDreamTour';
 import DestinationDetail from './pages/DestinationDetail';
@@ -154,6 +155,7 @@ function App() {
                   </ProtectedRoute>
                 } />
                 <Route path="ads/essential/pricing-memberships" element={<MembershipPage />} />
+                <Route path="ads/opportunities/partnerships" element={<CommercialPartnerPage />} />
               </Route>
 
               {/* Catch all route */}

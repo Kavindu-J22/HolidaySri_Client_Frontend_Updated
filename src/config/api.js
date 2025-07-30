@@ -144,4 +144,13 @@ export const membershipAPI = {
   getTransactions: (params) => api.get('/membership/transactions', { params }),
 };
 
+// Commercial Partner API calls
+export const commercialPartnerAPI = {
+  getConfig: () => api.get('/commercial-partner/config'),
+  getStatus: () => api.get('/commercial-partner/status'),
+  purchase: (partnerData) => api.post('/commercial-partner/purchase', partnerData),
+  getPartners: () => api.get('/commercial-partner/partners'),
+  updateLogo: (logoData) => api.put('/commercial-partner/update-logo', logoData),
+};
+
 export default api;

@@ -7,10 +7,11 @@ import {
   Loader,
   AlertCircle,
   Calendar,
-  Coins
+  Coins,
+  Briefcase
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { membershipAPI } from '../config/api';
+import { membershipAPI, commercialPartnerAPI } from '../config/api';
 import MembershipSuccessModal from '../components/MembershipSuccessModal';
 
 const MembershipPage = () => {
@@ -24,6 +25,7 @@ const MembershipPage = () => {
   const [error, setError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [purchaseResult, setPurchaseResult] = useState(null);
+  const [partnerStatus, setPartnerStatus] = useState(null);
 
   useEffect(() => {
     fetchMembershipData();
@@ -32,14 +34,18 @@ const MembershipPage = () => {
   const fetchMembershipData = async () => {
     try {
       setLoading(true);
-      const [configResponse, statusResponse] = await Promise.all([
+      const [configResponse, statusResponse, partnerStatusResponse] = await Promise.all([
         membershipAPI.getConfig(),
-        user ? membershipAPI.getStatus() : Promise.resolve({ data: null })
+        user ? membershipAPI.getStatus() : Promise.resolve({ data: null }),
+        user ? commercialPartnerAPI.getStatus() : Promise.resolve({ data: null })
       ]);
 
       setMembershipConfig(configResponse.data);
       if (statusResponse.data) {
         setMembershipStatus(statusResponse.data);
+      }
+      if (partnerStatusResponse.data) {
+        setPartnerStatus(partnerStatusResponse.data);
       }
     } catch (error) {
       console.error('Error fetching membership data:', error);
@@ -101,6 +107,110 @@ const MembershipPage = () => {
         </div>
       </div>
     );
+  }
+
+  // If user is a commercial partner, show special message
+  if (partnerStatus?.isPartner && partnerStatus?.partnerDetails) {
+    const expirationDate = new Date(partnerStatus.partnerExpirationDate);
+    const isExpired = expirationDate < new Date();
+
+    if (!isExpired) {
+      return (
+        <div className="max-w-4xl mx-auto px-4 py-8">
+          <div className="text-center mb-8">
+            <Crown className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              You're Already a Commercial Partner!
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-400">
+              No need to become a member - you already enjoy benefits more than a member
+            </p>
+          </div>
+
+          <div className="card p-8 text-center mb-8">
+            <div className="flex items-center justify-center space-x-4 mb-6">
+              <img
+                src={partnerStatus.partnerDetails.businessLogo}
+                alt={partnerStatus.partnerDetails.companyName}
+                className="w-16 h-16 rounded-full object-cover"
+              />
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {partnerStatus.partnerDetails.companyName}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Commercial Partner
+                </p>
+              </div>
+            </div>
+
+            <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium mb-4 bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+              <Crown className="w-4 h-4 mr-2" />
+              Active Commercial Partner
+            </div>
+
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Valid until {expirationDate.toLocaleDateString()}
+            </p>
+
+            <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-6">
+              <h4 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-4">
+                🎉 You Enjoy Premium Commercial Benefits
+              </h4>
+              <p className="text-blue-700 dark:text-blue-300 mb-4">
+                As a Commercial Partner, you have access to all membership benefits and much more:
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-left">
+                <div className="flex items-start space-x-2">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-blue-700 dark:text-blue-300 text-sm">All membership benefits included</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-blue-700 dark:text-blue-300 text-sm">Enhanced business visibility</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-blue-700 dark:text-blue-300 text-sm">Premium listing features</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-blue-700 dark:text-blue-300 text-sm">Priority customer support</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-blue-700 dark:text-blue-300 text-sm">Access to exclusive business tools</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-blue-700 dark:text-blue-300 text-sm">Advanced analytics and insights</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="text-center">
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              Continue enjoying your premium commercial partner benefits!
+            </p>
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={() => navigate('/ads/opportunities/partnerships')}
+                className="btn-secondary"
+              >
+                View Partner Dashboard
+              </button>
+              <button
+                onClick={() => navigate('/post-advertisement')}
+                className="btn-primary"
+              >
+                Post Advertisement
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    }
   }
 
   // If user is already a member
