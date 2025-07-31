@@ -308,11 +308,11 @@ const PromoCodesAndTravelAgents = () => {
 
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center text-gray-600 dark:text-gray-400">
-                      <Calendar className="w-3 h-3 mr-1" />
-                      Monthly Ad
+                      <Clock className="w-3 h-3 mr-1" />
+                      Hourly Ad
                     </span>
                     <span className="font-medium text-green-600 dark:text-green-400">
-                      {promoData?.earningForMonthlyAd || 0} LKR
+                      {promoData?.earningForHourlyAd || 0} LKR
                     </span>
                   </div>
 
@@ -323,6 +323,30 @@ const PromoCodesAndTravelAgents = () => {
                     </span>
                     <span className="font-medium text-green-600 dark:text-green-400">
                       {promoData?.earningForDailyAd || 0} LKR
+                    </span>
+                  </div>
+
+
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="flex items-center text-gray-600 dark:text-gray-400">
+                      <Calendar className="w-3 h-3 mr-1" />
+                      Monthly Ad
+                    </span>
+                    <span className="font-medium text-green-600 dark:text-green-400">
+                      {promoData?.earningForMonthlyAd || 0} LKR
+                    </span>
+                  </div>
+
+                  
+                  
+
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="flex items-center text-gray-600 dark:text-gray-400">
+                      <Calendar className="w-3 h-3 mr-1" />
+                      Yearly Ad
+                    </span>
+                    <span className="font-medium text-green-600 dark:text-green-400">
+                      {promoData?.earningForYearlyAd || 0} LKR
                     </span>
                   </div>
                 </div>
