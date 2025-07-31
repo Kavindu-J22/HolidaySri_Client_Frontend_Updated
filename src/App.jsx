@@ -37,6 +37,7 @@ import LocationDetail from './pages/LocationDetail';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
 import HSGPopup from './components/common/HSGPopup';
+import PostAdvertisement from './pages/PostAdvertisement';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -156,6 +157,7 @@ function App() {
                 } />
                 <Route path="ads/essential/pricing-memberships" element={<MembershipPage />} />
                 <Route path="ads/opportunities/partnerships" element={<CommercialPartnerPage />} />
+                <Route path="post-advertisement" element={<PostAdvertisement />} />
               </Route>
 
               {/* Catch all route */}
