@@ -236,7 +236,7 @@ const PreUsedMarketplace = () => {
         ...prev,
         status: 'success',
         title: '🎉 Purchase Successful!',
-        message: `Congratulations! You are now an agent with Holidaysri Tourism. You've successfully purchased promo code "${response.data.promoCode}" and can start earning commissions right away!`,
+        message: `Congratulations! You are now an agent with Holidaysri.com. You've successfully purchased promo code "${response.data.promoCode}" and can start earning commissions right away!`,
         showConfirmation: false
       }));
 

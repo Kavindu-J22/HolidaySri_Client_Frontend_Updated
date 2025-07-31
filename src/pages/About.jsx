@@ -17,7 +17,7 @@ const About = () => {
           About Page Coming Soon
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
-          This page will contain information about Holidaysri Tourism Agency.
+          This page will contain information about Holidaysri.com Agency.
         </p>
       </div>
     </div>
