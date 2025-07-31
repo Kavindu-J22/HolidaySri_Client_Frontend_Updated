@@ -124,6 +124,11 @@ export const newsletterAPI = {
   unsubscribe: (email) => api.post('/newsletter/unsubscribe', { email }),
 };
 
+// Advertisement Slot Charges API calls (public)
+export const advertisementAPI = {
+  getSlotCharges: () => api.get('/public/advertisement-slot-charges'),
+};
+
 // Admin API calls
 export const adminAPI = {
   login: (username, password) => api.post('/admin/login', { username, password }),
