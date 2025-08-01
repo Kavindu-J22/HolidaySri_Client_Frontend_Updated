@@ -32,9 +32,10 @@ const AdvertisementPlanPopup = ({
   const navigate = useNavigate();
   
   // State management
-  const [currentStep, setCurrentStep] = useState(1); // 1: Plan Selection, 2: Payment Method
+  const [currentStep, setCurrentStep] = useState(1); // 1: Plan Selection, 2: Payment Method, 3: Hour Selection (for hourly)
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const [selectedHours, setSelectedHours] = useState(1);
   const [userBalances, setUserBalances] = useState({
     hsc: 0,
     hsg: 0,
@@ -88,35 +89,113 @@ const AdvertisementPlanPopup = ({
 
     const categoryKey = selectedSlot.categoryId;
     const slotKey = selectedSlot.slotId;
-    
+
     let slotPricing = null;
-    
+
     // Handle home banner special case
     if (categoryKey === 'home_banner') {
       slotPricing = slotCharges.homeBanner;
     } else {
-      // Handle other categories
-      const categoryData = slotCharges[categoryKey];
-      if (categoryData && categoryData[slotKey]) {
-        slotPricing = categoryData[slotKey];
+      // Category and slot mapping (same as PostAdvertisement page)
+      const categoryMapping = {
+        'tourism_travel': 'tourismTravel',
+        'accommodation_dining': 'accommodationDining',
+        'vehicles_transport': 'vehiclesTransport',
+        'events_management': 'eventsManagement',
+        'professionals_services': 'professionalsServices',
+        'caring_donations': 'caringDonations',
+        'marketplace_shopping': 'marketplaceShopping',
+        'entertainment_fitness': 'entertainmentFitness',
+        'special_opportunities': 'specialOpportunities',
+        'essential_services': 'essentialServices'
+      };
+
+      const slotMapping = {
+        'travel_buddys': 'travelBuddys',
+        'tour_guiders': 'tourGuiders',
+        'local_tour_packages': 'localTourPackages',
+        'customize_tour_package': 'customizeTourPackage',
+        'travelsafe_help_professionals': 'travelSafeHelpProfessionals',
+        'rent_land_camping_parking': 'rentLandCampingParking',
+        'hotels_accommodations': 'hotelsAccommodations',
+        'cafes_restaurants': 'cafesRestaurants',
+        'foods_beverages': 'foodsBeverages',
+        'vehicle_rentals_hire': 'vehicleRentalsHire',
+        'live_rides_carpooling': 'liveRidesCarpooling',
+        'professional_drivers': 'professionalDrivers',
+        'vehicle_repairs_mechanics': 'vehicleRepairsMechanics',
+        'events_updates': 'eventsUpdates',
+        'event_planners_coordinators': 'eventPlannersCoordinators',
+        'creative_photographers': 'creativePhotographers',
+        'decorators_florists': 'decoratorsFlorists',
+        'salon_makeup_artists': 'salonMakeupArtists',
+        'fashion_designers': 'fashionDesigners',
+        'expert_doctors': 'expertDoctors',
+        'professional_lawyers': 'professionalLawyers',
+        'advisors_counselors': 'advisorsCounselors',
+        'language_translators': 'languageTranslators',
+        'expert_architects': 'expertArchitects',
+        'trusted_astrologists': 'trustedAstrologists',
+        'delivery_partners': 'deliveryPartners',
+        'graphics_it_tech_repair': 'graphicsItTechRepair',
+        'educational_tutoring': 'educationalTutoring',
+        'currency_exchange': 'currencyExchange',
+        'other_professionals_services': 'otherProfessionalsServices',
+        'caregivers_time_currency': 'caregiversTimeCurrency',
+        'babysitters_childcare': 'babysittersChildcare',
+        'pet_care_animal_services': 'petCareAnimalServices',
+        'donations_raise_fund': 'donationsRaiseFund',
+        'rent_property_buying_selling': 'rentPropertyBuyingSelling',
+        'exclusive_gift_packs': 'exclusiveGiftPacks',
+        'souvenirs_collectibles': 'souvenirsCollectibles',
+        'jewelry_gem_sellers': 'jewelryGemSellers',
+        'home_office_accessories_tech': 'homeOfficeAccessoriesTech',
+        'fashion_beauty_clothing': 'fashionBeautyClothing',
+        'daily_grocery_essentials': 'dailyGroceryEssentials',
+        'organic_herbal_products_spices': 'organicHerbalProductsSpices',
+        'books_magazines_educational': 'booksMagazinesEducational',
+        'other_items': 'otherItems',
+        'create_link_own_store': 'createLinkOwnStore',
+        'exclusive_combo_packages': 'exclusiveComboPackages',
+        'talented_entertainers_artists': 'talentedEntertainersArtists',
+        'fitness_health_spas_gym': 'fitnessHealthSpasGym',
+        'cinema_movie_hub': 'cinemaMovieHub',
+        'social_media_promotions': 'socialMediaPromotions',
+        'job_opportunities': 'jobOpportunities',
+        'crypto_consulting_signals': 'cryptoConsultingSignals',
+        'local_sim_mobile_data': 'localSimMobileData',
+        'custom_ads_campaigns': 'customAdsCampaigns',
+        'exclusive_offers_promotions': 'exclusiveOffersPromotions',
+        'emergency_services_insurance': 'emergencyServicesInsurance'
+      };
+
+      const backendCategoryKey = categoryMapping[categoryKey];
+      const backendSlotKey = slotMapping[slotKey];
+
+      if (backendCategoryKey && backendSlotKey) {
+        const categoryData = slotCharges[backendCategoryKey];
+        if (categoryData && categoryData[backendSlotKey]) {
+          slotPricing = categoryData[backendSlotKey];
+        }
       }
     }
 
     if (!slotPricing) return [];
 
     const plans = [];
-    
+
     // Add hourly plan if available (only for home banner)
     if (slotPricing.hourlyCharge) {
       plans.push({
         id: 'hourly',
         name: 'Hourly',
-        duration: '1 Hour',
+        duration: 'Per Hour',
         icon: Clock,
         color: 'from-orange-500 to-red-500',
         lkrPrice: slotPricing.hourlyCharge,
-        hscPrice: Math.ceil(slotPricing.hourlyCharge / hscValue),
-        description: 'Perfect for short-term promotions'
+        hscPrice: parseFloat((slotPricing.hourlyCharge / hscValue).toFixed(2)),
+        description: 'Perfect for short-term promotions',
+        requiresHours: true
       });
     }
 
@@ -129,7 +208,7 @@ const AdvertisementPlanPopup = ({
         icon: Calendar,
         color: 'from-blue-500 to-cyan-500',
         lkrPrice: slotPricing.dailyCharge,
-        hscPrice: Math.ceil(slotPricing.dailyCharge / hscValue),
+        hscPrice: parseFloat((slotPricing.dailyCharge / hscValue).toFixed(2)),
         description: 'Great for daily promotions'
       });
     }
@@ -143,7 +222,7 @@ const AdvertisementPlanPopup = ({
         icon: CalendarDays,
         color: 'from-green-500 to-emerald-500',
         lkrPrice: slotPricing.monthlyCharge,
-        hscPrice: Math.ceil(slotPricing.monthlyCharge / hscValue),
+        hscPrice: parseFloat((slotPricing.monthlyCharge / hscValue).toFixed(2)),
         description: 'Most popular choice',
         popular: true
       });
@@ -158,7 +237,7 @@ const AdvertisementPlanPopup = ({
         icon: CalendarRange,
         color: 'from-purple-500 to-pink-500',
         lkrPrice: slotPricing.yearlyCharge,
-        hscPrice: Math.ceil(slotPricing.yearlyCharge / hscValue),
+        hscPrice: parseFloat((slotPricing.yearlyCharge / hscValue).toFixed(2)),
         description: 'Best value for long-term advertising'
       });
     }
@@ -170,15 +249,24 @@ const AdvertisementPlanPopup = ({
   const getPaymentMethods = () => {
     if (!selectedPlan) return [];
 
+    // Calculate total cost based on plan and hours (if hourly)
+    const totalLkrPrice = selectedPlan.id === 'hourly'
+      ? selectedPlan.lkrPrice * selectedHours
+      : selectedPlan.lkrPrice;
+
+    const totalHscPrice = selectedPlan.id === 'hourly'
+      ? selectedPlan.hscPrice * selectedHours
+      : selectedPlan.hscPrice;
+
     const methods = [
       {
         id: 'hsc',
         name: 'HSC Tokens',
         icon: Zap,
         color: 'from-blue-500 to-cyan-500',
-        balance: userBalances.hsc,
-        requiredAmount: selectedPlan.hscPrice,
-        convertedValue: selectedPlan.lkrPrice,
+        balance: parseFloat(userBalances.hsc.toFixed(2)),
+        requiredAmount: parseFloat(totalHscPrice.toFixed(2)),
+        convertedValue: totalLkrPrice,
         currency: 'HSC',
         description: 'Use your HSC tokens'
       },
@@ -187,9 +275,9 @@ const AdvertisementPlanPopup = ({
         name: 'HSG Gems',
         icon: Gem,
         color: 'from-green-500 to-emerald-500',
-        balance: userBalances.hsg,
-        requiredAmount: Math.ceil(selectedPlan.lkrPrice / tokenValues.hsgValue),
-        convertedValue: selectedPlan.lkrPrice,
+        balance: parseFloat(userBalances.hsg.toFixed(2)),
+        requiredAmount: parseFloat((totalLkrPrice / tokenValues.hsgValue).toFixed(2)),
+        convertedValue: totalLkrPrice,
         currency: 'HSG',
         description: 'Use your HSG gems'
       },
@@ -198,9 +286,9 @@ const AdvertisementPlanPopup = ({
         name: 'HSD Earnings',
         icon: Diamond,
         color: 'from-purple-500 to-pink-500',
-        balance: userBalances.hsd,
-        requiredAmount: Math.ceil(selectedPlan.lkrPrice / tokenValues.hsdValue),
-        convertedValue: selectedPlan.lkrPrice,
+        balance: parseFloat(userBalances.hsd.toFixed(2)),
+        requiredAmount: parseFloat((totalLkrPrice / tokenValues.hsdValue).toFixed(2)),
+        convertedValue: totalLkrPrice,
         currency: 'HSD',
         description: 'Use your HSD earnings'
       }
@@ -222,9 +310,22 @@ const AdvertisementPlanPopup = ({
   // Handle plan selection
   const handlePlanSelect = (plan) => {
     if (!handleAuthCheck()) return;
-    
+
     setSelectedPlan(plan);
-    setCurrentStep(2);
+
+    // If hourly plan, go to hour selection step, otherwise go to payment method
+    if (plan.requiresHours) {
+      setCurrentStep(3); // Hour selection step
+    } else {
+      setCurrentStep(2); // Payment method step
+    }
+    setError(null);
+  };
+
+  // Handle hour selection (for hourly plans)
+  const handleHourSelect = (hours) => {
+    setSelectedHours(hours);
+    setCurrentStep(2); // Go to payment method step
     setError(null);
   };
 
@@ -249,6 +350,7 @@ const AdvertisementPlanPopup = ({
         state: {
           slot: selectedSlot,
           plan: selectedPlan,
+          hours: selectedPlan.requiresHours ? selectedHours : null,
           paymentMethod: selectedPaymentMethod,
           insufficientBalance: true
         }
@@ -263,6 +365,7 @@ const AdvertisementPlanPopup = ({
       state: {
         slot: selectedSlot,
         plan: selectedPlan,
+        hours: selectedPlan.requiresHours ? selectedHours : null,
         paymentMethod: selectedPaymentMethod,
         sufficientBalance: true
       }
@@ -272,8 +375,17 @@ const AdvertisementPlanPopup = ({
   // Handle back to previous step
   const handleBack = () => {
     if (currentStep === 2) {
-      setCurrentStep(1);
+      // If coming from hour selection, go back to hour selection
+      if (selectedPlan && selectedPlan.requiresHours) {
+        setCurrentStep(3);
+      } else {
+        setCurrentStep(1);
+      }
       setSelectedPaymentMethod(null);
+      setError(null);
+    } else if (currentStep === 3) {
+      setCurrentStep(1);
+      setSelectedHours(1);
       setError(null);
     }
   };
@@ -283,6 +395,7 @@ const AdvertisementPlanPopup = ({
     setCurrentStep(1);
     setSelectedPlan(null);
     setSelectedPaymentMethod(null);
+    setSelectedHours(1);
     setError(null);
     onClose();
   };
@@ -303,7 +416,9 @@ const AdvertisementPlanPopup = ({
             </div>
             <div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                {currentStep === 1 ? 'Select Advertisement Plan' : 'Choose Payment Method'}
+                {currentStep === 1 ? 'Select Advertisement Plan' :
+                 currentStep === 2 ? 'Choose Payment Method' :
+                 'Select Duration Hours'}
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {selectedSlot?.name || 'Advertisement Slot'}
@@ -400,6 +515,69 @@ const AdvertisementPlanPopup = ({
             </div>
           )}
 
+          {currentStep === 3 && selectedPlan && selectedPlan.requiresHours && (
+            <div className="space-y-6">
+              <div className="text-center">
+                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  Select Duration Hours
+                </h4>
+                <p className="text-gray-600 dark:text-gray-400">
+                  How many hours do you want to advertise?
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                  Rate: {selectedPlan.lkrPrice.toLocaleString()} LKR per hour ({selectedPlan.hscPrice} HSC per hour)
+                </p>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[1, 2, 3, 4, 6, 8, 12, 24].map((hours) => (
+                  <div
+                    key={hours}
+                    onClick={() => handleHourSelect(hours)}
+                    className={`cursor-pointer p-4 rounded-xl border-2 text-center transition-all duration-300 hover:shadow-lg ${
+                      selectedHours === hours
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-blue-500'
+                    }`}
+                  >
+                    <div className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      {hours}
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      {hours === 1 ? 'Hour' : 'Hours'}
+                    </div>
+                    <div className="text-sm font-semibold text-blue-600 dark:text-blue-400">
+                      {(selectedPlan.lkrPrice * hours).toLocaleString()} LKR
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {(selectedPlan.hscPrice * hours).toFixed(2)} HSC
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-700 dark:text-gray-300">Selected Duration:</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">
+                    {selectedHours} {selectedHours === 1 ? 'Hour' : 'Hours'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                  <span className="text-gray-700 dark:text-gray-300">Total Cost:</span>
+                  <div className="text-right">
+                    <div className="font-bold text-lg text-gray-900 dark:text-white">
+                      {(selectedPlan.lkrPrice * selectedHours).toLocaleString()} LKR
+                    </div>
+                    <div className="text-sm text-blue-600 dark:text-blue-400">
+                      {(selectedPlan.hscPrice * selectedHours).toFixed(2)} HSC
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {currentStep === 2 && selectedPlan && (
             <div className="space-y-6">
               <div className="text-center">
@@ -407,7 +585,11 @@ const AdvertisementPlanPopup = ({
                   Choose Your Payment Method
                 </h4>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Selected Plan: {selectedPlan.name} - {selectedPlan.lkrPrice.toLocaleString()} LKR
+                  Selected Plan: {selectedPlan.name} - {
+                    selectedPlan.requiresHours
+                      ? `${(selectedPlan.lkrPrice * selectedHours).toLocaleString()} LKR (${selectedHours} ${selectedHours === 1 ? 'hour' : 'hours'})`
+                      : `${selectedPlan.lkrPrice.toLocaleString()} LKR`
+                  }
                 </p>
               </div>
 
@@ -478,7 +660,7 @@ const AdvertisementPlanPopup = ({
         {/* Footer */}
         <div className="flex items-center justify-between p-6 border-t border-gray-200 dark:border-gray-700">
           <div className="flex items-center space-x-4">
-            {currentStep === 2 && (
+            {(currentStep === 2 || currentStep === 3) && (
               <button
                 onClick={handleBack}
                 className="flex items-center space-x-2 px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
@@ -500,10 +682,23 @@ const AdvertisementPlanPopup = ({
             {currentStep === 2 && (
               <button
                 onClick={handleNext}
-                disabled={!selectedPaymentMethod || loading}
+                disabled={!selectedPaymentMethod}
                 className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span>{loading ? 'Processing...' : 'Next'}</span>
+                <span>Next</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            )}
+
+            {currentStep === 3 && (
+              <button
+                onClick={() => {
+                  setCurrentStep(2);
+                  setError(null);
+                }}
+                className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
+              >
+                <span>Continue</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             )}
