@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Star, 
-  Zap, 
+import {
+  Star,
+  Zap,
   TrendingUp,
   Users,
   MapPin,
@@ -17,7 +17,10 @@ import {
   Eye,
   Search,
   X,
-  Filter
+  Filter,
+  ArrowRight,
+  Gem,
+  Diamond
 } from 'lucide-react';
 import { hscAPI, advertisementAPI } from '../config/api';
 import AdvertisementPlanPopup from '../components/common/AdvertisementPlanPopup';
@@ -60,7 +63,7 @@ const PostAdvertisement = () => {
 
   // Convert LKR to HSC
   const convertToHSC = (lkrAmount) => {
-    return Math.ceil(lkrAmount / hscValue);
+    return parseFloat((lkrAmount / hscValue).toFixed(2));
   };
 
   // Get pricing from admin configuration
@@ -733,18 +736,69 @@ const PostAdvertisement = () => {
         </p>
       </div>
 
-      {/* HSC Info Banner */}
-      <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
-        <div className="flex items-center space-x-3 mb-2">
-          <Info className="w-5 h-5 text-blue-600" />
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Current HSC Exchange Rate
-          </h3>
+      {/* Step Guidance */}
+      <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 border border-blue-200 dark:border-blue-800">
+        <div className="text-center mb-4">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            How to Get Started
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">
+            Follow these simple steps to advertise your business
+          </p>
         </div>
-        <p className="text-gray-600 dark:text-gray-400">
-          <span className="font-semibold">1 HSC = {hscValue} LKR</span> • HSC values are prioritized with LKR as reference
-        </p>
+
+        <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8">
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full font-bold text-sm">
+              1
+            </div>
+            <span className="text-gray-700 dark:text-gray-300 font-medium">
+              Select Advertisement Type
+            </span>
+          </div>
+
+          <div className="hidden md:block text-gray-400">
+            <ArrowRight className="w-5 h-5" />
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center justify-center w-8 h-8 bg-green-500 text-white rounded-full font-bold text-sm">
+              2
+            </div>
+            <span className="text-gray-700 dark:text-gray-300 font-medium">
+              Choose a Plan
+            </span>
+          </div>
+
+          <div className="hidden md:block text-gray-400">
+            <ArrowRight className="w-5 h-5" />
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center justify-center w-8 h-8 bg-orange-500 text-white rounded-full font-bold text-sm">
+              3
+            </div>
+            <span className="text-gray-700 dark:text-gray-300 font-medium">
+              Choose Payment Method
+            </span>
+          </div>
+
+          <div className="hidden md:block text-gray-400">
+            <ArrowRight className="w-5 h-5" />
+          </div>
+
+          <div className="flex items-center space-x-3">
+            <div className="flex items-center justify-center w-8 h-8 bg-purple-500 text-white rounded-full font-bold text-sm">
+              4
+            </div>
+            <span className="text-gray-700 dark:text-gray-300 font-medium">
+              Use Your Slot & Publish
+            </span>
+          </div>
+        </div>
       </div>
+
+
 
       {/* Search Bar */}
       <div className="max-w-xl mx-auto">
@@ -877,6 +931,22 @@ const PostAdvertisement = () => {
                       <Eye className="w-4 h-4" />
                       <span>View Examples</span>
                     </button>
+                  </div>
+
+                  {/* Payment Options Info */}
+                  <div className="mt-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <div className="flex items-center space-x-1">
+                        <Gem className="w-4 h-4 text-green-500" />
+                        <Diamond className="w-4 h-4 text-purple-500" />
+                      </div>
+                      <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                        Multiple Payment Options
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      You can use <span className="font-semibold text-green-600 dark:text-green-400">HSG</span> and <span className="font-semibold text-purple-600 dark:text-purple-400">HSD</span> also for buying advertisement slots
+                    </p>
                   </div>
                 </div>
               );
