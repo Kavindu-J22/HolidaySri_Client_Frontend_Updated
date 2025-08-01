@@ -20,6 +20,7 @@ import {
   Filter
 } from 'lucide-react';
 import { hscAPI, advertisementAPI } from '../config/api';
+import AdvertisementPlanPopup from '../components/common/AdvertisementPlanPopup';
 
 const PostAdvertisement = () => {
   const [hscValue, setHscValue] = useState(100);
@@ -27,6 +28,10 @@ const PostAdvertisement = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [slotCharges, setSlotCharges] = useState(null);
+
+  // Popup state management
+  const [showPlanPopup, setShowPlanPopup] = useState(false);
+  const [selectedSlotForPopup, setSelectedSlotForPopup] = useState(null);
 
   // Fetch current HSC value and slot charges
   useEffect(() => {
@@ -160,6 +165,26 @@ const PostAdvertisement = () => {
       monthly: { lkr: slotData.monthlyCharge || 25000, hsc: convertToHSC(slotData.monthlyCharge || 25000) },
       yearly: { lkr: slotData.yearlyCharge || 250000, hsc: convertToHSC(slotData.yearlyCharge || 250000) }
     };
+  };
+
+  // Handle Post Now button click
+  const handlePostNow = (category, slot) => {
+    const selectedSlot = {
+      categoryId: category.id,
+      slotId: slot.id,
+      name: slot.name,
+      description: slot.description,
+      categoryName: category.name
+    };
+
+    setSelectedSlotForPopup(selectedSlot);
+    setShowPlanPopup(true);
+  };
+
+  // Handle popup close
+  const handlePopupClose = () => {
+    setShowPlanPopup(false);
+    setSelectedSlotForPopup(null);
   };
 
   // Advertisement slot categories with their slots
@@ -841,7 +866,10 @@ const PostAdvertisement = () => {
 
                   {/* Action Buttons - Fixed at Bottom */}
                   <div className="flex gap-3 mt-6">
-                    <button className="btn-primary flex-1 flex items-center justify-center space-x-2">
+                    <button
+                      onClick={() => handlePostNow(category, slot)}
+                      className="btn-primary flex-1 flex items-center justify-center space-x-2"
+                    >
                       <Zap className="w-4 h-4" />
                       <span>Post Now</span>
                     </button>
@@ -877,6 +905,15 @@ const PostAdvertisement = () => {
           </button>
         </div>
       </div>
+
+      {/* Advertisement Plan Selection Popup */}
+      <AdvertisementPlanPopup
+        isOpen={showPlanPopup}
+        onClose={handlePopupClose}
+        selectedSlot={selectedSlotForPopup}
+        slotCharges={slotCharges}
+        hscValue={hscValue}
+      />
     </div>
   );
 };
