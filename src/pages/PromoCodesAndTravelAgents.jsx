@@ -309,7 +309,7 @@ const PromoCodesAndTravelAgents = () => {
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center text-gray-600 dark:text-gray-400">
                       <Clock className="w-3 h-3 mr-1" />
-                      Hourly Ad
+                      Hourly Ad (1 Hour)
                     </span>
                     <span className="font-medium text-green-600 dark:text-green-400">
                       {promoData?.earningForHourlyAd || 0} LKR
