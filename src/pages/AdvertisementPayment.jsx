@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { 
-  CreditCard, 
-  Tag, 
-  CheckCircle, 
-  AlertCircle, 
-  Loader, 
+import {
+  CreditCard,
+  Tag,
+  CheckCircle,
+  AlertCircle,
+  Loader,
   ArrowLeft,
   Star,
   Clock,
@@ -299,60 +299,80 @@ const AdvertisementPayment = () => {
                 <Gift className="w-5 h-5 text-green-500 mr-2" />
                 Apply Promo Code for Discount
               </h2>
-              
-              {!appliedPromoCode ? (
-                <div className="space-y-4">
-                  <div className="flex space-x-2">
-                    <input
-                      type="text"
-                      value={promoCodeInput}
-                      onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
-                      placeholder="Enter promo code"
-                      className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    />
-                    <button
-                      onClick={handleApplyPromoCode}
-                      disabled={validatingPromo || !promoCodeInput.trim()}
-                      className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
-                    >
-                      {validatingPromo ? (
-                        <Loader className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <Tag className="w-4 h-4" />
-                      )}
-                      <span>Apply</span>
-                    </button>
+
+              {/* Check if payment method supports discounts */}
+              {paymentMethod?.type !== 'HSC' ? (
+                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+                  <div className="flex items-start space-x-3">
+                    <AlertCircle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <h3 className="font-medium text-amber-800 dark:text-amber-200 mb-1">
+                        Discount Not Available
+                      </h3>
+                      <p className="text-sm text-amber-700 dark:text-amber-300">
+                        Promo code discounts can only be applied to <strong>HSC payments</strong>.
+                        Please select HSC as your payment method to use promo codes and get discounts on your advertisement purchase.
+                      </p>
+                    </div>
                   </div>
-                  
-                  <button
-                    onClick={() => setShowFavoriteSelector(true)}
-                    className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
-                  >
-                    Select from favorites
-                  </button>
                 </div>
               ) : (
-                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <CheckCircle className="w-5 h-5 text-green-500" />
-                      <span className="font-medium text-green-800 dark:text-green-200">
-                        Promo code applied: {appliedPromoCode}
-                      </span>
+                <>
+                  {!appliedPromoCode ? (
+                    <div className="space-y-4">
+                      <div className="flex space-x-2">
+                        <input
+                          type="text"
+                          value={promoCodeInput}
+                          onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
+                          placeholder="Enter promo code"
+                          className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                        />
+                        <button
+                          onClick={handleApplyPromoCode}
+                          disabled={validatingPromo || !promoCodeInput.trim()}
+                          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                        >
+                          {validatingPromo ? (
+                            <Loader className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Tag className="w-4 h-4" />
+                          )}
+                          <span>Apply</span>
+                        </button>
+                      </div>
+
+                      <button
+                        onClick={() => setShowFavoriteSelector(true)}
+                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                      >
+                        Select from favorites
+                      </button>
                     </div>
-                    <button
-                      onClick={handleRemovePromoCode}
-                      className="text-red-600 hover:text-red-800 text-sm"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                  {promoCodeAgent && (
-                    <p className="text-sm text-green-600 dark:text-green-400 mt-1">
-                      {promoCodeAgent.promoCodeType} promo code by {promoCodeAgent.email}
-                    </p>
+                  ) : (
+                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <CheckCircle className="w-5 h-5 text-green-500" />
+                          <span className="font-medium text-green-800 dark:text-green-200">
+                            Promo code applied: {appliedPromoCode}
+                          </span>
+                        </div>
+                        <button
+                          onClick={handleRemovePromoCode}
+                          className="text-red-600 hover:text-red-800 text-sm"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                      {promoCodeAgent && (
+                        <p className="text-sm text-green-600 dark:text-green-400 mt-1">
+                          {promoCodeAgent.promoCodeType} promo code by {promoCodeAgent.email}
+                        </p>
+                      )}
+                    </div>
                   )}
-                </div>
+                </>
               )}
             </div>
 

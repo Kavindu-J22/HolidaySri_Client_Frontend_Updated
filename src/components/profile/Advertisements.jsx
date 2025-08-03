@@ -237,7 +237,14 @@ const Advertisements = () => {
                       <div className="flex items-center justify-between">
                         <span className="text-gray-600 dark:text-gray-400">Expires:</span>
                         <span className="font-medium text-gray-900 dark:text-white">
-                          {new Date(ad.expiresAt).toLocaleDateString()}
+                          {new Date(ad.expiresAt).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                            hour12: true
+                          })}
                         </span>
                       </div>
                     </div>
