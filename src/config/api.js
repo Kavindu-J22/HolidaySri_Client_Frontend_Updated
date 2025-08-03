@@ -130,6 +130,7 @@ export const advertisementAPI = {
   checkDuplicateSlot: (slotData) => api.post('/advertisements/check-duplicate-slot', slotData),
   calculateDiscount: (discountData) => api.post('/advertisements/calculate-discount', discountData),
   processPayment: (paymentData) => api.post('/advertisements/process-payment', paymentData),
+  getMyAdvertisements: (params) => api.get('/advertisements/my-advertisements', { params }),
 };
 
 // Admin API calls

@@ -344,9 +344,10 @@ const AdvertisementPayment = () => {
 
                       <button
                         onClick={() => setShowFavoriteSelector(true)}
-                        className="text-blue-600 dark:text-blue-400 hover:underline text-sm"
+                        className="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
                       >
-                        Select from favorites
+                        <Star className="w-3.5 h-3.5" />
+                        <span>Select from Favorites</span>
                       </button>
                     </div>
                   ) : (

@@ -6,17 +6,18 @@ import {
   Eye,
   BarChart3,
   Calendar,
-  ArrowRight,
   Clock,
-  MapPin,
   Star,
   Loader,
   AlertCircle,
-  CheckCircle,
   Pause,
-  Play
+  Play,
+  Search,
+  Filter,
+  X,
+  ChevronDown
 } from 'lucide-react';
-import { userAPI } from '../../config/api';
+import { advertisementAPI } from '../../config/api';
 
 const Advertisements = () => {
   const navigate = useNavigate();
@@ -24,23 +25,91 @@ const Advertisements = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // Fetch user advertisements
-  useEffect(() => {
-    const fetchAdvertisements = async () => {
-      try {
-        setLoading(true);
-        const response = await userAPI.getAdvertisements();
-        setAdvertisements(response.data.advertisements || []);
-      } catch (error) {
-        console.error('Error fetching advertisements:', error);
-        setError('Failed to load advertisements');
-      } finally {
-        setLoading(false);
-      }
-    };
+  // Search and filter state
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filters, setFilters] = useState({
+    status: 'all',
+    plan: 'all',
+    category: 'all'
+  });
+  const [showFilters, setShowFilters] = useState(false);
+  const [filterOptions, setFilterOptions] = useState({
+    categories: [],
+    statuses: [],
+    plans: []
+  });
 
+  // Pagination state
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 1,
+    totalCount: 0,
+    hasNext: false,
+    hasPrev: false
+  });
+
+  // Fetch user advertisements
+  const fetchAdvertisements = async (page = 1, search = searchTerm, currentFilters = filters) => {
+    try {
+      setLoading(true);
+      setError('');
+
+      const params = {
+        page,
+        limit: 9, // 3x3 grid
+        search: search.trim(),
+        ...currentFilters
+      };
+
+      // Remove empty filters
+      Object.keys(params).forEach(key => {
+        if (params[key] === '' || params[key] === 'all') {
+          delete params[key];
+        }
+      });
+
+      const response = await advertisementAPI.getMyAdvertisements(params);
+      setAdvertisements(response.data.advertisements || []);
+      setPagination(response.data.pagination || {});
+      setFilterOptions(response.data.filterOptions || {});
+    } catch (error) {
+      console.error('Error fetching advertisements:', error);
+      setError('Failed to load advertisements');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Initial fetch
+  useEffect(() => {
     fetchAdvertisements();
   }, []);
+
+  // Handle search
+  const handleSearch = (e) => {
+    e.preventDefault();
+    fetchAdvertisements(1, searchTerm, filters);
+  };
+
+  // Handle filter change
+  const handleFilterChange = (filterType, value) => {
+    const newFilters = { ...filters, [filterType]: value };
+    setFilters(newFilters);
+    fetchAdvertisements(1, searchTerm, newFilters);
+  };
+
+  // Clear all filters
+  const clearFilters = () => {
+    const clearedFilters = { status: 'all', plan: 'all', category: 'all' };
+    setFilters(clearedFilters);
+    setSearchTerm('');
+    fetchAdvertisements(1, '', clearedFilters);
+  };
+
+  // Handle pagination
+  const handlePageChange = (page) => {
+    fetchAdvertisements(page, searchTerm, filters);
+  };
 
   // Format category name for display
   const formatCategoryName = (category) => {
@@ -83,7 +152,7 @@ const Advertisements = () => {
     <div className="max-w-6xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
               My Advertisements
@@ -99,6 +168,117 @@ const Advertisements = () => {
             <Plus className="w-5 h-5" />
             <span>Create New Ad</span>
           </button>
+        </div>
+
+        {/* Search and Filters */}
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+          {/* Search Bar */}
+          <form onSubmit={handleSearch} className="mb-4">
+            <div className="flex space-x-4">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search by Slot ID (e.g., AD12345678)"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+              <button
+                type="submit"
+                className="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1.5 text-sm font-medium"
+              >
+                <Search className="w-4 h-4" />
+                <span>Search</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowFilters(!showFilters)}
+                className="px-4 py-2.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center space-x-1.5 text-sm font-medium"
+              >
+                <Filter className="w-4 h-4" />
+                <span>Filters</span>
+                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
+              </button>
+            </div>
+          </form>
+
+          {/* Filter Options */}
+          {showFilters && (
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                {/* Status Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Status
+                  </label>
+                  <select
+                    value={filters.status}
+                    onChange={(e) => handleFilterChange('status', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="all">All Statuses</option>
+                    <option value="active">Active</option>
+                    <option value="paused">Paused</option>
+                    <option value="expired">Expired</option>
+                    <option value="draft">Draft</option>
+                  </select>
+                </div>
+
+                {/* Plan Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Plan
+                  </label>
+                  <select
+                    value={filters.plan}
+                    onChange={(e) => handleFilterChange('plan', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="all">All Plans</option>
+                    <option value="hourly">Hourly</option>
+                    <option value="daily">Daily</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
+                  </select>
+                </div>
+
+                {/* Category Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Category
+                  </label>
+                  <select
+                    value={filters.category}
+                    onChange={(e) => handleFilterChange('category', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="all">All Categories</option>
+                    {filterOptions.categories?.map((category) => (
+                      <option key={category.value} value={category.value}>
+                        {category.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Clear Filters */}
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  {pagination.totalCount || 0} advertisement{(pagination.totalCount || 0) !== 1 ? 's' : ''} found
+                </span>
+                <button
+                  onClick={clearFilters}
+                  className="flex items-center space-x-2 px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                  <span>Clear Filters</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -191,8 +371,9 @@ const Advertisements = () => {
             </div>
           ) : (
             /* Advertisements Grid */
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {advertisements.map((ad) => (
+            <div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {advertisements.map((ad) => (
                 <div key={ad._id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                   {/* Ad Header */}
                   <div className="p-6">
@@ -208,9 +389,14 @@ const Advertisements = () => {
                       </span>
                     </div>
 
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                      {formatCategoryName(ad.category)}
-                    </h3>
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                        {formatCategoryName(ad.category)}
+                      </h3>
+                      <span className="text-xs font-mono bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
+                        {ad.slotId}
+                      </span>
+                    </div>
 
                     <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
                       Advertisement Slot
@@ -218,6 +404,13 @@ const Advertisements = () => {
 
                     {/* Ad Details */}
                     <div className="space-y-2 text-sm">
+                      <div className="flex items-center justify-between">
+                        <span className="text-gray-600 dark:text-gray-400">Slot ID:</span>
+                        <span className="font-mono text-gray-900 dark:text-white">
+                          {ad.slotId}
+                        </span>
+                      </div>
+
                       <div className="flex items-center justify-between">
                         <span className="text-gray-600 dark:text-gray-400">Cost:</span>
                         <span className="font-medium text-gray-900 dark:text-white">
@@ -282,6 +475,48 @@ const Advertisements = () => {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Pagination */}
+            {pagination.totalPages > 1 && (
+              <div className="mt-8 flex items-center justify-center space-x-2">
+                <button
+                  onClick={() => handlePageChange(pagination.currentPage - 1)}
+                  disabled={!pagination.hasPrev}
+                  className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
+                >
+                  Previous
+                </button>
+
+                {/* Page Numbers */}
+                {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+                  const pageNum = Math.max(1, pagination.currentPage - 2) + i;
+                  if (pageNum > pagination.totalPages) return null;
+
+                  return (
+                    <button
+                      key={pageNum}
+                      onClick={() => handlePageChange(pageNum)}
+                      className={`px-4 py-2 text-sm font-medium rounded-lg ${
+                        pageNum === pagination.currentPage
+                          ? 'bg-blue-600 text-white'
+                          : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700'
+                      }`}
+                    >
+                      {pageNum}
+                    </button>
+                  );
+                })}
+
+                <button
+                  onClick={() => handlePageChange(pagination.currentPage + 1)}
+                  disabled={!pagination.hasNext}
+                  className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
+                >
+                  Next
+                </button>
+              </div>
+            )}
             </div>
           )}
         </>
