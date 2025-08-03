@@ -29,6 +29,8 @@ const Profile = () => {
   useEffect(() => {
     if (location.state?.activeSection) {
       setActiveSection(location.state.activeSection);
+    } else if (location.state?.activeTab) {
+      setActiveSection(location.state.activeTab);
     } else if (location.state?.isNewAgent) {
       setActiveSection('agent');
     }

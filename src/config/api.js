@@ -127,6 +127,9 @@ export const newsletterAPI = {
 // Advertisement Slot Charges API calls (public)
 export const advertisementAPI = {
   getSlotCharges: () => api.get('/public/advertisement-slot-charges'),
+  checkDuplicateSlot: (slotData) => api.post('/advertisements/check-duplicate-slot', slotData),
+  calculateDiscount: (discountData) => api.post('/advertisements/calculate-discount', discountData),
+  processPayment: (paymentData) => api.post('/advertisements/process-payment', paymentData),
 };
 
 // Admin API calls

@@ -194,7 +194,7 @@ const HSCWallet = () => {
           My Holidaysri Wallet
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Manage your HSC tokens, HSG Gems, and HSD earnings
+          Manage your HSC tokens, HSG Gems, and HSD Diamonds
         </p>
       </div>
 

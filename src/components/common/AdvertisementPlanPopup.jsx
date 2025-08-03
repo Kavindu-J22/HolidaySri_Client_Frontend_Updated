@@ -283,14 +283,14 @@ const AdvertisementPlanPopup = ({
       },
       {
         id: 'hsd',
-        name: 'HSD Earnings',
+        name: 'HSD Diamonds',
         icon: Diamond,
         color: 'from-purple-500 to-pink-500',
         balance: parseFloat(userBalances.hsd.toFixed(2)),
         requiredAmount: parseFloat((totalLkrPrice / tokenValues.hsdValue).toFixed(2)),
         convertedValue: totalLkrPrice,
         currency: 'HSD',
-        description: 'Use your HSD earnings'
+        description: 'Use your HSD Diamonds'
       }
     ];
 
@@ -342,16 +342,49 @@ const AdvertisementPlanPopup = ({
       return;
     }
 
+    // Create serializable objects (remove React components and functions)
+    const serializableSlot = {
+      name: selectedSlot.name,
+      category: selectedSlot.slotId, // Use slotId as category for backend
+      categoryId: selectedSlot.categoryId,
+      mainCategory: selectedSlot.categoryName, // Use categoryName as mainCategory for display
+      slotType: selectedSlot.slotType || 'category_slot',
+      description: selectedSlot.description
+    };
+
+    // Calculate the correct price based on plan and hours
+    const planPrice = selectedPlan.id === 'hourly'
+      ? selectedPlan.lkrPrice * selectedHours
+      : selectedPlan.lkrPrice;
+
+    const serializablePlan = {
+      id: selectedPlan.id,
+      name: selectedPlan.name,
+      price: planPrice, // Use calculated price
+      lkrPrice: selectedPlan.lkrPrice,
+      hscPrice: selectedPlan.hscPrice,
+      requiresHours: selectedPlan.requiresHours
+    };
+
+    const serializablePaymentMethod = {
+      type: selectedPaymentMethod.id.toUpperCase(), // Convert id to uppercase type (hsc -> HSC)
+      id: selectedPaymentMethod.id,
+      name: selectedPaymentMethod.name,
+      balance: selectedPaymentMethod.balance,
+      requiredAmount: selectedPaymentMethod.requiredAmount,
+      currency: selectedPaymentMethod.currency
+    };
+
     // Check if user has sufficient balance
     if (selectedPaymentMethod.balance < selectedPaymentMethod.requiredAmount) {
       // Redirect to advertisement payment page
       onClose();
       navigate('/advertisement-payment', {
         state: {
-          slot: selectedSlot,
-          plan: selectedPlan,
+          slot: serializableSlot,
+          plan: serializablePlan,
           hours: selectedPlan.requiresHours ? selectedHours : null,
-          paymentMethod: selectedPaymentMethod,
+          paymentMethod: serializablePaymentMethod,
           insufficientBalance: true
         }
       });
@@ -363,10 +396,10 @@ const AdvertisementPlanPopup = ({
     onClose();
     navigate('/advertisement-payment', {
       state: {
-        slot: selectedSlot,
-        plan: selectedPlan,
+        slot: serializableSlot,
+        plan: serializablePlan,
         hours: selectedPlan.requiresHours ? selectedHours : null,
-        paymentMethod: selectedPaymentMethod,
+        paymentMethod: serializablePaymentMethod,
         sufficientBalance: true
       }
     });

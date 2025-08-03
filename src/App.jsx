@@ -38,6 +38,7 @@ import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
 import HSGPopup from './components/common/HSGPopup';
 import PostAdvertisement from './pages/PostAdvertisement';
+import AdvertisementPayment from './pages/AdvertisementPayment';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -158,6 +159,11 @@ function App() {
                 <Route path="ads/essential/pricing-memberships" element={<MembershipPage />} />
                 <Route path="ads/opportunities/partnerships" element={<CommercialPartnerPage />} />
                 <Route path="post-advertisement" element={<PostAdvertisement />} />
+                <Route path="advertisement-payment" element={
+                  <ProtectedRoute>
+                    <AdvertisementPayment />
+                  </ProtectedRoute>
+                } />
               </Route>
 
               {/* Catch all route */}
