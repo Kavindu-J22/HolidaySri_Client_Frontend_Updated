@@ -98,7 +98,7 @@ const AdvertisementPayment = () => {
 
   // Apply promo code
   const handleApplyPromoCode = async () => {
-    if (!promoCodeInput.trim()) {
+    if (!promoCodeInput?.trim()) {
       setError('Please enter a promo code');
       return;
     }
@@ -108,15 +108,15 @@ const AdvertisementPayment = () => {
       setError('');
       
       const response = await advertisementAPI.calculateDiscount({
-        promoCode: promoCodeInput.toUpperCase(),
+        promoCode: (promoCodeInput || '').toUpperCase(),
         plan: plan.id,
         originalAmount,
         paymentMethod,
         hours: hours || 1 // Include hours for hourly plan calculations
       });
-      
+
       if (response.data.isValid) {
-        setAppliedPromoCode(promoCodeInput.toUpperCase());
+        setAppliedPromoCode((promoCodeInput || '').toUpperCase());
         setPromoCodeAgent(response.data.agent);
         setDiscountAmount(response.data.discount.discountAmount);
         setFinalAmount(response.data.discount.finalAmount);
@@ -144,8 +144,11 @@ const AdvertisementPayment = () => {
   };
 
   // Handle favorite promo code selection
-  const handleFavoritePromoCodeSelect = (favoritePromoCode) => {
-    setPromoCodeInput(favoritePromoCode.promoCode);
+  const handleFavoritePromoCodeSelect = (promoCode) => {
+    console.log('Selected favorite promo code:', promoCode); // Debug log
+    // The FavoritePromoCodeSelector passes the promo code string directly
+    const codeToSet = typeof promoCode === 'string' ? promoCode : (promoCode?.promoCode || promoCode?.code || '');
+    setPromoCodeInput(codeToSet.toUpperCase());
     setShowFavoriteSelector(false);
   };
 
@@ -323,14 +326,14 @@ const AdvertisementPayment = () => {
                       <div className="flex space-x-2">
                         <input
                           type="text"
-                          value={promoCodeInput}
-                          onChange={(e) => setPromoCodeInput(e.target.value.toUpperCase())}
+                          value={promoCodeInput || ''}
+                          onChange={(e) => setPromoCodeInput((e.target.value || '').toUpperCase())}
                           placeholder="Enter promo code"
                           className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                         />
                         <button
                           onClick={handleApplyPromoCode}
-                          disabled={validatingPromo || !promoCodeInput.trim()}
+                          disabled={validatingPromo || !promoCodeInput?.trim()}
                           className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
                         >
                           {validatingPromo ? (
