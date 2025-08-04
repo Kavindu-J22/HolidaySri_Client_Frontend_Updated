@@ -122,10 +122,11 @@ const RenewPromoCode = () => {
     if (selectedOption === 'renew' || selectedOption === 'renewNextYear') {
       const currentTierData = getCurrentTierData();
       return currentTierData ? currentTierData.priceInHSC : 0;
-    } else {
+    } else if (selectedOption === 'upgrade' || selectedOption === 'downgrade') {
       const selectedTierData = getSelectedTierData();
       return selectedTierData ? selectedTierData.priceInHSC : 0;
     }
+    return 0;
   };
 
   // Get available upgrade options
@@ -141,6 +142,22 @@ const RenewPromoCode = () => {
     }
 
     return tierHierarchy.slice(currentIndex + 1);
+  };
+
+  // Get available downgrade options (excluding free tier)
+  const getAvailableDowngrades = () => {
+    if (!agentData) return [];
+
+    const currentTier = agentData.promoCodeType;
+    const tierHierarchy = ['free', 'silver', 'gold', 'diamond'];
+    const currentIndex = tierHierarchy.indexOf(currentTier);
+
+    if (currentIndex === -1 || currentIndex <= 1) {
+      return []; // No downgrades available (free tier excluded)
+    }
+
+    // Return tiers below current but exclude 'free' (index 0)
+    return tierHierarchy.slice(1, currentIndex);
   };
 
   const validatePromoCode = async () => {
@@ -237,7 +254,7 @@ const RenewPromoCode = () => {
 
       const renewalData = {
         renewalType: selectedOption,
-        newTier: selectedOption === 'upgrade' ? selectedTier : undefined,
+        newTier: (selectedOption === 'upgrade' || selectedOption === 'downgrade') ? selectedTier : undefined,
         finalAmount: displayFinalAmount,
         appliedPromoCode: appliedPromoCode || null,
         discountAmount: discountAmount || 0
@@ -248,9 +265,11 @@ const RenewPromoCode = () => {
       if (response.data.success) {
         const successMessage = selectedOption === 'upgrade'
           ? 'upgraded and renewed'
-          : selectedOption === 'renewNextYear'
-            ? 'renewed for next year'
-            : 'renewed';
+          : selectedOption === 'downgrade'
+            ? 'downgraded and renewed'
+            : selectedOption === 'renewNextYear'
+              ? 'renewed for next year'
+              : 'renewed';
 
         // Display the new expiration date in Sri Lankan timezone
         const newExpirationDate = new Date(response.data.expirationDate).toLocaleDateString('en-US', {
@@ -479,9 +498,117 @@ const RenewPromoCode = () => {
                 </div>
               </div>
             )}
-            
-            {/* Upgrade Options - Don't show in renewNextYear mode */}
-            {getAvailableUpgrades().length > 0 && !renewNextYearMode && (
+
+            {/* Downgrade Options - Only show for expired promo codes in regular renew mode */}
+            {!upgradeMode && !renewNextYearMode && getAvailableDowngrades().length > 0 && (
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Downgrade & Renew Options
+                </h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Save money by choosing a lower tier while renewing your promo code
+                </p>
+
+                {getAvailableDowngrades().map((tier) => {
+                  const tierData = promoConfig?.promoTypes?.[tier];
+                  if (!tierData) return null;
+
+                  const isSelected = selectedOption === 'downgrade' && selectedTier === tier;
+
+                  return (
+                    <div
+                      key={tier}
+                      className={`border-2 rounded-xl p-6 cursor-pointer transition-all ${
+                        isSelected
+                          ? 'border-orange-500 bg-orange-50 dark:bg-orange-900/20'
+                          : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                      }`}
+                      onClick={() => {
+                        setSelectedOption('downgrade');
+                        setSelectedTier(tier);
+                      }}
+                    >
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className={`p-2 rounded-lg bg-gradient-to-r ${getTierColor(tier)} text-white`}>
+                          {getTierIcon(tier)}
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
+                            Downgrade to {tier.charAt(0).toUpperCase() + tier.slice(1)}
+                          </h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                            {tier === 'silver' && 'Basic benefits with lower cost'}
+                            {tier === 'gold' && 'Good benefits at moderate price'}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                            {tierData.priceInHSC} HSC
+                          </span>
+                          {tierData.originalPriceInHSC > tierData.priceInHSC && (
+                            <span className="ml-2 text-sm text-gray-500 line-through">
+                              {tierData.originalPriceInHSC} HSC
+                            </span>
+                          )}
+                        </div>
+                        <div className={`w-4 h-4 rounded-full border-2 ${
+                          isSelected
+                            ? 'border-orange-500 bg-orange-500'
+                            : 'border-gray-300 dark:border-gray-600'
+                        }`}>
+                          {isSelected && (
+                            <Check className="w-2 h-2 text-white m-0.5" />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Maximum Tier Message for Diamond users in upgrade mode */}
+            {upgradeMode && agentData.promoCodeType === 'diamond' && (
+              <div className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 border border-purple-200 dark:border-purple-800 rounded-xl p-6">
+                <div className="flex items-center space-x-3 mb-4">
+                  <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg">
+                    <Crown className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      Maximum Tier Achieved
+                    </h3>
+                    <p className="text-sm text-purple-600 dark:text-purple-400 font-medium">
+                      You're already at the highest tier
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-purple-200 dark:border-purple-700">
+                  <p className="text-gray-600 dark:text-gray-400 text-center">
+                    🎉 Congratulations! You already have the <strong>Diamond</strong> promo code - our highest tier with maximum earning potential and exclusive benefits.
+                  </p>
+                  <p className="text-gray-600 dark:text-gray-400 text-center mt-2">
+                    If your promo code has expired, please use the regular renewal option to continue enjoying all Diamond tier benefits.
+                  </p>
+                </div>
+
+                <div className="mt-4 text-center">
+                  <button
+                    onClick={() => navigate('/profile', { state: { activeSection: 'agent' } })}
+                    className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-medium hover:from-purple-700 hover:to-pink-700 transition-all duration-200"
+                  >
+                    Back to Agent Dashboard
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Upgrade Options - Don't show in renewNextYear mode or if already Diamond */}
+            {getAvailableUpgrades().length > 0 && !renewNextYearMode && !(upgradeMode && agentData.promoCodeType === 'diamond') && (
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Upgrade & Renew Options
@@ -596,11 +723,12 @@ const RenewPromoCode = () => {
             </div>
           </div>
 
-          {/* Payment Section */}
-          <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              Payment Details
-            </h2>
+          {/* Payment Section - Hide for Diamond users in upgrade mode */}
+          {!(upgradeMode && agentData.promoCodeType === 'diamond') && (
+            <div className="space-y-6">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                Payment Details
+              </h2>
 
             {/* Apply Promo Code for Discount */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
@@ -742,7 +870,9 @@ const RenewPromoCode = () => {
                       ? 'Renewal'
                       : selectedOption === 'renewNextYear'
                         ? 'Renewal'
-                        : 'Upgrade'} Price:
+                        : selectedOption === 'downgrade'
+                          ? 'Downgrade'
+                          : 'Upgrade'} Price:
                   </span>
                   <span className="font-medium text-gray-900 dark:text-white">
                     {basePrice} HSC
@@ -786,7 +916,9 @@ const RenewPromoCode = () => {
                         ? 'Renew'
                         : selectedOption === 'renewNextYear'
                           ? 'Renew for Next Year'
-                          : 'Upgrade & Renew'} for ${displayFinalAmount} HSC`
+                          : selectedOption === 'downgrade'
+                            ? 'Downgrade & Renew'
+                            : 'Upgrade & Renew'} for ${displayFinalAmount} HSC`
                   }
                 </span>
               </button>
@@ -797,11 +929,14 @@ const RenewPromoCode = () => {
                     ? 'renewed'
                     : selectedOption === 'renewNextYear'
                       ? 'renewed for next year'
-                      : 'upgraded'
+                      : selectedOption === 'downgrade'
+                        ? 'downgraded and renewed'
+                        : 'upgraded'
                 } immediately.
               </p>
             </div>
           </div>
+        )}
         </div>
 
         {/* Error/Success Messages */}
