@@ -29,7 +29,10 @@ const TransactionHistory = () => {
     totalTransactions: 0,
     totalAmount: 0,
     totalOriginalAmount: 0,
-    totalDiscountedAmount: 0
+    totalDiscountedAmount: 0,
+    totalHSCAmount: 0,
+    totalHSCOriginalAmount: 0,
+    totalHSCDiscountedAmount: 0
   });
   const [filterOptions, setFilterOptions] = useState({
     categories: [],
@@ -90,7 +93,7 @@ const TransactionHistory = () => {
       fetchFilterOptions();
       fetchActivities();
     }
-  }, [user]);
+  }, [user]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -192,9 +195,9 @@ const TransactionHistory = () => {
                 <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
               </div>
               <div className="ml-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Total Spent</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Total Spent (HSC)</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {stats.totalAmount.toLocaleString()} HSC
+                  {stats.totalHSCAmount?.toLocaleString() || 0} HSC
                 </p>
               </div>
             </div>
@@ -206,9 +209,9 @@ const TransactionHistory = () => {
                 <CreditCard className="w-6 h-6 text-purple-600 dark:text-purple-400" />
               </div>
               <div className="ml-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Original Amount</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Original Amount (HSC)</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {stats.totalOriginalAmount.toLocaleString()} HSC
+                  {stats.totalHSCOriginalAmount?.toLocaleString() || 0} HSC
                 </p>
               </div>
             </div>
@@ -220,9 +223,9 @@ const TransactionHistory = () => {
                 <Package className="w-6 h-6 text-orange-600 dark:text-orange-400" />
               </div>
               <div className="ml-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Total Savings</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Total Savings (HSC)</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {stats.totalDiscountedAmount.toLocaleString()} HSC
+                  {stats.totalHSCDiscountedAmount?.toLocaleString() || 0} HSC
                 </p>
               </div>
             </div>
@@ -386,11 +389,11 @@ const TransactionHistory = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900 dark:text-white">
-                        {activity.amount.toLocaleString()} HSC
+                        {activity.amount.toLocaleString()} {activity.paymentMethod}
                       </div>
                       {activity.discountedAmount > 0 && (
                         <div className="text-sm text-green-600 dark:text-green-400">
-                          Saved: {activity.discountedAmount.toLocaleString()} HSC
+                          Saved: {activity.discountedAmount.toLocaleString()} {activity.paymentMethod}
                         </div>
                       )}
                     </td>
