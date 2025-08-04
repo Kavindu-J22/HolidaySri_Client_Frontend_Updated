@@ -745,7 +745,7 @@ const HSCWallet = () => {
                     HSD diamonds are awarded through our HSD Leader Board system:
                   </p>
                   <ul className="text-xs sm:text-sm text-amber-700 dark:text-amber-300 mt-2 space-y-1">
-                    <li>• Top 3 HSC spenders past tow months</li>
+                    <li>• Top 3 HSC spenders every tow months</li>
                     <li>• 2 random advertisers selected past tow months</li>
                     <li>• Special achievement rewards</li>
                   </ul>
