@@ -269,7 +269,7 @@ const HSCWallet = () => {
               Know More
             </button>
             <button
-              onClick={() => {/* TODO: Navigate to HSD Leader Board */}}
+              onClick={() => navigate('/hsd-leaderboard')}
               className="w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md hover:shadow-lg transform hover:scale-105"
             >
               HSD Leader Board
@@ -787,12 +787,11 @@ const HSCWallet = () => {
                 <button
                   onClick={() => {
                     setShowHSDInfoModal(false);
-                    // TODO: Navigate to HSD Leader Board when implemented
-                    alert('HSD Leader Board will be available soon!');
+                    navigate('/hsd-leaderboard');
                   }}
                   className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-lg font-medium text-sm sm:text-base transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
                 >
-                  HSD Leader Board
+                  Check HSD Leader Board
                 </button>
               </div>
             </div>

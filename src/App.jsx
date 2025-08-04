@@ -40,6 +40,7 @@ import HSGPopup from './components/common/HSGPopup';
 import PostAdvertisement from './pages/PostAdvertisement';
 import AdvertisementPayment from './pages/AdvertisementPayment';
 import TransactionHistory from './pages/TransactionHistory';
+import HSDLeaderBoard from './pages/HSDLeaderBoard';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -103,6 +104,11 @@ function App() {
                 <Route path="transaction-history" element={
                   <ProtectedRoute>
                     <TransactionHistory />
+                  </ProtectedRoute>
+                } />
+                <Route path="hsd-leaderboard" element={
+                  <ProtectedRoute>
+                    <HSDLeaderBoard />
                   </ProtectedRoute>
                 } />
                 <Route path="hsc-earnings-claim" element={

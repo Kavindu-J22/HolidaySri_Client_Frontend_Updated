@@ -175,4 +175,10 @@ export const paymentActivityAPI = {
   getFilterOptions: () => api.get('/payment-activities/filters/options'),
 };
 
+// HSD Leader Board API calls
+export const hsdLeaderBoardAPI = {
+  getLeaderBoard: () => api.get('/hsd-leaderboard'),
+  processPeriodEnd: () => api.post('/hsd-leaderboard/process-period-end'),
+};
+
 export default api;
