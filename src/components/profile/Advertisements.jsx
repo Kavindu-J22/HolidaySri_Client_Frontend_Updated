@@ -4,14 +4,14 @@ import {
   Megaphone,
   Plus,
   Eye,
-  BarChart3,
   Calendar,
   Clock,
   Star,
   Loader,
   AlertCircle,
   Pause,
-  Play,
+  PlayCircle,
+  RefreshCw,
   Search,
   Filter,
   X,
@@ -24,6 +24,7 @@ const Advertisements = () => {
   const [advertisements, setAdvertisements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [actionLoading, setActionLoading] = useState({});
 
   // Search and filter state
   const [searchTerm, setSearchTerm] = useState('');
@@ -146,6 +147,40 @@ const Advertisements = () => {
       default:
         return <Calendar className="w-4 h-4" />;
     }
+  };
+
+  // Handle pause expiration
+  const handlePauseExpiration = async (adId) => {
+    try {
+      setActionLoading(prev => ({ ...prev, [adId]: 'pausing' }));
+      await advertisementAPI.pauseExpiration(adId);
+
+      // Update the advertisement in the local state
+      setAdvertisements(prev => prev.map(ad =>
+        ad._id === adId
+          ? { ...ad, expiresAt: null }
+          : ad
+      ));
+
+      setError('');
+    } catch (error) {
+      console.error('Error pausing expiration:', error);
+      setError('Failed to pause expiration. Please try again.');
+    } finally {
+      setActionLoading(prev => ({ ...prev, [adId]: null }));
+    }
+  };
+
+  // Handle publish now (placeholder - no functionality for now)
+  const handlePublishNow = (adId) => {
+    console.log('Publish Now clicked for ad:', adId);
+    // Functionality will be implemented later
+  };
+
+  // Handle renew (placeholder - no functionality for now)
+  const handleRenew = (adId) => {
+    console.log('Renew clicked for ad:', adId);
+    // Functionality will be implemented later
   };
 
   return (
@@ -374,9 +409,9 @@ const Advertisements = () => {
             <div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {advertisements.map((ad) => (
-                <div key={ad._id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                <div key={ad._id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow flex flex-col h-full">
                   {/* Ad Header */}
-                  <div className="p-6">
+                  <div className="p-6 flex-grow">
                     <div className="flex items-center justify-between mb-4">
                       <div className="flex items-center space-x-2">
                         {getPlanIcon(ad.selectedPlan)}
@@ -430,18 +465,40 @@ const Advertisements = () => {
                       <div className="flex items-center justify-between">
                         <span className="text-gray-600 dark:text-gray-400">Expires:</span>
                         <span className="font-medium text-gray-900 dark:text-white">
-                          {new Date(ad.expiresAt).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric',
-                            hour: 'numeric',
-                            minute: '2-digit',
-                            hour12: true
-                          })}
+                          {ad.expiresAt ? (
+                            new Date(ad.expiresAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric',
+                              hour: 'numeric',
+                              minute: '2-digit',
+                              hour12: true
+                            })
+                          ) : (
+                            <span className="text-orange-600 dark:text-orange-400 font-semibold">
+                              Expiration Paused
+                            </span>
+                          )}
                         </span>
                       </div>
                     </div>
                   </div>
+
+                  {/* Warning Message for slots without paused expiration */}
+                  {ad.status === 'active' && ad.expiresAt && (
+                    <div className="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 p-4 mx-6">
+                      <div className="flex items-start">
+                        <AlertCircle className="w-5 h-5 text-amber-400 mt-0.5 mr-3 flex-shrink-0" />
+                        <div className="text-sm text-amber-700 dark:text-amber-300">
+                          <p className="font-medium mb-1">Expiration Notice</p>
+                          <p>
+                            If you are not ready to publish your advertisement now, use the "Pause Expiration" option to prevent your slot from expiring.
+                            Without pausing, your advertisement slot might expire before you publish your content.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Ad Info */}
                   <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4">
@@ -453,24 +510,56 @@ const Advertisements = () => {
                   </div>
 
                   {/* Ad Actions */}
-                  <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+                  <div className="p-4 border-t border-gray-200 dark:border-gray-700 mt-auto">
                     <div className="flex space-x-2">
-                      {ad.status === 'active' ? (
-                        <button className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-yellow-100 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 rounded-lg hover:bg-yellow-200 dark:hover:bg-yellow-900/30 transition-colors text-sm">
-                          <Pause className="w-4 h-4" />
-                          <span>Pause</span>
-                        </button>
-                      ) : ad.status === 'paused' ? (
-                        <button className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-sm">
-                          <Play className="w-4 h-4" />
-                          <span>Resume</span>
-                        </button>
-                      ) : null}
+                      {ad.status === 'active' && ad.expiresAt && (
+                        <>
+                          {/* Pause Expiration Button */}
+                          <button
+                            onClick={() => handlePauseExpiration(ad._id)}
+                            disabled={actionLoading[ad._id] === 'pausing'}
+                            className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-orange-100 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 rounded-lg hover:bg-orange-200 dark:hover:bg-orange-900/30 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {actionLoading[ad._id] === 'pausing' ? (
+                              <Loader className="w-4 h-4 animate-spin" />
+                            ) : (
+                              <Pause className="w-4 h-4" />
+                            )}
+                            <span>Pause Expiration</span>
+                          </button>
 
-                      <button className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors text-sm">
-                        <BarChart3 className="w-4 h-4" />
-                        <span>Analytics</span>
-                      </button>
+                          {/* Publish Now Button */}
+                          <button
+                            onClick={() => handlePublishNow(ad._id)}
+                            className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-sm"
+                          >
+                            <PlayCircle className="w-4 h-4" />
+                            <span>Publish Now</span>
+                          </button>
+                        </>
+                      )}
+
+                      {ad.status === 'active' && !ad.expiresAt && (
+                        <>
+                          {/* Publish Now Button */}
+                          <button
+                            onClick={() => handlePublishNow(ad._id)}
+                            className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-sm"
+                          >
+                            <PlayCircle className="w-4 h-4" />
+                            <span>Publish Now</span>
+                          </button>
+
+                          {/* Renew Button */}
+                          <button
+                            onClick={() => handleRenew(ad._id)}
+                            className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors text-sm"
+                          >
+                            <RefreshCw className="w-4 h-4" />
+                            <span>Renew</span>
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
