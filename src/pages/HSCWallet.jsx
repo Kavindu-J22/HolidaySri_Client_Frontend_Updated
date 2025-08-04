@@ -185,7 +185,7 @@ const HSCWallet = () => {
           My Holidaysri Wallet
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          Manage your HSC tokens, HSG Gems, and HSD Diamonds
+          Manage your HSC tokens, HSG Gems, HSD Diamonds and your Earnings
         </p>
       </div>
 
@@ -381,21 +381,12 @@ const HSCWallet = () => {
             </h3>
           </div>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            View your HSC purchase and spending history
+            View your purchase and spending history
           </p>
           <button className="btn-secondary w-full">
             View History
           </button>
         </div>
-      </div>
-
-      <div className="card p-8 text-center">
-        <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-          HSC Wallet Features Coming Soon
-        </h2>
-        <p className="text-gray-600 dark:text-gray-400">
-          Full HSC wallet functionality including purchases, packages, and transaction history will be available soon.
-        </p>
       </div>
 
       {/* Bank Details Required Modal */}
@@ -751,8 +742,8 @@ const HSCWallet = () => {
                     HSD diamonds are awarded through our HSD Leader Board system:
                   </p>
                   <ul className="text-xs sm:text-sm text-amber-700 dark:text-amber-300 mt-2 space-y-1">
-                    <li>• Top 3 HSC spenders each period</li>
-                    <li>• 2 random advertisers selected monthly</li>
+                    <li>• Top 3 HSC spenders past tow months</li>
+                    <li>• 2 random advertisers selected past tow months</li>
                     <li>• Special achievement rewards</li>
                   </ul>
                 </div>
