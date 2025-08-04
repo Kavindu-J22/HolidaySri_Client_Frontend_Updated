@@ -383,7 +383,10 @@ const HSCWallet = () => {
           <p className="text-gray-600 dark:text-gray-400 mb-6">
             View your purchase and spending history
           </p>
-          <button className="btn-secondary w-full">
+          <button
+            onClick={() => navigate('/transaction-history')}
+            className="btn-secondary w-full"
+          >
             View History
           </button>
         </div>

@@ -168,4 +168,11 @@ export const commercialPartnerAPI = {
   updateLogo: (logoData) => api.put('/commercial-partner/update-logo', logoData),
 };
 
+// Payment Activities API calls
+export const paymentActivityAPI = {
+  getActivities: (params) => api.get('/payment-activities', { params }),
+  getActivityDetails: (id) => api.get(`/payment-activities/${id}`),
+  getFilterOptions: () => api.get('/payment-activities/filters/options'),
+};
+
 export default api;
