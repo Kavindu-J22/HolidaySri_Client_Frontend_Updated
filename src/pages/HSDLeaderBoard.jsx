@@ -1,21 +1,25 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { hsdLeaderBoardAPI } from '../config/api';
-import { 
-  Trophy, 
-  Medal, 
-  Award, 
-  Crown, 
+import {
+  Trophy,
+  Medal,
+  Award,
+  Crown,
   TrendingUp,
   Calendar,
   Clock,
   Star,
   RefreshCw,
-  Users
+  Users,
+  ArrowLeft,
+  Wallet
 } from 'lucide-react';
 
 const HSDLeaderBoard = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [leaderBoard, setLeaderBoard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -31,6 +35,17 @@ const HSDLeaderBoard = () => {
     seconds: 0
   });
   const [userRank, setUserRank] = useState(null);
+
+  // Function to mask email for privacy
+  const maskEmail = (email) => {
+    if (!email) return '';
+    const [username, domain] = email.split('@');
+    if (username.length <= 2) {
+      return `${username[0]}***@${domain}`;
+    }
+    const maskedUsername = username[0] + '*'.repeat(username.length - 2) + username[username.length - 1];
+    return `${maskedUsername}@${domain}`;
+  };
 
   const fetchLeaderBoard = async () => {
     try {
@@ -138,6 +153,18 @@ const HSDLeaderBoard = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
+          {/* Back to Wallet Button */}
+          <div className="flex justify-start mb-6">
+            <button
+              onClick={() => navigate('/hsc')}
+              className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <Wallet className="w-4 h-4" />
+              Back to Wallet
+            </button>
+          </div>
+
           <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mb-4">
             <img
               src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734609205/file_g75vh2.png"
@@ -311,7 +338,7 @@ const HSDLeaderBoard = () => {
                               {entry.userId.name}
                             </h3>
                             <p className="text-sm text-gray-600 dark:text-gray-400">
-                              {entry.userId.email}
+                              {maskEmail(entry.userId.email)}
                             </p>
                           </div>
                         </div>
