@@ -25,11 +25,15 @@ const RenewPromoCode = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [searchParams] = useSearchParams();
-  const upgradeMode = searchParams.get('mode') === 'upgrade';
+  const mode = searchParams.get('mode');
+  const upgradeMode = mode === 'upgrade';
+  const renewNextYearMode = mode === 'renewNextYear';
   const [loading, setLoading] = useState(true);
   const [agentData, setAgentData] = useState(null);
   const [promoConfig, setPromoConfig] = useState(null);
-  const [selectedOption, setSelectedOption] = useState(upgradeMode ? 'upgrade' : 'renew'); // 'renew' or 'upgrade'
+  const [selectedOption, setSelectedOption] = useState(
+    upgradeMode ? 'upgrade' : renewNextYearMode ? 'renewNextYear' : 'renew'
+  ); // 'renew', 'upgrade', or 'renewNextYear'
   const [selectedTier, setSelectedTier] = useState('');
   const [appliedPromoCode, setAppliedPromoCode] = useState('');
   const [promoCodeInput, setPromoCodeInput] = useState('');
@@ -62,7 +66,7 @@ const RenewPromoCode = () => {
       // Fetch agent data
       const agentResponse = await userAPI.getAgentDashboard();
       if (!agentResponse.data.isAgent) {
-        navigate('/profile');
+        navigate('/profile', { state: { activeSection: 'agent' } });
         return;
       }
       
@@ -115,7 +119,7 @@ const RenewPromoCode = () => {
   };
 
   const calculatePrice = () => {
-    if (selectedOption === 'renew') {
+    if (selectedOption === 'renew' || selectedOption === 'renewNextYear') {
       const currentTierData = getCurrentTierData();
       return currentTierData ? currentTierData.priceInHSC : 0;
     } else {
@@ -242,7 +246,21 @@ const RenewPromoCode = () => {
       const response = await userAPI.renewPromoCode(renewalData);
 
       if (response.data.success) {
-        setSuccess(`Promo code ${selectedOption === 'upgrade' ? 'upgraded and renewed' : 'renewed'} successfully! Redirecting to Agent Dashboard...`);
+        const successMessage = selectedOption === 'upgrade'
+          ? 'upgraded and renewed'
+          : selectedOption === 'renewNextYear'
+            ? 'renewed for next year'
+            : 'renewed';
+
+        // Display the new expiration date in Sri Lankan timezone
+        const newExpirationDate = new Date(response.data.expirationDate).toLocaleDateString('en-US', {
+          timeZone: 'Asia/Colombo',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        setSuccess(`Promo code ${successMessage} successfully! New expiration date: ${newExpirationDate}. Redirecting to Agent Dashboard...`);
 
         // Redirect to Agent Dashboard after 2 seconds
         setTimeout(() => {
@@ -291,21 +309,28 @@ const RenewPromoCode = () => {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate('/profile')}
+            onClick={() => navigate('/profile', { state: { activeSection: 'agent' } })}
             className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Dashboard</span>
+            <span>Back to Agent Dashboard</span>
           </button>
           
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              {upgradeMode ? 'Upgrade Your Promo Code' : 'Renew Your Promo Code'}
+              {upgradeMode
+                ? 'Upgrade Your Promo Code'
+                : renewNextYearMode
+                  ? 'Renew for Next Year'
+                  : 'Renew Your Promo Code'
+              }
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400">
               {upgradeMode
                 ? 'Upgrade to a higher tier and unlock better earning potential'
-                : 'Keep your agent status active and continue earning commissions'
+                : renewNextYearMode
+                  ? 'Extend your promo code before expiration and continue earning without interruption'
+                  : 'Keep your agent status active and continue earning commissions'
               }
             </p>
           </div>
@@ -363,11 +388,62 @@ const RenewPromoCode = () => {
           {/* Option Selection */}
           <div className="space-y-6">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-              {upgradeMode ? 'Choose Upgrade Option' : 'Choose Renewal Option'}
+              {upgradeMode
+                ? 'Choose Upgrade Option'
+                : renewNextYearMode
+                  ? 'Renew for Next Year'
+                  : 'Choose Renewal Option'
+              }
             </h2>
 
-            {/* Renew Option - Only show if not in upgrade mode */}
-            {!upgradeMode && (
+            {/* Renew Next Year Option - Only show if in renewNextYear mode */}
+            {renewNextYearMode && (
+              <div
+                className="border-2 border-green-500 bg-green-50 dark:bg-green-900/20 rounded-xl p-6"
+              >
+                <div className="flex items-center space-x-3 mb-3">
+                  <RefreshCw className="w-6 h-6 text-green-600" />
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Renew for Next Year
+                  </h3>
+                </div>
+
+                <p className="text-gray-600 dark:text-gray-400 mb-3">
+                  Extend your current {agentData.promoCodeType} promo code for another year from your current expiration date
+                </p>
+
+                <div className="bg-green-100 dark:bg-green-900/30 rounded-lg p-3 mb-3">
+                  <p className="text-green-800 dark:text-green-300 text-sm">
+                    <strong>Current Expiration:</strong> {new Date(agentData.expirationDate).toLocaleDateString('en-US', {
+                      timeZone: 'Asia/Colombo',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </p>
+                  <p className="text-green-800 dark:text-green-300 text-sm">
+                    <strong>New Expiration:</strong> {new Date(new Date(agentData.expirationDate).getTime() + 365 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', {
+                      timeZone: 'Asia/Colombo',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {getCurrentTierData()?.priceInHSC || 0} HSC
+                  </span>
+                  <div className="w-4 h-4 rounded-full border-2 border-green-500 bg-green-500">
+                    <Check className="w-2 h-2 text-white m-0.5" />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Renew Option - Only show if not in upgrade mode and not in renewNextYear mode */}
+            {!upgradeMode && !renewNextYearMode && (
               <div
                 className={`border-2 rounded-xl p-6 cursor-pointer transition-all ${
                   selectedOption === 'renew'
@@ -404,8 +480,8 @@ const RenewPromoCode = () => {
               </div>
             )}
             
-            {/* Upgrade Options */}
-            {getAvailableUpgrades().length > 0 && (
+            {/* Upgrade Options - Don't show in renewNextYear mode */}
+            {getAvailableUpgrades().length > 0 && !renewNextYearMode && (
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   Upgrade & Renew Options
@@ -472,6 +548,52 @@ const RenewPromoCode = () => {
                 })}
               </div>
             )}
+          </div>
+
+          {/* Helpful Notes Section */}
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-6">
+            <div className="flex items-center space-x-2 mb-4">
+              <div className="p-2 bg-blue-500 rounded-lg">
+                <Star className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                💡 Which Option Should You Choose?
+              </h3>
+            </div>
+
+            <div className="space-y-4 text-sm">
+              {!upgradeMode && !renewNextYearMode && (
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-blue-200 dark:border-blue-700">
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">🔄 Regular Renewal (After Expiration)</h4>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Use this option when your promo code has already expired. Your new expiration date will be set to current date + 1 year.
+                  </p>
+                </div>
+              )}
+
+              {renewNextYearMode && (
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-green-200 dark:border-green-700">
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">🌟 Renew for Next Year (Before Expiration)</h4>
+                  <p className="text-gray-600 dark:text-gray-400">
+                    Perfect for active users! Extend your current expiration date by exactly 1 year. No time is wasted - your new expiration will be your current expiration + 1 year.
+                  </p>
+                </div>
+              )}
+
+              {upgradeMode && (
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-purple-200 dark:border-purple-700">
+                  <h4 className="font-semibold text-gray-900 dark:text-white mb-2">⚡ Instant Upgrade</h4>
+                  <p className="text-gray-600 dark:text-gray-400 mb-2">
+                    Upgrade to a higher tier anytime! Your new expiration date will be set to current date + 1 year.
+                  </p>
+                  <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3">
+                    <p className="text-yellow-800 dark:text-yellow-300 text-xs">
+                      💡 <strong>Pro Tip:</strong> For maximum value, consider upgrading near your expiration date or after expiration to get the full year benefit.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Payment Section */}
@@ -616,7 +738,11 @@ const RenewPromoCode = () => {
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600 dark:text-gray-400">
-                    {selectedOption === 'renew' ? 'Renewal' : 'Upgrade'} Price:
+                    {selectedOption === 'renew'
+                      ? 'Renewal'
+                      : selectedOption === 'renewNextYear'
+                        ? 'Renewal'
+                        : 'Upgrade'} Price:
                   </span>
                   <span className="font-medium text-gray-900 dark:text-white">
                     {basePrice} HSC
@@ -656,13 +782,23 @@ const RenewPromoCode = () => {
                 <span>
                   {processing
                     ? 'Processing...'
-                    : `${selectedOption === 'renew' ? 'Renew' : 'Upgrade & Renew'} for ${displayFinalAmount} HSC`
+                    : `${selectedOption === 'renew'
+                        ? 'Renew'
+                        : selectedOption === 'renewNextYear'
+                          ? 'Renew for Next Year'
+                          : 'Upgrade & Renew'} for ${displayFinalAmount} HSC`
                   }
                 </span>
               </button>
 
               <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
-                Your HSC balance will be deducted and your promo code will be {selectedOption === 'renew' ? 'renewed' : 'upgraded'} immediately.
+                Your HSC balance will be deducted and your promo code will be {
+                  selectedOption === 'renew'
+                    ? 'renewed'
+                    : selectedOption === 'renewNextYear'
+                      ? 'renewed for next year'
+                      : 'upgraded'
+                } immediately.
               </p>
             </div>
           </div>

@@ -832,7 +832,12 @@ const AgentDashboard = () => {
               <div>
                 <p className="text-white/80 text-xs sm:text-sm">Expires</p>
                 <p className="font-semibold text-sm sm:text-base">
-                  {new Date(agentData.expirationDate).toLocaleDateString()}
+                  {new Date(agentData.expirationDate).toLocaleDateString('en-US', {
+                    timeZone: 'Asia/Colombo',
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                  })}
                 </p>
               </div>
               <div className="flex items-center space-x-2">
@@ -947,10 +952,25 @@ const AgentDashboard = () => {
 
           <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow">
             {isPromoCodeExpired()
-              ? 'Your promo code has expired and is no longer active. Renew it to continue earning commissions.'
+              ? `Your promo code expired on ${new Date(agentData.expirationDate).toLocaleDateString('en-US', {
+                  timeZone: 'Asia/Colombo',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })} and is no longer active. Renew it to continue earning commissions.`
               : agentData.isActive
-              ? 'Your promo code is active and customers can use it for discounts. You earn commissions on every use.'
-              : 'Your promo code is inactive. Customers cannot use it for discounts and you won\'t earn commissions.'
+              ? `Your promo code is active until ${new Date(agentData.expirationDate).toLocaleDateString('en-US', {
+                  timeZone: 'Asia/Colombo',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}. Customers can use it for discounts and you earn commissions on every use.`
+              : `Your promo code is inactive (expires ${new Date(agentData.expirationDate).toLocaleDateString('en-US', {
+                  timeZone: 'Asia/Colombo',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}). Customers cannot use it for discounts and you won't earn commissions.`
             }
           </p>
 
@@ -1087,6 +1107,10 @@ const AgentDashboard = () => {
             Don't want to wait? Upgrade your promo code instantly using your HSC balance and unlock higher earning potential right away.
           </p>
 
+          <div className="text-xs text-blue-600 dark:text-blue-400 mb-3 p-2 bg-blue-50 dark:bg-blue-900/30 rounded-lg">
+            💡 Better to use near to expiration or after expiration for optimal value
+          </div>
+
           <button
             onClick={() => navigate('/renew-promo-code?mode=upgrade')}
             className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
@@ -1095,6 +1119,37 @@ const AgentDashboard = () => {
             <span>Upgrade with HSC</span>
           </button>
         </div>
+
+        {/* Renew for Next Year Button - Show only if not expired */}
+        {!isPromoCodeExpired() && (
+          <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-xl shadow-lg p-6 border border-green-200 dark:border-green-800 flex flex-col">
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="p-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg">
+                <RefreshCw className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  Renew for Next Year
+                </h3>
+                <p className="text-sm text-green-600 dark:text-green-400 font-medium">
+                  Extend before expiration
+                </p>
+              </div>
+            </div>
+
+            <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 flex-grow">
+              Renew your promo code before it expires and extend your current expiration date by one more year. Perfect for active users who want to continue without interruption.
+            </p>
+
+            <button
+              onClick={() => navigate('/renew-promo-code?mode=renewNextYear')}
+              className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-medium hover:from-green-700 hover:to-emerald-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+            >
+              <RefreshCw className="w-4 h-4" />
+              <span>Renew for Next Year</span>
+            </button>
+          </div>
+        )}
 
         {/* Sell Your Promocode Card */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col">
