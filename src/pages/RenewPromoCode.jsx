@@ -566,7 +566,7 @@ const RenewPromoCode = () => {
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-blue-200 dark:border-blue-700">
                   <h4 className="font-semibold text-gray-900 dark:text-white mb-2">🔄 Regular Renewal (After Expiration)</h4>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Use this option when your promo code has already expired. Your new expiration date will be set to current date + 1 year.
+                    Use this option when your promo code has already expired. Your new expiration date will be set to <strong>one year from today</strong>.
                   </p>
                 </div>
               )}
@@ -575,7 +575,7 @@ const RenewPromoCode = () => {
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-green-200 dark:border-green-700">
                   <h4 className="font-semibold text-gray-900 dark:text-white mb-2">🌟 Renew for Next Year (Before Expiration)</h4>
                   <p className="text-gray-600 dark:text-gray-400">
-                    Perfect for active users! Extend your current expiration date by exactly 1 year. No time is wasted - your new expiration will be your current expiration + 1 year.
+                    Ideal for active users! Extend your subscription by a full year. your new expiration date will be set to <strong>one year from your current expiration date</strong>, ensuring no time is lost.
                   </p>
                 </div>
               )}
@@ -584,7 +584,7 @@ const RenewPromoCode = () => {
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-4 border border-purple-200 dark:border-purple-700">
                   <h4 className="font-semibold text-gray-900 dark:text-white mb-2">⚡ Instant Upgrade</h4>
                   <p className="text-gray-600 dark:text-gray-400 mb-2">
-                    Upgrade to a higher tier anytime! Your new expiration date will be set to current date + 1 year.
+                    Upgrade to a higher tier at any time! Your new expiration date will be extended by one <strong>year from today</strong>.
                   </p>
                   <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3">
                     <p className="text-yellow-800 dark:text-yellow-300 text-xs">
