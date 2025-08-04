@@ -38,6 +38,53 @@
     @apply bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700;
   }
 
+  /* Smart Scrollbar Styles */
+  .smart-scrollbar {
+    scrollbar-width: thin;
+  }
+
+  .smart-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .smart-scrollbar::-webkit-scrollbar-track {
+    @apply bg-gray-100 dark:bg-gray-700 rounded-full;
+  }
+
+  .smart-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+    transition: background-color 0.2s ease;
+  }
+
+  .smart-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-400 dark:bg-gray-500;
+  }
+
+  /* Color-specific scrollbars */
+  .scrollbar-blue::-webkit-scrollbar-thumb {
+    @apply bg-blue-400 dark:bg-blue-500;
+  }
+
+  .scrollbar-blue::-webkit-scrollbar-thumb:hover {
+    @apply bg-blue-500 dark:bg-blue-400;
+  }
+
+  .scrollbar-green::-webkit-scrollbar-thumb {
+    @apply bg-green-400 dark:bg-green-500;
+  }
+
+  .scrollbar-green::-webkit-scrollbar-thumb:hover {
+    @apply bg-green-500 dark:bg-green-400;
+  }
+
+  .scrollbar-purple::-webkit-scrollbar-thumb {
+    @apply bg-purple-400 dark:bg-purple-500;
+  }
+
+  .scrollbar-purple::-webkit-scrollbar-thumb:hover {
+    @apply bg-purple-500 dark:bg-purple-400;
+  }
+
   /* Enhanced sidebar subcategory styles */
   .sidebar-subcategory {
     @apply relative overflow-hidden;

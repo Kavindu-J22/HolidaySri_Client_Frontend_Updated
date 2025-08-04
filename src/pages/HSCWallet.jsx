@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { TrendingUp, History, Gift, AlertCircle, CheckCircle } from 'lucide-react';
+import { TrendingUp, History, Gift, AlertCircle, CheckCircle, X, Info, CreditCard, Star, Trophy } from 'lucide-react';
 import { hscAPI, userAPI } from '../config/api';
 
 const HSCWallet = () => {
@@ -17,11 +17,7 @@ const HSCWallet = () => {
     total: 0,
     canClaim: false
   });
-  const [bankDetailsStatus, setBankDetailsStatus] = useState({
-    canClaim: false,
-    hasCompleteBankDetails: false,
-    hasBinanceId: false
-  });
+
   const [hscEarned, setHscEarned] = useState({
     totals: {
       completed: 0,
@@ -36,6 +32,9 @@ const HSCWallet = () => {
   const [loading, setLoading] = useState(false);
   const [showBankDetailsModal, setShowBankDetailsModal] = useState(false);
   const [showHSCConvertModal, setShowHSCConvertModal] = useState(false);
+  const [showHSCInfoModal, setShowHSCInfoModal] = useState(false);
+  const [showHSGInfoModal, setShowHSGInfoModal] = useState(false);
+  const [showHSDInfoModal, setShowHSDInfoModal] = useState(false);
 
   const fetchTokenValues = async () => {
     try {
@@ -76,14 +75,7 @@ const HSCWallet = () => {
     }
   }, []);
 
-  const fetchBankDetailsStatus = useCallback(async () => {
-    try {
-      const response = await userAPI.getBankDetailsStatus();
-      setBankDetailsStatus(response.data);
-    } catch (error) {
-      console.error('Failed to fetch bank details status:', error);
-    }
-  }, []);
+
 
   const fetchHSCEarned = useCallback(async () => {
     try {
@@ -182,10 +174,9 @@ const HSCWallet = () => {
     if (user) {
       fetchUserBalances();
       fetchPromocodeEarnings();
-      fetchBankDetailsStatus();
       fetchHSCEarned();
     }
-  }, [user, fetchUserBalances, fetchPromocodeEarnings, fetchBankDetailsStatus, fetchHSCEarned]);
+  }, [user, fetchUserBalances, fetchPromocodeEarnings, fetchHSCEarned]);
 
   return (
     <div className="space-y-8">
@@ -201,8 +192,8 @@ const HSCWallet = () => {
       {/* Multi-Token Balance Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
         {/* HSC Balance */}
-        <div className="card p-6 text-center bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-xl mb-4">
+        <div className="card p-6 text-center bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 flex flex-col">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-xl mb-4 mx-auto">
             <img
               src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734337684/hsc_resll6_1_q0eksv.webp"
               alt="HSC Coin"
@@ -215,14 +206,20 @@ const HSCWallet = () => {
           <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
             {user?.hscBalance || 0} HSC
           </div>
-          <p className="text-xs text-gray-600 dark:text-gray-400">
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4 flex-grow">
             For publishing ads
           </p>
+          <button
+            onClick={() => setShowHSCInfoModal(true)}
+            className="w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white shadow-md hover:shadow-lg transform hover:scale-105 mt-auto"
+          >
+            Know More
+          </button>
         </div>
 
         {/* HSG Balance */}
-        <div className="card p-6 text-center bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-green-600 rounded-xl mb-4">
+        <div className="card p-6 text-center bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 flex flex-col">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-green-600 rounded-xl mb-4 mx-auto">
             <img
               src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734594961/Untitled-12_mcloq6.webp"
               alt="HSG Gem"
@@ -235,14 +232,20 @@ const HSCWallet = () => {
           <div className="text-2xl font-bold text-green-600 dark:text-green-400 mb-2">
             {user?.hsgBalance || 0} HSG
           </div>
-          <p className="text-xs text-gray-600 dark:text-gray-400">
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4 flex-grow">
             1 HSG = {tokenValues.hsgValue} {tokenValues.currency}
           </p>
+          <button
+            onClick={() => setShowHSGInfoModal(true)}
+            className="w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white shadow-md hover:shadow-lg transform hover:scale-105 mt-auto"
+          >
+            Know More
+          </button>
         </div>
 
         {/* HSD Balance */}
-        <div className="card p-6 text-center bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-600 rounded-xl mb-4">
+        <div className="card p-6 text-center bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 flex flex-col">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-600 rounded-xl mb-4 mx-auto">
             <img
               src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734609205/file_g75vh2.png"
               alt="HSD Diamond"
@@ -255,9 +258,23 @@ const HSCWallet = () => {
           <div className="text-2xl font-bold text-purple-600 dark:text-purple-400 mb-2">
             {user?.hsdBalance || 0} HSD
           </div>
-          <p className="text-xs text-gray-600 dark:text-gray-400">
+          <p className="text-xs text-gray-600 dark:text-gray-400 mb-4 flex-grow">
             1 HSD = {tokenValues.hsdValue} {tokenValues.currency}
           </p>
+          <div className="space-y-2 mt-auto">
+            <button
+              onClick={() => setShowHSDInfoModal(true)}
+              className="w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-md hover:shadow-lg transform hover:scale-105"
+            >
+              Know More
+            </button>
+            <button
+              onClick={() => {/* TODO: Navigate to HSD Leader Board */}}
+              className="w-full py-2.5 px-4 rounded-lg font-semibold text-sm transition-all duration-200 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white shadow-md hover:shadow-lg transform hover:scale-105"
+            >
+              HSD Leader Board
+            </button>
+          </div>
         </div>
 
         {/* Promocode Earnings */}
@@ -499,6 +516,289 @@ const HSCWallet = () => {
                   className="flex-1 px-4 py-3 bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 text-white rounded-lg font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105 disabled:opacity-50"
                 >
                   {loading ? 'Converting...' : 'Confirm & Convert'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* HSC Info Modal */}
+      {showHSCInfoModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-sm sm:max-w-md w-full mx-2 sm:mx-4 shadow-2xl transform transition-all max-h-[90vh] overflow-y-auto smart-scrollbar scrollbar-blue">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-t-2xl p-4 sm:p-6 text-center relative">
+              <button
+                onClick={() => setShowHSCInfoModal(false)}
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white hover:text-gray-200 transition-colors p-1"
+              >
+                <X className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <img
+                  src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734337684/hsc_resll6_1_q0eksv.webp"
+                  alt="HSC Coin"
+                  className="w-6 h-6 sm:w-10 sm:h-10 object-contain"
+                />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">What is HSC?</h3>
+              <p className="text-white text-opacity-90 text-xs sm:text-sm">Holidaysri Coins</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-4 sm:p-6">
+              <div className="space-y-4">
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <Info className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400 mr-2" />
+                    <span className="font-semibold text-blue-800 dark:text-blue-300 text-sm sm:text-base">About HSC</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-300">
+                    HSC (Holidaysri Coins) is the primary currency for all purchasing activities on our platform.
+                    You need HSC tokens to access premium features and services.
+                  </p>
+                </div>
+
+                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 mr-2" />
+                    <span className="font-semibold text-green-800 dark:text-green-300 text-sm sm:text-base">How to Get HSC</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-green-700 dark:text-green-300">
+                    You can purchase HSC tokens using your credit/debit card. Simply click "Buy HSC Tokens"
+                    to explore our packages and make a purchase.
+                  </p>
+                </div>
+
+                <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <Star className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400 mr-2" />
+                    <span className="font-semibold text-purple-800 dark:text-purple-300 text-sm sm:text-base">Earning Opportunities</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-purple-700 dark:text-purple-300">
+                    Explore more earning opportunities through our platform. Use HSC to unlock premium features
+                    and discover new ways to grow your business.
+                  </p>
+                </div>
+
+                <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600 dark:text-amber-400 mr-2" />
+                    <span className="font-semibold text-amber-800 dark:text-amber-300 text-sm sm:text-base">Current Value</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-amber-700 dark:text-amber-300">
+                    Current HSC Value: <span className="font-bold">{hscEarned.hscValue} {hscEarned.currency}</span>
+                  </p>
+                  <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
+                    Last updated: {new Date().toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <div className="mt-4 sm:mt-6">
+                <button
+                  onClick={() => {
+                    setShowHSCInfoModal(false);
+                    navigate('/hsc-treasure');
+                  }}
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white rounded-lg font-medium text-sm sm:text-base transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                >
+                  Buy HSC Tokens
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* HSG Info Modal */}
+      {showHSGInfoModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-sm sm:max-w-md w-full mx-2 sm:mx-4 shadow-2xl transform transition-all max-h-[90vh] overflow-y-auto smart-scrollbar scrollbar-green">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-t-2xl p-4 sm:p-6 text-center relative">
+              <button
+                onClick={() => setShowHSGInfoModal(false)}
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white hover:text-gray-200 transition-colors p-1"
+              >
+                <X className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <img
+                  src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734594961/Untitled-12_mcloq6.webp"
+                  alt="HSG Gem"
+                  className="w-6 h-6 sm:w-10 sm:h-10 object-contain"
+                />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">What is HSG?</h3>
+              <p className="text-white text-opacity-90 text-xs sm:text-sm">Holidaysri Gems</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-4 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <Info className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 mr-2" />
+                    <span className="font-semibold text-green-800 dark:text-green-300 text-sm sm:text-base">About HSG</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-green-700 dark:text-green-300">
+                    HSG (Holidaysri Gems) are special gift tokens that we provide to our valued users.
+                    These gems cannot be purchased - they are exclusively given as gifts!
+                  </p>
+                </div>
+
+                <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <Gift className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600 dark:text-amber-400 mr-2" />
+                    <span className="font-semibold text-amber-800 dark:text-amber-300 text-sm sm:text-base">How to Get HSG</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-amber-700 dark:text-amber-300">
+                    HSG gems are gifted to users for special reasons such as:
+                  </p>
+                  <ul className="text-xs sm:text-sm text-amber-700 dark:text-amber-300 mt-2 space-y-1">
+                    <li>• New user welcome gifts</li>
+                    <li>• Special events and festivals</li>
+                    <li>• Community participation rewards</li>
+                    <li>• Loyalty bonuses</li>
+                  </ul>
+                </div>
+
+                <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <Star className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400 mr-2" />
+                    <span className="font-semibold text-purple-800 dark:text-purple-300 text-sm sm:text-base">How to Use HSG</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-purple-700 dark:text-purple-300">
+                    You can use HSG gems to publish advertisements on our platform.
+                    It's our way of helping you promote your business with our complimentary tokens.
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400 mr-2" />
+                    <span className="font-semibold text-blue-800 dark:text-blue-300 text-sm sm:text-base">Current Value</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-300">
+                    Current HSG Value: <span className="font-bold">{tokenValues.hsgValue} {tokenValues.currency}</span>
+                  </p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                    Last updated: {new Date().toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <div className="mt-4 sm:mt-6">
+                <button
+                  onClick={() => setShowHSGInfoModal(false)}
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg font-medium text-sm sm:text-base transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                >
+                  Got It!
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* HSD Info Modal */}
+      {showHSDInfoModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl max-w-sm sm:max-w-md w-full mx-2 sm:mx-4 shadow-2xl transform transition-all max-h-[90vh] overflow-y-auto smart-scrollbar scrollbar-purple">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-t-2xl p-4 sm:p-6 text-center relative">
+              <button
+                onClick={() => setShowHSDInfoModal(false)}
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white hover:text-gray-200 transition-colors p-1"
+              >
+                <X className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <img
+                  src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734609205/file_g75vh2.png"
+                  alt="HSD Diamond"
+                  className="w-6 h-6 sm:w-10 sm:h-10 object-contain"
+                />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-white mb-2">What is HSD?</h3>
+              <p className="text-white text-opacity-90 text-xs sm:text-sm">Holidaysri Diamonds</p>
+            </div>
+
+            {/* Content */}
+            <div className="p-4 sm:p-6">
+              <div className="space-y-3 sm:space-y-4">
+                <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <Info className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400 mr-2" />
+                    <span className="font-semibold text-purple-800 dark:text-purple-300 text-sm sm:text-base">About HSD</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-purple-700 dark:text-purple-300">
+                    HSD (Holidaysri Diamonds) are premium reward tokens that we provide to our top performers.
+                    These diamonds cannot be purchased - they are exclusively earned as rewards!
+                  </p>
+                </div>
+
+                <div className="bg-amber-50 dark:bg-amber-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-amber-600 dark:text-amber-400 mr-2" />
+                    <span className="font-semibold text-amber-800 dark:text-amber-300 text-sm sm:text-base">How to Earn HSD</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-amber-700 dark:text-amber-300">
+                    HSD diamonds are awarded through our HSD Leader Board system:
+                  </p>
+                  <ul className="text-xs sm:text-sm text-amber-700 dark:text-amber-300 mt-2 space-y-1">
+                    <li>• Top 3 HSC spenders each period</li>
+                    <li>• 2 random advertisers selected monthly</li>
+                    <li>• Special achievement rewards</li>
+                  </ul>
+                </div>
+
+                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <Star className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 mr-2" />
+                    <span className="font-semibold text-green-800 dark:text-green-300 text-sm sm:text-base">How to Use HSD</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-green-700 dark:text-green-300">
+                    You can use HSD diamonds to publish premium advertisements on our platform.
+                    These are the most valuable tokens in our ecosystem.
+                  </p>
+                </div>
+
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-center mb-2">
+                    <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400 mr-2" />
+                    <span className="font-semibold text-blue-800 dark:text-blue-300 text-sm sm:text-base">Current Value</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-blue-700 dark:text-blue-300">
+                    Current HSD Value: <span className="font-bold">{tokenValues.hsdValue} {tokenValues.currency}</span>
+                  </p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                    Last updated: {new Date().toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="mt-4 sm:mt-6 space-y-2 sm:space-y-3">
+                <button
+                  onClick={() => setShowHSDInfoModal(false)}
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white rounded-lg font-medium text-sm sm:text-base transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                >
+                  Got It!
+                </button>
+                <button
+                  onClick={() => {
+                    setShowHSDInfoModal(false);
+                    // TODO: Navigate to HSD Leader Board when implemented
+                    alert('HSD Leader Board will be available soon!');
+                  }}
+                  className="w-full px-3 sm:px-4 py-2.5 sm:py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white rounded-lg font-medium text-sm sm:text-base transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-105"
+                >
+                  HSD Leader Board
                 </button>
               </div>
             </div>
