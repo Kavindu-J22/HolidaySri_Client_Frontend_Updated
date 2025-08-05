@@ -118,14 +118,14 @@ const TravelBuddyPlatform = () => {
 
   const TravelBuddyCard = ({ buddy }) => (
     <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
-      {/* Cover Photo */}
-      <div className="relative h-52 overflow-hidden">
+      {/* Cover Photo with Avatar and Info Overlay */}
+      <div className="relative h-64 overflow-hidden">
         <img
           src={buddy.coverPhoto.url}
           alt={`${buddy.userName}'s cover`}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
         {/* Member Badge */}
         {buddy.user?.isMember && (
@@ -137,20 +137,61 @@ const TravelBuddyPlatform = () => {
           </div>
         )}
 
-        {/* Quick Stats Overlay */}
-        <div className="absolute bottom-4 left-4 right-4">
-          <div className="flex items-center justify-between text-white text-sm">
-            <div className="flex items-center space-x-3">
-              <div className="flex items-center space-x-1 bg-black/30 backdrop-blur-sm rounded-full px-2 py-1">
-                <Eye className="w-3 h-3" />
-                <span className="font-medium">{buddy.viewCount}</span>
+        {/* Avatar and Profile Info Overlay */}
+        <div className="absolute bottom-0 left-0 right-0 p-4">
+          <div className="flex items-end space-x-4">
+            {/* Avatar */}
+            <div className="relative flex-shrink-0">
+              <img
+                src={buddy.avatarImage.url}
+                alt={buddy.userName}
+                className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-2xl ring-2 ring-white/30"
+              />
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-400 rounded-full border-3 border-white shadow-lg"></div>
+            </div>
+
+            {/* Profile Info */}
+            <div className="flex-1 text-white pb-2">
+              <div className="flex items-center space-x-2 mb-1">
+                <h3 className="text-xl font-bold leading-tight drop-shadow-lg">
+                  {buddy.userName}
+                </h3>
+                {buddy.nickName && (
+                  <span className="text-sm font-medium text-white/90 bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">
+                    "{buddy.nickName}"
+                  </span>
+                )}
               </div>
-              {buddy.averageRating > 0 && (
-                <div className="flex items-center space-x-1 bg-black/30 backdrop-blur-sm rounded-full px-2 py-1">
-                  <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                  <span className="font-medium">{buddy.averageRating.toFixed(1)}</span>
+
+              <div className="flex items-center space-x-3 text-sm text-white/90 mb-2">
+                <div className="flex items-center space-x-1">
+                  <MapPin className="w-4 h-4" />
+                  <span className="font-medium">{buddy.country}</span>
                 </div>
-              )}
+                <span className="w-1 h-1 bg-white/60 rounded-full"></span>
+                <div className="flex items-center space-x-1">
+                  <User className="w-4 h-4" />
+                  <span className="font-medium">{buddy.age} years</span>
+                </div>
+                <span className="w-1 h-1 bg-white/60 rounded-full"></span>
+                <span className="text-xs uppercase tracking-wide font-semibold bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">
+                  {buddy.gender}
+                </span>
+              </div>
+
+              {/* Quick Stats */}
+              <div className="flex items-center space-x-3">
+                <div className="flex items-center space-x-1 bg-white/20 backdrop-blur-sm rounded-full px-2 py-1">
+                  <Eye className="w-3 h-3" />
+                  <span className="text-xs font-medium">{buddy.viewCount}</span>
+                </div>
+                {buddy.averageRating > 0 && (
+                  <div className="flex items-center space-x-1 bg-white/20 backdrop-blur-sm rounded-full px-2 py-1">
+                    <Star className="w-3 h-3 text-yellow-400 fill-current" />
+                    <span className="text-xs font-medium">{buddy.averageRating.toFixed(1)}</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -158,54 +199,19 @@ const TravelBuddyPlatform = () => {
 
       {/* Profile Content */}
       <div className="p-5">
-        {/* Avatar and Basic Info */}
-        <div className="flex items-start space-x-4 mb-4">
-          <div className="relative">
-            <img
-              src={buddy.avatarImage.url}
-              alt={buddy.userName}
-              className="w-16 h-16 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-xl -mt-10 relative z-10 ring-2 ring-blue-100 dark:ring-blue-900"
-            />
-            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white dark:border-gray-800"></div>
-          </div>
-          <div className="flex-1 pt-1">
-            <div className="flex items-center space-x-2 mb-1">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white leading-tight">
-                {buddy.userName}
-              </h3>
-              {buddy.nickName && (
-                <span className="text-sm text-gray-500 dark:text-gray-400 font-medium">
-                  "{buddy.nickName}"
-                </span>
-              )}
-            </div>
-            <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-2">
-              <MapPin className="w-4 h-4 text-blue-500" />
-              <span className="font-medium">{buddy.country}</span>
-              <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-              <User className="w-4 h-4 text-purple-500" />
-              <span className="font-medium">{buddy.age} years</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <span className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-semibold">
-                {buddy.gender}
-              </span>
-            </div>
-          </div>
-        </div>
 
         {/* Rating Display */}
-        <div className="flex items-center justify-between mb-4 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+        <div className="flex items-center justify-between mb-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl border border-yellow-200 dark:border-yellow-700">
           <div className="flex items-center space-x-2">
             <div className="flex items-center space-x-1">
               {renderStars(buddy.averageRating)}
             </div>
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-              {buddy.averageRating > 0 ? buddy.averageRating.toFixed(1) : 'New'}
+            <span className="text-sm font-bold text-gray-800 dark:text-gray-200">
+              {buddy.averageRating > 0 ? buddy.averageRating.toFixed(1) : 'New Profile'}
             </span>
           </div>
-          <div className="text-xs text-gray-500 dark:text-gray-400">
-            {buddy.totalReviews > 0 ? `${buddy.totalReviews} reviews` : 'No reviews yet'}
+          <div className="text-xs text-gray-600 dark:text-gray-400 font-medium">
+            {buddy.totalReviews > 0 ? `${buddy.totalReviews} ${buddy.totalReviews === 1 ? 'review' : 'reviews'}` : 'No reviews yet'}
           </div>
         </div>
 

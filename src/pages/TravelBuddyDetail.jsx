@@ -33,10 +33,13 @@ const TravelBuddyDetail = () => {
   useEffect(() => {
     fetchBuddyDetails();
     fetchReviews();
+  }, [id]);
+
+  useEffect(() => {
     if (user) {
       checkFavoriteStatus();
     }
-  }, [id, user]);
+  }, [user, id]);
 
   const fetchBuddyDetails = async () => {
     try {
