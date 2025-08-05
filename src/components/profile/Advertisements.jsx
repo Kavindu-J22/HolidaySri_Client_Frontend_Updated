@@ -543,8 +543,27 @@ const Advertisements = () => {
                           </span>
                         )}
                         {userVerificationStatus.isVerified && (
-                          <div className="flex items-center justify-center w-5 h-5 bg-blue-500 rounded-full border border-white shadow-sm">
-                            <CheckCircle className="w-3 h-3 text-green-400 fill-current" />
+                          <div className="relative inline-flex items-center justify-center">
+                            <svg
+                              className="w-4 h-4"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M12 2L15.09 8.26L22 9L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9L8.91 8.26L12 2Z"
+                                fill="#1D9BF0"
+                                stroke="#FFFFFF"
+                                strokeWidth="1"
+                              />
+                              <path
+                                d="M9 12L11 14L15 10"
+                                stroke="#FFFFFF"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
                           </div>
                         )}
                       </div>

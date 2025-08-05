@@ -266,8 +266,27 @@ const PersonalDetails = () => {
                   </div>
                 )}
                 {user?.isVerified && (
-                  <div className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 bg-blue-500 rounded-full border-2 border-white shadow-lg">
-                    <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-white fill-current" />
+                  <div className="relative inline-flex items-center justify-center">
+                    <svg
+                      className="w-5 h-5 sm:w-6 sm:h-6"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 2L15.09 8.26L22 9L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9L8.91 8.26L12 2Z"
+                        fill="#1D9BF0"
+                        stroke="#FFFFFF"
+                        strokeWidth="1"
+                      />
+                      <path
+                        d="M9 12L11 14L15 10"
+                        stroke="#FFFFFF"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                   </div>
                 )}
               </div>
