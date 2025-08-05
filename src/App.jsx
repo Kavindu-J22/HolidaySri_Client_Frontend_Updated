@@ -42,6 +42,9 @@ import AdvertisementPayment from './pages/AdvertisementPayment';
 import TransactionHistory from './pages/TransactionHistory';
 import HSDLeaderBoard from './pages/HSDLeaderBoard';
 import TravelBuddyForm from './pages/TravelBuddyForm';
+import TravelBuddyPlatform from './pages/TravelBuddyPlatform';
+import TravelBuddyDetail from './pages/TravelBuddyDetail';
+import TravelBuddyFavorites from './pages/TravelBuddyFavorites';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -180,6 +183,13 @@ function App() {
                 <Route path="travel-buddy-form" element={
                   <ProtectedRoute>
                     <TravelBuddyForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="travel-buddies" element={<TravelBuddyPlatform />} />
+                <Route path="travel-buddy/:id" element={<TravelBuddyDetail />} />
+                <Route path="travel-buddy-favorites" element={
+                  <ProtectedRoute>
+                    <TravelBuddyFavorites />
                   </ProtectedRoute>
                 } />
               </Route>
