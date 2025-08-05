@@ -15,7 +15,10 @@ import {
   ExternalLink,
   Flag,
   AlertTriangle,
-  X
+  X,
+  Edit,
+  Trash2,
+  MoreVertical
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -36,6 +39,10 @@ const TravelBuddyDetail = () => {
   const [isReporting, setIsReporting] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportForm, setReportForm] = useState({ reason: 'other', description: '' });
+  const [editingReview, setEditingReview] = useState(null);
+  const [editForm, setEditForm] = useState({ rating: 5, comment: '' });
+  const [updatingReview, setUpdatingReview] = useState(false);
+  const [deletingReview, setDeletingReview] = useState(null);
 
   useEffect(() => {
     fetchBuddyDetails();
@@ -247,11 +254,85 @@ const TravelBuddyDetail = () => {
     }
   };
 
-  const renderStars = (rating, interactive = false, onRatingChange = null) => {
+  const handleEditReview = (review) => {
+    setEditingReview(review._id);
+    setEditForm({ rating: review.rating, comment: review.comment });
+  };
+
+  const handleUpdateReview = async (e) => {
+    e.preventDefault();
+
+    try {
+      setUpdatingReview(true);
+      const response = await fetch(`/api/travel-buddy/reviews/${editingReview}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(editForm)
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        setReviews(prev => prev.map(review =>
+          review._id === editingReview ? data.data : review
+        ));
+        setEditingReview(null);
+        setEditForm({ rating: 5, comment: '' });
+        // Refresh buddy details to update rating
+        fetchBuddyDetails();
+      } else {
+        alert(data.message || 'Failed to update review');
+      }
+    } catch (error) {
+      console.error('Error updating review:', error);
+      alert('Failed to update review');
+    } finally {
+      setUpdatingReview(false);
+    }
+  };
+
+  const handleDeleteReview = async (reviewId) => {
+    if (!confirm('Are you sure you want to delete this review?')) {
+      return;
+    }
+
+    try {
+      setDeletingReview(reviewId);
+      const response = await fetch(`/api/travel-buddy/reviews/${reviewId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        setReviews(prev => prev.filter(review => review._id !== reviewId));
+        // Refresh buddy details to update rating
+        fetchBuddyDetails();
+      } else {
+        alert(data.message || 'Failed to delete review');
+      }
+    } catch (error) {
+      console.error('Error deleting review:', error);
+      alert('Failed to delete review');
+    } finally {
+      setDeletingReview(null);
+    }
+  };
+
+  const cancelEdit = () => {
+    setEditingReview(null);
+    setEditForm({ rating: 5, comment: '' });
+  };
+
+  const renderStars = (rating, interactive = false, onRatingChange = null, size = 'w-5 h-5') => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star
         key={index}
-        className={`w-5 h-5 ${
+        className={`${size} ${
           index < rating
             ? 'text-yellow-400 fill-current'
             : 'text-gray-300'
@@ -549,18 +630,18 @@ const TravelBuddyDetail = () => {
 
           {/* Review Form */}
           {showReviewForm && (
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-2xl p-6 mb-8 border border-blue-200 dark:border-blue-700">
+            <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-5 mb-6 border border-blue-200 dark:border-blue-700">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center space-x-2">
                 <span>✍️</span>
                 <span>Share Your Experience</span>
               </h3>
 
-              <form onSubmit={handleReviewSubmit} className="space-y-6">
+              <form onSubmit={handleReviewSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     How would you rate this travel buddy?
                   </label>
-                  <div className="flex items-center space-x-2 p-4 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-600">
+                  <div className="flex items-center space-x-2 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
                     {renderStars(reviewForm.rating, true, (rating) =>
                       setReviewForm(prev => ({ ...prev, rating }))
                     )}
@@ -571,24 +652,24 @@ const TravelBuddyDetail = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Tell us about your experience
                   </label>
                   <textarea
                     value={reviewForm.comment}
                     onChange={(e) => setReviewForm(prev => ({ ...prev, comment: e.target.value }))}
-                    rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white placeholder-gray-400 resize-none"
+                    rows={3}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white placeholder-gray-400 resize-none text-sm"
                     placeholder="Share your experience with this travel buddy... What made them a great companion?"
                     required
                   />
                 </div>
 
-                <div className="flex space-x-3 pt-2">
+                <div className="flex space-x-3">
                   <button
                     type="submit"
                     disabled={submittingReview}
-                    className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:opacity-50 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                    className="flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:opacity-50 text-white px-5 py-2.5 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 shadow-lg text-sm"
                   >
                     {submittingReview ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -600,7 +681,7 @@ const TravelBuddyDetail = () => {
                   <button
                     type="button"
                     onClick={() => setShowReviewForm(false)}
-                    className="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-semibold text-gray-700 dark:text-gray-300"
+                    className="px-5 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium text-gray-700 dark:text-gray-300 text-sm"
                   >
                     Cancel
                   </button>
@@ -618,43 +699,139 @@ const TravelBuddyDetail = () => {
               </div>
             </div>
           ) : reviews.length > 0 ? (
-            <div className="space-y-6">
+            <div className="space-y-4">
               {reviews.map((review) => (
-                <div key={review._id} className="bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-6 border border-gray-200 dark:border-gray-600 hover:shadow-md transition-shadow duration-200">
-                  <div className="flex items-start space-x-4">
-                    <div className="relative">
-                      <img
-                        src={review.userId.profileImage || '/default-avatar.png'}
-                        alt={review.userId.name}
-                        className="w-12 h-12 rounded-full object-cover ring-2 ring-blue-100 dark:ring-blue-900"
-                      />
-                      <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white dark:border-gray-700"></div>
-                    </div>
-                    <div className="flex-1">
+                <div key={review._id} className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 border border-gray-200 dark:border-gray-600 hover:shadow-md transition-shadow duration-200">
+                  {editingReview === review._id ? (
+                    // Edit Form
+                    <form onSubmit={handleUpdateReview} className="space-y-4">
                       <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center space-x-3">
-                          <h4 className="font-bold text-gray-900 dark:text-white text-lg">
-                            {review.userId.name}
-                          </h4>
-                          <div className="flex items-center space-x-1 bg-yellow-100 dark:bg-yellow-900/50 px-2 py-1 rounded-full">
-                            {renderStars(review.rating)}
+                        <h4 className="font-semibold text-gray-900 dark:text-white">Edit Your Review</h4>
+                        <button
+                          type="button"
+                          onClick={cancelEdit}
+                          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Rating
+                        </label>
+                        <div className="flex items-center space-x-2">
+                          {renderStars(editForm.rating, true, (rating) =>
+                            setEditForm(prev => ({ ...prev, rating }))
+                          )}
+                          <span className="text-sm text-gray-600 dark:text-gray-400">
+                            {editForm.rating} out of 5 stars
+                          </span>
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          Comment
+                        </label>
+                        <textarea
+                          value={editForm.comment}
+                          onChange={(e) => setEditForm(prev => ({ ...prev, comment: e.target.value }))}
+                          rows={3}
+                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white placeholder-gray-400 resize-none text-sm"
+                          placeholder="Update your review..."
+                          required
+                        />
+                      </div>
+
+                      <div className="flex space-x-3">
+                        <button
+                          type="submit"
+                          disabled={updatingReview}
+                          className="flex items-center space-x-2 bg-blue-500 hover:bg-blue-600 disabled:opacity-50 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm"
+                        >
+                          {updatingReview ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            <Send className="w-4 h-4" />
+                          )}
+                          <span>Update</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={cancelEdit}
+                          className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium text-gray-700 dark:text-gray-300 text-sm"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  ) : (
+                    // Review Display
+                    <div className="flex items-start space-x-3">
+                      <div className="relative flex-shrink-0">
+                        <img
+                          src={review.userId.profileImage || '/default-avatar.png'}
+                          alt={review.userId.name}
+                          className="w-10 h-10 rounded-full object-cover ring-2 ring-blue-100 dark:ring-blue-900"
+                        />
+                        <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white dark:border-gray-700"></div>
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center space-x-2">
+                            <h4 className="font-semibold text-gray-900 dark:text-white text-sm">
+                              {review.userId.name}
+                            </h4>
+                            <div className="flex items-center space-x-1">
+                              {renderStars(review.rating, false, null, 'w-3.5 h-3.5')}
+                            </div>
+                          </div>
+
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                              {new Date(review.createdAt).toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric'
+                              })}
+                            </span>
+
+                            {user && user.id === review.userId._id && (
+                              <div className="flex items-center space-x-1">
+                                <button
+                                  onClick={() => handleEditReview(review)}
+                                  className="p-1.5 text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors rounded-md hover:bg-gray-200 dark:hover:bg-gray-600"
+                                  title="Edit review"
+                                >
+                                  <Edit className="w-3.5 h-3.5" />
+                                </button>
+                                <button
+                                  onClick={() => handleDeleteReview(review._id)}
+                                  disabled={deletingReview === review._id}
+                                  className="p-1.5 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 disabled:opacity-50"
+                                  title="Delete review"
+                                >
+                                  {deletingReview === review._id ? (
+                                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                  ) : (
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  )}
+                                </button>
+                              </div>
+                            )}
                           </div>
                         </div>
-                        <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-200 dark:bg-gray-600 px-3 py-1 rounded-full">
-                          {new Date(review.createdAt).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                          })}
-                        </span>
-                      </div>
-                      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-600">
-                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                          "{review.comment}"
-                        </p>
+
+                        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-200 dark:border-gray-600">
+                          <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm">
+                            "{review.comment}"
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               ))}
             </div>
