@@ -103,6 +103,16 @@ const TravelBuddyPlatform = () => {
     navigate(`/travel-buddy/${buddyId}`);
   };
 
+  const formatViewCount = (count) => {
+    if (count >= 1000000) {
+      return (count / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    if (count >= 1000) {
+      return (count / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    return count.toString();
+  };
+
   const renderStars = (rating) => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star
@@ -117,15 +127,15 @@ const TravelBuddyPlatform = () => {
   };
 
   const TravelBuddyCard = ({ buddy }) => (
-    <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700">
-      {/* Cover Photo with Avatar and Info Overlay */}
-      <div className="relative h-64 overflow-hidden">
+    <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700 w-full max-w-sm mx-auto">
+      {/* Cover Photo */}
+      <div className="relative h-56 overflow-hidden">
         <img
           src={buddy.coverPhoto.url}
           alt={`${buddy.userName}'s cover`}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
 
         {/* Member Badge */}
         {buddy.user?.isMember && (
@@ -137,68 +147,66 @@ const TravelBuddyPlatform = () => {
           </div>
         )}
 
-        {/* Avatar and Profile Info Overlay */}
-        <div className="absolute bottom-0 left-0 right-0 p-4">
-          <div className="flex items-end space-x-4">
-            {/* Avatar */}
-            <div className="relative flex-shrink-0">
-              <img
-                src={buddy.avatarImage.url}
-                alt={buddy.userName}
-                className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-2xl ring-2 ring-white/30"
-              />
-              <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-400 rounded-full border-3 border-white shadow-lg"></div>
+        {/* Quick Stats Overlay */}
+        <div className="absolute top-4 left-4">
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 text-white">
+              <Eye className="w-3 h-3" />
+              <span className="text-xs font-semibold">{formatViewCount(buddy.viewCount)}</span>
             </div>
-
-            {/* Profile Info */}
-            <div className="flex-1 text-white pb-2">
-              <div className="flex items-center space-x-2 mb-1">
-                <h3 className="text-xl font-bold leading-tight drop-shadow-lg">
-                  {buddy.userName}
-                </h3>
-                {buddy.nickName && (
-                  <span className="text-sm font-medium text-white/90 bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">
-                    "{buddy.nickName}"
-                  </span>
-                )}
+            {buddy.averageRating > 0 && (
+              <div className="flex items-center space-x-1 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 text-white">
+                <Star className="w-3 h-3 text-yellow-400 fill-current" />
+                <span className="text-xs font-semibold">{buddy.averageRating.toFixed(1)}</span>
               </div>
-
-              <div className="flex items-center space-x-3 text-sm text-white/90 mb-2">
-                <div className="flex items-center space-x-1">
-                  <MapPin className="w-4 h-4" />
-                  <span className="font-medium">{buddy.country}</span>
-                </div>
-                <span className="w-1 h-1 bg-white/60 rounded-full"></span>
-                <div className="flex items-center space-x-1">
-                  <User className="w-4 h-4" />
-                  <span className="font-medium">{buddy.age} years</span>
-                </div>
-                <span className="w-1 h-1 bg-white/60 rounded-full"></span>
-                <span className="text-xs uppercase tracking-wide font-semibold bg-white/20 backdrop-blur-sm px-2 py-0.5 rounded-full">
-                  {buddy.gender}
-                </span>
-              </div>
-
-              {/* Quick Stats */}
-              <div className="flex items-center space-x-3">
-                <div className="flex items-center space-x-1 bg-white/20 backdrop-blur-sm rounded-full px-2 py-1">
-                  <Eye className="w-3 h-3" />
-                  <span className="text-xs font-medium">{buddy.viewCount}</span>
-                </div>
-                {buddy.averageRating > 0 && (
-                  <div className="flex items-center space-x-1 bg-white/20 backdrop-blur-sm rounded-full px-2 py-1">
-                    <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                    <span className="text-xs font-medium">{buddy.averageRating.toFixed(1)}</span>
-                  </div>
-                )}
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
 
       {/* Profile Content */}
-      <div className="p-5">
+      <div className="p-6">
+        {/* Avatar */}
+        <div className="flex justify-center -mt-12 mb-4">
+          <div className="relative">
+            <img
+              src={buddy.avatarImage.url}
+              alt={buddy.userName}
+              className="w-20 h-20 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-2xl ring-4 ring-blue-100 dark:ring-blue-900"
+            />
+            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-400 rounded-full border-3 border-white dark:border-gray-800 shadow-lg"></div>
+          </div>
+        </div>
+
+        {/* Profile Info */}
+        <div className="text-center mb-4">
+          <div className="flex items-center justify-center space-x-2 mb-2">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+              {buddy.userName}
+            </h3>
+            {buddy.nickName && (
+              <span className="text-sm font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">
+                "{buddy.nickName}"
+              </span>
+            )}
+          </div>
+
+          <div className="flex items-center justify-center space-x-3 text-sm text-gray-600 dark:text-gray-400 mb-3">
+            <div className="flex items-center space-x-1">
+              <MapPin className="w-4 h-4 text-blue-500" />
+              <span className="font-medium">{buddy.country}</span>
+            </div>
+            <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+            <div className="flex items-center space-x-1">
+              <User className="w-4 h-4 text-purple-500" />
+              <span className="font-medium">{buddy.age} years</span>
+            </div>
+          </div>
+
+          <div className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 text-blue-800 dark:text-blue-200 rounded-full text-xs font-semibold">
+            {buddy.gender}
+          </div>
+        </div>
 
         {/* Rating Display */}
         <div className="flex items-center justify-between mb-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl border border-yellow-200 dark:border-yellow-700">
@@ -418,7 +426,7 @@ const TravelBuddyPlatform = () => {
 
             {/* Travel Buddy Grid */}
             {travelBuddies.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 justify-items-center">
                 {travelBuddies.map((buddy) => (
                   <TravelBuddyCard key={buddy._id} buddy={buddy} />
                 ))}

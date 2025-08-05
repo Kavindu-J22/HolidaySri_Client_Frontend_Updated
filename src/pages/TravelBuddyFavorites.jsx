@@ -74,6 +74,16 @@ const TravelBuddyFavorites = () => {
     navigate(`/travel-buddy/${buddyId}`);
   };
 
+  const formatViewCount = (count) => {
+    if (count >= 1000000) {
+      return (count / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    if (count >= 1000) {
+      return (count / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    return count.toString();
+  };
+
   const handleWhatsAppContact = async (buddy) => {
     try {
       // Record contact
@@ -172,7 +182,7 @@ const TravelBuddyFavorites = () => {
           </div>
           <div className="flex items-center space-x-1 text-sm text-gray-500">
             <Eye className="w-4 h-4" />
-            <span>{buddy.viewCount}</span>
+            <span>{formatViewCount(buddy.viewCount)}</span>
           </div>
         </div>
 

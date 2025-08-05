@@ -140,6 +140,16 @@ const TravelBuddyDetail = () => {
     }
   };
 
+  const formatViewCount = (count) => {
+    if (count >= 1000000) {
+      return (count / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+    }
+    if (count >= 1000) {
+      return (count / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    }
+    return count.toString();
+  };
+
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     if (!user) {
@@ -309,7 +319,7 @@ const TravelBuddyDetail = () => {
                     </div>
                     <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1">
                       <Eye className="w-4 h-4" />
-                      <span className="text-sm font-semibold">{buddy.viewCount} views</span>
+                      <span className="text-sm font-semibold">{formatViewCount(buddy.viewCount)} views</span>
                     </div>
                   </div>
                 </div>
