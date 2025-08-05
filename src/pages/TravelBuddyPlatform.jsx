@@ -137,13 +137,43 @@ const TravelBuddyPlatform = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
 
-        {/* Member Badge */}
-        {buddy.user?.isMember && (
-          <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm">
+        {/* Member/Partner Badge */}
+        {(buddy.user?.isMember || buddy.user?.isPartner) && (
+          <div className={`absolute top-4 right-4 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm ${
+            buddy.user?.isPartner
+              ? 'bg-gradient-to-r from-green-500 to-emerald-600'
+              : 'bg-gradient-to-r from-amber-400 to-orange-500'
+          }`}>
             <span className="flex items-center space-x-1">
-              <span>👑</span>
-              <span>PREMIUM</span>
+              <span>{buddy.user?.isPartner ? '💼' : '👑'}</span>
+              <span>{buddy.user?.isPartner ? 'PARTNER' : 'MEMBER'}</span>
             </span>
+          </div>
+        )}
+
+        {/* Verified Badge */}
+        {buddy.user?.isVerified && (
+          <div className="absolute bottom-4 right-4">
+            <svg
+              className="w-6 h-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2L15.09 8.26L22 9L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9L8.91 8.26L12 2Z"
+                fill="#1D9BF0"
+                stroke="#FFFFFF"
+                strokeWidth="1"
+              />
+              <path
+                d="M9 12L11 14L15 10"
+                stroke="#FFFFFF"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
         )}
 
