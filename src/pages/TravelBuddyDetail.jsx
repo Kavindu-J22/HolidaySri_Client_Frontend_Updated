@@ -14,7 +14,8 @@ import {
   Loader2,
   ExternalLink,
   Flag,
-  AlertTriangle
+  AlertTriangle,
+  X
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -33,6 +34,8 @@ const TravelBuddyDetail = () => {
   const [submittingReview, setSubmittingReview] = useState(false);
   const [reportCount, setReportCount] = useState(0);
   const [isReporting, setIsReporting] = useState(false);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [reportForm, setReportForm] = useState({ reason: 'other', description: '' });
 
   useEffect(() => {
     fetchBuddyDetails();
@@ -155,14 +158,24 @@ const TravelBuddyDetail = () => {
     return count.toString();
   };
 
-  const handleReportBuddy = async () => {
+  const handleReportBuddy = () => {
     if (!user) {
       navigate('/login');
       return;
     }
+    setShowReportModal(true);
+  };
+
+  const handleReportSubmit = async (e) => {
+    e.preventDefault();
+
+    if (reportForm.description.trim().length < 30) {
+      alert('Description must be at least 30 characters long.');
+      return;
+    }
 
     const confirmed = window.confirm(
-      'Are you sure you want to report this travel buddy? This action will be reviewed by our moderation team.'
+      'Are you sure you want to submit this report? This action will be reviewed by our moderation team.'
     );
 
     if (!confirmed) return;
@@ -172,13 +185,20 @@ const TravelBuddyDetail = () => {
       const response = await fetch(`/api/travel-buddy/${id}/report`, {
         method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+        },
+        body: JSON.stringify({
+          reason: reportForm.reason,
+          description: reportForm.description.trim()
+        })
       });
       const data = await response.json();
 
       if (data.success) {
         setReportCount(prev => prev + 1);
+        setShowReportModal(false);
+        setReportForm({ reason: 'other', description: '' });
         alert('Report submitted successfully. Thank you for helping keep our community safe.');
       } else {
         alert(data.message || 'Failed to submit report');
@@ -628,6 +648,117 @@ const TravelBuddyDetail = () => {
             </div>
           )}
         </div>
+
+        {/* Report Modal */}
+        {showReportModal && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+              {/* Modal Header */}
+              <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-r from-orange-500 to-red-500 rounded-full flex items-center justify-center">
+                    <Flag className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">Report Travel Buddy</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Help us keep the community safe</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowReportModal(false)}
+                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-500" />
+                </button>
+              </div>
+
+              {/* Modal Content */}
+              <form onSubmit={handleReportSubmit} className="p-6 space-y-6">
+                {/* Reason Selection */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    What's the issue? <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    value={reportForm.reason}
+                    onChange={(e) => setReportForm(prev => ({ ...prev, reason: e.target.value }))}
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    required
+                  >
+                    <option value="inappropriate_content">Inappropriate Content</option>
+                    <option value="fake_profile">Fake Profile</option>
+                    <option value="harassment">Harassment</option>
+                    <option value="spam">Spam</option>
+                    <option value="safety_concern">Safety Concern</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                    Please provide details <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    value={reportForm.description}
+                    onChange={(e) => setReportForm(prev => ({ ...prev, description: e.target.value }))}
+                    rows={4}
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent dark:bg-gray-700 dark:text-white placeholder-gray-400 resize-none"
+                    placeholder="Please describe the issue in detail. This helps our moderation team understand the problem better. (Minimum 30 characters)"
+                    required
+                    minLength={30}
+                  />
+                  <div className="flex justify-between items-center mt-2">
+                    <span className={`text-xs ${
+                      reportForm.description.length >= 30
+                        ? 'text-green-600 dark:text-green-400'
+                        : 'text-red-500 dark:text-red-400'
+                    }`}>
+                      {reportForm.description.length >= 30 ? '✓' : '✗'} Minimum 30 characters
+                    </span>
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                      {reportForm.description.length}/500
+                    </span>
+                  </div>
+                </div>
+
+                {/* Warning Message */}
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-xl p-4">
+                  <div className="flex items-start space-x-3">
+                    <AlertTriangle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
+                    <div className="text-sm text-yellow-800 dark:text-yellow-200">
+                      <p className="font-semibold mb-1">Important:</p>
+                      <p>False reports may result in action against your account. Please only report genuine concerns.</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-3 pt-4">
+                  <button
+                    type="button"
+                    onClick={() => setShowReportModal(false)}
+                    className="flex-1 px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-semibold text-gray-700 dark:text-gray-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isReporting || reportForm.description.length < 30}
+                    className="flex-1 flex items-center justify-center space-x-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
+                  >
+                    {isReporting ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Flag className="w-4 h-4" />
+                    )}
+                    <span>Submit Report</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
