@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { promoCodeAPI } from '../config/api';
-import { 
-  Heart, 
-  Star, 
-  Crown, 
-  Diamond, 
+import {
+  Heart,
+  Star,
+  Crown,
+  Diamond,
   Gift,
   Loader,
   XCircle,
   CheckCircle,
-  Shield
+  Shield,
+  Search
 } from 'lucide-react';
 
 const FavoritePromoCodeSelector = ({ isOpen, onClose, onSelect }) => {
+  const navigate = useNavigate();
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -82,6 +85,40 @@ const FavoritePromoCodeSelector = ({ isOpen, onClose, onSelect }) => {
     onClose();
   };
 
+  const handleFindPromoCodes = () => {
+    onClose(); // Close the modal first
+    navigate('/promo-codes-travel-agents');
+
+    // Scroll to Travel Agent Network section after navigation with improved timing
+    const scrollToSection = (attempts = 0) => {
+      const maxAttempts = 15; // Try for up to 3 seconds (15 * 200ms)
+
+      const travelAgentSection = document.querySelector('[data-section="travel-agent-network"]');
+      if (travelAgentSection) {
+        // Found the section, scroll to it
+        travelAgentSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
+        console.log('Successfully scrolled to Travel Agent Network section');
+      } else if (attempts < maxAttempts) {
+        // Section not found yet, try again after a short delay
+        setTimeout(() => scrollToSection(attempts + 1), 200);
+      } else {
+        // Fallback: scroll to bottom portion of page where the section typically is
+        console.log('Travel Agent Network section not found, using fallback scroll');
+        window.scrollTo({
+          top: document.body.scrollHeight * 0.75,
+          behavior: 'smooth'
+        });
+      }
+    };
+
+    // Start scrolling attempt after navigation completes
+    setTimeout(() => scrollToSection(), 500);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -130,9 +167,16 @@ const FavoritePromoCodeSelector = ({ isOpen, onClose, onSelect }) => {
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                 No Favorite Promo Codes
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
                 You haven't added any promo codes to your favorites yet.
               </p>
+              <button
+                onClick={handleFindPromoCodes}
+                className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                <Search className="w-5 h-5" />
+                <span>Find Promo Codes</span>
+              </button>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
