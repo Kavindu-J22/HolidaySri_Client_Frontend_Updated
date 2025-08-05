@@ -15,7 +15,8 @@ import {
   Search,
   Filter,
   X,
-  ChevronDown
+  ChevronDown,
+  BarChart3
 } from 'lucide-react';
 import { advertisementAPI } from '../../config/api';
 
@@ -177,10 +178,24 @@ const Advertisements = () => {
     // Functionality will be implemented later
   };
 
-  // Handle renew (placeholder - no functionality for now)
+  // Handle renew
   const handleRenew = (adId) => {
+    const advertisement = advertisements.find(ad => ad._id === adId);
+
+    if (!advertisement.expiresAt) {
+      // Show professional message for paused expiration
+      setError('No need to renew at this time. because your expiration is paused. Please publish your advertisement first.');
+      return;
+    }
+
     console.log('Renew clicked for ad:', adId);
-    // Functionality will be implemented later
+    // Renew functionality will be implemented later
+  };
+
+  // Handle view ad
+  const handleViewAd = (adId) => {
+    console.log('View Ad clicked for ad:', adId);
+    // View ad functionality will be implemented later
   };
 
   return (
@@ -512,6 +527,7 @@ const Advertisements = () => {
                   {/* Ad Actions */}
                   <div className="p-4 border-t border-gray-200 dark:border-gray-700 mt-auto">
                     <div className="flex space-x-2">
+                      {/* Active status with expiration date - Show Pause Expiration + Publish Now */}
                       {ad.status === 'active' && ad.expiresAt && (
                         <>
                           {/* Pause Expiration Button */}
@@ -539,6 +555,7 @@ const Advertisements = () => {
                         </>
                       )}
 
+                      {/* Active status with no expiration (paused) - Show Publish Now + Renew */}
                       {ad.status === 'active' && !ad.expiresAt && (
                         <>
                           {/* Publish Now Button */}
@@ -553,7 +570,40 @@ const Advertisements = () => {
                           {/* Renew Button */}
                           <button
                             onClick={() => handleRenew(ad._id)}
-                            className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors text-sm"
+                            disabled={!ad.expiresAt}
+                            className={`flex-1 flex items-center justify-center space-x-1 px-3 py-2 rounded-lg transition-colors text-sm ${
+                              !ad.expiresAt
+                                ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-60'
+                                : 'bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/30'
+                            }`}
+                          >
+                            <RefreshCw className="w-4 h-4" />
+                            <span>Renew</span>
+                          </button>
+                        </>
+                      )}
+
+                      {/* Published status - Show View Ad + Renew */}
+                      {ad.status === 'Published' && (
+                        <>
+                          {/* View Ad Button */}
+                          <button
+                            onClick={() => handleViewAd(ad._id)}
+                            className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-purple-100 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-900/30 transition-colors text-sm"
+                          >
+                            <Eye className="w-4 h-4" />
+                            <span>View Ad</span>
+                          </button>
+
+                          {/* Renew Button */}
+                          <button
+                            onClick={() => handleRenew(ad._id)}
+                            disabled={!ad.expiresAt}
+                            className={`flex-1 flex items-center justify-center space-x-1 px-3 py-2 rounded-lg transition-colors text-sm ${
+                              !ad.expiresAt
+                                ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-60'
+                                : 'bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/30'
+                            }`}
                           >
                             <RefreshCw className="w-4 h-4" />
                             <span>Renew</span>
