@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { 
+import {
   ArrowLeft,
   MapPin,
   Star,
@@ -12,7 +12,9 @@ import {
   Phone,
   Send,
   Loader2,
-  ExternalLink
+  ExternalLink,
+  Flag,
+  AlertTriangle
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -29,6 +31,8 @@ const TravelBuddyDetail = () => {
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' });
   const [submittingReview, setSubmittingReview] = useState(false);
+  const [reportCount, setReportCount] = useState(0);
+  const [isReporting, setIsReporting] = useState(false);
 
   useEffect(() => {
     fetchBuddyDetails();
@@ -49,6 +53,7 @@ const TravelBuddyDetail = () => {
 
       if (data.success) {
         setBuddy(data.data);
+        setReportCount(data.data.reportCount || 0);
       } else {
         navigate('/travel-buddies');
       }
@@ -148,6 +153,42 @@ const TravelBuddyDetail = () => {
       return (count / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
     }
     return count.toString();
+  };
+
+  const handleReportBuddy = async () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+
+    const confirmed = window.confirm(
+      'Are you sure you want to report this travel buddy? This action will be reviewed by our moderation team.'
+    );
+
+    if (!confirmed) return;
+
+    try {
+      setIsReporting(true);
+      const response = await fetch(`/api/travel-buddy/${id}/report`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        setReportCount(prev => prev + 1);
+        alert('Report submitted successfully. Thank you for helping keep our community safe.');
+      } else {
+        alert(data.message || 'Failed to submit report');
+      }
+    } catch (error) {
+      console.error('Error reporting buddy:', error);
+      alert('Failed to submit report');
+    } finally {
+      setIsReporting(false);
+    }
   };
 
   const handleReviewSubmit = async (e) => {
@@ -321,6 +362,12 @@ const TravelBuddyDetail = () => {
                       <Eye className="w-4 h-4" />
                       <span className="text-sm font-semibold">{formatViewCount(buddy.viewCount)} views</span>
                     </div>
+                    {reportCount > 0 && (
+                      <div className="flex items-center space-x-2 bg-red-500/80 backdrop-blur-sm rounded-full px-3 py-1">
+                        <AlertTriangle className="w-4 h-4" />
+                        <span className="text-sm font-semibold">{reportCount} reports</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -340,17 +387,32 @@ const TravelBuddyDetail = () => {
               </button>
 
               {user && (
-                <button
-                  onClick={handleFavoriteToggle}
-                  className={`flex items-center justify-center space-x-2 px-6 py-2.5 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl ${
-                    isFavorite
-                      ? 'bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white'
-                      : 'bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 hover:from-gray-300 hover:to-gray-400 dark:hover:from-gray-500 dark:hover:to-gray-600 text-gray-700 dark:text-gray-300'
-                  }`}
-                >
-                  <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
-                  <span>{isFavorite ? 'Remove Favorite' : 'Add to Favorites'}</span>
-                </button>
+                <>
+                  <button
+                    onClick={handleFavoriteToggle}
+                    className={`flex items-center justify-center space-x-2 px-6 py-2.5 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl ${
+                      isFavorite
+                        ? 'bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white'
+                        : 'bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-600 dark:to-gray-700 hover:from-gray-300 hover:to-gray-400 dark:hover:from-gray-500 dark:hover:to-gray-600 text-gray-700 dark:text-gray-300'
+                    }`}
+                  >
+                    <Heart className={`w-4 h-4 ${isFavorite ? 'fill-current' : ''}`} />
+                    <span>{isFavorite ? 'Remove Favorite' : 'Add to Favorites'}</span>
+                  </button>
+
+                  <button
+                    onClick={handleReportBuddy}
+                    disabled={isReporting}
+                    className="flex items-center justify-center space-x-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 disabled:opacity-50 text-white px-6 py-2.5 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                  >
+                    {isReporting ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <Flag className="w-4 h-4" />
+                    )}
+                    <span>Report</span>
+                  </button>
+                </>
               )}
             </div>
           </div>
@@ -366,7 +428,7 @@ const TravelBuddyDetail = () => {
           </div>
 
           <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-6 mb-6">
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm">
               {buddy.description}
             </p>
           </div>
