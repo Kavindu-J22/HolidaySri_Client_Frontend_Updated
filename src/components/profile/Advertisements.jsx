@@ -542,6 +542,11 @@ const Advertisements = () => {
                             INVISIBLE
                           </span>
                         )}
+                        {userVerificationStatus.isVerified && (
+                          <div className="flex items-center justify-center w-5 h-5 bg-blue-500 rounded-full border border-white shadow-sm">
+                            <CheckCircle className="w-3 h-3 text-green-400 fill-current" />
+                          </div>
+                        )}
                       </div>
                     </div>
 

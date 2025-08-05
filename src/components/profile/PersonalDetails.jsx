@@ -265,6 +265,11 @@ const PersonalDetails = () => {
                     <span className="text-green-400 text-xs font-medium">Partner</span>
                   </div>
                 )}
+                {user?.isVerified && (
+                  <div className="flex items-center justify-center w-6 h-6 sm:w-7 sm:h-7 bg-blue-500 rounded-full border-2 border-white shadow-lg">
+                    <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4 text-white fill-current" />
+                  </div>
+                )}
               </div>
               <p className="text-primary-100 mb-2 text-sm sm:text-base truncate">
                 {user?.email}
