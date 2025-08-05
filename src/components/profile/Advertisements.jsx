@@ -16,9 +16,12 @@ import {
   Filter,
   X,
   ChevronDown,
-  BarChart3
+  BarChart3,
+  Shield,
+  CheckCircle
 } from 'lucide-react';
-import { advertisementAPI } from '../../config/api';
+import { advertisementAPI, userAPI } from '../../config/api';
+import UserVerificationModal from './UserVerificationModal';
 
 const Advertisements = () => {
   const navigate = useNavigate();
@@ -49,6 +52,14 @@ const Advertisements = () => {
     hasNext: false,
     hasPrev: false
   });
+
+  // User verification state
+  const [userVerificationStatus, setUserVerificationStatus] = useState({
+    isVerified: false,
+    verificationStatus: 'pending',
+    loading: true
+  });
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
 
   // Fetch user advertisements
   const fetchAdvertisements = async (page = 1, search = searchTerm, currentFilters = filters) => {
@@ -82,9 +93,25 @@ const Advertisements = () => {
     }
   };
 
+  // Fetch user verification status
+  const fetchUserVerificationStatus = async () => {
+    try {
+      const response = await userAPI.getUserVerificationStatus();
+      setUserVerificationStatus({
+        isVerified: response.data.isVerified,
+        verificationStatus: response.data.verificationStatus,
+        loading: false
+      });
+    } catch (error) {
+      console.error('Error fetching user verification status:', error);
+      setUserVerificationStatus(prev => ({ ...prev, loading: false }));
+    }
+  };
+
   // Initial fetch
   useEffect(() => {
     fetchAdvertisements();
+    fetchUserVerificationStatus();
   }, []);
 
   // Handle search
@@ -106,6 +133,11 @@ const Advertisements = () => {
     setFilters(clearedFilters);
     setSearchTerm('');
     fetchAdvertisements(1, '', clearedFilters);
+  };
+
+  // Handle verification completion
+  const handleVerificationComplete = () => {
+    fetchUserVerificationStatus();
   };
 
   // Handle pagination
@@ -374,6 +406,32 @@ const Advertisements = () => {
           <div className="flex items-center space-x-2">
             <AlertCircle className="w-5 h-5 text-red-500" />
             <span className="text-red-800 dark:text-red-200">{error}</span>
+          </div>
+        </div>
+      )}
+
+      {/* User Verification Notice */}
+      {!loading && !error && advertisements.length > 0 && !userVerificationStatus.loading && !userVerificationStatus.isVerified && (
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-4 sm:p-6 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center space-x-3 mb-4 sm:mb-0">
+              <Shield className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+              <div>
+                <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-300">
+                  Verify Your Identity
+                </h3>
+                <p className="text-sm text-yellow-700 dark:text-yellow-400">
+                  Verify now to get a verified badge for all your advertisements
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowVerificationModal(true)}
+              className="inline-flex items-center space-x-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium transition-colors"
+            >
+              <CheckCircle className="w-4 h-4" />
+              <span>Verify Now</span>
+            </button>
           </div>
         </div>
       )}
@@ -710,6 +768,13 @@ const Advertisements = () => {
           )}
         </>
       )}
+
+      {/* User Verification Modal */}
+      <UserVerificationModal
+        isOpen={showVerificationModal}
+        onClose={() => setShowVerificationModal(false)}
+        onVerificationComplete={handleVerificationComplete}
+      />
     </div>
   );
 };
