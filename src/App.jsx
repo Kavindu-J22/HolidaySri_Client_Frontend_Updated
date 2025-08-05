@@ -41,6 +41,7 @@ import PostAdvertisement from './pages/PostAdvertisement';
 import AdvertisementPayment from './pages/AdvertisementPayment';
 import TransactionHistory from './pages/TransactionHistory';
 import HSDLeaderBoard from './pages/HSDLeaderBoard';
+import TravelBuddyForm from './pages/TravelBuddyForm';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -174,6 +175,11 @@ function App() {
                 <Route path="advertisement-payment" element={
                   <ProtectedRoute>
                     <AdvertisementPayment />
+                  </ProtectedRoute>
+                } />
+                <Route path="travel-buddy-form" element={
+                  <ProtectedRoute>
+                    <TravelBuddyForm />
                   </ProtectedRoute>
                 } />
               </Route>

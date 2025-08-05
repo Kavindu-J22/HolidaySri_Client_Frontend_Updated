@@ -174,10 +174,25 @@ const Advertisements = () => {
     }
   };
 
-  // Handle publish now (placeholder - no functionality for now)
+  // Handle publish now
   const handlePublishNow = (adId) => {
-    console.log('Publish Now clicked for ad:', adId);
-    // Functionality will be implemented later
+    const advertisement = advertisements.find(ad => ad._id === adId);
+
+    if (!advertisement) {
+      setError('Advertisement not found');
+      return;
+    }
+
+    // Check if it's a travel buddy advertisement
+    if (advertisement.category === 'travel_buddys') {
+      // Navigate to travel buddy form
+      navigate('/travel-buddy-form', {
+        state: { advertisementId: adId }
+      });
+    } else {
+      // For other categories, show a message that functionality will be implemented later
+      setError('Publishing functionality for this category will be available soon');
+    }
   };
 
   // Handle renew

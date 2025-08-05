@@ -134,6 +134,12 @@ export const advertisementAPI = {
   pauseExpiration: (adId) => api.put(`/advertisements/pause-expiration/${adId}`),
 };
 
+// Travel Buddy API calls
+export const travelBuddyAPI = {
+  getCountries: () => api.get('/travel-buddy/countries'),
+  publishTravelBuddy: (data) => api.post('/travel-buddy/publish', data),
+};
+
 // Admin API calls
 export const adminAPI = {
   login: (username, password) => api.post('/admin/login', { username, password }),
