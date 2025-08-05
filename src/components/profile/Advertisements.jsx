@@ -127,6 +127,8 @@ const Advertisements = () => {
         return 'text-yellow-600 bg-yellow-100 dark:bg-yellow-900/20';
       case 'expired':
         return 'text-red-600 bg-red-100 dark:bg-red-900/20';
+      case 'Published':
+        return 'text-purple-600 bg-purple-100 dark:bg-purple-900/20';
       case 'draft':
         return 'text-gray-600 bg-gray-100 dark:bg-gray-900/20';
       default:
@@ -196,6 +198,18 @@ const Advertisements = () => {
   const handleViewAd = (adId) => {
     console.log('View Ad clicked for ad:', adId);
     // View ad functionality will be implemented later
+  };
+
+  // Handle expired slot renew
+  const handleExpiredSlotRenew = (adId) => {
+    console.log('Expired Slot Renew Now clicked for ad:', adId);
+    // Expired slot renew functionality will be implemented later
+  };
+
+  // Check if advertisement is expired
+  const isAdvertisementExpired = (ad) => {
+    if (!ad.expiresAt) return false;
+    return new Date(ad.expiresAt) < new Date();
   };
 
   return (
@@ -443,9 +457,16 @@ const Advertisements = () => {
                       <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                         {formatCategoryName(ad.category)}
                       </h3>
-                      <span className="text-xs font-mono bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
-                        {ad.slotId}
-                      </span>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs font-mono bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
+                          {ad.slotId}
+                        </span>
+                        {isAdvertisementExpired(ad) && (
+                          <span className="text-xs font-bold bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-200 px-2 py-1 rounded-full border border-red-200 dark:border-red-800">
+                            INVISIBLE
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
@@ -500,7 +521,7 @@ const Advertisements = () => {
                   </div>
 
                   {/* Warning Message for slots without paused expiration */}
-                  {ad.status === 'active' && ad.expiresAt && (
+                  {ad.status === 'active' && ad.expiresAt && !isAdvertisementExpired(ad) && (
                     <div className="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 p-4 mx-6">
                       <div className="flex items-start">
                         <AlertCircle className="w-5 h-5 text-amber-400 mt-0.5 mr-3 flex-shrink-0" />
@@ -528,7 +549,7 @@ const Advertisements = () => {
                   <div className="p-4 border-t border-gray-200 dark:border-gray-700 mt-auto">
                     <div className="flex space-x-2">
                       {/* Active status with expiration date - Show Pause Expiration + Publish Now */}
-                      {ad.status === 'active' && ad.expiresAt && (
+                      {ad.status === 'active' && ad.expiresAt && !isAdvertisementExpired(ad) && (
                         <>
                           {/* Pause Expiration Button */}
                           <button
@@ -556,7 +577,7 @@ const Advertisements = () => {
                       )}
 
                       {/* Active status with no expiration (paused) - Show Publish Now + Renew */}
-                      {ad.status === 'active' && !ad.expiresAt && (
+                      {ad.status === 'active' && !ad.expiresAt && !isAdvertisementExpired(ad) && (
                         <>
                           {/* Publish Now Button */}
                           <button
@@ -584,7 +605,7 @@ const Advertisements = () => {
                       )}
 
                       {/* Published status - Show View Ad + Renew */}
-                      {ad.status === 'Published' && (
+                      {ad.status === 'Published' && !isAdvertisementExpired(ad) && (
                         <>
                           {/* View Ad Button */}
                           <button
@@ -609,6 +630,17 @@ const Advertisements = () => {
                             <span>Renew</span>
                           </button>
                         </>
+                      )}
+
+                      {/* Expired status or expired advertisement - Show only Expired Slot Renew Now */}
+                      {(ad.status === 'expired' || isAdvertisementExpired(ad)) && (
+                        <button
+                          onClick={() => handleExpiredSlotRenew(ad._id)}
+                          className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors text-sm font-semibold border-2 border-red-200 dark:border-red-800"
+                        >
+                          <RefreshCw className="w-5 h-5" />
+                          <span>Expired Slot Renew Now</span>
+                        </button>
                       )}
                     </div>
                   </div>
