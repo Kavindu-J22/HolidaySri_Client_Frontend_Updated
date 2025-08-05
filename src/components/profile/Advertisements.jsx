@@ -445,7 +445,10 @@ const Advertisements = () => {
                       <div className="flex items-center space-x-2">
                         {getPlanIcon(ad.selectedPlan)}
                         <span className="text-sm font-medium text-gray-600 dark:text-gray-400 capitalize">
-                          {ad.selectedPlan}
+                          {ad.selectedPlan === 'hourly' && ad.planDuration?.hours
+                            ? `${ad.selectedPlan} (${ad.planDuration.hours}h)`
+                            : ad.selectedPlan
+                          }
                         </span>
                       </div>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(ad.status)}`}>
