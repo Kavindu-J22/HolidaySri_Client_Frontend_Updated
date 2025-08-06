@@ -47,7 +47,7 @@ const TravelBuddyAccessModal = ({ isOpen, onClose, reason, message, redirectTo }
           title: 'Purchase Travel Buddy Advertisement Slot',
           description: 'To access the Travel Buddies Platform and connect with other travel companions, you need to purchase a Travel Buddy advertisement slot first and Publish.',
           primaryButton: 'Purchase Slot',
-          secondaryButton: 'View My Ads',
+          secondaryButton: 'Check Purchased Slots',
           bgGradient: 'from-blue-500 to-purple-600'
         };
       
@@ -58,7 +58,7 @@ const TravelBuddyAccessModal = ({ isOpen, onClose, reason, message, redirectTo }
           title: 'Publish Your Travel Buddy Profile',
           description: 'You have purchased a Travel Buddy slot but haven\'t published your profile yet. Complete your profile to start connecting with other travel buddies.',
           primaryButton: 'Publish Profile',
-          secondaryButton: 'View My Ads',
+          secondaryButton: 'Check Purchased Slots',
           bgGradient: 'from-orange-500 to-red-500'
         };
       
