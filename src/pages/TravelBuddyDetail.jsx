@@ -65,6 +65,8 @@ const TravelBuddyDetail = () => {
       if (data.success) {
         setBuddy(data.data);
         setReportCount(data.data.reportCount || 0);
+        console.log('Travel buddy data:', data.data);
+        console.log('Social media data:', data.data.socialMedia);
       } else {
         navigate('/travel-buddies');
       }
@@ -603,7 +605,7 @@ const TravelBuddyDetail = () => {
         </div>
 
         {/* Social Media Profiles */}
-        {buddy.socialMedia && (buddy.socialMedia.facebook || buddy.socialMedia.instagram || buddy.socialMedia.tiktok) && (
+        {(buddy.socialMedia?.facebook || buddy.socialMedia?.instagram || buddy.socialMedia?.tiktok) && (
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-8 border border-gray-100 dark:border-gray-700">
             <div className="flex items-center space-x-3 mb-6">
               <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
@@ -613,9 +615,9 @@ const TravelBuddyDetail = () => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {buddy.socialMedia.facebook && (
+              {buddy.socialMedia?.facebook && (
                 <a
-                  href={buddy.socialMedia.facebook}
+                  href={buddy.socialMedia?.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl border border-blue-200 dark:border-blue-700 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
@@ -631,9 +633,9 @@ const TravelBuddyDetail = () => {
                 </a>
               )}
 
-              {buddy.socialMedia.instagram && (
+              {buddy.socialMedia?.instagram && (
                 <a
-                  href={buddy.socialMedia.instagram}
+                  href={buddy.socialMedia?.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center space-x-3 p-4 bg-gradient-to-r from-pink-50 to-purple-100 dark:from-pink-900/20 dark:to-purple-800/20 rounded-xl border border-pink-200 dark:border-pink-700 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
@@ -649,9 +651,9 @@ const TravelBuddyDetail = () => {
                 </a>
               )}
 
-              {buddy.socialMedia.tiktok && (
+              {buddy.socialMedia?.tiktok && (
                 <a
-                  href={buddy.socialMedia.tiktok}
+                  href={buddy.socialMedia?.tiktok}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800/50 dark:to-gray-700/50 rounded-xl border border-gray-200 dark:border-gray-600 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
