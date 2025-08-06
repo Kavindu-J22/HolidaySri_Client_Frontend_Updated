@@ -241,10 +241,10 @@ const Advertisements = () => {
     // Renew functionality will be implemented later
   };
 
-  // Handle view ad
+  // Handle Manage
   const handleViewAd = (adId) => {
-    console.log('View Ad clicked for ad:', adId);
-    // View ad functionality will be implemented later
+    console.log('Manage clicked for ad:', adId);
+    // Manage functionality will be implemented later
   };
 
   // Handle expired slot renew
@@ -704,16 +704,16 @@ const Advertisements = () => {
                         </>
                       )}
 
-                      {/* Published status - Show View Ad + Renew */}
+                      {/* Published status - Show Manage + Renew */}
                       {ad.status === 'Published' && !isAdvertisementExpired(ad) && (
                         <>
-                          {/* View Ad Button */}
+                          {/* Manage Button */}
                           <button
                             onClick={() => handleViewAd(ad._id)}
                             className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-purple-100 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-900/30 transition-colors text-sm"
                           >
                             <Eye className="w-4 h-4" />
-                            <span>View Ad</span>
+                            <span>Manage</span>
                           </button>
 
                           {/* Renew Button */}
