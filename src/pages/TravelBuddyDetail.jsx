@@ -50,6 +50,21 @@ const TravelBuddyDetail = () => {
     fetchReviews();
   }, [id]);
 
+  // Refresh data when the page becomes visible (user navigates back)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        fetchBuddyDetails();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [id]);
+
   useEffect(() => {
     if (user) {
       checkFavoriteStatus();
@@ -447,7 +462,7 @@ const TravelBuddyDetail = () => {
                     className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover border-4 border-white shadow-2xl ring-4 ring-white/20"
                   />
                   <div className={`absolute -bottom-2 -right-2 w-8 h-8 rounded-full border-4 border-white shadow-lg ${
-                    buddy.isAvailable !== false ? 'bg-green-400' : 'bg-gray-400'
+                    (buddy.isAvailable === undefined || buddy.isAvailable === true) ? 'bg-green-400' : 'bg-gray-400'
                   }`}></div>
                 </div>
 
@@ -478,15 +493,15 @@ const TravelBuddyDetail = () => {
                       <span className="font-medium">Joined {new Date(buddy.publishedAt).toLocaleDateString()}</span>
                     </div>
                     <div className={`flex items-center space-x-2 backdrop-blur-sm rounded-full px-3 py-1 ${
-                      buddy.isAvailable !== false
+                      (buddy.isAvailable === undefined || buddy.isAvailable === true)
                         ? 'bg-green-500/30 text-green-100'
                         : 'bg-gray-500/30 text-gray-200'
                     }`}>
                       <div className={`w-2 h-2 rounded-full ${
-                        buddy.isAvailable !== false ? 'bg-green-300' : 'bg-gray-300'
+                        (buddy.isAvailable === undefined || buddy.isAvailable === true) ? 'bg-green-300' : 'bg-gray-300'
                       }`}></div>
                       <span className="font-medium">
-                        {buddy.isAvailable !== false ? 'Available' : 'Unavailable'}
+                        {(buddy.isAvailable === undefined || buddy.isAvailable === true) ? 'Available' : 'Unavailable'}
                       </span>
                     </div>
                   </div>
@@ -536,7 +551,7 @@ const TravelBuddyDetail = () => {
                 <span>
                   {buddy.isAvailable === false ? 'Currently Unavailable' : 'Chat on WhatsApp'}
                 </span>
-                {buddy.isAvailable !== false && <ExternalLink className="w-3 h-3" />}
+                {(buddy.isAvailable === undefined || buddy.isAvailable === true) && <ExternalLink className="w-3 h-3" />}
               </button>
 
               {user && (

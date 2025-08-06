@@ -134,7 +134,7 @@ const ManageTravelBuddyProfile = () => {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
-          isAvailable: !travelBuddy.isAvailable
+          isAvailable: !(travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true)
         })
       });
 
@@ -332,7 +332,7 @@ const ManageTravelBuddyProfile = () => {
             onClick={handleToggleAvailability}
             disabled={saving}
             className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-lg transition-colors ${
-              travelBuddy.isAvailable
+              (travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true)
                 ? 'bg-orange-500 hover:bg-orange-600 text-white'
                 : 'bg-gray-500 hover:bg-gray-600 text-white'
             } ${saving ? 'opacity-50 cursor-not-allowed' : ''}`}
@@ -343,7 +343,7 @@ const ManageTravelBuddyProfile = () => {
               <Globe className="w-5 h-5" />
             )}
             <span>
-              {travelBuddy.isAvailable ? 'Mark Unavailable' : 'Mark Available'}
+              {(travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true) ? 'Mark Unavailable' : 'Mark Available'}
             </span>
           </button>
         </div>
@@ -362,14 +362,14 @@ const ManageTravelBuddyProfile = () => {
             {/* Availability Status */}
             <div className="absolute top-4 right-4">
               <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-full text-sm font-semibold ${
-                travelBuddy.isAvailable
+                (travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true)
                   ? 'bg-green-100 text-green-800 border border-green-200'
                   : 'bg-gray-100 text-gray-800 border border-gray-200'
               }`}>
                 <div className={`w-2 h-2 rounded-full ${
-                  travelBuddy.isAvailable ? 'bg-green-500' : 'bg-gray-500'
+                  (travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true) ? 'bg-green-500' : 'bg-gray-500'
                 }`}></div>
-                <span>{travelBuddy.isAvailable ? 'Available' : 'Unavailable'}</span>
+                <span>{(travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true) ? 'Available' : 'Unavailable'}</span>
               </div>
             </div>
           </div>
@@ -385,7 +385,7 @@ const ManageTravelBuddyProfile = () => {
                   className="w-24 h-24 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-2xl"
                 />
                 <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-3 border-white dark:border-gray-800 shadow-lg ${
-                  travelBuddy.isAvailable ? 'bg-green-400' : 'bg-gray-400'
+                  (travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true) ? 'bg-green-400' : 'bg-gray-400'
                 }`}></div>
               </div>
             </div>
@@ -476,7 +476,7 @@ const ManageTravelBuddyProfile = () => {
                         required
                       >
                         <option value="">Select Country</option>
-                        {countries.map((country) => (
+                        {countries && countries.map((country) => (
                           <option key={country} value={country}>
                             {country}
                           </option>
