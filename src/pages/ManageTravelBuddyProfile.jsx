@@ -367,7 +367,7 @@ const ManageTravelBuddyProfile = () => {
             className="flex items-center justify-center space-x-2 px-4 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
           >
             <Eye className="w-5 h-5" />
-            <span>View Ad</span>
+            <span>View Profile</span>
           </button>
 
           <button
