@@ -45,6 +45,7 @@ import TravelBuddyForm from './pages/TravelBuddyForm';
 import TravelBuddyPlatform from './pages/TravelBuddyPlatform';
 import TravelBuddyDetail from './pages/TravelBuddyDetail';
 import TravelBuddyFavorites from './pages/TravelBuddyFavorites';
+import ManageTravelBuddyProfile from './pages/ManageTravelBuddyProfile';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -190,6 +191,11 @@ function App() {
                 <Route path="travel-buddy-favorites" element={
                   <ProtectedRoute>
                     <TravelBuddyFavorites />
+                  </ProtectedRoute>
+                } />
+                <Route path="manage-travel-buddy/:advertisementId" element={
+                  <ProtectedRoute>
+                    <ManageTravelBuddyProfile />
                   </ProtectedRoute>
                 } />
               </Route>

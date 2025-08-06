@@ -258,7 +258,9 @@ const TravelBuddyPlatform = () => {
               alt={buddy.userName}
               className="w-20 h-20 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-2xl ring-4 ring-blue-100 dark:ring-blue-900"
             />
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-400 rounded-full border-3 border-white dark:border-gray-800 shadow-lg"></div>
+            <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-3 border-white dark:border-gray-800 shadow-lg ${
+              buddy.isAvailable !== false ? 'bg-green-400' : 'bg-gray-400'
+            }`}></div>
           </div>
         </div>
 

@@ -243,8 +243,15 @@ const Advertisements = () => {
 
   // Handle Manage
   const handleViewAd = (adId) => {
-    console.log('Manage clicked for ad:', adId);
-    // Manage functionality will be implemented later
+    const advertisement = advertisements.find(ad => ad._id === adId);
+
+    if (advertisement && advertisement.category === 'travel_buddys') {
+      // Navigate to manage travel buddy profile page
+      navigate(`/manage-travel-buddy/${adId}`);
+    } else {
+      console.log('Manage clicked for ad:', adId);
+      // Other category management functionality will be implemented later
+    }
   };
 
   // Handle expired slot renew

@@ -446,7 +446,9 @@ const TravelBuddyDetail = () => {
                     alt={buddy.userName}
                     className="w-28 h-28 md:w-36 md:h-36 rounded-full object-cover border-4 border-white shadow-2xl ring-4 ring-white/20"
                   />
-                  <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-400 rounded-full border-4 border-white shadow-lg"></div>
+                  <div className={`absolute -bottom-2 -right-2 w-8 h-8 rounded-full border-4 border-white shadow-lg ${
+                    buddy.isAvailable !== false ? 'bg-green-400' : 'bg-gray-400'
+                  }`}></div>
                 </div>
 
                 {/* Basic Info */}
@@ -474,6 +476,18 @@ const TravelBuddyDetail = () => {
                     <div className="flex items-center space-x-2 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1">
                       <Calendar className="w-4 h-4" />
                       <span className="font-medium">Joined {new Date(buddy.publishedAt).toLocaleDateString()}</span>
+                    </div>
+                    <div className={`flex items-center space-x-2 backdrop-blur-sm rounded-full px-3 py-1 ${
+                      buddy.isAvailable !== false
+                        ? 'bg-green-500/30 text-green-100'
+                        : 'bg-gray-500/30 text-gray-200'
+                    }`}>
+                      <div className={`w-2 h-2 rounded-full ${
+                        buddy.isAvailable !== false ? 'bg-green-300' : 'bg-gray-300'
+                      }`}></div>
+                      <span className="font-medium">
+                        {buddy.isAvailable !== false ? 'Available' : 'Unavailable'}
+                      </span>
                     </div>
                   </div>
 
@@ -511,11 +525,18 @@ const TravelBuddyDetail = () => {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 onClick={handleWhatsAppContact}
-                className="flex items-center justify-center space-x-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-2.5 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                disabled={buddy.isAvailable === false}
+                className={`flex items-center justify-center space-x-2 px-6 py-2.5 rounded-xl font-semibold transition-all duration-200 shadow-lg ${
+                  buddy.isAvailable === false
+                    ? 'bg-gray-400 text-gray-200 cursor-not-allowed opacity-60'
+                    : 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white transform hover:scale-105 hover:shadow-xl'
+                }`}
               >
                 <MessageCircle className="w-4 h-4" />
-                <span>Chat on WhatsApp</span>
-                <ExternalLink className="w-3 h-3" />
+                <span>
+                  {buddy.isAvailable === false ? 'Currently Unavailable' : 'Chat on WhatsApp'}
+                </span>
+                {buddy.isAvailable !== false && <ExternalLink className="w-3 h-3" />}
               </button>
 
               {user && (
