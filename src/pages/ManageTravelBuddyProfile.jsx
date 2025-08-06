@@ -9,10 +9,9 @@ import {
   Phone,
   MapPin,
   Calendar,
-  Heart,
-  Star,
   Save,
   X,
+  Plus,
   Loader2,
   AlertCircle,
   CheckCircle,
@@ -29,11 +28,11 @@ const ManageTravelBuddyProfile = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [travelBuddy, setTravelBuddy] = useState(null);
-  const [advertisement, setAdvertisement] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [countries, setCountries] = useState([]);
+  const [validationErrors, setValidationErrors] = useState({});
 
   const [editForm, setEditForm] = useState({
     userName: '',
@@ -51,21 +50,51 @@ const ManageTravelBuddyProfile = () => {
     }
   });
 
-  const availableInterests = [
-    'Adventure Sports', 'Beach Activities', 'Cultural Tours', 'Food & Dining',
-    'Hiking & Trekking', 'Historical Sites', 'Nightlife', 'Photography',
-    'Shopping', 'Wildlife & Nature', 'Water Sports', 'Local Experiences',
-    'Backpacking', 'Luxury Travel', 'Budget Travel', 'Solo Travel',
-    'Group Travel', 'Road Trips', 'City Tours', 'Mountain Climbing'
-  ];
+  const [newInterest, setNewInterest] = useState('');
+
+  // Validation functions - Match backend validation exactly
+  const validateSocialMediaUrl = (url, platform) => {
+    if (!url) return true; // Empty URLs are allowed
+
+    switch (platform) {
+      case 'facebook':
+        return /^https?:\/\/(www\.)?facebook\.com\//.test(url);
+      case 'instagram':
+        return /^https?:\/\/(www\.)?instagram\.com\//.test(url);
+      case 'tiktok':
+        return /^https?:\/\/(www\.)?tiktok\.com\//.test(url);
+      default:
+        return false;
+    }
+  };
+
+  const validateForm = () => {
+    const errors = {};
+
+    // Social media validation
+    if (editForm.socialMedia.facebook && !validateSocialMediaUrl(editForm.socialMedia.facebook, 'facebook')) {
+      errors.facebook = 'Please enter a valid Facebook URL (e.g., https://facebook.com/username)';
+    }
+
+    if (editForm.socialMedia.instagram && !validateSocialMediaUrl(editForm.socialMedia.instagram, 'instagram')) {
+      errors.instagram = 'Please enter a valid Instagram URL (e.g., https://instagram.com/username)';
+    }
+
+    if (editForm.socialMedia.tiktok && !validateSocialMediaUrl(editForm.socialMedia.tiktok, 'tiktok')) {
+      errors.tiktok = 'Please enter a valid TikTok URL (e.g., https://tiktok.com/@username)';
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   useEffect(() => {
     if (!user) {
       navigate('/login');
       return;
     }
-    fetchTravelBuddyProfile();
     fetchCountries();
+    fetchTravelBuddyProfile();
   }, [advertisementId, user]);
 
   const fetchCountries = async () => {
@@ -92,7 +121,6 @@ const ManageTravelBuddyProfile = () => {
 
       if (data.success) {
         setTravelBuddy(data.data.travelBuddy);
-        setAdvertisement(data.data.advertisement);
         
         // Initialize edit form with current data
         const buddy = data.data.travelBuddy;
@@ -178,19 +206,41 @@ const ManageTravelBuddyProfile = () => {
     }
   };
 
-  const handleInterestToggle = (interest) => {
+  const handleAddInterest = () => {
+    if (newInterest.trim() && !editForm.interests.includes(newInterest.trim())) {
+      setEditForm(prev => ({
+        ...prev,
+        interests: [...prev.interests, newInterest.trim()]
+      }));
+      setNewInterest('');
+    }
+  };
+
+  const handleRemoveInterest = (interestToRemove) => {
     setEditForm(prev => ({
       ...prev,
-      interests: prev.interests.includes(interest)
-        ? prev.interests.filter(i => i !== interest)
-        : [...prev.interests, interest]
+      interests: prev.interests.filter(interest => interest !== interestToRemove)
     }));
+  };
+
+  const handleInterestKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleAddInterest();
+    }
   };
 
   const handleSaveChanges = async () => {
     try {
       setSaving(true);
       setError('');
+      setValidationErrors({});
+
+      // Validate form before submitting
+      if (!validateForm()) {
+        setSaving(false);
+        return;
+      }
 
       const response = await fetch(`/api/travel-buddy/manage/${advertisementId}`, {
         method: 'PUT',
@@ -447,9 +497,10 @@ const ManageTravelBuddyProfile = () => {
                         required
                       >
                         <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                        <option value="Prefer not to say">Prefer not to say</option>
                       </select>
                     </div>
                     <div>
@@ -476,11 +527,15 @@ const ManageTravelBuddyProfile = () => {
                         required
                       >
                         <option value="">Select Country</option>
-                        {countries && countries.map((country) => (
-                          <option key={country} value={country}>
-                            {country}
-                          </option>
-                        ))}
+                        {countries && countries.length > 0 ? (
+                          countries.map((country) => (
+                            <option key={country} value={country}>
+                              {country}
+                            </option>
+                          ))
+                        ) : (
+                          <option disabled>Loading countries...</option>
+                        )}
                       </select>
                     </div>
                   </div>
@@ -506,22 +561,51 @@ const ManageTravelBuddyProfile = () => {
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Travel Interests
                   </label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                    {availableInterests.map((interest) => (
-                      <button
-                        key={interest}
-                        type="button"
-                        onClick={() => handleInterestToggle(interest)}
-                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                          editForm.interests.includes(interest)
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-                        }`}
+
+                  {/* Add Interest Input */}
+                  <div className="flex gap-2 mb-3">
+                    <input
+                      type="text"
+                      value={newInterest}
+                      onChange={(e) => setNewInterest(e.target.value)}
+                      onKeyDown={handleInterestKeyDown}
+                      placeholder="Add a travel interest..."
+                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleAddInterest}
+                      className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center space-x-1"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Add</span>
+                    </button>
+                  </div>
+
+                  {/* Current Interests */}
+                  <div className="flex flex-wrap gap-2">
+                    {editForm.interests.map((interest, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center space-x-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium"
                       >
-                        {interest}
-                      </button>
+                        <span>{interest}</span>
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveInterest(interest)}
+                          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </span>
                     ))}
                   </div>
+
+                  {editForm.interests.length === 0 && (
+                    <p className="text-gray-500 dark:text-gray-400 text-sm italic">
+                      No interests added yet. Add some interests to help other travelers find you!
+                    </p>
+                  )}
                 </div>
 
                 {/* Social Media */}
@@ -538,9 +622,18 @@ const ManageTravelBuddyProfile = () => {
                         type="url"
                         value={editForm.socialMedia.facebook}
                         onChange={(e) => handleInputChange('socialMedia.facebook', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white ${
+                          validationErrors.facebook
+                            ? 'border-red-500 dark:border-red-500'
+                            : 'border-gray-300 dark:border-gray-600'
+                        }`}
                         placeholder="https://facebook.com/username"
                       />
+                      {validationErrors.facebook && (
+                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                          {validationErrors.facebook}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -550,9 +643,18 @@ const ManageTravelBuddyProfile = () => {
                         type="url"
                         value={editForm.socialMedia.instagram}
                         onChange={(e) => handleInputChange('socialMedia.instagram', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white ${
+                          validationErrors.instagram
+                            ? 'border-red-500 dark:border-red-500'
+                            : 'border-gray-300 dark:border-gray-600'
+                        }`}
                         placeholder="https://instagram.com/username"
                       />
+                      {validationErrors.instagram && (
+                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                          {validationErrors.instagram}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -562,9 +664,18 @@ const ManageTravelBuddyProfile = () => {
                         type="url"
                         value={editForm.socialMedia.tiktok}
                         onChange={(e) => handleInputChange('socialMedia.tiktok', e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white ${
+                          validationErrors.tiktok
+                            ? 'border-red-500 dark:border-red-500'
+                            : 'border-gray-300 dark:border-gray-600'
+                        }`}
                         placeholder="https://tiktok.com/@username"
                       />
+                      {validationErrors.tiktok && (
+                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">
+                          {validationErrors.tiktok}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
