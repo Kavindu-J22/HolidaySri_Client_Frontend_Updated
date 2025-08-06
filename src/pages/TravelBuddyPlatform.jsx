@@ -15,17 +15,29 @@ import {
   Loader2
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { travelBuddyAPI } from '../config/api';
+import TravelBuddyAccessModal from '../components/common/TravelBuddyAccessModal';
 
 const TravelBuddyPlatform = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  
+
   const [travelBuddies, setTravelBuddies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  // Access control states
+  const [showAccessModal, setShowAccessModal] = useState(false);
+  const [accessModalData, setAccessModalData] = useState({
+    reason: '',
+    message: '',
+    redirectTo: ''
+  });
+  const [canAccessPlatform, setCanAccessPlatform] = useState(false);
+  const [eligibilityChecked, setEligibilityChecked] = useState(false);
   
   // Filter states
   const [filters, setFilters] = useState({
@@ -49,9 +61,50 @@ const TravelBuddyPlatform = () => {
     { value: 'popular', label: 'Most Popular' }
   ];
 
+  // Check user eligibility to access travel buddy platform
+  const checkEligibility = async () => {
+    if (!user) {
+      // User not logged in - redirect to login
+      navigate('/login', { state: { from: { pathname: '/travel-buddy-platform' } } });
+      return;
+    }
+
+    try {
+      const response = await travelBuddyAPI.checkEligibility();
+      const data = response.data;
+
+      if (data.canAccess) {
+        setCanAccessPlatform(true);
+        setEligibilityChecked(true);
+        // User can access platform, fetch travel buddies
+        fetchTravelBuddies();
+      } else {
+        setCanAccessPlatform(false);
+        setEligibilityChecked(true);
+        setAccessModalData({
+          reason: data.reason,
+          message: data.message,
+          redirectTo: data.redirectTo
+        });
+        setShowAccessModal(true);
+        setLoading(false);
+      }
+    } catch (error) {
+      console.error('Error checking eligibility:', error);
+      setEligibilityChecked(true);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    fetchTravelBuddies();
-  }, [currentPage, searchTerm, filters]);
+    checkEligibility();
+  }, [user]);
+
+  useEffect(() => {
+    if (canAccessPlatform && eligibilityChecked) {
+      fetchTravelBuddies();
+    }
+  }, [currentPage, searchTerm, filters, canAccessPlatform, eligibilityChecked]);
 
   const fetchTravelBuddies = async () => {
     try {
@@ -291,6 +344,38 @@ const TravelBuddyPlatform = () => {
     </div>
   );
 
+  // Show loading while checking eligibility
+  if (!eligibilityChecked) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-blue-600 mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            Checking Access Permissions
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">
+            Please wait while we verify your access to the Travel Buddies Platform...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render platform content if user doesn't have access
+  if (!canAccessPlatform) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+        <TravelBuddyAccessModal
+          isOpen={showAccessModal}
+          onClose={() => setShowAccessModal(false)}
+          reason={accessModalData.reason}
+          message={accessModalData.message}
+          redirectTo={accessModalData.redirectTo}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
@@ -519,6 +604,15 @@ const TravelBuddyPlatform = () => {
           </>
         )}
       </div>
+
+      {/* Access Control Modal */}
+      <TravelBuddyAccessModal
+        isOpen={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        reason={accessModalData.reason}
+        message={accessModalData.message}
+        redirectTo={accessModalData.redirectTo}
+      />
     </div>
   );
 };
