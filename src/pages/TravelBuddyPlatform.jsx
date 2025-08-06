@@ -367,7 +367,10 @@ const TravelBuddyPlatform = () => {
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
         <TravelBuddyAccessModal
           isOpen={showAccessModal}
-          onClose={() => setShowAccessModal(false)}
+          onClose={() => {
+            setShowAccessModal(false);
+            // Navigation to home page is handled inside the modal component
+          }}
           reason={accessModalData.reason}
           message={accessModalData.message}
           redirectTo={accessModalData.redirectTo}
@@ -608,7 +611,10 @@ const TravelBuddyPlatform = () => {
       {/* Access Control Modal */}
       <TravelBuddyAccessModal
         isOpen={showAccessModal}
-        onClose={() => setShowAccessModal(false)}
+        onClose={() => {
+          setShowAccessModal(false);
+          // Navigation to home page is handled inside the modal component
+        }}
         reason={accessModalData.reason}
         message={accessModalData.message}
         redirectTo={accessModalData.redirectTo}

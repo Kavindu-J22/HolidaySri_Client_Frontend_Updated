@@ -15,6 +15,12 @@ const TravelBuddyAccessModal = ({ isOpen, onClose, reason, message, redirectTo }
 
   if (!isOpen) return null;
 
+  const handleClose = () => {
+    onClose();
+    // Redirect to home page when modal is closed
+    navigate('/');
+  };
+
   const handlePrimaryAction = () => {
     onClose();
     if (reason === 'expired') {
@@ -81,12 +87,18 @@ const TravelBuddyAccessModal = ({ isOpen, onClose, reason, message, redirectTo }
   const content = getModalContent();
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      onClick={handleClose}
+    >
+      <div
+        className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header with gradient background */}
         <div className={`bg-gradient-to-r ${content.bgGradient} p-6 text-white relative`}>
           <button
-            onClick={onClose}
+            onClick={handleClose}
             className="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors"
           >
             <X className="w-6 h-6" />
