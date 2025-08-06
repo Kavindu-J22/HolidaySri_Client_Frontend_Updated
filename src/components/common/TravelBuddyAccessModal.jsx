@@ -132,7 +132,11 @@ const TravelBuddyAccessModal = ({ isOpen, onClose, reason, message, redirectTo }
                 </li>
                 <li className="flex items-center">
                   <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                  Professional messaging system
+                  Publish Your Travel Requests
+                </li>
+                <li className="flex items-center">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
+                  Join With Other Travelers requested travels
                 </li>
                 <li className="flex items-center">
                   <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
