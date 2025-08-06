@@ -45,7 +45,7 @@ const TravelBuddyPlatform = () => {
     gender: '',
     minAge: '',
     maxAge: '',
-    sortBy: 'newest'
+    sortBy: 'random'
   });
 
   const countries = [
@@ -55,6 +55,7 @@ const TravelBuddyPlatform = () => {
 
   const genders = ['Male', 'Female', 'Other', 'Prefer not to say'];
   const sortOptions = [
+    { value: 'random', label: 'Random' },
     { value: 'newest', label: 'Newest First' },
     { value: 'oldest', label: 'Oldest First' },
     { value: 'rating', label: 'Highest Rated' },
@@ -147,7 +148,7 @@ const TravelBuddyPlatform = () => {
       gender: '',
       minAge: '',
       maxAge: '',
-      sortBy: 'newest'
+      sortBy: 'random'
     });
     setCurrentPage(1);
   };
@@ -180,7 +181,7 @@ const TravelBuddyPlatform = () => {
   };
 
   const TravelBuddyCard = ({ buddy }) => (
-    <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700 w-full max-w-sm mx-auto">
+    <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700 w-full max-w-sm mx-auto flex flex-col h-full">
       {/* Cover Photo */}
       <div className="relative h-56 overflow-hidden">
         <img
@@ -248,7 +249,7 @@ const TravelBuddyPlatform = () => {
       </div>
 
       {/* Profile Content */}
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-grow">
         {/* Avatar */}
         <div className="flex justify-center -mt-12 mb-4">
           <div className="relative">
@@ -329,6 +330,9 @@ const TravelBuddyPlatform = () => {
             )}
           </div>
         )}
+
+        {/* Spacer to push button to bottom */}
+        <div className="flex-grow"></div>
 
         {/* Action Button */}
         <button
@@ -544,7 +548,7 @@ const TravelBuddyPlatform = () => {
 
             {/* Travel Buddy Grid */}
             {travelBuddies.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 justify-items-center">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 justify-items-center items-stretch">
                 {travelBuddies.map((buddy) => (
                   <TravelBuddyCard key={buddy._id} buddy={buddy} />
                 ))}
