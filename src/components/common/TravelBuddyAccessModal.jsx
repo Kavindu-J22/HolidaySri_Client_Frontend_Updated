@@ -19,7 +19,7 @@ const TravelBuddyAccessModal = ({ isOpen, onClose, reason, message, redirectTo }
     onClose();
     if (reason === 'expired') {
       // For expired profiles, "Renew Profile" should go to My Advertisements
-      navigate('/profile?tab=advertisements');
+      navigate('/profile', { state: { activeSection: 'advertisements' } });
     } else {
       navigate(redirectTo);
     }
@@ -29,7 +29,7 @@ const TravelBuddyAccessModal = ({ isOpen, onClose, reason, message, redirectTo }
     onClose();
     if (reason === 'no_profile') {
       // "View My Ads" should go to My Advertisements page
-      navigate('/profile?tab=advertisements');
+      navigate('/profile', { state: { activeSection: 'advertisements' } });
     }
   };
 
