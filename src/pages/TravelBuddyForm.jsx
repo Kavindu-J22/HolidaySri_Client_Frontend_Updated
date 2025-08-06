@@ -14,7 +14,8 @@ import {
   Loader,
   CheckCircle,
   AlertCircle,
-  ArrowLeft
+  ArrowLeft,
+  Share2
 } from 'lucide-react';
 
 const TravelBuddyForm = () => {
@@ -38,7 +39,12 @@ const TravelBuddyForm = () => {
     country: 'Sri Lanka',
     description: '',
     gender: '',
-    interests: []
+    interests: [],
+    socialMedia: {
+      facebook: '',
+      instagram: '',
+      tiktok: ''
+    }
   });
 
   // Image upload state
@@ -83,6 +89,18 @@ const TravelBuddyForm = () => {
     setFormData(prev => ({
       ...prev,
       [name]: value
+    }));
+  };
+
+  // Handle social media input changes
+  const handleSocialMediaChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      socialMedia: {
+        ...prev.socialMedia,
+        [name]: value
+      }
     }));
   };
 
@@ -391,6 +409,83 @@ const TravelBuddyForm = () => {
                   ))}
                 </select>
               </div>
+            </div>
+          </div>
+
+          {/* Social Media Profiles */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
+              <Share2 className="w-5 h-5" />
+              <span>Social Media Profiles</span>
+              <span className="text-sm font-normal text-gray-500 dark:text-gray-400">(Optional)</span>
+            </h2>
+
+            <div className="grid grid-cols-1 gap-6">
+              <div>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center space-x-2">
+                  <div className="w-4 h-4 bg-blue-600 rounded-sm flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">f</span>
+                  </div>
+                  <span>Facebook Profile</span>
+                </label>
+                <input
+                  type="url"
+                  name="facebook"
+                  value={formData.socialMedia.facebook}
+                  onChange={handleSocialMediaChange}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  placeholder="https://facebook.com/yourprofile"
+                />
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  Paste your Facebook profile link here
+                </p>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center space-x-2">
+                  <div className="w-4 h-4 bg-gradient-to-r from-pink-500 to-purple-600 rounded-sm flex items-center justify-center">
+                    <span className="text-white text-xs">📷</span>
+                  </div>
+                  <span>Instagram Profile</span>
+                </label>
+                <input
+                  type="url"
+                  name="instagram"
+                  value={formData.socialMedia.instagram}
+                  onChange={handleSocialMediaChange}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  placeholder="https://instagram.com/yourprofile"
+                />
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  Paste your Instagram profile link here
+                </p>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center space-x-2">
+                  <div className="w-4 h-4 bg-black rounded-sm flex items-center justify-center">
+                    <span className="text-white text-xs font-bold">T</span>
+                  </div>
+                  <span>TikTok Profile</span>
+                </label>
+                <input
+                  type="url"
+                  name="tiktok"
+                  value={formData.socialMedia.tiktok}
+                  onChange={handleSocialMediaChange}
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  placeholder="https://tiktok.com/@yourprofile"
+                />
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  Paste your TikTok profile link here
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-700">
+              <p className="text-sm text-blue-800 dark:text-blue-200">
+                <strong>Note:</strong> Adding your social media profiles helps other travelers get to know you better and builds trust. All fields are optional.
+              </p>
             </div>
           </div>
 

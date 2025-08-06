@@ -18,6 +18,7 @@ import {
   X,
   Edit,
   Trash2,
+  Share2,
   MoreVertical
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
@@ -600,6 +601,83 @@ const TravelBuddyDetail = () => {
             </div>
           )}
         </div>
+
+        {/* Social Media Profiles */}
+        {buddy.socialMedia && (buddy.socialMedia.facebook || buddy.socialMedia.instagram || buddy.socialMedia.tiktok) && (
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-8 border border-gray-100 dark:border-gray-700">
+            <div className="flex items-center space-x-3 mb-6">
+              <div className="w-10 h-10 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center">
+                <Share2 className="w-5 h-5 text-white" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Connect on Social Media</h2>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {buddy.socialMedia.facebook && (
+                <a
+                  href={buddy.socialMedia.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center space-x-3 p-4 bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl border border-blue-200 dark:border-blue-700 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                >
+                  <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                    <span className="text-white text-lg font-bold">f</span>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-blue-800 dark:text-blue-200">Facebook</h3>
+                    <p className="text-sm text-blue-600 dark:text-blue-300">View Profile</p>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-blue-600 dark:text-blue-300 group-hover:translate-x-1 transition-transform duration-200" />
+                </a>
+              )}
+
+              {buddy.socialMedia.instagram && (
+                <a
+                  href={buddy.socialMedia.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center space-x-3 p-4 bg-gradient-to-r from-pink-50 to-purple-100 dark:from-pink-900/20 dark:to-purple-800/20 rounded-xl border border-pink-200 dark:border-pink-700 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                >
+                  <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                    <span className="text-white text-lg font-bold">📷</span>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-pink-800 dark:text-pink-200">Instagram</h3>
+                    <p className="text-sm text-pink-600 dark:text-pink-300">View Profile</p>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-pink-600 dark:text-pink-300 group-hover:translate-x-1 transition-transform duration-200" />
+                </a>
+              )}
+
+              {buddy.socialMedia.tiktok && (
+                <a
+                  href={buddy.socialMedia.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center space-x-3 p-4 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800/50 dark:to-gray-700/50 rounded-xl border border-gray-200 dark:border-gray-600 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                >
+                  <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-200">
+                    <div className="w-6 h-6 bg-white rounded-sm flex items-center justify-center">
+                      <span className="text-black text-sm font-bold">T</span>
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-gray-800 dark:text-gray-200">TikTok</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">View Profile</p>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-gray-600 dark:text-gray-400 group-hover:translate-x-1 transition-transform duration-200" />
+                </a>
+              )}
+            </div>
+
+            <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl border border-blue-200 dark:border-blue-700">
+              <p className="text-sm text-blue-800 dark:text-blue-200 flex items-center space-x-2">
+                <span>🔗</span>
+                <span>Connect with {buddy.userName} on social media to learn more about their travel experiences and adventures!</span>
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Reviews Section */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-100 dark:border-gray-700">
