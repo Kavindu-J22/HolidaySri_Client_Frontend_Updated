@@ -57,6 +57,16 @@ const RenewAdvertisementPayment = () => {
       return;
     }
 
+    console.log('RenewAdvertisementPayment - Payment data:', {
+      slot,
+      plan,
+      hours,
+      paymentMethod,
+      isRenewal,
+      renewalType,
+      advertisementId
+    });
+
     // Use the requiredAmount from payment method as it's already calculated correctly
     const amount = paymentMethod.requiredAmount;
 
@@ -78,20 +88,28 @@ const RenewAdvertisementPayment = () => {
       setPromoCodeLoading(true);
       setError('');
 
-      const response = await advertisementAPI.calculateDiscount({
-        promoCode: promoCode.trim(),
-        plan: plan,
-        hours: hours,
-        originalAmount: originalAmount,
-        paymentMethod: paymentMethod
-      });
+      const discountRequest = {
+        promoCode: promoCode.trim().toUpperCase(),
+        plan: plan.id, // Pass plan ID, not the whole plan object
+        originalAmount,
+        paymentMethod,
+        hours: hours || 1 // Include hours for hourly plan calculations
+      };
+
+      console.log('Discount calculation request:', discountRequest);
+
+      const response = await advertisementAPI.calculateDiscount(discountRequest);
+
+      console.log('Discount calculation response:', response.data);
 
       if (response.data.isValid) {
         setPromoCodeApplied(true);
         setPromoCodeAgent(response.data.agent);
         setDiscountAmount(response.data.discount.discountAmount);
         setFinalAmount(response.data.discount.finalAmount);
-        setSuccess('Promo code applied successfully!');
+        setSuccess(`Promo code applied! You saved ${response.data.discount.discountAmount} ${paymentMethod.type}`);
+      } else {
+        setError('Invalid or inactive promo code');
       }
     } catch (error) {
       console.error('Error applying promo code:', error);
