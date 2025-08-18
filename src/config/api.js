@@ -132,6 +132,7 @@ export const advertisementAPI = {
   checkDuplicateSlot: (slotData) => api.post('/advertisements/check-duplicate-slot', slotData),
   calculateDiscount: (discountData) => api.post('/advertisements/calculate-discount', discountData),
   processPayment: (paymentData) => api.post('/advertisements/process-payment', paymentData),
+  processRenewalPayment: (renewalData) => api.post('/advertisements/process-renewal-payment', renewalData),
   getMyAdvertisements: (params) => api.get('/advertisements/my-advertisements', { params }),
   pauseExpiration: (adId) => api.put(`/advertisements/pause-expiration/${adId}`),
 };

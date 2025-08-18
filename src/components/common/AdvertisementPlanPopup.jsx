@@ -21,12 +21,15 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { hscAPI, userAPI } from '../../config/api';
 
-const AdvertisementPlanPopup = ({ 
-  isOpen, 
-  onClose, 
+const AdvertisementPlanPopup = ({
+  isOpen,
+  onClose,
   selectedSlot,
   slotCharges,
-  hscValue = 100
+  hscValue = 100,
+  isRenewal = false,
+  renewalType = null,
+  advertisementId = null
 }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -377,15 +380,19 @@ const AdvertisementPlanPopup = ({
 
     // Check if user has sufficient balance
     if (selectedPaymentMethod.balance < selectedPaymentMethod.requiredAmount) {
-      // Redirect to advertisement payment page
+      // Redirect to appropriate payment page
       onClose();
-      navigate('/advertisement-payment', {
+      const paymentRoute = isRenewal ? '/renew-advertisement-payment' : '/advertisement-payment';
+      navigate(paymentRoute, {
         state: {
           slot: serializableSlot,
           plan: serializablePlan,
           hours: selectedPlan.requiresHours ? selectedHours : null,
           paymentMethod: serializablePaymentMethod,
-          insufficientBalance: true
+          insufficientBalance: true,
+          isRenewal: isRenewal,
+          renewalType: renewalType,
+          advertisementId: advertisementId
         }
       });
       return;
@@ -394,13 +401,17 @@ const AdvertisementPlanPopup = ({
     // If balance is sufficient, proceed with payment processing
     // For now, we'll redirect to payment page as well
     onClose();
-    navigate('/advertisement-payment', {
+    const paymentRoute = isRenewal ? '/renew-advertisement-payment' : '/advertisement-payment';
+    navigate(paymentRoute, {
       state: {
         slot: serializableSlot,
         plan: serializablePlan,
         hours: selectedPlan.requiresHours ? selectedHours : null,
         paymentMethod: serializablePaymentMethod,
-        sufficientBalance: true
+        sufficientBalance: true,
+        isRenewal: isRenewal,
+        renewalType: renewalType,
+        advertisementId: advertisementId
       }
     });
   };
@@ -449,7 +460,7 @@ const AdvertisementPlanPopup = ({
             </div>
             <div>
               <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-                {currentStep === 1 ? 'Select Advertisement Plan' :
+                {currentStep === 1 ? (isRenewal ? 'Select Renewal Plan' : 'Select Advertisement Plan') :
                  currentStep === 2 ? 'Choose Payment Method' :
                  'Select Duration Hours'}
               </h3>

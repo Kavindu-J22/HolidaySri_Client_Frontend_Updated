@@ -39,6 +39,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import HSGPopup from './components/common/HSGPopup';
 import PostAdvertisement from './pages/PostAdvertisement';
 import AdvertisementPayment from './pages/AdvertisementPayment';
+import RenewAdvertisement from './pages/RenewAdvertisement';
+import RenewAdvertisementPayment from './pages/RenewAdvertisementPayment';
 import TransactionHistory from './pages/TransactionHistory';
 import HSDLeaderBoard from './pages/HSDLeaderBoard';
 import TravelBuddyForm from './pages/TravelBuddyForm';
@@ -179,6 +181,16 @@ function App() {
                 <Route path="advertisement-payment" element={
                   <ProtectedRoute>
                     <AdvertisementPayment />
+                  </ProtectedRoute>
+                } />
+                <Route path="renew-advertisement" element={
+                  <ProtectedRoute>
+                    <RenewAdvertisement />
+                  </ProtectedRoute>
+                } />
+                <Route path="renew-advertisement-payment" element={
+                  <ProtectedRoute>
+                    <RenewAdvertisementPayment />
                   </ProtectedRoute>
                 } />
                 <Route path="travel-buddy-form" element={

@@ -237,8 +237,13 @@ const Advertisements = () => {
       return;
     }
 
-    console.log('Renew clicked for ad:', adId);
-    // Renew functionality will be implemented later
+    // Navigate to renewal process with advertisement data
+    navigate('/renew-advertisement', {
+      state: {
+        advertisement: advertisement,
+        renewalType: 'renew'
+      }
+    });
   };
 
   // Handle Manage
@@ -256,8 +261,15 @@ const Advertisements = () => {
 
   // Handle expired slot renew
   const handleExpiredSlotRenew = (adId) => {
-    console.log('Expired Slot Renew Now clicked for ad:', adId);
-    // Expired slot renew functionality will be implemented later
+    const advertisement = advertisements.find(ad => ad._id === adId);
+
+    // Navigate to renewal process with advertisement data
+    navigate('/renew-advertisement', {
+      state: {
+        advertisement: advertisement,
+        renewalType: 'expired'
+      }
+    });
   };
 
   // Check if advertisement is expired
