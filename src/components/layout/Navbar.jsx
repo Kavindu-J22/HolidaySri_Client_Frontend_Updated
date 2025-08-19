@@ -212,7 +212,7 @@ const Navbar = () => {
                             <Settings className="w-4 h-4" />
                           </div>
                           <div className="flex-1">
-                            <span className="font-medium">Profile Settings</span>
+                            <span className="font-medium">Profile Dashboard</span>
                             <p className="text-xs text-gray-500 dark:text-gray-400">Manage your account</p>
                           </div>
                         </Link>
