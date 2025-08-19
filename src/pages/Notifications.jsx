@@ -11,7 +11,10 @@ import {
   Calendar,
   User,
   DollarSign,
-  Sparkles
+  Sparkles,
+  Square,
+  CheckSquare,
+  Minus
 } from 'lucide-react';
 
 const Notifications = () => {
@@ -21,6 +24,8 @@ const Notifications = () => {
   const [filter, setFilter] = useState('all'); // all, unread, read
   const [page, setPage] = useState(1);
   const [pagination, setPagination] = useState({});
+  const [selectedNotifications, setSelectedNotifications] = useState(new Set());
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchNotifications();
@@ -34,11 +39,12 @@ const Notifications = () => {
         limit: 20,
         unreadOnly: filter === 'unread'
       };
-      
+
       const response = await notificationAPI.getNotifications(params);
       setNotifications(response.data.notifications);
       setPagination(response.data.pagination);
       setUnreadCount(response.data.unreadCount);
+      setSelectedNotifications(new Set()); // Clear selections when fetching new data
     } catch (error) {
       console.error('Error fetching notifications:', error);
     } finally {
@@ -62,6 +68,48 @@ const Notifications = () => {
     } catch (error) {
       console.error('Error deleting notification:', error);
     }
+  };
+
+  // Selection handlers
+  const handleSelectAll = () => {
+    if (selectedNotifications.size === notifications.length) {
+      setSelectedNotifications(new Set());
+    } else {
+      setSelectedNotifications(new Set(notifications.map(n => n._id)));
+    }
+  };
+
+  const handleSelectNotification = (notificationId) => {
+    const newSelected = new Set(selectedNotifications);
+    if (newSelected.has(notificationId)) {
+      newSelected.delete(notificationId);
+    } else {
+      newSelected.add(notificationId);
+    }
+    setSelectedNotifications(newSelected);
+  };
+
+  // Bulk delete handler
+  const handleBulkDelete = async () => {
+    if (selectedNotifications.size === 0) return;
+
+    try {
+      setIsDeleting(true);
+      const notificationIds = Array.from(selectedNotifications);
+      await notificationAPI.bulkDeleteNotifications(notificationIds);
+      fetchNotifications(); // Refresh notifications
+    } catch (error) {
+      console.error('Error bulk deleting notifications:', error);
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  // Get selection state for select all checkbox
+  const getSelectAllState = () => {
+    if (selectedNotifications.size === 0) return 'none';
+    if (selectedNotifications.size === notifications.length) return 'all';
+    return 'partial';
   };
 
   const getNotificationIcon = (type) => {
@@ -138,10 +186,30 @@ const Notifications = () => {
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
             {unreadCount > 0 ? `${unreadCount} unread notifications` : 'All caught up!'}
+            {selectedNotifications.size > 0 && (
+              <span className="ml-2 text-primary-600 dark:text-primary-400">
+                • {selectedNotifications.size} selected
+              </span>
+            )}
           </p>
         </div>
-        
+
         <div className="flex items-center space-x-3">
+          {selectedNotifications.size > 0 && (
+            <button
+              onClick={handleBulkDelete}
+              disabled={isDeleting}
+              className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {isDeleting ? (
+                <Loader className="w-4 h-4 animate-spin" />
+              ) : (
+                <Trash2 className="w-4 h-4" />
+              )}
+              <span>Delete Selected ({selectedNotifications.size})</span>
+            </button>
+          )}
+
           <button
             onClick={() => markAsRead([])}
             disabled={unreadCount === 0}
@@ -150,7 +218,7 @@ const Notifications = () => {
             <CheckCircle className="w-4 h-4" />
             <span>Mark All Read</span>
           </button>
-          
+
           <button
             onClick={fetchNotifications}
             disabled={loading}
@@ -186,6 +254,60 @@ const Notifications = () => {
         ))}
       </div>
 
+      {/* Select All Section */}
+      {notifications.length > 0 && (
+        <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={handleSelectAll}
+              className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+            >
+              {getSelectAllState() === 'all' ? (
+                <CheckSquare className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+              ) : getSelectAllState() === 'partial' ? (
+                <Minus className="w-5 h-5 text-primary-600 dark:text-primary-400 bg-primary-100 dark:bg-primary-900 rounded" />
+              ) : (
+                <Square className="w-5 h-5" />
+              )}
+              <span className="font-medium">
+                {getSelectAllState() === 'all' ? 'Deselect All' : 'Select All'}
+              </span>
+            </button>
+
+            {selectedNotifications.size > 0 && (
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                {selectedNotifications.size} of {notifications.length} selected
+              </span>
+            )}
+          </div>
+
+          {selectedNotifications.size > 0 && (
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => markAsRead(Array.from(selectedNotifications))}
+                className="flex items-center space-x-1 px-3 py-1 text-sm bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-md hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors"
+              >
+                <CheckCircle className="w-4 h-4" />
+                <span>Mark Read</span>
+              </button>
+
+              <button
+                onClick={handleBulkDelete}
+                disabled={isDeleting}
+                className="flex items-center space-x-1 px-3 py-1 text-sm bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 rounded-md hover:bg-red-200 dark:hover:bg-red-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                {isDeleting ? (
+                  <Loader className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Trash2 className="w-4 h-4" />
+                )}
+                <span>Delete</span>
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Notifications List */}
       <div className="space-y-3">
         {notifications.length === 0 ? (
@@ -204,9 +326,22 @@ const Notifications = () => {
               key={notification._id}
               className={`p-4 rounded-lg border transition-all duration-200 ${getNotificationBgColor(notification.type, notification.isRead)} ${
                 !notification.isRead ? 'border-l-4' : 'border'
-              }`}
+              } ${selectedNotifications.has(notification._id) ? 'ring-2 ring-primary-500 dark:ring-primary-400' : ''}`}
             >
               <div className="flex items-start space-x-3">
+                <div className="flex-shrink-0 mt-1">
+                  <button
+                    onClick={() => handleSelectNotification(notification._id)}
+                    className="mr-2 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  >
+                    {selectedNotifications.has(notification._id) ? (
+                      <CheckSquare className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                    ) : (
+                      <Square className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+
                 <div className="flex-shrink-0 mt-1">
                   {getNotificationIcon(notification.type)}
                 </div>

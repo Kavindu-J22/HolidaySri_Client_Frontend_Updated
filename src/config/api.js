@@ -118,6 +118,7 @@ export const notificationAPI = {
   getUnreadCount: () => api.get('/notifications/unread-count'),
   markAsRead: (notificationIds) => api.put('/notifications/mark-read', { notificationIds }),
   deleteNotification: (id) => api.delete(`/notifications/${id}`),
+  bulkDeleteNotifications: (notificationIds) => api.delete('/notifications/bulk', { data: { notificationIds } }),
 };
 
 // Newsletter API calls
