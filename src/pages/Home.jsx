@@ -31,7 +31,7 @@ const Home = () => {
       id: 1,
       title: "Discover Ancient Wonders",
       description: "Explore the magnificent ruins of Sigiriya Rock Fortress and immerse yourself in Sri Lanka's rich history.",
-      image: "https://images.unsplash.com/photo-1566552881560-0be862a7c445?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      image: "https://www.tourslanka.com/wp-content/uploads/2019/05/Yapahuwa-banner.jpg",
       link: "/services?category=attractions",
       buttonText: "Explore Attractions"
     },
@@ -63,7 +63,7 @@ const Home = () => {
       id: 5,
       title: "Tea Plantation Tours",
       description: "Journey through the emerald hills of Nuwara Eliya and discover Ceylon tea heritage.",
-      image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      image: "https://dxk1acp76n912.cloudfront.net/images/articles/tea-article2.png",
       link: "/services?category=tours",
       buttonText: "Explore Tours"
     },
@@ -71,7 +71,7 @@ const Home = () => {
       id: 6,
       title: "Cultural Heritage Sites",
       description: "Visit the sacred Temple of the Tooth and other UNESCO World Heritage sites.",
-      image: "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80",
+      image: "https://2troubletravelers.com/wp-content/uploads/2024/03/Sigiriya_rock.jpg",
       link: "/services?category=attractions",
       buttonText: "Visit Sites"
     }
@@ -104,8 +104,8 @@ const Home = () => {
     },
     {
       icon: Compass,
-      title: 'Expert Guides',
-      description: 'Connect with certified local tour guides',
+      title: 'Anything You Want "Sri Lanka"',
+      description: 'Tailored experiences curated by local experts',
       color: 'text-green-600',
       bgColor: 'bg-green-50'
     },
@@ -143,43 +143,11 @@ const Home = () => {
     { label: 'Active Listings', value: '2,500+', icon: MapPin },
     { label: 'Happy Customers', value: '10,000+', icon: Users },
     { label: 'Partner Hotels', value: '500+', icon: Hotel },
-    { label: 'Tour Guides', value: '200+', icon: Compass }
+    { label: 'Others', value: '50,000+', icon: Compass }
   ];
 
   return (
     <div className="space-y-16">
-      {/* Smart Welcome Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20"></div>
-        <div className="relative px-8 py-12 text-center">
-          <div className="max-w-4xl mx-auto">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-primary-500 to-purple-500 rounded-full mb-6 shadow-lg">
-              <Sparkles className="w-8 h-8 text-white" />
-            </div>
-            <h1 className="text-3xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Welcome to Holidaysri
-            </h1>
-            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-              Your intelligent gateway to authentic Sri Lankan experiences. Discover, connect, and create unforgettable memories with our smart platform.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                <Globe className="w-4 h-4" />
-                <span>Trusted by 10,000+ travelers</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                <Heart className="w-4 h-4" />
-                <span>2,500+ verified listings</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                <Star className="w-4 h-4" />
-                <span>4.9/5 average rating</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Banner Slideshow Section */}
       <section className="relative">
         <div className="relative h-96 sm:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
@@ -253,6 +221,36 @@ const Home = () => {
                 }`}
               />
             ))}
+          </div>
+        </div>
+      </section>
+
+           {/* Smart Welcome Section */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20"></div>
+        <div className="relative px-8 py-12 text-center">
+          <div className="max-w-4xl mx-auto">
+            
+            <h1 className="text-3xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Welcome to Holidaysri.com
+            </h1>
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+              Your intelligent gateway to authentic Sri Lankan experiences. Discover, connect, and create unforgettable memories with our smart platform.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                <Globe className="w-4 h-4" />
+                <span>Trusted by 10,000+ travelers</span>
+              </div>
+              <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                <Heart className="w-4 h-4" />
+                <span>2,500+ verified listings</span>
+              </div>
+              <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                <Star className="w-4 h-4" />
+                <span>4.9/5 average rating</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
