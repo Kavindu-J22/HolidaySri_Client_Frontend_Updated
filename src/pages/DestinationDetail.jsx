@@ -346,7 +346,7 @@ const DestinationDetail = () => {
             </div>
 
             {/* Description */}
-            <div className="prose dark:prose-invert max-w-none">
+            <div className="prose dark:prose-invert max-w-none text-justify">
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 {destination.description}
               </p>

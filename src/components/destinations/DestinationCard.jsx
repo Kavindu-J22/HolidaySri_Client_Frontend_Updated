@@ -150,7 +150,7 @@ const DestinationCard = ({ destination }) => {
     : destination.description;
 
   return (
-    <div className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 dark:border-gray-700">
+    <div className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col h-full">
       {/* Image */}
       <div className="relative h-56 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800" onClick={handleViewMore}>
         {destination.images && destination.images.length > 0 ? (
@@ -211,7 +211,7 @@ const DestinationCard = ({ destination }) => {
       </div>
 
       {/* Content */}
-      <div className="p-6" onClick={handleViewMore}>
+      <div className="p-6 flex-1 flex flex-col" onClick={handleViewMore}>
         {/* Header */}
         <div className="mb-4">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200 leading-tight">
@@ -247,7 +247,7 @@ const DestinationCard = ({ destination }) => {
         </div>
 
         {/* Description */}
-        <div className="mb-4">
+        <div className="mb-4 flex-1">
           <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed line-clamp-3">
             {showMore ? destination.description : truncatedDescription}
           </p>
@@ -281,8 +281,10 @@ const DestinationCard = ({ destination }) => {
             </div>
           )}
         </div>
+      </div>
 
-        {/* View More Button */}
+      {/* View More Button - Fixed at bottom */}
+      <div className="px-6 pb-6 pt-0">
         <button
           onClick={(e) => {
             e.stopPropagation();
