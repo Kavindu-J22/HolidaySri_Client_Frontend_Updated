@@ -268,11 +268,32 @@ const Advertisements = () => {
       // Navigate to manage travel buddy profile page
       navigate(`/manage-travel-buddy/${adId}`);
     } else if (advertisement && advertisement.category === 'tour_guiders') {
-      // Navigate to manage tour guider profile page
-      navigate(`/manage-tour-guider/${adId}`);
+      // Navigate to edit tour guider profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-tour-guider/${advertisement.publishedAdId}`);
+      } else {
+        setError('Tour guider profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
+    }
+  };
+
+  // Handle View Published Profile
+  const handleViewPublishedProfile = (adId) => {
+    const advertisement = advertisements.find(ad => ad._id === adId);
+
+    if (advertisement && advertisement.category === 'travel_buddys') {
+      // Navigate to travel buddy detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/travel-buddy/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'tour_guiders') {
+      // Navigate to tour guider detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/tour-guider/${advertisement.publishedAdId}`);
+      }
     }
   };
 
@@ -740,7 +761,7 @@ const Advertisements = () => {
                         </>
                       )}
 
-                      {/* Published status - Show Manage + Renew */}
+                      {/* Published status - Show Manage + View + Renew */}
                       {ad.status === 'Published' && !isAdvertisementExpired(ad) && (
                         <>
                           {/* Manage Button */}
@@ -750,6 +771,15 @@ const Advertisements = () => {
                           >
                             <Eye className="w-4 h-4" />
                             <span>Manage</span>
+                          </button>
+
+                          {/* View Button */}
+                          <button
+                            onClick={() => handleViewPublishedProfile(ad._id)}
+                            className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-sm"
+                          >
+                            <Eye className="w-4 h-4" />
+                            <span>View</span>
                           </button>
 
                           {/* Renew Button */}

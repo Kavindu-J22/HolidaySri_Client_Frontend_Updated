@@ -49,6 +49,9 @@ import TravelBuddyDetail from './pages/TravelBuddyDetail';
 import TravelBuddyFavorites from './pages/TravelBuddyFavorites';
 import ManageTravelBuddyProfile from './pages/ManageTravelBuddyProfile';
 import TourGuiderForm from './pages/TourGuiderForm';
+import EditTourGuiderProfile from './pages/EditTourGuiderProfile';
+import TourGuiderDetailView from './pages/TourGuiderDetailView';
+import ExpertTourGuiders from './pages/ExpertTourGuiders';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -216,6 +219,13 @@ function App() {
                     <TourGuiderForm />
                   </ProtectedRoute>
                 } />
+                <Route path="edit-tour-guider/:tourGuiderId" element={
+                  <ProtectedRoute>
+                    <EditTourGuiderProfile />
+                  </ProtectedRoute>
+                } />
+                <Route path="tour-guider/:tourGuiderId" element={<TourGuiderDetailView />} />
+                <Route path="ads/tourism/tour-guiders" element={<ExpertTourGuiders />} />
               </Route>
 
               {/* Catch all route */}
