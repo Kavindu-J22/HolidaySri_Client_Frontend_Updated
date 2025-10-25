@@ -1,6 +1,6 @@
 import React from 'react';
 import { Eye, MapPin, Briefcase, Star } from 'lucide-react';
-import RatingDisplay from '../common/RatingDisplay';
+import SimpleRatingDisplay from '../common/SimpleRatingDisplay';
 
 /**
  * TourGuiderCard Component
@@ -14,9 +14,9 @@ const TourGuiderCard = ({ tourGuider, onView }) => {
   if (!tourGuider) return null;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+    <div className="h-full flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
       {/* Header with Avatar */}
-      <div className="relative h-40 bg-gradient-to-r from-blue-500 to-purple-600 overflow-hidden">
+      <div className="relative h-40 bg-gradient-to-r from-blue-500 to-purple-600 overflow-hidden flex-shrink-0">
         {tourGuider.avatar?.url && (
           <img
             src={tourGuider.avatar.url}
@@ -24,7 +24,7 @@ const TourGuiderCard = ({ tourGuider, onView }) => {
             className="w-full h-full object-cover"
           />
         )}
-        
+
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/20" />
 
@@ -38,7 +38,7 @@ const TourGuiderCard = ({ tourGuider, onView }) => {
       </div>
 
       {/* Content */}
-      <div className="p-5">
+      <div className="p-5 flex flex-col flex-grow">
         {/* Name */}
         <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 truncate">
           {tourGuider.name}
@@ -70,24 +70,23 @@ const TourGuiderCard = ({ tourGuider, onView }) => {
         </div>
 
         {/* Description Preview */}
-        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-4">
+        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 mb-4 flex-grow">
           {tourGuider.description}
         </p>
 
         {/* Rating Display */}
         <div className="mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
-          <RatingDisplay
+          <SimpleRatingDisplay
             averageRating={tourGuider.averageRating || 0}
             totalReviews={tourGuider.totalReviews || 0}
             size="sm"
-            showLabel={false}
           />
         </div>
 
         {/* View Button */}
         <button
           onClick={() => onView(tourGuider._id)}
-          className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 font-medium"
+          className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all duration-300 font-medium flex-shrink-0"
         >
           <Eye className="w-4 h-4" />
           <span>View Profile</span>
