@@ -208,6 +208,9 @@ const TourGuiderForm = () => {
     if (formData.experience === '' || formData.experience < 0 || formData.experience > 70) return 'Experience must be between 0 and 70 years';
     if (!formData.email.trim()) return 'Email is required';
     if (!formData.contact.trim()) return 'Contact number is required';
+    // Validate contact number format - allow all types of contact numbers
+    const contactRegex = /^[\d\s\-\+\(\)]{7,}$/;
+    if (!contactRegex.test(formData.contact.trim())) return 'Please enter a valid contact number (at least 7 digits)';
     if (!formData.availableFrom) return 'Available from date is required';
     if (!images.avatar.url) return 'Avatar image is required';
     if (!images.certificate.url) return 'Certificate is required';
