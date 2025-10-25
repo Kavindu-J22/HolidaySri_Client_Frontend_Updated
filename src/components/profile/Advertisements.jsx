@@ -226,6 +226,11 @@ const Advertisements = () => {
       navigate('/tour-guider-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'local_tour_packages') {
+      // Navigate to local tour package form
+      navigate('/local-tour-package-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -274,6 +279,13 @@ const Advertisements = () => {
       } else {
         setError('Tour guider profile not found');
       }
+    } else if (advertisement && advertisement.category === 'local_tour_packages') {
+      // Navigate to edit local tour package page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-local-tour-package/${advertisement.publishedAdId}`);
+      } else {
+        setError('Local tour package not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -293,6 +305,11 @@ const Advertisements = () => {
       // Navigate to tour guider detail view
       if (advertisement.publishedAdId) {
         navigate(`/tour-guider/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'local_tour_packages') {
+      // Navigate to local tour package detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/local-tour-package/${advertisement.publishedAdId}`);
       }
     }
   };

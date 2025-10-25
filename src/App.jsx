@@ -52,6 +52,7 @@ import TourGuiderForm from './pages/TourGuiderForm';
 import EditTourGuiderProfile from './pages/EditTourGuiderProfile';
 import TourGuiderDetailView from './pages/TourGuiderDetailView';
 import ExpertTourGuiders from './pages/ExpertTourGuiders';
+import LocalTourPackageForm from './pages/LocalTourPackageForm';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -226,6 +227,11 @@ function App() {
                 } />
                 <Route path="tour-guider/:tourGuiderId" element={<TourGuiderDetailView />} />
                 <Route path="ads/tourism/tour-guiders" element={<ExpertTourGuiders />} />
+                <Route path="local-tour-package-form" element={
+                  <ProtectedRoute>
+                    <LocalTourPackageForm />
+                  </ProtectedRoute>
+                } />
               </Route>
 
               {/* Catch all route */}

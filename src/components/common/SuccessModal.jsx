@@ -1,22 +1,27 @@
 import React, { useEffect } from 'react';
 import { CheckCircle, X } from 'lucide-react';
 
-const SuccessModal = ({ 
-  title = 'Success!', 
-  message = 'Operation completed successfully', 
+const SuccessModal = ({
+  title = 'Success!',
+  message = 'Operation completed successfully',
   onClose,
   autoCloseDelay = 3000,
-  showAutoClose = true
+  showAutoClose = true,
+  isOpen = true
 }) => {
   useEffect(() => {
-    if (showAutoClose && autoCloseDelay > 0) {
+    if (isOpen && showAutoClose && autoCloseDelay > 0) {
       const timer = setTimeout(() => {
         onClose();
       }, autoCloseDelay);
 
       return () => clearTimeout(timer);
     }
-  }, [autoCloseDelay, onClose, showAutoClose]);
+  }, [isOpen, autoCloseDelay, onClose, showAutoClose]);
+
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
