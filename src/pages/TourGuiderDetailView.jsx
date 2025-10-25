@@ -12,6 +12,7 @@ const TourGuiderDetailView = () => {
 
   const [loading, setLoading] = useState(true);
   const [tourGuider, setTourGuider] = useState(null);
+  const [ratingDistribution, setRatingDistribution] = useState({});
   const [error, setError] = useState('');
   const [rating, setRating] = useState(0);
   const [review, setReview] = useState('');
@@ -26,6 +27,7 @@ const TourGuiderDetailView = () => {
 
       if (response.data.success) {
         setTourGuider(response.data.data);
+        setRatingDistribution(response.data.ratingDistribution || {});
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to load profile');
@@ -176,6 +178,7 @@ const TourGuiderDetailView = () => {
                 <RatingDisplay
                   averageRating={tourGuider.averageRating || 0}
                   totalReviews={tourGuider.totalReviews || 0}
+                  ratingDistribution={ratingDistribution}
                   size="lg"
                   showLabel={true}
                 />
