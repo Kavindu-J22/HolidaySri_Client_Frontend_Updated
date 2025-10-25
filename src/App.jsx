@@ -53,6 +53,9 @@ import EditTourGuiderProfile from './pages/EditTourGuiderProfile';
 import TourGuiderDetailView from './pages/TourGuiderDetailView';
 import ExpertTourGuiders from './pages/ExpertTourGuiders';
 import LocalTourPackageForm from './pages/LocalTourPackageForm';
+import EditLocalTourPackage from './pages/EditLocalTourPackage';
+import LocalTourPackageDetail from './pages/LocalTourPackageDetail';
+import LocalTourPackagesBrowse from './pages/LocalTourPackagesBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -232,6 +235,13 @@ function App() {
                     <LocalTourPackageForm />
                   </ProtectedRoute>
                 } />
+                <Route path="edit-local-tour-package/:id" element={
+                  <ProtectedRoute>
+                    <EditLocalTourPackage />
+                  </ProtectedRoute>
+                } />
+                <Route path="local-tour-package/:id" element={<LocalTourPackageDetail />} />
+                <Route path="local-tour-packages" element={<LocalTourPackagesBrowse />} />
               </Route>
 
               {/* Catch all route */}

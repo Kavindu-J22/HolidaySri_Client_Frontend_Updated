@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { ArrowLeft, Upload, X, Plus, Trash2, Loader, Calendar } from 'lucide-react';
+import { ArrowLeft, Upload, X, Plus, Trash2, Loader } from 'lucide-react';
 import SuccessModal from '../components/common/SuccessModal';
 
-const LocalTourPackageForm = () => {
+const EditLocalTourPackage = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { id } = useParams();
   const { user } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState('');
   const [provincesData, setProvincesData] = useState({});
-
-  // Get advertisement ID from navigation state
-  const advertisementId = location.state?.advertisementId;
 
   // Form state
   const [formData, setFormData] = useState({
@@ -45,25 +43,54 @@ const LocalTourPackageForm = () => {
     website: ''
   });
 
-  // Image state
   const [images, setImages] = useState([]);
   const [currentInclude, setCurrentInclude] = useState('');
 
-  // Fetch provinces on mount
+  // Fetch provinces and package data on mount
   useEffect(() => {
-    const fetchProvinces = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch('/api/local-tour-package/provinces');
-        const data = await response.json();
-        if (data.success) {
-          setProvincesData(data.data);
+        // Fetch provinces
+        const provincesRes = await fetch('/api/local-tour-package/provinces');
+        const provincesData = await provincesRes.json();
+        if (provincesData.success) {
+          setProvincesData(provincesData.data);
         }
-      } catch (error) {
-        console.error('Error fetching provinces:', error);
+
+        // Fetch package data
+        const packageRes = await fetch(`/api/local-tour-package/${id}`);
+        const packageData = await packageRes.json();
+        
+        if (packageData.success) {
+          const pkg = packageData.data;
+          setFormData({
+            title: pkg.title,
+            categoryType: pkg.categoryType,
+            adventureType: pkg.adventureType,
+            location: pkg.location,
+            description: pkg.description,
+            pax: pkg.pax,
+            availableDates: pkg.availableDates.map(d => d.split('T')[0]),
+            includes: pkg.includes,
+            price: pkg.price,
+            provider: pkg.provider,
+            facebook: pkg.facebook || '',
+            website: pkg.website || ''
+          });
+          setImages(pkg.images);
+        } else {
+          setError('Failed to load package data');
+        }
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setError('Failed to load package data');
+      } finally {
+        setLoading(false);
       }
     };
-    fetchProvinces();
-  }, []);
+
+    fetchData();
+  }, [id]);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -111,11 +138,11 @@ const LocalTourPackageForm = () => {
           setImages(prev => [...prev, {
             url: data.secure_url,
             publicId: data.public_id,
-            alt: ''
+            alt: formData.title
           }]);
         }
-      } catch (error) {
-        console.error('Error uploading image:', error);
+      } catch (err) {
+        console.error('Error uploading image:', err);
         setError('Failed to upload image');
       }
     }
@@ -145,7 +172,7 @@ const LocalTourPackageForm = () => {
     }));
   };
 
-  // Generate next 7 days with day names
+  // Generate next 7 days
   const getNext7Days = () => {
     const days = [];
     const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -157,6 +184,46 @@ const LocalTourPackageForm = () => {
       const dateStr = date.toISOString().split('T')[0];
       const displayDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
+      days.push({
+        dayName,
+        dateStr,
+        displayDate,
+        fullDate: `${dayName}, ${displayDate}`
+      });
+    }
+    return days;
+  };
+
+  // Toggle available date
+  const toggleDate = (dateStr) => {
+    setFormData(prev => {
+      const exists = prev.availableDates.includes(dateStr);
+      if (exists) {
+        return {
+          ...prev,
+          availableDates: prev.availableDates.filter(d => d !== dateStr)
+        };
+      } else {
+        return {
+          ...prev,
+          availableDates: [...prev.availableDates, dateStr]
+        };
+      }
+    });
+  };
+
+  // Generate next 7 days
+  const getNext7Days = () => {
+    const days = [];
+    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    
+    for (let i = 0; i < 7; i++) {
+      const date = new Date();
+      date.setDate(date.getDate() + i);
+      const dayName = dayNames[date.getDay()];
+      const dateStr = date.toISOString().split('T')[0];
+      const displayDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      
       days.push({
         dayName,
         dateStr,
@@ -211,15 +278,14 @@ const LocalTourPackageForm = () => {
     }
 
     try {
-      setLoading(true);
-      const response = await fetch('/api/local-tour-package/publish', {
-        method: 'POST',
+      setSaving(true);
+      const response = await fetch(`/api/local-tour-package/${id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
-          advertisementId,
           ...formData,
           images,
           pax: {
@@ -238,13 +304,13 @@ const LocalTourPackageForm = () => {
       if (data.success) {
         setShowSuccessModal(true);
       } else {
-        setError(data.message || 'Failed to publish local tour package');
+        setError(data.message || 'Failed to update local tour package');
       }
     } catch (error) {
-      console.error('Error publishing local tour package:', error);
-      setError('Failed to publish local tour package. Please try again.');
+      console.error('Error updating local tour package:', error);
+      setError('Failed to update local tour package. Please try again.');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
@@ -254,11 +320,21 @@ const LocalTourPackageForm = () => {
     navigate('/profile', { state: { activeSection: 'advertisements' } });
   };
 
-  if (!advertisementId) {
-    return null;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <Loader className="w-8 h-8 animate-spin text-blue-600" />
+      </div>
+    );
   }
 
   const availableCities = formData.location.province ? provincesData[formData.location.province] || [] : [];
+
+  const adventureTypes = [
+    'Beach', 'Mountain', 'Cultural', 'Wildlife', 'Adventure Sports',
+    'Historical', 'Religious', 'Nature', 'Urban', 'Eco-Tourism',
+    'Food & Culinary', 'Photography'
+  ];
 
   const adventureTypes = [
     'Beach', 'Mountain', 'Cultural', 'Wildlife', 'Adventure Sports',
@@ -281,10 +357,10 @@ const LocalTourPackageForm = () => {
 
           <div className="text-center">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              Create Local Tour Package Advertisement
+              Edit Local Tour Package
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Showcase your local tour packages to travelers
+              Update your tour package details
             </p>
           </div>
         </div>
@@ -296,9 +372,9 @@ const LocalTourPackageForm = () => {
           </div>
         )}
 
-        {/* Form */}
+        {/* Form - Similar to LocalTourPackageForm but with PUT method */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Basic Information */}
+          {/* Basic Information Section */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 space-y-4">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
             
@@ -354,14 +430,13 @@ const LocalTourPackageForm = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                City/District *
+                City *
               </label>
               <select
                 name="location.city"
                 value={formData.location.city}
                 onChange={handleInputChange}
-                disabled={!formData.location.province}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none disabled:opacity-50"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
               >
                 <option value="">Select City</option>
                 {availableCities.map(city => (
@@ -388,7 +463,7 @@ const LocalTourPackageForm = () => {
           {/* Images Section */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Images (Max 4) *</h2>
-            
+
             <div className="mb-4">
               <label className="block px-4 py-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
                 <div className="flex flex-col items-center">
@@ -424,7 +499,7 @@ const LocalTourPackageForm = () => {
           {/* Pricing & Capacity */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 space-y-4">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Pricing & Capacity</h2>
-            
+
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -535,7 +610,7 @@ const LocalTourPackageForm = () => {
           {/* Includes */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">What's Included</h2>
-            
+
             <div className="flex gap-2 mb-4">
               <input
                 type="text"
@@ -573,7 +648,7 @@ const LocalTourPackageForm = () => {
           {/* Provider Information */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 space-y-4">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Provider Information</h2>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Name *
@@ -618,7 +693,7 @@ const LocalTourPackageForm = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Facebook (Optional)
+                  Facebook URL
                 </label>
                 <input
                   type="url"
@@ -632,14 +707,14 @@ const LocalTourPackageForm = () => {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Website (Optional)
+                  Website URL
                 </label>
                 <input
                   type="url"
                   name="website"
                   value={formData.website}
                   onChange={handleInputChange}
-                  placeholder="https://..."
+                  placeholder="https://example.com"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               </div>
@@ -657,16 +732,16 @@ const LocalTourPackageForm = () => {
             </button>
             <button
               type="submit"
-              disabled={loading}
+              disabled={saving}
               className="flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg hover:from-green-700 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
             >
-              {loading ? (
+              {saving ? (
                 <>
                   <Loader className="w-5 h-5 animate-spin" />
-                  <span>Publishing...</span>
+                  <span>Saving...</span>
                 </>
               ) : (
-                <span>Publish Now</span>
+                <span>Save Changes</span>
               )}
             </button>
           </div>
@@ -679,12 +754,12 @@ const LocalTourPackageForm = () => {
           isOpen={showSuccessModal}
           onClose={handleSuccessClose}
           title="Success!"
-          message="Your local tour package has been published successfully!"
+          message="Your local tour package has been updated successfully!"
         />
       )}
     </div>
   );
 };
 
-export default LocalTourPackageForm;
+export default EditLocalTourPackage;
 
