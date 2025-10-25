@@ -19,24 +19,38 @@ const TourGuiderDetailView = () => {
   const [reviews, setReviews] = useState([]);
 
   // Fetch tour guider profile
-  useEffect(() => {
-    const fetchTourGuider = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`/api/tour-guider/${tourGuiderId}`);
+  const fetchTourGuider = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`/api/tour-guider/${tourGuiderId}`);
 
-        if (response.data.success) {
-          setTourGuider(response.data.data);
-        }
-      } catch (err) {
-        setError(err.response?.data?.message || 'Failed to load profile');
-      } finally {
-        setLoading(false);
+      if (response.data.success) {
+        setTourGuider(response.data.data);
       }
-    };
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to load profile');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  // Fetch reviews for tour guider
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get(`/api/tour-guider/${tourGuiderId}/reviews?page=1&limit=10`);
+
+      if (response.data.success) {
+        setReviews(response.data.data);
+      }
+    } catch (err) {
+      console.error('Error fetching reviews:', err);
+    }
+  };
+
+  useEffect(() => {
     if (tourGuiderId) {
       fetchTourGuider();
+      fetchReviews();
     }
   }, [tourGuiderId]);
 
@@ -57,21 +71,34 @@ const TourGuiderDetailView = () => {
       setSubmittingReview(true);
       setError('');
 
-      // This would be implemented in the backend
-      // For now, we'll just add it to the local state
-      const newReview = {
-        _id: Date.now(),
-        userId: user.id,
-        userName: user.name,
-        rating,
-        review,
-        createdAt: new Date()
-      };
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/tour-guider/${tourGuiderId}/review`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          rating,
+          review: review.trim()
+        })
+      });
 
-      setReviews(prev => [newReview, ...prev]);
-      setRating(0);
-      setReview('');
+      const data = await response.json();
+
+      if (data.success) {
+        // Add the new review to the list
+        setReviews(prev => [data.data, ...prev]);
+        setRating(0);
+        setReview('');
+
+        // Refresh tour guider details to update rating
+        fetchTourGuider();
+      } else {
+        setError(data.message || 'Failed to submit review');
+      }
     } catch (err) {
+      console.error('Error submitting review:', err);
       setError('Failed to submit review');
     } finally {
       setSubmittingReview(false);
@@ -331,7 +358,9 @@ const TourGuiderDetailView = () => {
                   reviews.map((rev) => (
                     <div key={rev._id} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
                       <div className="flex items-center justify-between mb-2">
-                        <p className="font-semibold text-gray-900 dark:text-white">{rev.userName}</p>
+                        <p className="font-semibold text-gray-900 dark:text-white">
+                          {rev.userId?.name || 'Anonymous'}
+                        </p>
                         <div className="flex items-center space-x-1">
                           {[...Array(5)].map((_, i) => (
                             <Star
@@ -346,6 +375,9 @@ const TourGuiderDetailView = () => {
                         </div>
                       </div>
                       <p className="text-gray-700 dark:text-gray-300">{rev.review}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                        {new Date(rev.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
                   ))
                 )}
