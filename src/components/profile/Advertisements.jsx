@@ -221,6 +221,11 @@ const Advertisements = () => {
       navigate('/travel-buddy-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'tour_guiders') {
+      // Navigate to tour guider form
+      navigate('/tour-guider-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -246,6 +251,15 @@ const Advertisements = () => {
     });
   };
 
+  // Handle Publish Now for tour_guiders
+  const handlePublishTourGuider = (adId) => {
+    navigate('/tour-guider-form', {
+      state: {
+        advertisementId: adId
+      }
+    });
+  };
+
   // Handle Manage
   const handleViewAd = (adId) => {
     const advertisement = advertisements.find(ad => ad._id === adId);
@@ -253,6 +267,9 @@ const Advertisements = () => {
     if (advertisement && advertisement.category === 'travel_buddys') {
       // Navigate to manage travel buddy profile page
       navigate(`/manage-travel-buddy/${adId}`);
+    } else if (advertisement && advertisement.category === 'tour_guiders') {
+      // Navigate to manage tour guider profile page
+      navigate(`/manage-tour-guider/${adId}`);
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
