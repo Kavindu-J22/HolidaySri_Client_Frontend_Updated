@@ -212,46 +212,6 @@ const EditLocalTourPackage = () => {
     });
   };
 
-  // Generate next 7 days
-  const getNext7Days = () => {
-    const days = [];
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    
-    for (let i = 0; i < 7; i++) {
-      const date = new Date();
-      date.setDate(date.getDate() + i);
-      const dayName = dayNames[date.getDay()];
-      const dateStr = date.toISOString().split('T')[0];
-      const displayDate = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      
-      days.push({
-        dayName,
-        dateStr,
-        displayDate,
-        fullDate: `${dayName}, ${displayDate}`
-      });
-    }
-    return days;
-  };
-
-  // Toggle available date
-  const toggleDate = (dateStr) => {
-    setFormData(prev => {
-      const exists = prev.availableDates.includes(dateStr);
-      if (exists) {
-        return {
-          ...prev,
-          availableDates: prev.availableDates.filter(d => d !== dateStr)
-        };
-      } else {
-        return {
-          ...prev,
-          availableDates: [...prev.availableDates, dateStr]
-        };
-      }
-    });
-  };
-
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -329,12 +289,6 @@ const EditLocalTourPackage = () => {
   }
 
   const availableCities = formData.location.province ? provincesData[formData.location.province] || [] : [];
-
-  const adventureTypes = [
-    'Beach', 'Mountain', 'Cultural', 'Wildlife', 'Adventure Sports',
-    'Historical', 'Religious', 'Nature', 'Urban', 'Eco-Tourism',
-    'Food & Culinary', 'Photography'
-  ];
 
   const adventureTypes = [
     'Beach', 'Mountain', 'Cultural', 'Wildlife', 'Adventure Sports',

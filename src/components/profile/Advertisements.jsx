@@ -231,6 +231,11 @@ const Advertisements = () => {
       navigate('/local-tour-package-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'travelsafe_help_professionals') {
+      // Navigate to travel safe help professional form
+      navigate('/travel-safe-help-professional-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -286,6 +291,13 @@ const Advertisements = () => {
       } else {
         setError('Local tour package not found');
       }
+    } else if (advertisement && advertisement.category === 'travelsafe_help_professionals') {
+      // Navigate to edit travel safe help professional profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-travel-safe-help-professional/${advertisement.publishedAdId}`);
+      } else {
+        setError('Travel Safe Help Professional profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -310,6 +322,11 @@ const Advertisements = () => {
       // Navigate to local tour package detail view
       if (advertisement.publishedAdId) {
         navigate(`/local-tour-package/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'travelsafe_help_professionals') {
+      // Navigate to travel safe help professional detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/travel-safe-help-professional/${advertisement.publishedAdId}`);
       }
     }
   };

@@ -56,6 +56,10 @@ import LocalTourPackageForm from './pages/LocalTourPackageForm';
 import EditLocalTourPackage from './pages/EditLocalTourPackage';
 import LocalTourPackageDetail from './pages/LocalTourPackageDetail';
 import LocalTourPackagesBrowse from './pages/LocalTourPackagesBrowse';
+import TravelSafeHelpProfessionalForm from './pages/TravelSafeHelpProfessionalForm';
+import EditTravelSafeHelpProfessionalProfile from './pages/EditTravelSafeHelpProfessionalProfile';
+import TravelSafeHelpProfessionalDetail from './pages/TravelSafeHelpProfessionalDetail';
+import TravelSafeHelpProfessionalsBrowse from './pages/TravelSafeHelpProfessionalsBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -242,6 +246,19 @@ function App() {
                 } />
                 <Route path="local-tour-package/:id" element={<LocalTourPackageDetail />} />
                 <Route path="local-tour-packages" element={<LocalTourPackagesBrowse />} />
+                <Route path="travel-safe-help-professional-form" element={
+                  <ProtectedRoute>
+                    <TravelSafeHelpProfessionalForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-travel-safe-help-professional/:id" element={
+                  <ProtectedRoute>
+                    <EditTravelSafeHelpProfessionalProfile />
+                  </ProtectedRoute>
+                } />
+                <Route path="travel-safe-help-professional/:id" element={<TravelSafeHelpProfessionalDetail />} />
+                <Route path="travel-safe-help-professionals" element={<TravelSafeHelpProfessionalsBrowse />} />
+                <Route path="ads/tourism/travel-safe" element={<TravelSafeHelpProfessionalsBrowse />} />
               </Route>
 
               {/* Catch all route */}

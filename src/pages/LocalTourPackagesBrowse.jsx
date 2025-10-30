@@ -60,7 +60,9 @@ const LocalTourPackagesBrowse = () => {
       const data = await response.json();
 
       if (data.success) {
-        setPackages(data.data);
+        // Shuffle packages randomly
+        const shuffledPackages = [...data.data].sort(() => Math.random() - 0.5);
+        setPackages(shuffledPackages);
         setError('');
       } else {
         setError('Failed to load packages');
