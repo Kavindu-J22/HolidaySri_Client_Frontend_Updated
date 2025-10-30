@@ -236,6 +236,11 @@ const Advertisements = () => {
       navigate('/travel-safe-help-professional-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'rent_land_camping_parking') {
+      // Navigate to rent land camping parking form
+      navigate('/rent-land-camping-parking-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -327,6 +332,11 @@ const Advertisements = () => {
       // Navigate to travel safe help professional detail view
       if (advertisement.publishedAdId) {
         navigate(`/travel-safe-help-professional/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'rent_land_camping_parking') {
+      // Navigate to rent land camping parking detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/rent-land-camping-parking/${advertisement.publishedAdId}`);
       }
     }
   };
