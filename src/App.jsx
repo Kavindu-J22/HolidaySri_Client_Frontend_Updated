@@ -61,6 +61,9 @@ import EditTravelSafeHelpProfessionalProfile from './pages/EditTravelSafeHelpPro
 import TravelSafeHelpProfessionalDetail from './pages/TravelSafeHelpProfessionalDetail';
 import TravelSafeHelpProfessionalsBrowse from './pages/TravelSafeHelpProfessionalsBrowse';
 import RentLandCampingParkingForm from './pages/RentLandCampingParkingForm';
+import EditRentLandCampingParking from './pages/EditRentLandCampingParking';
+import RentLandCampingParkingDetail from './pages/RentLandCampingParkingDetail';
+import RentLandCampingParkingBrowse from './pages/RentLandCampingParkingBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -265,6 +268,13 @@ function App() {
                     <RentLandCampingParkingForm />
                   </ProtectedRoute>
                 } />
+                <Route path="edit-rent-land-camping-parking/:id" element={
+                  <ProtectedRoute>
+                    <EditRentLandCampingParking />
+                  </ProtectedRoute>
+                } />
+                <Route path="rent-land-camping-parking/:id" element={<RentLandCampingParkingDetail />} />
+                <Route path="rent-land-camping-parking" element={<RentLandCampingParkingBrowse />} />
               </Route>
 
               {/* Catch all route */}

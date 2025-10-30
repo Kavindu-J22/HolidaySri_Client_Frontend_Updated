@@ -303,6 +303,13 @@ const Advertisements = () => {
       } else {
         setError('Travel Safe Help Professional profile not found');
       }
+    } else if (advertisement && advertisement.category === 'rent_land_camping_parking') {
+      // Navigate to edit rent land camping parking page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-rent-land-camping-parking/${advertisement.publishedAdId}`);
+      } else {
+        setError('Rent Land Camping Parking listing not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later

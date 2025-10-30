@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   Upload,
   X,
@@ -18,10 +18,9 @@ import {
 import axios from 'axios';
 import SuccessModal from '../components/common/SuccessModal';
 
-const RentLandCampingParkingForm = () => {
-  const location = useLocation();
+const EditRentLandCampingParking = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
-  const advertisementId = location.state?.advertisementId;
 
   // Form state
   const [formData, setFormData] = useState({
@@ -50,7 +49,8 @@ const RentLandCampingParkingForm = () => {
   const [images, setImages] = useState([]);
   const [provinces, setProvinces] = useState({});
   const [cities, setCities] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -60,19 +60,58 @@ const RentLandCampingParkingForm = () => {
     includes: ''
   });
 
-  // Fetch provinces on mount
+  // Fetch provinces and listing data on mount
   useEffect(() => {
-    const fetchProvinces = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('/api/rent-land-camping-parking/provinces');
-        setProvinces(response.data.data);
+        // Fetch provinces
+        const provincesRes = await axios.get('/api/rent-land-camping-parking/provinces');
+        setProvinces(provincesRes.data.data);
+
+        // Fetch listing data
+        const listingRes = await axios.get(`/api/rent-land-camping-parking/${id}`);
+        const listing = listingRes.data.data;
+
+        setFormData({
+          title: listing.title,
+          description: listing.description,
+          category: listing.category,
+          province: listing.location.province,
+          city: listing.location.city,
+          nearby: listing.nearby || [],
+          activities: listing.activities || [],
+          includes: listing.includes || [],
+          contact: listing.contact,
+          website: listing.website || '',
+          facebook: listing.facebook || '',
+          available: listing.available,
+          price: listing.price,
+          weekendPrice: listing.weekendPrice,
+          availability: listing.availability || {
+            weekdays: true,
+            weekends: true,
+            time: '8:00 AM - 8:00 PM'
+          },
+          mapLink: listing.mapLink || ''
+        });
+
+        setImages(listing.images || []);
+        
+        // Set cities based on province
+        if (listing.location.province && provincesRes.data.data[listing.location.province]) {
+          setCities(provincesRes.data.data[listing.location.province]);
+        }
+
+        setLoading(false);
       } catch (err) {
-        console.error('Error fetching provinces:', err);
-        setError('Failed to load provinces');
+        console.error('Error fetching data:', err);
+        setError('Failed to load listing data');
+        setLoading(false);
       }
     };
-    fetchProvinces();
-  }, []);
+
+    fetchData();
+  }, [id]);
 
   // Update cities when province changes
   useEffect(() => {
@@ -190,14 +229,13 @@ const RentLandCampingParkingForm = () => {
       return;
     }
 
-    setLoading(true);
+    setSaving(true);
     setError('');
 
     try {
-      const response = await axios.post(
-        '/api/rent-land-camping-parking/publish',
+      const response = await axios.put(
+        `/api/rent-land-camping-parking/${id}`,
         {
-          advertisementId,
           ...formData,
           images,
           price: parseFloat(formData.price),
@@ -217,31 +255,17 @@ const RentLandCampingParkingForm = () => {
         }, 3000);
       }
     } catch (err) {
-      console.error('Error publishing:', err);
-      setError(err.response?.data?.message || 'Failed to publish. Please try again.');
+      console.error('Error updating:', err);
+      setError(err.response?.data?.message || 'Failed to update. Please try again.');
     } finally {
-      setLoading(false);
+      setSaving(false);
     }
   };
 
-  if (!advertisementId) {
+  if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 max-w-md w-full">
-          <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white text-center mb-2">
-            Invalid Access
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
-            Please access this form from your advertisements page.
-          </p>
-          <button
-            onClick={() => navigate('/my-advertisements')}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition"
-          >
-            Go to My Advertisements
-          </button>
-        </div>
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <Loader className="w-12 h-12 text-blue-600 animate-spin" />
       </div>
     );
   }
@@ -252,10 +276,10 @@ const RentLandCampingParkingForm = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Publish Rent Land Camping & Parking
+            Edit Rent Land Camping & Parking
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Fill in all the details about your camping or parking space
+            Update your camping or parking space details
           </p>
         </div>
 
@@ -270,12 +294,12 @@ const RentLandCampingParkingForm = () => {
         {/* Success Modal */}
         <SuccessModal
           isOpen={success}
-          title="Published Successfully!"
-          message="Your rent land camping & parking listing has been published successfully. Redirecting to My Advertisements..."
+          title="Updated Successfully!"
+          message="Your rent land camping & parking listing has been updated successfully. Redirecting to My Advertisements..."
           onClose={() => navigate('/my-advertisements')}
         />
 
-        {/* Form */}
+        {/* Form - Will be continued in next part */}
         <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 space-y-8">
           {/* Basic Information */}
           <div>
@@ -293,13 +317,9 @@ const RentLandCampingParkingForm = () => {
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  placeholder="e.g., Lakeside Parking & Camping"
                   maxLength="200"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  {formData.title.length}/200 characters
-                </p>
               </div>
 
               <div>
@@ -310,14 +330,10 @@ const RentLandCampingParkingForm = () => {
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}
-                  placeholder="Describe your camping or parking space in detail..."
                   maxLength="3000"
                   rows="5"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  {formData.description.length}/3000 characters
-                </p>
               </div>
 
               <div>
@@ -329,7 +345,6 @@ const RentLandCampingParkingForm = () => {
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  placeholder="e.g., RV Parking, Camping Site, Tent Camping"
                   maxLength="100"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
@@ -452,7 +467,6 @@ const RentLandCampingParkingForm = () => {
                   name="contact"
                   value={formData.contact}
                   onChange={handleInputChange}
-                  placeholder="+94 71 234 5678"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               </div>
@@ -466,7 +480,6 @@ const RentLandCampingParkingForm = () => {
                   name="website"
                   value={formData.website}
                   onChange={handleInputChange}
-                  placeholder="https://example.com"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               </div>
@@ -480,7 +493,6 @@ const RentLandCampingParkingForm = () => {
                   name="facebook"
                   value={formData.facebook}
                   onChange={handleInputChange}
-                  placeholder="https://facebook.com/..."
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               </div>
@@ -503,7 +515,6 @@ const RentLandCampingParkingForm = () => {
                   name="price"
                   value={formData.price}
                   onChange={handleInputChange}
-                  placeholder="3500"
                   min="0"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
@@ -518,7 +529,6 @@ const RentLandCampingParkingForm = () => {
                   name="weekendPrice"
                   value={formData.weekendPrice}
                   onChange={handleInputChange}
-                  placeholder="4500"
                   min="0"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
@@ -568,7 +578,6 @@ const RentLandCampingParkingForm = () => {
                   name="availability.time"
                   value={formData.availability.time}
                   onChange={handleInputChange}
-                  placeholder="8:00 AM - 8:00 PM"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               </div>
@@ -592,7 +601,6 @@ const RentLandCampingParkingForm = () => {
                   type="text"
                   value={newItem.nearby}
                   onChange={(e) => setNewItem(prev => ({ ...prev, nearby: e.target.value }))}
-                  placeholder="e.g., Lake, Beach, Restaurant"
                   className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
                 <button
@@ -630,7 +638,6 @@ const RentLandCampingParkingForm = () => {
                   type="text"
                   value={newItem.activities}
                   onChange={(e) => setNewItem(prev => ({ ...prev, activities: e.target.value }))}
-                  placeholder="e.g., Fishing, Boating, Picnics"
                   className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
                 <button
@@ -668,7 +675,6 @@ const RentLandCampingParkingForm = () => {
                   type="text"
                   value={newItem.includes}
                   onChange={(e) => setNewItem(prev => ({ ...prev, includes: e.target.value }))}
-                  placeholder="e.g., Electric hookups, Showers, Waste disposal"
                   className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
                 <button
@@ -713,7 +719,6 @@ const RentLandCampingParkingForm = () => {
                   name="mapLink"
                   value={formData.mapLink}
                   onChange={handleInputChange}
-                  placeholder="https://maps.google.com/..."
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               </div>
@@ -744,18 +749,18 @@ const RentLandCampingParkingForm = () => {
             </button>
             <button
               type="submit"
-              disabled={loading || uploading}
+              disabled={saving || uploading}
               className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold rounded-lg flex items-center justify-center gap-2 transition"
             >
-              {loading ? (
+              {saving ? (
                 <>
                   <Loader className="w-5 h-5 animate-spin" />
-                  Publishing...
+                  Saving...
                 </>
               ) : (
                 <>
                   <CheckCircle className="w-5 h-5" />
-                  Publish Now
+                  Save Changes
                 </>
               )}
             </button>
@@ -766,5 +771,5 @@ const RentLandCampingParkingForm = () => {
   );
 };
 
-export default RentLandCampingParkingForm;
+export default EditRentLandCampingParking;
 

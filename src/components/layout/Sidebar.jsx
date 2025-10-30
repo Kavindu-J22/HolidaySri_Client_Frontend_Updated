@@ -88,7 +88,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Local Tour Packages', path: '/local-tour-packages' },
         { name: 'Customize Tour Package', path: '/ads/tourism/customize-package' },
         { name: 'TravelSafe & Help Professionals', path: '/ads/tourism/travel-safe' },
-        { name: 'Rent a Land for Camping or Parking purposes', path: '/ads/tourism/land-rental' },
+        { name: 'Rent a Land for Camping or Parking purposes', path: '/rent-land-camping-parking' },
       ]
     },
     {
