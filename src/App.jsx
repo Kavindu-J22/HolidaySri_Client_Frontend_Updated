@@ -64,6 +64,10 @@ import RentLandCampingParkingForm from './pages/RentLandCampingParkingForm';
 import EditRentLandCampingParking from './pages/EditRentLandCampingParking';
 import RentLandCampingParkingDetail from './pages/RentLandCampingParkingDetail';
 import RentLandCampingParkingBrowse from './pages/RentLandCampingParkingBrowse';
+import CafesRestaurantsForm from './pages/CafesRestaurantsForm';
+import EditCafesRestaurants from './pages/EditCafesRestaurants';
+import CafesRestaurantsDetail from './pages/CafesRestaurantsDetail';
+import CafesRestaurantsBrowse from './pages/CafesRestaurantsBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -275,6 +279,18 @@ function App() {
                 } />
                 <Route path="rent-land-camping-parking/:id" element={<RentLandCampingParkingDetail />} />
                 <Route path="rent-land-camping-parking" element={<RentLandCampingParkingBrowse />} />
+                <Route path="cafes-restaurants-form" element={
+                  <ProtectedRoute>
+                    <CafesRestaurantsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-cafes-restaurants/:id" element={
+                  <ProtectedRoute>
+                    <EditCafesRestaurants />
+                  </ProtectedRoute>
+                } />
+                <Route path="cafes-restaurants/:id" element={<CafesRestaurantsDetail />} />
+                <Route path="cafes-restaurants" element={<CafesRestaurantsBrowse />} />
               </Route>
 
               {/* Catch all route */}

@@ -241,6 +241,11 @@ const Advertisements = () => {
       navigate('/rent-land-camping-parking-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'cafes_restaurants') {
+      // Navigate to cafes restaurants form
+      navigate('/cafes-restaurants-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -310,6 +315,13 @@ const Advertisements = () => {
       } else {
         setError('Rent Land Camping Parking listing not found');
       }
+    } else if (advertisement && advertisement.category === 'cafes_restaurants') {
+      // Navigate to edit cafes restaurants page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-cafes-restaurants/${advertisement.publishedAdId}`);
+      } else {
+        setError('Cafe/Restaurant listing not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -344,6 +356,11 @@ const Advertisements = () => {
       // Navigate to rent land camping parking detail view
       if (advertisement.publishedAdId) {
         navigate(`/rent-land-camping-parking/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'cafes_restaurants') {
+      // Navigate to cafes restaurants detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/cafes-restaurants/${advertisement.publishedAdId}`);
       }
     }
   };
