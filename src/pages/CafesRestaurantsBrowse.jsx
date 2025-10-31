@@ -18,6 +18,7 @@ const CafesRestaurantsBrowse = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [provincesData, setProvincesData] = useState({});
+  const [provincesLoading, setProvincesLoading] = useState(true);
   const [pagination, setPagination] = useState({
     total: 0,
     page: 1,
@@ -36,19 +37,29 @@ const CafesRestaurantsBrowse = () => {
   // Fetch provinces
   useEffect(() => {
     const fetchProvinces = async () => {
+      setProvincesLoading(true);
       try {
         const response = await fetch('/api/cafes-restaurants/provinces');
         const data = await response.json();
-        if (data.success) {
+        if (data.success && data.data) {
           setProvincesData(data.data);
         }
       } catch (error) {
         console.error('Error fetching provinces:', error);
+      } finally {
+        setProvincesLoading(false);
       }
     };
 
     fetchProvinces();
   }, []);
+
+  // Reset city when province changes
+  useEffect(() => {
+    if (filters.province === '') {
+      setFilters(prev => ({ ...prev, city: '' }));
+    }
+  }, [filters.province]);
 
   // Fetch cafes
   useEffect(() => {
@@ -169,12 +180,17 @@ const CafesRestaurantsBrowse = () => {
                   name="province"
                   value={filters.province}
                   onChange={handleFilterChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  disabled={provincesLoading}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <option value="">All Provinces</option>
-                  {Object.keys(provincesData).map(province => (
-                    <option key={province} value={province}>{province}</option>
-                  ))}
+                  <option value="">
+                    {provincesLoading ? 'Loading provinces...' : 'All Provinces'}
+                  </option>
+                  {!provincesLoading && Object.keys(provincesData).length > 0 &&
+                    Object.keys(provincesData).map(province => (
+                      <option key={province} value={province}>{province}</option>
+                    ))
+                  }
                 </select>
               </div>
 
