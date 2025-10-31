@@ -68,6 +68,14 @@ import CafesRestaurantsForm from './pages/CafesRestaurantsForm';
 import EditCafesRestaurants from './pages/EditCafesRestaurants';
 import CafesRestaurantsDetail from './pages/CafesRestaurantsDetail';
 import CafesRestaurantsBrowse from './pages/CafesRestaurantsBrowse';
+import FoodsBeveragesForm from './pages/FoodsBeveragesForm';
+import EditFoodsBeverages from './pages/EditFoodsBeverages';
+import FoodsBeveragesDetail from './pages/FoodsBeveragesDetail';
+import FoodsBeveragesBrowse from './pages/FoodsBeveragesBrowse';
+import VehicleRentalsHireForm from './pages/VehicleRentalsHireForm';
+import EditVehicleRentalsHire from './pages/EditVehicleRentalsHire';
+import VehicleRentalsHireDetail from './pages/VehicleRentalsHireDetail';
+import VehicleRentalsHireBrowse from './pages/VehicleRentalsHireBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -291,6 +299,30 @@ function App() {
                 } />
                 <Route path="cafes-restaurants/:id" element={<CafesRestaurantsDetail />} />
                 <Route path="cafes-restaurants" element={<CafesRestaurantsBrowse />} />
+                <Route path="foods-beverages-form" element={
+                  <ProtectedRoute>
+                    <FoodsBeveragesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-foods-beverages/:id" element={
+                  <ProtectedRoute>
+                    <EditFoodsBeverages />
+                  </ProtectedRoute>
+                } />
+                <Route path="foods-beverages/:id" element={<FoodsBeveragesDetail />} />
+                <Route path="foods-beverages" element={<FoodsBeveragesBrowse />} />
+                <Route path="vehicle-rentals-hire-form" element={
+                  <ProtectedRoute>
+                    <VehicleRentalsHireForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-vehicle-rentals-hire/:id" element={
+                  <ProtectedRoute>
+                    <EditVehicleRentalsHire />
+                  </ProtectedRoute>
+                } />
+                <Route path="vehicle-rentals-hire/:id" element={<VehicleRentalsHireDetail />} />
+                <Route path="vehicle-rentals-hire" element={<VehicleRentalsHireBrowse />} />
               </Route>
 
               {/* Catch all route */}

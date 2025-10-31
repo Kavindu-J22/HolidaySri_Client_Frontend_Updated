@@ -100,7 +100,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       subcategories: [
         { name: 'Hotels & Accommodations', path: '/ads/accommodation/hotels' },
         { name: 'Cafes & Restaurants', path: '/cafes-restaurants' },
-        { name: 'Foods & Beverages', path: '/ads/accommodation/foods-beverages' },
+        { name: 'Foods & Beverages', path: '/foods-beverages' },
       ]
     },
     {
@@ -110,7 +110,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
       subcategories: [
-        { name: 'Vehicle Rentals & Hire Services', path: '/ads/transport/vehicle-rentals' },
+        { name: 'Vehicle Rentals & Hire Services', path: '/vehicle-rentals-hire' },
         { name: 'Live Rides Updates & Carpooling', path: '/ads/transport/rides-carpooling' },
         { name: 'Professional Drivers', path: '/ads/transport/professional-drivers' },
         { name: 'Vehicle Repairs & Mechanics', path: '/ads/transport/repairs-mechanics' },

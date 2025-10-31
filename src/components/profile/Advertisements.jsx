@@ -246,6 +246,16 @@ const Advertisements = () => {
       navigate('/cafes-restaurants-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'foods_beverages') {
+      // Navigate to foods beverages form
+      navigate('/foods-beverages-form', {
+        state: { advertisementId: adId }
+      });
+    } else if (advertisement.category === 'vehicle_rentals_hire') {
+      // Navigate to vehicle rentals hire form
+      navigate('/vehicle-rentals-hire-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -322,6 +332,20 @@ const Advertisements = () => {
       } else {
         setError('Cafe/Restaurant listing not found');
       }
+    } else if (advertisement && advertisement.category === 'foods_beverages') {
+      // Navigate to edit foods beverages page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-foods-beverages/${advertisement.publishedAdId}`);
+      } else {
+        setError('Foods & Beverages listing not found');
+      }
+    } else if (advertisement && advertisement.category === 'vehicle_rentals_hire') {
+      // Navigate to edit vehicle rentals hire page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-vehicle-rentals-hire/${advertisement.publishedAdId}`);
+      } else {
+        setError('Vehicle Rentals Hire listing not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -361,6 +385,16 @@ const Advertisements = () => {
       // Navigate to cafes restaurants detail view
       if (advertisement.publishedAdId) {
         navigate(`/cafes-restaurants/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'foods_beverages') {
+      // Navigate to foods beverages detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/foods-beverages/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'vehicle_rentals_hire') {
+      // Navigate to vehicle rentals hire detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/vehicle-rentals-hire/${advertisement.publishedAdId}`);
       }
     }
   };
