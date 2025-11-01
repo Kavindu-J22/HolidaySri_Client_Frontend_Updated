@@ -84,6 +84,7 @@ import VehicleRepairsMechanicsForm from './pages/VehicleRepairsMechanicsForm';
 import EditVehicleRepairsMechanicsForm from './pages/EditVehicleRepairsMechanicsForm';
 import VehicleRepairsMechanicsDetail from './pages/VehicleRepairsMechanicsDetail';
 import VehicleRepairsMechanicsBrowse from './pages/VehicleRepairsMechanicsBrowse';
+import EventPlannersCoordinatorsForm from './pages/EventPlannersCoordinatorsForm';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -355,6 +356,11 @@ function App() {
                 } />
                 <Route path="vehicle-repairs-mechanics/:id" element={<VehicleRepairsMechanicsDetail />} />
                 <Route path="vehicle-repairs-mechanics" element={<VehicleRepairsMechanicsBrowse />} />
+                <Route path="event-planners-coordinators-form" element={
+                  <ProtectedRoute>
+                    <EventPlannersCoordinatorsForm />
+                  </ProtectedRoute>
+                } />
               </Route>
 
               {/* Catch all route */}

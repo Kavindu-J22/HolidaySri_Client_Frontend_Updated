@@ -266,6 +266,11 @@ const Advertisements = () => {
       navigate('/vehicle-repairs-mechanics-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'event_planners_coordinators') {
+      // Navigate to event planners coordinators form
+      navigate('/event-planners-coordinators-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -370,6 +375,13 @@ const Advertisements = () => {
       } else {
         setError('Vehicle Repairs & Mechanics profile not found');
       }
+    } else if (advertisement && advertisement.category === 'event_planners_coordinators') {
+      // Navigate to edit event planners coordinators profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-event-planners-coordinators/${advertisement.publishedAdId}`);
+      } else {
+        setError('Event Planner & Coordinator profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -429,6 +441,11 @@ const Advertisements = () => {
       // Navigate to vehicle repairs mechanics detail view
       if (advertisement.publishedAdId) {
         navigate(`/vehicle-repairs-mechanics/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'event_planners_coordinators') {
+      // Navigate to event planners coordinators detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/event-planners-coordinators/${advertisement.publishedAdId}`);
       }
     }
   };
