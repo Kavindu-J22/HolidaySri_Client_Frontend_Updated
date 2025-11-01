@@ -193,4 +193,15 @@ export const hsdLeaderBoardAPI = {
   processPeriodEnd: () => api.post('/hsd-leaderboard/process-period-end'),
 };
 
+// Professional Drivers API calls
+export const professionalDriversAPI = {
+  getProvinces: () => api.get('/professional-drivers/provinces'),
+  publishProfile: (data) => api.post('/professional-drivers/publish', data),
+  browseDrivers: (params) => api.get('/professional-drivers/browse', { params }),
+  getDriverProfile: (id) => api.get(`/professional-drivers/${id}`),
+  updateProfile: (id, data) => api.put(`/professional-drivers/${id}`, data),
+  addReview: (id, reviewData) => api.post(`/professional-drivers/${id}/reviews`, reviewData),
+  getReviews: (id) => api.get(`/professional-drivers/${id}/reviews`),
+};
+
 export default api;

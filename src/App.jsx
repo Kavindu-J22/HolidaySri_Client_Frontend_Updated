@@ -76,6 +76,11 @@ import VehicleRentalsHireForm from './pages/VehicleRentalsHireForm';
 import EditVehicleRentalsHire from './pages/EditVehicleRentalsHire';
 import VehicleRentalsHireDetail from './pages/VehicleRentalsHireDetail';
 import VehicleRentalsHireBrowse from './pages/VehicleRentalsHireBrowse';
+import ProfessionalDriversForm from './pages/ProfessionalDriversForm';
+import EditProfessionalDriversProfile from './pages/EditProfessionalDriversProfile';
+import ProfessionalDriversDetailView from './pages/ProfessionalDriversDetailView';
+import ProfessionalDriversBrowse from './pages/ProfessionalDriversBrowse';
+import VehicleRepairsMechanicsForm from './pages/VehicleRepairsMechanicsForm';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -323,6 +328,23 @@ function App() {
                 } />
                 <Route path="vehicle-rentals-hire/:id" element={<VehicleRentalsHireDetail />} />
                 <Route path="vehicle-rentals-hire" element={<VehicleRentalsHireBrowse />} />
+                <Route path="professional-drivers-form" element={
+                  <ProtectedRoute>
+                    <ProfessionalDriversForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-professional-drivers/:id" element={
+                  <ProtectedRoute>
+                    <EditProfessionalDriversProfile />
+                  </ProtectedRoute>
+                } />
+                <Route path="professional-drivers/:id" element={<ProfessionalDriversDetailView />} />
+                <Route path="professional-drivers" element={<ProfessionalDriversBrowse />} />
+                <Route path="vehicle-repairs-mechanics-form" element={
+                  <ProtectedRoute>
+                    <VehicleRepairsMechanicsForm />
+                  </ProtectedRoute>
+                } />
               </Route>
 
               {/* Catch all route */}

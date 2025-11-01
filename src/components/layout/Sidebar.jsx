@@ -112,7 +112,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       subcategories: [
         { name: 'Vehicle Rentals & Hire Services', path: '/vehicle-rentals-hire' },
         { name: 'Live Rides Updates & Carpooling', path: '/ads/transport/rides-carpooling' },
-        { name: 'Professional Drivers', path: '/ads/transport/professional-drivers' },
+        { name: 'Professional Drivers', path: '/professional-drivers' },
         { name: 'Vehicle Repairs & Mechanics', path: '/ads/transport/repairs-mechanics' },
       ]
     },

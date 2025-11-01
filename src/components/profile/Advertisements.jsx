@@ -256,6 +256,16 @@ const Advertisements = () => {
       navigate('/vehicle-rentals-hire-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'professional_drivers') {
+      // Navigate to professional drivers form
+      navigate('/professional-drivers-form', {
+        state: { advertisementId: adId }
+      });
+    } else if (advertisement.category === 'vehicle_repairs_mechanics') {
+      // Navigate to vehicle repairs mechanics form
+      navigate('/vehicle-repairs-mechanics-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -346,6 +356,13 @@ const Advertisements = () => {
       } else {
         setError('Vehicle Rentals Hire listing not found');
       }
+    } else if (advertisement && advertisement.category === 'professional_drivers') {
+      // Navigate to edit professional drivers profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-professional-drivers/${advertisement.publishedAdId}`);
+      } else {
+        setError('Professional Drivers profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -395,6 +412,11 @@ const Advertisements = () => {
       // Navigate to vehicle rentals hire detail view
       if (advertisement.publishedAdId) {
         navigate(`/vehicle-rentals-hire/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'professional_drivers') {
+      // Navigate to professional drivers detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/professional-drivers/${advertisement.publishedAdId}`);
       }
     }
   };
