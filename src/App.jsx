@@ -387,6 +387,8 @@ function App() {
                 } />
                 <Route path="creative-photographers/:id" element={<CreativePhotographersDetail />} />
                 <Route path="creative-photographers" element={<CreativePhotographersBrowse />} />
+                {/* Alias routes for sidebar navigation */}
+                <Route path="ads/events/photographers" element={<CreativePhotographersBrowse />} />
               </Route>
 
               {/* Catch all route */}
