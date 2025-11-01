@@ -33,6 +33,7 @@ const VehicleRepairsMechanicsBrowse = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
+        setError(''); // Clear any previous errors
         const provincesRes = await vehicleRepairsMechanicsAPI.getProvinces();
         if (provincesRes.data && provincesRes.data.data) {
           setProvincesData(provincesRes.data.data);
@@ -40,7 +41,7 @@ const VehicleRepairsMechanicsBrowse = () => {
         await fetchMechanics();
       } catch (err) {
         console.error('Error fetching data:', err);
-        setError('Failed to load data');
+        setError('Failed to load provinces');
       } finally {
         setLoading(false);
       }
@@ -53,6 +54,7 @@ const VehicleRepairsMechanicsBrowse = () => {
   const fetchMechanics = async (filterParams = filters) => {
     try {
       setLoading(true);
+      setError(''); // Clear any previous errors
       const params = {};
       if (filterParams.province) params.province = filterParams.province;
       if (filterParams.city) params.city = filterParams.city;
@@ -63,6 +65,7 @@ const VehicleRepairsMechanicsBrowse = () => {
       const response = await vehicleRepairsMechanicsAPI.browseMechanics(params);
       if (response.data && response.data.data) {
         setMechanics(response.data.data);
+        setError(''); // Clear error on success
       }
     } catch (err) {
       console.error('Error fetching mechanics:', err);
