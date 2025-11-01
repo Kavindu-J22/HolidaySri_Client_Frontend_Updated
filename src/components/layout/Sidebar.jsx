@@ -124,7 +124,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       bgColor: 'bg-red-50',
       subcategories: [
         { name: 'Events Updates & Manage or Customize Your Event', path: '/ads/events/manage-events' },
-        { name: 'Expert Event Planners & day Coordinators', path: '/ads/events/planners-coordinators' },
+        { name: 'Expert Event Planners & day Coordinators', path: '/event-planners-coordinators' },
         { name: 'Creative Photographers', path: '/ads/events/photographers' },
         { name: 'Decorators & Florists', path: '/ads/events/decorators-florists' },
         { name: 'Salon & Makeup Artists', path: '/ads/events/salon-makeup' },

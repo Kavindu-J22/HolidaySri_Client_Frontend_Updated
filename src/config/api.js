@@ -216,4 +216,15 @@ export const vehicleRepairsMechanicsAPI = {
   getReviews: (id) => api.get(`/vehicle-repairs-mechanics/${id}/reviews`),
 };
 
+// Event Planners & Coordinators API calls
+export const eventPlannersCoordinatorsAPI = {
+  getProvinces: () => api.get('/event-planners-coordinators/provinces'),
+  publishProfile: (data) => api.post('/event-planners-coordinators/publish', data),
+  browsePlanners: (params) => api.get('/event-planners-coordinators/browse', { params }),
+  getPlannerProfile: (id) => api.get(`/event-planners-coordinators/${id}`),
+  updateProfile: (id, data) => api.put(`/event-planners-coordinators/${id}`, data),
+  addReview: (id, reviewData) => api.post(`/event-planners-coordinators/${id}/reviews`, reviewData),
+  getReviews: (id) => api.get(`/event-planners-coordinators/${id}/reviews`),
+};
+
 export default api;

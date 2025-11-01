@@ -85,6 +85,13 @@ import EditVehicleRepairsMechanicsForm from './pages/EditVehicleRepairsMechanics
 import VehicleRepairsMechanicsDetail from './pages/VehicleRepairsMechanicsDetail';
 import VehicleRepairsMechanicsBrowse from './pages/VehicleRepairsMechanicsBrowse';
 import EventPlannersCoordinatorsForm from './pages/EventPlannersCoordinatorsForm';
+import EventPlannersCoordinatorsBrowse from './pages/EventPlannersCoordinatorsBrowse';
+import EventPlannersCoordinatorsDetail from './pages/EventPlannersCoordinatorsDetail';
+import EditEventPlannersCoordinatorsForm from './pages/EditEventPlannersCoordinatorsForm';
+import CreativePhotographersForm from './pages/CreativePhotographersForm';
+import CreativePhotographersDetail from './pages/CreativePhotographersDetail';
+import CreativePhotographersBrowse from './pages/CreativePhotographersBrowse';
+import EditCreativePhotographersForm from './pages/EditCreativePhotographersForm';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -361,6 +368,25 @@ function App() {
                     <EventPlannersCoordinatorsForm />
                   </ProtectedRoute>
                 } />
+                <Route path="edit-event-planners-coordinators/:id" element={
+                  <ProtectedRoute>
+                    <EditEventPlannersCoordinatorsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="event-planners-coordinators/:id" element={<EventPlannersCoordinatorsDetail />} />
+                <Route path="event-planners-coordinators" element={<EventPlannersCoordinatorsBrowse />} />
+                <Route path="creative-photographers-form" element={
+                  <ProtectedRoute>
+                    <CreativePhotographersForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-creative-photographers/:id" element={
+                  <ProtectedRoute>
+                    <EditCreativePhotographersForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="creative-photographers/:id" element={<CreativePhotographersDetail />} />
+                <Route path="creative-photographers" element={<CreativePhotographersBrowse />} />
               </Route>
 
               {/* Catch all route */}

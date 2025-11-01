@@ -271,6 +271,11 @@ const Advertisements = () => {
       navigate('/event-planners-coordinators-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'creative_photographers') {
+      // Navigate to creative photographers form
+      navigate('/creative-photographers-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -382,6 +387,13 @@ const Advertisements = () => {
       } else {
         setError('Event Planner & Coordinator profile not found');
       }
+    } else if (advertisement && advertisement.category === 'creative_photographers') {
+      // Navigate to edit creative photographers profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-creative-photographers/${advertisement.publishedAdId}`);
+      } else {
+        setError('Creative Photographer profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -446,6 +458,11 @@ const Advertisements = () => {
       // Navigate to event planners coordinators detail view
       if (advertisement.publishedAdId) {
         navigate(`/event-planners-coordinators/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'creative_photographers') {
+      // Navigate to creative photographers detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/creative-photographers/${advertisement.publishedAdId}`);
       }
     }
   };
