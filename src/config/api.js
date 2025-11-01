@@ -227,4 +227,16 @@ export const eventPlannersCoordinatorsAPI = {
   getReviews: (id) => api.get(`/event-planners-coordinators/${id}/reviews`),
 };
 
+// Decorators & Florists API calls
+export const decoratorsFloristsAPI = {
+  getProvinces: () => api.get('/decorators-florists/provinces'),
+  publishProfile: (data) => api.post('/decorators-florists/publish', data),
+  browseFlorists: (params) => api.get('/decorators-florists/browse', { params }),
+  getFloristProfile: (id) => api.get(`/decorators-florists/${id}`),
+  updateProfile: (id, data) => api.put(`/decorators-florists/${id}`, data),
+  deleteProfile: (id) => api.delete(`/decorators-florists/${id}`),
+  addReview: (id, reviewData) => api.post(`/decorators-florists/${id}/reviews`, reviewData),
+  getReviews: (id) => api.get(`/decorators-florists/${id}/reviews`),
+};
+
 export default api;

@@ -276,6 +276,21 @@ const Advertisements = () => {
       navigate('/creative-photographers-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'decorators_florists') {
+      // Navigate to decorators florists form
+      navigate('/decorators-florists-form', {
+        state: { advertisementId: adId }
+      });
+    } else if (advertisement.category === 'salon_makeup_artists') {
+      // Navigate to salon makeup artists form
+      navigate('/salon-makeup-artists-form', {
+        state: { advertisementId: adId }
+      });
+    } else if (advertisement.category === 'fashion_designers') {
+      // Navigate to fashion designers form
+      navigate('/fashion-designers-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -394,6 +409,27 @@ const Advertisements = () => {
       } else {
         setError('Creative Photographer profile not found');
       }
+    } else if (advertisement && advertisement.category === 'decorators_florists') {
+      // Navigate to edit decorators florists profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-decorators-florists/${advertisement.publishedAdId}`);
+      } else {
+        setError('Decorator/Florist profile not found');
+      }
+    } else if (advertisement && advertisement.category === 'salon_makeup_artists') {
+      // Navigate to edit salon makeup artists profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-salon-makeup-artists/${advertisement.publishedAdId}`);
+      } else {
+        setError('Salon Makeup Artist profile not found');
+      }
+    } else if (advertisement && advertisement.category === 'fashion_designers') {
+      // Navigate to edit fashion designers profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-fashion-designers/${advertisement.publishedAdId}`);
+      } else {
+        setError('Fashion Designer profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -463,6 +499,21 @@ const Advertisements = () => {
       // Navigate to creative photographers detail view
       if (advertisement.publishedAdId) {
         navigate(`/creative-photographers/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'decorators_florists') {
+      // Navigate to decorators florists detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/decorators-florists/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'salon_makeup_artists') {
+      // Navigate to salon makeup artists detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/salon-makeup-artists/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'fashion_designers') {
+      // Navigate to fashion designers detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/fashion-designers/${advertisement.publishedAdId}`);
       }
     }
   };

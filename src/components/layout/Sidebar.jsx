@@ -126,8 +126,8 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Events Updates & Manage or Customize Your Event', path: '/ads/events/manage-events' },
         { name: 'Expert Event Planners & day Coordinators', path: '/event-planners-coordinators' },
         { name: 'Creative Photographers', path: '/ads/events/photographers' },
-        { name: 'Decorators & Florists', path: '/ads/events/decorators-florists' },
-        { name: 'Salon & Makeup Artists', path: '/ads/events/salon-makeup' },
+        { name: 'Decorators & Florists', path: '/decorators-florists' },
+        { name: 'Salon & Makeup Artists', path: '/salon-makeup-artists' },
         { name: 'Fashion Designers', path: '/ads/events/fashion-designers' },
       ]
     },

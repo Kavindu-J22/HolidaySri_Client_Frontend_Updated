@@ -92,6 +92,18 @@ import CreativePhotographersForm from './pages/CreativePhotographersForm';
 import CreativePhotographersDetail from './pages/CreativePhotographersDetail';
 import CreativePhotographersBrowse from './pages/CreativePhotographersBrowse';
 import EditCreativePhotographersForm from './pages/EditCreativePhotographersForm';
+import DecoratorsFloristsForm from './pages/DecoratorsFloristsForm';
+import EditDecoratorsFloristsForm from './pages/EditDecoratorsFloristsForm';
+import DecoratorsFloristsDetailView from './pages/DecoratorsFloristsDetailView';
+import DecoratorsFloristsBrowse from './pages/DecoratorsFloristsBrowse';
+import SalonMakeupArtistsForm from './pages/SalonMakeupArtistsForm';
+import EditSalonMakeupArtistsForm from './pages/EditSalonMakeupArtistsForm';
+import SalonMakeupArtistsDetailView from './pages/SalonMakeupArtistsDetailView';
+import SalonMakeupArtistsBrowse from './pages/SalonMakeupArtistsBrowse';
+import FashionDesignersForm from './pages/FashionDesignersForm';
+import EditFashionDesignersForm from './pages/EditFashionDesignersForm';
+import FashionDesignersDetailView from './pages/FashionDesignersDetailView';
+import FashionDesignersBrowse from './pages/FashionDesignersBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -387,8 +399,46 @@ function App() {
                 } />
                 <Route path="creative-photographers/:id" element={<CreativePhotographersDetail />} />
                 <Route path="creative-photographers" element={<CreativePhotographersBrowse />} />
+                <Route path="decorators-florists-form" element={
+                  <ProtectedRoute>
+                    <DecoratorsFloristsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-decorators-florists/:id" element={
+                  <ProtectedRoute>
+                    <EditDecoratorsFloristsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="decorators-florists/:id" element={<DecoratorsFloristsDetailView />} />
+                <Route path="decorators-florists" element={<DecoratorsFloristsBrowse />} />
+                <Route path="salon-makeup-artists-form" element={
+                  <ProtectedRoute>
+                    <SalonMakeupArtistsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-salon-makeup-artists/:id" element={
+                  <ProtectedRoute>
+                    <EditSalonMakeupArtistsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="salon-makeup-artists/:id" element={<SalonMakeupArtistsDetailView />} />
+                <Route path="salon-makeup-artists" element={<SalonMakeupArtistsBrowse />} />
+                <Route path="fashion-designers-form" element={
+                  <ProtectedRoute>
+                    <FashionDesignersForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-fashion-designers/:id" element={
+                  <ProtectedRoute>
+                    <EditFashionDesignersForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="fashion-designers/:id" element={<FashionDesignersDetailView />} />
+                <Route path="fashion-designers" element={<FashionDesignersBrowse />} />
                 {/* Alias routes for sidebar navigation */}
+                <Route path="ads/events/salon-makeup-artists" element={<SalonMakeupArtistsBrowse />} />
                 <Route path="ads/events/photographers" element={<CreativePhotographersBrowse />} />
+                <Route path="ads/events/fashion-designers" element={<FashionDesignersBrowse />} />
               </Route>
 
               {/* Catch all route */}
