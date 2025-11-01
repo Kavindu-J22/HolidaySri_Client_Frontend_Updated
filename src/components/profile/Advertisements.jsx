@@ -363,6 +363,13 @@ const Advertisements = () => {
       } else {
         setError('Professional Drivers profile not found');
       }
+    } else if (advertisement && advertisement.category === 'vehicle_repairs_mechanics') {
+      // Navigate to edit vehicle repairs mechanics profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-vehicle-repairs-mechanics/${advertisement.publishedAdId}`);
+      } else {
+        setError('Vehicle Repairs & Mechanics profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -417,6 +424,11 @@ const Advertisements = () => {
       // Navigate to professional drivers detail view
       if (advertisement.publishedAdId) {
         navigate(`/professional-drivers/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'vehicle_repairs_mechanics') {
+      // Navigate to vehicle repairs mechanics detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/vehicle-repairs-mechanics/${advertisement.publishedAdId}`);
       }
     }
   };

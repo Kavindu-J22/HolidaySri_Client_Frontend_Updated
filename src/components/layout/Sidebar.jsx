@@ -113,7 +113,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Vehicle Rentals & Hire Services', path: '/vehicle-rentals-hire' },
         { name: 'Live Rides Updates & Carpooling', path: '/ads/transport/rides-carpooling' },
         { name: 'Professional Drivers', path: '/professional-drivers' },
-        { name: 'Vehicle Repairs & Mechanics', path: '/ads/transport/repairs-mechanics' },
+        { name: 'Vehicle Repairs & Mechanics', path: '/vehicle-repairs-mechanics' },
       ]
     },
     {

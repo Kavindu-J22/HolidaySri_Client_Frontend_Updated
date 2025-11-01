@@ -204,4 +204,16 @@ export const professionalDriversAPI = {
   getReviews: (id) => api.get(`/professional-drivers/${id}/reviews`),
 };
 
+// Vehicle Repairs & Mechanics API calls
+export const vehicleRepairsMechanicsAPI = {
+  getProvinces: () => api.get('/vehicle-repairs-mechanics/provinces'),
+  publishProfile: (data) => api.post('/vehicle-repairs-mechanics/publish', data),
+  browseMechanics: (params) => api.get('/vehicle-repairs-mechanics/browse', { params }),
+  getMechanicProfile: (id) => api.get(`/vehicle-repairs-mechanics/${id}`),
+  updateProfile: (id, data) => api.put(`/vehicle-repairs-mechanics/${id}`, data),
+  deleteProfile: (id) => api.delete(`/vehicle-repairs-mechanics/${id}`),
+  addReview: (id, reviewData) => api.post(`/vehicle-repairs-mechanics/${id}/reviews`, reviewData),
+  getReviews: (id) => api.get(`/vehicle-repairs-mechanics/${id}/reviews`),
+};
+
 export default api;
