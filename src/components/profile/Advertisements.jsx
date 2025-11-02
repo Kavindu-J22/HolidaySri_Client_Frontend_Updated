@@ -331,6 +331,11 @@ const Advertisements = () => {
       navigate('/graphics-it-tech-repair-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'educational_tutoring') {
+      // Navigate to educational tutoring form
+      navigate('/educational-tutoring-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -526,6 +531,13 @@ const Advertisements = () => {
       } else {
         setError('Graphics IT Tech Repair profile not found');
       }
+    } else if (advertisement && advertisement.category === 'educational_tutoring') {
+      // Navigate to edit educational tutoring profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-educational-tutoring/${advertisement.publishedAdId}`);
+      } else {
+        setError('Educational Tutoring profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -650,6 +662,11 @@ const Advertisements = () => {
       // Navigate to graphics IT tech repair detail view
       if (advertisement.publishedAdId) {
         navigate(`/graphics-it-tech-repair/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'educational_tutoring') {
+      // Navigate to educational tutoring detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/educational-tutoring/${advertisement.publishedAdId}`);
       }
     }
   };

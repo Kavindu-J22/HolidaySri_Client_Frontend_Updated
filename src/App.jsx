@@ -136,6 +136,10 @@ import GraphicsITTechRepairForm from './pages/GraphicsITTechRepairForm';
 import EditGraphicsITTechRepairForm from './pages/EditGraphicsITTechRepairForm';
 import GraphicsITTechRepairDetailView from './pages/GraphicsITTechRepairDetailView';
 import GraphicsITTechRepairBrowse from './pages/GraphicsITTechRepairBrowse';
+import EducationalTutoringForm from './pages/EducationalTutoringForm';
+import EditEducationalTutoringForm from './pages/EditEducationalTutoringForm';
+import EducationalTutoringBrowse from './pages/EducationalTutoringBrowse';
+import EducationalTutoringDetailView from './pages/EducationalTutoringDetailView';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -563,6 +567,18 @@ function App() {
                 } />
                 <Route path="graphics-it-tech-repair/:id" element={<GraphicsITTechRepairDetailView />} />
                 <Route path="graphics-it-tech-repair" element={<GraphicsITTechRepairBrowse />} />
+                <Route path="educational-tutoring-form" element={
+                  <ProtectedRoute>
+                    <EducationalTutoringForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-educational-tutoring/:id" element={
+                  <ProtectedRoute>
+                    <EditEducationalTutoringForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="educational-tutoring" element={<EducationalTutoringBrowse />} />
+                <Route path="educational-tutoring/:id" element={<EducationalTutoringDetailView />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />

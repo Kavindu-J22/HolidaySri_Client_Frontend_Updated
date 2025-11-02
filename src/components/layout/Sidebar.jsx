@@ -146,7 +146,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Trusted Astrologists', path: '/ads/professionals/astrologists' },
         { name: 'Delivery Partners', path: '/delivery-partners' },
         { name: 'Graphics/IT Supports & Tech Repair Services', path: '/graphics-it-tech-repair' },
-        { name: 'Educational & Tutoring Services', path: '/ads/professionals/education' },
+        { name: 'Educational & Tutoring Services', path: '/educational-tutoring' },
         { name: 'Currency Exchange Rates & Services', path: '/ads/professionals/currency-exchange' },
         { name: 'Other Professionals & Services (Cleaning, Clinic Ect.)', path: '/ads/professionals/other' },
       ]
