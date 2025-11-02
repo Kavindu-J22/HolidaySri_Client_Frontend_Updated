@@ -296,6 +296,11 @@ const Advertisements = () => {
       navigate('/expert-doctors-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'professional_lawyers') {
+      // Navigate to professional lawyers form
+      navigate('/professional-lawyers-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -442,6 +447,13 @@ const Advertisements = () => {
       } else {
         setError('Expert Doctor profile not found');
       }
+    } else if (advertisement && advertisement.category === 'professional_lawyers') {
+      // Navigate to edit professional lawyers profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-professional-lawyers/${advertisement.publishedAdId}`);
+      } else {
+        setError('Professional Lawyer profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -531,6 +543,11 @@ const Advertisements = () => {
       // Navigate to expert doctors detail view
       if (advertisement.publishedAdId) {
         navigate(`/expert-doctors/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'professional_lawyers') {
+      // Navigate to professional lawyers detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/professional-lawyers/${advertisement.publishedAdId}`);
       }
     }
   };

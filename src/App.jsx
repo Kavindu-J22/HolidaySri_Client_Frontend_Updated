@@ -108,6 +108,10 @@ import ExpertDoctorsForm from './pages/ExpertDoctorsForm';
 import EditExpertDoctorsForm from './pages/EditExpertDoctorsForm';
 import ExpertDoctorsDetailView from './pages/ExpertDoctorsDetailView';
 import ExpertDoctorsBrowse from './pages/ExpertDoctorsBrowse';
+import ProfessionalLawyersForm from './pages/ProfessionalLawyersForm';
+import EditProfessionalLawyersProfile from './pages/EditProfessionalLawyersProfile';
+import ProfessionalLawyersDetailView from './pages/ProfessionalLawyersDetailView';
+import ProfessionalLawyersBrowse from './pages/ProfessionalLawyersBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -451,6 +455,18 @@ function App() {
                 } />
                 <Route path="expert-doctors/:id" element={<ExpertDoctorsDetailView />} />
                 <Route path="expert-doctors" element={<ExpertDoctorsBrowse />} />
+                <Route path="professional-lawyers-form" element={
+                  <ProtectedRoute>
+                    <ProfessionalLawyersForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-professional-lawyers/:id" element={
+                  <ProtectedRoute>
+                    <EditProfessionalLawyersProfile />
+                  </ProtectedRoute>
+                } />
+                <Route path="professional-lawyers/:id" element={<ProfessionalLawyersDetailView />} />
+                <Route path="professional-lawyers" element={<ProfessionalLawyersBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/events/salon-makeup-artists" element={<SalonMakeupArtistsBrowse />} />
                 <Route path="ads/events/photographers" element={<CreativePhotographersBrowse />} />

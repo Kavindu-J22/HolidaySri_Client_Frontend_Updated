@@ -139,7 +139,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       bgColor: 'bg-indigo-50',
       subcategories: [
         { name: 'Meet Expert Doctors', path: '/expert-doctors' },
-        { name: 'Professional Lawyers', path: '/ads/professionals/lawyers' },
+        { name: 'Professional Lawyers', path: '/professional-lawyers' },
         { name: 'Experienced Advisors & Counselors', path: '/ads/professionals/advisors-counselors' },
         { name: 'Language Translators & Interpreters', path: '/ads/professionals/translators' },
         { name: 'Expert Architects', path: '/ads/professionals/architects' },
