@@ -306,6 +306,11 @@ const Advertisements = () => {
       navigate('/advisors-counselors-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'language_translators') {
+      // Navigate to language translators form
+      navigate('/language-translators-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -466,6 +471,13 @@ const Advertisements = () => {
       } else {
         setError('Advisor/Counselor profile not found');
       }
+    } else if (advertisement && advertisement.category === 'language_translators') {
+      // Navigate to edit language translators profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-language-translators/${advertisement.publishedAdId}`);
+      } else {
+        setError('Language Translator profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -565,6 +577,11 @@ const Advertisements = () => {
       // Navigate to advisors counselors detail view
       if (advertisement.publishedAdId) {
         navigate(`/advisors-counselors/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'language_translators') {
+      // Navigate to language translators detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/language-translators/${advertisement.publishedAdId}`);
       }
     }
   };

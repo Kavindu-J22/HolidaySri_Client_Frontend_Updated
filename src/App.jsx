@@ -116,6 +116,10 @@ import AdvisorsCounselorsForm from './pages/AdvisorsCounselorsForm';
 import EditAdvisorsCounselorsProfile from './pages/EditAdvisorsCounselorsProfile';
 import AdvisorsCounselorsDetailView from './pages/AdvisorsCounselorsDetailView';
 import AdvisorsCounselorsBrowse from './pages/AdvisorsCounselorsBrowse';
+import LanguageTranslatorsForm from './pages/LanguageTranslatorsForm';
+import EditLanguageTranslatorsForm from './pages/EditLanguageTranslatorsForm';
+import LanguageTranslatorsDetailView from './pages/LanguageTranslatorsDetailView';
+import LanguageTranslatorsBrowse from './pages/LanguageTranslatorsBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -483,6 +487,18 @@ function App() {
                 } />
                 <Route path="advisors-counselors/:id" element={<AdvisorsCounselorsDetailView />} />
                 <Route path="advisors-counselors" element={<AdvisorsCounselorsBrowse />} />
+                <Route path="language-translators-form" element={
+                  <ProtectedRoute>
+                    <LanguageTranslatorsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-language-translators/:id" element={
+                  <ProtectedRoute>
+                    <EditLanguageTranslatorsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="language-translators/:id" element={<LanguageTranslatorsDetailView />} />
+                <Route path="language-translators" element={<LanguageTranslatorsBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/events/salon-makeup-artists" element={<SalonMakeupArtistsBrowse />} />
                 <Route path="ads/events/photographers" element={<CreativePhotographersBrowse />} />
