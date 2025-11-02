@@ -346,6 +346,11 @@ const Advertisements = () => {
       navigate('/other-professionals-services-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'babysitters_childcare') {
+      // Navigate to babysitters childcare form
+      navigate('/babysitters-childcare-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -562,6 +567,13 @@ const Advertisements = () => {
       } else {
         setError('Professional/Service profile not found');
       }
+    } else if (advertisement && advertisement.category === 'babysitters_childcare') {
+      // Navigate to edit babysitters childcare profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/babysitters-childcare-edit/${advertisement.publishedAdId}`);
+      } else {
+        setError('Babysitter/Childcare profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -701,6 +713,11 @@ const Advertisements = () => {
       // Navigate to other professionals services detail view
       if (advertisement.publishedAdId) {
         navigate(`/other-professionals-services/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'babysitters_childcare') {
+      // Navigate to babysitters childcare detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/babysitters-childcare-detail/${advertisement.publishedAdId}`);
       }
     }
   };

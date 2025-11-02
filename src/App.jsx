@@ -148,6 +148,10 @@ import OtherProfessionalsServicesForm from './pages/OtherProfessionalsServicesFo
 import EditOtherProfessionalsServicesForm from './pages/EditOtherProfessionalsServicesForm';
 import OtherProfessionalsServicesDetailView from './pages/OtherProfessionalsServicesDetailView';
 import OtherProfessionalsServicesBrowse from './pages/OtherProfessionalsServicesBrowse';
+import BabysittersChildcareForm from './pages/BabysittersChildcareForm';
+import EditBabysittersChildcareForm from './pages/EditBabysittersChildcareForm';
+import BabysittersChildcareDetailView from './pages/BabysittersChildcareDetailView';
+import BabysittersChildcareBrowse from './pages/BabysittersChildcareBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -611,6 +615,18 @@ function App() {
                 } />
                 <Route path="other-professionals-services/:id" element={<OtherProfessionalsServicesDetailView />} />
                 <Route path="other-professionals-services" element={<OtherProfessionalsServicesBrowse />} />
+                <Route path="babysitters-childcare-form" element={
+                  <ProtectedRoute>
+                    <BabysittersChildcareForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="babysitters-childcare-edit/:id" element={
+                  <ProtectedRoute>
+                    <EditBabysittersChildcareForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="babysitters-childcare-detail/:id" element={<BabysittersChildcareDetailView />} />
+                <Route path="babysitters-childcare" element={<BabysittersChildcareBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />
