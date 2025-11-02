@@ -112,6 +112,7 @@ import ProfessionalLawyersForm from './pages/ProfessionalLawyersForm';
 import EditProfessionalLawyersProfile from './pages/EditProfessionalLawyersProfile';
 import ProfessionalLawyersDetailView from './pages/ProfessionalLawyersDetailView';
 import ProfessionalLawyersBrowse from './pages/ProfessionalLawyersBrowse';
+import AdvisorsCounselorsForm from './pages/AdvisorsCounselorsForm';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -467,6 +468,11 @@ function App() {
                 } />
                 <Route path="professional-lawyers/:id" element={<ProfessionalLawyersDetailView />} />
                 <Route path="professional-lawyers" element={<ProfessionalLawyersBrowse />} />
+                <Route path="advisors-counselors-form" element={
+                  <ProtectedRoute>
+                    <AdvisorsCounselorsForm />
+                  </ProtectedRoute>
+                } />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/events/salon-makeup-artists" element={<SalonMakeupArtistsBrowse />} />
                 <Route path="ads/events/photographers" element={<CreativePhotographersBrowse />} />

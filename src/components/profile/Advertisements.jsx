@@ -301,6 +301,11 @@ const Advertisements = () => {
       navigate('/professional-lawyers-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'advisors_counselors') {
+      // Navigate to advisors counselors form
+      navigate('/advisors-counselors-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
