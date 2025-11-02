@@ -142,7 +142,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Professional Lawyers', path: '/professional-lawyers' },
         { name: 'Experienced Advisors & Counselors', path: '/advisors-counselors' },
         { name: 'Language Translators & Interpreters', path: '/language-translators' },
-        { name: 'Expert Architects', path: '/ads/professionals/architects' },
+        { name: 'Expert Architects', path: '/expert-architects-browse' },
         { name: 'Trusted Astrologists', path: '/ads/professionals/astrologists' },
         { name: 'Delivery Partners', path: '/ads/professionals/delivery' },
         { name: 'Graphics/IT Supports & Tech Repair Services', path: '/ads/professionals/it-tech' },
