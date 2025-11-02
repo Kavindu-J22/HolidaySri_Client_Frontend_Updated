@@ -124,6 +124,10 @@ import ExpertArchitectsForm from './pages/ExpertArchitectsForm';
 import EditExpertArchitectsForm from './pages/EditExpertArchitectsForm';
 import ExpertArchitectsBrowse from './pages/ExpertArchitectsBrowse';
 import ExpertArchitectsDetailView from './pages/ExpertArchitectsDetailView';
+import TrustedAstrologistsForm from './pages/TrustedAstrologistsForm';
+import EditTrustedAstrologistsForm from './pages/EditTrustedAstrologistsForm';
+import TrustedAstrologistsBrowse from './pages/TrustedAstrologistsBrowse';
+import TrustedAstrologistsDetailView from './pages/TrustedAstrologistsDetailView';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -515,7 +519,20 @@ function App() {
                 } />
                 <Route path="expert-architects-browse" element={<ExpertArchitectsBrowse />} />
                 <Route path="expert-architects/:id" element={<ExpertArchitectsDetailView />} />
+                <Route path="trusted-astrologists-form" element={
+                  <ProtectedRoute>
+                    <TrustedAstrologistsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-trusted-astrologists/:id" element={
+                  <ProtectedRoute>
+                    <EditTrustedAstrologistsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="trusted-astrologists" element={<TrustedAstrologistsBrowse />} />
+                <Route path="trusted-astrologists/:id" element={<TrustedAstrologistsDetailView />} />
                 {/* Alias routes for sidebar navigation */}
+                <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/events/salon-makeup-artists" element={<SalonMakeupArtistsBrowse />} />
                 <Route path="ads/events/photographers" element={<CreativePhotographersBrowse />} />
                 <Route path="ads/events/fashion-designers" element={<FashionDesignersBrowse />} />
