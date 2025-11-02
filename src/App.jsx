@@ -140,6 +140,10 @@ import EducationalTutoringForm from './pages/EducationalTutoringForm';
 import EditEducationalTutoringForm from './pages/EditEducationalTutoringForm';
 import EducationalTutoringBrowse from './pages/EducationalTutoringBrowse';
 import EducationalTutoringDetailView from './pages/EducationalTutoringDetailView';
+import CurrencyExchangeForm from './pages/CurrencyExchangeForm';
+import EditCurrencyExchangeForm from './pages/EditCurrencyExchangeForm';
+import CurrencyExchangeDetailView from './pages/CurrencyExchangeDetailView';
+import CurrencyExchangeBrowsePage from './pages/CurrencyExchangeBrowsePage';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -579,6 +583,18 @@ function App() {
                 } />
                 <Route path="educational-tutoring" element={<EducationalTutoringBrowse />} />
                 <Route path="educational-tutoring/:id" element={<EducationalTutoringDetailView />} />
+                <Route path="currency-exchange-form" element={
+                  <ProtectedRoute>
+                    <CurrencyExchangeForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-currency-exchange/:id" element={
+                  <ProtectedRoute>
+                    <EditCurrencyExchangeForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="currency-exchange/:id" element={<CurrencyExchangeDetailView />} />
+                <Route path="currency-exchange" element={<CurrencyExchangeBrowsePage />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />

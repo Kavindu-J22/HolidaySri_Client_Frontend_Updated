@@ -336,6 +336,11 @@ const Advertisements = () => {
       navigate('/educational-tutoring-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'currency_exchange') {
+      // Navigate to currency exchange form
+      navigate('/currency-exchange-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -538,6 +543,13 @@ const Advertisements = () => {
       } else {
         setError('Educational Tutoring profile not found');
       }
+    } else if (advertisement && advertisement.category === 'currency_exchange') {
+      // Navigate to edit currency exchange profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-currency-exchange/${advertisement.publishedAdId}`);
+      } else {
+        setError('Currency Exchange profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -667,6 +679,11 @@ const Advertisements = () => {
       // Navigate to educational tutoring detail view
       if (advertisement.publishedAdId) {
         navigate(`/educational-tutoring/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'currency_exchange') {
+      // Navigate to currency exchange detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/currency-exchange/${advertisement.publishedAdId}`);
       }
     }
   };
