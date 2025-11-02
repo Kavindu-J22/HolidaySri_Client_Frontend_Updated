@@ -128,6 +128,10 @@ import TrustedAstrologistsForm from './pages/TrustedAstrologistsForm';
 import EditTrustedAstrologistsForm from './pages/EditTrustedAstrologistsForm';
 import TrustedAstrologistsBrowse from './pages/TrustedAstrologistsBrowse';
 import TrustedAstrologistsDetailView from './pages/TrustedAstrologistsDetailView';
+import DeliveryPartnersForm from './pages/DeliveryPartnersForm';
+import EditDeliveryPartnersForm from './pages/EditDeliveryPartnersForm';
+import DeliveryPartnersDetailView from './pages/DeliveryPartnersDetailView';
+import DeliveryPartnersBrowse from './pages/DeliveryPartnersBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -531,8 +535,21 @@ function App() {
                 } />
                 <Route path="trusted-astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="trusted-astrologists/:id" element={<TrustedAstrologistsDetailView />} />
+                <Route path="delivery-partners-form" element={
+                  <ProtectedRoute>
+                    <DeliveryPartnersForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-delivery-partners/:id" element={
+                  <ProtectedRoute>
+                    <EditDeliveryPartnersForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="delivery-partners" element={<DeliveryPartnersBrowse />} />
+                <Route path="delivery-partners/:id" element={<DeliveryPartnersDetailView />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
+                <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />
                 <Route path="ads/events/salon-makeup-artists" element={<SalonMakeupArtistsBrowse />} />
                 <Route path="ads/events/photographers" element={<CreativePhotographersBrowse />} />
                 <Route path="ads/events/fashion-designers" element={<FashionDesignersBrowse />} />

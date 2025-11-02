@@ -321,6 +321,11 @@ const Advertisements = () => {
       navigate('/trusted-astrologists-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'delivery_partners') {
+      // Navigate to delivery partners form
+      navigate('/delivery-partners-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -502,6 +507,13 @@ const Advertisements = () => {
       } else {
         setError('Trusted Astrologist profile not found');
       }
+    } else if (advertisement && advertisement.category === 'delivery_partners') {
+      // Navigate to edit delivery partners profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-delivery-partners/${advertisement.publishedAdId}`);
+      } else {
+        setError('Delivery Partner profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -616,6 +628,11 @@ const Advertisements = () => {
       // Navigate to trusted astrologists detail view
       if (advertisement.publishedAdId) {
         navigate(`/trusted-astrologists/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'delivery_partners') {
+      // Navigate to delivery partners detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/delivery-partners/${advertisement.publishedAdId}`);
       }
     }
   };

@@ -144,7 +144,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Language Translators & Interpreters', path: '/language-translators' },
         { name: 'Expert Architects', path: '/expert-architects-browse' },
         { name: 'Trusted Astrologists', path: '/ads/professionals/astrologists' },
-        { name: 'Delivery Partners', path: '/ads/professionals/delivery' },
+        { name: 'Delivery Partners', path: '/delivery-partners' },
         { name: 'Graphics/IT Supports & Tech Repair Services', path: '/ads/professionals/it-tech' },
         { name: 'Educational & Tutoring Services', path: '/ads/professionals/education' },
         { name: 'Currency Exchange Rates & Services', path: '/ads/professionals/currency-exchange' },
