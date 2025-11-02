@@ -138,7 +138,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       color: 'text-indigo-600',
       bgColor: 'bg-indigo-50',
       subcategories: [
-        { name: 'Meet Expert Doctors', path: '/ads/professionals/doctors' },
+        { name: 'Meet Expert Doctors', path: '/expert-doctors' },
         { name: 'Professional Lawyers', path: '/ads/professionals/lawyers' },
         { name: 'Experienced Advisors & Counselors', path: '/ads/professionals/advisors-counselors' },
         { name: 'Language Translators & Interpreters', path: '/ads/professionals/translators' },

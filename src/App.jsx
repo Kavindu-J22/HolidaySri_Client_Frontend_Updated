@@ -104,6 +104,10 @@ import FashionDesignersForm from './pages/FashionDesignersForm';
 import EditFashionDesignersForm from './pages/EditFashionDesignersForm';
 import FashionDesignersDetailView from './pages/FashionDesignersDetailView';
 import FashionDesignersBrowse from './pages/FashionDesignersBrowse';
+import ExpertDoctorsForm from './pages/ExpertDoctorsForm';
+import EditExpertDoctorsForm from './pages/EditExpertDoctorsForm';
+import ExpertDoctorsDetailView from './pages/ExpertDoctorsDetailView';
+import ExpertDoctorsBrowse from './pages/ExpertDoctorsBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -435,6 +439,18 @@ function App() {
                 } />
                 <Route path="fashion-designers/:id" element={<FashionDesignersDetailView />} />
                 <Route path="fashion-designers" element={<FashionDesignersBrowse />} />
+                <Route path="expert-doctors-form" element={
+                  <ProtectedRoute>
+                    <ExpertDoctorsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-expert-doctors/:id" element={
+                  <ProtectedRoute>
+                    <EditExpertDoctorsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="expert-doctors/:id" element={<ExpertDoctorsDetailView />} />
+                <Route path="expert-doctors" element={<ExpertDoctorsBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/events/salon-makeup-artists" element={<SalonMakeupArtistsBrowse />} />
                 <Route path="ads/events/photographers" element={<CreativePhotographersBrowse />} />

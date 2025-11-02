@@ -291,6 +291,11 @@ const Advertisements = () => {
       navigate('/fashion-designers-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'expert_doctors') {
+      // Navigate to expert doctors form
+      navigate('/expert-doctors-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -430,6 +435,13 @@ const Advertisements = () => {
       } else {
         setError('Fashion Designer profile not found');
       }
+    } else if (advertisement && advertisement.category === 'expert_doctors') {
+      // Navigate to edit expert doctors profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-expert-doctors/${advertisement.publishedAdId}`);
+      } else {
+        setError('Expert Doctor profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -514,6 +526,11 @@ const Advertisements = () => {
       // Navigate to fashion designers detail view
       if (advertisement.publishedAdId) {
         navigate(`/fashion-designers/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'expert_doctors') {
+      // Navigate to expert doctors detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/expert-doctors/${advertisement.publishedAdId}`);
       }
     }
   };
