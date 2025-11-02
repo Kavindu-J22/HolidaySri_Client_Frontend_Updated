@@ -160,7 +160,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       subcategories: [
         { name: 'Compassionate Caregivers & Earn Time Currency', path: '/ads/caring/caregivers' },
         { name: 'Trusted Babysitters & Childcare Help', path: '/babysitters-childcare' },
-        { name: 'Pet Care & Animal Services', path: '/ads/caring/pet-care' },
+        { name: 'Pet Care & Animal Services', path: '/pet-care-animal-services' },
         { name: 'Donations / Raise Your Fund', path: '/ads/caring/donations' },
       ]
     },

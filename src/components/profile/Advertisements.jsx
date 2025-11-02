@@ -351,6 +351,11 @@ const Advertisements = () => {
       navigate('/babysitters-childcare-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'pet_care_animal_services') {
+      // Navigate to pet care animal services form
+      navigate('/pet-care-animal-services-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -574,6 +579,13 @@ const Advertisements = () => {
       } else {
         setError('Babysitter/Childcare profile not found');
       }
+    } else if (advertisement && advertisement.category === 'pet_care_animal_services') {
+      // Navigate to edit pet care animal services profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-pet-care-animal-services/${advertisement.publishedAdId}`);
+      } else {
+        setError('Pet Care & Animal Services profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -718,6 +730,11 @@ const Advertisements = () => {
       // Navigate to babysitters childcare detail view
       if (advertisement.publishedAdId) {
         navigate(`/babysitters-childcare-detail/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'pet_care_animal_services') {
+      // Navigate to pet care animal services detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/pet-care-animal-services/${advertisement.publishedAdId}`);
       }
     }
   };

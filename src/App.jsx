@@ -152,6 +152,10 @@ import BabysittersChildcareForm from './pages/BabysittersChildcareForm';
 import EditBabysittersChildcareForm from './pages/EditBabysittersChildcareForm';
 import BabysittersChildcareDetailView from './pages/BabysittersChildcareDetailView';
 import BabysittersChildcareBrowse from './pages/BabysittersChildcareBrowse';
+import PetCareAnimalServicesForm from './pages/PetCareAnimalServicesForm';
+import EditPetCareAnimalServicesForm from './pages/EditPetCareAnimalServicesForm';
+import PetCareAnimalServicesDetailView from './pages/PetCareAnimalServicesDetailView';
+import PetCareAnimalServicesBrowse from './pages/PetCareAnimalServicesBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -627,6 +631,18 @@ function App() {
                 } />
                 <Route path="babysitters-childcare-detail/:id" element={<BabysittersChildcareDetailView />} />
                 <Route path="babysitters-childcare" element={<BabysittersChildcareBrowse />} />
+                <Route path="pet-care-animal-services-form" element={
+                  <ProtectedRoute>
+                    <PetCareAnimalServicesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-pet-care-animal-services/:id" element={
+                  <ProtectedRoute>
+                    <EditPetCareAnimalServicesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="pet-care-animal-services/:id" element={<PetCareAnimalServicesDetailView />} />
+                <Route path="pet-care-animal-services" element={<PetCareAnimalServicesBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />
