@@ -459,6 +459,13 @@ const Advertisements = () => {
       } else {
         setError('Professional Lawyer profile not found');
       }
+    } else if (advertisement && advertisement.category === 'advisors_counselors') {
+      // Navigate to edit advisors counselors profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-advisors-counselors/${advertisement.publishedAdId}`);
+      } else {
+        setError('Advisor/Counselor profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -553,6 +560,11 @@ const Advertisements = () => {
       // Navigate to professional lawyers detail view
       if (advertisement.publishedAdId) {
         navigate(`/professional-lawyers/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'advisors_counselors') {
+      // Navigate to advisors counselors detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/advisors-counselors/${advertisement.publishedAdId}`);
       }
     }
   };

@@ -192,7 +192,7 @@ const AdvisorsCounselorsForm = () => {
         <button
           onClick={() => {
             setShowSuccessModal(false);
-            navigate('/my-advertisements');
+            navigate('/profile', { state: { activeSection: 'advertisements' } });
           }}
           className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors font-semibold"
         >
@@ -270,7 +270,7 @@ const AdvisorsCounselorsForm = () => {
             <p className="text-gray-600 mt-2">Share your expertise as an Advisor/Counselor</p>
           </div>
           <button
-            onClick={() => navigate('/my-advertisements')}
+            onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
             className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
