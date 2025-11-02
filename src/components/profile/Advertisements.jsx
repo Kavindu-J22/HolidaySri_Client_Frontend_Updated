@@ -326,6 +326,11 @@ const Advertisements = () => {
       navigate('/delivery-partners-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'graphics_it_tech_repair') {
+      // Navigate to graphics IT tech repair form
+      navigate('/graphics-it-tech-repair-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -514,6 +519,13 @@ const Advertisements = () => {
       } else {
         setError('Delivery Partner profile not found');
       }
+    } else if (advertisement && advertisement.category === 'graphics_it_tech_repair') {
+      // Navigate to edit graphics IT tech repair profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/graphics-it-tech-repair/${advertisement.publishedAdId}/edit`);
+      } else {
+        setError('Graphics IT Tech Repair profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -633,6 +645,11 @@ const Advertisements = () => {
       // Navigate to delivery partners detail view
       if (advertisement.publishedAdId) {
         navigate(`/delivery-partners/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'graphics_it_tech_repair') {
+      // Navigate to graphics IT tech repair detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/graphics-it-tech-repair/${advertisement.publishedAdId}`);
       }
     }
   };
