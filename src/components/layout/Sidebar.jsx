@@ -148,7 +148,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Graphics/IT Supports & Tech Repair Services', path: '/graphics-it-tech-repair' },
         { name: 'Educational & Tutoring Services', path: '/educational-tutoring' },
         { name: 'Currency Exchange Rates & Services', path: '/currency-exchange' },
-        { name: 'Other Professionals & Services (Cleaning, Clinic Ect.)', path: '/ads/professionals/other' },
+        { name: 'Other Professionals & Services', path: '/other-professionals-services' },
       ]
     },
     {

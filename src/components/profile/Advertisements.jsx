@@ -341,6 +341,11 @@ const Advertisements = () => {
       navigate('/currency-exchange-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'other_professionals_services') {
+      // Navigate to other professionals services form
+      navigate('/other-professionals-services-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -550,6 +555,13 @@ const Advertisements = () => {
       } else {
         setError('Currency Exchange profile not found');
       }
+    } else if (advertisement && advertisement.category === 'other_professionals_services') {
+      // Navigate to edit other professionals services profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-other-professionals-services/${advertisement.publishedAdId}`);
+      } else {
+        setError('Professional/Service profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -684,6 +696,11 @@ const Advertisements = () => {
       // Navigate to currency exchange detail view
       if (advertisement.publishedAdId) {
         navigate(`/currency-exchange/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'other_professionals_services') {
+      // Navigate to other professionals services detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/other-professionals-services/${advertisement.publishedAdId}`);
       }
     }
   };

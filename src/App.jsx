@@ -144,6 +144,10 @@ import CurrencyExchangeForm from './pages/CurrencyExchangeForm';
 import EditCurrencyExchangeForm from './pages/EditCurrencyExchangeForm';
 import CurrencyExchangeDetailView from './pages/CurrencyExchangeDetailView';
 import CurrencyExchangeBrowsePage from './pages/CurrencyExchangeBrowsePage';
+import OtherProfessionalsServicesForm from './pages/OtherProfessionalsServicesForm';
+import EditOtherProfessionalsServicesForm from './pages/EditOtherProfessionalsServicesForm';
+import OtherProfessionalsServicesDetailView from './pages/OtherProfessionalsServicesDetailView';
+import OtherProfessionalsServicesBrowse from './pages/OtherProfessionalsServicesBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -595,6 +599,18 @@ function App() {
                 } />
                 <Route path="currency-exchange/:id" element={<CurrencyExchangeDetailView />} />
                 <Route path="currency-exchange" element={<CurrencyExchangeBrowsePage />} />
+                <Route path="other-professionals-services-form" element={
+                  <ProtectedRoute>
+                    <OtherProfessionalsServicesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-other-professionals-services/:id" element={
+                  <ProtectedRoute>
+                    <EditOtherProfessionalsServicesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="other-professionals-services/:id" element={<OtherProfessionalsServicesDetailView />} />
+                <Route path="other-professionals-services" element={<OtherProfessionalsServicesBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />
