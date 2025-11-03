@@ -361,6 +361,11 @@ const Advertisements = () => {
       navigate('/rent-property-buying-selling-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'exclusive_gift_packs') {
+      // Navigate to exclusive gift packs form
+      navigate('/exclusive-gift-packs-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -591,6 +596,13 @@ const Advertisements = () => {
       } else {
         setError('Pet Care & Animal Services profile not found');
       }
+    } else if (advertisement && advertisement.category === 'exclusive_gift_packs') {
+      // Navigate to edit exclusive gift packs profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-exclusive-gift-packs/${advertisement.publishedAdId}`);
+      } else {
+        setError('Exclusive Gift Pack not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -740,6 +752,11 @@ const Advertisements = () => {
       // Navigate to pet care animal services detail view
       if (advertisement.publishedAdId) {
         navigate(`/pet-care-animal-services/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'exclusive_gift_packs') {
+      // Navigate to exclusive gift packs detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/exclusive-gift-packs/${advertisement.publishedAdId}`);
       }
     }
   };

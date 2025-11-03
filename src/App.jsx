@@ -160,6 +160,10 @@ import RentPropertyBuyingSellingForm from './pages/RentPropertyBuyingSellingForm
 import EditRentPropertyBuyingSellingForm from './pages/EditRentPropertyBuyingSellingForm';
 import RentPropertyBuyingSellingDetailView from './pages/RentPropertyBuyingSellingDetailView';
 import RentPropertyBuyingSellingBrowse from './pages/RentPropertyBuyingSellingBrowse';
+import ExclusiveGiftPacksForm from './pages/ExclusiveGiftPacksForm';
+import EditExclusiveGiftPacksForm from './pages/EditExclusiveGiftPacksForm';
+import ExclusiveGiftPacksDetailView from './pages/ExclusiveGiftPacksDetailView';
+import ExclusiveGiftPacksBrowse from './pages/ExclusiveGiftPacksBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -659,6 +663,18 @@ function App() {
                 } />
                 <Route path="rent-property-buying-selling/:id" element={<RentPropertyBuyingSellingDetailView />} />
                 <Route path="rent-property-buying-selling" element={<RentPropertyBuyingSellingBrowse />} />
+                <Route path="exclusive-gift-packs-form" element={
+                  <ProtectedRoute>
+                    <ExclusiveGiftPacksForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-exclusive-gift-packs/:id" element={
+                  <ProtectedRoute>
+                    <EditExclusiveGiftPacksForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="exclusive-gift-packs/:id" element={<ExclusiveGiftPacksDetailView />} />
+                <Route path="ads/marketplace/gift-packs" element={<ExclusiveGiftPacksBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />
