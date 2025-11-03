@@ -401,6 +401,11 @@ const Advertisements = () => {
       navigate('/books-magazines-educational-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'other_items') {
+      // Navigate to other items form
+      navigate('/other-items-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -687,6 +692,13 @@ const Advertisements = () => {
       } else {
         setError('Books & Magazines Educational listing not found');
       }
+    } else if (advertisement && advertisement.category === 'other_items') {
+      // Navigate to edit other items profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-other-items/${advertisement.publishedAdId}`);
+      } else {
+        setError('Other Items listing not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -876,6 +888,11 @@ const Advertisements = () => {
       // Navigate to books magazines educational detail view
       if (advertisement.publishedAdId) {
         navigate(`/books-magazines-educational/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'other_items') {
+      // Navigate to other items detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/other-items/${advertisement.publishedAdId}`);
       }
     }
   };

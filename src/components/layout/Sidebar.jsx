@@ -180,7 +180,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Daily Grocery Essentials', path: '/ads/marketplace/daily-grocery-essentials' },
         { name: 'Organic Herbal Products & Spices', path: '/ads/marketplace/organic-herbal-products-spices' },
         { name: 'Books, Magazines & Educational Materials', path: '/books-magazines-educational' },
-        { name: 'Other Items', path: '/ads/marketplace/other-items' },
+        { name: 'Other Items', path: '/other-items' },
         { name: 'Create Your Own Store : It\'s Time To Shoping', path: '/ads/marketplace/create-store' },
       ]
     },

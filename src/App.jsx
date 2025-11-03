@@ -192,6 +192,10 @@ import BooksAndMagazinesEducationalForm from './pages/BooksAndMagazinesEducation
 import EditBooksAndMagazinesEducationalForm from './pages/EditBooksAndMagazinesEducationalForm';
 import BooksAndMagazinesEducationalBrowse from './pages/BooksAndMagazinesEducationalBrowse';
 import BooksAndMagazinesEducationalDetailView from './pages/BooksAndMagazinesEducationalDetailView';
+import OtherItemsForm from './pages/OtherItemsForm';
+import EditOtherItemsForm from './pages/EditOtherItemsForm';
+import OtherItemsBrowse from './pages/OtherItemsBrowse';
+import OtherItemsDetailView from './pages/OtherItemsDetailView';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -788,7 +792,20 @@ function App() {
                 } />
                 <Route path="books-magazines-educational" element={<BooksAndMagazinesEducationalBrowse />} />
                 <Route path="books-magazines-educational/:id" element={<BooksAndMagazinesEducationalDetailView />} />
-                {/* Alias routes for sidebar navigation */}
+                <Route path="other-items-form" element={
+                  <ProtectedRoute>
+                    <OtherItemsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-other-items/:id" element={
+                  <ProtectedRoute>
+                    <EditOtherItemsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="other-items" element={<OtherItemsBrowse />} />
+                <Route path="other-items/:id" element={<OtherItemsDetailView />} />
+                {/* Alias route for sidebar navigation */}
+                <Route path="ads/marketplace/other-items" element={<OtherItemsBrowse />} />
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />
                 <Route path="ads/events/salon-makeup-artists" element={<SalonMakeupArtistsBrowse />} />
