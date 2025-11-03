@@ -188,6 +188,10 @@ import OrganicHerbalProductsSpicesForm from './pages/OrganicHerbalProductsSpices
 import EditOrganicHerbalProductsSpicesForm from './pages/EditOrganicHerbalProductsSpicesForm';
 import OrganicHerbalProductsSpicesDetailView from './pages/OrganicHerbalProductsSpicesDetailView';
 import OrganicHerbalProductsSpicesBrowse from './pages/OrganicHerbalProductsSpicesBrowse';
+import BooksAndMagazinesEducationalForm from './pages/BooksAndMagazinesEducationalForm';
+import EditBooksAndMagazinesEducationalForm from './pages/EditBooksAndMagazinesEducationalForm';
+import BooksAndMagazinesEducationalBrowse from './pages/BooksAndMagazinesEducationalBrowse';
+import BooksAndMagazinesEducationalDetailView from './pages/BooksAndMagazinesEducationalDetailView';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -772,6 +776,18 @@ function App() {
                 } />
                 <Route path="organic-herbal-products-spices/:id" element={<OrganicHerbalProductsSpicesDetailView />} />
                 <Route path="ads/marketplace/organic-herbal-products-spices" element={<OrganicHerbalProductsSpicesBrowse />} />
+                <Route path="books-magazines-educational-form" element={
+                  <ProtectedRoute>
+                    <BooksAndMagazinesEducationalForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="books-magazines-educational/:id/edit" element={
+                  <ProtectedRoute>
+                    <EditBooksAndMagazinesEducationalForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="books-magazines-educational" element={<BooksAndMagazinesEducationalBrowse />} />
+                <Route path="books-magazines-educational/:id" element={<BooksAndMagazinesEducationalDetailView />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />

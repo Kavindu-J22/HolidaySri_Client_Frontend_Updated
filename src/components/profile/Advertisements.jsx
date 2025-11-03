@@ -396,6 +396,11 @@ const Advertisements = () => {
       navigate('/organic-herbal-products-spices-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'books_magazines_educational') {
+      // Navigate to books magazines educational form
+      navigate('/books-magazines-educational-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -675,6 +680,13 @@ const Advertisements = () => {
       } else {
         setError('Organic Herbal Products & Spices listing not found');
       }
+    } else if (advertisement && advertisement.category === 'books_magazines_educational') {
+      // Navigate to edit books magazines educational profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/books-magazines-educational/${advertisement.publishedAdId}/edit`);
+      } else {
+        setError('Books & Magazines Educational listing not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -859,6 +871,11 @@ const Advertisements = () => {
       // Navigate to organic herbal products spices detail view
       if (advertisement.publishedAdId) {
         navigate(`/organic-herbal-products-spices/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'books_magazines_educational') {
+      // Navigate to books magazines educational detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/books-magazines-educational/${advertisement.publishedAdId}`);
       }
     }
   };
