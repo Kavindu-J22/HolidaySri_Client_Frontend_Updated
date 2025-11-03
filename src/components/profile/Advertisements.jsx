@@ -386,6 +386,11 @@ const Advertisements = () => {
       navigate('/fashion-beauty-clothing-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'daily_grocery_essentials') {
+      // Navigate to daily grocery essentials form
+      navigate('/daily-grocery-essentials-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -651,6 +656,13 @@ const Advertisements = () => {
       } else {
         setError('Fashion Beauty Clothing product not found');
       }
+    } else if (advertisement && advertisement.category === 'daily_grocery_essentials') {
+      // Navigate to edit daily grocery essentials profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/daily-grocery-essentials/${advertisement.publishedAdId}/edit`);
+      } else {
+        setError('Daily Grocery Essentials listing not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -825,6 +837,11 @@ const Advertisements = () => {
       // Navigate to fashion beauty clothing detail view
       if (advertisement.publishedAdId) {
         navigate(`/fashion-beauty-clothing/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'daily_grocery_essentials') {
+      // Navigate to daily grocery essentials detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/daily-grocery-essentials/${advertisement.publishedAdId}`);
       }
     }
   };

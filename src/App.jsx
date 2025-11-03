@@ -180,6 +180,10 @@ import FashionBeautyClothingForm from './pages/FashionBeautyClothingForm';
 import EditFashionBeautyClothingForm from './pages/EditFashionBeautyClothingForm';
 import FashionBeautyClothingDetailView from './pages/FashionBeautyClothingDetailView';
 import FashionBeautyClothingBrowse from './pages/FashionBeautyClothingBrowse';
+import DailyGroceryEssentialsForm from './pages/DailyGroceryEssentialsForm';
+import EditDailyGroceryEssentialsForm from './pages/EditDailyGroceryEssentialsForm';
+import DailyGroceryEssentialsDetailView from './pages/DailyGroceryEssentialsDetailView';
+import DailyGroceryEssentialsBrowse from './pages/DailyGroceryEssentialsBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -740,6 +744,18 @@ function App() {
                 } />
                 <Route path="fashion-beauty-clothing/:id" element={<FashionBeautyClothingDetailView />} />
                 <Route path="ads/marketplace/fashion-beauty-clothing" element={<FashionBeautyClothingBrowse />} />
+                <Route path="daily-grocery-essentials-form" element={
+                  <ProtectedRoute>
+                    <DailyGroceryEssentialsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="daily-grocery-essentials/:id/edit" element={
+                  <ProtectedRoute>
+                    <EditDailyGroceryEssentialsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="daily-grocery-essentials/:id" element={<DailyGroceryEssentialsDetailView />} />
+                <Route path="ads/marketplace/daily-grocery-essentials" element={<DailyGroceryEssentialsBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />
