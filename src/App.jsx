@@ -172,6 +172,10 @@ import JewelryGemSellersForm from './pages/JewelryGemSellersForm';
 import EditJewelryGemSellersForm from './pages/EditJewelryGemSellersForm';
 import JewelryGemSellersDetailView from './pages/JewelryGemSellersDetailView';
 import JewelryGemSellersBrowse from './pages/JewelryGemSellersBrowse';
+import HomeOfficeAccessoriesTechForm from './pages/HomeOfficeAccessoriesTechForm';
+import EditHomeOfficeAccessoriesTechForm from './pages/EditHomeOfficeAccessoriesTechForm';
+import HomeOfficeAccessoriesTechDetailView from './pages/HomeOfficeAccessoriesTechDetailView';
+import HomeOfficeAccessoriesTechBrowse from './pages/HomeOfficeAccessoriesTechBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -708,6 +712,18 @@ function App() {
                 } />
                 <Route path="jewelry-gem-sellers/:id" element={<JewelryGemSellersDetailView />} />
                 <Route path="ads/marketplace/jewelry-gem-sellers" element={<JewelryGemSellersBrowse />} />
+                <Route path="home-office-accessories-tech-form" element={
+                  <ProtectedRoute>
+                    <HomeOfficeAccessoriesTechForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="home-office-accessories-tech/:id/edit" element={
+                  <ProtectedRoute>
+                    <EditHomeOfficeAccessoriesTechForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="home-office-accessories-tech/:id" element={<HomeOfficeAccessoriesTechDetailView />} />
+                <Route path="ads/marketplace/home-office-accessories-tech" element={<HomeOfficeAccessoriesTechBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />

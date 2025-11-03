@@ -376,6 +376,11 @@ const Advertisements = () => {
       navigate('/jewelry-gem-sellers-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'home_office_accessories_tech') {
+      // Navigate to home office accessories tech form
+      navigate('/home-office-accessories-tech-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -627,6 +632,13 @@ const Advertisements = () => {
       } else {
         setError('Jewelry Gem Seller profile not found');
       }
+    } else if (advertisement && advertisement.category === 'home_office_accessories_tech') {
+      // Navigate to edit home office accessories tech profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/home-office-accessories-tech/${advertisement.publishedAdId}/edit`);
+      } else {
+        setError('Home Office Accessories & Tech product not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -791,6 +803,11 @@ const Advertisements = () => {
       // Navigate to jewelry gem sellers detail view
       if (advertisement.publishedAdId) {
         navigate(`/jewelry-gem-sellers/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'home_office_accessories_tech') {
+      // Navigate to home office accessories tech detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/home-office-accessories-tech/${advertisement.publishedAdId}`);
       }
     }
   };
