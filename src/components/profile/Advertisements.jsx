@@ -371,6 +371,11 @@ const Advertisements = () => {
       navigate('/exclusive-gift-packs-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'jewelry_gem_sellers') {
+      // Navigate to jewelry gem sellers form
+      navigate('/jewelry-gem-sellers-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -615,6 +620,13 @@ const Advertisements = () => {
       } else {
         setError('Exclusive Gift Pack not found');
       }
+    } else if (advertisement && advertisement.category === 'jewelry_gem_sellers') {
+      // Navigate to edit jewelry gem sellers profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/jewelry-gem-sellers/${advertisement.publishedAdId}/edit`);
+      } else {
+        setError('Jewelry Gem Seller profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -774,6 +786,11 @@ const Advertisements = () => {
       // Navigate to exclusive gift packs detail view
       if (advertisement.publishedAdId) {
         navigate(`/exclusive-gift-packs/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'jewelry_gem_sellers') {
+      // Navigate to jewelry gem sellers detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/jewelry-gem-sellers/${advertisement.publishedAdId}`);
       }
     }
   };

@@ -174,7 +174,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Rent & Property Buying & Selling Platform', path: '/rent-property-buying-selling' },
         { name: 'Exclusive Gift Packs', path: '/ads/marketplace/gift-packs' },
         { name: 'Souvenirs & Collectibles', path: '/ads/marketplace/souvenirs' },
-        { name: 'Jewelry & Gem Sellers', path: '/ads/marketplace/jewelry-gems' },
+        { name: 'Jewelry & Gem Sellers', path: '/ads/marketplace/jewelry-gem-sellers' },
         { name: 'Home/Office Accessories & Tech Gadgets', path: '/ads/marketplace/accessories-gadgets' },
         { name: 'Fashion/Beauty & Clothing Items', path: '/ads/marketplace/fashion-beauty' },
         { name: 'Daily Grocery Essentials', path: '/ads/marketplace/grocery' },

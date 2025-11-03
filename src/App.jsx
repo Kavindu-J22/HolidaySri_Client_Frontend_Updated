@@ -168,6 +168,10 @@ import SouvenirsCollectiblesForm from './pages/SouvenirsCollectiblesForm';
 import EditSouvenirsCollectiblesForm from './pages/EditSouvenirsCollectiblesForm';
 import SouvenirsCollectiblesDetailView from './pages/SouvenirsCollectiblesDetailView';
 import SouvenirsCollectiblesBrowse from './pages/SouvenirsCollectiblesBrowse';
+import JewelryGemSellersForm from './pages/JewelryGemSellersForm';
+import EditJewelryGemSellersForm from './pages/EditJewelryGemSellersForm';
+import JewelryGemSellersDetailView from './pages/JewelryGemSellersDetailView';
+import JewelryGemSellersBrowse from './pages/JewelryGemSellersBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -692,6 +696,18 @@ function App() {
                 } />
                 <Route path="exclusive-gift-packs/:id" element={<ExclusiveGiftPacksDetailView />} />
                 <Route path="ads/marketplace/gift-packs" element={<ExclusiveGiftPacksBrowse />} />
+                <Route path="jewelry-gem-sellers-form" element={
+                  <ProtectedRoute>
+                    <JewelryGemSellersForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="jewelry-gem-sellers/:id/edit" element={
+                  <ProtectedRoute>
+                    <EditJewelryGemSellersForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="jewelry-gem-sellers/:id" element={<JewelryGemSellersDetailView />} />
+                <Route path="ads/marketplace/jewelry-gem-sellers" element={<JewelryGemSellersBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />
