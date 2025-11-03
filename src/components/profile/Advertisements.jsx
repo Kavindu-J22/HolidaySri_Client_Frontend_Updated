@@ -411,6 +411,11 @@ const Advertisements = () => {
       navigate('/exclusive-combo-packages-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'talented_entertainers_artists') {
+      // Navigate to talented entertainers artists form
+      navigate('/talented-entertainers-artists-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -711,6 +716,13 @@ const Advertisements = () => {
       } else {
         setError('Exclusive Combo Package not found');
       }
+    } else if (advertisement && advertisement.category === 'talented_entertainers_artists') {
+      // Navigate to edit talented entertainers artists profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-talented-entertainers-artists/${advertisement.publishedAdId}`);
+      } else {
+        setError('Talented Entertainers & Artists profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -910,6 +922,11 @@ const Advertisements = () => {
       // Navigate to exclusive combo packages detail view
       if (advertisement.publishedAdId) {
         navigate(`/exclusive-combo-packages/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'talented_entertainers_artists') {
+      // Navigate to talented entertainers artists detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/talented-entertainers-artists/${advertisement.publishedAdId}`);
       }
     }
   };

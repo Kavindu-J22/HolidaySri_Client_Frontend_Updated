@@ -200,6 +200,10 @@ import ExclusiveComboPackagesForm from './pages/ExclusiveComboPackagesForm';
 import EditExclusiveComboPackagesForm from './pages/EditExclusiveComboPackagesForm';
 import ExclusiveComboPackagesBrowse from './pages/ExclusiveComboPackagesBrowse';
 import ExclusiveComboPackagesDetailView from './pages/ExclusiveComboPackagesDetailView';
+import TalentedEntertainersArtistsForm from './pages/TalentedEntertainersArtistsForm';
+import EditTalentedEntertainersArtistsForm from './pages/EditTalentedEntertainersArtistsForm';
+import TalentedEntertainersArtistsBrowse from './pages/TalentedEntertainersArtistsBrowse';
+import TalentedEntertainersArtistsDetailView from './pages/TalentedEntertainersArtistsDetailView';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -820,6 +824,18 @@ function App() {
                 } />
                 <Route path="exclusive-combo-packages" element={<ExclusiveComboPackagesBrowse />} />
                 <Route path="exclusive-combo-packages/:id" element={<ExclusiveComboPackagesDetailView />} />
+                <Route path="talented-entertainers-artists-form" element={
+                  <ProtectedRoute>
+                    <TalentedEntertainersArtistsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-talented-entertainers-artists/:id" element={
+                  <ProtectedRoute>
+                    <EditTalentedEntertainersArtistsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="talented-entertainers-artists" element={<TalentedEntertainersArtistsBrowse />} />
+                <Route path="talented-entertainers-artists/:id" element={<TalentedEntertainersArtistsDetailView />} />
                 {/* Alias route for sidebar navigation */}
                 <Route path="ads/marketplace/other-items" element={<OtherItemsBrowse />} />
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
@@ -827,6 +843,7 @@ function App() {
                 <Route path="ads/events/salon-makeup-artists" element={<SalonMakeupArtistsBrowse />} />
                 <Route path="ads/events/photographers" element={<CreativePhotographersBrowse />} />
                 <Route path="ads/events/fashion-designers" element={<FashionDesignersBrowse />} />
+                <Route path="ads/entertainment/entertainers-artists" element={<TalentedEntertainersArtistsBrowse />} />
               </Route>
 
               {/* Catch all route */}
