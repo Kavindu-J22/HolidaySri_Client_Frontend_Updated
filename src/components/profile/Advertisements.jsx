@@ -406,6 +406,11 @@ const Advertisements = () => {
       navigate('/other-items-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'exclusive_combo_packages') {
+      // Navigate to exclusive combo packages form
+      navigate('/exclusive-combo-packages-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -699,6 +704,13 @@ const Advertisements = () => {
       } else {
         setError('Other Items listing not found');
       }
+    } else if (advertisement && advertisement.category === 'exclusive_combo_packages') {
+      // Navigate to edit exclusive combo packages profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-exclusive-combo-packages/${advertisement.publishedAdId}`);
+      } else {
+        setError('Exclusive Combo Package not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -893,6 +905,11 @@ const Advertisements = () => {
       // Navigate to other items detail view
       if (advertisement.publishedAdId) {
         navigate(`/other-items/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'exclusive_combo_packages') {
+      // Navigate to exclusive combo packages detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/exclusive-combo-packages/${advertisement.publishedAdId}`);
       }
     }
   };

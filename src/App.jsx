@@ -196,6 +196,10 @@ import OtherItemsForm from './pages/OtherItemsForm';
 import EditOtherItemsForm from './pages/EditOtherItemsForm';
 import OtherItemsBrowse from './pages/OtherItemsBrowse';
 import OtherItemsDetailView from './pages/OtherItemsDetailView';
+import ExclusiveComboPackagesForm from './pages/ExclusiveComboPackagesForm';
+import EditExclusiveComboPackagesForm from './pages/EditExclusiveComboPackagesForm';
+import ExclusiveComboPackagesBrowse from './pages/ExclusiveComboPackagesBrowse';
+import ExclusiveComboPackagesDetailView from './pages/ExclusiveComboPackagesDetailView';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -804,6 +808,18 @@ function App() {
                 } />
                 <Route path="other-items" element={<OtherItemsBrowse />} />
                 <Route path="other-items/:id" element={<OtherItemsDetailView />} />
+                <Route path="exclusive-combo-packages-form" element={
+                  <ProtectedRoute>
+                    <ExclusiveComboPackagesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-exclusive-combo-packages/:id" element={
+                  <ProtectedRoute>
+                    <EditExclusiveComboPackagesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="exclusive-combo-packages" element={<ExclusiveComboPackagesBrowse />} />
+                <Route path="exclusive-combo-packages/:id" element={<ExclusiveComboPackagesDetailView />} />
                 {/* Alias route for sidebar navigation */}
                 <Route path="ads/marketplace/other-items" element={<OtherItemsBrowse />} />
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />

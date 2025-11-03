@@ -192,7 +192,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       bgColor: 'bg-cyan-50',
       subcategories: [
         { name: 'Holiday Memories (BLog Posts & Photos)', path: '/ads/entertainment/holiday-memories' },
-        { name: 'Exclusive Combo Packages (Wedding, Tour and More)', path: '/ads/entertainment/combo-packages' },
+        { name: 'Exclusive Combo Packages (Wedding, Tour and More)', path: '/exclusive-combo-packages' },
         { name: 'Talented Entertainers & Artists', path: '/ads/entertainment/entertainers-artists' },
         { name: 'Fitness & Health : Spas, Gym Ect. & Professionals', path: '/ads/entertainment/fitness-health' },
         { name: 'Cinema & Movie Hub', path: '/ads/entertainment/cinema-movies' },
