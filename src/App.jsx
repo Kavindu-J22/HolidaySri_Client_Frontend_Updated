@@ -184,6 +184,10 @@ import DailyGroceryEssentialsForm from './pages/DailyGroceryEssentialsForm';
 import EditDailyGroceryEssentialsForm from './pages/EditDailyGroceryEssentialsForm';
 import DailyGroceryEssentialsDetailView from './pages/DailyGroceryEssentialsDetailView';
 import DailyGroceryEssentialsBrowse from './pages/DailyGroceryEssentialsBrowse';
+import OrganicHerbalProductsSpicesForm from './pages/OrganicHerbalProductsSpicesForm';
+import EditOrganicHerbalProductsSpicesForm from './pages/EditOrganicHerbalProductsSpicesForm';
+import OrganicHerbalProductsSpicesDetailView from './pages/OrganicHerbalProductsSpicesDetailView';
+import OrganicHerbalProductsSpicesBrowse from './pages/OrganicHerbalProductsSpicesBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -756,6 +760,18 @@ function App() {
                 } />
                 <Route path="daily-grocery-essentials/:id" element={<DailyGroceryEssentialsDetailView />} />
                 <Route path="ads/marketplace/daily-grocery-essentials" element={<DailyGroceryEssentialsBrowse />} />
+                <Route path="organic-herbal-products-spices-form" element={
+                  <ProtectedRoute>
+                    <OrganicHerbalProductsSpicesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="organic-herbal-products-spices/:id/edit" element={
+                  <ProtectedRoute>
+                    <EditOrganicHerbalProductsSpicesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="organic-herbal-products-spices/:id" element={<OrganicHerbalProductsSpicesDetailView />} />
+                <Route path="ads/marketplace/organic-herbal-products-spices" element={<OrganicHerbalProductsSpicesBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />

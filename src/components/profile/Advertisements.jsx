@@ -391,6 +391,11 @@ const Advertisements = () => {
       navigate('/daily-grocery-essentials-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'organic_herbal_products_spices') {
+      // Navigate to organic herbal products spices form
+      navigate('/organic-herbal-products-spices-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -663,6 +668,13 @@ const Advertisements = () => {
       } else {
         setError('Daily Grocery Essentials listing not found');
       }
+    } else if (advertisement && advertisement.category === 'organic_herbal_products_spices') {
+      // Navigate to edit organic herbal products spices profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/organic-herbal-products-spices/${advertisement.publishedAdId}/edit`);
+      } else {
+        setError('Organic Herbal Products & Spices listing not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -842,6 +854,11 @@ const Advertisements = () => {
       // Navigate to daily grocery essentials detail view
       if (advertisement.publishedAdId) {
         navigate(`/daily-grocery-essentials/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'organic_herbal_products_spices') {
+      // Navigate to organic herbal products spices detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/organic-herbal-products-spices/${advertisement.publishedAdId}`);
       }
     }
   };
