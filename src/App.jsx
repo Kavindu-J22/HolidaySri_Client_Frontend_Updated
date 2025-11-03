@@ -164,6 +164,10 @@ import ExclusiveGiftPacksForm from './pages/ExclusiveGiftPacksForm';
 import EditExclusiveGiftPacksForm from './pages/EditExclusiveGiftPacksForm';
 import ExclusiveGiftPacksDetailView from './pages/ExclusiveGiftPacksDetailView';
 import ExclusiveGiftPacksBrowse from './pages/ExclusiveGiftPacksBrowse';
+import SouvenirsCollectiblesForm from './pages/SouvenirsCollectiblesForm';
+import EditSouvenirsCollectiblesForm from './pages/EditSouvenirsCollectiblesForm';
+import SouvenirsCollectiblesDetailView from './pages/SouvenirsCollectiblesDetailView';
+import SouvenirsCollectiblesBrowse from './pages/SouvenirsCollectiblesBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -399,6 +403,18 @@ function App() {
                 } />
                 <Route path="foods-beverages/:id" element={<FoodsBeveragesDetail />} />
                 <Route path="foods-beverages" element={<FoodsBeveragesBrowse />} />
+                <Route path="souvenirs-collectibles-form" element={
+                  <ProtectedRoute>
+                    <SouvenirsCollectiblesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-souvenirs-collectibles/:id" element={
+                  <ProtectedRoute>
+                    <EditSouvenirsCollectiblesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="souvenirs-collectibles/:id" element={<SouvenirsCollectiblesDetailView />} />
+                <Route path="souvenirs-collectibles" element={<SouvenirsCollectiblesBrowse />} />
                 <Route path="vehicle-rentals-hire-form" element={
                   <ProtectedRoute>
                     <VehicleRentalsHireForm />

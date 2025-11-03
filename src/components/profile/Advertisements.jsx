@@ -251,6 +251,11 @@ const Advertisements = () => {
       navigate('/foods-beverages-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'souvenirs_collectibles') {
+      // Navigate to souvenirs & collectibles form
+      navigate('/souvenirs-collectibles-form', {
+        state: { advertisementId: adId }
+      });
     } else if (advertisement.category === 'vehicle_rentals_hire') {
       // Navigate to vehicle rentals hire form
       navigate('/vehicle-rentals-hire-form', {
@@ -448,6 +453,13 @@ const Advertisements = () => {
         navigate(`/edit-foods-beverages/${advertisement.publishedAdId}`);
       } else {
         setError('Foods & Beverages listing not found');
+      }
+    } else if (advertisement && advertisement.category === 'souvenirs_collectibles') {
+      // Navigate to edit souvenirs & collectibles page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-souvenirs-collectibles/${advertisement.publishedAdId}`);
+      } else {
+        setError('Souvenirs & Collectibles listing not found');
       }
     } else if (advertisement && advertisement.category === 'vehicle_rentals_hire') {
       // Navigate to edit vehicle rentals hire page
@@ -647,6 +659,11 @@ const Advertisements = () => {
       // Navigate to foods beverages detail view
       if (advertisement.publishedAdId) {
         navigate(`/foods-beverages/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'souvenirs_collectibles') {
+      // Navigate to souvenirs & collectibles detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/souvenirs-collectibles/${advertisement.publishedAdId}`);
       }
     } else if (advertisement && advertisement.category === 'vehicle_rentals_hire') {
       // Navigate to vehicle rentals hire detail view
