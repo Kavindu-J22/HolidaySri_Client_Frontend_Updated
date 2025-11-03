@@ -176,7 +176,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Souvenirs & Collectibles', path: '/ads/marketplace/souvenirs' },
         { name: 'Jewelry & Gem Sellers', path: '/ads/marketplace/jewelry-gem-sellers' },
         { name: 'Home/Office Accessories & Tech Gadgets', path: '/ads/marketplace/home-office-accessories-tech' },
-        { name: 'Fashion/Beauty & Clothing Items', path: '/ads/marketplace/fashion-beauty' },
+        { name: 'Fashion/Beauty & Clothing Items', path: '/ads/marketplace/fashion-beauty-clothing' },
         { name: 'Daily Grocery Essentials', path: '/ads/marketplace/grocery' },
         { name: 'Organic Herbal Products & Spices', path: '/ads/marketplace/herbal-spices' },
         { name: 'Books, Magazines & Educational Materials', path: '/ads/marketplace/books-education' },

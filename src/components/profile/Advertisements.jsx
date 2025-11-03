@@ -381,6 +381,11 @@ const Advertisements = () => {
       navigate('/home-office-accessories-tech-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'fashion_beauty_clothing') {
+      // Navigate to fashion beauty clothing form
+      navigate('/fashion-beauty-clothing-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -639,6 +644,13 @@ const Advertisements = () => {
       } else {
         setError('Home Office Accessories & Tech product not found');
       }
+    } else if (advertisement && advertisement.category === 'fashion_beauty_clothing') {
+      // Navigate to edit fashion beauty clothing profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/fashion-beauty-clothing/${advertisement.publishedAdId}/edit`);
+      } else {
+        setError('Fashion Beauty Clothing product not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -808,6 +820,11 @@ const Advertisements = () => {
       // Navigate to home office accessories tech detail view
       if (advertisement.publishedAdId) {
         navigate(`/home-office-accessories-tech/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'fashion_beauty_clothing') {
+      // Navigate to fashion beauty clothing detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/fashion-beauty-clothing/${advertisement.publishedAdId}`);
       }
     }
   };

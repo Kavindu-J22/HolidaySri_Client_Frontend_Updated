@@ -176,6 +176,10 @@ import HomeOfficeAccessoriesTechForm from './pages/HomeOfficeAccessoriesTechForm
 import EditHomeOfficeAccessoriesTechForm from './pages/EditHomeOfficeAccessoriesTechForm';
 import HomeOfficeAccessoriesTechDetailView from './pages/HomeOfficeAccessoriesTechDetailView';
 import HomeOfficeAccessoriesTechBrowse from './pages/HomeOfficeAccessoriesTechBrowse';
+import FashionBeautyClothingForm from './pages/FashionBeautyClothingForm';
+import EditFashionBeautyClothingForm from './pages/EditFashionBeautyClothingForm';
+import FashionBeautyClothingDetailView from './pages/FashionBeautyClothingDetailView';
+import FashionBeautyClothingBrowse from './pages/FashionBeautyClothingBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -724,6 +728,18 @@ function App() {
                 } />
                 <Route path="home-office-accessories-tech/:id" element={<HomeOfficeAccessoriesTechDetailView />} />
                 <Route path="ads/marketplace/home-office-accessories-tech" element={<HomeOfficeAccessoriesTechBrowse />} />
+                <Route path="fashion-beauty-clothing-form" element={
+                  <ProtectedRoute>
+                    <FashionBeautyClothingForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="fashion-beauty-clothing/:id/edit" element={
+                  <ProtectedRoute>
+                    <EditFashionBeautyClothingForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="fashion-beauty-clothing/:id" element={<FashionBeautyClothingDetailView />} />
+                <Route path="ads/marketplace/fashion-beauty-clothing" element={<FashionBeautyClothingBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />
