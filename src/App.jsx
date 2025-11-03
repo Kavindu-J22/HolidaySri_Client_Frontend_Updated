@@ -156,6 +156,10 @@ import PetCareAnimalServicesForm from './pages/PetCareAnimalServicesForm';
 import EditPetCareAnimalServicesForm from './pages/EditPetCareAnimalServicesForm';
 import PetCareAnimalServicesDetailView from './pages/PetCareAnimalServicesDetailView';
 import PetCareAnimalServicesBrowse from './pages/PetCareAnimalServicesBrowse';
+import RentPropertyBuyingSellingForm from './pages/RentPropertyBuyingSellingForm';
+import EditRentPropertyBuyingSellingForm from './pages/EditRentPropertyBuyingSellingForm';
+import RentPropertyBuyingSellingDetailView from './pages/RentPropertyBuyingSellingDetailView';
+import RentPropertyBuyingSellingBrowse from './pages/RentPropertyBuyingSellingBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -643,6 +647,18 @@ function App() {
                 } />
                 <Route path="pet-care-animal-services/:id" element={<PetCareAnimalServicesDetailView />} />
                 <Route path="pet-care-animal-services" element={<PetCareAnimalServicesBrowse />} />
+                <Route path="rent-property-buying-selling-form" element={
+                  <ProtectedRoute>
+                    <RentPropertyBuyingSellingForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-rent-property-buying-selling/:id" element={
+                  <ProtectedRoute>
+                    <EditRentPropertyBuyingSellingForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="rent-property-buying-selling/:id" element={<RentPropertyBuyingSellingDetailView />} />
+                <Route path="rent-property-buying-selling" element={<RentPropertyBuyingSellingBrowse />} />
                 {/* Alias routes for sidebar navigation */}
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
                 <Route path="ads/professionals/delivery" element={<DeliveryPartnersBrowse />} />

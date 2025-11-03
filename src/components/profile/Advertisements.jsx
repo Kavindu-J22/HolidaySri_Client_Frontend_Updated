@@ -356,6 +356,11 @@ const Advertisements = () => {
       navigate('/pet-care-animal-services-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'rent_property_buying_selling') {
+      // Navigate to rent property buying selling form
+      navigate('/rent-property-buying-selling-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -735,6 +740,18 @@ const Advertisements = () => {
       // Navigate to pet care animal services detail view
       if (advertisement.publishedAdId) {
         navigate(`/pet-care-animal-services/${advertisement.publishedAdId}`);
+      }
+    }
+  };
+
+  // Handle View Published Profile for rent_property_buying_selling
+  const handleViewPublishedRentProperty = (adId) => {
+    const advertisement = advertisements.find(ad => ad._id === adId);
+
+    if (advertisement && advertisement.category === 'rent_property_buying_selling') {
+      // Navigate to rent property buying selling detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/rent-property-buying-selling/${advertisement.publishedAdId}`);
       }
     }
   };
@@ -1217,7 +1234,13 @@ const Advertisements = () => {
 
                           {/* View Button */}
                           <button
-                            onClick={() => handleViewPublishedProfile(ad._id)}
+                            onClick={() => {
+                              if (ad.category === 'rent_property_buying_selling') {
+                                handleViewPublishedRentProperty(ad._id);
+                              } else {
+                                handleViewPublishedProfile(ad._id);
+                              }
+                            }}
                             className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-sm"
                           >
                             <Eye className="w-4 h-4" />

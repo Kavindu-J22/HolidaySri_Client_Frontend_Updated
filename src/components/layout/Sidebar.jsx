@@ -171,7 +171,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       color: 'text-orange-600',
       bgColor: 'bg-orange-50',
       subcategories: [
-        { name: 'Rent & Property Buying & Selling Platform', path: '/ads/marketplace/property' },
+        { name: 'Rent & Property Buying & Selling Platform', path: '/rent-property-buying-selling' },
         { name: 'Exclusive Gift Packs', path: '/ads/marketplace/gift-packs' },
         { name: 'Souvenirs & Collectibles', path: '/ads/marketplace/souvenirs' },
         { name: 'Jewelry & Gem Sellers', path: '/ads/marketplace/jewelry-gems' },
