@@ -194,7 +194,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Holiday Memories (BLog Posts & Photos)', path: '/ads/entertainment/holiday-memories' },
         { name: 'Exclusive Combo Packages (Wedding, Tour and More)', path: '/exclusive-combo-packages' },
         { name: 'Talented Entertainers & Artists', path: '/ads/entertainment/entertainers-artists' },
-        { name: 'Fitness & Health : Spas, Gym Ect. & Professionals', path: '/ads/entertainment/fitness-health' },
+        { name: 'Fitness & Health : Spas, Gym Ect. & Professionals', path: '/ads/professionals/fitness-health-spas-gym' },
         { name: 'Cinema & Movie Hub', path: '/ads/entertainment/cinema-movies' },
         { name: 'Social Media Promotions', path: '/ads/entertainment/social-media' },
       ]

@@ -204,6 +204,10 @@ import TalentedEntertainersArtistsForm from './pages/TalentedEntertainersArtists
 import EditTalentedEntertainersArtistsForm from './pages/EditTalentedEntertainersArtistsForm';
 import TalentedEntertainersArtistsBrowse from './pages/TalentedEntertainersArtistsBrowse';
 import TalentedEntertainersArtistsDetailView from './pages/TalentedEntertainersArtistsDetailView';
+import FitnessHealthSpasGymForm from './pages/FitnessHealthSpasGymForm';
+import EditFitnessHealthSpasGymForm from './pages/EditFitnessHealthSpasGymForm';
+import FitnessHealthSpasGymBrowse from './pages/FitnessHealthSpasGymBrowse';
+import FitnessHealthSpasGymDetailView from './pages/FitnessHealthSpasGymDetailView';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -836,6 +840,18 @@ function App() {
                 } />
                 <Route path="talented-entertainers-artists" element={<TalentedEntertainersArtistsBrowse />} />
                 <Route path="talented-entertainers-artists/:id" element={<TalentedEntertainersArtistsDetailView />} />
+                <Route path="fitness-health-spas-gym-form" element={
+                  <ProtectedRoute>
+                    <FitnessHealthSpasGymForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="fitness-health-spas-gym/:id/edit" element={
+                  <ProtectedRoute>
+                    <EditFitnessHealthSpasGymForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="fitness-health-spas-gym/:id" element={<FitnessHealthSpasGymDetailView />} />
+                <Route path="ads/professionals/fitness-health-spas-gym" element={<FitnessHealthSpasGymBrowse />} />
                 {/* Alias route for sidebar navigation */}
                 <Route path="ads/marketplace/other-items" element={<OtherItemsBrowse />} />
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />

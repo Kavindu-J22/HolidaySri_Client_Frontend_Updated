@@ -416,6 +416,11 @@ const Advertisements = () => {
       navigate('/talented-entertainers-artists-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'fitness_health_spas_gym') {
+      // Navigate to fitness health spas gym form
+      navigate('/fitness-health-spas-gym-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -723,6 +728,13 @@ const Advertisements = () => {
       } else {
         setError('Talented Entertainers & Artists profile not found');
       }
+    } else if (advertisement && advertisement.category === 'fitness_health_spas_gym') {
+      // Navigate to edit fitness health spas gym profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/fitness-health-spas-gym/${advertisement.publishedAdId}/edit`);
+      } else {
+        setError('Fitness Health Spas Gym profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -927,6 +939,11 @@ const Advertisements = () => {
       // Navigate to talented entertainers artists detail view
       if (advertisement.publishedAdId) {
         navigate(`/talented-entertainers-artists/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'fitness_health_spas_gym') {
+      // Navigate to fitness health spas gym detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/fitness-health-spas-gym/${advertisement.publishedAdId}`);
       }
     }
   };
