@@ -8,7 +8,8 @@ import {
   AlertCircle,
   Filter,
   X,
-  DollarSign
+  DollarSign,
+  Eye
 } from 'lucide-react';
 
 const SouvenirsCollectiblesBrowse = () => {
@@ -277,22 +278,22 @@ const SouvenirsCollectiblesBrowse = () => {
                   {souvenirsCollectibles.map(item => (
                     <div
                       key={item._id}
-                      onClick={() => navigate(`/souvenirs-collectibles/${item._id}`)}
-                      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+                      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 group flex flex-col h-full"
                     >
                       {/* Image */}
                       {item.images && item.images.length > 0 && (
-                        <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
+                        <div className="relative h-48 bg-gray-200 dark:bg-gray-700 overflow-hidden flex-shrink-0">
                           <img
                             src={item.images[0].url}
                             alt={item.name}
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                           />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
                         </div>
                       )}
 
                       {/* Content */}
-                      <div className="p-4">
+                      <div className="p-4 flex flex-col flex-grow">
                         <h3 className="font-semibold text-gray-900 dark:text-white mb-1 line-clamp-2">
                           {item.name}
                         </h3>
@@ -314,9 +315,9 @@ const SouvenirsCollectiblesBrowse = () => {
                           <span>{item.location.city}, {item.location.province}</span>
                         </div>
 
-                        {/* Price */}
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-1 text-lg font-bold text-blue-600">
+                        {/* Price and Availability */}
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-1 text-lg font-bold text-blue-600 dark:text-blue-400">
                             <DollarSign className="w-5 h-5" />
                             <span>{item.price.toLocaleString()}</span>
                           </div>
@@ -328,6 +329,18 @@ const SouvenirsCollectiblesBrowse = () => {
                             {item.available ? 'Available' : 'Unavailable'}
                           </span>
                         </div>
+
+                        {/* View Button */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/souvenirs-collectibles/${item._id}`);
+                          }}
+                          className="w-full mt-auto px-4 py-2.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-lg transition-colors duration-300 font-medium flex items-center justify-center gap-2 group/btn shadow-md hover:shadow-lg"
+                        >
+                          <Eye className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
+                          <span>View Details</span>
+                        </button>
                       </div>
                     </div>
                   ))}

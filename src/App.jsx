@@ -415,6 +415,7 @@ function App() {
                 } />
                 <Route path="souvenirs-collectibles/:id" element={<SouvenirsCollectiblesDetailView />} />
                 <Route path="souvenirs-collectibles" element={<SouvenirsCollectiblesBrowse />} />
+                <Route path="ads/marketplace/souvenirs" element={<SouvenirsCollectiblesBrowse />} />
                 <Route path="vehicle-rentals-hire-form" element={
                   <ProtectedRoute>
                     <VehicleRentalsHireForm />
