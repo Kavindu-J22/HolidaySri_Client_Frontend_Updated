@@ -284,7 +284,8 @@ const CustomizeTourPackageForm = () => {
       'under-review': { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-800 dark:text-blue-400', icon: Eye },
       'approved': { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-800 dark:text-green-400', icon: CheckCircle },
       'rejected': { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-800 dark:text-red-400', icon: XCircle },
-      'show-partners': { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-800 dark:text-purple-400', icon: Package }
+      'show-partners': { bg: 'bg-purple-100 dark:bg-purple-900/30', text: 'text-purple-800 dark:text-purple-400', icon: Package },
+      'partner-approved': { bg: 'bg-teal-100 dark:bg-teal-900/30', text: 'text-teal-800 dark:text-teal-400', icon: CheckCircle }
     };
     return badges[status] || badges.pending;
   };
@@ -588,6 +589,8 @@ const CustomizeTourPackageForm = () => {
                   <option value="under-review">Under Review</option>
                   <option value="approved">Approved</option>
                   <option value="rejected">Rejected</option>
+                  <option value="show-partners">Show Partners</option>
+                  <option value="partner-approved">Partner Approved</option>
                 </select>
               </div>
 
