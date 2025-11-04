@@ -221,31 +221,59 @@ const JobOpportunitiesDetailView = () => {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Contact Information */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Contact Information</h3>
-              <div className="space-y-3">
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Phone</p>
-                  <p className="text-gray-900 dark:text-white font-semibold">{job.contact}</p>
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">Contact Information</h3>
+              <div className="space-y-4">
+                {/* Phone */}
+                <div className="border-b border-gray-200 dark:border-gray-700 pb-3 last:border-b-0">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium mb-1">Phone</p>
+                  <a
+                    href={`tel:${job.contact}`}
+                    className="text-sm sm:text-base text-blue-600 dark:text-blue-400 hover:underline break-all"
+                  >
+                    {job.contact}
+                  </a>
                 </div>
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Email</p>
-                  <a href={`mailto:${job.email}`} className="text-blue-600 dark:text-blue-400 hover:underline">
+
+                {/* Email */}
+                <div className="border-b border-gray-200 dark:border-gray-700 pb-3 last:border-b-0">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium mb-1">Email</p>
+                  <a
+                    href={`mailto:${job.email}`}
+                    className="text-sm sm:text-base text-blue-600 dark:text-blue-400 hover:underline break-all"
+                    title={job.email}
+                  >
                     {job.email}
                   </a>
                 </div>
+
+                {/* Website */}
                 {job.website && (
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Website</p>
-                    <a href={job.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                  <div className="border-b border-gray-200 dark:border-gray-700 pb-3 last:border-b-0">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium mb-1">Website</p>
+                    <a
+                      href={job.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm sm:text-base text-blue-600 dark:text-blue-400 hover:underline break-all"
+                      title={job.website}
+                    >
                       Visit Website
                     </a>
                   </div>
                 )}
+
+                {/* LinkedIn */}
                 {job.linkedin && (
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">LinkedIn</p>
-                    <a href={job.linkedin} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                  <div className="border-b border-gray-200 dark:border-gray-700 pb-3 last:border-b-0">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium mb-1">LinkedIn</p>
+                    <a
+                      href={job.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm sm:text-base text-blue-600 dark:text-blue-400 hover:underline break-all"
+                      title={job.linkedin}
+                    >
                       View Profile
                     </a>
                   </div>
@@ -254,20 +282,25 @@ const JobOpportunitiesDetailView = () => {
             </div>
 
             {/* Job Details */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Job Details</h3>
-              <div className="space-y-3">
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Specialization</p>
-                  <p className="text-gray-900 dark:text-white font-semibold">{job.specialization}</p>
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4">Job Details</h3>
+              <div className="space-y-4">
+                {/* Specialization */}
+                <div className="border-b border-gray-200 dark:border-gray-700 pb-3 last:border-b-0">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium mb-1">Specialization</p>
+                  <p className="text-sm sm:text-base text-gray-900 dark:text-white font-semibold break-words">{job.specialization}</p>
                 </div>
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Work Type</p>
-                  <p className="text-gray-900 dark:text-white font-semibold">{job.workType}</p>
+
+                {/* Work Type */}
+                <div className="border-b border-gray-200 dark:border-gray-700 pb-3 last:border-b-0">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium mb-1">Work Type</p>
+                  <p className="text-sm sm:text-base text-gray-900 dark:text-white font-semibold break-words">{job.workType}</p>
                 </div>
-                <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Priority</p>
-                  <span className={`inline-block px-3 py-1 rounded-full text-sm font-semibold ${
+
+                {/* Priority */}
+                <div className="border-b border-gray-200 dark:border-gray-700 pb-3 last:border-b-0">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-medium mb-2">Priority</p>
+                  <span className={`inline-block px-3 py-1 rounded-full text-xs sm:text-sm font-semibold ${
                     job.priority === 'Urgent' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' :
                     job.priority === 'Medium' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' :
                     'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
