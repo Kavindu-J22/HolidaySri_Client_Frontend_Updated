@@ -237,7 +237,8 @@ const PostAdvertisement = () => {
           id: 'customize_tour_package',
           name: 'Customize Tour Package Advertisement',
           description: 'Offer personalized tour experiences tailored to individual preferences. Perfect for bespoke travel services.',
-          features: ['Customization options', 'Personal touch', 'Flexible itineraries', 'Premium positioning']
+          features: ['Customization options', 'Personal touch', 'Flexible itineraries', 'Premium positioning'],
+          hidden: true
         },
         {
           id: 'travelsafe_help_professionals',
@@ -537,7 +538,8 @@ const PostAdvertisement = () => {
           id: 'create_link_own_store',
           name: 'Create or Link Your Own Store Advertisement',
           description: 'Promote your e-commerce store or link to your existing online marketplace presence.',
-          features: ['Store integration', 'Product catalogs', 'Payment systems', 'Brand promotion']
+          features: ['Store integration', 'Product catalogs', 'Payment systems', 'Brand promotion'],
+          hidden: true
         }
       ]
     },
@@ -570,13 +572,15 @@ const PostAdvertisement = () => {
           id: 'cinema_movie_hub',
           name: 'Cinema & Movie Hub Advertisement',
           description: 'Advertise your cinema, movie screenings, and entertainment venue services.',
-          features: ['Movie listings', 'Screening times', 'Facility features', 'Special events']
+          features: ['Movie listings', 'Screening times', 'Facility features', 'Special events'],
+          hidden: true
         },
         {
           id: 'social_media_promotions',
           name: 'Social Media Promotions Advertisement',
           description: 'Offer social media marketing, promotion services, and digital marketing solutions.',
-          features: ['Platform expertise', 'Campaign management', 'Analytics reporting', 'Content creation']
+          features: ['Platform expertise', 'Campaign management', 'Analytics reporting', 'Content creation'],
+          hidden: true
         }
       ]
     },
@@ -609,7 +613,8 @@ const PostAdvertisement = () => {
           id: 'custom_ads_campaigns',
           name: 'Custom Ads Campaigns Advertisement',
           description: 'Create and manage custom advertising campaigns with specialized targeting and messaging.',
-          features: ['Custom targeting', 'Campaign management', 'Performance tracking', 'Creative services']
+          features: ['Custom targeting', 'Campaign management', 'Performance tracking', 'Creative services'],
+          hidden: true
         },
         {
           id: 'exclusive_offers_promotions',
@@ -630,7 +635,7 @@ const PostAdvertisement = () => {
           id: 'emergency_services_insurance',
           name: 'Emergency Services & Insurance Advertisement',
           description: 'Provide critical emergency services, insurance products, and safety solutions for travelers.',
-          features: ['24/7 availability', 'Emergency response', 'Insurance coverage', 'Safety protocols']
+          features: ['24/7 availability', 'Emergency response', 'Insurance coverage', 'Safety protocols'],
         }
       ]
     }
@@ -882,7 +887,7 @@ const PostAdvertisement = () => {
 
           {/* Slots Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {category.slots.map((slot) => {
+            {category.slots.filter(slot => !slot.hidden).map((slot) => {
               const pricing = getPricing(category.id, slot.id);
               return (
                 <div key={slot.id} className="card p-6 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">

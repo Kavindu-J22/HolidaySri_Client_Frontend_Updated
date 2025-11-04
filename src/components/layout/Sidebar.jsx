@@ -181,7 +181,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Organic Herbal Products & Spices', path: '/ads/marketplace/organic-herbal-products-spices' },
         { name: 'Books, Magazines & Educational Materials', path: '/books-magazines-educational' },
         { name: 'Other Items', path: '/other-items' },
-        { name: 'Create Your Own Store : It\'s Time To Shoping', path: '/ads/marketplace/create-store' },
+        { name: 'Create Your Own Store : It\'s Time To Shoping', path: '/ads/marketplace/create-store', hidden: true },
       ]
     },
     {
@@ -195,8 +195,8 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Exclusive Combo Packages (Wedding, Tour and More)', path: '/exclusive-combo-packages' },
         { name: 'Talented Entertainers & Artists', path: '/ads/entertainment/entertainers-artists' },
         { name: 'Fitness & Health : Spas, Gym Ect. & Professionals', path: '/ads/professionals/fitness-health-spas-gym' },
-        { name: 'Cinema & Movie Hub', path: '/ads/entertainment/cinema-movies' },
-        { name: 'Social Media Promotions', path: '/ads/entertainment/social-media' },
+        { name: 'Cinema & Movie Hub', path: '/ads/entertainment/cinema-movies', hidden: true },
+        { name: 'Social Media Promotions', path: '/ads/entertainment/social-media', hidden: true },
       ]
     },
     {
@@ -209,7 +209,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Exciting Job Opportunities', path: '/ads/opportunities/jobs' },
         { name: 'Crypto Consulting & Signals', path: '/ads/opportunities/crypto' },
         { name: 'Local SIM Cards & Mobile Data Plans', path: '/ads/opportunities/sim-data' },
-        { name: 'Custom Ads Campaigns', path: '/ads/opportunities/ads-campaigns' },
+        { name: 'Custom Ads Campaigns', path: '/ads/opportunities/ads-campaigns', hidden: true },
         { name: 'Exclusive Offers & Promotions', path: '/ads/opportunities/offers-promotions' },
       ]
     },
@@ -223,7 +223,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Emergency Services & insurance', path: '/ads/essential/emergency-insurance' },
         { name: 'Become a Holidaysri Member', path: '/ads/essential/pricing-memberships' },
         { name: 'Com.Partners & Partnerships', path: '/ads/opportunities/partnerships' },
-        { name: 'Mission Board, User Manual & Important Notice', path: '/ads/essential/mission-manual' },
+        { name: 'Mission Board, User Manual & Important Notice', path: '/ads/essential/mission-manual', hidden: true },
       ]
     }
   ];
@@ -498,7 +498,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                       {/* Connecting line */}
                       <div className="absolute left-3 top-0 bottom-0 w-px bg-gradient-to-b from-gray-300 via-gray-200 to-transparent dark:from-gray-600 dark:via-gray-700 dark:to-transparent" />
 
-                      {category.subcategories.map((subcategory, index) => {
+                      {category.subcategories.filter(sub => !sub.hidden).map((subcategory, index) => {
                         const isActiveSubcat = isActive(subcategory.path);
                         const categoryColorClass = category.color;
                         const categoryBgClass = category.bgColor;
