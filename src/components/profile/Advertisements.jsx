@@ -431,6 +431,11 @@ const Advertisements = () => {
       navigate('/local-sim-mobile-data-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'emergency_services_insurance') {
+      // Navigate to emergency services insurance form
+      navigate('/emergency-services-insurance-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -759,6 +764,13 @@ const Advertisements = () => {
       } else {
         setError('Local SIM Mobile Data profile not found');
       }
+    } else if (advertisement && advertisement.category === 'emergency_services_insurance') {
+      // Navigate to edit emergency services insurance profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-emergency-services-insurance/${advertisement.publishedAdId}`);
+      } else {
+        setError('Emergency Services Insurance profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -978,6 +990,11 @@ const Advertisements = () => {
       // Navigate to local SIM mobile data detail view
       if (advertisement.publishedAdId) {
         navigate(`/local-sim-mobile-data/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'emergency_services_insurance') {
+      // Navigate to emergency services insurance detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/emergency-services-insurance/${advertisement.publishedAdId}`);
       }
     }
   };

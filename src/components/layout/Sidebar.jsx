@@ -220,7 +220,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       color: 'text-gray-600',
       bgColor: 'bg-gray-50',
       subcategories: [
-        { name: 'Emergency Services & insurance', path: '/ads/essential/emergency-insurance' },
+        { name: 'Emergency Services & Insurance', path: '/ads/essential-services/emergency-services-insurance' },
         { name: 'Become a Holidaysri Member', path: '/ads/essential/pricing-memberships' },
         { name: 'Com.Partners & Partnerships', path: '/ads/opportunities/partnerships' },
         { name: 'Mission Board, User Manual & Important Notice', path: '/ads/essential/mission-manual', hidden: true },

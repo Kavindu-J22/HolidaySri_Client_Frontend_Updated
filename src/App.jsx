@@ -216,6 +216,10 @@ import LocalSimMobileDataForm from './pages/LocalSimMobileDataForm';
 import EditLocalSimMobileDataForm from './pages/EditLocalSimMobileDataForm';
 import LocalSimMobileDataBrowse from './pages/LocalSimMobileDataBrowse';
 import LocalSimMobileDataDetailView from './pages/LocalSimMobileDataDetailView';
+import EmergencyServicesInsuranceForm from './pages/EmergencyServicesInsuranceForm';
+import EditEmergencyServicesInsuranceForm from './pages/EditEmergencyServicesInsuranceForm';
+import EmergencyServicesInsuranceDetailView from './pages/EmergencyServicesInsuranceDetailView';
+import EmergencyServicesInsuranceBrowse from './pages/EmergencyServicesInsuranceBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -884,6 +888,18 @@ function App() {
                 } />
                 <Route path="local-sim-mobile-data/:id" element={<LocalSimMobileDataDetailView />} />
                 <Route path="ads/special-opportunities/local-sim-mobile-data" element={<LocalSimMobileDataBrowse />} />
+                <Route path="emergency-services-insurance-form" element={
+                  <ProtectedRoute>
+                    <EmergencyServicesInsuranceForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-emergency-services-insurance/:id" element={
+                  <ProtectedRoute>
+                    <EditEmergencyServicesInsuranceForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="emergency-services-insurance/:id" element={<EmergencyServicesInsuranceDetailView />} />
+                <Route path="ads/essential-services/emergency-services-insurance" element={<EmergencyServicesInsuranceBrowse />} />
                 {/* Alias route for sidebar navigation */}
                 <Route path="ads/marketplace/other-items" element={<OtherItemsBrowse />} />
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
