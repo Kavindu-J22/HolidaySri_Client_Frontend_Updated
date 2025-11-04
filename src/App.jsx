@@ -204,6 +204,10 @@ import TalentedEntertainersArtistsForm from './pages/TalentedEntertainersArtists
 import EditTalentedEntertainersArtistsForm from './pages/EditTalentedEntertainersArtistsForm';
 import TalentedEntertainersArtistsBrowse from './pages/TalentedEntertainersArtistsBrowse';
 import TalentedEntertainersArtistsDetailView from './pages/TalentedEntertainersArtistsDetailView';
+import JobOpportunitiesForm from './pages/JobOpportunitiesForm';
+import EditJobOpportunitiesForm from './pages/EditJobOpportunitiesForm';
+import JobOpportunitiesBrowse from './pages/JobOpportunitiesBrowse';
+import JobOpportunitiesDetailView from './pages/JobOpportunitiesDetailView';
 import FitnessHealthSpasGymForm from './pages/FitnessHealthSpasGymForm';
 import EditFitnessHealthSpasGymForm from './pages/EditFitnessHealthSpasGymForm';
 import FitnessHealthSpasGymBrowse from './pages/FitnessHealthSpasGymBrowse';
@@ -852,6 +856,18 @@ function App() {
                 } />
                 <Route path="fitness-health-spas-gym/:id" element={<FitnessHealthSpasGymDetailView />} />
                 <Route path="ads/professionals/fitness-health-spas-gym" element={<FitnessHealthSpasGymBrowse />} />
+                <Route path="job-opportunities-form" element={
+                  <ProtectedRoute>
+                    <JobOpportunitiesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-job-opportunities/:id" element={
+                  <ProtectedRoute>
+                    <EditJobOpportunitiesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="job-opportunities/:id" element={<JobOpportunitiesDetailView />} />
+                <Route path="ads/professionals/job-opportunities" element={<JobOpportunitiesBrowse />} />
                 {/* Alias route for sidebar navigation */}
                 <Route path="ads/marketplace/other-items" element={<OtherItemsBrowse />} />
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />

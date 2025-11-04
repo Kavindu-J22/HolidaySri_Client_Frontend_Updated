@@ -421,6 +421,11 @@ const Advertisements = () => {
       navigate('/fitness-health-spas-gym-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'job_opportunities') {
+      // Navigate to job opportunities form
+      navigate('/job-opportunities-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -735,6 +740,13 @@ const Advertisements = () => {
       } else {
         setError('Fitness Health Spas Gym profile not found');
       }
+    } else if (advertisement && advertisement.category === 'job_opportunities') {
+      // Navigate to edit job opportunities profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-job-opportunities/${advertisement.publishedAdId}`);
+      } else {
+        setError('Job Opportunity not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -944,6 +956,11 @@ const Advertisements = () => {
       // Navigate to fitness health spas gym detail view
       if (advertisement.publishedAdId) {
         navigate(`/fitness-health-spas-gym/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'job_opportunities') {
+      // Navigate to job opportunities detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/job-opportunities/${advertisement.publishedAdId}`);
       }
     }
   };

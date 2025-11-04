@@ -206,7 +206,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       color: 'text-yellow-600',
       bgColor: 'bg-yellow-50',
       subcategories: [
-        { name: 'Exciting Job Opportunities', path: '/ads/opportunities/jobs' },
+        { name: 'Exciting Job Opportunities', path: '/ads/professionals/job-opportunities' },
         { name: 'Crypto Consulting & Signals', path: '/ads/opportunities/crypto' },
         { name: 'Local SIM Cards & Mobile Data Plans', path: '/ads/opportunities/sim-data' },
         { name: 'Custom Ads Campaigns', path: '/ads/opportunities/ads-campaigns', hidden: true },
