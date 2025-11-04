@@ -212,6 +212,10 @@ import FitnessHealthSpasGymForm from './pages/FitnessHealthSpasGymForm';
 import EditFitnessHealthSpasGymForm from './pages/EditFitnessHealthSpasGymForm';
 import FitnessHealthSpasGymBrowse from './pages/FitnessHealthSpasGymBrowse';
 import FitnessHealthSpasGymDetailView from './pages/FitnessHealthSpasGymDetailView';
+import LocalSimMobileDataForm from './pages/LocalSimMobileDataForm';
+import EditLocalSimMobileDataForm from './pages/EditLocalSimMobileDataForm';
+import LocalSimMobileDataBrowse from './pages/LocalSimMobileDataBrowse';
+import LocalSimMobileDataDetailView from './pages/LocalSimMobileDataDetailView';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -868,6 +872,18 @@ function App() {
                 } />
                 <Route path="job-opportunities/:id" element={<JobOpportunitiesDetailView />} />
                 <Route path="ads/professionals/job-opportunities" element={<JobOpportunitiesBrowse />} />
+                <Route path="local-sim-mobile-data-form" element={
+                  <ProtectedRoute>
+                    <LocalSimMobileDataForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-local-sim-mobile-data/:id" element={
+                  <ProtectedRoute>
+                    <EditLocalSimMobileDataForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="local-sim-mobile-data/:id" element={<LocalSimMobileDataDetailView />} />
+                <Route path="ads/special-opportunities/local-sim-mobile-data" element={<LocalSimMobileDataBrowse />} />
                 {/* Alias route for sidebar navigation */}
                 <Route path="ads/marketplace/other-items" element={<OtherItemsBrowse />} />
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
