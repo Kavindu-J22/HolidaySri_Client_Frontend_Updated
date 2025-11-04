@@ -127,7 +127,6 @@ const EmergencyServicesInsuranceBrowse = () => {
   // State
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('All'); // All, Service, Professionals
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedProvince, setSelectedProvince] = useState('');
@@ -137,7 +136,7 @@ const EmergencyServicesInsuranceBrowse = () => {
   // Fetch profiles
   useEffect(() => {
     fetchProfiles();
-  }, [searchTerm, selectedCategory, selectedProvince, selectedCity, activeTab]);
+  }, [searchTerm, selectedCategory, selectedProvince, selectedCity]);
 
   const fetchProfiles = async () => {
     setLoading(true);
@@ -147,7 +146,6 @@ const EmergencyServicesInsuranceBrowse = () => {
       if (selectedCategory) params.append('category', selectedCategory);
       if (selectedProvince) params.append('province', selectedProvince);
       if (selectedCity) params.append('city', selectedCity);
-      if (activeTab !== 'All') params.append('type', activeTab);
 
       const response = await fetch(`/api/emergency-services-insurance/browse?${params.toString()}`);
       const data = await response.json();
@@ -248,23 +246,6 @@ const EmergencyServicesInsuranceBrowse = () => {
 
         {/* Divider */}
         <div className="border-t-2 border-gray-200 dark:border-gray-700 my-12"></div>
-
-        {/* Tabs */}
-        <div className="flex items-center justify-center space-x-2 mb-8">
-          {['All', 'Service', 'Professionals'].map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 rounded-lg font-medium transition-all ${
-                activeTab === tab
-                  ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-lg'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-        </div>
 
         {/* Search and Filters */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-8">
