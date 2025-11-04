@@ -56,6 +56,7 @@ import LocalTourPackageForm from './pages/LocalTourPackageForm';
 import EditLocalTourPackage from './pages/EditLocalTourPackage';
 import LocalTourPackageDetail from './pages/LocalTourPackageDetail';
 import LocalTourPackagesBrowse from './pages/LocalTourPackagesBrowse';
+import CustomizeTourPackageForm from './pages/CustomizeTourPackageForm';
 import TravelSafeHelpProfessionalForm from './pages/TravelSafeHelpProfessionalForm';
 import EditTravelSafeHelpProfessionalProfile from './pages/EditTravelSafeHelpProfessionalProfile';
 import TravelSafeHelpProfessionalDetail from './pages/TravelSafeHelpProfessionalDetail';
@@ -406,6 +407,11 @@ function App() {
                 } />
                 <Route path="local-tour-package/:id" element={<LocalTourPackageDetail />} />
                 <Route path="local-tour-packages" element={<LocalTourPackagesBrowse />} />
+                <Route path="ads/tourism/customize-package" element={
+                  <ProtectedRoute>
+                    <CustomizeTourPackageForm />
+                  </ProtectedRoute>
+                } />
                 <Route path="travel-safe-help-professional-form" element={
                   <ProtectedRoute>
                     <TravelSafeHelpProfessionalForm />
