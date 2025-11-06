@@ -13,7 +13,7 @@ import {
 const HotelsAccommodationsDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [hotel, setHotel] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -55,6 +55,7 @@ const HotelsAccommodationsDetail = () => {
   const [uploadingRoomImages, setUploadingRoomImages] = useState(false);
   const [selectedRoomImages, setSelectedRoomImages] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [additionalRoomCharge, setAdditionalRoomCharge] = useState(50);
 
   // Fetch hotel details
   useEffect(() => {
@@ -87,6 +88,24 @@ const HotelsAccommodationsDetail = () => {
 
     fetchHotelDetails();
   }, [id, user?._id]);
+
+  // Fetch additional room charge configuration
+  useEffect(() => {
+    const fetchAdditionalRoomCharge = async () => {
+      try {
+        const response = await fetch('/api/hsc/info');
+        const data = await response.json();
+        if (data.additionalRoomCharge !== undefined) {
+          setAdditionalRoomCharge(data.additionalRoomCharge);
+        }
+      } catch (error) {
+        console.error('Error fetching additional room charge:', error);
+        // Keep default value of 50 if fetch fails
+      }
+    };
+
+    fetchAdditionalRoomCharge();
+  }, []);
 
   // Keyboard navigation for image gallery
   useEffect(() => {
@@ -215,7 +234,25 @@ const HotelsAccommodationsDetail = () => {
           earnRateForPromo: 0
         });
         setShowAddRoom(false);
-        alert('Room added successfully!');
+
+        // Show success message with HSC charge info if applicable
+        if (data.hscCharged) {
+          alert(`Room added successfully! ${data.hscCharged} HSC has been deducted from your balance.`);
+          // Refresh user balance
+          if (user) {
+            const userResponse = await fetch('/api/users/hsc', {
+              headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+              }
+            });
+            const userData = await userResponse.json();
+            if (userData.balance !== undefined) {
+              updateUser({ hscBalance: userData.balance });
+            }
+          }
+        } else {
+          alert('Room added successfully!');
+        }
       } else {
         alert(data.message || 'Failed to add room');
       }
@@ -486,19 +523,28 @@ const HotelsAccommodationsDetail = () => {
 
 
         {/* Room Alert for Owner */}
-        {isOwner && roomsAvailable > 0 && (
-          <div className="mb-6 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl shadow-lg p-6 text-white">
+        {isOwner && (
+          <div className={`mb-6 rounded-xl shadow-lg p-6 text-white ${
+            roomsAvailable > 0
+              ? 'bg-gradient-to-r from-blue-500 to-indigo-600'
+              : 'bg-gradient-to-r from-orange-500 to-red-600'
+          }`}>
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-start gap-3">
                 <Info className="w-6 h-6 mt-1 flex-shrink-0" />
                 <div>
                   <h3 className="text-lg font-bold mb-1">
-                    {roomsAvailable === 3 ? 'Add Your Rooms!' : `${roomsAvailable} Room${roomsAvailable > 1 ? 's' : ''} Available!`}
+                    {roomsAvailable > 0
+                      ? (roomsAvailable === 3 ? 'Add Your Rooms!' : `${roomsAvailable} Room${roomsAvailable > 1 ? 's' : ''} Available!`)
+                      : 'Add More Rooms'
+                    }
                   </h3>
-                  <p className="text-blue-100">
-                    {roomsAvailable === 3
-                      ? 'You can add up to 3 rooms for free to showcase your accommodation options.'
-                      : `You have ${roomsAvailable} more room${roomsAvailable > 1 ? 's' : ''} available to add for free.`
+                  <p className={roomsAvailable > 0 ? 'text-blue-100' : 'text-orange-100'}>
+                    {roomsAvailable > 0
+                      ? (roomsAvailable === 3
+                        ? 'You can add up to 3 rooms for free to showcase your accommodation options.'
+                        : `You have ${roomsAvailable} more room${roomsAvailable > 1 ? 's' : ''} available to add for free.`)
+                      : `Additional rooms cost ${additionalRoomCharge} HSC each. Your current balance: ${user?.hscBalance || 0} HSC`
                     }
                   </p>
                 </div>
@@ -508,10 +554,14 @@ const HotelsAccommodationsDetail = () => {
                   setActiveTab('rooms');
                   setShowAddRoom(true);
                 }}
-                className="flex items-center gap-2 px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-semibold whitespace-nowrap"
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors font-semibold whitespace-nowrap ${
+                  roomsAvailable > 0
+                    ? 'bg-white text-blue-600 hover:bg-blue-50'
+                    : 'bg-white text-orange-600 hover:bg-orange-50'
+                }`}
               >
                 <Plus className="w-5 h-5" />
-                Add Room
+                Add Room {roomsAvailable === 0 && `(${additionalRoomCharge} HSC)`}
               </button>
             </div>
           </div>
@@ -1336,16 +1386,20 @@ const HotelsAccommodationsDetail = () => {
               <div className="space-y-6">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Rooms</h2>
-                  {isOwner && roomsAvailable > 0 && !showAddRoom && (
+                  {isOwner && !showAddRoom && (
                     <button
                       onClick={() => {
                         setEditingRoom(null);
                         setShowAddRoom(true);
                       }}
-                      className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                        roomsAvailable > 0
+                          ? 'bg-blue-600 text-white hover:bg-blue-700'
+                          : 'bg-orange-600 text-white hover:bg-orange-700'
+                      }`}
                     >
                       <Plus className="w-5 h-5" />
-                      Add Room
+                      Add Room {roomsAvailable === 0 && `(${additionalRoomCharge} HSC)`}
                     </button>
                   )}
                 </div>
