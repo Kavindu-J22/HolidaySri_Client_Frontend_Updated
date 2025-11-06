@@ -6,7 +6,8 @@ import {
   MapPin, Phone, Mail, Globe, Facebook, MessageCircle, Star,
   Building2, Utensils, Users, Shield, Activity, Image as ImageIcon,
   ChevronLeft, Loader, AlertCircle, CheckCircle, X, Sparkles,
-  FileText, MapPinned, Send, Bed, Plus, Edit, Trash2, Info
+  FileText, MapPinned, Send, Bed, Plus, Edit, Trash2, Info,
+  ChevronRight
 } from 'lucide-react';
 
 const HotelsAccommodationsDetail = () => {
@@ -52,6 +53,8 @@ const HotelsAccommodationsDetail = () => {
     earnRateForPromo: 0
   });
   const [uploadingRoomImages, setUploadingRoomImages] = useState(false);
+  const [selectedRoomImages, setSelectedRoomImages] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   // Fetch hotel details
   useEffect(() => {
@@ -1369,22 +1372,34 @@ const HotelsAccommodationsDetail = () => {
                 {hotel.rooms && hotel.rooms.length > 0 ? (
                   <div className="grid grid-cols-1 gap-6">
                     {hotel.rooms.map((room, index) => (
-                      <div key={room._id || index} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                      <div key={room._id || index} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border-2 border-gray-200 dark:border-gray-700 hover:border-blue-400 dark:hover:border-blue-600 transition-colors">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                           {/* Room Images */}
                           <div className="md:col-span-1">
                             {room.images && room.images.length > 0 ? (
-                              <div className="relative h-64 md:h-full">
+                              <div
+                                className="relative h-64 md:h-full cursor-pointer group"
+                                onClick={() => {
+                                  setSelectedRoomImages(room.images);
+                                  setCurrentImageIndex(0);
+                                }}
+                              >
                                 <img
                                   src={room.images[0].url}
                                   alt={room.roomName}
-                                  className="w-full h-full object-cover"
+                                  className="w-full h-full object-cover group-hover:opacity-90 transition-opacity"
                                 />
                                 {room.images.length > 1 && (
-                                  <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-sm">
-                                    +{room.images.length - 1} more
+                                  <div className="absolute bottom-2 right-2 bg-black/70 text-white px-3 py-1.5 rounded-lg text-sm font-medium">
+                                    <ImageIcon className="w-4 h-4 inline mr-1" />
+                                    {room.images.length} photos
                                   </div>
                                 )}
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                                  <div className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 dark:bg-gray-800/90 px-4 py-2 rounded-lg">
+                                    <p className="text-sm font-medium text-gray-900 dark:text-white">Click to view gallery</p>
+                                  </div>
+                                </div>
                               </div>
                             ) : (
                               <div className="flex items-center justify-center h-64 md:h-full bg-gray-200 dark:bg-gray-700">
@@ -1518,10 +1533,25 @@ const HotelsAccommodationsDetail = () => {
 
                             {/* Agent Promo Badge */}
                             {room.roomOpenForAgents && (
-                              <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
-                                <p className="text-sm text-yellow-800 dark:text-yellow-200">
-                                  ⭐ Available through Holidaysri Agents with special discount!
-                                </p>
+                              <div className="mt-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg border-2 border-yellow-300 dark:border-yellow-700">
+                                <div className="flex items-start gap-2 mb-2">
+                                  <Sparkles className="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
+                                  <div className="flex-1">
+                                    <p className="text-sm font-semibold text-yellow-900 dark:text-yellow-200 mb-2">
+                                      Available through Holidaysri Agents
+                                    </p>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs">
+                                      <div className="flex items-center gap-1.5 text-yellow-800 dark:text-yellow-300">
+                                        <span className="font-medium">Customer Discount:</span>
+                                        <span className="font-bold">LKR {room.discountForPromo?.toLocaleString() || 0}</span>
+                                      </div>
+                                      <div className="flex items-center gap-1.5 text-yellow-800 dark:text-yellow-300">
+                                        <span className="font-medium">Agent Earning:</span>
+                                        <span className="font-bold">LKR {room.earnRateForPromo?.toLocaleString() || 0}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             )}
                           </div>
@@ -1735,6 +1765,57 @@ const HotelsAccommodationsDetail = () => {
             )}
           </div>
         </div>
+
+        {/* Room Image Gallery Modal */}
+        {selectedRoomImages && (
+          <div className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 p-4">
+            <div className="relative w-full h-full flex items-center justify-center">
+              {/* Close Button */}
+              <button
+                onClick={() => {
+                  setSelectedRoomImages(null);
+                  setCurrentImageIndex(0);
+                }}
+                className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors z-10"
+              >
+                <X className="w-6 h-6" />
+              </button>
+
+              {/* Previous Button */}
+              {selectedRoomImages.length > 1 && currentImageIndex > 0 && (
+                <button
+                  onClick={() => setCurrentImageIndex(currentImageIndex - 1)}
+                  className="absolute left-4 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors z-10"
+                >
+                  <ChevronLeft className="w-8 h-8" />
+                </button>
+              )}
+
+              {/* Image */}
+              <div className="max-w-6xl max-h-[90vh] flex flex-col items-center">
+                <img
+                  src={selectedRoomImages[currentImageIndex].url}
+                  alt={`Room image ${currentImageIndex + 1}`}
+                  className="max-w-full max-h-[80vh] object-contain rounded-lg"
+                />
+                {/* Image Counter */}
+                <div className="mt-4 px-4 py-2 bg-white/10 rounded-full text-white text-sm">
+                  {currentImageIndex + 1} / {selectedRoomImages.length}
+                </div>
+              </div>
+
+              {/* Next Button */}
+              {selectedRoomImages.length > 1 && currentImageIndex < selectedRoomImages.length - 1 && (
+                <button
+                  onClick={() => setCurrentImageIndex(currentImageIndex + 1)}
+                  className="absolute right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors z-10"
+                >
+                  <ChevronRight className="w-8 h-8" />
+                </button>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Success Modal */}
         {showSuccessModal && (

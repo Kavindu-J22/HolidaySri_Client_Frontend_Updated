@@ -273,7 +273,7 @@ const RoomForm = ({ formData, setFormData, onSubmit, onCancel, isEditing, upload
 
         {/* Board Pricing */}
         <div className="space-y-4">
-          <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Board Options</h4>
+          <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Board Options (Optional)</h4>
 
           {/* Full Board */}
           <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg space-y-3">
