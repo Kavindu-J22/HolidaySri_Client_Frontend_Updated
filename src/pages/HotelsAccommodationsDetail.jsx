@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import RoomForm from '../components/hotels/RoomForm';
 import {
   MapPin, Phone, Mail, Globe, Facebook, MessageCircle, Star,
   Building2, Utensils, Users, Shield, Activity, Image as ImageIcon,
   ChevronLeft, Loader, AlertCircle, CheckCircle, X, Sparkles,
-  FileText, MapPinned, Send
+  FileText, MapPinned, Send, Bed, Plus, Edit, Trash2, Info
 } from 'lucide-react';
 
 const HotelsAccommodationsDetail = () => {
@@ -24,6 +25,33 @@ const HotelsAccommodationsDetail = () => {
   const [submittingReview, setSubmittingReview] = useState(false);
   const [userReview, setUserReview] = useState(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  // Room state
+  const [showAddRoom, setShowAddRoom] = useState(false);
+  const [editingRoom, setEditingRoom] = useState(null);
+  const [roomFormData, setRoomFormData] = useState({
+    roomName: '',
+    type: '',
+    capacity: 1,
+    beds: '',
+    roomDescription: '',
+    pricePerNight: 0,
+    pricePerFullDay: 0,
+    pricing: {
+      fullboardPrice: 0,
+      fullboardInclude: [],
+      halfboardPrice: 0,
+      halfboardInclude: []
+    },
+    isAvailable: true,
+    amenities: [],
+    images: [],
+    noOfRooms: 1,
+    roomOpenForAgents: false,
+    discountForPromo: 0,
+    earnRateForPromo: 0
+  });
+  const [uploadingRoomImages, setUploadingRoomImages] = useState(false);
 
   // Fetch hotel details
   useEffect(() => {
@@ -116,6 +144,184 @@ const HotelsAccommodationsDetail = () => {
     }
   };
 
+  // Room functions
+  const handleAddRoom = async (e) => {
+    e.preventDefault();
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/hotels-accommodations/${id}/rooms`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(roomFormData)
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Refresh hotel data
+        const hotelResponse = await fetch(`/api/hotels-accommodations/${id}`);
+        const hotelData = await hotelResponse.json();
+        if (hotelData.success) {
+          setHotel(hotelData.data);
+        }
+
+        // Reset form
+        setRoomFormData({
+          roomName: '',
+          type: '',
+          capacity: 1,
+          beds: '',
+          roomDescription: '',
+          pricePerNight: 0,
+          pricePerFullDay: 0,
+          pricing: {
+            fullboardPrice: 0,
+            fullboardInclude: [],
+            halfboardPrice: 0,
+            halfboardInclude: []
+          },
+          isAvailable: true,
+          amenities: [],
+          images: [],
+          noOfRooms: 1,
+          roomOpenForAgents: false,
+          discountForPromo: 0,
+          earnRateForPromo: 0
+        });
+        setShowAddRoom(false);
+        alert('Room added successfully!');
+      } else {
+        alert(data.message || 'Failed to add room');
+      }
+    } catch (error) {
+      console.error('Error adding room:', error);
+      alert('Failed to add room');
+    }
+  };
+
+  const handleEditRoom = (room) => {
+    setEditingRoom(room);
+    setRoomFormData({
+      roomName: room.roomName,
+      type: room.type,
+      capacity: room.capacity,
+      beds: room.beds,
+      roomDescription: room.roomDescription,
+      pricePerNight: room.pricePerNight,
+      pricePerFullDay: room.pricePerFullDay,
+      pricing: room.pricing || {
+        fullboardPrice: 0,
+        fullboardInclude: [],
+        halfboardPrice: 0,
+        halfboardInclude: []
+      },
+      isAvailable: room.isAvailable,
+      amenities: room.amenities || [],
+      images: room.images || [],
+      noOfRooms: room.noOfRooms,
+      roomOpenForAgents: room.roomOpenForAgents || false,
+      discountForPromo: room.discountForPromo || 0,
+      earnRateForPromo: room.earnRateForPromo || 0
+    });
+    setShowAddRoom(true);
+  };
+
+  const handleUpdateRoom = async (e) => {
+    e.preventDefault();
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/hotels-accommodations/${id}/rooms/${editingRoom._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(roomFormData)
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Refresh hotel data
+        const hotelResponse = await fetch(`/api/hotels-accommodations/${id}`);
+        const hotelData = await hotelResponse.json();
+        if (hotelData.success) {
+          setHotel(hotelData.data);
+        }
+
+        // Reset form
+        setRoomFormData({
+          roomName: '',
+          type: '',
+          capacity: 1,
+          beds: '',
+          roomDescription: '',
+          pricePerNight: 0,
+          pricePerFullDay: 0,
+          pricing: {
+            fullboardPrice: 0,
+            fullboardInclude: [],
+            halfboardPrice: 0,
+            halfboardInclude: []
+          },
+          isAvailable: true,
+          amenities: [],
+          images: [],
+          noOfRooms: 1,
+          roomOpenForAgents: false,
+          discountForPromo: 0,
+          earnRateForPromo: 0
+        });
+        setEditingRoom(null);
+        setShowAddRoom(false);
+        alert('Room updated successfully!');
+      } else {
+        alert(data.message || 'Failed to update room');
+      }
+    } catch (error) {
+      console.error('Error updating room:', error);
+      alert('Failed to update room');
+    }
+  };
+
+  const handleDeleteRoom = async (roomId) => {
+    if (!window.confirm('Are you sure you want to delete this room?')) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/hotels-accommodations/${id}/rooms/${roomId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Refresh hotel data
+        const hotelResponse = await fetch(`/api/hotels-accommodations/${id}`);
+        const hotelData = await hotelResponse.json();
+        if (hotelData.success) {
+          setHotel(hotelData.data);
+        }
+        alert('Room deleted successfully!');
+      } else {
+        alert(data.message || 'Failed to delete room');
+      }
+    } catch (error) {
+      console.error('Error deleting room:', error);
+      alert('Failed to delete room');
+    }
+  };
+
   // Render star rating
   const renderStars = (value, interactive = false) => {
     return (
@@ -181,10 +387,67 @@ const HotelsAccommodationsDetail = () => {
     { id: 'facilities', label: 'Facilities', icon: Shield },
     { id: 'dining', label: 'Dining', icon: Utensils },
     { id: 'policies', label: 'Policies', icon: Shield },
+    { id: 'rooms', label: 'Rooms', icon: Bed },
     { id: 'activities', label: 'Activities', icon: Activity },
     { id: 'images', label: 'Gallery', icon: ImageIcon },
     { id: 'reviews', label: 'Reviews', icon: Star }
   ];
+
+  // Check if user is the owner - handle both populated and non-populated userId
+  let isOwner = false;
+  let hotelOwnerId = null;
+  let currentUserId = null;
+
+  if (user && hotel.userId) {
+    // Get current user ID (backend returns 'id', not '_id')
+    currentUserId = user.id || user._id;
+
+    // Extract the actual ID from userId (could be object or string)
+    if (typeof hotel.userId === 'object' && hotel.userId !== null) {
+      hotelOwnerId = hotel.userId._id || hotel.userId.id;
+    } else {
+      hotelOwnerId = hotel.userId;
+    }
+
+    // Compare IDs (convert to string for comparison)
+    isOwner = String(currentUserId) === String(hotelOwnerId);
+  }
+
+  // Calculate available room slots
+  const roomsAdded = (hotel.rooms && Array.isArray(hotel.rooms)) ? hotel.rooms.length : 0;
+  const roomsAvailable = 3 - roomsAdded;
+
+  // Comprehensive Debug logging
+  console.log('═══════════════════════════════════════');
+  console.log('🔍 OWNER CHECK DEBUG');
+  console.log('═══════════════════════════════════════');
+  console.log('User Object:', user);
+  console.log('User ID (user.id):', user?.id);
+  console.log('User ID (user._id):', user?._id);
+  console.log('Current User ID (extracted):', currentUserId);
+  console.log('User ID Type:', typeof currentUserId);
+  console.log('───────────────────────────────────────');
+  console.log('Hotel User ID (raw):', hotel.userId);
+  console.log('Hotel User ID Type:', typeof hotel.userId);
+  console.log('Hotel User ID._id:', hotel.userId?._id);
+  console.log('Hotel User ID.id:', hotel.userId?.id);
+  console.log('Extracted Hotel Owner ID:', hotelOwnerId);
+  console.log('───────────────────────────────────────');
+  console.log('String Comparison:');
+  console.log('  User ID (string):', String(currentUserId));
+  console.log('  Owner ID (string):', String(hotelOwnerId));
+  console.log('  Are Equal?:', String(currentUserId) === String(hotelOwnerId));
+  console.log('───────────────────────────────────────');
+  console.log('IS OWNER:', isOwner);
+  console.log('Rooms Added:', roomsAdded);
+  console.log('Rooms Available:', roomsAvailable);
+  console.log('Rooms Array:', hotel.rooms);
+  console.log('───────────────────────────────────────');
+  console.log('Alert Banner Conditions:');
+  console.log('  isOwner:', isOwner);
+  console.log('  roomsAvailable > 0:', roomsAvailable > 0);
+  console.log('  Should Show Banner:', isOwner && roomsAvailable > 0);
+  console.log('═══════════════════════════════════════');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
@@ -197,6 +460,40 @@ const HotelsAccommodationsDetail = () => {
           <ChevronLeft className="w-5 h-5" />
           Back to Hotels
         </button>
+
+
+
+        {/* Room Alert for Owner */}
+        {isOwner && roomsAvailable > 0 && (
+          <div className="mb-6 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl shadow-lg p-6 text-white">
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex items-start gap-3">
+                <Info className="w-6 h-6 mt-1 flex-shrink-0" />
+                <div>
+                  <h3 className="text-lg font-bold mb-1">
+                    {roomsAvailable === 3 ? 'Add Your Rooms!' : `${roomsAvailable} Room${roomsAvailable > 1 ? 's' : ''} Available!`}
+                  </h3>
+                  <p className="text-blue-100">
+                    {roomsAvailable === 3
+                      ? 'You can add up to 3 rooms for free to showcase your accommodation options.'
+                      : `You have ${roomsAvailable} more room${roomsAvailable > 1 ? 's' : ''} available to add for free.`
+                    }
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  setActiveTab('rooms');
+                  setShowAddRoom(true);
+                }}
+                className="flex items-center gap-2 px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition-colors font-semibold whitespace-nowrap"
+              >
+                <Plus className="w-5 h-5" />
+                Add Room
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Header Card */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-6">
@@ -1008,6 +1305,237 @@ const HotelsAccommodationsDetail = () => {
                   </div>
                 ) : (
                   <p className="text-gray-600 dark:text-gray-400">No policies information available</p>
+                )}
+              </div>
+            )}
+
+            {/* Rooms Tab */}
+            {activeTab === 'rooms' && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Rooms</h2>
+                  {isOwner && roomsAvailable > 0 && !showAddRoom && (
+                    <button
+                      onClick={() => {
+                        setEditingRoom(null);
+                        setShowAddRoom(true);
+                      }}
+                      className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      <Plus className="w-5 h-5" />
+                      Add Room
+                    </button>
+                  )}
+                </div>
+
+                {/* Add/Edit Room Form */}
+                {showAddRoom && isOwner && (
+                  <RoomForm
+                    formData={roomFormData}
+                    setFormData={setRoomFormData}
+                    onSubmit={editingRoom ? handleUpdateRoom : handleAddRoom}
+                    onCancel={() => {
+                      setShowAddRoom(false);
+                      setEditingRoom(null);
+                      setRoomFormData({
+                        roomName: '',
+                        type: '',
+                        capacity: 1,
+                        beds: '',
+                        roomDescription: '',
+                        pricePerNight: 0,
+                        pricePerFullDay: 0,
+                        pricing: {
+                          fullboardPrice: 0,
+                          fullboardInclude: [],
+                          halfboardPrice: 0,
+                          halfboardInclude: []
+                        },
+                        isAvailable: true,
+                        amenities: [],
+                        images: [],
+                        noOfRooms: 1,
+                        roomOpenForAgents: false,
+                        discountForPromo: 0,
+                        earnRateForPromo: 0
+                      });
+                    }}
+                    isEditing={!!editingRoom}
+                    uploading={uploadingRoomImages}
+                  />
+                )}
+
+                {/* Rooms List */}
+                {hotel.rooms && hotel.rooms.length > 0 ? (
+                  <div className="grid grid-cols-1 gap-6">
+                    {hotel.rooms.map((room, index) => (
+                      <div key={room._id || index} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          {/* Room Images */}
+                          <div className="md:col-span-1">
+                            {room.images && room.images.length > 0 ? (
+                              <div className="relative h-64 md:h-full">
+                                <img
+                                  src={room.images[0].url}
+                                  alt={room.roomName}
+                                  className="w-full h-full object-cover"
+                                />
+                                {room.images.length > 1 && (
+                                  <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-sm">
+                                    +{room.images.length - 1} more
+                                  </div>
+                                )}
+                              </div>
+                            ) : (
+                              <div className="flex items-center justify-center h-64 md:h-full bg-gray-200 dark:bg-gray-700">
+                                <Bed className="w-16 h-16 text-gray-400" />
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Room Details */}
+                          <div className="md:col-span-2 p-6">
+                            <div className="flex items-start justify-between mb-4">
+                              <div>
+                                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                                  {room.roomName}
+                                </h3>
+                                <div className="flex flex-wrap gap-2 mb-2">
+                                  <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm">
+                                    {room.type}
+                                  </span>
+                                  <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded-full text-sm">
+                                    {room.capacity} Persons
+                                  </span>
+                                  <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-200 rounded-full text-sm">
+                                    {room.beds}
+                                  </span>
+                                  {room.isAvailable ? (
+                                    <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded-full text-sm">
+                                      Available
+                                    </span>
+                                  ) : (
+                                    <span className="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 rounded-full text-sm">
+                                      Not Available
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              {isOwner && (
+                                <div className="flex gap-2">
+                                  <button
+                                    onClick={() => handleEditRoom(room)}
+                                    className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                                  >
+                                    <Edit className="w-5 h-5" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleDeleteRoom(room._id)}
+                                    className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                                  >
+                                    <Trash2 className="w-5 h-5" />
+                                  </button>
+                                </div>
+                              )}
+                            </div>
+
+                            <p className="text-gray-600 dark:text-gray-400 mb-4">
+                              {room.roomDescription}
+                            </p>
+
+                            {/* Pricing */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                              <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Per Night</p>
+                                <p className="text-xl font-bold text-gray-900 dark:text-white">
+                                  LKR {room.pricePerNight.toLocaleString()}
+                                </p>
+                              </div>
+                              <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Per Full Day</p>
+                                <p className="text-xl font-bold text-gray-900 dark:text-white">
+                                  LKR {room.pricePerFullDay.toLocaleString()}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Board Options */}
+                            {(room.pricing?.fullboardPrice > 0 || room.pricing?.halfboardPrice > 0) && (
+                              <div className="mb-4">
+                                <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Board Options</h4>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                  {room.pricing.fullboardPrice > 0 && (
+                                    <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                                      <p className="text-sm font-medium text-blue-900 dark:text-blue-200">
+                                        Full Board - LKR {room.pricing.fullboardPrice.toLocaleString()}
+                                      </p>
+                                      {room.pricing.fullboardInclude && room.pricing.fullboardInclude.length > 0 && (
+                                        <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
+                                          Includes: {room.pricing.fullboardInclude.join(', ')}
+                                        </p>
+                                      )}
+                                    </div>
+                                  )}
+                                  {room.pricing.halfboardPrice > 0 && (
+                                    <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                                      <p className="text-sm font-medium text-green-900 dark:text-green-200">
+                                        Half Board - LKR {room.pricing.halfboardPrice.toLocaleString()}
+                                      </p>
+                                      {room.pricing.halfboardInclude && room.pricing.halfboardInclude.length > 0 && (
+                                        <p className="text-xs text-green-700 dark:text-green-300 mt-1">
+                                          Includes: {room.pricing.halfboardInclude.join(', ')}
+                                        </p>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Amenities */}
+                            {room.amenities && room.amenities.length > 0 && (
+                              <div className="mb-4">
+                                <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-2">Amenities</h4>
+                                <div className="flex flex-wrap gap-2">
+                                  {room.amenities.map((amenity, idx) => (
+                                    <span key={idx} className="px-2 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded text-xs">
+                                      {amenity}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {/* Additional Info */}
+                            <div className="flex items-center justify-between">
+                              <p className="text-sm text-gray-600 dark:text-gray-400">
+                                {room.noOfRooms} {room.noOfRooms === 1 ? 'room' : 'rooms'} of this type available
+                              </p>
+                              <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                                Book Now
+                              </button>
+                            </div>
+
+                            {/* Agent Promo Badge */}
+                            {room.roomOpenForAgents && (
+                              <div className="mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg border border-yellow-200 dark:border-yellow-800">
+                                <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                                  ⭐ Available through Holidaysri Agents with special discount!
+                                </p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <Bed className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-600 dark:text-gray-400 text-lg">
+                      {isOwner ? 'No rooms added yet. Add your first room to get started!' : 'No rooms available at the moment.'}
+                    </p>
+                  </div>
                 )}
               </div>
             )}
