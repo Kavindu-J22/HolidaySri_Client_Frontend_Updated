@@ -88,6 +88,25 @@ const HotelsAccommodationsDetail = () => {
     fetchHotelDetails();
   }, [id, user?._id]);
 
+  // Keyboard navigation for image gallery
+  useEffect(() => {
+    if (!selectedRoomImages) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowLeft' && currentImageIndex > 0) {
+        setCurrentImageIndex(currentImageIndex - 1);
+      } else if (e.key === 'ArrowRight' && currentImageIndex < selectedRoomImages.length - 1) {
+        setCurrentImageIndex(currentImageIndex + 1);
+      } else if (e.key === 'Escape') {
+        setSelectedRoomImages(null);
+        setCurrentImageIndex(0);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedRoomImages, currentImageIndex]);
+
   // Submit review
   const handleSubmitReview = async (e) => {
     e.preventDefault();
@@ -1625,24 +1644,107 @@ const HotelsAccommodationsDetail = () => {
 
             {/* Images Tab */}
             {activeTab === 'images' && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Gallery</h2>
+              <div className="space-y-8">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Gallery</h2>
 
-                {hotel.images && hotel.images.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {hotel.images.map((image, index) => (
-                      <div key={index} className="relative aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group">
-                        <img
-                          src={image.url}
-                          alt={`${hotel.hotelName} - Image ${index + 1}`}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                        />
+                  {/* Hotel Images */}
+                  {hotel.images && hotel.images.length > 0 ? (
+                    <>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Hotel Images</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                        {hotel.images.map((image, index) => (
+                          <div
+                            key={`hotel-${index}`}
+                            className="relative aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group cursor-pointer"
+                            onClick={() => {
+                              setSelectedRoomImages(hotel.images);
+                              setCurrentImageIndex(index);
+                            }}
+                          >
+                            <img
+                              src={image.url}
+                              alt={`${hotel.hotelName} - Image ${index + 1}`}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                            {/* Hover Overlay */}
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                              <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                <div className="bg-white/90 dark:bg-gray-800/90 px-4 py-2 rounded-lg">
+                                  <p className="text-sm font-medium text-gray-900 dark:text-white flex items-center gap-2">
+                                    <ImageIcon className="w-4 h-4" />
+                                    Click to view
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                            {/* Image Number Badge */}
+                            <div className="absolute top-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
+                              {index + 1} / {hotel.images.length}
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-gray-600 dark:text-gray-400">No images available</p>
-                )}
+                    </>
+                  ) : null}
+
+                  {/* Room Images */}
+                  {hotel.rooms && hotel.rooms.length > 0 && hotel.rooms.some(room => room.images && room.images.length > 0) ? (
+                    <>
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Room Images</h3>
+                      <div className="space-y-6">
+                        {hotel.rooms.map((room, roomIndex) => (
+                          room.images && room.images.length > 0 && (
+                            <div key={`room-${roomIndex}`}>
+                              <h4 className="text-md font-medium text-gray-800 dark:text-gray-200 mb-3">
+                                {room.roomName} ({room.type})
+                              </h4>
+                              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {room.images.map((image, imageIndex) => (
+                                  <div
+                                    key={`room-${roomIndex}-img-${imageIndex}`}
+                                    className="relative aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden group cursor-pointer"
+                                    onClick={() => {
+                                      setSelectedRoomImages(room.images);
+                                      setCurrentImageIndex(imageIndex);
+                                    }}
+                                  >
+                                    <img
+                                      src={image.url}
+                                      alt={`${room.roomName} - Image ${imageIndex + 1}`}
+                                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    />
+                                    {/* Hover Overlay */}
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                      <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="bg-white/90 dark:bg-gray-800/90 px-4 py-2 rounded-lg">
+                                          <p className="text-sm font-medium text-gray-900 dark:text-white flex items-center gap-2">
+                                            <ImageIcon className="w-4 h-4" />
+                                            Click to view
+                                          </p>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    {/* Image Number Badge */}
+                                    <div className="absolute top-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
+                                      {imageIndex + 1} / {room.images.length}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )
+                        ))}
+                      </div>
+                    </>
+                  ) : null}
+
+                  {/* No Images Message */}
+                  {(!hotel.images || hotel.images.length === 0) &&
+                   (!hotel.rooms || hotel.rooms.length === 0 || !hotel.rooms.some(room => room.images && room.images.length > 0)) && (
+                    <p className="text-gray-600 dark:text-gray-400">No images available</p>
+                  )}
+                </div>
               </div>
             )}
 
