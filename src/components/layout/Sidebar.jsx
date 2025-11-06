@@ -98,7 +98,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       color: 'text-green-600',
       bgColor: 'bg-green-50',
       subcategories: [
-        { name: 'Hotels & Accommodations', path: '/ads/accommodation/hotels' },
+        { name: 'Hotels & Accommodations', path: '/hotels-accommodations' },
         { name: 'Cafes & Restaurants', path: '/cafes-restaurants' },
         { name: 'Foods & Beverages', path: '/foods-beverages' },
       ]

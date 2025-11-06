@@ -241,6 +241,11 @@ const Advertisements = () => {
       navigate('/rent-land-camping-parking-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'hotels_accommodations') {
+      // Navigate to hotels accommodations form
+      navigate('/hotels-accommodations-form', {
+        state: { advertisementId: adId }
+      });
     } else if (advertisement.category === 'cafes_restaurants') {
       // Navigate to cafes restaurants form
       navigate('/cafes-restaurants-form', {
@@ -504,6 +509,13 @@ const Advertisements = () => {
         navigate(`/edit-rent-land-camping-parking/${advertisement.publishedAdId}`);
       } else {
         setError('Rent Land Camping Parking listing not found');
+      }
+    } else if (advertisement && advertisement.category === 'hotels_accommodations') {
+      // Navigate to edit hotels accommodations page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-hotels-accommodations/${advertisement.publishedAdId}`);
+      } else {
+        setError('Hotel/Accommodation listing not found');
       }
     } else if (advertisement && advertisement.category === 'cafes_restaurants') {
       // Navigate to edit cafes restaurants page
@@ -805,6 +817,11 @@ const Advertisements = () => {
       // Navigate to rent land camping parking detail view
       if (advertisement.publishedAdId) {
         navigate(`/rent-land-camping-parking/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'hotels_accommodations') {
+      // Navigate to hotels accommodations detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/hotels-accommodations/${advertisement.publishedAdId}`);
       }
     } else if (advertisement && advertisement.category === 'cafes_restaurants') {
       // Navigate to cafes restaurants detail view

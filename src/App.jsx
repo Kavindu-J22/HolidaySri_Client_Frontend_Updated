@@ -65,6 +65,10 @@ import RentLandCampingParkingForm from './pages/RentLandCampingParkingForm';
 import EditRentLandCampingParking from './pages/EditRentLandCampingParking';
 import RentLandCampingParkingDetail from './pages/RentLandCampingParkingDetail';
 import RentLandCampingParkingBrowse from './pages/RentLandCampingParkingBrowse';
+import HotelsAccommodationsForm from './pages/HotelsAccommodationsForm';
+import EditHotelsAccommodations from './pages/EditHotelsAccommodations';
+import HotelsAccommodationsDetail from './pages/HotelsAccommodationsDetail';
+import HotelsAccommodationsBrowse from './pages/HotelsAccommodationsBrowse';
 import CafesRestaurantsForm from './pages/CafesRestaurantsForm';
 import EditCafesRestaurants from './pages/EditCafesRestaurants';
 import CafesRestaurantsDetail from './pages/CafesRestaurantsDetail';
@@ -430,6 +434,18 @@ function App() {
                     <RentLandCampingParkingForm />
                   </ProtectedRoute>
                 } />
+                <Route path="hotels-accommodations-form" element={
+                  <ProtectedRoute>
+                    <HotelsAccommodationsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-hotels-accommodations/:id" element={
+                  <ProtectedRoute>
+                    <EditHotelsAccommodations />
+                  </ProtectedRoute>
+                } />
+                <Route path="hotels-accommodations/:id" element={<HotelsAccommodationsDetail />} />
+                <Route path="hotels-accommodations" element={<HotelsAccommodationsBrowse />} />
                 <Route path="edit-rent-land-camping-parking/:id" element={
                   <ProtectedRoute>
                     <EditRentLandCampingParking />
