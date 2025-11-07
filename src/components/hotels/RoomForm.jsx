@@ -199,7 +199,7 @@ const RoomForm = ({ formData, setFormData, onSubmit, onCancel, isEditing, upload
 
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Number of This Type Rooms *
+              Number of This Type Rooms*
             </label>
             <input
               type="number"
