@@ -5,232 +5,11 @@ import RoomForm from '../components/hotels/RoomForm';
 import BookingModal from '../components/hotels/BookingModal';
 import {
   MapPin, Phone, Mail, Globe, Facebook, MessageCircle, Star,
-  Building2, Utensils, Users, Shield, Activity, Image as ImageIcon,
+  Building2, Utensils, Shield, Activity, Image as ImageIcon,
   ChevronLeft, Loader, AlertCircle, CheckCircle, X, Sparkles,
-  FileText, MapPinned, Send, Bed, Plus, Edit, Trash2, Info,
-  ChevronRight, Check, XCircle
+  MapPinned, Send, Bed, Plus, Edit, Trash2, Info,
+  ChevronRight, FileText
 } from 'lucide-react';
-
-// Client Booking Card Component
-const ClientBookingCard = ({ booking, onUpdate }) => {
-  const [showApproveModal, setShowApproveModal] = useState(false);
-  const [showRejectModal, setShowRejectModal] = useState(false);
-  const [note, setNote] = useState('');
-  const [processing, setProcessing] = useState(false);
-
-  const handleApprove = async () => {
-    setProcessing(true);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/api/room-bookings/${booking.bookingId}/approve`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ note })
-      });
-
-      const data = await response.json();
-      if (data.success) {
-        setShowApproveModal(false);
-        setNote('');
-        onUpdate();
-      } else {
-        alert(data.message || 'Failed to approve booking');
-      }
-    } catch (error) {
-      console.error('Error approving booking:', error);
-      alert('Failed to approve booking');
-    } finally {
-      setProcessing(false);
-    }
-  };
-
-  const handleReject = async () => {
-    setProcessing(true);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/api/room-bookings/${booking.bookingId}/reject`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ note })
-      });
-
-      const data = await response.json();
-      if (data.success) {
-        setShowRejectModal(false);
-        setNote('');
-        onUpdate();
-      } else {
-        alert(data.message || 'Failed to reject booking');
-      }
-    } catch (error) {
-      console.error('Error rejecting booking:', error);
-      alert('Failed to reject booking');
-    } finally {
-      setProcessing(false);
-    }
-  };
-
-  return (
-    <>
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{booking.roomName}</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Booking ID: {booking.bookingId}</p>
-          </div>
-          <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-            booking.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' :
-            booking.status === 'Approved' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
-            'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-          }`}>
-            {booking.status}
-          </span>
-        </div>
-
-        <div className="space-y-3 mb-4">
-          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Customer Details</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-              <p className="text-gray-600 dark:text-gray-400">Name: <span className="text-gray-900 dark:text-white font-medium">{booking.customerName}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Email: <span className="text-gray-900 dark:text-white font-medium">{booking.customerEmail}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Contact: <span className="text-gray-900 dark:text-white font-medium">{booking.customerContactNumber}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">NIC/Passport: <span className="text-gray-900 dark:text-white font-medium">{booking.customerNicOrPassport}</span></p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <p className="text-gray-600 dark:text-gray-400">Room Type: <span className="text-gray-900 dark:text-white font-medium">{booking.roomType}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Package: <span className="text-gray-900 dark:text-white font-medium">{booking.selectedPackage}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Check-in: <span className="text-gray-900 dark:text-white font-medium">{new Date(booking.checkInDate).toLocaleDateString()}</span></p>
-            </div>
-            <div>
-              <p className="text-gray-600 dark:text-gray-400">Days: <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfDays}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Rooms: <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfRooms}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Persons: <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfAdults} adults, {booking.numberOfChildren} children</span></p>
-            </div>
-          </div>
-        </div>
-
-        <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex justify-between items-center mb-4">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Total: <span className="text-lg font-bold text-gray-900 dark:text-white">LKR {booking.totalAmount.toLocaleString()}</span></p>
-              {booking.discountedAmount > 0 && (
-                <p className="text-sm text-green-600 dark:text-green-400">After Discount: LKR {booking.discountedAmount.toLocaleString()}</p>
-              )}
-              <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">Final Amount: LKR {booking.finalAmount.toLocaleString()}</p>
-            </div>
-            {booking.promocodeUsed && (
-              <div className="text-right">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Promocode</p>
-                <p className="text-sm font-semibold text-purple-600 dark:text-purple-400">{booking.promocodeUsed}</p>
-              </div>
-            )}
-          </div>
-
-          {booking.status === 'Pending' && (
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowApproveModal(true)}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
-              >
-                <Check className="w-5 h-5" />
-                Approve
-              </button>
-              <button
-                onClick={() => setShowRejectModal(true)}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold"
-              >
-                <XCircle className="w-5 h-5" />
-                Reject
-              </button>
-            </div>
-          )}
-
-          {booking.ownerNote && (
-            <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-              <p className="text-sm text-gray-600 dark:text-gray-400">Your Note:</p>
-              <p className="text-sm text-gray-900 dark:text-white mt-1">{booking.ownerNote}</p>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Approve Modal */}
-      {showApproveModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Approve Booking</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">Add a note for the customer (optional):</p>
-            <textarea
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="e.g., Looking forward to hosting you!"
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white mb-4"
-              rows="3"
-            />
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowApproveModal(false)}
-                disabled={processing}
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleApprove}
-                disabled={processing}
-                className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
-              >
-                {processing ? 'Processing...' : 'Confirm Approval'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Reject Modal */}
-      {showRejectModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Reject Booking</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">Please provide a reason for rejection:</p>
-            <textarea
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-              placeholder="e.g., Room not available for selected dates"
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-red-500 dark:bg-gray-700 dark:text-white mb-4"
-              rows="3"
-            />
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowRejectModal(false)}
-                disabled={processing}
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleReject}
-                disabled={processing}
-                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
-              >
-                {processing ? 'Processing...' : 'Confirm Rejection'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  );
-};
 
 const HotelsAccommodationsDetail = () => {
   const { id } = useParams();
@@ -282,9 +61,6 @@ const HotelsAccommodationsDetail = () => {
   // Booking state
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedRoomForBooking, setSelectedRoomForBooking] = useState(null);
-  const [myBookings, setMyBookings] = useState([]);
-  const [clientRequests, setClientRequests] = useState([]);
-  const [loadingBookings, setLoadingBookings] = useState(false);
 
   // Fetch hotel details
   useEffect(() => {
@@ -355,61 +131,7 @@ const HotelsAccommodationsDetail = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedRoomImages, currentImageIndex]);
 
-  // Fetch my bookings when tab is active
-  useEffect(() => {
-    if (activeTab === 'my-bookings' && user) {
-      fetchMyBookings();
-    }
-  }, [activeTab, user]);
 
-  // Fetch client requests when tab is active
-  useEffect(() => {
-    if (activeTab === 'client-requests' && hotel) {
-      fetchClientRequests();
-    }
-  }, [activeTab, hotel]);
-
-  // Fetch my bookings
-  const fetchMyBookings = async () => {
-    setLoadingBookings(true);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch('/api/room-bookings/my-bookings', {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      if (data.success) {
-        setMyBookings(data.data);
-      }
-    } catch (error) {
-      console.error('Error fetching my bookings:', error);
-    } finally {
-      setLoadingBookings(false);
-    }
-  };
-
-  // Fetch client requests
-  const fetchClientRequests = async () => {
-    setLoadingBookings(true);
-    try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/api/room-bookings/client-requests/${hotel._id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      if (data.success) {
-        setClientRequests(data.data);
-      }
-    } catch (error) {
-      console.error('Error fetching client requests:', error);
-    } finally {
-      setLoadingBookings(false);
-    }
-  };
 
   // Submit review
   const handleSubmitReview = async (e) => {
@@ -750,8 +472,8 @@ const HotelsAccommodationsDetail = () => {
   const roomsAdded = (hotel.rooms && Array.isArray(hotel.rooms)) ? hotel.rooms.length : 0;
   const roomsAvailable = 3 - roomsAdded;
 
-  // Define tabs based on user role
-  const baseTabs = [
+  // Define tabs - removed booking tabs (now in browse page)
+  const tabs = [
     { id: 'overview', label: 'Overview', icon: Building2 },
     { id: 'facilities', label: 'Facilities', icon: Shield },
     { id: 'dining', label: 'Dining', icon: Utensils },
@@ -761,17 +483,6 @@ const HotelsAccommodationsDetail = () => {
     { id: 'images', label: 'Gallery', icon: ImageIcon },
     { id: 'reviews', label: 'Reviews', icon: Star }
   ];
-
-  // Add booking tabs
-  const bookingTabs = [];
-  if (user) {
-    bookingTabs.push({ id: 'my-bookings', label: 'My Booking Requests', icon: FileText });
-  }
-  if (isOwner) {
-    bookingTabs.push({ id: 'client-requests', label: "Client's Requests", icon: Users });
-  }
-
-  const tabs = [...baseTabs, ...bookingTabs];
 
   // Comprehensive Debug logging
   console.log('═══════════════════════════════════════');
@@ -2223,109 +1934,7 @@ const HotelsAccommodationsDetail = () => {
               </div>
             )}
 
-            {/* My Booking Requests Tab */}
-            {activeTab === 'my-bookings' && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">My Booking Requests</h2>
 
-                {loadingBookings ? (
-                  <div className="flex justify-center items-center py-12">
-                    <Loader className="w-8 h-8 animate-spin text-blue-600" />
-                  </div>
-                ) : myBookings.length > 0 ? (
-                  <div className="space-y-4">
-                    {myBookings.map((booking) => (
-                      <div key={booking._id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-                        <div className="flex justify-between items-start mb-4">
-                          <div>
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{booking.hotelName}</h3>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">Booking ID: {booking.bookingId}</p>
-                          </div>
-                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                            booking.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                            booking.status === 'Approved' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
-                            'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                          }`}>
-                            {booking.status}
-                          </span>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                          <div>
-                            <p className="text-gray-600 dark:text-gray-400">Room: <span className="text-gray-900 dark:text-white font-medium">{booking.roomName}</span></p>
-                            <p className="text-gray-600 dark:text-gray-400">Type: <span className="text-gray-900 dark:text-white font-medium">{booking.roomType}</span></p>
-                            <p className="text-gray-600 dark:text-gray-400">Package: <span className="text-gray-900 dark:text-white font-medium">{booking.selectedPackage}</span></p>
-                          </div>
-                          <div>
-                            <p className="text-gray-600 dark:text-gray-400">Check-in: <span className="text-gray-900 dark:text-white font-medium">{new Date(booking.checkInDate).toLocaleDateString()}</span></p>
-                            <p className="text-gray-600 dark:text-gray-400">Days: <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfDays}</span></p>
-                            <p className="text-gray-600 dark:text-gray-400">Rooms: <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfRooms}</span></p>
-                          </div>
-                        </div>
-
-                        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">Total Amount: <span className="text-lg font-bold text-gray-900 dark:text-white">LKR {booking.totalAmount.toLocaleString()}</span></p>
-                              {booking.discountedAmount > 0 && (
-                                <p className="text-sm text-green-600 dark:text-green-400">Discounted: LKR {booking.discountedAmount.toLocaleString()}</p>
-                              )}
-                              <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">Final Amount: LKR {booking.finalAmount.toLocaleString()}</p>
-                            </div>
-                            {booking.promocodeUsed && (
-                              <div className="text-right">
-                                <p className="text-sm text-gray-600 dark:text-gray-400">Promocode Used</p>
-                                <p className="text-sm font-semibold text-purple-600 dark:text-purple-400">{booking.promocodeUsed}</p>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        {booking.ownerNote && (
-                          <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                            <p className="text-sm text-gray-600 dark:text-gray-400">Note from hotel:</p>
-                            <p className="text-sm text-gray-900 dark:text-white mt-1">{booking.ownerNote}</p>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600 dark:text-gray-400">No booking requests yet</p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Client's Requests Tab */}
-            {activeTab === 'client-requests' && isOwner && (
-              <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Client's Booking Requests</h2>
-
-                {loadingBookings ? (
-                  <div className="flex justify-center items-center py-12">
-                    <Loader className="w-8 h-8 animate-spin text-blue-600" />
-                  </div>
-                ) : clientRequests.length > 0 ? (
-                  <div className="space-y-4">
-                    {clientRequests.map((booking) => (
-                      <ClientBookingCard
-                        key={booking._id}
-                        booking={booking}
-                        onUpdate={fetchClientRequests}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600 dark:text-gray-400">No client requests yet</p>
-                  </div>
-                )}
-              </div>
-            )}
           </div>
         </div>
 
