@@ -167,7 +167,7 @@ const CustomizeEventForm = () => {
     try {
       const response = await customizeEventRequestAPI.approveRequest(requestId);
       if (response.data.success) {
-        alert('Request approved successfully!');
+        alert('Request approved successfully! Request Details sent By mail.');
         fetchOpenRequests(); // Refresh the list
       }
     } catch (error) {
