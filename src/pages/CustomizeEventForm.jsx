@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Users, DollarSign, CheckCircle, XCircle, Eye, Clock, MessageSquare } from 'lucide-react';
+import { Calendar, Users, DollarSign, CheckCircle, XCircle, Eye, Clock, MessageSquare, Briefcase, Camera, Music, Flower2, Sparkles, Shirt, Wrench } from 'lucide-react';
 import { customizeEventRequestAPI, userAPI } from '../config/api';
 
 const CustomizeEventForm = () => {
@@ -384,6 +384,16 @@ const CustomizeEventForm = () => {
                   Open Requests {openRequests.length > 0 && `(${openRequests.length})`}
                 </button>
               )}
+              <button
+                onClick={() => setActiveTab('hire-professionals')}
+                className={`py-4 px-6 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === 'hire-professionals'
+                    ? 'border-purple-500 text-purple-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                Hire Event Professionals
+              </button>
             </nav>
           </div>
 
@@ -759,7 +769,7 @@ const CustomizeEventForm = () => {
                   </div>
                 )}
               </div>
-            ) : (
+            ) : activeTab === 'open-requests' ? (
               // Open Requests Tab (for Partners & Members)
               <div className="space-y-4">
                 <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
@@ -901,6 +911,150 @@ const CustomizeEventForm = () => {
                     ))}
                   </div>
                 )}
+              </div>
+            ) : (
+              // Hire Event Professionals Tab
+              <div className="space-y-6">
+                {/* Header */}
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                    Hire Event Professionals
+                  </h3>
+                  <p className="text-gray-600">
+                    Connect with our network of talented professionals to make your event extraordinary
+                  </p>
+                </div>
+
+                {/* Professional Categories Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                  {/* Event Planners & Day Coordinators */}
+                  <div
+                    onClick={() => navigate('/event-planners-coordinators')}
+                    className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all cursor-pointer hover:border-purple-300 group"
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-purple-200 transition-colors">
+                        <Briefcase className="w-8 h-8 text-purple-600" />
+                      </div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                        Event Planners & Day Coordinators
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Expert planners to organize and coordinate your perfect event
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Creative Photographers */}
+                  <div
+                    onClick={() => navigate('/ads/events/photographers')}
+                    className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all cursor-pointer hover:border-blue-300 group"
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-blue-200 transition-colors">
+                        <Camera className="w-8 h-8 text-blue-600" />
+                      </div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                        Creative Photographers
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Talented photographers to capture your special moments
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Talented Entertainers */}
+                  <div
+                    onClick={() => navigate('/event-planners-coordinators')}
+                    className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all cursor-pointer hover:border-pink-300 group"
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-pink-200 transition-colors">
+                        <Music className="w-8 h-8 text-pink-600" />
+                      </div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                        Talented Entertainers
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Musicians, DJs, performers to keep your guests entertained
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Decorators & Florists */}
+                  <div
+                    onClick={() => navigate('/decorators-florists')}
+                    className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all cursor-pointer hover:border-green-300 group"
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-green-200 transition-colors">
+                        <Flower2 className="w-8 h-8 text-green-600" />
+                      </div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                        Decorators & Florists
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Creative decor specialists to transform your venue
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Salon & Makeup Artists */}
+                  <div
+                    onClick={() => navigate('/salon-makeup-artists')}
+                    className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all cursor-pointer hover:border-yellow-300 group"
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-yellow-200 transition-colors">
+                        <Sparkles className="w-8 h-8 text-yellow-600" />
+                      </div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                        Salon & Makeup Artists
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Beauty professionals to make you look your best
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Fashion Designers */}
+                  <div
+                    onClick={() => navigate('/ads/events/fashion-designers')}
+                    className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all cursor-pointer hover:border-indigo-300 group"
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-indigo-200 transition-colors">
+                        <Shirt className="w-8 h-8 text-indigo-600" />
+                      </div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                        Fashion Designers
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Designers to create custom outfits for your event
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Other Professionals */}
+                  <div
+                    onClick={() => navigate('/other-professionals-services')}
+                    className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-all cursor-pointer hover:border-gray-400 group md:col-span-2 lg:col-span-3"
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-gray-200 transition-colors">
+                        <Wrench className="w-8 h-8 text-gray-600" />
+                      </div>
+                      <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                        Other Professionals
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        Find specialized professionals for all your unique event needs
+                      </p>
+                    </div>
+                  </div>
+
+                </div>
               </div>
             )}
           </div>
