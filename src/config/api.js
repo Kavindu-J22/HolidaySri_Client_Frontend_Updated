@@ -251,4 +251,12 @@ export const eventsUpdatesAPI = {
   getReviews: (id) => api.get(`/events-updates/${id}/reviews`),
 };
 
+// Customize Event Request API calls
+export const customizeEventRequestAPI = {
+  getCharge: () => api.get('/customize-event-request/charge'),
+  submitRequest: (data) => api.post('/customize-event-request/submit', data),
+  getMyRequests: (params) => api.get('/customize-event-request/my-requests', { params }),
+  getRequestDetails: (id) => api.get(`/customize-event-request/request/${id}`),
+};
+
 export default api;
