@@ -229,6 +229,10 @@ import EditLiveRidesCarpoolingForm from './pages/EditLiveRidesCarpoolingForm';
 import LiveRidesCarpoolingDetailView from './pages/LiveRidesCarpoolingDetailView';
 import LiveRidesCarpoolingBrowse from './pages/LiveRidesCarpoolingBrowse';
 import EmergencyServicesInsuranceBrowse from './pages/EmergencyServicesInsuranceBrowse';
+import EventsUpdatesForm from './pages/EventsUpdatesForm';
+import EditEventsUpdatesForm from './pages/EditEventsUpdatesForm';
+import EventsUpdatesDetailView from './pages/EventsUpdatesDetailView';
+import EventsUpdatesBrowse from './pages/EventsUpdatesBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -938,6 +942,18 @@ function App() {
                 } />
                 <Route path="live-rides-carpooling/:id" element={<LiveRidesCarpoolingDetailView />} />
                 <Route path="ads/vehicles-transport/live-rides-carpooling" element={<LiveRidesCarpoolingBrowse />} />
+                <Route path="events-updates-form" element={
+                  <ProtectedRoute>
+                    <EventsUpdatesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-events-updates/:id" element={
+                  <ProtectedRoute>
+                    <EditEventsUpdatesForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="events-updates/:id" element={<EventsUpdatesDetailView />} />
+                <Route path="ads/events-management/events-updates" element={<EventsUpdatesBrowse />} />
                 {/* Alias route for sidebar navigation */}
                 <Route path="ads/marketplace/other-items" element={<OtherItemsBrowse />} />
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />

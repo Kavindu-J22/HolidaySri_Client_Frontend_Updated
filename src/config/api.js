@@ -239,4 +239,16 @@ export const decoratorsFloristsAPI = {
   getReviews: (id) => api.get(`/decorators-florists/${id}/reviews`),
 };
 
+// Events Updates API calls
+export const eventsUpdatesAPI = {
+  getProvinces: () => api.get('/events-updates/provinces'),
+  publish: (data) => api.post('/events-updates/publish', data),
+  browseEvents: (params) => api.get('/events-updates/public', { params }),
+  getEvent: (id) => api.get(`/events-updates/public/${id}`),
+  getUserEvent: (id) => api.get(`/events-updates/user/${id}`),
+  update: (id, data) => api.put(`/events-updates/${id}`, data),
+  addReview: (id, reviewData) => api.post(`/events-updates/${id}/reviews`, reviewData),
+  getReviews: (id) => api.get(`/events-updates/${id}/reviews`),
+};
+
 export default api;

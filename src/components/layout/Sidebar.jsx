@@ -123,7 +123,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       color: 'text-red-600',
       bgColor: 'bg-red-50',
       subcategories: [
-        { name: 'Events Updates & Manage or Customize Your Event', path: '/ads/events/manage-events' },
+        { name: 'Events Updates & Manage or Customize Your Event', path: '/ads/events-management/events-updates' },
         { name: 'Expert Event Planners & day Coordinators', path: '/event-planners-coordinators' },
         { name: 'Creative Photographers', path: '/ads/events/photographers' },
         { name: 'Decorators & Florists', path: '/decorators-florists' },

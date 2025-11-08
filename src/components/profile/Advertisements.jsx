@@ -446,6 +446,11 @@ const Advertisements = () => {
       navigate('/live-rides-carpooling-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'events_updates') {
+      // Navigate to events updates form
+      navigate('/events-updates-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -795,6 +800,18 @@ const Advertisements = () => {
       } else {
         setError('Live Rides Carpooling not found');
       }
+    } else if (advertisement && advertisement.category === 'events_updates') {
+      // Navigate to edit events updates page
+      console.log('Events Updates advertisement:', advertisement);
+      console.log('publishedAdId:', advertisement.publishedAdId);
+
+      if (advertisement.publishedAdId) {
+        console.log('Navigating to edit page with ID:', advertisement.publishedAdId);
+        navigate(`/edit-events-updates/${advertisement.publishedAdId}`);
+      } else {
+        console.error('No publishedAdId found for events_updates advertisement');
+        setError('Events Updates not found. Please publish the event first.');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -1029,6 +1046,11 @@ const Advertisements = () => {
       // Navigate to live rides carpooling detail view
       if (advertisement.publishedAdId) {
         navigate(`/live-rides-carpooling/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'events_updates') {
+      // Navigate to events updates detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/events-updates/${advertisement.publishedAdId}`);
       }
     }
   };
@@ -1526,6 +1548,8 @@ const Advertisements = () => {
                             onClick={() => {
                               if (ad.category === 'rent_property_buying_selling') {
                                 handleViewPublishedRentProperty(ad._id);
+                              } else if (ad.category === 'events_updates') {
+                                handleViewPublishedProfile(ad._id);
                               } else {
                                 handleViewPublishedProfile(ad._id);
                               }
