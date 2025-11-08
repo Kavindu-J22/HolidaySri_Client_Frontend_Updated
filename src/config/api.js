@@ -257,6 +257,8 @@ export const customizeEventRequestAPI = {
   submitRequest: (data) => api.post('/customize-event-request/submit', data),
   getMyRequests: (params) => api.get('/customize-event-request/my-requests', { params }),
   getRequestDetails: (id) => api.get(`/customize-event-request/request/${id}`),
+  getOpenRequests: (params) => api.get('/customize-event-request/open-requests', { params }),
+  approveRequest: (id) => api.post(`/customize-event-request/approve-request/${id}`),
 };
 
 export default api;

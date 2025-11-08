@@ -14,6 +14,13 @@ const CustomizeEventForm = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [expandedRequest, setExpandedRequest] = useState(null);
 
+  // Open Requests state (for partners & members)
+  const [openRequests, setOpenRequests] = useState([]);
+  const [openRequestsLoading, setOpenRequestsLoading] = useState(false);
+  const [isPartner, setIsPartner] = useState(false);
+  const [isMember, setIsMember] = useState(false);
+  const [expandedOpenRequest, setExpandedOpenRequest] = useState(null);
+
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -55,8 +62,12 @@ const CustomizeEventForm = () => {
   useEffect(() => {
     fetchHSCCharge();
     fetchUserBalance();
+    checkPartnerMemberStatus();
     if (activeTab === 'my-requests') {
       fetchMyRequests();
+    }
+    if (activeTab === 'open-requests') {
+      fetchOpenRequests();
     }
   }, [activeTab, statusFilter]);
 
@@ -92,6 +103,28 @@ const CustomizeEventForm = () => {
     }
   };
 
+  const checkPartnerMemberStatus = async () => {
+    try {
+      const response = await userAPI.getProfile();
+      const user = response.data.user;
+
+      // Check if user is a valid partner
+      const validPartner = user.isPartner &&
+        user.partnerExpirationDate &&
+        new Date(user.partnerExpirationDate) > new Date();
+
+      // Check if user is a valid member
+      const validMember = user.isMember &&
+        user.membershipExpirationDate &&
+        new Date(user.membershipExpirationDate) > new Date();
+
+      setIsPartner(validPartner);
+      setIsMember(validMember);
+    } catch (error) {
+      console.error('Error checking partner/member status:', error);
+    }
+  };
+
   const fetchMyRequests = async () => {
     try {
       setRequestsLoading(true);
@@ -105,6 +138,41 @@ const CustomizeEventForm = () => {
       console.error('Error fetching requests:', error);
     } finally {
       setRequestsLoading(false);
+    }
+  };
+
+  const fetchOpenRequests = async () => {
+    try {
+      setOpenRequestsLoading(true);
+      const response = await customizeEventRequestAPI.getOpenRequests();
+      if (response.data.success) {
+        setOpenRequests(response.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching open requests:', error);
+      if (error.response?.status === 403) {
+        // User is not a partner or member
+        setOpenRequests([]);
+      }
+    } finally {
+      setOpenRequestsLoading(false);
+    }
+  };
+
+  const handleApproveRequest = async (requestId) => {
+    if (!window.confirm('Are you sure you want to approve this event request?')) {
+      return;
+    }
+
+    try {
+      const response = await customizeEventRequestAPI.approveRequest(requestId);
+      if (response.data.success) {
+        alert('Request approved successfully!');
+        fetchOpenRequests(); // Refresh the list
+      }
+    } catch (error) {
+      console.error('Error approving request:', error);
+      alert(error.response?.data?.message || 'Failed to approve request');
     }
   };
 
@@ -304,6 +372,18 @@ const CustomizeEventForm = () => {
               >
                 My Requests
               </button>
+              {(isPartner || isMember) && (
+                <button
+                  onClick={() => setActiveTab('open-requests')}
+                  className={`py-4 px-6 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === 'open-requests'
+                      ? 'border-purple-500 text-purple-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  Open Requests {openRequests.length > 0 && `(${openRequests.length})`}
+                </button>
+              )}
             </nav>
           </div>
 
@@ -519,7 +599,7 @@ const CustomizeEventForm = () => {
                   </button>
                 </div>
               </form>
-            ) : (
+            ) : activeTab === 'my-requests' ? (
               // My Requests Tab
               <div className="space-y-4">
                 {/* Filter */}
@@ -671,6 +751,149 @@ const CustomizeEventForm = () => {
                                   </div>
                                 </>
                               )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              // Open Requests Tab (for Partners & Members)
+              <div className="space-y-4">
+                <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 mb-4">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-purple-900">
+                        Open Event Requests
+                      </h3>
+                      <p className="text-sm text-purple-700 mt-1">
+                        {isPartner ? 'Partner' : 'Member'} Access - Review and approve event requests
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-bold text-purple-900">{openRequests.length}</p>
+                      <p className="text-xs text-purple-700">Available Requests</p>
+                    </div>
+                  </div>
+                </div>
+
+                {openRequestsLoading ? (
+                  <div className="text-center py-8">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+                    <p className="text-gray-600 mt-4">Loading open requests...</p>
+                  </div>
+                ) : openRequests.length === 0 ? (
+                  <div className="text-center py-12 bg-gray-50 rounded-lg">
+                    <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-600">No open requests available at the moment</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {openRequests.map((request) => (
+                      <div
+                        key={request._id}
+                        className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow bg-white"
+                      >
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <h4 className="font-semibold text-gray-900">
+                              {getEventTypeLabel(request.eventType, request.eventTypeOther)}
+                            </h4>
+                            <p className="text-sm text-gray-600">
+                              Submitted on {new Date(request.createdAt).toLocaleDateString()}
+                            </p>
+                          </div>
+                          <button
+                            onClick={() => setExpandedOpenRequest(
+                              expandedOpenRequest === request._id ? null : request._id
+                            )}
+                            className="text-purple-600 hover:text-purple-800 flex items-center gap-1"
+                          >
+                            <Eye className="w-4 h-4" />
+                            {expandedOpenRequest === request._id ? 'Hide' : 'View'} Details
+                          </button>
+                        </div>
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
+                          <div>
+                            <p className="text-xs text-gray-500">Guests</p>
+                            <p className="text-sm font-medium text-gray-900 flex items-center">
+                              <Users className="w-4 h-4 mr-1" />
+                              {request.numberOfGuests}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500">Budget</p>
+                            <p className="text-sm font-medium text-gray-900">
+                              {request.estimatedBudget} LKR
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500">HSC Charge</p>
+                            <p className="text-sm font-medium text-gray-900">
+                              {request.hscCharge} HSC
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-xs text-gray-500">Contact</p>
+                            <p className="text-sm font-medium text-gray-900">
+                              {request.contactNumber}
+                            </p>
+                          </div>
+                        </div>
+
+                        {request.activities && request.activities.length > 0 && (
+                          <div className="mb-3">
+                            <p className="text-xs text-gray-500 mb-2">Activities & Services</p>
+                            <div className="flex flex-wrap gap-2">
+                              {request.activities.map((activity, index) => (
+                                <span
+                                  key={index}
+                                  className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs"
+                                >
+                                  {activity}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {expandedOpenRequest === request._id && (
+                          <div className="mt-4 pt-4 border-t border-gray-200 space-y-3">
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">Customer Name</p>
+                              <p className="text-sm font-medium text-gray-900">{request.fullName}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-500 mb-1">Email</p>
+                              <p className="text-sm font-medium text-gray-900">{request.email}</p>
+                            </div>
+                            {request.specialRequests && (
+                              <div>
+                                <p className="text-xs text-gray-500 mb-1">Special Requests</p>
+                                <p className="text-sm text-gray-700 bg-gray-50 p-2 rounded">
+                                  {request.specialRequests}
+                                </p>
+                              </div>
+                            )}
+                            {request.adminNote && (
+                              <div>
+                                <p className="text-xs text-gray-500 mb-1">Admin Note</p>
+                                <p className="text-sm text-gray-700 bg-blue-50 p-2 rounded">
+                                  {request.adminNote}
+                                </p>
+                              </div>
+                            )}
+                            <div className="pt-3">
+                              <button
+                                onClick={() => handleApproveRequest(request._id)}
+                                className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+                              >
+                                <CheckCircle className="w-5 h-5" />
+                                Approve This Request
+                              </button>
                             </div>
                           </div>
                         )}
