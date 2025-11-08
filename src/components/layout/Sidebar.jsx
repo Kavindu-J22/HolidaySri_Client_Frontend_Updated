@@ -111,7 +111,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       bgColor: 'bg-purple-50',
       subcategories: [
         { name: 'Vehicle Rentals & Hire Services', path: '/vehicle-rentals-hire' },
-        { name: 'Live Rides Updates & Carpooling', path: '/ads/transport/rides-carpooling' },
+        { name: 'Live Rides Updates & Carpooling', path: '/ads/vehicles-transport/live-rides-carpooling' },
         { name: 'Professional Drivers', path: '/professional-drivers' },
         { name: 'Vehicle Repairs & Mechanics', path: '/vehicle-repairs-mechanics' },
       ]
