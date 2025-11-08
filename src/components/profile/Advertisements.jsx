@@ -441,6 +441,11 @@ const Advertisements = () => {
       navigate('/emergency-services-insurance-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'live_rides_carpooling') {
+      // Navigate to live rides carpooling form
+      navigate('/live-rides-carpooling-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -783,6 +788,13 @@ const Advertisements = () => {
       } else {
         setError('Emergency Services Insurance profile not found');
       }
+    } else if (advertisement && advertisement.category === 'live_rides_carpooling') {
+      // Navigate to edit live rides carpooling page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-live-rides-carpooling/${advertisement.publishedAdId}`);
+      } else {
+        setError('Live Rides Carpooling not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -1012,6 +1024,11 @@ const Advertisements = () => {
       // Navigate to emergency services insurance detail view
       if (advertisement.publishedAdId) {
         navigate(`/emergency-services-insurance/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'live_rides_carpooling') {
+      // Navigate to live rides carpooling detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/live-rides-carpooling/${advertisement.publishedAdId}`);
       }
     }
   };

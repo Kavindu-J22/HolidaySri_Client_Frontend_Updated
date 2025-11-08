@@ -224,6 +224,10 @@ import LocalSimMobileDataDetailView from './pages/LocalSimMobileDataDetailView';
 import EmergencyServicesInsuranceForm from './pages/EmergencyServicesInsuranceForm';
 import EditEmergencyServicesInsuranceForm from './pages/EditEmergencyServicesInsuranceForm';
 import EmergencyServicesInsuranceDetailView from './pages/EmergencyServicesInsuranceDetailView';
+import LiveRidesCarpoolingForm from './pages/LiveRidesCarpoolingForm';
+import EditLiveRidesCarpoolingForm from './pages/EditLiveRidesCarpoolingForm';
+import LiveRidesCarpoolingDetailView from './pages/LiveRidesCarpoolingDetailView';
+import LiveRidesCarpoolingBrowse from './pages/LiveRidesCarpoolingBrowse';
 import EmergencyServicesInsuranceBrowse from './pages/EmergencyServicesInsuranceBrowse';
 
 function App() {
@@ -922,6 +926,18 @@ function App() {
                 } />
                 <Route path="emergency-services-insurance/:id" element={<EmergencyServicesInsuranceDetailView />} />
                 <Route path="ads/essential-services/emergency-services-insurance" element={<EmergencyServicesInsuranceBrowse />} />
+                <Route path="live-rides-carpooling-form" element={
+                  <ProtectedRoute>
+                    <LiveRidesCarpoolingForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-live-rides-carpooling/:id" element={
+                  <ProtectedRoute>
+                    <EditLiveRidesCarpoolingForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="live-rides-carpooling/:id" element={<LiveRidesCarpoolingDetailView />} />
+                <Route path="ads/vehicles-transport/live-rides-carpooling" element={<LiveRidesCarpoolingBrowse />} />
                 {/* Alias route for sidebar navigation */}
                 <Route path="ads/marketplace/other-items" element={<OtherItemsBrowse />} />
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />
