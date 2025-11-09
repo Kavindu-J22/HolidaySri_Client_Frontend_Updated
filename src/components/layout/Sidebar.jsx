@@ -159,7 +159,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       color: 'text-pink-600',
       bgColor: 'bg-pink-50',
       subcategories: [
-        { name: 'Compassionate Caregivers & Earn Time Currency', path: '/ads/caring/caregivers' },
+        { name: 'Compassionate Caregivers & Earn Time Currency', path: '/caregivers-time-currency-browse' },
         { name: 'Trusted Babysitters & Childcare Help', path: '/babysitters-childcare' },
         { name: 'Pet Care & Animal Services', path: '/pet-care-animal-services' },
         { name: 'Donations / Raise Your Fund', path: '/ads/caring/donations' },

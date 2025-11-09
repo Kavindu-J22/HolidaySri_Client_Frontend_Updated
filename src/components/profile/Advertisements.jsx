@@ -817,6 +817,13 @@ const Advertisements = () => {
         console.error('No publishedAdId found for events_updates advertisement');
         setError('Events Updates not found. Please publish the event first.');
       }
+    } else if (advertisement && advertisement.category === 'caregivers_time_currency') {
+      // Navigate to edit caregivers time currency profile page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-caregivers-time-currency/${advertisement.publishedAdId}`);
+      } else {
+        setError('Caregivers Time Currency profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -1056,6 +1063,11 @@ const Advertisements = () => {
       // Navigate to events updates detail view
       if (advertisement.publishedAdId) {
         navigate(`/events-updates/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'caregivers_time_currency') {
+      // Navigate to caregivers time currency detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/caregivers-time-currency/${advertisement.publishedAdId}`);
       }
     }
   };
