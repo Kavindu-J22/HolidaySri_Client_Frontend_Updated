@@ -158,6 +158,7 @@ import BabysittersChildcareForm from './pages/BabysittersChildcareForm';
 import EditBabysittersChildcareForm from './pages/EditBabysittersChildcareForm';
 import BabysittersChildcareDetailView from './pages/BabysittersChildcareDetailView';
 import BabysittersChildcareBrowse from './pages/BabysittersChildcareBrowse';
+import CaregiversTimeCurrencyForm from './pages/CaregiversTimeCurrencyForm';
 import PetCareAnimalServicesForm from './pages/PetCareAnimalServicesForm';
 import EditPetCareAnimalServicesForm from './pages/EditPetCareAnimalServicesForm';
 import PetCareAnimalServicesDetailView from './pages/PetCareAnimalServicesDetailView';
@@ -744,6 +745,11 @@ function App() {
                 } />
                 <Route path="babysitters-childcare-detail/:id" element={<BabysittersChildcareDetailView />} />
                 <Route path="babysitters-childcare" element={<BabysittersChildcareBrowse />} />
+                <Route path="caregivers-time-currency-form" element={
+                  <ProtectedRoute>
+                    <CaregiversTimeCurrencyForm />
+                  </ProtectedRoute>
+                } />
                 <Route path="pet-care-animal-services-form" element={
                   <ProtectedRoute>
                     <PetCareAnimalServicesForm />

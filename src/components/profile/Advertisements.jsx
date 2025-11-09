@@ -361,6 +361,11 @@ const Advertisements = () => {
       navigate('/babysitters-childcare-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'caregivers_time_currency') {
+      // Navigate to caregivers time currency form
+      navigate('/caregivers-time-currency-form', {
+        state: { advertisementId: adId }
+      });
     } else if (advertisement.category === 'pet_care_animal_services') {
       // Navigate to pet care animal services form
       navigate('/pet-care-animal-services-form', {
