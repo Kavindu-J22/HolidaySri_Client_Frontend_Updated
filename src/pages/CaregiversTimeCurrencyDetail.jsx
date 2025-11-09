@@ -13,7 +13,10 @@ import {
   Languages,
   CheckCircle,
   XCircle,
-  Send
+  Send,
+  Copy,
+  Check,
+  ArrowRightLeft
 } from 'lucide-react';
 
 const CaregiversTimeCurrencyDetail = () => {
@@ -22,6 +25,7 @@ const CaregiversTimeCurrencyDetail = () => {
 
   const [profile, setProfile] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,7 +36,17 @@ const CaregiversTimeCurrencyDetail = () => {
   const [reviewText, setReviewText] = useState('');
   const [submittingReview, setSubmittingReview] = useState(false);
   const [reviewError, setReviewError] = useState('');
+  const [copiedCareId, setCopiedCareId] = useState(false);
   const [reviewSuccess, setReviewSuccess] = useState('');
+
+  // Copy careID to clipboard
+  const handleCopyCareId = () => {
+    if (profile?.careID) {
+      navigator.clipboard.writeText(profile.careID);
+      setCopiedCareId(true);
+      setTimeout(() => setCopiedCareId(false), 2000);
+    }
+  };
 
   // Fetch profile data
   useEffect(() => {
@@ -74,6 +88,25 @@ const CaregiversTimeCurrencyDetail = () => {
     };
 
     fetchReviews();
+  }, [id]);
+
+  // Fetch transactions
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/api/caregivers-time-currency/${id}/transactions`
+        );
+
+        if (response.data.success) {
+          setTransactions(response.data.data);
+        }
+      } catch (err) {
+        console.error('Error fetching transactions:', err);
+      }
+    };
+
+    fetchTransactions();
   }, [id]);
 
   // Check if user is logged in
@@ -265,9 +298,32 @@ const CaregiversTimeCurrencyDetail = () => {
                   <MapPin size={18} className="mr-2" />
                   {profile.city}, {profile.province}
                 </div>
-                <div className="flex items-center text-gray-600">
+                <div className="flex items-center text-gray-600 mb-3">
                   <Phone size={18} className="mr-2" />
                   {profile.contact}
+                </div>
+                {/* Care ID with Copy */}
+                <div className="inline-flex items-center bg-gradient-to-r from-blue-50 to-purple-50 px-4 py-2 rounded-lg border-2 border-blue-200">
+                  <span className="text-sm font-bold text-gray-800 mr-3">
+                    Care ID: {profile.careID}
+                  </span>
+                  <button
+                    onClick={handleCopyCareId}
+                    className="flex items-center text-blue-600 hover:text-blue-700 transition-colors bg-white px-3 py-1 rounded-md shadow-sm hover:shadow-md"
+                    title="Copy Care ID"
+                  >
+                    {copiedCareId ? (
+                      <>
+                        <Check size={16} className="text-green-600 mr-1" />
+                        <span className="text-xs font-semibold text-green-600">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy size={16} className="mr-1" />
+                        <span className="text-xs font-semibold">Copy</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               </div>
 
@@ -551,6 +607,102 @@ const CaregiversTimeCurrencyDetail = () => {
                       <p className="text-gray-700 leading-relaxed">
                         {review.review}
                       </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* HSTC Transactions Section */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 mt-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center">
+            <ArrowRightLeft className="mr-3 text-green-600" size={32} />
+            HSTC Transactions ({transactions.length})
+          </h2>
+
+          {transactions.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="text-gray-400 mb-4">
+                <Clock size={64} className="mx-auto" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                No Transactions Yet
+              </h3>
+              <p className="text-gray-500">
+                No HSTC transfers have been made yet.
+              </p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {transactions.map((transaction) => (
+                <div
+                  key={transaction._id}
+                  className={`p-6 rounded-xl border-2 ${
+                    transaction.transactionType === 'Received'
+                      ? 'bg-green-50 border-green-200'
+                      : 'bg-blue-50 border-blue-200'
+                  }`}
+                >
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center mb-2">
+                        <span
+                          className={`px-3 py-1 rounded-full text-sm font-bold ${
+                            transaction.transactionType === 'Received'
+                              ? 'bg-green-600 text-white'
+                              : 'bg-blue-600 text-white'
+                          }`}
+                        >
+                          {transaction.transactionType}
+                        </span>
+                        <span className="ml-3 text-2xl font-bold text-gray-900">
+                          {transaction.amount}h
+                        </span>
+                      </div>
+
+                      <div className="text-sm text-gray-600 mb-2">
+                        {transaction.transactionType === 'Received' ? (
+                          <>
+                            <strong>From:</strong> {transaction.otherPartyName} ({transaction.otherPartyCareID})
+                          </>
+                        ) : (
+                          <>
+                            <strong>To:</strong> {transaction.otherPartyName} ({transaction.otherPartyCareID})
+                          </>
+                        )}
+                      </div>
+
+                      <div className="text-sm text-gray-700 mb-2">
+                        <strong>Reason:</strong> {transaction.reason}
+                      </div>
+
+                      <div className="text-xs text-gray-500">
+                        {new Date(transaction.createdAt).toLocaleString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="ml-4">
+                      {transaction.transactionType === 'Received' ? (
+                        <div className="text-green-600">
+                          <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11l5-5m0 0l5 5m-5-5v12" />
+                          </svg>
+                        </div>
+                      ) : (
+                        <div className="text-blue-600">
+                          <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 13l-5 5m0 0l-5-5m5 5V6" />
+                          </svg>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

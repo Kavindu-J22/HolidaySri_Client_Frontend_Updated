@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Search, MapPin, Star, Heart, Clock, Filter, AlertCircle, ShoppingBag } from 'lucide-react';
+import { Search, MapPin, Star, Heart, Clock, Filter, AlertCircle, ShoppingBag, Copy, Check, Send, ArrowRightLeft, User } from 'lucide-react';
 
 // Sri Lankan provinces and districts mapping
 const provincesAndDistricts = {
@@ -27,6 +27,17 @@ const CaregiversTimeCurrencyBrowse = () => {
   const [accessMessage, setAccessMessage] = useState('');
   const [error, setError] = useState('');
   const [userHSTC, setUserHSTC] = useState(0);
+  const [copiedCareId, setCopiedCareId] = useState(null);
+
+  // HSTC Transfer state
+  const [searchCareId, setSearchCareId] = useState('');
+  const [foundUser, setFoundUser] = useState(null);
+  const [searchingUser, setSearchingUser] = useState(false);
+  const [transferAmount, setTransferAmount] = useState('');
+  const [transferReason, setTransferReason] = useState('');
+  const [transferring, setTransferring] = useState(false);
+  const [transferError, setTransferError] = useState('');
+  const [transferSuccess, setTransferSuccess] = useState('');
 
   // Filters
   const [searchTerm, setSearchTerm] = useState('');
@@ -94,6 +105,96 @@ const CaregiversTimeCurrencyBrowse = () => {
       setError('Failed to load profiles');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Copy careID to clipboard
+  const handleCopyCareId = (careId) => {
+    navigator.clipboard.writeText(careId);
+    setCopiedCareId(careId);
+    setTimeout(() => setCopiedCareId(null), 2000);
+  };
+
+  // Find user by careID
+  const handleFindUser = async () => {
+    if (!searchCareId.trim()) {
+      setTransferError('Please enter a Care ID');
+      return;
+    }
+
+    setSearchingUser(true);
+    setTransferError('');
+    setFoundUser(null);
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(
+        `http://localhost:5000/api/caregivers-time-currency/find-by-careid/${searchCareId.trim()}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      if (response.data.success) {
+        setFoundUser(response.data.data);
+      }
+    } catch (error) {
+      setTransferError(error.response?.data?.message || 'Failed to find user');
+    } finally {
+      setSearchingUser(false);
+    }
+  };
+
+  // Handle HSTC transfer
+  const handleTransferHSTC = async () => {
+    if (!transferAmount || !transferReason.trim()) {
+      setTransferError('Please enter transfer amount and reason');
+      return;
+    }
+
+    const amount = parseInt(transferAmount);
+    if (isNaN(amount) || amount <= 0) {
+      setTransferError('Please enter a valid positive amount');
+      return;
+    }
+
+    if (amount > userHSTC) {
+      setTransferError(`Insufficient HSTC. You have ${userHSTC}h`);
+      return;
+    }
+
+    setTransferring(true);
+    setTransferError('');
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        'http://localhost:5000/api/caregivers-time-currency/transfer-hstc',
+        {
+          receiverCareId: foundUser.careID,
+          amount,
+          reason: transferReason
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      if (response.data.success) {
+        setTransferSuccess(response.data.message);
+        setUserHSTC(response.data.data.newBalance);
+        // Reset form
+        setSearchCareId('');
+        setFoundUser(null);
+        setTransferAmount('');
+        setTransferReason('');
+        // Clear success message after 5 seconds
+        setTimeout(() => setTransferSuccess(''), 5000);
+      }
+    } catch (error) {
+      setTransferError(error.response?.data?.message || 'Failed to transfer HSTC');
+    } finally {
+      setTransferring(false);
     }
   };
 
@@ -248,11 +349,186 @@ const CaregiversTimeCurrencyBrowse = () => {
             >
               Care Needers
             </button>
+            <button
+              onClick={() => setActiveTab('HSTC Transfer')}
+              className={`px-6 py-3 rounded-lg font-semibold transition-all flex items-center ${
+                activeTab === 'HSTC Transfer'
+                  ? 'bg-green-600 text-white'
+                  : 'text-gray-600 hover:text-green-600'
+              }`}
+            >
+              <ArrowRightLeft size={18} className="mr-2" />
+              HSTC Transfer
+            </button>
           </div>
         </div>
 
-        {/* Search and Filters */}
-        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        {/* HSTC Transfer Tab Content */}
+        {activeTab === 'HSTC Transfer' ? (
+          <div className="max-w-2xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-xl p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <ArrowRightLeft className="mr-3 text-green-600" size={28} />
+                Transfer HSTC
+              </h2>
+
+              {/* Success Message */}
+              {transferSuccess && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 flex items-center">
+                  <Check className="mr-2" size={20} />
+                  {transferSuccess}
+                </div>
+              )}
+
+              {/* Error Message */}
+              {transferError && (
+                <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 flex items-center">
+                  <AlertCircle className="mr-2" size={20} />
+                  {transferError}
+                </div>
+              )}
+
+              {/* Search Care ID */}
+              <div className="mb-6">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Enter Care ID
+                </label>
+                <div className="flex gap-3">
+                  <input
+                    type="text"
+                    value={searchCareId}
+                    onChange={(e) => setSearchCareId(e.target.value.toUpperCase())}
+                    placeholder="e.g., CHS1234"
+                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent uppercase"
+                    maxLength={7}
+                  />
+                  <button
+                    onClick={handleFindUser}
+                    disabled={searchingUser}
+                    className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                  >
+                    {searchingUser ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Finding...
+                      </>
+                    ) : (
+                      <>
+                        <Search className="mr-2" size={18} />
+                        Find
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              {/* Found User Display */}
+              {foundUser && (
+                <div className="mb-6 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border-2 border-blue-200">
+                  <div className="flex items-center mb-4">
+                    <img
+                      src={foundUser.avatar?.url || '/default-avatar.png'}
+                      alt={foundUser.name}
+                      className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-md mr-4"
+                    />
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-gray-900">{foundUser.name}</h3>
+                      <div className="flex items-center gap-4 mt-1 text-sm text-gray-600">
+                        <span><strong>Gender:</strong> {foundUser.gender}</span>
+                        <span><strong>Age:</strong> {foundUser.age}</span>
+                      </div>
+                      <div className="mt-2 flex items-center gap-3">
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                          foundUser.type === 'Care Giver'
+                            ? 'bg-blue-100 text-blue-700'
+                            : 'bg-purple-100 text-purple-700'
+                        }`}>
+                          {foundUser.type}
+                        </span>
+                        <span className="text-sm font-semibold text-gray-700">
+                          Care ID: {foundUser.careID}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Transfer Form */}
+                  <div className="border-t border-blue-200 pt-4 mt-4">
+                    <h4 className="font-semibold text-gray-900 mb-4">Transfer HSTC</h4>
+
+                    {/* Current HSTC Display */}
+                    <div className="mb-4 p-3 bg-white rounded-lg">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600">Your Current HSTC:</span>
+                        <span className="text-lg font-bold text-blue-600">{userHSTC}h</span>
+                      </div>
+                    </div>
+
+                    {/* Transfer Amount */}
+                    <div className="mb-4">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Transfer Amount (whole numbers only) *
+                      </label>
+                      <input
+                        type="number"
+                        value={transferAmount}
+                        onChange={(e) => setTransferAmount(e.target.value)}
+                        placeholder="Enter amount in hours"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        min="1"
+                        step="1"
+                      />
+                    </div>
+
+                    {/* Reason */}
+                    <div className="mb-4">
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Reason *
+                      </label>
+                      <textarea
+                        value={transferReason}
+                        onChange={(e) => setTransferReason(e.target.value)}
+                        placeholder="Enter reason for transfer..."
+                        rows="3"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        maxLength={500}
+                      />
+                      <p className="text-xs text-gray-500 mt-1">{transferReason.length}/500 characters</p>
+                    </div>
+
+                    {/* Transfer Button */}
+                    <button
+                      onClick={handleTransferHSTC}
+                      disabled={transferring}
+                      className="w-full px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    >
+                      {transferring ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Transferring...
+                        </>
+                      ) : (
+                        <>
+                          <Send className="mr-2" size={20} />
+                          Transfer HSTC
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Search and Filters */}
+            <div className="bg-white rounded-xl shadow-md p-6 mb-8">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
             <div className="flex-1">
@@ -388,13 +664,33 @@ const CaregiversTimeCurrencyBrowse = () => {
                 {/* Profile Info */}
                 <div className="p-6">
                   <div className="flex items-start justify-between mb-3">
-                    <div>
+                    <div className="flex-1">
                       <h3 className="text-xl font-bold text-gray-900 mb-1">
                         {profile.name}
                       </h3>
-                      <div className="flex items-center text-sm text-gray-600">
+                      <div className="flex items-center text-sm text-gray-600 mb-2">
                         <MapPin size={14} className="mr-1" />
                         {profile.city}, {profile.province}
+                      </div>
+                      {/* Care ID with Copy */}
+                      <div className="flex items-center bg-gradient-to-r from-blue-50 to-purple-50 px-3 py-1.5 rounded-lg border border-blue-200 w-fit">
+                        <span className="text-xs font-semibold text-gray-700 mr-2">
+                          ID: {profile.careID}
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCopyCareId(profile.careID);
+                          }}
+                          className="text-blue-600 hover:text-blue-700 transition-colors"
+                          title="Copy Care ID"
+                        >
+                          {copiedCareId === profile.careID ? (
+                            <Check size={14} className="text-green-600" />
+                          ) : (
+                            <Copy size={14} />
+                          )}
+                        </button>
                       </div>
                     </div>
                     {profile.averageRating > 0 && (
@@ -497,6 +793,8 @@ const CaregiversTimeCurrencyBrowse = () => {
               </div>
             ))}
           </div>
+        )}
+          </>
         )}
       </div>
     </div>
