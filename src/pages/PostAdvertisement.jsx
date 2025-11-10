@@ -620,7 +620,8 @@ const PostAdvertisement = () => {
           id: 'exclusive_offers_promotions',
           name: 'Exclusive Offers & Promotions Advertisement',
           description: 'Promote special deals, limited-time offers, and exclusive promotions for your services.',
-          features: ['Deal highlights', 'Time-limited offers', 'Exclusive access', 'Promotional codes']
+          features: ['Deal highlights', 'Time-limited offers', 'Exclusive access', 'Promotional codes'],
+          hidden: true
         }
       ]
     },

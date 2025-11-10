@@ -211,7 +211,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Crypto Consulting & Signals', path: '/ads/opportunities/crypto' },
         { name: 'Local SIM Cards & Mobile Data Plans', path: '/ads/special-opportunities/local-sim-mobile-data' },
         { name: 'Custom Ads Campaigns', path: '/ads/opportunities/ads-campaigns', hidden: true },
-        { name: 'Exclusive Offers & Promotions', path: '/ads/opportunities/offers-promotions' },
+        { name: 'Exclusive Offers & Promotions', path: '/ads/opportunities/offers-promotions', hidden: true },
       ]
     },
     {
