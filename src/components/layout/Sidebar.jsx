@@ -162,7 +162,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         { name: 'Compassionate Caregivers & Earn Time Currency', path: '/caregivers-time-currency-browse' },
         { name: 'Trusted Babysitters & Childcare Help', path: '/babysitters-childcare' },
         { name: 'Pet Care & Animal Services', path: '/pet-care-animal-services' },
-        { name: 'Donations / Raise Your Fund', path: '/ads/caring/donations' },
+        { name: 'Donations / Raise Your Fund', path: '/donations-raise-fund-browse' },
       ]
     },
     {

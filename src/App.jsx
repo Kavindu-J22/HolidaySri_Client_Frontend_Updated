@@ -238,6 +238,10 @@ import EventsUpdatesForm from './pages/EventsUpdatesForm';
 import EditEventsUpdatesForm from './pages/EditEventsUpdatesForm';
 import EventsUpdatesDetailView from './pages/EventsUpdatesDetailView';
 import EventsUpdatesBrowse from './pages/EventsUpdatesBrowse';
+import DonationsRaiseFundForm from './pages/DonationsRaiseFundForm';
+import EditDonationsRaiseFund from './pages/EditDonationsRaiseFund';
+import DonationsRaiseFundDetail from './pages/DonationsRaiseFundDetail';
+import DonationsRaiseFundBrowse from './pages/DonationsRaiseFundBrowse';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -980,6 +984,18 @@ function App() {
                 } />
                 <Route path="events-updates/:id" element={<EventsUpdatesDetailView />} />
                 <Route path="ads/events-management/events-updates" element={<EventsUpdatesBrowse />} />
+                <Route path="donations-raise-fund-form" element={
+                  <ProtectedRoute>
+                    <DonationsRaiseFundForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-donations-raise-fund/:id" element={
+                  <ProtectedRoute>
+                    <EditDonationsRaiseFund />
+                  </ProtectedRoute>
+                } />
+                <Route path="donations-raise-fund/:id" element={<DonationsRaiseFundDetail />} />
+                <Route path="donations-raise-fund-browse" element={<DonationsRaiseFundBrowse />} />
                 {/* Alias route for sidebar navigation */}
                 <Route path="ads/marketplace/other-items" element={<OtherItemsBrowse />} />
                 <Route path="ads/professionals/astrologists" element={<TrustedAstrologistsBrowse />} />

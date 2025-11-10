@@ -456,6 +456,11 @@ const Advertisements = () => {
       navigate('/events-updates-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'donations_raise_fund') {
+      // Navigate to donations raise fund form
+      navigate('/donations-raise-fund-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -824,6 +829,13 @@ const Advertisements = () => {
       } else {
         setError('Caregivers Time Currency profile not found');
       }
+    } else if (advertisement && advertisement.category === 'donations_raise_fund') {
+      // Navigate to edit donations raise fund page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-donations-raise-fund/${advertisement.publishedAdId}`);
+      } else {
+        setError('Donation Campaign not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -1068,6 +1080,11 @@ const Advertisements = () => {
       // Navigate to caregivers time currency detail view
       if (advertisement.publishedAdId) {
         navigate(`/caregivers-time-currency/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'donations_raise_fund') {
+      // Navigate to donations raise fund detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/donations-raise-fund/${advertisement.publishedAdId}`);
       }
     }
   };
@@ -1566,6 +1583,8 @@ const Advertisements = () => {
                               if (ad.category === 'rent_property_buying_selling') {
                                 handleViewPublishedRentProperty(ad._id);
                               } else if (ad.category === 'events_updates') {
+                                handleViewPublishedProfile(ad._id);
+                              } else if (ad.category === 'donations_raise_fund') {
                                 handleViewPublishedProfile(ad._id);
                               } else {
                                 handleViewPublishedProfile(ad._id);
