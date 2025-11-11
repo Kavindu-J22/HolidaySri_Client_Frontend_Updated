@@ -54,7 +54,7 @@ const CaregiversTimeCurrencyDetail = () => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://localhost:5000/api/caregivers-time-currency/${id}`
+          `https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/${id}`
         );
 
         if (response.data.success) {
@@ -76,7 +76,7 @@ const CaregiversTimeCurrencyDetail = () => {
     const fetchReviews = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/caregivers-time-currency/${id}/reviews`
+          `https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/${id}/reviews`
         );
 
         if (response.data.success) {
@@ -95,7 +95,7 @@ const CaregiversTimeCurrencyDetail = () => {
     const fetchTransactions = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/caregivers-time-currency/${id}/transactions`
+          `https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/${id}/transactions`
         );
 
         if (response.data.success) {
@@ -140,7 +140,7 @@ const CaregiversTimeCurrencyDetail = () => {
       }
 
       const response = await axios.post(
-        `http://localhost:5000/api/caregivers-time-currency/${id}/review`,
+        `https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/${id}/review`,
         {
           rating,
           review: reviewText
@@ -161,7 +161,7 @@ const CaregiversTimeCurrencyDetail = () => {
 
         // Refresh reviews
         const reviewsResponse = await axios.get(
-          `http://localhost:5000/api/caregivers-time-currency/${id}/reviews`
+          `https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/${id}/reviews`
         );
         if (reviewsResponse.data.success) {
           setReviews(reviewsResponse.data.data);
@@ -169,7 +169,7 @@ const CaregiversTimeCurrencyDetail = () => {
 
         // Refresh profile to update average rating
         const profileResponse = await axios.get(
-          `http://localhost:5000/api/caregivers-time-currency/${id}`
+          `https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/${id}`
         );
         if (profileResponse.data.success) {
           setProfile(profileResponse.data.data);
