@@ -71,7 +71,12 @@ const TravelBuddyForm = () => {
         const response = await fetch('/api/travel-buddy/countries');
         const data = await response.json();
         if (data.success) {
-          setCountries(data.countries);
+          // Handle both possible response structures
+          const countriesList = data.countries || data.data || [];
+          setCountries(Array.isArray(countriesList) ? countriesList : []);
+        } else {
+          // Fallback countries list
+          setCountries(['Sri Lanka', 'India', 'United States', 'United Kingdom', 'Australia', 'Canada']);
         }
       } catch (error) {
         console.error('Error fetching countries:', error);
@@ -402,7 +407,7 @@ const TravelBuddyForm = () => {
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   required
                 >
-                  {countries.map((country) => (
+                  {Array.isArray(countries) && countries.map((country) => (
                     <option key={country} value={country}>
                       {country}
                     </option>
@@ -549,7 +554,7 @@ const TravelBuddyForm = () => {
                 </button>
               </div>
 
-              {formData.interests.length > 0 && (
+              {Array.isArray(formData.interests) && formData.interests.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {formData.interests.map((interest, index) => (
                     <span
