@@ -461,6 +461,11 @@ const Advertisements = () => {
       navigate('/donations-raise-fund-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'home_banner_slot') {
+      // Navigate to home banner slot form
+      navigate('/home-banner-slot-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');

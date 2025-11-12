@@ -240,6 +240,7 @@ import EventsUpdatesDetailView from './pages/EventsUpdatesDetailView';
 import EventsUpdatesBrowse from './pages/EventsUpdatesBrowse';
 import DonationsRaiseFundForm from './pages/DonationsRaiseFundForm';
 import EditDonationsRaiseFund from './pages/EditDonationsRaiseFund';
+import HomeBannerSlotForm from './pages/HomeBannerSlotForm';
 import DonationsRaiseFundDetail from './pages/DonationsRaiseFundDetail';
 import DonationsRaiseFundBrowse from './pages/DonationsRaiseFundBrowse';
 
@@ -987,6 +988,11 @@ function App() {
                 <Route path="donations-raise-fund-form" element={
                   <ProtectedRoute>
                     <DonationsRaiseFundForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="home-banner-slot-form" element={
+                  <ProtectedRoute>
+                    <HomeBannerSlotForm />
                   </ProtectedRoute>
                 } />
                 <Route path="edit-donations-raise-fund/:id" element={

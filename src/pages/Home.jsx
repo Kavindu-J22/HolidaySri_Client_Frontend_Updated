@@ -17,16 +17,19 @@ import {
   ExternalLink,
   Sparkles,
   Globe,
-  Heart
+  Heart,
+  Loader
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const Home = () => {
   const { user } = useAuth();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [bannerSlides, setBannerSlides] = useState([]);
+  const [loadingBanners, setLoadingBanners] = useState(true);
 
-  // Banner slideshow data
-  const bannerSlides = [
+  // Default banner slideshow data (fallback)
+  const defaultBannerSlides = [
     {
       id: 1,
       title: "Discover Ancient Wonders",
@@ -77,8 +80,60 @@ const Home = () => {
     }
   ];
 
+  // Fetch dynamic home banner slots
+  useEffect(() => {
+    const fetchBannerSlots = async () => {
+      try {
+        const response = await fetch('/api/home-banner-slot/active');
+        const data = await response.json();
+
+        if (data.success && data.data && data.data.length > 0) {
+          // Create array of 6 slots
+          const dynamicSlides = [];
+
+          // Map active banners to their slot numbers
+          const slotMap = {};
+          data.data.forEach(banner => {
+            slotMap[banner.slotNumber] = {
+              id: banner.slotNumber,
+              title: banner.title,
+              description: banner.description,
+              image: banner.image.url,
+              link: banner.link,
+              buttonText: banner.buttonText
+            };
+          });
+
+          // Fill all 6 slots (use dynamic if available, otherwise use default)
+          for (let i = 1; i <= 6; i++) {
+            if (slotMap[i]) {
+              dynamicSlides.push(slotMap[i]);
+            } else {
+              dynamicSlides.push(defaultBannerSlides[i - 1]);
+            }
+          }
+
+          setBannerSlides(dynamicSlides);
+        } else {
+          // No active banners, use all defaults
+          setBannerSlides(defaultBannerSlides);
+        }
+      } catch (error) {
+        console.error('Error fetching banner slots:', error);
+        // On error, use default banners
+        setBannerSlides(defaultBannerSlides);
+      } finally {
+        setLoadingBanners(false);
+      }
+    };
+
+    fetchBannerSlots();
+  }, []);
+
   // Auto-slide functionality
   useEffect(() => {
+    if (bannerSlides.length === 0) return;
+
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % bannerSlides.length);
     }, 5000); // Change slide every 5 seconds
@@ -151,9 +206,18 @@ const Home = () => {
       {/* Banner Slideshow Section */}
       <section className="relative">
         <div className="relative h-96 sm:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
-          {/* Slideshow Container */}
-          <div className="relative w-full h-full">
-            {bannerSlides.map((slide, index) => (
+          {loadingBanners ? (
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+              <div className="text-center text-white">
+                <Loader className="w-12 h-12 animate-spin mx-auto mb-4" />
+                <p className="text-lg font-semibold">Loading banners...</p>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* Slideshow Container */}
+              <div className="relative w-full h-full">
+                {bannerSlides.map((slide, index) => (
               <div
                 key={slide.id}
                 className={`absolute inset-0 transition-all duration-700 ease-in-out ${
@@ -222,6 +286,8 @@ const Home = () => {
               />
             ))}
           </div>
+            </>
+          )}
         </div>
       </section>
 

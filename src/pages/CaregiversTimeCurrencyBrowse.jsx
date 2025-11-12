@@ -58,7 +58,7 @@ const CaregiversTimeCurrencyBrowse = () => {
         }
 
         const response = await axios.get(
-          'https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/check-access',
+          'http://localhost:5000/api/caregivers-time-currency/check-access',
           {
             headers: {
               'Authorization': `Bearer ${token}`
@@ -94,7 +94,7 @@ const CaregiversTimeCurrencyBrowse = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        'https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/browse'
+        'http://localhost:5000/api/caregivers-time-currency/browse'
       );
 
       if (response.data.success) {
@@ -129,7 +129,7 @@ const CaregiversTimeCurrencyBrowse = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(
-        `https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/find-by-careid/${searchCareId.trim()}`,
+        `http://localhost:5000/api/caregivers-time-currency/find-by-careid/${searchCareId.trim()}`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }
@@ -169,7 +169,7 @@ const CaregiversTimeCurrencyBrowse = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        'https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/transfer-hstc',
+        'http://localhost:5000/api/caregivers-time-currency/transfer-hstc',
         {
           receiverCareId: foundUser.careID,
           amount,

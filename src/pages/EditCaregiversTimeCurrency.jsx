@@ -97,7 +97,7 @@ const EditCaregiversTimeCurrency = () => {
         }
 
         const response = await axios.get(
-          `https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/${id}`,
+          `http://localhost:5000/api/caregivers-time-currency/${id}`,
           {
             headers: {
               'Authorization': `Bearer ${token}`
@@ -317,7 +317,7 @@ const EditCaregiversTimeCurrency = () => {
       }
 
       const response = await axios.put(
-        `https://holidaysri-backend-9xm4.onrender.com/api/caregivers-time-currency/${id}`,
+        `http://localhost:5000/api/caregivers-time-currency/${id}`,
         payload,
         {
           headers: {
