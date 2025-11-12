@@ -86,7 +86,7 @@ const TripRequestCard = ({ request, onDelete, showDelete = false }) => {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate(`/travel-buddy/${request.organizerId}`);
+                    navigate(`/travel-buddy/${request.organizerTravelBuddyId}`);
                   }}
                   className="flex items-center space-x-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
                   title="View Profile"
