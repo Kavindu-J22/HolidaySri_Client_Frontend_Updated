@@ -10,7 +10,11 @@ import {
   CheckCircle,
   X,
   Upload,
-  ArrowLeft
+  ArrowLeft,
+  Grid3x3,
+  Clock,
+  Bell,
+  AlertCircle
 } from 'lucide-react';
 
 const EditHomeBannerSlot = () => {
@@ -25,7 +29,8 @@ const EditHomeBannerSlot = () => {
     title: '',
     description: '',
     link: '',
-    buttonText: ''
+    buttonText: '',
+    slotNumber: null
   });
 
   const [image, setImage] = useState({
@@ -34,6 +39,19 @@ const EditHomeBannerSlot = () => {
   });
 
   const [uploading, setUploading] = useState(false);
+
+  // Banner slot status
+  const [bannerStatus, setBannerStatus] = useState({
+    isActive: false,
+    slotNumber: null,
+    expiresAt: null
+  });
+
+  // Slot selection (for inactive banners)
+  const [slots, setSlots] = useState([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [hasNotificationRequest, setHasNotificationRequest] = useState(false);
+  const [showNotifyModal, setShowNotifyModal] = useState(false);
 
   // Fetch banner slot data
   useEffect(() => {
@@ -54,12 +72,24 @@ const EditHomeBannerSlot = () => {
             title: banner.title,
             description: banner.description,
             link: banner.link,
-            buttonText: banner.buttonText
+            buttonText: banner.buttonText,
+            slotNumber: banner.slotNumber
           });
           setImage({
             url: banner.image.url,
             publicId: banner.image.publicId
           });
+          setBannerStatus({
+            isActive: banner.isActive,
+            slotNumber: banner.slotNumber,
+            expiresAt: banner.publishedAdId?.expiresAt || null
+          });
+
+          // If inactive, fetch slot availability
+          if (!banner.isActive) {
+            fetchSlotAvailability();
+            checkNotificationStatus();
+          }
         } else {
           setError(data.message || 'Failed to fetch banner slot');
         }
@@ -73,6 +103,72 @@ const EditHomeBannerSlot = () => {
 
     fetchBannerSlot();
   }, [id]);
+
+  // Fetch slot availability
+  const fetchSlotAvailability = async () => {
+    setLoadingSlots(true);
+    try {
+      const response = await fetch('/api/home-banner-slot/slots/availability');
+      const data = await response.json();
+
+      if (data.success) {
+        setSlots(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching slot availability:', error);
+    } finally {
+      setLoadingSlots(false);
+    }
+  };
+
+  // Check notification status
+  const checkNotificationStatus = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('/api/home-banner-slot/my-notification', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+
+      if (data.success && data.data) {
+        setHasNotificationRequest(true);
+      }
+    } catch (error) {
+      console.error('Error checking notification status:', error);
+    }
+  };
+
+  // Handle notify me
+  const handleNotifyMe = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const userEmail = JSON.parse(atob(token.split('.')[1])).email;
+
+      const response = await fetch('/api/home-banner-slot/notify-me', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ email: userEmail })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setHasNotificationRequest(true);
+        setShowNotifyModal(true);
+        setTimeout(() => setShowNotifyModal(false), 3000);
+      } else {
+        setError(data.message || 'Failed to register notification');
+      }
+    } catch (error) {
+      console.error('Error registering notification:', error);
+      setError('Failed to register notification');
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -142,6 +238,12 @@ const EditHomeBannerSlot = () => {
       return;
     }
 
+    // If inactive, require slot selection
+    if (!bannerStatus.isActive && !formData.slotNumber) {
+      setError('Please select a slot to reactivate your banner');
+      return;
+    }
+
     if (formData.title.length > 30) {
       setError('Title must not exceed 30 characters');
       return;
@@ -161,19 +263,28 @@ const EditHomeBannerSlot = () => {
 
     try {
       const token = localStorage.getItem('token');
+
+      const requestBody = {
+        title: formData.title,
+        description: formData.description,
+        image: image,
+        link: formData.link,
+        buttonText: formData.buttonText
+      };
+
+      // If reactivating, include slot number
+      if (!bannerStatus.isActive && formData.slotNumber) {
+        requestBody.slotNumber = formData.slotNumber;
+        requestBody.reactivate = true;
+      }
+
       const response = await fetch(`/api/home-banner-slot/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({
-          title: formData.title,
-          description: formData.description,
-          image: image,
-          link: formData.link,
-          buttonText: formData.buttonText
-        })
+        body: JSON.stringify(requestBody)
       });
 
       const data = await response.json();
@@ -223,6 +334,177 @@ const EditHomeBannerSlot = () => {
           <p className="text-gray-600 dark:text-gray-400 mt-2">
             Update your home page banner advertisement
           </p>
+        </div>
+
+        {/* Status Section */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-6">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+            <Grid3x3 className="w-5 h-5 mr-2" />
+            Banner Status
+          </h2>
+
+          {bannerStatus.isActive ? (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 mr-3" />
+                  <div>
+                    <p className="font-semibold text-green-900 dark:text-green-100">Active</p>
+                    <p className="text-sm text-green-700 dark:text-green-300">
+                      Your banner is currently live on the home page
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Slot Number</p>
+                  <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+                    Slot {bannerStatus.slotNumber}
+                  </p>
+                </div>
+
+                {bannerStatus.expiresAt && (
+                  <div className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1 flex items-center">
+                      <Clock className="w-4 h-4 mr-1" />
+                      Expires At
+                    </p>
+                    <p className="text-lg font-semibold text-gray-900 dark:text-white">
+                      {new Date(bannerStatus.expiresAt).toLocaleString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                <div className="flex items-center">
+                  <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400 mr-3" />
+                  <div>
+                    <p className="font-semibold text-yellow-900 dark:text-yellow-100">Inactive</p>
+                    <p className="text-sm text-yellow-700 dark:text-yellow-300">
+                      Your banner is not currently displayed. Select a slot to reactivate.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Slot Selection */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                  Select Your Banner Slot
+                </h3>
+
+                {loadingSlots ? (
+                  <div className="flex items-center justify-center py-8">
+                    <Loader className="w-8 h-8 animate-spin text-purple-600" />
+                  </div>
+                ) : (
+                  <>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+                      {slots.map((slot) => {
+                        const isAvailable = slot.isAvailable;
+                        const isSelected = formData.slotNumber === slot.slotNumber;
+
+                        return (
+                          <button
+                            key={slot.slotNumber}
+                            type="button"
+                            onClick={() => {
+                              if (isAvailable) {
+                                setFormData(prev => ({
+                                  ...prev,
+                                  slotNumber: slot.slotNumber
+                                }));
+                              }
+                            }}
+                            disabled={!isAvailable}
+                            className={`p-4 rounded-lg border-2 transition-all ${
+                              isSelected
+                                ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20'
+                                : isAvailable
+                                ? 'border-gray-300 dark:border-gray-600 hover:border-purple-400 dark:hover:border-purple-500'
+                                : 'border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 cursor-not-allowed opacity-60'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="font-bold text-lg text-gray-900 dark:text-white">
+                                Slot {slot.slotNumber}
+                              </span>
+                              {isAvailable ? (
+                                <CheckCircle className={`w-5 h-5 ${isSelected ? 'text-purple-600' : 'text-green-600'}`} />
+                              ) : (
+                                <X className="w-5 h-5 text-red-600" />
+                              )}
+                            </div>
+                            <p className={`text-sm ${
+                              isAvailable
+                                ? 'text-green-600 dark:text-green-400 font-semibold'
+                                : 'text-red-600 dark:text-red-400'
+                            }`}>
+                              {isAvailable ? 'Available' : 'Occupied'}
+                            </p>
+                            {!isAvailable && slot.expiresAt && (
+                              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                                Until: {new Date(slot.expiresAt).toLocaleString('en-US', {
+                                  month: 'short',
+                                  day: 'numeric',
+                                  hour: '2-digit',
+                                  minute: '2-digit'
+                                })}
+                              </p>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Notify Me Option */}
+                    {slots.every(slot => !slot.isAvailable) && (
+                      <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-start">
+                            <Bell className="w-5 h-5 text-blue-600 dark:text-blue-400 mr-3 mt-0.5" />
+                            <div>
+                              <p className="font-semibold text-blue-900 dark:text-blue-100 mb-1">
+                                All Slots Occupied
+                              </p>
+                              <p className="text-sm text-blue-700 dark:text-blue-300 mb-3">
+                                Get notified when a slot becomes available
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        {!hasNotificationRequest ? (
+                          <button
+                            type="button"
+                            onClick={handleNotifyMe}
+                            className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                          >
+                            Notify Me
+                          </button>
+                        ) : (
+                          <div className="flex items-center text-green-600 dark:text-green-400">
+                            <CheckCircle className="w-5 h-5 mr-2" />
+                            <span className="font-semibold">You'll be notified when a slot is available</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Form */}
@@ -428,6 +710,23 @@ const EditHomeBannerSlot = () => {
             <div className="flex items-center justify-center">
               <Loader className="w-5 h-5 animate-spin text-purple-600" />
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Notification Modal */}
+      {showNotifyModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full text-center">
+            <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Bell className="w-10 h-10 text-blue-600 dark:text-blue-400" />
+            </div>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              Notification Registered!
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              We'll notify you via email when a slot becomes available.
+            </p>
           </div>
         </div>
       )}

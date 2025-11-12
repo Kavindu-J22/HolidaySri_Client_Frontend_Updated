@@ -29,6 +29,7 @@ const RenewAdvertisement = () => {
   // Helper function to get frontend category ID from backend category name
   const getFrontendCategoryId = (backendCategory) => {
     const categoryMapping = {
+      'home_banner_slot': 'home_banner',
       'home_banner': 'home_banner',
       'travel_buddys': 'tourism_travel',
       'tour_guiders': 'tourism_travel',
@@ -94,6 +95,8 @@ const RenewAdvertisement = () => {
   // Helper function to get slot name for display
   const getSlotDisplayName = (backendCategory) => {
     const slotNames = {
+      'home_banner_slot': 'Home Banner',
+      'home_banner': 'Home Banner',
       'travel_buddys': 'Travel Buddys',
       'tour_guiders': 'Tour Guiders',
       'local_tour_packages': 'Local Tour Packages',
@@ -150,7 +153,6 @@ const RenewAdvertisement = () => {
       'custom_ads_campaigns': 'Custom Ads & Campaigns',
       'exclusive_offers_promotions': 'Exclusive Offers & Promotions',
       'emergency_services_insurance': 'Emergency Services & Insurance',
-      'home_banner': 'Home Banner'
     };
 
     return slotNames[backendCategory] || backendCategory.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
