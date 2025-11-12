@@ -48,10 +48,11 @@ const HomeOfficeAccessoriesTechBrowse = () => {
       const response = await fetch('/api/home-office-accessories-tech/provinces');
       if (response.ok) {
         const data = await response.json();
-        setProvincesData(data.data);
+        setProvincesData(data.data || {});
       }
     } catch (error) {
       console.error('Error fetching provinces:', error);
+      setProvincesData({});
     }
   };
 
@@ -230,7 +231,7 @@ const HomeOfficeAccessoriesTechBrowse = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 >
                   <option value="">All Provinces</option>
-                  {Object.keys(provincesData).map(prov => (
+                  {provincesData && Object.keys(provincesData).map(prov => (
                     <option key={prov} value={prov}>{prov}</option>
                   ))}
                 </select>
