@@ -20,10 +20,12 @@ import {
   Filter,
   ArrowRight,
   Gem,
-  Diamond
+  Diamond,
+  Grid3x3
 } from 'lucide-react';
 import { hscAPI, advertisementAPI } from '../config/api';
 import AdvertisementPlanPopup from '../components/common/AdvertisementPlanPopup';
+import SlotAvailabilityModal from '../components/SlotAvailabilityModal';
 
 const PostAdvertisement = () => {
   const [hscValue, setHscValue] = useState(100);
@@ -35,6 +37,9 @@ const PostAdvertisement = () => {
   // Popup state management
   const [showPlanPopup, setShowPlanPopup] = useState(false);
   const [selectedSlotForPopup, setSelectedSlotForPopup] = useState(null);
+
+  // Slot availability modal state
+  const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
 
   // Fetch current HSC value and slot charges
   useEffect(() => {
@@ -933,10 +938,22 @@ const PostAdvertisement = () => {
                       <Zap className="w-4 h-4" />
                       <span>Post Now</span>
                     </button>
-                    <button className="btn-secondary flex items-center justify-center space-x-2">
-                      <Eye className="w-4 h-4" />
-                      <span>View Examples</span>
-                    </button>
+
+                    {/* Check Availability button for home_banner_slot only */}
+                    {slot.id === 'home_banner_slot' ? (
+                      <button
+                        onClick={() => setShowAvailabilityModal(true)}
+                        className="btn-secondary flex items-center justify-center space-x-2"
+                      >
+                        <Grid3x3 className="w-4 h-4" />
+                        <span>Check Availability</span>
+                      </button>
+                    ) : (
+                      <button className="btn-secondary flex items-center justify-center space-x-2">
+                        <Eye className="w-4 h-4" />
+                        <span>View Examples</span>
+                      </button>
+                    )}
                   </div>
 
                   {/* Payment Options Info */}
@@ -989,6 +1006,12 @@ const PostAdvertisement = () => {
         selectedSlot={selectedSlotForPopup}
         slotCharges={slotCharges}
         hscValue={hscValue}
+      />
+
+      {/* Slot Availability Modal */}
+      <SlotAvailabilityModal
+        isOpen={showAvailabilityModal}
+        onClose={() => setShowAvailabilityModal(false)}
       />
     </div>
   );

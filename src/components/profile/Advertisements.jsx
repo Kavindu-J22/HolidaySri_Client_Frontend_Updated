@@ -18,10 +18,12 @@ import {
   ChevronDown,
   BarChart3,
   Shield,
-  CheckCircle
+  CheckCircle,
+  Grid3x3
 } from 'lucide-react';
 import { advertisementAPI, userAPI } from '../../config/api';
 import UserVerificationModal from './UserVerificationModal';
+import SlotAvailabilityModal from '../SlotAvailabilityModal';
 
 const Advertisements = () => {
   const navigate = useNavigate();
@@ -29,6 +31,9 @@ const Advertisements = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [actionLoading, setActionLoading] = useState({});
+
+  // Slot availability modal state
+  const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
 
   // Search and filter state
   const [searchTerm, setSearchTerm] = useState('');
@@ -1574,6 +1579,17 @@ const Advertisements = () => {
                             <RefreshCw className="w-4 h-4" />
                             <span>Renew</span>
                           </button>
+
+                          {/* Check Availability Button - Only for home_banner_slot */}
+                          {ad.category === 'home_banner_slot' && (
+                            <button
+                              onClick={() => setShowAvailabilityModal(true)}
+                              className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-indigo-100 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-900/30 transition-colors text-sm"
+                            >
+                              <Grid3x3 className="w-4 h-4" />
+                              <span>Check Availability</span>
+                            </button>
+                          )}
                         </>
                       )}
 
@@ -1624,6 +1640,17 @@ const Advertisements = () => {
                             <RefreshCw className="w-4 h-4" />
                             <span>Renew</span>
                           </button>
+
+                          {/* Check Availability Button - Only for home_banner_slot */}
+                          {ad.category === 'home_banner_slot' && (
+                            <button
+                              onClick={() => setShowAvailabilityModal(true)}
+                              className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-indigo-100 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg hover:bg-indigo-200 dark:hover:bg-indigo-900/30 transition-colors text-sm"
+                            >
+                              <Grid3x3 className="w-4 h-4" />
+                              <span>Check Availability</span>
+                            </button>
+                          )}
                         </>
                       )}
 
@@ -1693,6 +1720,12 @@ const Advertisements = () => {
         isOpen={showVerificationModal}
         onClose={() => setShowVerificationModal(false)}
         onVerificationComplete={handleVerificationComplete}
+      />
+
+      {/* Slot Availability Modal */}
+      <SlotAvailabilityModal
+        isOpen={showAvailabilityModal}
+        onClose={() => setShowAvailabilityModal(false)}
       />
     </div>
   );
