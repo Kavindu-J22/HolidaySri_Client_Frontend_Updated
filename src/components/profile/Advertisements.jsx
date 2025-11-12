@@ -471,6 +471,11 @@ const Advertisements = () => {
       navigate('/home-banner-slot-form', {
         state: { advertisementId: adId }
       });
+    } else if (advertisement.category === 'crypto_consulting_signals') {
+      // Navigate to crypto consulting signals form
+      navigate('/crypto-consulting-signals-form', {
+        state: { advertisementId: adId }
+      });
     } else {
       // For other categories, show a message that functionality will be implemented later
       setError('Publishing functionality for this category will be available soon');
@@ -853,6 +858,13 @@ const Advertisements = () => {
       } else {
         setError('Home Banner Slot not found');
       }
+    } else if (advertisement && advertisement.category === 'crypto_consulting_signals') {
+      // Navigate to edit crypto consulting signals page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-crypto-consulting-signals/${advertisement.publishedAdId}`);
+      } else {
+        setError('Crypto Consulting Signals profile not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -1102,6 +1114,11 @@ const Advertisements = () => {
       // Navigate to donations raise fund detail view
       if (advertisement.publishedAdId) {
         navigate(`/donations-raise-fund/${advertisement.publishedAdId}`);
+      }
+    } else if (advertisement && advertisement.category === 'crypto_consulting_signals') {
+      // Navigate to crypto consulting signals detail view
+      if (advertisement.publishedAdId) {
+        navigate(`/crypto-consulting-signals/${advertisement.publishedAdId}`);
       }
     }
   };

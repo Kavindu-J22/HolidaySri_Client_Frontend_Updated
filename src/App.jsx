@@ -241,6 +241,10 @@ import EventsUpdatesBrowse from './pages/EventsUpdatesBrowse';
 import DonationsRaiseFundForm from './pages/DonationsRaiseFundForm';
 import EditDonationsRaiseFund from './pages/EditDonationsRaiseFund';
 import HomeBannerSlotForm from './pages/HomeBannerSlotForm';
+import CryptoConsultingSignalsForm from './pages/CryptoConsultingSignalsForm';
+import EditCryptoConsultingSignalsForm from './pages/EditCryptoConsultingSignalsForm';
+import CryptoConsultingSignalsDetailView from './pages/CryptoConsultingSignalsDetailView';
+import CryptoConsultingSignalsBrowse from './pages/CryptoConsultingSignalsBrowse';
 import EditHomeBannerSlot from './pages/EditHomeBannerSlot';
 import DonationsRaiseFundDetail from './pages/DonationsRaiseFundDetail';
 import DonationsRaiseFundBrowse from './pages/DonationsRaiseFundBrowse';
@@ -718,6 +722,18 @@ function App() {
                 } />
                 <Route path="educational-tutoring" element={<EducationalTutoringBrowse />} />
                 <Route path="educational-tutoring/:id" element={<EducationalTutoringDetailView />} />
+                <Route path="crypto-consulting-signals-form" element={
+                  <ProtectedRoute>
+                    <CryptoConsultingSignalsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="edit-crypto-consulting-signals/:id" element={
+                  <ProtectedRoute>
+                    <EditCryptoConsultingSignalsForm />
+                  </ProtectedRoute>
+                } />
+                <Route path="crypto-consulting-signals/:id" element={<CryptoConsultingSignalsDetailView />} />
+                <Route path="crypto-consulting-signals" element={<CryptoConsultingSignalsBrowse />} />
                 <Route path="currency-exchange-form" element={
                   <ProtectedRoute>
                     <CurrencyExchangeForm />

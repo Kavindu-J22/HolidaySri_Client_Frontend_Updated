@@ -148,7 +148,7 @@ const RenewAdvertisement = () => {
       'cinema_movie_hub': 'Cinema & Movie Hub',
       'social_media_promotions': 'Social Media Promotions',
       'job_opportunities': 'Job Opportunities',
-      'crypto_consulting_signals': 'Crypto Consulting & Signals',
+      'crypto_consulting_signals': 'Crypto Consulting & Courses',
       'local_sim_mobile_data': 'Local SIM & Mobile Data',
       'custom_ads_campaigns': 'Custom Ads & Campaigns',
       'exclusive_offers_promotions': 'Exclusive Offers & Promotions',

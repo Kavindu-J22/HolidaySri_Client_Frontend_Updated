@@ -604,7 +604,7 @@ const PostAdvertisement = () => {
         },
         {
           id: 'crypto_consulting_signals',
-          name: 'Crypto Consulting & Signals Advertisement',
+          name: 'Crypto Consulting & Courses Advertisement',
           description: 'Provide cryptocurrency consulting, trading signals, and blockchain-related services.',
           features: ['Expert analysis', 'Signal accuracy', 'Market insights', 'Educational content']
         },
