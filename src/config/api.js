@@ -261,4 +261,13 @@ export const customizeEventRequestAPI = {
   approveRequest: (id) => api.post(`/customize-event-request/approve-request/${id}`),
 };
 
+// Trip Request API calls
+export const tripRequestAPI = {
+  getCharge: () => api.get('/trip-requests/charge'),
+  createTripRequest: (data) => api.post('/trip-requests', data),
+  getAllTripRequests: (params) => api.get('/trip-requests', { params }),
+  getMyTripRequests: (params) => api.get('/trip-requests/my', { params }),
+  deleteTripRequest: (id) => api.delete(`/trip-requests/${id}`),
+};
+
 export default api;

@@ -12,15 +12,24 @@ import {
   Calendar,
   ChevronDown,
   X,
-  Loader2
+  Loader2,
+  Plus,
+  MessageCircle,
+  Trash2,
+  ChevronRight
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { travelBuddyAPI } from '../config/api';
+import { travelBuddyAPI, tripRequestAPI } from '../config/api';
 import TravelBuddyAccessModal from '../components/common/TravelBuddyAccessModal';
+import TripRequestModal from '../components/TripRequestModal';
+import TripRequestCard from '../components/TripRequestCard';
 
 const TravelBuddyPlatform = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+
+  // Tab state
+  const [activeTab, setActiveTab] = useState('buddies'); // 'buddies', 'tripRequests', 'myTripRequests'
 
   const [travelBuddies, setTravelBuddies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,6 +37,12 @@ const TravelBuddyPlatform = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  // Trip Request states
+  const [showTripRequestModal, setShowTripRequestModal] = useState(false);
+  const [tripRequests, setTripRequests] = useState([]);
+  const [myTripRequests, setMyTripRequests] = useState([]);
+  const [expandedRequest, setExpandedRequest] = useState(null);
 
   // Access control states
   const [showAccessModal, setShowAccessModal] = useState(false);
@@ -38,7 +53,7 @@ const TravelBuddyPlatform = () => {
   });
   const [canAccessPlatform, setCanAccessPlatform] = useState(false);
   const [eligibilityChecked, setEligibilityChecked] = useState(false);
-  
+
   // Filter states
   const [filters, setFilters] = useState({
     country: '',
@@ -103,9 +118,15 @@ const TravelBuddyPlatform = () => {
 
   useEffect(() => {
     if (canAccessPlatform && eligibilityChecked) {
-      fetchTravelBuddies();
+      if (activeTab === 'buddies') {
+        fetchTravelBuddies();
+      } else if (activeTab === 'tripRequests') {
+        fetchTripRequests();
+      } else if (activeTab === 'myTripRequests') {
+        fetchMyTripRequests();
+      }
     }
-  }, [currentPage, searchTerm, filters, canAccessPlatform, eligibilityChecked]);
+  }, [currentPage, searchTerm, filters, canAccessPlatform, eligibilityChecked, activeTab]);
 
   const fetchTravelBuddies = async () => {
     try {
@@ -155,6 +176,52 @@ const TravelBuddyPlatform = () => {
 
   const handleProfileClick = (buddyId) => {
     navigate(`/travel-buddy/${buddyId}`);
+  };
+
+  // Trip Request Functions
+  const fetchTripRequests = async () => {
+    try {
+      setLoading(true);
+      const response = await tripRequestAPI.getAllTripRequests({ page: currentPage, limit: 12 });
+      setTripRequests(response.data.data.tripRequests);
+      setTotalPages(response.data.data.pagination.totalPages);
+    } catch (error) {
+      console.error('Error fetching trip requests:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchMyTripRequests = async () => {
+    try {
+      setLoading(true);
+      const response = await tripRequestAPI.getMyTripRequests({ page: currentPage, limit: 12 });
+      setMyTripRequests(response.data.data.tripRequests);
+      setTotalPages(response.data.data.pagination.totalPages);
+    } catch (error) {
+      console.error('Error fetching my trip requests:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteTripRequest = async (requestId) => {
+    if (!window.confirm('Are you sure you want to delete this trip request?')) {
+      return;
+    }
+
+    try {
+      await tripRequestAPI.deleteTripRequest(requestId);
+      fetchMyTripRequests();
+    } catch (error) {
+      console.error('Error deleting trip request:', error);
+      alert(error.response?.data?.message || 'Failed to delete trip request');
+    }
+  };
+
+  const openWhatsApp = (phoneNumber) => {
+    const cleanNumber = phoneNumber.replace(/[^0-9]/g, '');
+    window.open(`https://wa.me/${cleanNumber}`, '_blank');
   };
 
   const formatViewCount = (count) => {
@@ -403,14 +470,83 @@ const TravelBuddyPlatform = () => {
             <h1 className="text-4xl font-bold mb-2">Travel Buddies Platform</h1>
             <p className="text-xl opacity-90">Connect with amazing travel companions from around the world</p>
           </div>
+
+          {/* Tab Navigation */}
+          <div className="mt-8 flex justify-center space-x-2">
+            <button
+              onClick={() => {
+                setActiveTab('buddies');
+                setCurrentPage(1);
+              }}
+              className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                activeTab === 'buddies'
+                  ? 'bg-white text-blue-600 shadow-lg'
+                  : 'bg-white/20 hover:bg-white/30 text-white'
+              }`}
+            >
+              <Users className="w-5 h-5 inline-block mr-2" />
+              Travel Buddies
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('tripRequests');
+                setCurrentPage(1);
+              }}
+              className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                activeTab === 'tripRequests'
+                  ? 'bg-white text-blue-600 shadow-lg'
+                  : 'bg-white/20 hover:bg-white/30 text-white'
+              }`}
+            >
+              <MapPin className="w-5 h-5 inline-block mr-2" />
+              Trip Requests
+            </button>
+            <button
+              onClick={() => {
+                setActiveTab('myTripRequests');
+                setCurrentPage(1);
+              }}
+              className={`px-6 py-3 rounded-lg font-semibold transition-all ${
+                activeTab === 'myTripRequests'
+                  ? 'bg-white text-blue-600 shadow-lg'
+                  : 'bg-white/20 hover:bg-white/30 text-white'
+              }`}
+            >
+              <Calendar className="w-5 h-5 inline-block mr-2" />
+              My Trip Requests
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Search and Filters */}
+      {/* Trip Request Modal */}
+      <TripRequestModal
+        isOpen={showTripRequestModal}
+        onClose={() => setShowTripRequestModal(false)}
+        onSuccess={() => {
+          setActiveTab('myTripRequests');
+          fetchMyTripRequests();
+        }}
+      />
+
+      {/* Search and Filters - Only show for buddies tab */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
-          {/* Search Bar */}
-          <form onSubmit={handleSearch} className="flex gap-4 mb-4">
+        {activeTab === 'tripRequests' && (
+          <div className="mb-6 flex justify-end">
+            <button
+              onClick={() => setShowTripRequestModal(true)}
+              className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
+            >
+              <Plus className="w-5 h-5" />
+              <span>Add Trip Request</span>
+            </button>
+          </div>
+        )}
+
+        {activeTab === 'buddies' && (
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+            {/* Search Bar */}
+            <form onSubmit={handleSearch} className="flex gap-4 mb-4">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -529,7 +665,8 @@ const TravelBuddyPlatform = () => {
               </div>
             </div>
           )}
-        </div>
+          </div>
+        )}
 
         {/* Results */}
         {loading ? (
@@ -538,39 +675,139 @@ const TravelBuddyPlatform = () => {
           </div>
         ) : (
           <>
-            {/* Results Count */}
-            <div className="mb-6">
-              <p className="text-gray-600 dark:text-gray-400">
-                {travelBuddies.length > 0 
-                  ? `Showing ${travelBuddies.length} travel ${travelBuddies.length === 1 ? 'buddy' : 'buddies'}`
-                  : 'No travel buddies found'
-                }
-              </p>
-            </div>
+            {activeTab === 'buddies' && (
+              <>
+                {/* Results Count */}
+                <div className="mb-6">
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {travelBuddies.length > 0
+                      ? `Showing ${travelBuddies.length} travel ${travelBuddies.length === 1 ? 'buddy' : 'buddies'}`
+                      : 'No travel buddies found'
+                    }
+                  </p>
+                </div>
 
-            {/* Travel Buddy Grid */}
-            {travelBuddies.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 justify-items-center items-stretch">
-                {travelBuddies.map((buddy) => (
-                  <TravelBuddyCard key={buddy._id} buddy={buddy} />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12">
-                <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  No Travel Buddies Found
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  Try adjusting your search criteria or filters
-                </p>
-                <button
-                  onClick={clearFilters}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
-                >
-                  Clear All Filters
-                </button>
-              </div>
+                {/* Travel Buddy Grid */}
+                {travelBuddies.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 justify-items-center items-stretch">
+                    {travelBuddies.map((buddy) => (
+                      <TravelBuddyCard key={buddy._id} buddy={buddy} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                      No Travel Buddies Found
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                      Try adjusting your search criteria or filters
+                    </p>
+                    <button
+                      onClick={clearFilters}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+                    >
+                      Clear All Filters
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* Trip Requests Tab */}
+            {activeTab === 'tripRequests' && (
+              <>
+                <div className="mb-6">
+                  <p className="text-gray-600 dark:text-gray-400 font-medium">
+                    {tripRequests.length > 0
+                      ? `Showing ${tripRequests.length} trip ${tripRequests.length === 1 ? 'request' : 'requests'}`
+                      : 'No trip requests found'
+                    }
+                  </p>
+                </div>
+
+                {tripRequests.length > 0 ? (
+                  <div className="space-y-3 mb-8">
+                    {tripRequests.map((request) => (
+                      <TripRequestCard key={request._id} request={request} />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700">
+                    <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                      No Trip Requests Yet
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                      Be the first to create a trip request!
+                    </p>
+                    <button
+                      onClick={() => setShowTripRequestModal(true)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+                    >
+                      Add Trip Request
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
+
+            {/* My Trip Requests Tab */}
+            {activeTab === 'myTripRequests' && (
+              <>
+                <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                  <p className="text-gray-600 dark:text-gray-400 font-medium">
+                    {myTripRequests.length > 0
+                      ? `You have ${myTripRequests.length} trip ${myTripRequests.length === 1 ? 'request' : 'requests'}`
+                      : 'You have no trip requests'
+                    }
+                  </p>
+                  <button
+                    onClick={() => setShowTripRequestModal(true)}
+                    className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
+                  >
+                    <Plus className="w-5 h-5" />
+                    <span>Add New Request</span>
+                  </button>
+                </div>
+
+                {myTripRequests.length > 0 ? (
+                  <>
+                    <div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-lg p-4 mb-6">
+                      <p className="text-yellow-800 dark:text-yellow-300 text-sm flex items-start">
+                        <span className="font-bold mr-2">⚠️ Note:</span>
+                        <span>You cannot edit your trip requests once submitted. You can only delete them if needed.</span>
+                      </p>
+                    </div>
+                    <div className="space-y-3 mb-8">
+                      {myTripRequests.map((request) => (
+                        <TripRequestCard
+                          key={request._id}
+                          request={request}
+                          showDelete={true}
+                          onDelete={handleDeleteTripRequest}
+                        />
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700">
+                    <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                      No Trip Requests Yet
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                      Create your first trip request to find travel buddies!
+                    </p>
+                    <button
+                      onClick={() => setShowTripRequestModal(true)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+                    >
+                      Add Trip Request
+                    </button>
+                  </div>
+                )}
+              </>
             )}
 
             {/* Pagination */}
