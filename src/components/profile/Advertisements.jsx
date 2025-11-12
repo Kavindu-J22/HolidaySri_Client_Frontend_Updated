@@ -841,6 +841,13 @@ const Advertisements = () => {
       } else {
         setError('Donation Campaign not found');
       }
+    } else if (advertisement && advertisement.category === 'home_banner_slot') {
+      // Navigate to edit home banner slot page
+      if (advertisement.publishedAdId) {
+        navigate(`/edit-home-banner-slot/${advertisement.publishedAdId}`);
+      } else {
+        setError('Home Banner Slot not found');
+      }
     } else {
       console.log('Manage clicked for ad:', adId);
       // Other category management functionality will be implemented later
@@ -1591,6 +1598,9 @@ const Advertisements = () => {
                                 handleViewPublishedProfile(ad._id);
                               } else if (ad.category === 'donations_raise_fund') {
                                 handleViewPublishedProfile(ad._id);
+                              } else if (ad.category === 'home_banner_slot') {
+                                // Navigate to home page to view the banner
+                                navigate('/');
                               } else {
                                 handleViewPublishedProfile(ad._id);
                               }
