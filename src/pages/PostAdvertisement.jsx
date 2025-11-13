@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Star,
   Zap,
@@ -28,6 +29,7 @@ import AdvertisementPlanPopup from '../components/common/AdvertisementPlanPopup'
 import SlotAvailabilityModal from '../components/SlotAvailabilityModal';
 
 const PostAdvertisement = () => {
+  const navigate = useNavigate();
   const [hscValue, setHscValue] = useState(100);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -40,6 +42,10 @@ const PostAdvertisement = () => {
 
   // Slot availability modal state
   const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
+
+  // Image popup modal state
+  const [showImagePopup, setShowImagePopup] = useState(false);
+  const [popupImageUrl, setPopupImageUrl] = useState('');
 
   // Fetch current HSC value and slot charges
   useEffect(() => {
@@ -193,6 +199,91 @@ const PostAdvertisement = () => {
   const handlePopupClose = () => {
     setShowPlanPopup(false);
     setSelectedSlotForPopup(null);
+  };
+
+  // Handle View Examples button click
+  const handleViewExamples = (slotId) => {
+    const examplesMapping = {
+      // Tourism & Travel
+      'travel_buddys': { type: 'popup', imageUrl: 'https://res.cloudinary.com/dqdcmluxj/image/upload/v1763077947/TB_uco8l8.png' },
+      'tour_guiders': { type: 'navigate', path: '/ads/tourism/tour-guiders' },
+      'local_tour_packages': { type: 'navigate', path: '/local-tour-packages' },
+      'travelsafe_help_professionals': { type: 'navigate', path: '/ads/tourism/travel-safe' },
+      'rent_land_camping_parking': { type: 'navigate', path: '/rent-land-camping-parking' },
+
+      // Accommodation & Dining
+      'hotels_accommodations': { type: 'navigate', path: '/hotels-accommodations?page=1&limit=12' },
+      'cafes_restaurants': { type: 'navigate', path: '/cafes-restaurants?page=1&limit=12' },
+      'foods_beverages': { type: 'navigate', path: '/foods-beverages?page=1&limit=12' },
+
+      // Vehicles & Transport
+      'vehicle_rentals_hire': { type: 'navigate', path: '/vehicle-rentals-hire' },
+      'live_rides_carpooling': { type: 'navigate', path: '/ads/vehicles-transport/live-rides-carpooling' },
+      'professional_drivers': { type: 'navigate', path: '/professional-drivers' },
+      'vehicle_repairs_mechanics': { type: 'navigate', path: '/vehicle-repairs-mechanics' },
+
+      // Events & Management
+      'events_updates': { type: 'navigate', path: '/ads/events-management/events-updates' },
+      'event_planners_coordinators': { type: 'navigate', path: '/event-planners-coordinators' },
+      'creative_photographers': { type: 'navigate', path: '/ads/events/photographers' },
+      'decorators_florists': { type: 'navigate', path: '/decorators-florists' },
+      'salon_makeup_artists': { type: 'navigate', path: '/salon-makeup-artists' },
+      'fashion_designers': { type: 'navigate', path: '/ads/events/fashion-designers' },
+
+      // Professionals & Services
+      'expert_doctors': { type: 'navigate', path: '/expert-doctors' },
+      'professional_lawyers': { type: 'navigate', path: '/professional-lawyers' },
+      'advisors_counselors': { type: 'navigate', path: '/advisors-counselors' },
+      'language_translators': { type: 'navigate', path: '/language-translators' },
+      'expert_architects': { type: 'navigate', path: '/expert-architects-browse' },
+      'trusted_astrologists': { type: 'navigate', path: '/ads/professionals/astrologists' },
+      'delivery_partners': { type: 'navigate', path: '/delivery-partners' },
+      'graphics_it_tech_repair': { type: 'navigate', path: '/graphics-it-tech-repair' },
+      'educational_tutoring': { type: 'navigate', path: '/educational-tutoring' },
+      'currency_exchange': { type: 'navigate', path: '/currency-exchange' },
+      'other_professionals_services': { type: 'navigate', path: '/other-professionals-services' },
+
+      // Caring & Donations
+      'caregivers_time_currency': { type: 'popup', imageUrl: 'https://res.cloudinary.com/dqdcmluxj/image/upload/v1763077947/CG_iwtuhi.png' },
+      'babysitters_childcare': { type: 'navigate', path: '/babysitters-childcare' },
+      'pet_care_animal_services': { type: 'navigate', path: '/pet-care-animal-services' },
+      'donations_raise_fund': { type: 'navigate', path: '/donations-raise-fund-browse' },
+
+      // Marketplace & Shopping
+      'rent_property_buying_selling': { type: 'navigate', path: '/rent-property-buying-selling' },
+      'exclusive_gift_packs': { type: 'navigate', path: '/ads/marketplace/gift-packs' },
+      'souvenirs_collectibles': { type: 'navigate', path: '/ads/marketplace/souvenirs?page=1&limit=12' },
+      'jewelry_gem_sellers': { type: 'navigate', path: '/ads/marketplace/jewelry-gem-sellers' },
+      'home_office_accessories_tech': { type: 'navigate', path: '/ads/marketplace/home-office-accessories-tech' },
+      'fashion_beauty_clothing': { type: 'navigate', path: '/ads/marketplace/fashion-beauty-clothing' },
+      'daily_grocery_essentials': { type: 'navigate', path: '/ads/marketplace/daily-grocery-essentials' },
+      'organic_herbal_products_spices': { type: 'navigate', path: '/ads/marketplace/organic-herbal-products-spices' },
+      'books_magazines_educational': { type: 'navigate', path: '/books-magazines-educational' },
+      'other_items': { type: 'navigate', path: '/other-items' },
+
+      // Entertainment & Fitness
+      'exclusive_combo_packages': { type: 'navigate', path: '/exclusive-combo-packages' },
+      'talented_entertainers_artists': { type: 'navigate', path: '/ads/entertainment/entertainers-artists' },
+      'fitness_health_spas_gym': { type: 'navigate', path: '/ads/professionals/fitness-health-spas-gym' },
+
+      // Special Opportunities
+      'job_opportunities': { type: 'navigate', path: '/ads/professionals/job-opportunities' },
+      'crypto_consulting_signals': { type: 'navigate', path: '/crypto-consulting-signals' },
+      'local_sim_mobile_data': { type: 'navigate', path: '/ads/special-opportunities/local-sim-mobile-data' },
+
+      // Essential Services
+      'emergency_services_insurance': { type: 'navigate', path: '/ads/essential-services/emergency-services-insurance' }
+    };
+
+    const example = examplesMapping[slotId];
+    if (example) {
+      if (example.type === 'popup') {
+        setPopupImageUrl(example.imageUrl);
+        setShowImagePopup(true);
+      } else if (example.type === 'navigate') {
+        navigate(example.path);
+      }
+    }
   };
 
   // Advertisement slot categories with their slots
@@ -949,7 +1040,10 @@ const PostAdvertisement = () => {
                         <span>Check Availability</span>
                       </button>
                     ) : (
-                      <button className="btn-secondary flex items-center justify-center space-x-2">
+                      <button
+                        onClick={() => handleViewExamples(slot.id)}
+                        className="btn-secondary flex items-center justify-center space-x-2"
+                      >
                         <Eye className="w-4 h-4" />
                         <span>View Examples</span>
                       </button>
@@ -1013,6 +1107,30 @@ const PostAdvertisement = () => {
         isOpen={showAvailabilityModal}
         onClose={() => setShowAvailabilityModal(false)}
       />
+
+      {/* Image Popup Modal */}
+      {showImagePopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-auto relative">
+            {/* Close Button */}
+            <button
+              onClick={() => setShowImagePopup(false)}
+              className="absolute top-4 right-4 p-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-full transition-colors z-10"
+            >
+              <X className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+            </button>
+
+            {/* Image */}
+            <div className="p-6">
+              <img
+                src={popupImageUrl}
+                alt="Advertisement Example"
+                className="w-full h-auto rounded-lg"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
