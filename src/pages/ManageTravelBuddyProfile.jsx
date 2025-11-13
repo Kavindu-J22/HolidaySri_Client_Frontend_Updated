@@ -16,7 +16,9 @@ import {
   AlertCircle,
   CheckCircle,
   ExternalLink,
-  Users
+  Users,
+  Camera,
+  Upload
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -32,7 +34,6 @@ const ManageTravelBuddyProfile = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [countries, setCountries] = useState([]);
-  const [validationErrors, setValidationErrors] = useState({});
 
   const [editForm, setEditForm] = useState({
     userName: '',
@@ -50,42 +51,77 @@ const ManageTravelBuddyProfile = () => {
     }
   });
 
+  // Image upload state
+  const [images, setImages] = useState({
+    coverPhoto: { url: '', publicId: '', uploading: false },
+    avatarImage: { url: '', publicId: '', uploading: false }
+  });
+
   const [newInterest, setNewInterest] = useState('');
 
-  // Validation functions - Match backend validation exactly
-  const validateSocialMediaUrl = (url, platform) => {
-    if (!url) return true; // Empty URLs are allowed
+  // Handle image upload to Cloudinary
+  const uploadImage = async (file, imageType) => {
+    try {
+      setImages(prev => ({
+        ...prev,
+        [imageType]: { ...prev[imageType], uploading: true }
+      }));
 
-    switch (platform) {
-      case 'facebook':
-        return /^https?:\/\/(www\.)?facebook\.com\//.test(url);
-      case 'instagram':
-        return /^https?:\/\/(www\.)?instagram\.com\//.test(url);
-      case 'tiktok':
-        return /^https?:\/\/(www\.)?tiktok\.com\//.test(url);
-      default:
-        return false;
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'ml_default');
+      formData.append('cloud_name', 'daa9e83as');
+
+      const response = await fetch('https://api.cloudinary.com/v1_1/daa9e83as/image/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.secure_url) {
+        setImages(prev => ({
+          ...prev,
+          [imageType]: {
+            url: data.secure_url,
+            publicId: data.public_id,
+            uploading: false
+          }
+        }));
+      } else {
+        throw new Error('Upload failed');
+      }
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      setImages(prev => ({
+        ...prev,
+        [imageType]: { ...prev[imageType], uploading: false }
+      }));
+      setError('Failed to upload image. Please try again.');
+      setTimeout(() => setError(''), 3000);
     }
   };
 
-  const validateForm = () => {
-    const errors = {};
+  // Handle file selection
+  const handleFileSelect = (e, imageType) => {
+    const file = e.target.files[0];
+    if (file) {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setError('Please select a valid image file');
+        setTimeout(() => setError(''), 3000);
+        return;
+      }
 
-    // Social media validation
-    if (editForm.socialMedia.facebook && !validateSocialMediaUrl(editForm.socialMedia.facebook, 'facebook')) {
-      errors.facebook = 'Please enter a valid Facebook URL (e.g., https://facebook.com/username)';
+      // Validate file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Image size should be less than 5MB');
+        setTimeout(() => setError(''), 3000);
+        return;
+      }
+
+      uploadImage(file, imageType);
     }
-
-    if (editForm.socialMedia.instagram && !validateSocialMediaUrl(editForm.socialMedia.instagram, 'instagram')) {
-      errors.instagram = 'Please enter a valid Instagram URL (e.g., https://instagram.com/username)';
-    }
-
-    if (editForm.socialMedia.tiktok && !validateSocialMediaUrl(editForm.socialMedia.tiktok, 'tiktok')) {
-      errors.tiktok = 'Please enter a valid TikTok URL (e.g., https://tiktok.com/@username)';
-    }
-
-    setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
   };
 
   useEffect(() => {
@@ -121,7 +157,7 @@ const ManageTravelBuddyProfile = () => {
 
       if (data.success) {
         setTravelBuddy(data.data.travelBuddy);
-        
+
         // Initialize edit form with current data
         const buddy = data.data.travelBuddy;
         setEditForm({
@@ -137,6 +173,20 @@ const ManageTravelBuddyProfile = () => {
             facebook: '',
             instagram: '',
             tiktok: ''
+          }
+        });
+
+        // Initialize images with current data
+        setImages({
+          coverPhoto: {
+            url: buddy.coverPhoto?.url || '',
+            publicId: buddy.coverPhoto?.publicId || '',
+            uploading: false
+          },
+          avatarImage: {
+            url: buddy.avatarImage?.url || '',
+            publicId: buddy.avatarImage?.publicId || '',
+            uploading: false
           }
         });
       } else {
@@ -234,13 +284,6 @@ const ManageTravelBuddyProfile = () => {
     try {
       setSaving(true);
       setError('');
-      setValidationErrors({});
-
-      // Validate form before submitting
-      if (!validateForm()) {
-        setSaving(false);
-        return;
-      }
 
       const response = await fetch(`/api/travel-buddy/manage/${advertisementId}`, {
         method: 'PUT',
@@ -248,7 +291,17 @@ const ManageTravelBuddyProfile = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
-        body: JSON.stringify(editForm)
+        body: JSON.stringify({
+          ...editForm,
+          coverPhoto: {
+            url: images.coverPhoto.url,
+            publicId: images.coverPhoto.publicId
+          },
+          avatarImage: {
+            url: images.avatarImage.url,
+            publicId: images.avatarImage.publicId
+          }
+        })
       });
 
       const data = await response.json();
@@ -608,6 +661,123 @@ const ManageTravelBuddyProfile = () => {
                   )}
                 </div>
 
+                {/* Images */}
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center space-x-2">
+                    <Camera className="w-5 h-5" />
+                    <span>Photos</span>
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Cover Photo */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Cover Photo
+                      </label>
+                      <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+                        {images.coverPhoto.url ? (
+                          <div className="relative">
+                            <img
+                              src={images.coverPhoto.url}
+                              alt="Cover"
+                              className="w-full h-48 object-cover rounded-lg"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setImages(prev => ({ ...prev, coverPhoto: { url: '', publicId: '', uploading: false } }))}
+                              className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div>
+                            {images.coverPhoto.uploading ? (
+                              <div className="flex flex-col items-center">
+                                <Loader2 className="w-8 h-8 animate-spin text-blue-600 mb-2" />
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Uploading...</p>
+                              </div>
+                            ) : (
+                              <div>
+                                <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                  Upload your cover photo
+                                </p>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => handleFileSelect(e, 'coverPhoto')}
+                                  className="hidden"
+                                  id="coverPhoto"
+                                />
+                                <label
+                                  htmlFor="coverPhoto"
+                                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
+                                >
+                                  Choose File
+                                </label>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Avatar Image */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Avatar Image
+                      </label>
+                      <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+                        {images.avatarImage.url ? (
+                          <div className="relative">
+                            <img
+                              src={images.avatarImage.url}
+                              alt="Avatar"
+                              className="w-32 h-32 object-cover rounded-full mx-auto"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setImages(prev => ({ ...prev, avatarImage: { url: '', publicId: '', uploading: false } }))}
+                              className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div>
+                            {images.avatarImage.uploading ? (
+                              <div className="flex flex-col items-center">
+                                <Loader2 className="w-8 h-8 animate-spin text-blue-600 mb-2" />
+                                <p className="text-sm text-gray-600 dark:text-gray-400">Uploading...</p>
+                              </div>
+                            ) : (
+                              <div>
+                                <User className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                  Upload your profile picture
+                                </p>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={(e) => handleFileSelect(e, 'avatarImage')}
+                                  className="hidden"
+                                  id="avatarImage"
+                                />
+                                <label
+                                  htmlFor="avatarImage"
+                                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer"
+                                >
+                                  Choose File
+                                </label>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 {/* Social Media */}
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
@@ -622,18 +792,9 @@ const ManageTravelBuddyProfile = () => {
                         type="url"
                         value={editForm.socialMedia.facebook}
                         onChange={(e) => handleInputChange('socialMedia.facebook', e.target.value)}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white ${
-                          validationErrors.facebook
-                            ? 'border-red-500 dark:border-red-500'
-                            : 'border-gray-300 dark:border-gray-600'
-                        }`}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                         placeholder="https://facebook.com/username"
                       />
-                      {validationErrors.facebook && (
-                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-                          {validationErrors.facebook}
-                        </p>
-                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -643,18 +804,9 @@ const ManageTravelBuddyProfile = () => {
                         type="url"
                         value={editForm.socialMedia.instagram}
                         onChange={(e) => handleInputChange('socialMedia.instagram', e.target.value)}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white ${
-                          validationErrors.instagram
-                            ? 'border-red-500 dark:border-red-500'
-                            : 'border-gray-300 dark:border-gray-600'
-                        }`}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                         placeholder="https://instagram.com/username"
                       />
-                      {validationErrors.instagram && (
-                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-                          {validationErrors.instagram}
-                        </p>
-                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -664,18 +816,9 @@ const ManageTravelBuddyProfile = () => {
                         type="url"
                         value={editForm.socialMedia.tiktok}
                         onChange={(e) => handleInputChange('socialMedia.tiktok', e.target.value)}
-                        className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white ${
-                          validationErrors.tiktok
-                            ? 'border-red-500 dark:border-red-500'
-                            : 'border-gray-300 dark:border-gray-600'
-                        }`}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                         placeholder="https://tiktok.com/@username"
                       />
-                      {validationErrors.tiktok && (
-                        <p className="mt-1 text-sm text-red-600 dark:text-red-400">
-                          {validationErrors.tiktok}
-                        </p>
-                      )}
                     </div>
                   </div>
                 </div>
