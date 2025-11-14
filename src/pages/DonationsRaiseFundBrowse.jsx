@@ -74,12 +74,12 @@ const DonationsRaiseFundBrowse = () => {
       if (response.data.success) {
         // Filter out expired campaigns and randomize
         const activeCampaigns = response.data.data.filter(campaign => {
-          return campaign.publishedAdId && campaign.publishedAdId.status !== 'Expired';
+          return campaign.publishedAdId && campaign.publishedAdId.status !== 'expired';
         });
-        
+
         // Randomize campaigns
         const randomized = activeCampaigns.sort(() => Math.random() - 0.5);
-        
+
         setCampaigns(randomized);
         setPagination({
           currentPage: response.data.currentPage,
