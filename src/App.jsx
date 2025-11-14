@@ -248,6 +248,7 @@ import CryptoConsultingSignalsBrowse from './pages/CryptoConsultingSignalsBrowse
 import EditHomeBannerSlot from './pages/EditHomeBannerSlot';
 import DonationsRaiseFundDetail from './pages/DonationsRaiseFundDetail';
 import DonationsRaiseFundBrowse from './pages/DonationsRaiseFundBrowse';
+import FeaturedAds from './pages/FeaturedAds';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -377,6 +378,7 @@ function App() {
                 } />
                 <Route path="ads/essential/pricing-memberships" element={<MembershipPage />} />
                 <Route path="ads/opportunities/partnerships" element={<CommercialPartnerPage />} />
+                <Route path="ads/featured" element={<FeaturedAds />} />
                 <Route path="post-advertisement" element={<PostAdvertisement />} />
                 <Route path="advertisement-payment" element={
                   <ProtectedRoute>
