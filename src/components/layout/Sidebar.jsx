@@ -237,24 +237,6 @@ const Sidebar = ({ isOpen, onClose }) => {
       path: '/ads/featured'
     },
     {
-      title: 'Trending Now',
-      icon: TrendingUp,
-      color: 'text-pink-600',
-      path: '/ads/trending'
-    },
-    {
-      title: 'Recently Added',
-      icon: Clock,
-      color: 'text-gray-600',
-      path: '/ads/recent'
-    },
-    {
-      title: 'Premium Listings',
-      icon: DollarSign,
-      color: 'text-emerald-600',
-      path: '/ads/premium'
-    },
-    {
       title: 'Post Your Advertisement',
       icon: PlusCircle,
       color: 'text-blue-600',
