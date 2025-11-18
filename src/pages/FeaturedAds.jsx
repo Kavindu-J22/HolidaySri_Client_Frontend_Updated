@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Star, Loader, MapPin, Eye, TrendingUp, Sparkles, Award, Search, Filter, X, Crown } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const FeaturedAds = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const FeaturedAds = () => {
       if (sortBy) params.append('sortBy', sortBy);
       if (premiumOnly) params.append('premiumOnly', 'true');
 
-      const response = await fetch(`/api/advertisements/featured?${params}`);
+      const response = await fetch(`${API_BASE_URL}/advertisements/featured?${params}`);
       const data = await response.json();
 
       if (data.success) {

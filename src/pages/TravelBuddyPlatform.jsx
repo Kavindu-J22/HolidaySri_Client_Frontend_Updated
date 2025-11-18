@@ -19,7 +19,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { travelBuddyAPI, tripRequestAPI } from '../config/api';
+import { travelBuddyAPI, tripRequestAPI, API_BASE_URL } from '../config/api';
 import TravelBuddyAccessModal from '../components/common/TravelBuddyAccessModal';
 import TripRequestModal from '../components/TripRequestModal';
 import TripRequestCard from '../components/TripRequestCard';
@@ -138,7 +138,7 @@ const TravelBuddyPlatform = () => {
         ...filters
       });
 
-      const response = await fetch(`/api/travel-buddy/platform?${queryParams}`);
+      const response = await fetch(`${API_BASE_URL}/travel-buddy/platform?${queryParams}`);
       const data = await response.json();
 
       if (data.success) {

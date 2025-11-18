@@ -2,6 +2,9 @@ import axios from 'axios';
 
 const API_BASE_URL = 'https://holidaysri-backend-9xm4.onrender.com/api';
 
+// Export API_BASE_URL for use in fetch calls
+export { API_BASE_URL };
+
 // Create axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,

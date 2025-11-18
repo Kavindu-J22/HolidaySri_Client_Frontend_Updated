@@ -10,6 +10,7 @@ import {
   MapPin,
   Eye
 } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const FashionDesignersBrowse = () => {
   const navigate = useNavigate();
@@ -34,8 +35,8 @@ const FashionDesignersBrowse = () => {
       try {
         setLoading(true);
         const [provincesRes, designersRes] = await Promise.all([
-          fetch('/api/fashion-designers/provinces').then(r => r.json()),
-          fetch('/api/fashion-designers/browse').then(r => r.json())
+          fetch(`${API_BASE_URL}/fashion-designers/provinces`).then(r => r.json()),
+          fetch(`${API_BASE_URL}/fashion-designers/browse`).then(r => r.json())
         ]);
 
         if (provincesRes.success) {
@@ -67,7 +68,7 @@ const FashionDesignersBrowse = () => {
       if (filters.category) queryParams.append('category', filters.category);
       if (filters.search) queryParams.append('search', filters.search);
 
-      const response = await fetch(`/api/fashion-designers/browse?${queryParams}`).then(r => r.json());
+      const response = await fetch(`${API_BASE_URL}/fashion-designers/browse?${queryParams}`).then(r => r.json());
       if (response.success && response.data) {
         setDesigners(response.data);
       }
@@ -90,7 +91,7 @@ const FashionDesignersBrowse = () => {
     });
     try {
       setLoading(true);
-      const response = await fetch('/api/fashion-designers/browse').then(r => r.json());
+      const response = await fetch(`${API_BASE_URL}/fashion-designers/browse`).then(r => r.json());
       if (response.success && response.data) {
         setDesigners(response.data);
       }

@@ -10,6 +10,7 @@ import {
   MapPin,
   Eye
 } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const HomeOfficeAccessoriesTechBrowse = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const HomeOfficeAccessoriesTechBrowse = () => {
   // Fetch provinces
   const fetchProvinces = async () => {
     try {
-      const response = await fetch('/api/home-office-accessories-tech/provinces');
+      const response = await fetch(`${API_BASE_URL}/home-office-accessories-tech/provinces`);
       if (response.ok) {
         const data = await response.json();
         setProvincesData(data.data || {});
@@ -70,7 +71,7 @@ const HomeOfficeAccessoriesTechBrowse = () => {
         ...(filterObj.province && { province: filterObj.province })
       });
 
-      const response = await fetch(`/api/home-office-accessories-tech/browse?${params}`);
+      const response = await fetch(`${API_BASE_URL}/home-office-accessories-tech/browse?${params}`);
       if (!response.ok) throw new Error('Failed to fetch products');
 
       const data = await response.json();

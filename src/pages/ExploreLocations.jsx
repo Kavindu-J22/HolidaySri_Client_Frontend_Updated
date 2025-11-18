@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import LocationCard from '../components/locations/LocationCard';
 import LocationFilterPanel from '../components/locations/LocationFilterPanel';
+import { API_BASE_URL } from '../config/api';
 
 const ExploreLocations = () => {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ const ExploreLocations = () => {
 
   const fetchConstants = async () => {
     try {
-      const response = await fetch('/api/locations/constants');
+      const response = await fetch(`${API_BASE_URL}/locations/constants`);
       if (response.ok) {
         const data = await response.json();
         setLocationTypes(data.locationTypes);
@@ -60,7 +61,7 @@ const ExploreLocations = () => {
 
   const fetchDestinations = async () => {
     try {
-      const response = await fetch('/api/destinations?limit=100');
+      const response = await fetch(`${API_BASE_URL}/destinations?limit=100`);
       if (response.ok) {
         const data = await response.json();
         setDestinations(data.destinations);
@@ -87,7 +88,7 @@ const ExploreLocations = () => {
       if (filters.district) params.append('district', filters.district);
       if (filters.mainDestination) params.append('mainDestination', filters.mainDestination);
 
-      const response = await fetch(`/api/locations?${params}`);
+      const response = await fetch(`${API_BASE_URL}/locations?${params}`);
 
       if (response.ok) {
         const data = await response.json();

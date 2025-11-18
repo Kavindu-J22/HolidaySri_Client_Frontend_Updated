@@ -12,6 +12,7 @@ import {
   Filter
 } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const VehicleRentalsHireBrowse = () => {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ const VehicleRentalsHireBrowse = () => {
         if (filters.city) params.append('city', filters.city);
         if (filters.search) params.append('search', filters.search);
 
-        const response = await axios.get(`/api/vehicle-rentals-hire/browse?${params}`);
+        const response = await axios.get(`${API_BASE_URL}/vehicle-rentals-hire/browse?${params}`);
         if (response.data.success) {
           setListings(response.data.data);
         }

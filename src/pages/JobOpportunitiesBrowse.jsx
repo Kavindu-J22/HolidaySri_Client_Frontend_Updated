@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Filter, Loader, Star, Eye } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const JobOpportunitiesBrowse = () => {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const JobOpportunitiesBrowse = () => {
         ...(filters.city && { city: filters.city })
       });
 
-      const response = await fetch(`/api/job-opportunities/browse?${params}`);
+      const response = await fetch(`${API_BASE_URL}/job-opportunities/browse?${params}`);
       const data = await response.json();
 
       if (data.success) {

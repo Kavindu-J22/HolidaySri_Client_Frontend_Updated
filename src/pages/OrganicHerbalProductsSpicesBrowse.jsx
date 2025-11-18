@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Star, MapPin, Filter } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { API_BASE_URL } from '../config/api';
 
 const provincesAndDistricts = {
   'Western Province': ['Colombo', 'Gampaha', 'Kalutara'],
@@ -46,7 +47,7 @@ export default function OrganicHerbalProductsSpicesBrowse() {
       if (filters.province) params.append('province', filters.province);
       if (filters.city) params.append('city', filters.city);
 
-      const response = await fetch(`/api/organic-herbal-products-spices/browse?${params}`);
+      const response = await fetch(`${API_BASE_URL}/organic-herbal-products-spices/browse?${params}`);
       const result = await response.json();
       if (result.success) {
         setProducts(result.data);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Filter, ChevronLeft, ChevronRight, Star, Eye } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const TrustedAstrologistsBrowse = () => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const TrustedAstrologistsBrowse = () => {
         province: filterParams.province || ''
       });
 
-      const response = await fetch(`/api/trusted-astrologists/browse?${params}`);
+      const response = await fetch(`${API_BASE_URL}/trusted-astrologists/browse?${params}`);
       if (!response.ok) throw new Error('Failed to fetch astrologists');
 
       const data = await response.json();

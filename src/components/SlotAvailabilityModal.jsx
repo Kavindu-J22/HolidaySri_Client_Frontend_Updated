@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, CheckCircle, XCircle, Loader, Bell, Clock, Grid3x3 } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const SlotAvailabilityModal = ({ isOpen, onClose }) => {
   const [slots, setSlots] = useState([]);
@@ -18,7 +19,7 @@ const SlotAvailabilityModal = ({ isOpen, onClose }) => {
   const fetchSlotAvailability = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/home-banner-slot/slots/availability');
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/slots/availability`);
       const data = await response.json();
 
       if (data.success) {
@@ -36,7 +37,7 @@ const SlotAvailabilityModal = ({ isOpen, onClose }) => {
       const token = localStorage.getItem('token');
       if (!token) return;
 
-      const response = await fetch('/api/home-banner-slot/my-notification', {
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/my-notification`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -62,7 +63,7 @@ const SlotAvailabilityModal = ({ isOpen, onClose }) => {
 
       const userEmail = JSON.parse(atob(token.split('.')[1])).email;
 
-      const response = await fetch('/api/home-banner-slot/notify-me', {
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/notify-me`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -13,6 +13,7 @@ import {
   Send
 } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 export default function BabysittersChildcareDetailView() {
   const { id } = useParams();
@@ -36,7 +37,7 @@ export default function BabysittersChildcareDetailView() {
   const fetchProfileDetails = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/babysitters-childcare/${id}`);
+      const response = await axios.get(`${API_BASE_URL}/babysitters-childcare/${id}`);
       if (response.data.success) {
         setProfile(response.data.data);
       }
@@ -50,7 +51,7 @@ export default function BabysittersChildcareDetailView() {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get(`/api/babysitters-childcare-reviews/${id}`);
+      const response = await axios.get(`${API_BASE_URL}/babysitters-childcare-reviews/${id}`);
       if (response.data.success) {
         setReviews(response.data.data);
       }

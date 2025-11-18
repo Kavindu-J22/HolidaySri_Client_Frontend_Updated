@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Star, Loader, MapPin, Users, DollarSign, Eye } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const LocalTourPackagesBrowse = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const LocalTourPackagesBrowse = () => {
       if (filterParams.adventureType) queryParams.append('adventureType', filterParams.adventureType);
       if (filterParams.categoryType) queryParams.append('categoryType', filterParams.categoryType);
 
-      const response = await fetch(`/api/local-tour-package/browse/all?${queryParams}`);
+      const response = await fetch(`${API_BASE_URL}/local-tour-package/browse/all?${queryParams}`);
       const data = await response.json();
 
       if (data.success) {

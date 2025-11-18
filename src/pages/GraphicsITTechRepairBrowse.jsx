@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Star, Loader, AlertCircle, Filter, X, Eye } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const GraphicsITTechRepairBrowse = () => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const GraphicsITTechRepairBrowse = () => {
         limit: pagination.limit
       });
 
-      const response = await fetch(`/api/graphics-it-tech-repair/browse?${queryParams}`);
+      const response = await fetch(`${API_BASE_URL}/graphics-it-tech-repair/browse?${queryParams}`);
       const data = await response.json();
 
       if (data.success) {

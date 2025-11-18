@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, Filter, MapPin, Star, Eye, Heart, SlidersHorizontal } from 'lucide-react';
 import DestinationCard from '../components/destinations/DestinationCard';
 import FilterPanel from '../components/destinations/FilterPanel';
+import { API_BASE_URL } from '../config/api';
 
 const PlanDreamTour = () => {
   const [destinations, setDestinations] = useState([]);
@@ -41,7 +42,7 @@ const PlanDreamTour = () => {
       if (filters.province) params.append('province', filters.province);
       if (filters.district) params.append('district', filters.district);
 
-      const response = await fetch(`/api/destinations?${params}`);
+      const response = await fetch(`${API_BASE_URL}/destinations?${params}`);
       
       if (response.ok) {
         const data = await response.json();

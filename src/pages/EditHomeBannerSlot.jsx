@@ -16,6 +16,7 @@ import {
   Bell,
   AlertCircle
 } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const EditHomeBannerSlot = () => {
   const navigate = useNavigate();
@@ -58,7 +59,7 @@ const EditHomeBannerSlot = () => {
     const fetchBannerSlot = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`/api/home-banner-slot/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/home-banner-slot/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -108,7 +109,7 @@ const EditHomeBannerSlot = () => {
   const fetchSlotAvailability = async () => {
     setLoadingSlots(true);
     try {
-      const response = await fetch('/api/home-banner-slot/slots/availability');
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/slots/availability`);
       const data = await response.json();
 
       if (data.success) {
@@ -125,7 +126,7 @@ const EditHomeBannerSlot = () => {
   const checkNotificationStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/home-banner-slot/my-notification', {
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/my-notification`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -146,7 +147,7 @@ const EditHomeBannerSlot = () => {
       const token = localStorage.getItem('token');
       const userEmail = JSON.parse(atob(token.split('.')[1])).email;
 
-      const response = await fetch('/api/home-banner-slot/notify-me', {
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/notify-me`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -278,7 +279,7 @@ const EditHomeBannerSlot = () => {
         requestBody.reactivate = true;
       }
 
-      const response = await fetch(`/api/home-banner-slot/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

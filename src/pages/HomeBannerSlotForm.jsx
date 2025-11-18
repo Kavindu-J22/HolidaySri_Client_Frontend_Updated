@@ -15,6 +15,7 @@ import {
   Clock,
   Bell
 } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const HomeBannerSlotForm = () => {
   const navigate = useNavigate();
@@ -63,7 +64,7 @@ const HomeBannerSlotForm = () => {
   const fetchSlotAvailability = async () => {
     setLoadingSlots(true);
     try {
-      const response = await fetch('/api/home-banner-slot/slots/availability');
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/slots/availability`);
       const data = await response.json();
 
       if (data.success) {
@@ -80,7 +81,7 @@ const HomeBannerSlotForm = () => {
   // Check if user has pending notification request
   const checkNotificationStatus = async () => {
     try {
-      const response = await fetch('/api/home-banner-slot/my-notification', {
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/my-notification`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -100,7 +101,7 @@ const HomeBannerSlotForm = () => {
     try {
       const userEmail = localStorage.getItem('userEmail') || '';
 
-      const response = await fetch('/api/home-banner-slot/notify-me', {
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/notify-me`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -287,7 +288,7 @@ const HomeBannerSlotForm = () => {
     setError('');
 
     try {
-      const response = await fetch('/api/home-banner-slot/publish', {
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/publish`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

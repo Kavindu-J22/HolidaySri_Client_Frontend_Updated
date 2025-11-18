@@ -10,6 +10,7 @@ import {
   Eye,
   Filter
 } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const DailyGroceryEssentialsBrowse = () => {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ const DailyGroceryEssentialsBrowse = () => {
         queryParams.append('page', filters.page);
         queryParams.append('limit', 12);
 
-        const response = await fetch(`/api/daily-grocery-essentials/browse/all?${queryParams}`);
+        const response = await fetch(`${API_BASE_URL}/daily-grocery-essentials/browse/all?${queryParams}`);
         const data = await response.json();
 
         if (data.success) {
