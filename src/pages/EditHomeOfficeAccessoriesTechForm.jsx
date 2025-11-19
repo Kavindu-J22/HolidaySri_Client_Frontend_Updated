@@ -63,7 +63,7 @@ const EditHomeOfficeAccessoriesTechForm = () => {
   const fetchProductDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/home-office-accessories-tech/${id}`);
+      const response = await fetch(`http://localhost:5000/api/home-office-accessories-tech/${id}`);
       if (!response.ok) throw new Error('Failed to fetch product');
 
       const data = await response.json();
@@ -197,7 +197,7 @@ const EditHomeOfficeAccessoriesTechForm = () => {
       setSaving(true);
       const token = localStorage.getItem('token');
 
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/home-office-accessories-tech/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/home-office-accessories-tech/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

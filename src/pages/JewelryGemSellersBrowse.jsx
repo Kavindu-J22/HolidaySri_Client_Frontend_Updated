@@ -68,7 +68,7 @@ const JewelryGemSellersBrowse = () => {
       if (filterParams.city) params.append('city', filterParams.city);
       if (filterParams.search) params.append('search', filterParams.search);
 
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/jewelry-gem-sellers/browse?${params}`);
+      const response = await fetch(`http://localhost:5000/api/jewelry-gem-sellers/browse?${params}`);
       if (!response.ok) throw new Error('Failed to fetch sellers');
 
       const data = await response.json();

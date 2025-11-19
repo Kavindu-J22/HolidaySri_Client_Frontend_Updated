@@ -121,7 +121,7 @@ const EditHotelsAccommodations = () => {
     const fetchHotelData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/${id}`, {
+        const response = await axios.get(`http://localhost:5000/api/hotels-accommodations/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -522,7 +522,7 @@ const EditHotelsAccommodations = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        `https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/${id}`,
+        `http://localhost:5000/api/hotels-accommodations/${id}`,
         {
           ...formData,
           images,

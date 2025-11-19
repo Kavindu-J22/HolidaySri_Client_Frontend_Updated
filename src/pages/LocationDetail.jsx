@@ -48,7 +48,7 @@ const LocationDetail = () => {
   const fetchLocation = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/locations/${id}`);
+      const response = await fetch(`http://localhost:5000/api/locations/${id}`);
       
       if (!response.ok) {
         if (response.status === 404) {
@@ -81,7 +81,7 @@ const LocationDetail = () => {
         sortOrder
       });
 
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/location-reviews?${params}`);
+      const response = await fetch(`http://localhost:5000/api/location-reviews?${params}`);
       
       if (response.ok) {
         const data = await response.json();
@@ -99,7 +99,7 @@ const LocationDetail = () => {
   const fetchUserReview = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/location-reviews/user/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/location-reviews/user/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -117,7 +117,7 @@ const LocationDetail = () => {
   const checkFavoriteStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/location-favorites/check/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/location-favorites/check/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -142,8 +142,8 @@ const LocationDetail = () => {
     try {
       const token = localStorage.getItem('token');
       const url = isFavorite 
-        ? `https://holidaysri-backend-9xm4.onrender.com/api/location-favorites/${id}`
-        : 'https://holidaysri-backend-9xm4.onrender.com/api/location-favorites';
+        ? `http://localhost:5000/api/location-favorites/${id}`
+        : 'http://localhost:5000/api/location-favorites';
       
       const method = isFavorite ? 'DELETE' : 'POST';
       const body = isFavorite ? undefined : JSON.stringify({ locationId: id });

@@ -218,7 +218,7 @@ const BooksAndMagazinesEducationalForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/books-magazines-educational/publish', {
+      const response = await fetch('http://localhost:5000/api/books-magazines-educational/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -79,7 +79,7 @@ const DonationsRaiseFundForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const hscResponse = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund/current-hsc-value');
+        const hscResponse = await axios.get('http://localhost:5000/api/donations-raise-fund/current-hsc-value');
 
         if (hscResponse.data.success) {
           setHscValue(hscResponse.data.data.hscValue);
@@ -219,7 +219,7 @@ const DonationsRaiseFundForm = () => {
       const requestedAmountHSC = parseFloat(calculateHSCAmount());
 
       const response = await axios.post(
-        'https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund/publish',
+        'http://localhost:5000/api/donations-raise-fund/publish',
         {
           advertisementId,
           ...formData,

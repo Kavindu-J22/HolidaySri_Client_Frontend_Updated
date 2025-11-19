@@ -57,7 +57,7 @@ const VehicleRentalsHireForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/vehicle-rentals-hire/provinces');
+        const response = await axios.get('http://localhost:5000/api/vehicle-rentals-hire/provinces');
         if (response.data.success) {
           setProvinces(response.data.data);
         }
@@ -170,7 +170,7 @@ const VehicleRentalsHireForm = () => {
 
     try {
       const response = await axios.post(
-        'https://holidaysri-backend-9xm4.onrender.com/api/vehicle-rentals-hire/publish',
+        'http://localhost:5000/api/vehicle-rentals-hire/publish',
         {
           advertisementId,
           ...formData,

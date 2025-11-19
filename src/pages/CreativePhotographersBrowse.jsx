@@ -23,7 +23,7 @@ const CreativePhotographersBrowse = () => {
     const fetchData = async () => {
       try {
         // Fetch photographers
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/browse');
+        const response = await fetch('http://localhost:5000/api/creative-photographers/browse');
         const data = await response.json();
         if (data.success) {
           // Shuffle photographers randomly
@@ -39,7 +39,7 @@ const CreativePhotographersBrowse = () => {
         }
 
         // Fetch provinces
-        const provincesResponse = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/provinces');
+        const provincesResponse = await fetch('http://localhost:5000/api/creative-photographers/provinces');
         const provincesDataResponse = await provincesResponse.json();
         if (provincesDataResponse.success) {
           setProvincesData(provincesDataResponse.data);

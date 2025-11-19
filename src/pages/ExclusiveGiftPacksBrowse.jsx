@@ -76,7 +76,7 @@ const ExclusiveGiftPacksBrowse = () => {
       if (currentFilters.city) params.append('city', currentFilters.city);
       if (currentFilters.province) params.append('province', currentFilters.province);
 
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/exclusive-gift-packs/browse?${params}`);
+      const response = await fetch(`http://localhost:5000/api/exclusive-gift-packs/browse?${params}`);
       if (!response.ok) throw new Error('Failed to fetch gift packs');
 
       const data = await response.json();

@@ -55,7 +55,7 @@ const EditEducationalTutoringForm = () => {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/educational-tutoring/${id}/edit`, {
+      const response = await fetch(`http://localhost:5000/api/educational-tutoring/${id}/edit`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 

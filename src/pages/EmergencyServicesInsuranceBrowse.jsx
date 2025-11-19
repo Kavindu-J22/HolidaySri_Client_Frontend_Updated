@@ -147,7 +147,7 @@ const EmergencyServicesInsuranceBrowse = () => {
       if (selectedProvince) params.append('province', selectedProvince);
       if (selectedCity) params.append('city', selectedCity);
 
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/emergency-services-insurance/browse?${params.toString()}`);
+      const response = await fetch(`http://localhost:5000/api/emergency-services-insurance/browse?${params.toString()}`);
       const data = await response.json();
 
       if (data.success) {

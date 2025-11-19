@@ -47,7 +47,7 @@ const TalentedEntertainersArtistsBrowse = () => {
       if (searchTerm) params.append('search', searchTerm);
       params.append('sort', 'random');
 
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/talented-entertainers-artists/browse?${params}`);
+      const response = await fetch(`http://localhost:5000/api/talented-entertainers-artists/browse?${params}`);
       const data = await response.json();
 
       if (data.success) {

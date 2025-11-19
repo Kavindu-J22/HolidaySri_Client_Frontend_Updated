@@ -69,7 +69,7 @@ export default function EditBabysittersChildcareForm() {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/babysitters-childcare/edit/${id}`, {
+      const response = await axios.get(`http://localhost:5000/api/babysitters-childcare/edit/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -206,7 +206,7 @@ export default function EditBabysittersChildcareForm() {
     try {
       setSubmitting(true);
       const response = await axios.put(
-        `https://holidaysri-backend-9xm4.onrender.com/api/babysitters-childcare/${id}`,
+        `http://localhost:5000/api/babysitters-childcare/${id}`,
         {
           ...formData,
           images: uploadedImages

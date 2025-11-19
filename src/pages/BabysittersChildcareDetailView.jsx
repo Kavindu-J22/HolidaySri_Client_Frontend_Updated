@@ -70,7 +70,7 @@ export default function BabysittersChildcareDetailView() {
     try {
       setSubmittingReview(true);
       setReviewError('');
-      const response = await axios.post('https://holidaysri-backend-9xm4.onrender.com/api/babysitters-childcare-reviews/add', {
+      const response = await axios.post('http://localhost:5000/api/babysitters-childcare-reviews/add', {
         babysitterProfileId: id,
         rating: parseInt(rating),
         review: reviewText

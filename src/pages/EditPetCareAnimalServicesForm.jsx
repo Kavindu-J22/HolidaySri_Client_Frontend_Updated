@@ -45,13 +45,13 @@ const EditPetCareAnimalServicesForm = () => {
         setLoading(true);
         
         // Fetch provinces
-        const provincesResponse = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/pet-care-animal-services/provinces');
+        const provincesResponse = await axios.get('http://localhost:5000/api/pet-care-animal-services/provinces');
         if (provincesResponse.data.success) {
           setProvincesData(provincesResponse.data.data);
         }
 
         // Fetch profile data
-        const profileResponse = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/pet-care-animal-services/edit/${id}`, {
+        const profileResponse = await axios.get(`http://localhost:5000/api/pet-care-animal-services/edit/${id}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
 
@@ -172,7 +172,7 @@ const EditPetCareAnimalServicesForm = () => {
       setSubmitting(true);
 
       const response = await axios.put(
-        `https://holidaysri-backend-9xm4.onrender.com/api/pet-care-animal-services/${id}`,
+        `http://localhost:5000/api/pet-care-animal-services/${id}`,
         {
           name: formData.name,
           specialization: formData.specialization,

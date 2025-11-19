@@ -30,7 +30,7 @@ const CreativePhotographersDetail = () => {
         if (token) {
           setIsAuthenticated(true);
           // Get current user info
-          const userResponse = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/users/profile', {
+          const userResponse = await fetch('http://localhost:5000/api/users/profile', {
             headers: { 'Authorization': `Bearer ${token}` }
           });
           if (userResponse.ok) {
@@ -40,7 +40,7 @@ const CreativePhotographersDetail = () => {
         }
 
         // Fetch photographer
-        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/${id}`);
+        const response = await fetch(`http://localhost:5000/api/creative-photographers/${id}`);
         const data = await response.json();
         if (data.success) {
           setPhotographer(data.data);
@@ -49,7 +49,7 @@ const CreativePhotographersDetail = () => {
         }
 
         // Fetch reviews
-        const reviewsResponse = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/${id}/reviews`);
+        const reviewsResponse = await fetch(`http://localhost:5000/api/creative-photographers/${id}/reviews`);
         const reviewsData = await reviewsResponse.json();
         if (reviewsData.success) {
           setReviews(reviewsData.data);
@@ -83,7 +83,7 @@ const CreativePhotographersDetail = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/${id}/reviews`, {
+      const response = await fetch(`http://localhost:5000/api/creative-photographers/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const CreativePhotographersDetail = () => {
         setShowReviewForm(false);
 
         // Update photographer rating
-        const updatedPhotographer = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/${id}`);
+        const updatedPhotographer = await fetch(`http://localhost:5000/api/creative-photographers/${id}`);
         const updatedData = await updatedPhotographer.json();
         if (updatedData.success) {
           setPhotographer(updatedData.data);
@@ -122,7 +122,7 @@ const CreativePhotographersDetail = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/${id}/reviews/${reviewId}`, {
+      const response = await fetch(`http://localhost:5000/api/creative-photographers/${id}/reviews/${reviewId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -133,7 +133,7 @@ const CreativePhotographersDetail = () => {
         setReviews(reviews.filter(r => r._id !== reviewId));
 
         // Update photographer rating
-        const updatedPhotographer = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/${id}`);
+        const updatedPhotographer = await fetch(`http://localhost:5000/api/creative-photographers/${id}`);
         const updatedData = await updatedPhotographer.json();
         if (updatedData.success) {
           setPhotographer(updatedData.data);

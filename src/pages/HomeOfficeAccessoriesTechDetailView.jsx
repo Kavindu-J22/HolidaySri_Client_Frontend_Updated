@@ -26,7 +26,7 @@ const HomeOfficeAccessoriesTechDetailView = () => {
   const fetchProductDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/home-office-accessories-tech/${id}`);
+      const response = await fetch(`http://localhost:5000/api/home-office-accessories-tech/${id}`);
       if (!response.ok) throw new Error('Failed to fetch product');
       const data = await response.json();
       setProduct(data.data);
@@ -41,7 +41,7 @@ const HomeOfficeAccessoriesTechDetailView = () => {
   // Fetch reviews
   const fetchReviews = async () => {
     try {
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/home-office-accessories-tech/${id}/reviews`);
+      const response = await fetch(`http://localhost:5000/api/home-office-accessories-tech/${id}/reviews`);
       if (!response.ok) throw new Error('Failed to fetch reviews');
       const data = await response.json();
       setReviews(data.data.reviews || []);
@@ -63,7 +63,7 @@ const HomeOfficeAccessoriesTechDetailView = () => {
       setSubmittingReview(true);
       const token = localStorage.getItem('token');
 
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/home-office-accessories-tech/${id}/reviews`, {
+      const response = await fetch(`http://localhost:5000/api/home-office-accessories-tech/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

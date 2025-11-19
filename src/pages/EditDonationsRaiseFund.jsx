@@ -67,7 +67,7 @@ const EditDonationsRaiseFund = () => {
 
   const fetchCampaignData = async () => {
     try {
-      const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund/${id}`);
+      const response = await axios.get(`http://localhost:5000/api/donations-raise-fund/${id}`);
       if (response.data.success) {
         const campaign = response.data.data;
         setFormData({
@@ -94,7 +94,7 @@ const EditDonationsRaiseFund = () => {
 
   const fetchHSCValue = async () => {
     try {
-      const response = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund/current-hsc-value');
+      const response = await axios.get('http://localhost:5000/api/donations-raise-fund/current-hsc-value');
       if (response.data.success) {
         setHscValue(response.data.data.hscValue);
       }
@@ -197,7 +197,7 @@ const EditDonationsRaiseFund = () => {
       const requestedAmountHSC = parseFloat(calculateHSCAmount());
 
       const response = await axios.put(
-        `https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund/${id}`,
+        `http://localhost:5000/api/donations-raise-fund/${id}`,
         {
           ...formData,
           images,

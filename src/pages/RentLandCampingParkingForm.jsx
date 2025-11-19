@@ -64,7 +64,7 @@ const RentLandCampingParkingForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/rent-land-camping-parking/provinces');
+        const response = await axios.get('http://localhost:5000/api/rent-land-camping-parking/provinces');
         setProvinces(response.data.data);
       } catch (err) {
         console.error('Error fetching provinces:', err);
@@ -195,7 +195,7 @@ const RentLandCampingParkingForm = () => {
 
     try {
       const response = await axios.post(
-        'https://holidaysri-backend-9xm4.onrender.com/api/rent-land-camping-parking/publish',
+        'http://localhost:5000/api/rent-land-camping-parking/publish',
         {
           advertisementId,
           ...formData,

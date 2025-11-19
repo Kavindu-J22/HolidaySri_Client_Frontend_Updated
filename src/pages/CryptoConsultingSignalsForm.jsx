@@ -327,7 +327,7 @@ const CryptoConsultingSignalsForm = () => {
       }
 
       const response = await axios.post(
-        'https://holidaysri-backend-9xm4.onrender.com/api/crypto-consulting-signals/publish',
+        'http://localhost:5000/api/crypto-consulting-signals/publish',
         payload,
         {
           headers: {

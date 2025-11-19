@@ -52,7 +52,7 @@ const CryptoConsultingSignalsBrowse = () => {
 
   const fetchProfiles = async () => {
     try {
-      const response = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/crypto-consulting-signals/active');
+      const response = await axios.get('http://localhost:5000/api/crypto-consulting-signals/active');
       if (response.data.success) {
         // Filter out expired advertisements and randomize
         const activeProfiles = response.data.data.filter(profile => {

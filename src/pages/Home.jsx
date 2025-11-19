@@ -84,7 +84,7 @@ const Home = () => {
   useEffect(() => {
     const fetchBannerSlots = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/home-banner-slot/active');
+        const response = await fetch('http://localhost:5000/api/home-banner-slot/active');
         const data = await response.json();
 
         if (data.success && data.data && data.data.length > 0) {

@@ -57,7 +57,7 @@ const EditExpertArchitectsForm = () => {
     const fetchData = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/expert-architects/${id}`, {
+        const response = await fetch(`http://localhost:5000/api/expert-architects/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
 
@@ -203,7 +203,7 @@ const EditExpertArchitectsForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/expert-architects/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/expert-architects/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

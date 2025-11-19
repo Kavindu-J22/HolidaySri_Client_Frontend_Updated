@@ -40,7 +40,7 @@ const SalonMakeupArtistsDetailView = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/salon-makeup-artists/${id}`).then(r => r.json());
+        const response = await fetch(`http://localhost:5000/api/salon-makeup-artists/${id}`).then(r => r.json());
 
         if (response.success && response.data) {
           setProfile(response.data);
@@ -78,7 +78,7 @@ const SalonMakeupArtistsDetailView = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/salon-makeup-artists/${id}/reviews`, {
+      const response = await fetch(`http://localhost:5000/api/salon-makeup-artists/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

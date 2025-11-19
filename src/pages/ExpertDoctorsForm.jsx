@@ -66,7 +66,7 @@ const ExpertDoctorsForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/expert-doctors/provinces');
+        const response = await fetch('http://localhost:5000/api/expert-doctors/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -225,7 +225,7 @@ const ExpertDoctorsForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/expert-doctors/publish', {
+      const response = await fetch('http://localhost:5000/api/expert-doctors/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

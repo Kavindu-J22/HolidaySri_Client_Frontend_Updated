@@ -39,7 +39,7 @@ const CafesRestaurantsBrowse = () => {
     const fetchProvinces = async () => {
       setProvincesLoading(true);
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/cafes-restaurants/provinces');
+        const response = await fetch('http://localhost:5000/api/cafes-restaurants/provinces');
         const data = await response.json();
         if (data.success && data.data) {
           setProvincesData(data.data);
@@ -75,7 +75,7 @@ const CafesRestaurantsBrowse = () => {
         params.append('page', filters.page);
         params.append('limit', 12);
 
-        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/cafes-restaurants/browse?${params}`);
+        const response = await fetch(`http://localhost:5000/api/cafes-restaurants/browse?${params}`);
         const data = await response.json();
 
         if (data.success) {

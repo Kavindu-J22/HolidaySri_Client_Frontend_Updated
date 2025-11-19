@@ -24,7 +24,7 @@ const ProfessionalLawyersBrowse = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/professional-lawyers/provinces');
+        const response = await fetch('http://localhost:5000/api/professional-lawyers/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -53,7 +53,7 @@ const ProfessionalLawyersBrowse = () => {
         queryParams.append('page', page);
         queryParams.append('limit', 12);
 
-        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/professional-lawyers/browse?${queryParams}`);
+        const response = await fetch(`http://localhost:5000/api/professional-lawyers/browse?${queryParams}`);
         const data = await response.json();
 
         if (data.success) {

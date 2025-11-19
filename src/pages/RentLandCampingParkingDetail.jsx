@@ -37,11 +37,11 @@ const RentLandCampingParkingDetail = () => {
   useEffect(() => {
     const fetchListing = async () => {
       try {
-        const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/rent-land-camping-parking/${id}`);
+        const response = await axios.get(`http://localhost:5000/api/rent-land-camping-parking/${id}`);
         setListing(response.data.data);
 
         // Fetch reviews
-        const reviewsRes = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/rent-land-camping-parking/${id}/reviews`);
+        const reviewsRes = await axios.get(`http://localhost:5000/api/rent-land-camping-parking/${id}/reviews`);
         setReviews(reviewsRes.data.data.reviews || []);
 
         setLoading(false);
@@ -82,7 +82,7 @@ const RentLandCampingParkingDetail = () => {
 
     try {
       const response = await axios.post(
-        `https://holidaysri-backend-9xm4.onrender.com/api/rent-land-camping-parking/${id}/review`,
+        `http://localhost:5000/api/rent-land-camping-parking/${id}/review`,
         { rating, reviewText },
         {
           headers: {

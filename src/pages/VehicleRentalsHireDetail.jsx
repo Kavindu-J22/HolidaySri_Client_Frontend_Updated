@@ -34,7 +34,7 @@ const VehicleRentalsHireDetail = () => {
   useEffect(() => {
     const fetchListing = async () => {
       try {
-        const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/vehicle-rentals-hire/${id}`);
+        const response = await axios.get(`http://localhost:5000/api/vehicle-rentals-hire/${id}`);
         if (response.data.success) {
           setListing(response.data.data);
         }
@@ -68,7 +68,7 @@ const VehicleRentalsHireDetail = () => {
 
     try {
       const response = await axios.post(
-        `https://holidaysri-backend-9xm4.onrender.com/api/vehicle-rentals-hire/${id}/reviews`,
+        `http://localhost:5000/api/vehicle-rentals-hire/${id}/reviews`,
         { rating, reviewText },
         {
           headers: {
@@ -85,7 +85,7 @@ const VehicleRentalsHireDetail = () => {
         // Refresh listing data
         setTimeout(() => {
           const fetchUpdated = async () => {
-            const res = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/vehicle-rentals-hire/${id}`);
+            const res = await axios.get(`http://localhost:5000/api/vehicle-rentals-hire/${id}`);
             if (res.data.success) {
               setListing(res.data.data);
             }

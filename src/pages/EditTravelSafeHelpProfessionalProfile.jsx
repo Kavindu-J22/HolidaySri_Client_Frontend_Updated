@@ -55,7 +55,7 @@ const EditTravelSafeHelpProfessionalProfile = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-safe-help-professional/${id}`, {
+        const response = await fetch(`http://localhost:5000/api/travel-safe-help-professional/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
@@ -96,7 +96,7 @@ const EditTravelSafeHelpProfessionalProfile = () => {
     // Fetch provinces
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/travel-safe-help-professional/provinces');
+        const response = await fetch('http://localhost:5000/api/travel-safe-help-professional/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -206,7 +206,7 @@ const EditTravelSafeHelpProfessionalProfile = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-safe-help-professional/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/travel-safe-help-professional/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

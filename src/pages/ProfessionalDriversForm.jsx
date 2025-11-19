@@ -62,7 +62,7 @@ const ProfessionalDriversForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/professional-drivers/provinces');
+        const response = await fetch('http://localhost:5000/api/professional-drivers/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -203,7 +203,7 @@ const ProfessionalDriversForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/professional-drivers/publish', {
+      const response = await fetch('http://localhost:5000/api/professional-drivers/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

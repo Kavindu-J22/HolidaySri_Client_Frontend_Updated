@@ -29,7 +29,7 @@ const JewelryGemSellersDetailView = () => {
   const fetchSellerDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/jewelry-gem-sellers/${id}`);
+      const response = await fetch(`http://localhost:5000/api/jewelry-gem-sellers/${id}`);
       if (!response.ok) throw new Error('Failed to fetch seller');
 
       const data = await response.json();
@@ -62,7 +62,7 @@ const JewelryGemSellersDetailView = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/jewelry-gem-sellers/${id}/reviews`, {
+      const response = await fetch(`http://localhost:5000/api/jewelry-gem-sellers/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

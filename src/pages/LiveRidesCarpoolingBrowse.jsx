@@ -65,7 +65,7 @@ const LiveRidesCarpoolingBrowse = () => {
       if (filters.maxPrice) queryParams.append('maxPrice', filters.maxPrice);
       if (filters.rideDate) queryParams.append('rideDate', filters.rideDate);
 
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/live-rides-carpooling/browse?${queryParams}`);
+      const response = await fetch(`http://localhost:5000/api/live-rides-carpooling/browse?${queryParams}`);
       const data = await response.json();
 
       if (data.success) {

@@ -67,7 +67,7 @@ const EventPlannersCoordinatorsForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/event-planners-coordinators/provinces');
+        const response = await fetch('http://localhost:5000/api/event-planners-coordinators/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -252,7 +252,7 @@ const EventPlannersCoordinatorsForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/event-planners-coordinators/publish', {
+      const response = await fetch('http://localhost:5000/api/event-planners-coordinators/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

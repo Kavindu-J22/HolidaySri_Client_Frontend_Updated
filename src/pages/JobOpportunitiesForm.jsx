@@ -205,7 +205,7 @@ const JobOpportunitiesForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/job-opportunities/publish', {
+      const response = await fetch('http://localhost:5000/api/job-opportunities/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

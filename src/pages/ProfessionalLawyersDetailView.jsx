@@ -26,7 +26,7 @@ const ProfessionalLawyersDetailView = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/professional-lawyers/${id}`);
+        const response = await fetch(`http://localhost:5000/api/professional-lawyers/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -71,7 +71,7 @@ const ProfessionalLawyersDetailView = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/professional-lawyers/${id}/review`, {
+      const response = await fetch(`http://localhost:5000/api/professional-lawyers/${id}/review`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const ProfessionalLawyersDetailView = () => {
         setUserHasReviewed(true);
 
         // Refresh reviews
-        const refreshRes = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/professional-lawyers/${id}`);
+        const refreshRes = await fetch(`http://localhost:5000/api/professional-lawyers/${id}`);
         const refreshData = await refreshRes.json();
         if (refreshData.success) {
           setLawyer(refreshData.data);

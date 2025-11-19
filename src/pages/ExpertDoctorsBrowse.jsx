@@ -32,14 +32,14 @@ const ExpertDoctorsBrowse = () => {
     const fetchData = async () => {
       try {
         // Fetch provinces
-        const provincesRes = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/expert-doctors/provinces');
+        const provincesRes = await fetch('http://localhost:5000/api/expert-doctors/provinces');
         const provincesData = await provincesRes.json();
         if (provincesData.success) {
           setProvincesData(provincesData.data);
         }
 
         // Fetch expert doctors
-        const doctorsRes = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/expert-doctors/browse');
+        const doctorsRes = await fetch('http://localhost:5000/api/expert-doctors/browse');
         const doctorsData = await doctorsRes.json();
 
         if (doctorsData.success) {

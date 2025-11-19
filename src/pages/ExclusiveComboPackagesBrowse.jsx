@@ -32,7 +32,7 @@ const ExclusiveComboPackagesBrowse = () => {
         params.append('page', page);
         params.append('limit', 12);
 
-        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/exclusive-combo-packages/browse?${params}`);
+        const response = await fetch(`http://localhost:5000/api/exclusive-combo-packages/browse?${params}`);
         const data = await response.json();
 
         if (data.success) {

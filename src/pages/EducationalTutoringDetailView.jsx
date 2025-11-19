@@ -25,7 +25,7 @@ const EducationalTutoringDetailView = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/educational-tutoring/${id}`);
+      const response = await fetch(`http://localhost:5000/api/educational-tutoring/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -60,7 +60,7 @@ const EducationalTutoringDetailView = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/educational-tutoring/${id}/reviews`, {
+      const response = await fetch(`http://localhost:5000/api/educational-tutoring/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

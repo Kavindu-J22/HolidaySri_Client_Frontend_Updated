@@ -67,7 +67,7 @@ const EditEmergencyServicesInsuranceForm = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/emergency-services-insurance/${id}`, {
+        const response = await fetch(`http://localhost:5000/api/emergency-services-insurance/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -253,7 +253,7 @@ const EditEmergencyServicesInsuranceForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/emergency-services-insurance/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/emergency-services-insurance/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

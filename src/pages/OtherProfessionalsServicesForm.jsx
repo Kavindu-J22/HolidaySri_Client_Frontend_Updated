@@ -46,7 +46,7 @@ const OtherProfessionalsServicesForm = () => {
     // Fetch provinces and districts
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/other-professionals-services/provinces');
+        const response = await fetch('http://localhost:5000/api/other-professionals-services/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesAndDistricts(data.data);
@@ -150,7 +150,7 @@ const OtherProfessionalsServicesForm = () => {
     setError('');
 
     try {
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/other-professionals-services/publish', {
+      const response = await fetch('http://localhost:5000/api/other-professionals-services/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

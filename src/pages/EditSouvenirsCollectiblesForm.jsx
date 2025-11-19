@@ -53,14 +53,14 @@ const EditSouvenirsCollectiblesForm = () => {
     const fetchData = async () => {
       try {
         // Fetch provinces
-        const provincesRes = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/souvenirs-collectibles/provinces');
+        const provincesRes = await fetch('http://localhost:5000/api/souvenirs-collectibles/provinces');
         const provincesData = await provincesRes.json();
         if (provincesData.success) {
           setProvincesData(provincesData.data);
         }
 
         // Fetch souvenirs & collectibles data
-        const souvenirsRes = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/souvenirs-collectibles/${id}`);
+        const souvenirsRes = await fetch(`http://localhost:5000/api/souvenirs-collectibles/${id}`);
         const souvenirsData = await souvenirsRes.json();
 
         if (souvenirsData.success) {
@@ -247,7 +247,7 @@ const EditSouvenirsCollectiblesForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/souvenirs-collectibles/${id}`, {
+      const response = await fetch(`http://localhost:5000/api/souvenirs-collectibles/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

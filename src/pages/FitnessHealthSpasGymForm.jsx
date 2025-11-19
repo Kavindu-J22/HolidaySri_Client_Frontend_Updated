@@ -240,7 +240,7 @@ const FitnessHealthSpasGymForm = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/fitness-health-spas-gym/publish', {
+      const response = await fetch('http://localhost:5000/api/fitness-health-spas-gym/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

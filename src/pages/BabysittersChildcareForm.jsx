@@ -52,7 +52,7 @@ const BabysittersChildcareForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/babysitters-childcare/provinces');
+        const response = await fetch('http://localhost:5000/api/babysitters-childcare/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -198,7 +198,7 @@ const BabysittersChildcareForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/babysitters-childcare/publish', {
+      const response = await fetch('http://localhost:5000/api/babysitters-childcare/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

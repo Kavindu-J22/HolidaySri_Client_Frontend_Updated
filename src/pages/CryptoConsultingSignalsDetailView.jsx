@@ -28,7 +28,7 @@ const CryptoConsultingSignalsDetailView = () => {
 
   const fetchProfileDetails = async () => {
     try {
-      const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/crypto-consulting-signals/${id}`);
+      const response = await axios.get(`http://localhost:5000/api/crypto-consulting-signals/${id}`);
       if (response.data.success) {
         setProfile(response.data.data);
       }
@@ -42,7 +42,7 @@ const CryptoConsultingSignalsDetailView = () => {
 
   const fetchReviews = async () => {
     try {
-      const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/crypto-consulting-signals/${id}/reviews`);
+      const response = await axios.get(`http://localhost:5000/api/crypto-consulting-signals/${id}/reviews`);
       if (response.data.success) {
         setReviews(response.data.data.reviews || []);
       }
@@ -55,7 +55,7 @@ const CryptoConsultingSignalsDetailView = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `https://holidaysri-backend-9xm4.onrender.com/api/crypto-consulting-signals/${id}/contact`,
+        `http://localhost:5000/api/crypto-consulting-signals/${id}/contact`,
         {},
         {
           headers: { 'Authorization': `Bearer ${token}` }
@@ -85,7 +85,7 @@ const CryptoConsultingSignalsDetailView = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        `https://holidaysri-backend-9xm4.onrender.com/api/crypto-consulting-signals/${id}/review`,
+        `http://localhost:5000/api/crypto-consulting-signals/${id}/review`,
         reviewForm,
         {
           headers: { 'Authorization': `Bearer ${token}` }

@@ -161,7 +161,7 @@ const LanguageTranslatorsForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/language-translators/publish', {
+      const response = await fetch('http://localhost:5000/api/language-translators/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

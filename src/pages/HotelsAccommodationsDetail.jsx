@@ -66,7 +66,7 @@ const HotelsAccommodationsDetail = () => {
   useEffect(() => {
     const fetchHotelDetails = async () => {
       try {
-        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/${id}`);
+        const response = await fetch(`http://localhost:5000/api/hotels-accommodations/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -98,7 +98,7 @@ const HotelsAccommodationsDetail = () => {
   useEffect(() => {
     const fetchAdditionalRoomCharge = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/hsc/info');
+        const response = await fetch('http://localhost:5000/api/hsc/info');
         const data = await response.json();
         if (data.additionalRoomCharge !== undefined) {
           setAdditionalRoomCharge(data.additionalRoomCharge);
@@ -150,7 +150,7 @@ const HotelsAccommodationsDetail = () => {
     try {
       setSubmittingReview(true);
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/${id}/review`, {
+      const response = await fetch(`http://localhost:5000/api/hotels-accommodations/${id}/review`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -198,7 +198,7 @@ const HotelsAccommodationsDetail = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/${id}/rooms`, {
+      const response = await fetch(`http://localhost:5000/api/hotels-accommodations/${id}/rooms`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -211,7 +211,7 @@ const HotelsAccommodationsDetail = () => {
 
       if (data.success) {
         // Refresh hotel data
-        const hotelResponse = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/${id}`);
+        const hotelResponse = await fetch(`http://localhost:5000/api/hotels-accommodations/${id}`);
         const hotelData = await hotelResponse.json();
         if (hotelData.success) {
           setHotel(hotelData.data);
@@ -247,7 +247,7 @@ const HotelsAccommodationsDetail = () => {
           alert(`Room added successfully! ${data.hscCharged} HSC has been deducted from your balance.`);
           // Refresh user balance
           if (user) {
-            const userResponse = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/users/hsc', {
+            const userResponse = await fetch('http://localhost:5000/api/users/hsc', {
               headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
               }
@@ -301,7 +301,7 @@ const HotelsAccommodationsDetail = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/${id}/rooms/${editingRoom._id}`, {
+      const response = await fetch(`http://localhost:5000/api/hotels-accommodations/${id}/rooms/${editingRoom._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -314,7 +314,7 @@ const HotelsAccommodationsDetail = () => {
 
       if (data.success) {
         // Refresh hotel data
-        const hotelResponse = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/${id}`);
+        const hotelResponse = await fetch(`http://localhost:5000/api/hotels-accommodations/${id}`);
         const hotelData = await hotelResponse.json();
         if (hotelData.success) {
           setHotel(hotelData.data);
@@ -362,7 +362,7 @@ const HotelsAccommodationsDetail = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/${id}/rooms/${roomId}`, {
+      const response = await fetch(`http://localhost:5000/api/hotels-accommodations/${id}/rooms/${roomId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -373,7 +373,7 @@ const HotelsAccommodationsDetail = () => {
 
       if (data.success) {
         // Refresh hotel data
-        const hotelResponse = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/${id}`);
+        const hotelResponse = await fetch(`http://localhost:5000/api/hotels-accommodations/${id}`);
         const hotelData = await hotelResponse.json();
         if (hotelData.success) {
           setHotel(hotelData.data);

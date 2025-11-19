@@ -59,7 +59,7 @@ const ExpertArchitectsBrowse = () => {
       if (currentFilters.city) params.append('city', currentFilters.city);
       if (currentFilters.province) params.append('province', currentFilters.province);
 
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/expert-architects/browse?${params}`);
+      const response = await fetch(`http://localhost:5000/api/expert-architects/browse?${params}`);
       if (!response.ok) throw new Error('Failed to fetch architects');
 
       const data = await response.json();

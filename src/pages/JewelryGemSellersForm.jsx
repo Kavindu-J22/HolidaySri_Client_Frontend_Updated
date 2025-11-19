@@ -153,7 +153,7 @@ const JewelryGemSellersForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/jewelry-gem-sellers/publish', {
+      const response = await fetch('http://localhost:5000/api/jewelry-gem-sellers/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

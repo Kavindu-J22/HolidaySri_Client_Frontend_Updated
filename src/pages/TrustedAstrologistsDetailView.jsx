@@ -23,7 +23,7 @@ const TrustedAstrologistsDetailView = () => {
   // Fetch astrologist details
   const fetchAstrologistDetails = async () => {
     try {
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/trusted-astrologists/${id}`);
+      const response = await fetch(`http://localhost:5000/api/trusted-astrologists/${id}`);
       if (!response.ok) throw new Error('Failed to fetch details');
 
       const data = await response.json();
@@ -54,7 +54,7 @@ const TrustedAstrologistsDetailView = () => {
       setSubmittingReview(true);
       const token = localStorage.getItem('token');
 
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/trusted-astrologists/${id}/reviews`, {
+      const response = await fetch(`http://localhost:5000/api/trusted-astrologists/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

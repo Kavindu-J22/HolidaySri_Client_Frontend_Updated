@@ -53,7 +53,7 @@ const LocalTourPackageForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/local-tour-package/provinces');
+        const response = await fetch('http://localhost:5000/api/local-tour-package/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -212,7 +212,7 @@ const LocalTourPackageForm = () => {
 
     try {
       setLoading(true);
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/local-tour-package/publish', {
+      const response = await fetch('http://localhost:5000/api/local-tour-package/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

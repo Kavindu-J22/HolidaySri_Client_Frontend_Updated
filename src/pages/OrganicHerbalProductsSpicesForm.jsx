@@ -54,7 +54,7 @@ const OrganicHerbalProductsSpicesForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/organic-herbal-products-spices/provinces');
+        const response = await fetch('http://localhost:5000/api/organic-herbal-products-spices/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -203,7 +203,7 @@ const OrganicHerbalProductsSpicesForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/organic-herbal-products-spices/publish', {
+      const response = await fetch('http://localhost:5000/api/organic-herbal-products-spices/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

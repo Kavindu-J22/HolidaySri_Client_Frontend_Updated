@@ -48,7 +48,7 @@ const RentLandCampingParkingBrowse = () => {
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        const response = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/rent-land-camping-parking/browse');
+        const response = await axios.get('http://localhost:5000/api/rent-land-camping-parking/browse');
         setListings(response.data.data);
         setFilteredListings(response.data.data);
         setProvinces(provincesAndDistricts);

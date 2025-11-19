@@ -34,8 +34,8 @@ const SalonMakeupArtistsBrowse = () => {
       try {
         setLoading(true);
         const [provincesRes, profilesRes] = await Promise.all([
-          fetch('https://holidaysri-backend-9xm4.onrender.com/api/salon-makeup-artists/provinces').then(r => r.json()),
-          fetch('https://holidaysri-backend-9xm4.onrender.com/api/salon-makeup-artists/browse').then(r => r.json())
+          fetch('http://localhost:5000/api/salon-makeup-artists/provinces').then(r => r.json()),
+          fetch('http://localhost:5000/api/salon-makeup-artists/browse').then(r => r.json())
         ]);
 
         if (provincesRes.success) {
@@ -80,7 +80,7 @@ const SalonMakeupArtistsBrowse = () => {
       if (filters.category) queryParams.append('category', filters.category);
       if (filters.search) queryParams.append('search', filters.search);
 
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/salon-makeup-artists/browse?${queryParams}`).then(r => r.json());
+      const response = await fetch(`http://localhost:5000/api/salon-makeup-artists/browse?${queryParams}`).then(r => r.json());
       if (response.success && response.data) {
         const shuffled = [...response.data].sort(() => Math.random() - 0.5);
         setProfiles(shuffled);
@@ -105,7 +105,7 @@ const SalonMakeupArtistsBrowse = () => {
     });
     try {
       setLoading(true);
-      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/salon-makeup-artists/browse').then(r => r.json());
+      const response = await fetch('http://localhost:5000/api/salon-makeup-artists/browse').then(r => r.json());
       if (response.success && response.data) {
         const shuffled = [...response.data].sort(() => Math.random() - 0.5);
         setProfiles(shuffled);

@@ -74,7 +74,7 @@ const TravelBuddyDetail = () => {
   const fetchBuddyDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/${id}`);
+      const response = await fetch(`http://localhost:5000/api/travel-buddy/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -94,7 +94,7 @@ const TravelBuddyDetail = () => {
   const fetchReviews = async () => {
     try {
       setReviewsLoading(true);
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/${id}/reviews`);
+      const response = await fetch(`http://localhost:5000/api/travel-buddy/${id}/reviews`);
       const data = await response.json();
 
       if (data.success) {
@@ -109,7 +109,7 @@ const TravelBuddyDetail = () => {
 
   const checkFavoriteStatus = async () => {
     try {
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/${id}/favorite-status`, {
+      const response = await fetch(`http://localhost:5000/api/travel-buddy/${id}/favorite-status`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -131,7 +131,7 @@ const TravelBuddyDetail = () => {
     }
 
     try {
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/${id}/favorite`, {
+      const response = await fetch(`http://localhost:5000/api/travel-buddy/${id}/favorite`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -155,7 +155,7 @@ const TravelBuddyDetail = () => {
 
     try {
       // Record contact
-      await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/${id}/contact`, {
+      await fetch(`http://localhost:5000/api/travel-buddy/${id}/contact`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -205,7 +205,7 @@ const TravelBuddyDetail = () => {
 
     try {
       setIsReporting(true);
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/${id}/report`, {
+      const response = await fetch(`http://localhost:5000/api/travel-buddy/${id}/report`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -243,7 +243,7 @@ const TravelBuddyDetail = () => {
 
     try {
       setSubmittingReview(true);
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/${id}/reviews`, {
+      const response = await fetch(`http://localhost:5000/api/travel-buddy/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -280,7 +280,7 @@ const TravelBuddyDetail = () => {
 
     try {
       setUpdatingReview(true);
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/reviews/${editingReview}`, {
+      const response = await fetch(`http://localhost:5000/api/travel-buddy/reviews/${editingReview}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -316,7 +316,7 @@ const TravelBuddyDetail = () => {
 
     try {
       setDeletingReview(reviewId);
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/reviews/${reviewId}`, {
+      const response = await fetch(`http://localhost:5000/api/travel-buddy/reviews/${reviewId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

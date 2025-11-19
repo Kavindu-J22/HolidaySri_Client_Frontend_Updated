@@ -29,7 +29,7 @@ const LiveRidesCarpoolingDetailView = () => {
 
   const fetchRideDetails = async () => {
     try {
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/live-rides-carpooling/${id}`);
+      const response = await fetch(`http://localhost:5000/api/live-rides-carpooling/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -62,7 +62,7 @@ const LiveRidesCarpoolingDetailView = () => {
     setReviewError('');
 
     try {
-      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/live-rides-carpooling/${id}/review`, {
+      const response = await fetch(`http://localhost:5000/api/live-rides-carpooling/${id}/review`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -40,7 +40,7 @@ const SouvenirsCollectiblesBrowse = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/souvenirs-collectibles/provinces');
+        const response = await fetch('http://localhost:5000/api/souvenirs-collectibles/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -68,7 +68,7 @@ const SouvenirsCollectiblesBrowse = () => {
         params.append('page', filters.page);
         params.append('limit', 12);
 
-        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/souvenirs-collectibles/browse?${params}`);
+        const response = await fetch(`http://localhost:5000/api/souvenirs-collectibles/browse?${params}`);
         const data = await response.json();
 
         if (data.success) {
