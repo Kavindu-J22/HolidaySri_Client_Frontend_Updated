@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Star, Heart, Eye, Share2, Navigation, Calendar, Thermometer } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL } from '../../config/api';
 
 const DestinationCard = ({ destination }) => {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Star, ThumbsUp, Flag, Edit, Trash2, Calendar, User } from 'lucide-react';
 import LocationReviewForm from './LocationReviewForm';
-import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL } from '../../config/api';
 
 const LocationReviewCard = ({ review, isOwn = false, onUpdate }) => {
   const [showEditForm, setShowEditForm] = useState(false);

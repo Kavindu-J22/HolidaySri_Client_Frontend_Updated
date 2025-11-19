@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Calendar, Users, Home, Tag, AlertCircle, CheckCircle, Loader } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
-import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL } from '../../config/api';
 
 const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId }) => {
   const { user, updateUser } = useAuth();

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Star, Upload, X } from 'lucide-react';
-import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL } from '../../config/api';
 
 const LocationReviewForm = ({ locationId, onSubmit, onCancel, existingReview = null }) => {
   const [formData, setFormData] = useState({
