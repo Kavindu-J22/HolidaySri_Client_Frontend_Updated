@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Upload, Loader, AlertCircle, CheckCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE_URL } from '../config/api';
 
 const AdvisorsCounselorsForm = () => {
   const navigate = useNavigate();
@@ -228,7 +229,7 @@ const AdvisorsCounselorsForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/advisors-counselors/publish', {
+      const response = await fetch(`${API_BASE_URL}/advisors-counselors/publish`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

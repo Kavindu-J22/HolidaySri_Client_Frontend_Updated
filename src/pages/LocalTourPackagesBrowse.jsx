@@ -27,7 +27,7 @@ const LocalTourPackagesBrowse = () => {
     const fetchData = async () => {
       try {
         // Fetch provinces
-        const provincesRes = await fetch('/api/local-tour-package/provinces');
+        const provincesRes = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/local-tour-package/provinces');
         const provincesData = await provincesRes.json();
         if (provincesData.success) {
           setProvincesData(provincesData.data);

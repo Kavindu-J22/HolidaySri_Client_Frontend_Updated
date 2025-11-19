@@ -21,7 +21,7 @@ export default function OrganicHerbalProductsSpicesDetailView() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`/api/organic-herbal-products-spices/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/organic-herbal-products-spices/${id}`);
         const result = await response.json();
         if (result.success) {
           setProduct(result.data);
@@ -52,7 +52,7 @@ export default function OrganicHerbalProductsSpicesDetailView() {
 
     setSubmitting(true);
     try {
-      const response = await fetch(`/api/organic-herbal-products-spices/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/organic-herbal-products-spices/${id}/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ rating, reviewText })

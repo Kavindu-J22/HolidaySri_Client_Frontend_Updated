@@ -38,7 +38,7 @@ const TravelSafeHelpProfessionalDetail = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem('token');
-        const response = await fetch(`/api/travel-safe-help-professional/${id}`, {
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-safe-help-professional/${id}`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();
@@ -73,7 +73,7 @@ const TravelSafeHelpProfessionalDetail = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/travel-safe-help-professional/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-safe-help-professional/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -39,7 +39,7 @@ const FashionBeautyClothingBrowse = () => {
         params.append('page', page);
         params.append('limit', 12);
 
-        const response = await axios.get(`/api/fashion-beauty-clothing/browse?${params}`);
+        const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/fashion-beauty-clothing/browse?${params}`);
         setItems(response.data.data);
         setTotalPages(response.data.pagination.totalPages);
         setFilterOptions(response.data.filterOptions);

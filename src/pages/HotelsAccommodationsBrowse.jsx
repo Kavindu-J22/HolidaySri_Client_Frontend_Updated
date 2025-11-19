@@ -18,7 +18,7 @@ const ClientBookingCard = ({ booking, onUpdate }) => {
     setProcessing(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/room-bookings/${booking.bookingId}/approve`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/room-bookings/${booking.bookingId}/approve`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ const ClientBookingCard = ({ booking, onUpdate }) => {
     setProcessing(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/room-bookings/${booking.bookingId}/reject`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/room-bookings/${booking.bookingId}/reject`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -325,7 +325,7 @@ const HotelsAccommodationsBrowse = () => {
           params.append('page', filters.page);
           params.append('limit', 12);
 
-          const response = await fetch(`/api/hotels-accommodations/browse?${params}`);
+          const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/browse?${params}`);
           const data = await response.json();
 
           if (data.success) {
@@ -357,7 +357,7 @@ const HotelsAccommodationsBrowse = () => {
 
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('/api/room-bookings/all-client-requests', {
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/room-bookings/all-client-requests', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -393,7 +393,7 @@ const HotelsAccommodationsBrowse = () => {
     setLoadingBookings(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/room-bookings/my-bookings', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/room-bookings/my-bookings', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -414,7 +414,7 @@ const HotelsAccommodationsBrowse = () => {
     setLoadingBookings(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/room-bookings/all-client-requests', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/room-bookings/all-client-requests', {
         headers: {
           'Authorization': `Bearer ${token}`
         }

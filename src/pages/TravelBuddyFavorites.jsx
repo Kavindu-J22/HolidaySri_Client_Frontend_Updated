@@ -32,7 +32,7 @@ const TravelBuddyFavorites = () => {
   const fetchFavorites = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/travel-buddy/favorites/my', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/favorites/my', {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -52,7 +52,7 @@ const TravelBuddyFavorites = () => {
   const handleRemoveFavorite = async (buddyId) => {
     try {
       setRemovingFavorite(buddyId);
-      const response = await fetch(`/api/travel-buddy/${buddyId}/favorite`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/${buddyId}/favorite`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -87,7 +87,7 @@ const TravelBuddyFavorites = () => {
   const handleWhatsAppContact = async (buddy) => {
     try {
       // Record contact
-      await fetch(`/api/travel-buddy/${buddy._id}/contact`, {
+      await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/${buddy._id}/contact`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`

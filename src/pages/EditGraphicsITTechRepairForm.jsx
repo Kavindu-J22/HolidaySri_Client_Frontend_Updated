@@ -65,7 +65,7 @@ const EditGraphicsITTechRepairForm = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/graphics-it-tech-repair/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/graphics-it-tech-repair/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -184,7 +184,7 @@ const EditGraphicsITTechRepairForm = () => {
     try {
       setSaving(true);
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/graphics-it-tech-repair/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/graphics-it-tech-repair/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

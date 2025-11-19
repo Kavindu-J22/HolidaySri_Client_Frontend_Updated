@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Star, Upload, X } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const LocationReviewForm = ({ locationId, onSubmit, onCancel, existingReview = null }) => {
   const [formData, setFormData] = useState({
@@ -92,8 +93,8 @@ const LocationReviewForm = ({ locationId, onSubmit, onCancel, existingReview = n
     try {
       const token = localStorage.getItem('token');
       const url = existingReview 
-        ? `/api/location-reviews/${existingReview._id}`
-        : '/api/location-reviews';
+        ? `${API_BASE_URL}/location-reviews/${existingReview._id}`
+        : `${API_BASE_URL}/location-reviews`;
       
       const method = existingReview ? 'PUT' : 'POST';
       const body = existingReview 

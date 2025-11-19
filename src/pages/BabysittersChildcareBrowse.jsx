@@ -9,6 +9,7 @@ import {
   Filter
 } from 'lucide-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../config/api';
 
 const provincesAndDistricts = {
   "Western Province": ["Colombo", "Gampaha", "Kalutara"],
@@ -42,7 +43,7 @@ export default function BabysittersChildcareBrowse() {
   const fetchProfiles = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/babysitters-childcare/browse');
+      const response = await axios.get(`${API_BASE_URL}/babysitters-childcare/browse`);
       if (response.data.success) {
         setProfiles(response.data.data);
         setFilteredProfiles(response.data.data);

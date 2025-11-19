@@ -135,7 +135,7 @@ const ManageTravelBuddyProfile = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await fetch('/api/travel-buddy/countries');
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/countries');
       const data = await response.json();
       if (data.success) {
         setCountries(data.data);
@@ -148,7 +148,7 @@ const ManageTravelBuddyProfile = () => {
   const fetchTravelBuddyProfile = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/travel-buddy/manage/${advertisementId}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/manage/${advertisementId}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -205,7 +205,7 @@ const ManageTravelBuddyProfile = () => {
   const handleToggleAvailability = async () => {
     try {
       setSaving(true);
-      const response = await fetch(`/api/travel-buddy/manage/${advertisementId}/availability`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/manage/${advertisementId}/availability`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -285,7 +285,7 @@ const ManageTravelBuddyProfile = () => {
       setSaving(true);
       setError('');
 
-      const response = await fetch(`/api/travel-buddy/manage/${advertisementId}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/manage/${advertisementId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

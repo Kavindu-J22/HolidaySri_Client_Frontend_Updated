@@ -40,7 +40,7 @@ const DailyGroceryEssentialsBrowse = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('/api/daily-grocery-essentials/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/daily-grocery-essentials/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);

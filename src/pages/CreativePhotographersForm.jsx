@@ -35,7 +35,7 @@ const CreativePhotographersForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('/api/creative-photographers/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/provinces');
         const data = await response.json();
         if (data.success) {
           setProvinces(data.data);
@@ -160,7 +160,7 @@ const CreativePhotographersForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/creative-photographers/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -42,7 +42,7 @@ const EditTourGuiderProfile = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await axios.get('/api/tour-guider/provinces');
+        const response = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/tour-guider/provinces');
         if (response.data.success) {
           setProvinces(response.data.data);
         }
@@ -58,7 +58,7 @@ const EditTourGuiderProfile = () => {
     const fetchTourGuider = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`/api/tour-guider/${tourGuiderId}`, {
+        const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/tour-guider/${tourGuiderId}`, {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
         });
 
@@ -172,7 +172,7 @@ const EditTourGuiderProfile = () => {
       };
 
       const response = await axios.put(
-        `/api/tour-guider/${tourGuiderId}`,
+        `https://holidaysri-backend-9xm4.onrender.com/api/tour-guider/${tourGuiderId}`,
         updateData,
         { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
       );

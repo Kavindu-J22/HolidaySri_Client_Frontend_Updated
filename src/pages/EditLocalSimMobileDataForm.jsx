@@ -45,7 +45,7 @@ const EditLocalSimMobileDataForm = () => {
     const fetchProfile = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`/api/local-sim-mobile-data/${id}`, {
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/local-sim-mobile-data/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -251,7 +251,7 @@ const EditLocalSimMobileDataForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/local-sim-mobile-data/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/local-sim-mobile-data/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -24,7 +24,7 @@ const CurrencyExchangeDetailView = () => {
   const fetchProfileDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/currency-exchange/${id}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/currency-exchange/${id}`);
       if (!response.ok) throw new Error('Failed to fetch profile');
       const data = await response.json();
       setProfile(data.data);
@@ -50,7 +50,7 @@ const CurrencyExchangeDetailView = () => {
       setSubmittingReview(true);
       const token = localStorage.getItem('token');
 
-      const response = await fetch(`/api/currency-exchange/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/currency-exchange/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

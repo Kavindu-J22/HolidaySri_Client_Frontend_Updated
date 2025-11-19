@@ -51,14 +51,14 @@ const EditLocalTourPackage = () => {
     const fetchData = async () => {
       try {
         // Fetch provinces
-        const provincesRes = await fetch('/api/local-tour-package/provinces');
+        const provincesRes = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/local-tour-package/provinces');
         const provincesData = await provincesRes.json();
         if (provincesData.success) {
           setProvincesData(provincesData.data);
         }
 
         // Fetch package data
-        const packageRes = await fetch(`/api/local-tour-package/${id}`);
+        const packageRes = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/local-tour-package/${id}`);
         const packageData = await packageRes.json();
         
         if (packageData.success) {

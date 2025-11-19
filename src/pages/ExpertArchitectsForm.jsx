@@ -206,7 +206,7 @@ const ExpertArchitectsForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/expert-architects/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/expert-architects/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

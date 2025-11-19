@@ -61,7 +61,7 @@ const EditFashionBeautyClothingForm = () => {
     const fetchItem = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`/api/fashion-beauty-clothing/${id}`, {
+        const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/fashion-beauty-clothing/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -165,7 +165,7 @@ const EditFashionBeautyClothingForm = () => {
       }
 
       const token = localStorage.getItem('token');
-      const response = await axios.put(`/api/fashion-beauty-clothing/${id}`, {
+      const response = await axios.put(`https://holidaysri-backend-9xm4.onrender.com/api/fashion-beauty-clothing/${id}`, {
         ...formData,
         images: allImages
       }, {

@@ -46,7 +46,7 @@ const DestinationDetail = () => {
   const fetchDestination = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/destinations/${id}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/destinations/${id}`);
       
       if (response.ok) {
         const data = await response.json();
@@ -71,7 +71,7 @@ const DestinationDetail = () => {
         sortOrder: 'desc'
       });
 
-      const response = await fetch(`/api/reviews/destination/${id}?${params}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/reviews/destination/${id}?${params}`);
       
       if (response.ok) {
         const data = await response.json();
@@ -89,7 +89,7 @@ const DestinationDetail = () => {
   const checkFavoriteStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/favorites/check/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/favorites/check/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -107,7 +107,7 @@ const DestinationDetail = () => {
   const checkUserReview = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/reviews/user', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/reviews/user', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -135,8 +135,8 @@ const DestinationDetail = () => {
     try {
       const token = localStorage.getItem('token');
       const url = isFavorite 
-        ? `/api/favorites/${id}`
-        : '/api/favorites';
+        ? `https://holidaysri-backend-9xm4.onrender.com/api/favorites/${id}`
+        : 'https://holidaysri-backend-9xm4.onrender.com/api/favorites';
       
       const method = isFavorite ? 'DELETE' : 'POST';
       const body = isFavorite ? undefined : JSON.stringify({ destinationId: id });

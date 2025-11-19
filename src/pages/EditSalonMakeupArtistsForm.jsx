@@ -70,8 +70,8 @@ const EditSalonMakeupArtistsForm = () => {
       try {
         setLoading(true);
         const [profileRes, provincesRes] = await Promise.all([
-          fetch(`/api/salon-makeup-artists/${id}`).then(r => r.json()),
-          fetch('/api/salon-makeup-artists/provinces').then(r => r.json())
+          fetch(`https://holidaysri-backend-9xm4.onrender.com/api/salon-makeup-artists/${id}`).then(r => r.json()),
+          fetch('https://holidaysri-backend-9xm4.onrender.com/api/salon-makeup-artists/provinces').then(r => r.json())
         ]);
 
         if (provincesRes.success) {
@@ -297,7 +297,7 @@ const EditSalonMakeupArtistsForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/salon-makeup-artists/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/salon-makeup-artists/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

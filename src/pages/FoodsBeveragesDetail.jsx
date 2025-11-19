@@ -33,7 +33,7 @@ const FoodsBeveragesDetail = () => {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const response = await fetch(`/api/foods-beverages/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/foods-beverages/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -80,7 +80,7 @@ const FoodsBeveragesDetail = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/foods-beverages/${id}/review`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/foods-beverages/${id}/review`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

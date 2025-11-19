@@ -211,7 +211,7 @@ const EmergencyServicesInsuranceForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/emergency-services-insurance/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/emergency-services-insurance/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

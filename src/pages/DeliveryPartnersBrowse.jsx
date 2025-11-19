@@ -52,7 +52,7 @@ const DeliveryPartnersBrowse = () => {
         limit: pagination.limit
       });
 
-      const response = await fetch(`/api/delivery-partners/browse?${queryParams}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/delivery-partners/browse?${queryParams}`);
       const data = await response.json();
 
       if (data.success) {

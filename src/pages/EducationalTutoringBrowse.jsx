@@ -52,7 +52,7 @@ const EducationalTutoringBrowse = () => {
       if (filters.city) params.append('city', filters.city);
       if (filters.province) params.append('province', filters.province);
 
-      const response = await fetch(`/api/educational-tutoring/browse?${params}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/educational-tutoring/browse?${params}`);
       const data = await response.json();
 
       if (data.success) {

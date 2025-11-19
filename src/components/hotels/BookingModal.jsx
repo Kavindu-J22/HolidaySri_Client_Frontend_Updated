@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Calendar, Users, Home, Tag, AlertCircle, CheckCircle, Loader } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { API_BASE_URL } from '../config/api';
 
 const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId }) => {
   const { user, updateUser } = useAuth();
@@ -57,7 +58,7 @@ const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId 
   useEffect(() => {
     const fetchHscValue = async () => {
       try {
-        const response = await fetch('/api/hsc/info');
+        const response = await fetch(`${API_BASE_URL}/hsc/info`);
         const data = await response.json();
         setCurrentHscValue(data.hscValue || 100);
       } catch (error) {
@@ -122,7 +123,7 @@ const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId 
     setPromocodeError('');
     
     try {
-      const response = await fetch(`/api/promocodes/validate-promocode/${promocode.toUpperCase()}`);
+      const response = await fetch(`${API_BASE_URL}/promocodes/validate-promocode/${promocode.toUpperCase()}`);
       const data = await response.json();
       
       if (data.success && data.isValid) {
@@ -216,7 +217,7 @@ const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId 
         earnRatePerRoom: promocodeApplied ? room.earnRateForPromo : 0
       };
       
-      const response = await fetch('/api/room-bookings', {
+      const response = await fetch(`${API_BASE_URL}/room-bookings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -230,7 +231,7 @@ const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId 
       if (data.success) {
         // Update user balance if HSC was deducted
         if (data.hscDeducted && user) {
-          const userResponse = await fetch('/api/users/hsc', {
+          const userResponse = await fetch(`${API_BASE_URL}/users/hsc`, {
             headers: {
               'Authorization': `Bearer ${token}`
             }

@@ -165,7 +165,7 @@ const OtherItemsForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/other-items/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/other-items/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

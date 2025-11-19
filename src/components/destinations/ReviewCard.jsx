@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Star, ThumbsUp, Flag, Edit, Trash2, Calendar, User } from 'lucide-react';
 import ReviewForm from './ReviewForm';
+import { API_BASE_URL } from '../config/api';
 
 const ReviewCard = ({ review, isOwn = false, onUpdate }) => {
   const [showEditForm, setShowEditForm] = useState(false);
@@ -65,7 +66,7 @@ const ReviewCard = ({ review, isOwn = false, onUpdate }) => {
     if (confirm('Are you sure you want to delete your review?')) {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`/api/reviews/${review._id}`, {
+        const response = await fetch(`${API_BASE_URL}/reviews/${review._id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`

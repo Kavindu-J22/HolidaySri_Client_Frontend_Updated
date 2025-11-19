@@ -52,7 +52,7 @@ const EditLanguageTranslatorsForm = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`/api/language-translators/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/language-translators/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -198,7 +198,7 @@ const EditLanguageTranslatorsForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/language-translators/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/language-translators/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

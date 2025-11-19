@@ -39,7 +39,7 @@ const BooksAndMagazinesEducationalDetailView = () => {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const response = await fetch(`/api/books-magazines-educational/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/books-magazines-educational/${id}`);
         const data = await response.json();
 
         if (data.success) {

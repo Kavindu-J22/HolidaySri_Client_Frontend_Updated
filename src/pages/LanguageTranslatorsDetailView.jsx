@@ -21,8 +21,8 @@ const LanguageTranslatorsDetailView = () => {
     const fetchProfile = async () => {
       try {
         const [profileRes, reviewsRes] = await Promise.all([
-          fetch(`/api/language-translators/${id}`),
-          fetch(`/api/language-translators/${id}/reviews`)
+          fetch(`https://holidaysri-backend-9xm4.onrender.com/api/language-translators/${id}`),
+          fetch(`https://holidaysri-backend-9xm4.onrender.com/api/language-translators/${id}/reviews`)
         ]);
 
         const profileData = await profileRes.json();
@@ -67,7 +67,7 @@ const LanguageTranslatorsDetailView = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/language-translators/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/language-translators/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

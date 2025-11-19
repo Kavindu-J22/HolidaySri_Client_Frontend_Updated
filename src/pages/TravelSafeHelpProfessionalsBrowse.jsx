@@ -21,7 +21,7 @@ const TravelSafeHelpProfessionalsBrowse = () => {
     const fetchData = async () => {
       try {
         // Fetch provinces
-        const provincesRes = await fetch('/api/travel-safe-help-professional/provinces');
+        const provincesRes = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/travel-safe-help-professional/provinces');
         const provincesData = await provincesRes.json();
         if (provincesData.success) {
           setProvincesData(provincesData.data);
@@ -52,7 +52,7 @@ const TravelSafeHelpProfessionalsBrowse = () => {
       if (filterParams.category) queryParams.append('category', filterParams.category);
       if (search) queryParams.append('search', search);
 
-      const response = await fetch(`/api/travel-safe-help-professional/browse?${queryParams}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/travel-safe-help-professional/browse?${queryParams}`);
       const data = await response.json();
 
       if (data.success) {

@@ -273,7 +273,7 @@ const EducationalTutoringForm = () => {
 
       console.log('Publishing educational tutoring profile with payload:', payload);
 
-      const response = await fetch('/api/educational-tutoring/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/educational-tutoring/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

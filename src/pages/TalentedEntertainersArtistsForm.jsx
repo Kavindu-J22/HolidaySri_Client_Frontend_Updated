@@ -198,7 +198,7 @@ const TalentedEntertainersArtistsForm = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/talented-entertainers-artists/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/talented-entertainers-artists/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

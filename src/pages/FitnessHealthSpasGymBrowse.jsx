@@ -55,7 +55,7 @@ const FitnessHealthSpasGymBrowse = () => {
         if (filters.province) queryParams.append('province', filters.province);
         if (searchTerm) queryParams.append('search', searchTerm);
 
-        const response = await fetch(`/api/fitness-health-spas-gym/browse?${queryParams}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fitness-health-spas-gym/browse?${queryParams}`);
         const data = await response.json();
 
         if (data.success) {
@@ -81,7 +81,7 @@ const FitnessHealthSpasGymBrowse = () => {
   // Get average rating for a profile
   const getAverageRating = async (profileId) => {
     try {
-      const response = await fetch(`/api/fitness-health-spas-gym-reviews/${profileId}/rating`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fitness-health-spas-gym-reviews/${profileId}/rating`);
       const data = await response.json();
       return data.success ? data.data : { averageRating: 0, totalReviews: 0 };
     } catch (err) {
@@ -310,7 +310,7 @@ const ProfileCard = ({ profile, onViewClick }) => {
   useEffect(() => {
     const fetchRating = async () => {
       try {
-        const response = await fetch(`/api/fitness-health-spas-gym-reviews/${profile._id}/rating`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fitness-health-spas-gym-reviews/${profile._id}/rating`);
         const data = await response.json();
         if (data.success) {
           setRating(data.data);

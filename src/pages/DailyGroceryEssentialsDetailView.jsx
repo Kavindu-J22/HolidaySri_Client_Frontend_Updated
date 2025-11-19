@@ -37,7 +37,7 @@ const DailyGroceryEssentialsDetailView = () => {
   useEffect(() => {
     const fetchListing = async () => {
       try {
-        const response = await fetch(`/api/daily-grocery-essentials/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/daily-grocery-essentials/${id}`);
         const data = await response.json();
         if (data.success) {
           setListing(data.data);
@@ -69,7 +69,7 @@ const DailyGroceryEssentialsDetailView = () => {
 
     setSubmittingReview(true);
     try {
-      const response = await fetch(`/api/daily-grocery-essentials/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/daily-grocery-essentials/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

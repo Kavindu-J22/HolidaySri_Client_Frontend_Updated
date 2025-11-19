@@ -33,7 +33,7 @@ const LocalSimMobileDataBrowse = () => {
   const fetchProfiles = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/local-sim-mobile-data/browse');
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/local-sim-mobile-data/browse');
       const data = await response.json();
 
       if (data.success) {

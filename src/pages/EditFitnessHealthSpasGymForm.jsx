@@ -86,7 +86,7 @@ const EditFitnessHealthSpasGymForm = () => {
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        const response = await fetch(`/api/fitness-health-spas-gym/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fitness-health-spas-gym/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -296,7 +296,7 @@ const EditFitnessHealthSpasGymForm = () => {
     setSubmitting(true);
 
     try {
-      const response = await fetch(`/api/fitness-health-spas-gym/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fitness-health-spas-gym/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

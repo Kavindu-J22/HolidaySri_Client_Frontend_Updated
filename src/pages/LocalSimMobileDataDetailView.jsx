@@ -33,7 +33,7 @@ const LocalSimMobileDataDetailView = () => {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/local-sim-mobile-data/${id}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/local-sim-mobile-data/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -52,7 +52,7 @@ const LocalSimMobileDataDetailView = () => {
   const fetchReviews = async () => {
     try {
       setReviewsLoading(true);
-      const response = await fetch(`/api/local-sim-mobile-data/${id}/reviews`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/local-sim-mobile-data/${id}/reviews`);
       const data = await response.json();
 
       if (data.success) {
@@ -85,7 +85,7 @@ const LocalSimMobileDataDetailView = () => {
         return;
       }
 
-      const response = await fetch(`/api/local-sim-mobile-data/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/local-sim-mobile-data/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -48,7 +48,7 @@ const LanguageTranslatorsBrowse = () => {
         params.append('page', page);
         params.append('limit', 12);
 
-        const response = await fetch(`/api/language-translators?${params}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/language-translators?${params}`);
         const data = await response.json();
 
         if (data.success) {

@@ -30,7 +30,7 @@ const EmergencyServicesInsuranceDetailView = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`/api/emergency-services-insurance/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/emergency-services-insurance/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -54,7 +54,7 @@ const EmergencyServicesInsuranceDetailView = () => {
     const fetchReviews = async () => {
       setReviewsLoading(true);
       try {
-        const response = await fetch(`/api/emergency-services-insurance/${id}/reviews`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/emergency-services-insurance/${id}/reviews`);
         const data = await response.json();
 
         if (data.success) {
@@ -94,7 +94,7 @@ const EmergencyServicesInsuranceDetailView = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/emergency-services-insurance/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/emergency-services-insurance/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -112,14 +112,14 @@ const EmergencyServicesInsuranceDetailView = () => {
         setComment('');
         
         // Refresh reviews
-        const reviewsResponse = await fetch(`/api/emergency-services-insurance/${id}/reviews`);
+        const reviewsResponse = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/emergency-services-insurance/${id}/reviews`);
         const reviewsData = await reviewsResponse.json();
         if (reviewsData.success) {
           setReviews(reviewsData.data.reviews);
         }
 
         // Refresh profile to update rating
-        const profileResponse = await fetch(`/api/emergency-services-insurance/${id}`);
+        const profileResponse = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/emergency-services-insurance/${id}`);
         const profileData = await profileResponse.json();
         if (profileData.success) {
           setProfile(profileData.data);

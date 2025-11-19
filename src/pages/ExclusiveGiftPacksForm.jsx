@@ -194,7 +194,7 @@ const ExclusiveGiftPacksForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/exclusive-gift-packs/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/exclusive-gift-packs/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

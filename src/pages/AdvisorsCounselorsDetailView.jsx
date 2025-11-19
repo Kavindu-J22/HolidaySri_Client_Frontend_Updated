@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Star, Loader, AlertCircle, Send, MapPin, Phone, Globe, Facebook } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { API_BASE_URL } from '../config/api';
 
 const AdvisorsCounselorsDetailView = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const AdvisorsCounselorsDetailView = () => {
   const fetchAdvisorDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/advisors-counselors/${id}`);
+      const response = await fetch(`${API_BASE_URL}/advisors-counselors/${id}`);
       if (!response.ok) throw new Error('Failed to fetch advisor');
       const data = await response.json();
       setAdvisor(data.data);
@@ -40,7 +41,7 @@ const AdvisorsCounselorsDetailView = () => {
   // Fetch reviews
   const fetchReviews = async () => {
     try {
-      const response = await fetch(`/api/advisors-counselors/${id}/reviews`);
+      const response = await fetch(`${API_BASE_URL}/advisors-counselors/${id}/reviews`);
       if (!response.ok) throw new Error('Failed to fetch reviews');
       const data = await response.json();
       setReviews(data.data.reviews || []);
@@ -61,7 +62,7 @@ const AdvisorsCounselorsDetailView = () => {
       setSubmittingReview(true);
       const token = localStorage.getItem('token');
 
-      const response = await fetch(`/api/advisors-counselors/${id}/reviews`, {
+      const response = await fetch(`${API_BASE_URL}/advisors-counselors/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

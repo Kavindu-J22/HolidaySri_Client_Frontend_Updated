@@ -33,7 +33,7 @@ const ExpertDoctorsDetailView = () => {
   useEffect(() => {
     const fetchExpertDoctor = async () => {
       try {
-        const response = await fetch(`/api/expert-doctors/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/expert-doctors/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -71,7 +71,7 @@ const ExpertDoctorsDetailView = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/expert-doctors/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/expert-doctors/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

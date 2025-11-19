@@ -69,8 +69,8 @@ const EditFashionDesignersForm = () => {
       try {
         setLoading(true);
         const [profileRes, provincesRes] = await Promise.all([
-          fetch(`/api/fashion-designers/${id}`).then(r => r.json()),
-          fetch('/api/fashion-designers/provinces').then(r => r.json())
+          fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fashion-designers/${id}`).then(r => r.json()),
+          fetch('https://holidaysri-backend-9xm4.onrender.com/api/fashion-designers/provinces').then(r => r.json())
         ]);
 
         if (provincesRes.success) {
@@ -345,7 +345,7 @@ const EditFashionDesignersForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/fashion-designers/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fashion-designers/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

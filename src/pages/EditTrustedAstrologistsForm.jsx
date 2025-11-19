@@ -66,7 +66,7 @@ const EditTrustedAstrologistsForm = () => {
   // Fetch existing profile data
   const fetchProfileData = async () => {
     try {
-      const response = await fetch(`/api/trusted-astrologists/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/trusted-astrologists/${id}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -255,7 +255,7 @@ const EditTrustedAstrologistsForm = () => {
     setSaving(true);
 
     try {
-      const response = await fetch(`/api/trusted-astrologists/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/trusted-astrologists/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

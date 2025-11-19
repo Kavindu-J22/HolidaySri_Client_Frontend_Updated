@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Filter, Loader, AlertCircle, Star, MapPin, Briefcase } from 'lucide-react';
+import { API_BASE_URL } from '../config/api';
 
 const AdvisorsCounselorsBrowse = () => {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const AdvisorsCounselorsBrowse = () => {
       if (currentFilters.city) params.append('city', currentFilters.city);
       if (currentFilters.province) params.append('province', currentFilters.province);
 
-      const response = await fetch(`/api/advisors-counselors/browse?${params}`);
+      const response = await fetch(`${API_BASE_URL}/advisors-counselors/browse?${params}`);
       if (!response.ok) throw new Error('Failed to fetch advisors');
 
       const data = await response.json();

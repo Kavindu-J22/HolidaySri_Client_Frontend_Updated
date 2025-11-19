@@ -205,7 +205,7 @@ const TrustedAstrologistsForm = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/trusted-astrologists/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/trusted-astrologists/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

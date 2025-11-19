@@ -52,7 +52,7 @@ const FoodsBeveragesForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('/api/foods-beverages/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/foods-beverages/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -200,7 +200,7 @@ const FoodsBeveragesForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/foods-beverages/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/foods-beverages/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

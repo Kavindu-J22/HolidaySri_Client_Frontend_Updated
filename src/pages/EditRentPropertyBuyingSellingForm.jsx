@@ -41,7 +41,7 @@ const EditRentPropertyBuyingSellingForm = () => {
 
   const fetchProperty = async () => {
     try {
-      const response = await fetch(`/api/rent-property-buying-selling/${id}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/rent-property-buying-selling/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -146,7 +146,7 @@ const EditRentPropertyBuyingSellingForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/rent-property-buying-selling/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/rent-property-buying-selling/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

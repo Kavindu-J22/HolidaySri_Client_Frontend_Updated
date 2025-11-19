@@ -36,7 +36,7 @@ const EditCreativePhotographersForm = () => {
     const fetchData = async () => {
       try {
         // Fetch photographer
-        const response = await fetch(`/api/creative-photographers/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/${id}`);
         const data = await response.json();
         if (data.success) {
           const photographer = data.data;
@@ -60,7 +60,7 @@ const EditCreativePhotographersForm = () => {
         }
 
         // Fetch provinces
-        const provincesResponse = await fetch('/api/creative-photographers/provinces');
+        const provincesResponse = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/provinces');
         const provincesData = await provincesResponse.json();
         if (provincesData.success) {
           setProvinces(provincesData.data);
@@ -184,7 +184,7 @@ const EditCreativePhotographersForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/creative-photographers/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/creative-photographers/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

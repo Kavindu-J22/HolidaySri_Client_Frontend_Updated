@@ -34,7 +34,7 @@ const Favorites = () => {
       });
 
       if (activeTab === 'destinations') {
-        const response = await fetch(`/api/favorites?${params}`, {
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/favorites?${params}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -46,7 +46,7 @@ const Favorites = () => {
           setTotalPages(data.pagination.pages);
         }
       } else {
-        const response = await fetch(`/api/location-favorites?${params}`, {
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/location-favorites?${params}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

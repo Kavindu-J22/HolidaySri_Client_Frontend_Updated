@@ -31,7 +31,7 @@ const OtherProfessionalsServicesBrowse = () => {
   // Fetch provinces
   const fetchProvinces = async () => {
     try {
-      const response = await fetch('/api/other-professionals-services/provinces');
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/other-professionals-services/provinces');
       const data = await response.json();
       if (data.success) {
         setProvincesAndDistricts(data.data);
@@ -52,7 +52,7 @@ const OtherProfessionalsServicesBrowse = () => {
         ...filters
       });
 
-      const response = await fetch(`/api/other-professionals-services/browse?${queryParams}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/other-professionals-services/browse?${queryParams}`);
       const data = await response.json();
 
       if (data.success) {

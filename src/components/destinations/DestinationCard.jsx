@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, Star, Heart, Eye, Share2, Navigation, Calendar, Thermometer } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { API_BASE_URL } from '../config/api';
 
 const DestinationCard = ({ destination }) => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const DestinationCard = ({ destination }) => {
   const checkFavoriteStatus = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/favorites/check/${destination._id}`, {
+      const response = await fetch(`${API_BASE_URL}/favorites/check/${destination._id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -46,8 +47,8 @@ const DestinationCard = ({ destination }) => {
     try {
       const token = localStorage.getItem('token');
       const url = isFavorite 
-        ? `/api/favorites/${destination._id}`
-        : '/api/favorites';
+        ? `${API_BASE_URL}/favorites/${destination._id}`
+        : `${API_BASE_URL}/favorites`;
       
       const method = isFavorite ? 'DELETE' : 'POST';
       const body = isFavorite ? undefined : JSON.stringify({ destinationId: destination._id });

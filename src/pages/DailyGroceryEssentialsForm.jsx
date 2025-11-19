@@ -52,7 +52,7 @@ const DailyGroceryEssentialsForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('/api/daily-grocery-essentials/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/daily-grocery-essentials/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -184,7 +184,7 @@ const DailyGroceryEssentialsForm = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/daily-grocery-essentials/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/daily-grocery-essentials/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -52,14 +52,14 @@ const EditFoodsBeverages = () => {
     const fetchData = async () => {
       try {
         // Fetch provinces
-        const provincesRes = await fetch('/api/foods-beverages/provinces');
+        const provincesRes = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/foods-beverages/provinces');
         const provincesData = await provincesRes.json();
         if (provincesData.success) {
           setProvincesData(provincesData.data);
         }
 
         // Fetch foods & beverages data
-        const foodsRes = await fetch(`/api/foods-beverages/${id}`);
+        const foodsRes = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/foods-beverages/${id}`);
         const foodsData = await foodsRes.json();
 
         if (foodsData.success) {
@@ -236,7 +236,7 @@ const EditFoodsBeverages = () => {
       const token = localStorage.getItem('token');
       const allImages = [...images, ...newImages];
 
-      const response = await fetch(`/api/foods-beverages/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/foods-beverages/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

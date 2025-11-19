@@ -189,7 +189,7 @@ const GraphicsITTechRepairForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/graphics-it-tech-repair/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/graphics-it-tech-repair/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

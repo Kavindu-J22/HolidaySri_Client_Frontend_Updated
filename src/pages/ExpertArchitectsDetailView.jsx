@@ -29,7 +29,7 @@ const ExpertArchitectsDetailView = () => {
   const fetchArchitectDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/expert-architects/${id}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/expert-architects/${id}`);
       if (!response.ok) throw new Error('Failed to fetch architect');
 
       const data = await response.json();

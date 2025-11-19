@@ -52,14 +52,14 @@ const EditDailyGroceryEssentialsForm = () => {
     const fetchData = async () => {
       try {
         // Fetch provinces
-        const provincesResponse = await fetch('/api/daily-grocery-essentials/provinces');
+        const provincesResponse = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/daily-grocery-essentials/provinces');
         const provincesData = await provincesResponse.json();
         if (provincesData.success) {
           setProvincesData(provincesData.data);
         }
 
         // Fetch listing data
-        const listingResponse = await fetch(`/api/daily-grocery-essentials/${id}`);
+        const listingResponse = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/daily-grocery-essentials/${id}`);
         const listingData = await listingResponse.json();
         if (listingData.success) {
           const listing = listingData.data;
@@ -204,7 +204,7 @@ const EditDailyGroceryEssentialsForm = () => {
     try {
       const allImages = [...existingImages, ...images];
 
-      const response = await fetch(`/api/daily-grocery-essentials/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/daily-grocery-essentials/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

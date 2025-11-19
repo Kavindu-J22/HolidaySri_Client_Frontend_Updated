@@ -47,7 +47,7 @@ export default function PetCareAnimalServicesBrowse() {
   const fetchProfiles = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('/api/pet-care-animal-services/browse/all');
+      const response = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/pet-care-animal-services/browse/all');
       if (response.data.success) {
         setProfiles(response.data.data);
         setFilteredProfiles(response.data.data);

@@ -63,7 +63,7 @@ const EditAdvisorsCounselorsProfile = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/advisors-counselors/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/advisors-counselors/${id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -217,7 +217,7 @@ const EditAdvisorsCounselorsProfile = () => {
       setSaving(true);
       const token = localStorage.getItem('token');
 
-      const response = await fetch(`/api/advisors-counselors/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/advisors-counselors/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

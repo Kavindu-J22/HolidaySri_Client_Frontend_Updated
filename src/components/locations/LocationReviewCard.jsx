@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Star, ThumbsUp, Flag, Edit, Trash2, Calendar, User } from 'lucide-react';
 import LocationReviewForm from './LocationReviewForm';
+import { API_BASE_URL } from '../config/api';
 
 const LocationReviewCard = ({ review, isOwn = false, onUpdate }) => {
   const [showEditForm, setShowEditForm] = useState(false);
@@ -35,7 +36,7 @@ const LocationReviewCard = ({ review, isOwn = false, onUpdate }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/location-reviews/${review._id}/helpful`, {
+      const response = await fetch(`${API_BASE_URL}/location-reviews/${review._id}/helpful`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -62,7 +63,7 @@ const LocationReviewCard = ({ review, isOwn = false, onUpdate }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/location-reviews/${review._id}/report`, {
+      const response = await fetch(`${API_BASE_URL}/location-reviews/${review._id}/report`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -88,7 +89,7 @@ const LocationReviewCard = ({ review, isOwn = false, onUpdate }) => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/location-reviews/${review._id}`, {
+      const response = await fetch(`${API_BASE_URL}/location-reviews/${review._id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

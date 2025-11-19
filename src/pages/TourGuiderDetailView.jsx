@@ -23,7 +23,7 @@ const TourGuiderDetailView = () => {
   const fetchTourGuider = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`/api/tour-guider/${tourGuiderId}`);
+      const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/tour-guider/${tourGuiderId}`);
 
       if (response.data.success) {
         setTourGuider(response.data.data);
@@ -39,7 +39,7 @@ const TourGuiderDetailView = () => {
   // Fetch reviews for tour guider
   const fetchReviews = async () => {
     try {
-      const response = await axios.get(`/api/tour-guider/${tourGuiderId}/reviews?page=1&limit=10`);
+      const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/tour-guider/${tourGuiderId}/reviews?page=1&limit=10`);
 
       if (response.data.success) {
         setReviews(response.data.data);
@@ -74,7 +74,7 @@ const TourGuiderDetailView = () => {
       setError('');
 
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/tour-guider/${tourGuiderId}/review`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/tour-guider/${tourGuiderId}/review`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
