@@ -65,7 +65,7 @@ const TourGuiderForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/tour-guider/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/tour-guider/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -232,7 +232,7 @@ const TourGuiderForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/tour-guider/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/tour-guider/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

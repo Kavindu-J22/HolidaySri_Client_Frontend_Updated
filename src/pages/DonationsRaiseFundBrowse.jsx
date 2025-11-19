@@ -69,7 +69,7 @@ const DonationsRaiseFundBrowse = () => {
       params.append('page', pagination.currentPage);
       params.append('limit', 12);
 
-      const response = await axios.get(`http://localhost:5000/api/donations-raise-fund?${params}`);
+      const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund?${params}`);
       
       if (response.data.success) {
         // Filter out expired campaigns and randomize
@@ -98,7 +98,7 @@ const DonationsRaiseFundBrowse = () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/donations-raise-fund', {
+      const response = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund', {
         headers: {
           Authorization: `Bearer ${token}`
         }

@@ -185,7 +185,7 @@ const CurrencyExchangeForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/currency-exchange/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/currency-exchange/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

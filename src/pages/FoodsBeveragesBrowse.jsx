@@ -37,7 +37,7 @@ const FoodsBeveragesBrowse = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/foods-beverages/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/foods-beverages/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -64,7 +64,7 @@ const FoodsBeveragesBrowse = () => {
         params.append('page', filters.page);
         params.append('limit', 12);
 
-        const response = await fetch(`http://localhost:5000/api/foods-beverages/browse?${params}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/foods-beverages/browse?${params}`);
         const data = await response.json();
 
         if (data.success) {

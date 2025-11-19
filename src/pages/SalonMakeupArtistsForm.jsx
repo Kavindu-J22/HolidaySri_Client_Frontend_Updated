@@ -69,7 +69,7 @@ const SalonMakeupArtistsForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/salon-makeup-artists/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/salon-makeup-artists/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -256,7 +256,7 @@ const SalonMakeupArtistsForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/salon-makeup-artists/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/salon-makeup-artists/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

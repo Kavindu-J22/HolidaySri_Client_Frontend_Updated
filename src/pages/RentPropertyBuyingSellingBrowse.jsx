@@ -44,7 +44,7 @@ const RentPropertyBuyingSellingBrowse = () => {
       if (filters.city) queryParams.append('city', filters.city);
       if (filters.search) queryParams.append('search', filters.search);
 
-      const response = await fetch(`http://localhost:5000/api/rent-property-buying-selling/browse?${queryParams}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/rent-property-buying-selling/browse?${queryParams}`);
       const data = await response.json();
 
       if (data.success) {

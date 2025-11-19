@@ -46,7 +46,7 @@ const ProfessionalLawyersForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/professional-lawyers/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/professional-lawyers/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -189,7 +189,7 @@ const ProfessionalLawyersForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/professional-lawyers/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/professional-lawyers/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

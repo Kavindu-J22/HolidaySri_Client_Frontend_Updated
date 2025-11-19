@@ -57,11 +57,11 @@ const EditVehicleRentalsHire = () => {
     const fetchData = async () => {
       try {
         // Fetch provinces
-        const provincesRes = await axios.get('http://localhost:5000/api/vehicle-rentals-hire/provinces');
+        const provincesRes = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/vehicle-rentals-hire/provinces');
         setProvinces(provincesRes.data.data);
 
         // Fetch vehicle rentals hire data
-        const listingRes = await axios.get(`http://localhost:5000/api/vehicle-rentals-hire/manage/${id}`, {
+        const listingRes = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/vehicle-rentals-hire/manage/${id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -198,7 +198,7 @@ const EditVehicleRentalsHire = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/vehicle-rentals-hire/${id}`,
+        `https://holidaysri-backend-9xm4.onrender.com/api/vehicle-rentals-hire/${id}`,
         {
           ...formData,
           images,

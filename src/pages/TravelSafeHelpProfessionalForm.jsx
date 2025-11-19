@@ -56,7 +56,7 @@ const TravelSafeHelpProfessionalForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/travel-safe-help-professional/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/travel-safe-help-professional/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -173,7 +173,7 @@ const TravelSafeHelpProfessionalForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/travel-safe-help-professional/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/travel-safe-help-professional/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -62,7 +62,7 @@ const EditBooksAndMagazinesEducationalForm = () => {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/books-magazines-educational/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/books-magazines-educational/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -262,7 +262,7 @@ const EditBooksAndMagazinesEducationalForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/books-magazines-educational/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/books-magazines-educational/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

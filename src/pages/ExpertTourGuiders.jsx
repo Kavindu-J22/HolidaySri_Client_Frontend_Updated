@@ -34,7 +34,7 @@ const ExpertTourGuiders = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/tour-guider/provinces');
+        const response = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/tour-guider/provinces');
         if (response.data.success) {
           setProvinces(response.data.data);
         }
@@ -69,7 +69,7 @@ const ExpertTourGuiders = () => {
         params.append('page', pagination.currentPage);
         params.append('limit', 12);
 
-        const response = await axios.get(`http://localhost:5000/api/tour-guider/list/all?${params}`);
+        const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/tour-guider/list/all?${params}`);
 
         if (response.data.success) {
           setTourGuiders(response.data.data);

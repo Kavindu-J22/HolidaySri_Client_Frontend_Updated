@@ -68,7 +68,7 @@ const TravelBuddyForm = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/travel-buddy/countries');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/countries');
         const data = await response.json();
         if (data.success) {
           // Handle both possible response structures
@@ -218,7 +218,7 @@ const TravelBuddyForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/travel-buddy/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/travel-buddy/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -49,7 +49,7 @@ const EditOtherItemsForm = () => {
 
   const fetchItemData = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/other-items/${id}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/other-items/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -192,7 +192,7 @@ const EditOtherItemsForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/other-items/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/other-items/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

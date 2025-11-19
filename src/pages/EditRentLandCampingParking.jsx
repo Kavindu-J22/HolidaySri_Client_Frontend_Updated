@@ -65,11 +65,11 @@ const EditRentLandCampingParking = () => {
     const fetchData = async () => {
       try {
         // Fetch provinces
-        const provincesRes = await axios.get('http://localhost:5000/api/rent-land-camping-parking/provinces');
+        const provincesRes = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/rent-land-camping-parking/provinces');
         setProvinces(provincesRes.data.data);
 
         // Fetch listing data
-        const listingRes = await axios.get(`http://localhost:5000/api/rent-land-camping-parking/${id}`);
+        const listingRes = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/rent-land-camping-parking/${id}`);
         const listing = listingRes.data.data;
 
         setFormData({
@@ -234,7 +234,7 @@ const EditRentLandCampingParking = () => {
 
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/rent-land-camping-parking/${id}`,
+        `https://holidaysri-backend-9xm4.onrender.com/api/rent-land-camping-parking/${id}`,
         {
           ...formData,
           images,

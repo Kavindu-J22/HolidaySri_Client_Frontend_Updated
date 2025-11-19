@@ -45,7 +45,7 @@ const DonationsRaiseFundDetail = () => {
   const fetchCampaignDetails = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:5000/api/donations-raise-fund/${id}`);
+      const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund/${id}`);
       if (response.data.success) {
         setCampaign(response.data.data);
       }
@@ -59,7 +59,7 @@ const DonationsRaiseFundDetail = () => {
 
   const fetchHSCValue = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/donations-raise-fund/current-hsc-value');
+      const response = await axios.get('https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund/current-hsc-value');
       if (response.data.success) {
         setHscValue(response.data.data.hscValue);
       }
@@ -121,7 +121,7 @@ const DonationsRaiseFundDetail = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        `http://localhost:5000/api/donations-raise-fund/${id}/rating`,
+        `https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund/${id}/rating`,
         { rating, review },
         {
           headers: {
@@ -166,7 +166,7 @@ const DonationsRaiseFundDetail = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        `http://localhost:5000/api/donations-raise-fund/${id}/transfer-fund`,
+        `https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund/${id}/transfer-fund`,
         {
           amountHSC: amount,
           comment: transferComment.trim()
@@ -216,7 +216,7 @@ const DonationsRaiseFundDetail = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
-        `http://localhost:5000/api/donations-raise-fund/${id}/request-withdrawal`,
+        `https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund/${id}/request-withdrawal`,
         {},
         {
           headers: {

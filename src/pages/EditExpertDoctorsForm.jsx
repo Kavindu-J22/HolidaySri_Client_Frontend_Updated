@@ -61,7 +61,7 @@ const EditExpertDoctorsForm = () => {
     const fetchData = async () => {
       try {
         // Fetch provinces
-        const provincesRes = await fetch('http://localhost:5000/api/expert-doctors/provinces');
+        const provincesRes = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/expert-doctors/provinces');
         const provincesData = await provincesRes.json();
         if (provincesData.success) {
           setProvincesData(provincesData.data);
@@ -69,7 +69,7 @@ const EditExpertDoctorsForm = () => {
 
         // Fetch expert doctor data
         const token = localStorage.getItem('token');
-        const doctorRes = await fetch(`http://localhost:5000/api/expert-doctors/${id}`, {
+        const doctorRes = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/expert-doctors/${id}`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }

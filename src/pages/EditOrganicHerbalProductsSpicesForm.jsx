@@ -53,7 +53,7 @@ export default function EditOrganicHerbalProductsSpicesForm() {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/organic-herbal-products-spices/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/organic-herbal-products-spices/${id}`);
         const result = await response.json();
 
         if (result.success) {
@@ -149,7 +149,7 @@ export default function EditOrganicHerbalProductsSpicesForm() {
 
     setSubmitting(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/organic-herbal-products-spices/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/organic-herbal-products-spices/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

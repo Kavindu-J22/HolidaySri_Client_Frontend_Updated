@@ -59,7 +59,7 @@ const EditTalentedEntertainersArtistsForm = () => {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/talented-entertainers-artists/${id}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/talented-entertainers-artists/${id}`);
       const data = await response.json();
 
       if (data.success) {
@@ -207,7 +207,7 @@ const EditTalentedEntertainersArtistsForm = () => {
     setSaving(true);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/talented-entertainers-artists/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/talented-entertainers-artists/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

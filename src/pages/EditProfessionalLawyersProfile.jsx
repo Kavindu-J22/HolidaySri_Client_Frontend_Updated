@@ -45,14 +45,14 @@ const EditProfessionalLawyersProfile = () => {
     const fetchData = async () => {
       try {
         // Fetch provinces
-        const provincesRes = await fetch('http://localhost:5000/api/professional-lawyers/provinces');
+        const provincesRes = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/professional-lawyers/provinces');
         const provincesData = await provincesRes.json();
         if (provincesData.success) {
           setProvincesData(provincesData.data);
         }
 
         // Fetch lawyer data
-        const lawyerRes = await fetch(`http://localhost:5000/api/professional-lawyers/${id}`);
+        const lawyerRes = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/professional-lawyers/${id}`);
         const lawyerData = await lawyerRes.json();
         
         if (lawyerData.success) {
@@ -221,7 +221,7 @@ const EditProfessionalLawyersProfile = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/professional-lawyers/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/professional-lawyers/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

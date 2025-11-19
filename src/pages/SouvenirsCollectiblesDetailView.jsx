@@ -35,7 +35,7 @@ const SouvenirsCollectiblesDetailView = () => {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/souvenirs-collectibles/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/souvenirs-collectibles/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -82,7 +82,7 @@ const SouvenirsCollectiblesDetailView = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/souvenirs-collectibles/${id}/review`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/souvenirs-collectibles/${id}/review`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

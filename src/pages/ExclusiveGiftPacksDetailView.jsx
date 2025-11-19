@@ -23,7 +23,7 @@ const ExclusiveGiftPacksDetailView = () => {
   const fetchGiftPackDetails = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:5000/api/exclusive-gift-packs/${id}`);
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/exclusive-gift-packs/${id}`);
       if (!response.ok) throw new Error('Failed to fetch gift pack');
       const data = await response.json();
       setGiftPack(data.data);

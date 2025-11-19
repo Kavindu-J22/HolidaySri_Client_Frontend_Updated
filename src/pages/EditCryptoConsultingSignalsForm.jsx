@@ -68,7 +68,7 @@ const EditCryptoConsultingSignalsForm = () => {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(
-          `http://localhost:5000/api/crypto-consulting-signals/${id}`,
+          `https://holidaysri-backend-9xm4.onrender.com/api/crypto-consulting-signals/${id}`,
           {
             headers: { 'Authorization': `Bearer ${token}` }
           }
@@ -340,7 +340,7 @@ const EditCryptoConsultingSignalsForm = () => {
       }
 
       const response = await axios.put(
-        `http://localhost:5000/api/crypto-consulting-signals/${id}`,
+        `https://holidaysri-backend-9xm4.onrender.com/api/crypto-consulting-signals/${id}`,
         payload,
         {
           headers: {

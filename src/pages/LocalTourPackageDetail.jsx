@@ -21,7 +21,7 @@ const LocalTourPackageDetail = () => {
   useEffect(() => {
     const fetchPackage = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/local-tour-package/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/local-tour-package/${id}`);
         const data = await response.json();
         
         if (data.success) {
@@ -56,7 +56,7 @@ const LocalTourPackageDetail = () => {
 
     try {
       setSubmittingReview(true);
-      const response = await fetch(`http://localhost:5000/api/local-tour-package/${id}/review`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/local-tour-package/${id}/review`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -75,7 +75,7 @@ const LocalTourPackageDetail = () => {
         setRating(5);
         setReviewText('');
         // Refresh package data
-        const refreshRes = await fetch(`http://localhost:5000/api/local-tour-package/${id}`);
+        const refreshRes = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/local-tour-package/${id}`);
         const refreshData = await refreshRes.json();
         if (refreshData.success) {
           setPackageData(refreshData.data);

@@ -68,7 +68,7 @@ const VehicleRepairsMechanicsForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/vehicle-repairs-mechanics/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/vehicle-repairs-mechanics/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -300,7 +300,7 @@ const VehicleRepairsMechanicsForm = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/vehicle-repairs-mechanics/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/vehicle-repairs-mechanics/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

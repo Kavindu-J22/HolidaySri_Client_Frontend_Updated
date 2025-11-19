@@ -19,7 +19,7 @@ const FashionBeautyClothingDetailView = () => {
   useEffect(() => {
     const fetchItem = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/fashion-beauty-clothing/${id}`);
+        const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/fashion-beauty-clothing/${id}`);
         setItem(response.data.data);
         setLoading(false);
       } catch (err) {
@@ -46,7 +46,7 @@ const FashionBeautyClothingDetailView = () => {
       }
 
       const response = await axios.post(
-        `http://localhost:5000/api/fashion-beauty-clothing/${id}/reviews`,
+        `https://holidaysri-backend-9xm4.onrender.com/api/fashion-beauty-clothing/${id}/reviews`,
         { rating: parseInt(rating), review },
         { headers: { Authorization: `Bearer ${token}` } }
       );

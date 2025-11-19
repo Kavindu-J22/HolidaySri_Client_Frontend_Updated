@@ -29,7 +29,7 @@ const FitnessHealthSpasGymDetailView = () => {
     const loadProfile = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`http://localhost:5000/api/fitness-health-spas-gym/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fitness-health-spas-gym/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -55,8 +55,8 @@ const FitnessHealthSpasGymDetailView = () => {
       try {
         setLoadingReviews(true);
         const [reviewsRes, ratingRes] = await Promise.all([
-          fetch(`http://localhost:5000/api/fitness-health-spas-gym-reviews/${id}/reviews`),
-          fetch(`http://localhost:5000/api/fitness-health-spas-gym-reviews/${id}/rating`)
+          fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fitness-health-spas-gym-reviews/${id}/reviews`),
+          fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fitness-health-spas-gym-reviews/${id}/rating`)
         ]);
 
         const reviewsData = await reviewsRes.json();
@@ -99,7 +99,7 @@ const FitnessHealthSpasGymDetailView = () => {
     setSubmittingReview(true);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/fitness-health-spas-gym-reviews/${id}/add-review`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fitness-health-spas-gym-reviews/${id}/add-review`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -23,7 +23,7 @@ const ExclusiveComboPackagesDetailView = () => {
   useEffect(() => {
     const fetchPackage = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/exclusive-combo-packages/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/exclusive-combo-packages/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -63,7 +63,7 @@ const ExclusiveComboPackagesDetailView = () => {
     setSubmitting(true);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/exclusive-combo-packages/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/exclusive-combo-packages/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

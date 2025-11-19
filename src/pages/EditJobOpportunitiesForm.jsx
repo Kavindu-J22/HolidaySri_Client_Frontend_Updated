@@ -59,7 +59,7 @@ const EditJobOpportunitiesForm = () => {
   const fetchJobOpportunity = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/job-opportunities/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/job-opportunities/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -214,7 +214,7 @@ const EditJobOpportunitiesForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/job-opportunities/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/job-opportunities/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

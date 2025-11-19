@@ -66,7 +66,7 @@ const EditLiveRidesCarpoolingForm = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/live-rides-carpooling/${id}`, {
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/live-rides-carpooling/${id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -258,7 +258,7 @@ const EditLiveRidesCarpoolingForm = () => {
     setError('');
 
     try {
-      const response = await fetch(`http://localhost:5000/api/live-rides-carpooling/${id}`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/live-rides-carpooling/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

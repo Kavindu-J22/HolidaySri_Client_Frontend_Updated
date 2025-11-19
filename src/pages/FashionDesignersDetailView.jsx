@@ -36,8 +36,8 @@ const FashionDesignersDetailView = () => {
       try {
         setLoading(true);
         const [profileRes, reviewsRes] = await Promise.all([
-          fetch(`http://localhost:5000/api/fashion-designers/${id}`).then(r => r.json()),
-          fetch(`http://localhost:5000/api/fashion-designers/${id}/reviews`).then(r => r.json())
+          fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fashion-designers/${id}`).then(r => r.json()),
+          fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fashion-designers/${id}/reviews`).then(r => r.json())
         ]);
 
         if (profileRes.success && profileRes.data) {
@@ -84,7 +84,7 @@ const FashionDesignersDetailView = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/fashion-designers/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/fashion-designers/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

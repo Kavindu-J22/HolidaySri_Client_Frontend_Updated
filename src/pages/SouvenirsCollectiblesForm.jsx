@@ -53,7 +53,7 @@ const SouvenirsCollectiblesForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/souvenirs-collectibles/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/souvenirs-collectibles/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -210,7 +210,7 @@ const SouvenirsCollectiblesForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/souvenirs-collectibles/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/souvenirs-collectibles/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

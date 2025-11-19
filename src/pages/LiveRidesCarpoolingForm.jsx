@@ -248,7 +248,7 @@ const LiveRidesCarpoolingForm = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:5000/api/live-rides-carpooling/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/live-rides-carpooling/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

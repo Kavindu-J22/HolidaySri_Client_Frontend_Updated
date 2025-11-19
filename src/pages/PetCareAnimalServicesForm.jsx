@@ -41,7 +41,7 @@ const PetCareAnimalServicesForm = () => {
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/pet-care-animal-services/provinces');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/pet-care-animal-services/provinces');
         const data = await response.json();
         if (data.success) {
           setProvincesData(data.data);
@@ -165,7 +165,7 @@ const PetCareAnimalServicesForm = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/pet-care-animal-services/publish', {
+      const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/pet-care-animal-services/publish', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

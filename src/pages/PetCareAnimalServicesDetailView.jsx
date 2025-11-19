@@ -41,13 +41,13 @@ export default function PetCareAnimalServicesDetailView() {
       setLoading(true);
       
       // Fetch profile
-      const profileResponse = await axios.get(`http://localhost:5000/api/pet-care-animal-services/${id}`);
+      const profileResponse = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/pet-care-animal-services/${id}`);
       if (profileResponse.data.success) {
         setProfile(profileResponse.data.data);
       }
 
       // Fetch reviews
-      const reviewsResponse = await axios.get(`http://localhost:5000/api/pet-care-animal-services-reviews/${id}`);
+      const reviewsResponse = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/pet-care-animal-services-reviews/${id}`);
       if (reviewsResponse.data.success) {
         setReviews(reviewsResponse.data.data);
       }
@@ -72,7 +72,7 @@ export default function PetCareAnimalServicesDetailView() {
     try {
       setSubmittingReview(true);
       const response = await axios.post(
-        'http://localhost:5000/api/pet-care-animal-services-reviews/add',
+        'https://holidaysri-backend-9xm4.onrender.com/api/pet-care-animal-services-reviews/add',
         {
           petCareProfileId: id,
           rating: parseInt(reviewForm.rating),

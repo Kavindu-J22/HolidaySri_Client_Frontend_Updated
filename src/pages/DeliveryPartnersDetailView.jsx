@@ -18,7 +18,7 @@ const DeliveryPartnersDetailView = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/delivery-partners/${id}`);
+        const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/delivery-partners/${id}`);
         const data = await response.json();
 
         if (data.success) {
@@ -49,7 +49,7 @@ const DeliveryPartnersDetailView = () => {
     setSubmitting(true);
 
     try {
-      const response = await fetch(`http://localhost:5000/api/delivery-partners/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/delivery-partners/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
