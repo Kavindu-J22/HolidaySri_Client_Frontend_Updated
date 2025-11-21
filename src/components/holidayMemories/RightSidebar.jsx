@@ -20,13 +20,13 @@ const RightSidebar = () => {
   const fetchPopularData = async () => {
     try {
       setLoading(true);
-      
-      // Fetch top 5 locations by averageRating
-      const locationsRes = await axios.get(`${API_URL}/locations?sortBy=rating&sortOrder=desc&limit=5`);
+
+      // Fetch top 7 locations by averageRating
+      const locationsRes = await axios.get(`${API_URL}/locations?sortBy=rating&sortOrder=desc&limit=7`);
       setPopularLocations(locationsRes.data.locations || []);
 
-      // Fetch top 5 destinations by averageRating
-      const destinationsRes = await axios.get(`${API_URL}/destinations?sortBy=rating&sortOrder=desc&limit=5`);
+      // Fetch top 10 destinations by averageRating
+      const destinationsRes = await axios.get(`${API_URL}/destinations?sortBy=rating&sortOrder=desc&limit=10`);
       setPopularDestinations(destinationsRes.data.destinations || []);
     } catch (error) {
       console.error('Error fetching popular data:', error);
@@ -77,7 +77,7 @@ const RightSidebar = () => {
         </div>
         {loading ? (
           <div className="space-y-3">
-            {[...Array(5)].map((_, i) => (
+            {[...Array(7)].map((_, i) => (
               <div key={i} className="animate-pulse flex gap-3">
                 <div className="w-16 h-16 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
                 <div className="flex-1 space-y-2">
@@ -127,7 +127,7 @@ const RightSidebar = () => {
         </div>
         {loading ? (
           <div className="grid grid-cols-5 gap-2">
-            {[...Array(5)].map((_, i) => (
+            {[...Array(10)].map((_, i) => (
               <div key={i} className="animate-pulse">
                 <div className="w-full aspect-square bg-gray-300 dark:bg-gray-700 rounded-full"></div>
                 <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded mt-2"></div>

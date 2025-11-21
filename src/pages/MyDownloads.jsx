@@ -34,13 +34,30 @@ const MyDownloads = () => {
     }
   };
 
-  const handleDownloadAgain = (imageUrl, postId) => {
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = `holiday-memory-${postId}.jpg`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownloadAgain = async (imageUrl, postId) => {
+    try {
+      // Fetch the image as a blob
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+
+      // Create a blob URL
+      const blobUrl = URL.createObjectURL(blob);
+
+      // Create a temporary link and trigger download
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = `holiday-memory-${postId}.jpg`;
+      document.body.appendChild(link);
+      link.click();
+
+      // Cleanup
+      document.body.removeChild(link);
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+      // Fallback: open in new tab
+      window.open(imageUrl, '_blank');
+    }
   };
 
   return (

@@ -6,6 +6,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import PostCard from '../components/holidayMemories/PostCard';
 import UploadPhotoModal from '../components/holidayMemories/UploadPhotoModal';
 import RightSidebar from '../components/holidayMemories/RightSidebar';
+import LeftSidebar from '../components/holidayMemories/LeftSidebar';
 import {
   Upload,
   Search,
@@ -202,44 +203,13 @@ const HolidayMemories = () => {
       {/* Main Content - 3 Column Layout */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Sidebar - Province Filter (Hidden on mobile) */}
+          {/* Left Sidebar - Province Filter & Services (Hidden on mobile) */}
           <div className="hidden lg:block lg:col-span-3">
-            <div className={`sticky top-20 rounded-xl ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border shadow-sm p-4`}>
-              <div className="flex items-center gap-2 mb-4">
-                <Filter className="w-5 h-5 text-blue-500" />
-                <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Filter by Province
-                </h3>
-              </div>
-              <div className="space-y-2">
-                <button
-                  onClick={() => setProvinceFilter('')}
-                  className={`w-full text-left px-3 py-2 rounded-lg transition-all ${
-                    provinceFilter === ''
-                      ? 'bg-blue-600 text-white'
-                      : isDarkMode
-                      ? 'hover:bg-gray-700 text-gray-300'
-                      : 'hover:bg-gray-100 text-gray-700'
-                  }`}
-                >
-                  All Provinces
-                </button>
-                {provinces.map((province) => (
-                  <button
-                    key={province}
-                    onClick={() => setProvinceFilter(province)}
-                    className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm ${
-                      provinceFilter === province
-                        ? 'bg-blue-600 text-white'
-                        : isDarkMode
-                        ? 'hover:bg-gray-700 text-gray-300'
-                        : 'hover:bg-gray-100 text-gray-700'
-                    }`}
-                  >
-                    {province}
-                  </button>
-                ))}
-              </div>
+            <div className="sticky top-20">
+              <LeftSidebar
+                provinceFilter={provinceFilter}
+                setProvinceFilter={setProvinceFilter}
+              />
             </div>
           </div>
 
