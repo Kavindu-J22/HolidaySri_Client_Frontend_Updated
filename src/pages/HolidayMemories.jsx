@@ -1,23 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import PostCard from '../components/holidayMemories/PostCard';
 import UploadPhotoModal from '../components/holidayMemories/UploadPhotoModal';
+import RightSidebar from '../components/holidayMemories/RightSidebar';
 import {
   Upload,
   Search,
-  Download,
-  Bookmark,
-  DollarSign,
-  FileText,
   TrendingUp,
   Clock,
-  DownloadCloud
+  DownloadCloud,
+  Filter
 } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://holidaysri-backend-9xm4.onrender.com/api';
+
+const provinces = [
+  'Western Province',
+  'Central Province',
+  'Southern Province',
+  'Northern Province',
+  'Eastern Province',
+  'North Western Province',
+  'North Central Province',
+  'Uva Province',
+  'Sabaragamuwa Province'
+];
 
 const HolidayMemories = () => {
   const { user } = useAuth();
@@ -30,7 +40,9 @@ const HolidayMemories = () => {
   const [hasMore, setHasMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('random');
+  const [provinceFilter, setProvinceFilter] = useState('');
   const [showUploadModal, setShowUploadModal] = useState(false);
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
 
   // Fetch posts
   const fetchPosts = async (pageNum = 1, reset = false) => {
@@ -40,7 +52,8 @@ const HolidayMemories = () => {
         page: pageNum,
         limit: 12,
         sortBy,
-        ...(searchTerm && { search: searchTerm })
+        ...(searchTerm && { search: searchTerm }),
+        ...(provinceFilter && { province: provinceFilter })
       };
 
       const response = await axios.get(`${API_URL}/holiday-memories/browse`, { params });
@@ -62,7 +75,7 @@ const HolidayMemories = () => {
 
   useEffect(() => {
     fetchPosts(1, true);
-  }, [sortBy, searchTerm]);
+  }, [sortBy, searchTerm, provinceFilter]);
 
   const handleLoadMore = () => {
     if (hasMore && !loading) {
@@ -81,7 +94,7 @@ const HolidayMemories = () => {
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Header */}
       <div className={`sticky top-0 z-40 ${isDarkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white border-b border-gray-200'}`}>
-        <div className="max-w-4xl mx-auto px-4 py-3">
+        <div className="max-w-7xl mx-auto px-4 py-3">
           {/* Top Bar */}
           <div className="flex items-center justify-between mb-3">
             <h1 className={`text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent`}>
@@ -115,6 +128,21 @@ const HolidayMemories = () => {
 
           {/* Navigation Tabs */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {/* Mobile Filter Button */}
+            <button
+              onClick={() => setShowMobileFilter(true)}
+              className={`lg:hidden flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                provinceFilter
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : isDarkMode
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <Filter className="w-4 h-4" />
+              <span className="text-sm font-medium">Filter</span>
+            </button>
+
             {/* Sort Options */}
             <button
               onClick={() => setSortBy('random')}
@@ -126,8 +154,7 @@ const HolidayMemories = () => {
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              <span className="text-sm font-medium hidden sm:inline">Random</span>
-              <span className="text-sm font-medium sm:hidden">🎲</span>
+              <span className="text-sm font-medium">🎲 Random</span>
             </button>
             <button
               onClick={() => setSortBy('recent')}
@@ -140,7 +167,7 @@ const HolidayMemories = () => {
               }`}
             >
               <Clock className="w-4 h-4" />
-              <span className="text-sm font-medium hidden sm:inline">Recent</span>
+              <span className="text-sm font-medium">Recent</span>
             </button>
             <button
               onClick={() => setSortBy('popular')}
@@ -153,7 +180,7 @@ const HolidayMemories = () => {
               }`}
             >
               <TrendingUp className="w-4 h-4" />
-              <span className="text-sm font-medium hidden sm:inline">Popular</span>
+              <span className="text-sm font-medium">Popular</span>
             </button>
             <button
               onClick={() => setSortBy('mostDownloaded')}
@@ -166,129 +193,133 @@ const HolidayMemories = () => {
               }`}
             >
               <DownloadCloud className="w-4 h-4" />
-              <span className="text-sm font-medium hidden sm:inline">Most Downloaded</span>
-            </button>
-
-            {/* Divider */}
-            <div className={`w-px h-8 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
-
-            {/* User Actions */}
-            <button
-              onClick={() => navigate('/my-posts')}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-                isDarkMode
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <FileText className="w-4 h-4" />
-              <span className="text-sm font-medium hidden md:inline">My Posts</span>
-            </button>
-            <button
-              onClick={() => navigate('/my-downloads')}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-                isDarkMode
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <Download className="w-4 h-4" />
-              <span className="text-sm font-medium hidden md:inline">My Downloads</span>
-            </button>
-            <button
-              onClick={() => navigate('/my-saved-posts')}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-                isDarkMode
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <Bookmark className="w-4 h-4" />
-              <span className="text-sm font-medium hidden md:inline">Saved Posts</span>
-            </button>
-            <button
-              onClick={() => navigate('/my-photo-earnings')}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-                isDarkMode
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <DollarSign className="w-4 h-4" />
-              <span className="text-sm font-medium hidden md:inline">Earnings</span>
+              <span className="text-sm font-medium">Most Downloaded</span>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Main Content - Social Media Feed Style */}
-      <div className="max-w-4xl mx-auto px-4 py-4">
-        {/* Posts Feed */}
-        {loading && page === 1 ? (
-          <div className="space-y-4">
-            {[...Array(3)].map((_, i) => (
-              <div
-                key={i}
-                className={`rounded-xl overflow-hidden ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md animate-pulse`}
-              >
-                <div className="p-4 flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
-                  <div className="flex-1">
-                    <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-1/3 mb-2`}></div>
-                    <div className={`h-3 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-1/4`}></div>
-                  </div>
-                </div>
-                <div className={`h-96 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
-                <div className="p-4 space-y-3">
-                  <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-3/4`}></div>
-                  <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-1/2`}></div>
-                </div>
+      {/* Main Content - 3 Column Layout */}
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Left Sidebar - Province Filter (Hidden on mobile) */}
+          <div className="hidden lg:block lg:col-span-3">
+            <div className={`sticky top-20 rounded-xl ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border shadow-sm p-4`}>
+              <div className="flex items-center gap-2 mb-4">
+                <Filter className="w-5 h-5 text-blue-500" />
+                <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Filter by Province
+                </h3>
               </div>
-            ))}
-          </div>
-        ) : posts.length === 0 ? (
-          <div className={`text-center py-20 rounded-xl ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
-            <div className="text-6xl mb-4">📸</div>
-            <h3 className={`text-xl font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-              No Memories Yet
-            </h3>
-            <p className={`mb-6 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              Be the first to share your travel memories!
-            </p>
-            <button
-              onClick={() => setShowUploadModal(true)}
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
-            >
-              Share Your First Memory
-            </button>
-          </div>
-        ) : (
-          <>
-            <div className="space-y-4">
-              {posts.map((post) => (
-                <PostCard
-                  key={post._id}
-                  post={post}
-                  isDarkMode={isDarkMode}
-                  onUpdate={handlePostUpdate}
-                />
-              ))}
-            </div>
-
-            {/* Load More Button */}
-            {hasMore && (
-              <div className="text-center mt-6">
+              <div className="space-y-2">
                 <button
-                  onClick={handleLoadMore}
-                  disabled={loading}
-                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg font-semibold"
+                  onClick={() => setProvinceFilter('')}
+                  className={`w-full text-left px-3 py-2 rounded-lg transition-all ${
+                    provinceFilter === ''
+                      ? 'bg-blue-600 text-white'
+                      : isDarkMode
+                      ? 'hover:bg-gray-700 text-gray-300'
+                      : 'hover:bg-gray-100 text-gray-700'
+                  }`}
                 >
-                  {loading ? 'Loading...' : 'Load More Memories'}
+                  All Provinces
+                </button>
+                {provinces.map((province) => (
+                  <button
+                    key={province}
+                    onClick={() => setProvinceFilter(province)}
+                    className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm ${
+                      provinceFilter === province
+                        ? 'bg-blue-600 text-white'
+                        : isDarkMode
+                        ? 'hover:bg-gray-700 text-gray-300'
+                        : 'hover:bg-gray-100 text-gray-700'
+                    }`}
+                  >
+                    {province}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Center - Posts Feed */}
+          <div className="lg:col-span-6">
+            {/* Posts Feed */}
+            {loading && page === 1 ? (
+              <div className="space-y-4">
+                {[...Array(3)].map((_, i) => (
+                  <div
+                    key={i}
+                    className={`rounded-xl overflow-hidden ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md animate-pulse`}
+                  >
+                    <div className="p-4 flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
+                      <div className="flex-1">
+                        <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-1/3 mb-2`}></div>
+                        <div className={`h-3 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-1/4`}></div>
+                      </div>
+                    </div>
+                    <div className={`h-96 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
+                    <div className="p-4 space-y-3">
+                      <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-3/4`}></div>
+                      <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-1/2`}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : posts.length === 0 ? (
+              <div className={`text-center py-20 rounded-xl ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
+                <div className="text-6xl mb-4">📸</div>
+                <h3 className={`text-xl font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  No Memories Yet
+                </h3>
+                <p className={`mb-6 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  Be the first to share your travel memories!
+                </p>
+                <button
+                  onClick={() => setShowUploadModal(true)}
+                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
+                >
+                  Share Your First Memory
                 </button>
               </div>
+            ) : (
+              <>
+                <div className="space-y-4">
+                  {posts.map((post) => (
+                    <PostCard
+                      key={post._id}
+                      post={post}
+                      isDarkMode={isDarkMode}
+                      onUpdate={handlePostUpdate}
+                    />
+                  ))}
+                </div>
+
+                {/* Load More Button */}
+                {hasMore && (
+                  <div className="text-center mt-6">
+                    <button
+                      onClick={handleLoadMore}
+                      disabled={loading}
+                      className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg font-semibold"
+                    >
+                      {loading ? 'Loading...' : 'Load More Memories'}
+                    </button>
+                  </div>
+                )}
+              </>
             )}
-          </>
-        )}
+          </div>
+
+          {/* Right Sidebar - User Actions & Popular Sections (Hidden on mobile) */}
+          <div className="hidden lg:block lg:col-span-3">
+            <div className="sticky top-20">
+              <RightSidebar />
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Upload Modal */}
@@ -300,6 +331,68 @@ const HolidayMemories = () => {
           setPosts([newPost, ...posts]);
         }}
       />
+
+      {/* Mobile Filter Modal */}
+      {showMobileFilter && (
+        <div className="fixed inset-0 z-50 flex items-end lg:hidden">
+          {/* Backdrop */}
+          <div
+            className="absolute inset-0 bg-black bg-opacity-50"
+            onClick={() => setShowMobileFilter(false)}
+          ></div>
+
+          {/* Modal Content */}
+          <div className={`relative w-full rounded-t-2xl ${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 max-h-[80vh] overflow-y-auto`}>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Filter by Province
+              </h3>
+              <button
+                onClick={() => setShowMobileFilter(false)}
+                className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              <button
+                onClick={() => {
+                  setProvinceFilter('');
+                  setShowMobileFilter(false);
+                }}
+                className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
+                  provinceFilter === ''
+                    ? 'bg-blue-600 text-white'
+                    : isDarkMode
+                    ? 'hover:bg-gray-700 text-gray-300'
+                    : 'hover:bg-gray-100 text-gray-700'
+                }`}
+              >
+                All Provinces
+              </button>
+              {provinces.map((province) => (
+                <button
+                  key={province}
+                  onClick={() => {
+                    setProvinceFilter(province);
+                    setShowMobileFilter(false);
+                  }}
+                  className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
+                    provinceFilter === province
+                      ? 'bg-blue-600 text-white'
+                      : isDarkMode
+                      ? 'hover:bg-gray-700 text-gray-300'
+                      : 'hover:bg-gray-100 text-gray-700'
+                  }`}
+                >
+                  {province}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

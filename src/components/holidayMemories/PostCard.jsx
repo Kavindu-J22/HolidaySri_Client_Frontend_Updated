@@ -332,12 +332,12 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false }) 
           </button>
         </div>
 
-        {/* Image */}
+        {/* Image - Original Size */}
         <div className="relative">
           <img
             src={post.image}
             alt={post.caption}
-            className="w-full aspect-square object-cover"
+            className="w-full object-contain max-h-[600px] bg-black"
             onContextMenu={handleContextMenu}
             onDragStart={(e) => e.preventDefault()}
             onTouchStart={handleTouchStart}
