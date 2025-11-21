@@ -117,6 +117,15 @@ const PayHerePayment = () => {
         paymentDetails: {
           transactionId: orderId,
           paymentStatus: 'completed'
+        },
+        customerDetails: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          country: 'Sri Lanka'
         }
       });
     } catch (error) {
@@ -133,6 +142,15 @@ const PayHerePayment = () => {
         paymentDetails: {
           transactionId: orderId,
           paymentStatus: 'completed'
+        },
+        customerDetails: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          city: formData.city,
+          country: 'Sri Lanka'
         }
       });
     } catch (error) {
