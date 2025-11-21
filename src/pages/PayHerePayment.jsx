@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { CreditCard, ArrowLeft, AlertCircle, Loader } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { hscAPI } from '../config/api';
+import md5 from 'crypto-js/md5';
 
 const PayHerePayment = () => {
   const location = useLocation();
@@ -180,23 +181,16 @@ const PayHerePayment = () => {
         country: 'Sri Lanka'
       };
 
-      // Generate hash for security
+      // Generate hash for security (PayHere requires MD5)
       const amountFormatted = parseFloat(paymentPayload.amount).toLocaleString('en-US', {
         minimumFractionDigits: 2
       }).replace(/,/g, '');
 
-      // Create MD5 hash (simplified implementation)
-      const createMD5Hash = async (text) => {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(text);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex.substring(0, 32).toUpperCase();
-      };
+      // Hash the merchant secret first, then create the final hash
+      const hashedSecret = md5(merchantSecret).toString().toUpperCase();
+      const hash = md5(merchantId + orderId + amountFormatted + paymentData.currency + hashedSecret).toString().toUpperCase();
 
-      const hashString = `${merchantId}${orderId}${amountFormatted}${paymentData.currency}${merchantSecret}`;
-      paymentPayload.hash = await createMD5Hash(hashString);
+      paymentPayload.hash = hash;
 
       // Start PayHere payment
       window.payhere.startPayment(paymentPayload);
