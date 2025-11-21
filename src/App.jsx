@@ -252,6 +252,10 @@ import EditHomeBannerSlot from './pages/EditHomeBannerSlot';
 import DonationsRaiseFundDetail from './pages/DonationsRaiseFundDetail';
 import DonationsRaiseFundBrowse from './pages/DonationsRaiseFundBrowse';
 import FeaturedAds from './pages/FeaturedAds';
+import HolidayMemories from './pages/HolidayMemories';
+import MyDownloads from './pages/MyDownloads';
+import MySavedPosts from './pages/MySavedPosts';
+import MyPhotoEarnings from './pages/MyPhotoEarnings';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -1042,6 +1046,12 @@ function App() {
                 <Route path="ads/events/photographers" element={<CreativePhotographersBrowse />} />
                 <Route path="ads/events/fashion-designers" element={<FashionDesignersBrowse />} />
                 <Route path="ads/entertainment/entertainers-artists" element={<TalentedEntertainersArtistsBrowse />} />
+
+                {/* Holiday Memories Routes */}
+                <Route path="ads/entertainment/holiday-memories" element={<HolidayMemories />} />
+                <Route path="my-downloads" element={<MyDownloads />} />
+                <Route path="my-saved-posts" element={<MySavedPosts />} />
+                <Route path="my-photo-earnings" element={<MyPhotoEarnings />} />
               </Route>
 
               {/* Catch all route */}
