@@ -116,6 +116,7 @@ const MySavedPosts = () => {
                 isDarkMode={isDarkMode}
                 onUpdate={handlePostUpdate}
                 skipSaveConfirmation={true}
+                downloadButtonText="Image + Location Info"
               />
             ))}
           </div>
