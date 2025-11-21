@@ -13,6 +13,9 @@ import Services from './pages/Services';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Download from './pages/Download';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsAndConditions from './pages/TermsAndConditions';
+import RefundPolicy from './pages/RefundPolicy';
 import Profile from './pages/Profile';
 import HSCWallet from './pages/HSCWallet';
 import HSCTreasure from './pages/HSCTreasure';
@@ -297,6 +300,11 @@ function App() {
                 <Route path="about" element={<About />} />
                 <Route path="contact" element={<Contact />} />
                 <Route path="download" element={<Download />} />
+
+                {/* Policy Pages */}
+                <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="terms-and-conditions" element={<TermsAndConditions />} />
+                <Route path="refund-policy" element={<RefundPolicy />} />
 
                 {/* Protected routes */}
                 <Route path="profile" element={

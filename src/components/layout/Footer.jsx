@@ -48,10 +48,10 @@ const Footer = () => {
   ];
 
   const support = [
-    { name: 'Help Center', path: '/help' },
-    { name: 'Privacy Policy', path: '/privacy' },
-    { name: 'Terms of Service', path: '/terms' },
-    { name: 'Cookie Policy', path: '/cookies' },
+    { name: 'Privacy Policy', path: '/privacy-policy' },
+    { name: 'Terms & Conditions', path: '/terms-and-conditions' },
+    { name: 'Refund Policy', path: '/refund-policy' },
+    { name: 'Help Center', path: '/contact' },
     { name: 'Safety Guidelines', path: '/safety' }
   ];
 
