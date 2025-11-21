@@ -38,6 +38,16 @@
     @apply bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700;
   }
 
+  /* Hide Scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
   /* Smart Scrollbar Styles */
   .smart-scrollbar {
     scrollbar-width: thin;

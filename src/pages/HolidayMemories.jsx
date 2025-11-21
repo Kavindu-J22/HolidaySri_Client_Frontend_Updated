@@ -8,11 +8,13 @@ import UploadPhotoModal from '../components/holidayMemories/UploadPhotoModal';
 import {
   Upload,
   Search,
-  Filter,
-  X,
   Download,
   Bookmark,
-  DollarSign
+  DollarSign,
+  FileText,
+  TrendingUp,
+  Clock,
+  DownloadCloud
 } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://holidaysri-backend-9xm4.onrender.com/api';
@@ -27,11 +29,8 @@ const HolidayMemories = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterCity, setFilterCity] = useState('');
-  const [filterProvince, setFilterProvince] = useState('');
-  const [sortBy, setSortBy] = useState('recent');
+  const [sortBy, setSortBy] = useState('random');
   const [showUploadModal, setShowUploadModal] = useState(false);
-  const [showFilters, setShowFilters] = useState(false);
 
   // Fetch posts
   const fetchPosts = async (pageNum = 1, reset = false) => {
@@ -41,9 +40,7 @@ const HolidayMemories = () => {
         page: pageNum,
         limit: 12,
         sortBy,
-        ...(searchTerm && { search: searchTerm }),
-        ...(filterCity && { city: filterCity }),
-        ...(filterProvince && { province: filterProvince })
+        ...(searchTerm && { search: searchTerm })
       };
 
       const response = await axios.get(`${API_URL}/holiday-memories/browse`, { params });
@@ -65,7 +62,7 @@ const HolidayMemories = () => {
 
   useEffect(() => {
     fetchPosts(1, true);
-  }, [sortBy, searchTerm, filterCity, filterProvince]);
+  }, [sortBy, searchTerm]);
 
   const handleLoadMore = () => {
     if (hasMore && !loading) {
@@ -83,162 +80,165 @@ const HolidayMemories = () => {
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Header */}
-      <div className={`sticky top-0 z-40 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between mb-4">
-            <h1 className={`text-2xl md:text-3xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+      <div className={`sticky top-0 z-40 ${isDarkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white border-b border-gray-200'}`}>
+        <div className="max-w-4xl mx-auto px-4 py-3">
+          {/* Top Bar */}
+          <div className="flex items-center justify-between mb-3">
+            <h1 className={`text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent`}>
               Holiday Memories
             </h1>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => navigate('/my-downloads')}
-                className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} transition-colors`}
-                title="My Downloads"
-              >
-                <Download className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
-              </button>
-              <button
-                onClick={() => navigate('/my-saved-posts')}
-                className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} transition-colors`}
-                title="My Saved Posts"
-              >
-                <Bookmark className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
-              </button>
-              <button
-                onClick={() => navigate('/my-photo-earnings')}
-                className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'} transition-colors`}
-                title="My Photo Earnings"
-              >
-                <DollarSign className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
-              </button>
-              <button
-                onClick={() => setShowUploadModal(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
-              >
-                <Upload className="w-5 h-5" />
-                <span className="hidden sm:inline">Share Memory</span>
-              </button>
-            </div>
+            <button
+              onClick={() => setShowUploadModal(true)}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl"
+            >
+              <Upload className="w-4 h-4" />
+              <span className="hidden sm:inline font-semibold">Create Post</span>
+              <span className="sm:hidden font-semibold">Post</span>
+            </button>
           </div>
 
-          {/* Search and Filter Bar */}
-          <div className="flex flex-col sm:flex-row gap-3">
-            <div className="flex-1 relative">
-              <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
-              <input
-                type="text"
-                placeholder="Search memories..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 rounded-lg border ${
-                  isDarkMode
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-              />
-            </div>
+          {/* Search Bar */}
+          <div className="relative mb-3">
+            <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+            <input
+              type="text"
+              placeholder="Search by location or tags..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className={`w-full pl-10 pr-4 py-2.5 rounded-full border ${
+                isDarkMode
+                  ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                  : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-500'
+              } focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all`}
+            />
+          </div>
+
+          {/* Navigation Tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
+            {/* Sort Options */}
             <button
-              onClick={() => setShowFilters(!showFilters)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg border ${
-                isDarkMode
-                  ? 'bg-gray-700 border-gray-600 text-white hover:bg-gray-600'
-                  : 'bg-white border-gray-300 text-gray-900 hover:bg-gray-50'
+              onClick={() => setSortBy('random')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                sortBy === 'random'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : isDarkMode
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              <Filter className="w-5 h-5" />
-              Filters
+              <span className="text-sm font-medium hidden sm:inline">Random</span>
+              <span className="text-sm font-medium sm:hidden">🎲</span>
             </button>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className={`px-4 py-2 rounded-lg border ${
-                isDarkMode
-                  ? 'bg-gray-700 border-gray-600 text-white'
-                  : 'bg-white border-gray-300 text-gray-900'
+            <button
+              onClick={() => setSortBy('recent')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                sortBy === 'recent'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : isDarkMode
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
-              <option value="recent">Most Recent</option>
-              <option value="popular">Most Popular</option>
-              <option value="mostDownloaded">Most Downloaded</option>
-            </select>
+              <Clock className="w-4 h-4" />
+              <span className="text-sm font-medium hidden sm:inline">Recent</span>
+            </button>
+            <button
+              onClick={() => setSortBy('popular')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                sortBy === 'popular'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : isDarkMode
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <TrendingUp className="w-4 h-4" />
+              <span className="text-sm font-medium hidden sm:inline">Popular</span>
+            </button>
+            <button
+              onClick={() => setSortBy('mostDownloaded')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                sortBy === 'mostDownloaded'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : isDarkMode
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <DownloadCloud className="w-4 h-4" />
+              <span className="text-sm font-medium hidden sm:inline">Most Downloaded</span>
+            </button>
+
+            {/* Divider */}
+            <div className={`w-px h-8 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
+
+            {/* User Actions */}
+            <button
+              onClick={() => navigate('/my-posts')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                isDarkMode
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <FileText className="w-4 h-4" />
+              <span className="text-sm font-medium hidden md:inline">My Posts</span>
+            </button>
+            <button
+              onClick={() => navigate('/my-downloads')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                isDarkMode
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <Download className="w-4 h-4" />
+              <span className="text-sm font-medium hidden md:inline">My Downloads</span>
+            </button>
+            <button
+              onClick={() => navigate('/my-saved-posts')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                isDarkMode
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <Bookmark className="w-4 h-4" />
+              <span className="text-sm font-medium hidden md:inline">Saved Posts</span>
+            </button>
+            <button
+              onClick={() => navigate('/my-photo-earnings')}
+              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
+                isDarkMode
+                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              <DollarSign className="w-4 h-4" />
+              <span className="text-sm font-medium hidden md:inline">Earnings</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-6">
-        {/* Filter Panel */}
-        {showFilters && (
-          <div className={`mb-6 p-4 rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                Filters
-              </h3>
-              <button
-                onClick={() => {
-                  setFilterCity('');
-                  setFilterProvince('');
-                }}
-                className="text-sm text-blue-600 hover:text-blue-700"
-              >
-                Clear All
-              </button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                  City
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter city"
-                  value={filterCity}
-                  onChange={(e) => setFilterCity(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-lg border ${
-                    isDarkMode
-                      ? 'bg-gray-700 border-gray-600 text-white'
-                      : 'bg-white border-gray-300 text-gray-900'
-                  }`}
-                />
-              </div>
-              <div>
-                <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Province
-                </label>
-                <select
-                  value={filterProvince}
-                  onChange={(e) => setFilterProvince(e.target.value)}
-                  className={`w-full px-3 py-2 rounded-lg border ${
-                    isDarkMode
-                      ? 'bg-gray-700 border-gray-600 text-white'
-                      : 'bg-white border-gray-300 text-gray-900'
-                  }`}
-                >
-                  <option value="">All Provinces</option>
-                  <option value="Western Province">Western Province</option>
-                  <option value="Central Province">Central Province</option>
-                  <option value="Southern Province">Southern Province</option>
-                  <option value="Northern Province">Northern Province</option>
-                  <option value="Eastern Province">Eastern Province</option>
-                  <option value="North Western Province">North Western Province</option>
-                  <option value="North Central Province">North Central Province</option>
-                  <option value="Uva Province">Uva Province</option>
-                  <option value="Sabaragamuwa Province">Sabaragamuwa Province</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Posts Grid */}
+      {/* Main Content - Social Media Feed Style */}
+      <div className="max-w-4xl mx-auto px-4 py-4">
+        {/* Posts Feed */}
         {loading && page === 1 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
+          <div className="space-y-4">
+            {[...Array(3)].map((_, i) => (
               <div
                 key={i}
-                className={`rounded-lg overflow-hidden ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md animate-pulse`}
+                className={`rounded-xl overflow-hidden ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md animate-pulse`}
               >
-                <div className={`h-64 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
+                <div className="p-4 flex items-center gap-3">
+                  <div className={`w-10 h-10 rounded-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
+                  <div className="flex-1">
+                    <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-1/3 mb-2`}></div>
+                    <div className={`h-3 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-1/4`}></div>
+                  </div>
+                </div>
+                <div className={`h-96 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'}`}></div>
                 <div className="p-4 space-y-3">
                   <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-3/4`}></div>
                   <div className={`h-4 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-300'} rounded w-1/2`}></div>
@@ -247,14 +247,24 @@ const HolidayMemories = () => {
             ))}
           </div>
         ) : posts.length === 0 ? (
-          <div className="text-center py-20">
-            <p className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-              No memories found. Be the first to share!
+          <div className={`text-center py-20 rounded-xl ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-md`}>
+            <div className="text-6xl mb-4">📸</div>
+            <h3 className={`text-xl font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              No Memories Yet
+            </h3>
+            <p className={`mb-6 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              Be the first to share your travel memories!
             </p>
+            <button
+              onClick={() => setShowUploadModal(true)}
+              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
+            >
+              Share Your First Memory
+            </button>
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="space-y-4">
               {posts.map((post) => (
                 <PostCard
                   key={post._id}
@@ -267,13 +277,13 @@ const HolidayMemories = () => {
 
             {/* Load More Button */}
             {hasMore && (
-              <div className="text-center mt-8">
+              <div className="text-center mt-6">
                 <button
                   onClick={handleLoadMore}
                   disabled={loading}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg font-semibold"
                 >
-                  {loading ? 'Loading...' : 'Load More'}
+                  {loading ? 'Loading...' : 'Load More Memories'}
                 </button>
               </div>
             )}

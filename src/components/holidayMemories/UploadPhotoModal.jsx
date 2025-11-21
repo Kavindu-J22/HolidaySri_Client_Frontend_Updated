@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
-import { X, Upload, MapPin, Tag, Link as LinkIcon, Image as ImageIcon, CheckCircle, AlertCircle } from 'lucide-react';
+import { X, Upload, MapPin, Tag, Link as LinkIcon, Image as ImageIcon, CheckCircle, AlertCircle, Sparkles, DollarSign, Camera } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://holidaysri-backend-9xm4.onrender.com/api';
 const CLOUDINARY_UPLOAD_PRESET = 'ml_default';
@@ -143,47 +143,88 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
       <div className={`max-w-2xl w-full rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} max-h-[90vh] overflow-y-auto`}>
         {/* Header */}
-        <div className={`sticky top-0 flex items-center justify-between p-6 border-b ${isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-200 bg-white'}`}>
-          <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            Share Your Memory
-          </h2>
-          <button
-            onClick={onClose}
-            className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
-          >
-            <X className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
-          </button>
+        <div className={`sticky top-0 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+          <div className="flex items-center justify-between p-6 border-b border-gray-700">
+            <div>
+              <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Share Your Travel Memory
+              </h2>
+              <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                Post for FREE & Earn Extra Money! 💰
+              </p>
+            </div>
+            <button
+              onClick={onClose}
+              className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+            >
+              <X className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
+            </button>
+          </div>
+
+          {/* Attractive Banner */}
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4">
+            <div className="flex items-center justify-center gap-6 text-white text-sm">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5" />
+                <span className="font-semibold">100% FREE to Post</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <DollarSign className="w-5 h-5" />
+                <span className="font-semibold">Earn 1.5 HSC per Download</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Camera className="w-5 h-5" />
+                <span className="font-semibold">Use High-Quality Images</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Progress Steps */}
         <div className="p-6">
-          <div className="flex items-center justify-between mb-6">
-            {[1, 2, 3].map((s) => (
-              <div key={s} className="flex items-center flex-1">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold ${
-                    step >= s
-                      ? 'bg-blue-600 text-white'
-                      : isDarkMode
-                      ? 'bg-gray-700 text-gray-400'
-                      : 'bg-gray-200 text-gray-600'
-                  }`}
-                >
-                  {s}
-                </div>
-                {s < 3 && (
+          <div className="max-w-md mx-auto mb-6">
+            {/* Progress Bar */}
+            <div className="flex items-center justify-center mb-3">
+              {[1, 2, 3].map((s) => (
+                <div key={s} className="flex items-center">
                   <div
-                    className={`flex-1 h-1 mx-2 ${
-                      step > s
-                        ? 'bg-blue-600'
+                    className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${
+                      step >= s
+                        ? 'bg-blue-600 text-white shadow-lg'
                         : isDarkMode
-                        ? 'bg-gray-700'
-                        : 'bg-gray-200'
+                        ? 'bg-gray-700 text-gray-400'
+                        : 'bg-gray-200 text-gray-600'
                     }`}
-                  />
-                )}
-              </div>
-            ))}
+                  >
+                    {s}
+                  </div>
+                  {s < 3 && (
+                    <div
+                      className={`w-24 h-1 mx-3 transition-all ${
+                        step > s
+                          ? 'bg-blue-600'
+                          : isDarkMode
+                          ? 'bg-gray-700'
+                          : 'bg-gray-200'
+                      }`}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Step Labels */}
+            <div className="flex items-center justify-between px-2">
+              <span className={`text-xs font-medium ${step >= 1 ? (isDarkMode ? 'text-blue-400' : 'text-blue-600') : (isDarkMode ? 'text-gray-500' : 'text-gray-400')}`}>
+                Select Image
+              </span>
+              <span className={`text-xs font-medium ${step >= 2 ? (isDarkMode ? 'text-blue-400' : 'text-blue-600') : (isDarkMode ? 'text-gray-500' : 'text-gray-400')}`}>
+                Add Details
+              </span>
+              <span className={`text-xs font-medium ${step >= 3 ? (isDarkMode ? 'text-blue-400' : 'text-blue-600') : (isDarkMode ? 'text-gray-500' : 'text-gray-400')}`}>
+                Tags & Map
+              </span>
+            </div>
           </div>
 
           {/* Error Message */}
@@ -196,8 +237,15 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
 
           {/* Step 1: Select Image */}
           {step === 1 && (
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="text-center">
+                <h3 className={`text-lg font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Upload Your Best Travel Photo
+                </h3>
+                <p className={`text-sm mb-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                  Share your amazing travel moments with the world
+                </p>
+
                 <input
                   type="file"
                   accept="image/*"
@@ -207,15 +255,14 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                 />
                 <label
                   htmlFor="photo-upload"
-                  className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg cursor-pointer ${
-                    isDarkMode
-                      ? 'bg-blue-600 hover:bg-blue-700'
-                      : 'bg-blue-600 hover:bg-blue-700'
-                  } text-white transition-colors`}
+                  className="inline-flex items-center gap-2 px-8 py-4 rounded-lg cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transition-all transform hover:scale-105 shadow-lg"
                 >
-                  <ImageIcon className="w-5 h-5" />
-                  Select Image
+                  <ImageIcon className="w-6 h-6" />
+                  <span className="font-semibold">Choose High-Quality Image</span>
                 </label>
+                <p className={`text-xs mt-2 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
+                  Max file size: 10MB • Supported: JPG, PNG, WEBP
+                </p>
               </div>
 
               {preview && (
@@ -223,18 +270,58 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                   <img
                     src={preview}
                     alt="Preview"
-                    className="w-full max-h-96 object-contain rounded-lg"
+                    className="w-full max-h-96 object-contain rounded-lg border-2 border-blue-500"
                   />
                 </div>
               )}
 
-              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-blue-50'}`}>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                  💰 Earn 1.5 HSC for each download of your photo!
-                </p>
-                <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                  Users pay 2.5 HSC to download. You earn 1.5 HSC per download.
-                </p>
+              {/* Benefits Section */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className={`p-4 rounded-lg border-2 ${isDarkMode ? 'bg-gray-700 border-green-500' : 'bg-green-50 border-green-300'}`}>
+                  <div className="flex items-start gap-3">
+                    <div className="bg-green-500 rounded-full p-2">
+                      <DollarSign className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h4 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                        Earn Money
+                      </h4>
+                      <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        Get 1.5 HSC for every download of your photo
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className={`p-4 rounded-lg border-2 ${isDarkMode ? 'bg-gray-700 border-blue-500' : 'bg-blue-50 border-blue-300'}`}>
+                  <div className="flex items-start gap-3">
+                    <div className="bg-blue-500 rounded-full p-2">
+                      <Sparkles className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h4 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                        100% Free
+                      </h4>
+                      <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        No fees to post. Share unlimited photos!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Tips Section */}
+              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-yellow-900/20 border border-yellow-700' : 'bg-yellow-50 border border-yellow-300'}`}>
+                <h4 className={`font-semibold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-yellow-400' : 'text-yellow-800'}`}>
+                  <Camera className="w-5 h-5" />
+                  Tips for Best Results
+                </h4>
+                <ul className={`text-sm space-y-1 ${isDarkMode ? 'text-yellow-300' : 'text-yellow-900'}`}>
+                  <li>✓ Use high-resolution images (at least 1920x1080)</li>
+                  <li>✓ Ensure good lighting and clear focus</li>
+                  <li>✓ Capture unique and interesting perspectives</li>
+                  <li>✓ Avoid blurry or low-quality photos</li>
+                </ul>
               </div>
             </div>
           )}

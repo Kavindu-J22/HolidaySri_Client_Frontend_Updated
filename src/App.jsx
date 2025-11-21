@@ -256,6 +256,7 @@ import HolidayMemories from './pages/HolidayMemories';
 import MyDownloads from './pages/MyDownloads';
 import MySavedPosts from './pages/MySavedPosts';
 import MyPhotoEarnings from './pages/MyPhotoEarnings';
+import MyPosts from './pages/MyPosts';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -1052,6 +1053,7 @@ function App() {
                 <Route path="my-downloads" element={<MyDownloads />} />
                 <Route path="my-saved-posts" element={<MySavedPosts />} />
                 <Route path="my-photo-earnings" element={<MyPhotoEarnings />} />
+                <Route path="my-posts" element={<MyPosts />} />
               </Route>
 
               {/* Catch all route */}
