@@ -40,11 +40,11 @@ const Footer = () => {
   ];
 
   const categories = [
-    { name: 'Tourism & Travel', path: '/categories/tourism' },
-    { name: 'Accommodation & Dining', path: '/categories/accommodation' },
-    { name: 'Vehicles & Transport', path: '/categories/transport' },
-    { name: 'Events & Management', path: '/categories/events' },
-    { name: 'Marketplace & Shopping', path: '/categories/marketplace' }
+    { name: 'Tourism & Travel', path: '/plan-dream-tour' },
+    { name: 'Accommodation & Dining', path: '/hotels-accommodations' },
+    { name: 'Vehicles & Transport', path: '/vehicle-rentals-hire' },
+    { name: 'Events & Management', path: '/ads/events-management/customize-event' },
+    { name: 'Marketplace & Shopping', path: '/rent-property-buying-selling' }
   ];
 
   const support = [
