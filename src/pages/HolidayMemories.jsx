@@ -94,32 +94,32 @@ const HolidayMemories = () => {
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Header */}
-      <div className={`sticky top-0 z-40 ${isDarkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white border-b border-gray-200'}`}>
-        <div className="max-w-7xl mx-auto px-4 py-3">
+      <div className={`sticky top-0 z-40 ${isDarkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white border-b border-gray-200'} overflow-hidden`}>
+        <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 py-3">
           {/* Top Bar */}
-          <div className="flex items-center justify-between mb-3">
-            <h1 className={`text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent`}>
+          <div className="flex items-center justify-between mb-3 gap-2 min-w-0">
+            <h1 className={`text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent truncate min-w-0`}>
               Holiday Memories
             </h1>
             <button
               onClick={() => setShowUploadModal(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl flex-shrink-0"
             >
-              <Upload className="w-4 h-4" />
-              <span className="hidden sm:inline font-semibold">Create Post</span>
-              <span className="sm:hidden font-semibold">Post</span>
+              <Upload className="w-4 h-4 flex-shrink-0" />
+              <span className="hidden sm:inline font-semibold whitespace-nowrap">Create Post</span>
+              <span className="sm:hidden font-semibold text-sm whitespace-nowrap">Post</span>
             </button>
           </div>
 
           {/* Search Bar */}
-          <div className="relative mb-3">
-            <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+          <div className="relative mb-3 w-full">
+            <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} pointer-events-none`} />
             <input
               type="text"
               placeholder="Search by location or tags..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className={`w-full pl-10 pr-4 py-2.5 rounded-full border ${
+              className={`w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2 sm:py-2.5 rounded-full border text-sm sm:text-base ${
                 isDarkMode
                   ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                   : 'bg-gray-50 border-gray-200 text-gray-900 placeholder-gray-500'
@@ -128,81 +128,83 @@ const HolidayMemories = () => {
           </div>
 
           {/* Navigation Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-hide">
-            {/* Mobile Filter Button */}
-            <button
-              onClick={() => setShowMobileFilter(true)}
-              className={`lg:hidden flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-                provinceFilter
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : isDarkMode
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <Filter className="w-4 h-4" />
-              <span className="text-sm font-medium">Filter</span>
-            </button>
+          <div className="w-full overflow-x-auto overflow-y-hidden pb-2 scrollbar-hide -mx-3 sm:-mx-4">
+            <div className="flex items-center gap-2 px-3 sm:px-4 min-w-max">
+              {/* Mobile Filter Button */}
+              <button
+                onClick={() => setShowMobileFilter(true)}
+                className={`lg:hidden flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0 ${
+                  provinceFilter
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : isDarkMode
+                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <Filter className="w-4 h-4" />
+                <span className="text-xs sm:text-sm font-medium">Filter</span>
+              </button>
 
-            {/* Sort Options */}
-            <button
-              onClick={() => setSortBy('random')}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-                sortBy === 'random'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : isDarkMode
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <span className="text-sm font-medium">🎲 Random</span>
-            </button>
-            <button
-              onClick={() => setSortBy('recent')}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-                sortBy === 'recent'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : isDarkMode
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <Clock className="w-4 h-4" />
-              <span className="text-sm font-medium">Recent</span>
-            </button>
-            <button
-              onClick={() => setSortBy('popular')}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-                sortBy === 'popular'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : isDarkMode
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <TrendingUp className="w-4 h-4" />
-              <span className="text-sm font-medium">Popular</span>
-            </button>
-            <button
-              onClick={() => setSortBy('mostDownloaded')}
-              className={`flex items-center gap-1.5 px-4 py-2 rounded-full whitespace-nowrap transition-all ${
-                sortBy === 'mostDownloaded'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : isDarkMode
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
-            >
-              <DownloadCloud className="w-4 h-4" />
-              <span className="text-sm font-medium">Most Downloaded</span>
-            </button>
+              {/* Sort Options */}
+              <button
+                onClick={() => setSortBy('random')}
+                className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0 ${
+                  sortBy === 'random'
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : isDarkMode
+                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <span className="text-xs sm:text-sm font-medium">🎲 Random</span>
+              </button>
+              <button
+                onClick={() => setSortBy('recent')}
+                className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0 ${
+                  sortBy === 'recent'
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : isDarkMode
+                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="text-xs sm:text-sm font-medium">Recent</span>
+              </button>
+              <button
+                onClick={() => setSortBy('popular')}
+                className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0 ${
+                  sortBy === 'popular'
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : isDarkMode
+                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="text-xs sm:text-sm font-medium">Popular</span>
+              </button>
+              <button
+                onClick={() => setSortBy('mostDownloaded')}
+                className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0 ${
+                  sortBy === 'mostDownloaded'
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : isDarkMode
+                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <DownloadCloud className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <span className="text-xs sm:text-sm font-medium">Most Downloaded</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Content - 3 Column Layout */}
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 py-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6">
           {/* Left Sidebar - Province Filter & Services (Hidden on mobile) */}
           <div className="hidden lg:block lg:col-span-3">
             <div className="sticky top-20">
@@ -214,7 +216,7 @@ const HolidayMemories = () => {
           </div>
 
           {/* Center - Posts Feed */}
-          <div className="lg:col-span-6">
+          <div className="lg:col-span-6 min-w-0">
             {/* Posts Feed */}
             {loading && page === 1 ? (
               <div className="space-y-4">
@@ -256,7 +258,7 @@ const HolidayMemories = () => {
               </div>
             ) : (
               <>
-                <div className="space-y-4">
+                <div className="space-y-4 w-full">
                   {posts.map((post) => (
                     <PostCard
                       key={post._id}

@@ -297,7 +297,7 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
 
   return (
     <>
-      <div className={`rounded-xl overflow-hidden ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'} shadow-md`}>
+      <div className={`rounded-xl overflow-hidden ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'} shadow-md max-w-full`}>
         {/* Post Header */}
         <div className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -333,7 +333,7 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
         </div>
 
         {/* Image - Original Size */}
-        <div className="relative">
+        <div className="relative w-full overflow-hidden">
           <img
             src={post.image}
             alt={post.caption}
@@ -348,7 +348,8 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
               WebkitUserSelect: 'none',
               MozUserSelect: 'none',
               msUserSelect: 'none',
-              WebkitTouchCallout: 'none'
+              WebkitTouchCallout: 'none',
+              maxWidth: '100%'
             }}
           />
         </div>
@@ -415,7 +416,7 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
 
           {/* Caption */}
           <div className="mb-2">
-            <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-800'}`}>
+            <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} break-words`}>
               <span className="font-semibold mr-2">{post.userId?.name || 'Anonymous'}</span>
               {post.caption}
             </p>
@@ -427,7 +428,7 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
               {post.tags.map((tag, index) => (
                 <span
                   key={index}
-                  className={`text-xs font-medium ${isDarkMode ? 'text-blue-400' : 'text-blue-600'}`}
+                  className={`text-xs font-medium ${isDarkMode ? 'text-blue-400' : 'text-blue-600'} break-all`}
                 >
                   #{tag}
                 </span>
@@ -473,13 +474,13 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
                     <img
                       src={comment.userAvatar || 'https://via.placeholder.com/32'}
                       alt={comment.userName}
-                      className="w-8 h-8 rounded-full object-cover"
+                      className="w-8 h-8 rounded-full object-cover flex-shrink-0"
                     />
-                    <div className={`flex-1 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'} rounded-2xl px-3 py-2`}>
-                      <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <div className={`flex-1 min-w-0 ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'} rounded-2xl px-3 py-2`}>
+                      <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'} truncate`}>
                         {comment.userName}
                       </p>
-                      <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} break-words`}>
                         {comment.text}
                       </p>
                     </div>
@@ -491,7 +492,7 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
                 <img
                   src={user?.profileImage || 'https://via.placeholder.com/32'}
                   alt="You"
-                  className="w-8 h-8 rounded-full object-cover"
+                  className="w-8 h-8 rounded-full object-cover flex-shrink-0"
                 />
                 <input
                   type="text"
@@ -499,18 +500,18 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && handleAddComment()}
-                  className={`flex-1 px-4 py-2 rounded-full border ${
+                  className={`flex-1 min-w-0 px-3 sm:px-4 py-2 rounded-full border ${
                     isDarkMode
                       ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                       : 'bg-gray-100 border-gray-200 text-gray-900 placeholder-gray-500'
-                  } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                  } focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm`}
                 />
                 <button
                   onClick={handleAddComment}
                   disabled={!commentText.trim()}
-                  className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex-shrink-0"
                 >
-                  <Send className="w-5 h-5" />
+                  <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
             </div>
