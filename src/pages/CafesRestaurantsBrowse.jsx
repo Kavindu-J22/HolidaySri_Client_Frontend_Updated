@@ -8,7 +8,8 @@ import {
   Star,
   Eye,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  ArrowLeft
 } from 'lucide-react';
 
 const CafesRestaurantsBrowse = () => {
@@ -26,11 +27,16 @@ const CafesRestaurantsBrowse = () => {
     pages: 1
   });
 
+  // Get destination info from URL params
+  const fromDestination = searchParams.get('fromDestination') || '';
+  const destinationName = searchParams.get('destinationName') || '';
+  const cityFromUrl = searchParams.get('city') || '';
+
   // Filter state
   const [filters, setFilters] = useState({
     categoryType: searchParams.get('categoryType') || '',
     province: searchParams.get('province') || '',
-    city: searchParams.get('city') || '',
+    city: cityFromUrl,
     page: parseInt(searchParams.get('page')) || 1
   });
 
@@ -74,6 +80,10 @@ const CafesRestaurantsBrowse = () => {
         if (filters.city) params.append('city', filters.city);
         params.append('page', filters.page);
         params.append('limit', 12);
+
+        // Preserve destination parameters
+        if (fromDestination) params.append('fromDestination', fromDestination);
+        if (destinationName) params.append('destinationName', destinationName);
 
         const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/cafes-restaurants/browse?${params}`);
         const data = await response.json();
@@ -133,11 +143,20 @@ const CafesRestaurantsBrowse = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Cafes & Restaurants
+            Cafes & Restaurants{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Discover amazing cafes and restaurants in Sri Lanka
+            {fromDestination ? `Discover amazing cafes and restaurants in ${destinationName}` : 'Discover amazing cafes and restaurants in Sri Lanka'}
           </p>
+          {fromDestination && (
+            <button
+              onClick={() => navigate(`/destinations/${fromDestination}`)}
+              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+            >
+              <ArrowLeft className="w-3 h-3" />
+              <span>Back to {destinationName}</span>
+            </button>
+          )}
         </div>
 
         {/* Error Message */}

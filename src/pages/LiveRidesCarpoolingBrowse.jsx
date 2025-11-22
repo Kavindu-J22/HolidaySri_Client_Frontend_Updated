@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Search,
   MapPin,
@@ -12,22 +12,29 @@ import {
   X,
   Calendar,
   Users,
-  Clock
+  Clock,
+  ArrowLeft
 } from 'lucide-react';
 
 const LiveRidesCarpoolingBrowse = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [rides, setRides] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showFilters, setShowFilters] = useState(false);
 
+  // Get destination info from URL params
+  const fromDestination = searchParams.get('fromDestination') || '';
+  const destinationName = searchParams.get('destinationName') || '';
+  const cityFromUrl = searchParams.get('city') || '';
+
   const [filters, setFilters] = useState({
     search: '',
     fromLocation: '',
     toLocation: '',
-    city: '',
-    province: '',
+    city: cityFromUrl,
+    province: searchParams.get('province') || '',
     minPrice: '',
     maxPrice: '',
     rideDate: ''
@@ -132,11 +139,20 @@ const LiveRidesCarpoolingBrowse = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Live Rides & Carpooling
+            Live Rides & Carpooling{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Find and share rides across Sri Lanka
+            {fromDestination ? `Find and share rides in ${destinationName}` : 'Find and share rides across Sri Lanka'}
           </p>
+          {fromDestination && (
+            <button
+              onClick={() => navigate(`/destinations/${fromDestination}`)}
+              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+            >
+              <ArrowLeft className="w-3 h-3" />
+              <span>Back to {destinationName}</span>
+            </button>
+          )}
         </div>
 
         {/* Search Bar */}

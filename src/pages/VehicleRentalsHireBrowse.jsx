@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Search,
   MapPin,
@@ -9,25 +9,32 @@ import {
   Loader,
   AlertCircle,
   Eye,
-  Filter
+  Filter,
+  ArrowLeft
 } from 'lucide-react';
 import axios from 'axios';
 import { API_BASE_URL } from '../config/api';
 
 const VehicleRentalsHireBrowse = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [provinces, setProvinces] = useState({});
   const [showFilters, setShowFilters] = useState(false);
 
+  // Get destination info from URL params
+  const fromDestination = searchParams.get('fromDestination') || '';
+  const destinationName = searchParams.get('destinationName') || '';
+  const cityFromUrl = searchParams.get('city') || '';
+
   // Filter state
   const [filters, setFilters] = useState({
     vehicleCategory: '',
     serviceCategory: '',
-    province: '',
-    city: '',
+    province: searchParams.get('province') || '',
+    city: cityFromUrl,
     search: ''
   });
 
@@ -104,11 +111,20 @@ const VehicleRentalsHireBrowse = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Vehicle Rentals & Hire Services
+            Vehicle Rentals & Hire Services{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Find the perfect vehicle rental service for your needs
+            {fromDestination ? `Find the perfect vehicle rental service in ${destinationName}` : 'Find the perfect vehicle rental service for your needs'}
           </p>
+          {fromDestination && (
+            <button
+              onClick={() => navigate(`/destinations/${fromDestination}`)}
+              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+            >
+              <ArrowLeft className="w-3 h-3" />
+              <span>Back to {destinationName}</span>
+            </button>
+          )}
         </div>
 
         {/* Search Bar */}

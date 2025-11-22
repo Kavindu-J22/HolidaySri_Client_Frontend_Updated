@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import {
   MapPin, Star, Eye, Filter, X, ChevronLeft, ChevronRight,
   Loader, AlertCircle, Building2, Sparkles, FileText, Users,
-  Check, XCircle
+  Check, XCircle, ArrowLeft
 } from 'lucide-react';
 
 // Client Booking Card Component
@@ -253,26 +253,31 @@ const HotelsAccommodationsBrowse = () => {
   const [loadingBookings, setLoadingBookings] = useState(false);
   const [isHotelOwner, setIsHotelOwner] = useState(false);
 
+  // Get destination info from URL params
+  const fromDestination = searchParams.get('fromDestination') || '';
+  const destinationName = searchParams.get('destinationName') || '';
+  const cityFromUrl = searchParams.get('city') || '';
+
   // Filter state
   const [filters, setFilters] = useState({
     category: searchParams.get('category') || '',
     climate: searchParams.get('climate') || '',
     province: searchParams.get('province') || '',
-    city: searchParams.get('city') || '',
+    city: cityFromUrl,
     page: parseInt(searchParams.get('page')) || 1
   });
 
   // Sri Lankan provinces and districts
   const provincesAndDistricts = {
-    "Western": ["Colombo", "Gampaha", "Kalutara"],
-    "Central": ["Kandy", "Matale", "Nuwara Eliya"],
-    "Southern": ["Galle", "Matara", "Hambantota"],
-    "Northern": ["Jaffna", "Kilinochchi", "Mannar", "Vavuniya", "Mullaitivu"],
-    "Eastern": ["Trincomalee", "Batticaloa", "Ampara"],
-    "North Western": ["Kurunegala", "Puttalam"],
-    "North Central": ["Anuradhapura", "Polonnaruwa"],
-    "Uva": ["Badulla", "Monaragala"],
-    "Sabaragamuwa": ["Ratnapura", "Kegalle"]
+    "Western Province": ["Colombo", "Gampaha", "Kalutara"],
+    "Central Province": ["Kandy", "Matale", "Nuwara Eliya"],
+    "Southern Province": ["Galle", "Matara", "Hambantota"],
+    "Northern Province": ["Jaffna", "Kilinochchi", "Mannar", "Vavuniya", "Mullaitivu"],
+    "Eastern Province": ["Trincomalee", "Batticaloa", "Ampara"],
+    "North Western Province": ["Kurunegala", "Puttalam"],
+    "North Central Province": ["Anuradhapura", "Polonnaruwa"],
+    "Uva Province": ["Badulla", "Monaragala"],
+    "Sabaragamuwa Province": ["Ratnapura", "Kegalle"]
   };
 
   // Climate options
@@ -324,6 +329,10 @@ const HotelsAccommodationsBrowse = () => {
           if (filters.city) params.append('city', filters.city);
           params.append('page', filters.page);
           params.append('limit', 12);
+
+          // Preserve destination parameters
+          if (fromDestination) params.append('fromDestination', fromDestination);
+          if (destinationName) params.append('destinationName', destinationName);
 
           const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/hotels-accommodations/browse?${params}`);
           const data = await response.json();
@@ -526,11 +535,20 @@ const HotelsAccommodationsBrowse = () => {
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
             <Building2 className="w-10 h-10 text-blue-600 dark:text-blue-400" />
-            Hotels & Accommodations
+            Hotels & Accommodations{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Discover the perfect place to stay in Sri Lanka
+            {fromDestination ? `Discover the perfect place to stay in ${destinationName}` : 'Discover the perfect place to stay in Sri Lanka'}
           </p>
+          {fromDestination && (
+            <button
+              onClick={() => navigate(`/destinations/${fromDestination}`)}
+              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+            >
+              <ArrowLeft className="w-3 h-3" />
+              <span>Back to {destinationName}</span>
+            </button>
+          )}
         </div>
 
         {/* Tabs */}

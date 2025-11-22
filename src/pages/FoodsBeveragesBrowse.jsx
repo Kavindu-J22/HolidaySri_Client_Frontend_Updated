@@ -7,7 +7,8 @@ import {
   Loader,
   AlertCircle,
   Filter,
-  X
+  X,
+  ArrowLeft
 } from 'lucide-react';
 
 const FoodsBeveragesBrowse = () => {
@@ -19,11 +20,16 @@ const FoodsBeveragesBrowse = () => {
   const [provincesData, setProvincesData] = useState({});
   const [showFilters, setShowFilters] = useState(false);
 
+  // Get destination info from URL params
+  const fromDestination = searchParams.get('fromDestination') || '';
+  const destinationName = searchParams.get('destinationName') || '';
+  const cityFromUrl = searchParams.get('city') || '';
+
   // Filter states
   const [filters, setFilters] = useState({
     category: searchParams.get('category') || '',
     province: searchParams.get('province') || '',
-    city: searchParams.get('city') || '',
+    city: cityFromUrl,
     page: parseInt(searchParams.get('page')) || 1
   });
 
@@ -63,6 +69,10 @@ const FoodsBeveragesBrowse = () => {
         if (filters.city) params.append('city', filters.city);
         params.append('page', filters.page);
         params.append('limit', 12);
+
+        // Preserve destination parameters
+        if (fromDestination) params.append('fromDestination', fromDestination);
+        if (destinationName) params.append('destinationName', destinationName);
 
         const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/foods-beverages/browse?${params}`);
         const data = await response.json();
@@ -132,11 +142,20 @@ const FoodsBeveragesBrowse = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Foods & Beverages
+            Foods & Beverages{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Discover delicious food and beverage products from local businesses
+            {fromDestination ? `Discover delicious food and beverage products in ${destinationName}` : 'Discover delicious food and beverage products from local businesses'}
           </p>
+          {fromDestination && (
+            <button
+              onClick={() => navigate(`/destinations/${fromDestination}`)}
+              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+            >
+              <ArrowLeft className="w-3 h-3" />
+              <span>Back to {destinationName}</span>
+            </button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">

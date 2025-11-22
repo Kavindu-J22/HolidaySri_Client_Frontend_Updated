@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Star, Loader, MapPin, Users, DollarSign, Eye } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Star, Loader, MapPin, Users, DollarSign, Eye, ArrowLeft } from 'lucide-react';
 import { API_BASE_URL } from '../config/api';
 
 const LocalTourPackagesBrowse = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [packages, setPackages] = useState([]);
   const [error, setError] = useState('');
   const [provincesData, setProvincesData] = useState({});
+
+  // Get destination info from URL params
+  const fromDestination = searchParams.get('fromDestination') || '';
+  const destinationName = searchParams.get('destinationName') || '';
+  const cityFromUrl = searchParams.get('city') || '';
+
   const [filters, setFilters] = useState({
-    province: '',
-    city: '',
+    province: searchParams.get('province') || '',
+    city: cityFromUrl,
     adventureType: '',
     categoryType: 'local_tour_packages'
   });
@@ -102,11 +109,20 @@ const LocalTourPackagesBrowse = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Local Tour Packages
+            Local Tour Packages{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Discover amazing tour packages across Sri Lanka
+            {fromDestination ? `Discover amazing tour packages in ${destinationName}` : 'Discover amazing tour packages across Sri Lanka'}
           </p>
+          {fromDestination && (
+            <button
+              onClick={() => navigate(`/destinations/${fromDestination}`)}
+              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+            >
+              <ArrowLeft className="w-3 h-3" />
+              <span>Back to {destinationName}</span>
+            </button>
+          )}
         </div>
 
         {/* Filters */}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Search, MapPin, Filter, Star, Loader, AlertCircle } from 'lucide-react';
+import { Search, MapPin, Filter, Star, Loader, AlertCircle, ArrowLeft } from 'lucide-react';
 
 const ExclusiveComboPackagesBrowse = () => {
   const navigate = useNavigate();
@@ -9,9 +9,14 @@ const ExclusiveComboPackagesBrowse = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  // Get destination info from URL params
+  const fromDestination = searchParams.get('fromDestination') || '';
+  const destinationName = searchParams.get('destinationName') || '';
+  const locationsFromUrl = searchParams.get('locations') || '';
+
   // Filter state
   const [search, setSearch] = useState(searchParams.get('search') || '');
-  const [locations, setLocations] = useState(searchParams.get('locations') || '');
+  const [locations, setLocations] = useState(locationsFromUrl);
   const [categoryType, setCategoryType] = useState(searchParams.get('categoryType') || '');
   const [page, setPage] = useState(parseInt(searchParams.get('page')) || 1);
 
@@ -104,11 +109,20 @@ const ExclusiveComboPackagesBrowse = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Exclusive Combo Packages
+            Exclusive Combo Packages{locationsFromUrl && ` - ${locationsFromUrl}`}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Discover amazing tour packages tailored for you
+            {fromDestination ? `Discover amazing tour packages for ${destinationName}` : 'Discover amazing tour packages tailored for you'}
           </p>
+          {fromDestination && (
+            <button
+              onClick={() => navigate(`/destinations/${fromDestination}`)}
+              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+            >
+              <ArrowLeft className="w-3 h-3" />
+              <span>Back to {destinationName}</span>
+            </button>
+          )}
         </div>
 
         {/* Search and Filters */}

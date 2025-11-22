@@ -11,12 +11,13 @@ import { useAuth } from '../contexts/AuthContext';
 import ReviewForm from '../components/destinations/ReviewForm';
 import ReviewCard from '../components/destinations/ReviewCard';
 import ImageGallery from '../components/destinations/ImageGallery';
+import SearchOptionModal from '../components/destinations/SearchOptionModal';
 
 const DestinationDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  
+
   const [destination, setDestination] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,6 +30,7 @@ const DestinationDetail = () => {
   const [totalReviewPages, setTotalReviewPages] = useState(1);
   const [reviewSort, setReviewSort] = useState('createdAt');
   const [ratingStats, setRatingStats] = useState([]);
+  const [searchModal, setSearchModal] = useState({ isOpen: false, type: '', title: '' });
 
   useEffect(() => {
     fetchDestination();
@@ -245,6 +247,57 @@ const DestinationDetail = () => {
       </div>
     );
   }
+
+  // Handle explore box clicks
+  const handleExploreClick = (type, title) => {
+    setSearchModal({ isOpen: true, type, title });
+  };
+
+  const handleGoogleSearch = (searchQuery) => {
+    window.open(`https://www.google.com/search?q=${encodeURIComponent(searchQuery)}+Sri+Lanka`, '_blank');
+  };
+
+  const handleOnsiteSearch = (type) => {
+    const province = destination.province;
+    const district = destination.district;
+    const destinationId = destination._id;
+    const destinationName = destination.name;
+
+    switch (type) {
+      case 'explore-locations':
+        navigate(`/explore-locations?province=${encodeURIComponent(province)}&district=${encodeURIComponent(district)}&fromDestination=${destinationId}&destinationName=${encodeURIComponent(destinationName)}`);
+        break;
+      case 'hotels':
+        navigate(`/hotels-accommodations?province=${encodeURIComponent(province)}&city=${encodeURIComponent(district)}&fromDestination=${destinationId}&destinationName=${encodeURIComponent(destinationName)}`);
+        break;
+      case 'cafes':
+        navigate(`/cafes-restaurants?province=${encodeURIComponent(province)}&city=${encodeURIComponent(district)}&fromDestination=${destinationId}&destinationName=${encodeURIComponent(destinationName)}`);
+        break;
+      case 'foods':
+        navigate(`/foods-beverages?province=${encodeURIComponent(province)}&city=${encodeURIComponent(district)}&fromDestination=${destinationId}&destinationName=${encodeURIComponent(destinationName)}`);
+        break;
+      case 'live-rides':
+        navigate(`/ads/vehicles-transport/live-rides-carpooling?province=${encodeURIComponent(province)}&city=${encodeURIComponent(district)}&fromDestination=${destinationId}&destinationName=${encodeURIComponent(destinationName)}`);
+        break;
+      case 'vehicle-rentals':
+        navigate(`/vehicle-rentals-hire?province=${encodeURIComponent(province)}&city=${encodeURIComponent(district)}&fromDestination=${destinationId}&destinationName=${encodeURIComponent(destinationName)}`);
+        break;
+      case 'tour-guides':
+        navigate(`/ads/tourism/tour-guiders?province=${encodeURIComponent(province)}&city=${encodeURIComponent(district)}&fromDestination=${destinationId}&destinationName=${encodeURIComponent(destinationName)}`);
+        break;
+      case 'combo-packages':
+        navigate(`/exclusive-combo-packages?locations=${encodeURIComponent(district)}&fromDestination=${destinationId}&destinationName=${encodeURIComponent(destinationName)}`);
+        break;
+      case 'local-packages':
+        navigate(`/local-tour-packages?province=${encodeURIComponent(province)}&city=${encodeURIComponent(district)}&fromDestination=${destinationId}&destinationName=${encodeURIComponent(destinationName)}`);
+        break;
+      case 'events':
+        navigate(`/ads/events-management/events-updates?province=${encodeURIComponent(province)}&city=${encodeURIComponent(district)}&fromDestination=${destinationId}&destinationName=${encodeURIComponent(destinationName)}`);
+        break;
+      default:
+        break;
+    }
+  };
 
   if (!destination) {
     return (
@@ -525,7 +578,7 @@ const DestinationDetail = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <button
-                onClick={() => window.open(`https://www.google.com/search?q=locations+around+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                onClick={() => handleExploreClick('explore-locations', 'Explore Locations')}
                 className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
                 <div className="flex items-center space-x-3 mb-2">
@@ -540,7 +593,7 @@ const DestinationDetail = () => {
               </button>
 
               <button
-                onClick={() => window.open(`https://www.google.com/search?q=hotels+accommodation+near+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                onClick={() => handleExploreClick('hotels', 'Find Perfect Stay')}
                 className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
                 <div className="flex items-center space-x-3 mb-2">
@@ -555,7 +608,7 @@ const DestinationDetail = () => {
               </button>
 
               <button
-                onClick={() => window.open(`https://www.google.com/search?q=cafes+restaurants+near+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                onClick={() => handleExploreClick('cafes', 'Cafes & Restaurants')}
                 className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
                 <div className="flex items-center space-x-3 mb-2">
@@ -570,7 +623,7 @@ const DestinationDetail = () => {
               </button>
 
               <button
-                onClick={() => window.open(`https://www.google.com/search?q=food+beverages+local+cuisine+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                onClick={() => handleExploreClick('foods', 'Foods & Beverages')}
                 className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
                 <div className="flex items-center space-x-3 mb-2">
@@ -585,7 +638,7 @@ const DestinationDetail = () => {
               </button>
 
               <button
-                onClick={() => window.open(`https://www.google.com/search?q=live+traffic+updates+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                onClick={() => handleExploreClick('live-rides', 'Live Ride Updates')}
                 className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
                 <div className="flex items-center space-x-3 mb-2">
@@ -600,7 +653,7 @@ const DestinationDetail = () => {
               </button>
 
               <button
-                onClick={() => window.open(`https://www.google.com/search?q=vehicle+rentals+car+bike+rental+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                onClick={() => handleExploreClick('vehicle-rentals', 'Vehicle Rentals')}
                 className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
                 <div className="flex items-center space-x-3 mb-2">
@@ -615,22 +668,7 @@ const DestinationDetail = () => {
               </button>
 
               <button
-                onClick={() => window.open(`https://www.google.com/search?q=travel+buddy+companions+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
-                className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
-              >
-                <div className="flex items-center space-x-3 mb-2">
-                  <Users className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200" />
-                  <div className="font-semibold text-gray-900 dark:text-white">
-                    Find Travel Buddy
-                  </div>
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  Travel companions
-                </div>
-              </button>
-
-              <button
-                onClick={() => window.open(`https://www.google.com/search?q=tour+guides+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                onClick={() => handleExploreClick('tour-guides', 'Find Tour Guides')}
                 className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
                 <div className="flex items-center space-x-3 mb-2">
@@ -645,7 +683,7 @@ const DestinationDetail = () => {
               </button>
 
               <button
-                onClick={() => window.open(`https://www.google.com/search?q=exclusive+combo+packages+tours+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                onClick={() => handleExploreClick('combo-packages', 'Exclusive Combo Packages')}
                 className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
                 <div className="flex items-center space-x-3 mb-2">
@@ -660,7 +698,7 @@ const DestinationDetail = () => {
               </button>
 
               <button
-                onClick={() => window.open(`https://www.google.com/search?q=local+tour+packages+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                onClick={() => handleExploreClick('local-packages', 'Local Tour Packages')}
                 className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
                 <div className="flex items-center space-x-3 mb-2">
@@ -675,7 +713,7 @@ const DestinationDetail = () => {
               </button>
 
               <button
-                onClick={() => window.open(`https://www.google.com/search?q=event+updates+delivery+services+${encodeURIComponent(destination.name)}+Sri+Lanka`, '_blank')}
+                onClick={() => handleExploreClick('events', 'Event Updates & Services')}
                 className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
                 <div className="flex items-center space-x-3 mb-2">
@@ -871,6 +909,29 @@ const DestinationDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Search Option Modal */}
+      <SearchOptionModal
+        isOpen={searchModal.isOpen}
+        onClose={() => setSearchModal({ isOpen: false, type: '', title: '' })}
+        onGoogleSearch={() => {
+          const searchQueries = {
+            'explore-locations': `locations around ${destination.name}`,
+            'hotels': `hotels accommodation near ${destination.name}`,
+            'cafes': `cafes restaurants near ${destination.name}`,
+            'foods': `food beverages local cuisine ${destination.name}`,
+            'live-rides': `live traffic updates ${destination.name}`,
+            'vehicle-rentals': `vehicle rentals car bike rental ${destination.name}`,
+            'tour-guides': `tour guides ${destination.name}`,
+            'combo-packages': `exclusive combo packages tours ${destination.name}`,
+            'local-packages': `local tour packages ${destination.name}`,
+            'events': `event updates delivery services ${destination.name}`
+          };
+          handleGoogleSearch(searchQueries[searchModal.type] || destination.name);
+        }}
+        onOnsiteSearch={() => handleOnsiteSearch(searchModal.type)}
+        title={searchModal.title}
+      />
     </div>
   );
 };

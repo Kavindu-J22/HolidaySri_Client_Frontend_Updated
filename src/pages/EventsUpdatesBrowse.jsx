@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { eventsUpdatesAPI } from '../config/api';
-import { 
-  Search, Filter, Star, MapPin, Calendar, 
-  DollarSign, Loader, Award, X
+import {
+  Search, Filter, Star, MapPin, Calendar,
+  DollarSign, Loader, Award, X, ArrowLeft
 } from 'lucide-react';
 
 const EventsUpdatesBrowse = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Get destination info from URL params
+  const fromDestination = searchParams.get('fromDestination') || '';
+  const destinationName = searchParams.get('destinationName') || '';
+  const cityFromUrl = searchParams.get('city') || '';
+
   const [filters, setFilters] = useState({
     featured: false,
     categoryType: '',
-    province: '',
-    city: '',
+    province: searchParams.get('province') || '',
+    city: cityFromUrl,
     sortBy: 'random'
   });
   const [showFilters, setShowFilters] = useState(false);
@@ -116,11 +123,20 @@ const EventsUpdatesBrowse = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Events & Updates
+            Events & Updates{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Discover exciting events happening in Sri Lanka
+            {fromDestination ? `Discover exciting events happening in ${destinationName}` : 'Discover exciting events happening in Sri Lanka'}
           </p>
+          {fromDestination && (
+            <button
+              onClick={() => navigate(`/destinations/${fromDestination}`)}
+              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+            >
+              <ArrowLeft className="w-3 h-3" />
+              <span>Back to {destinationName}</span>
+            </button>
+          )}
         </div>
 
         {/* Search and Filters */}

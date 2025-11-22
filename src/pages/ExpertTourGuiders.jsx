@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Loader, Filter, X } from 'lucide-react';
+import { Loader, Filter, X, ArrowLeft } from 'lucide-react';
 import TourGuiderCard from '../components/tourGuider/TourGuiderCard';
 import axios from 'axios';
 
@@ -16,12 +16,17 @@ const ExpertTourGuiders = () => {
   const [provinces, setProvinces] = useState({});
   const [cities, setCities] = useState([]);
 
+  // Get destination info from URL params
+  const fromDestination = searchParams.get('fromDestination') || '';
+  const destinationName = searchParams.get('destinationName') || '';
+  const cityFromUrl = searchParams.get('city') || '';
+
   // Filter states
   const [filters, setFilters] = useState({
     experience: searchParams.get('experience') || '',
     gender: searchParams.get('gender') || '',
     province: searchParams.get('province') || '',
-    city: searchParams.get('city') || ''
+    city: cityFromUrl
   });
 
   const [pagination, setPagination] = useState({
@@ -117,11 +122,20 @@ const ExpertTourGuiders = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Expert Tour Guiders
+            Expert Tour Guiders{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Find and connect with professional tour guides in Sri Lanka
+            {fromDestination ? `Find and connect with professional tour guides in ${destinationName}` : 'Find and connect with professional tour guides in Sri Lanka'}
           </p>
+          {fromDestination && (
+            <button
+              onClick={() => navigate(`/destinations/${fromDestination}`)}
+              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+            >
+              <ArrowLeft className="w-3 h-3" />
+              <span>Back to {destinationName}</span>
+            </button>
+          )}
         </div>
 
         {/* Filters Section */}

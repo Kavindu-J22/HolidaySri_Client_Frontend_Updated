@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Filter, MapPin, Star, SlidersHorizontal, ArrowLeft, Heart } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import LocationCard from '../components/locations/LocationCard';
 import LocationFilterPanel from '../components/locations/LocationFilterPanel';
@@ -9,14 +9,22 @@ import { API_BASE_URL } from '../config/api';
 const ExploreLocations = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+
+  // Get initial filters from URL params
+  const initialProvince = searchParams.get('province') || '';
+  const initialDistrict = searchParams.get('district') || '';
+  const fromDestination = searchParams.get('fromDestination') || '';
+  const destinationName = searchParams.get('destinationName') || '';
+
   const [filters, setFilters] = useState({
     locationType: '',
     climate: '',
-    province: '',
-    district: '',
+    province: initialProvince,
+    district: initialDistrict,
     mainDestination: ''
   });
   const [sortBy, setSortBy] = useState('createdAt');
@@ -164,11 +172,20 @@ const ExploreLocations = () => {
               </button>
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  Explore Locations
+                  Explore Locations{initialDistrict && ` - ${initialDistrict}`}
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400 mt-1">
-                  Discover amazing places to visit in Sri Lanka
+                  {fromDestination ? `Discover amazing places to visit in ${destinationName}` : 'Discover amazing places to visit in Sri Lanka'}
                 </p>
+                {fromDestination && (
+                  <button
+                    onClick={() => navigate(`/destinations/${fromDestination}`)}
+                    className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+                  >
+                    <ArrowLeft className="w-3 h-3" />
+                    <span>Back to {destinationName}</span>
+                  </button>
+                )}
               </div>
             </div>
             
