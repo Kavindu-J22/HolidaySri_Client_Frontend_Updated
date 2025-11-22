@@ -363,9 +363,9 @@ const Home = () => {
 
             <h1 className="font-bold mb-4 sm:mb-6 leading-tight">
               <div className="mb-2 sm:mb-3">
-                <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent pb-1">
-                  Holidaysri.com
-                </span>
+                <h1 className="text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                Welcome to Holidaysri.com
+              </h1>
               </div>
               <div className="relative">
                 <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-gray-100 tracking-wide">
