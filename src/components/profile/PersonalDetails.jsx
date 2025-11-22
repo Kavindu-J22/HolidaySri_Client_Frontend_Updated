@@ -184,37 +184,37 @@ const PersonalDetails = () => {
 
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+      <div className="mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
           Personal Details
         </h1>
-        <p className="text-gray-600 dark:text-gray-400">
+        <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
           Manage your personal information and profile settings
         </p>
       </div>
 
       {/* Success/Error Messages */}
       {success && (
-        <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-center space-x-2">
-          <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
-          <span className="text-green-700 dark:text-green-300">{success}</span>
+        <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-start sm:items-center space-x-2">
+          <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5 sm:mt-0" />
+          <span className="text-sm sm:text-base text-green-700 dark:text-green-300">{success}</span>
         </div>
       )}
 
       {error && (
-        <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center space-x-2">
-          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
-          <span className="text-red-700 dark:text-red-300">{error}</span>
+        <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start sm:items-center space-x-2">
+          <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5 sm:mt-0" />
+          <span className="text-sm sm:text-base text-red-700 dark:text-red-300">{error}</span>
         </div>
       )}
 
       {/* Profile Card */}
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden w-full">
         {/* Profile Image Section */}
-        <div className="relative bg-gradient-to-r from-primary-500 to-primary-600 p-4 sm:p-6 md:p-8">
-          <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
+        <div className="relative bg-gradient-to-r from-primary-500 to-primary-600 p-4 sm:p-6 md:p-8 w-full overflow-hidden">
+          <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6 w-full">
             <div className="relative">
               <ProfileImage
                 src={user?.profileImage}
@@ -248,49 +248,52 @@ const PersonalDetails = () => {
               />
             </div>
 
-            <div className="text-center sm:text-left flex-1 min-w-0">
-              <div className="flex items-center justify-center sm:justify-start space-x-2 mb-1">
-                <h2 className="text-xl sm:text-2xl font-bold text-white truncate">
+            <div className="text-center sm:text-left flex-1 min-w-0 w-full">
+              <div className="flex flex-col items-center sm:items-start space-y-2 mb-1">
+                <h2 className="text-xl sm:text-2xl font-bold text-white truncate max-w-full">
                   {user?.name}
                 </h2>
-                {user?.isMember && (
-                  <div className="flex items-center space-x-1 bg-yellow-500/20 px-2 py-1 rounded-full border border-yellow-400/30">
-                    <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" />
-                    <span className="text-yellow-400 text-xs font-medium">Member</span>
-                  </div>
-                )}
-                {user?.isPartner && (
-                  <div className="flex items-center space-x-1 bg-green-500/20 px-2 py-1 rounded-full border border-blue-400/30">
-                    <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
-                    <span className="text-green-400 text-xs font-medium">Partner</span>
-                  </div>
-                )}
-                {user?.isVerified && (
-                  <div className="relative inline-flex items-center justify-center">
-                    <svg
-                      className="w-5 h-5 sm:w-6 sm:h-6"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M12 2L15.09 8.26L22 9L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9L8.91 8.26L12 2Z"
-                        fill="#1D9BF0"
-                        stroke="#FFFFFF"
-                        strokeWidth="1"
-                      />
-                      <path
-                        d="M9 12L11 14L15 10"
-                        stroke="#FFFFFF"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                )}
+                {/* Badges row - stacks on mobile, inline on larger screens */}
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                  {user?.isMember && (
+                    <div className="flex items-center space-x-1 bg-yellow-500/20 px-2 py-1 rounded-full border border-yellow-400/30">
+                      <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" />
+                      <span className="text-yellow-400 text-xs font-medium">Member</span>
+                    </div>
+                  )}
+                  {user?.isPartner && (
+                    <div className="flex items-center space-x-1 bg-green-500/20 px-2 py-1 rounded-full border border-blue-400/30">
+                      <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 text-green-400" />
+                      <span className="text-green-400 text-xs font-medium">Partner</span>
+                    </div>
+                  )}
+                  {user?.isVerified && (
+                    <div className="relative inline-flex items-center justify-center">
+                      <svg
+                        className="w-5 h-5 sm:w-6 sm:h-6"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M12 2L15.09 8.26L22 9L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9L8.91 8.26L12 2Z"
+                          fill="#1D9BF0"
+                          stroke="#FFFFFF"
+                          strokeWidth="1"
+                        />
+                        <path
+                          d="M9 12L11 14L15 10"
+                          stroke="#FFFFFF"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  )}
+                </div>
               </div>
-              <p className="text-primary-100 mb-2 text-sm sm:text-base truncate">
+              <p className="text-primary-100 mb-2 text-xs sm:text-sm md:text-base break-all max-w-full px-2 sm:px-0">
                 {user?.email}
               </p>
               {user?.isMember && user?.membershipExpirationDate && (
@@ -303,9 +306,9 @@ const PersonalDetails = () => {
                   Partner until {new Date(user.partnerExpirationDate).toLocaleDateString()}
                 </p>
               )}
-              <div className="flex items-center justify-center sm:justify-start space-x-2 text-primary-100 text-sm sm:text-base">
+              <div className="flex items-center justify-center sm:justify-start space-x-2 text-primary-100 text-xs sm:text-sm md:text-base px-2 sm:px-0">
                 <Phone className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                <span className="truncate">{user?.countryCode} {user?.contactNumber}</span>
+                <span className="break-all">{user?.countryCode} {user?.contactNumber}</span>
               </div>
             </div>
           </div>
@@ -672,11 +675,11 @@ const PersonalDetails = () => {
           </div>
 
           {/* Additional Info */}
-          <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-            <h4 className="font-medium text-blue-900 dark:text-blue-300 mb-2">
+          <div className="mt-6 sm:mt-8 p-3 sm:p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <h4 className="text-sm sm:text-base font-medium text-blue-900 dark:text-blue-300 mb-2">
               Profile Image Guidelines
             </h4>
-            <ul className="text-sm text-blue-700 dark:text-blue-400 space-y-1">
+            <ul className="text-xs sm:text-sm text-blue-700 dark:text-blue-400 space-y-1">
               <li>• Supported formats: JPG, PNG, GIF</li>
               <li>• Maximum file size: 5MB</li>
               <li>• Recommended dimensions: 400x400 pixels</li>

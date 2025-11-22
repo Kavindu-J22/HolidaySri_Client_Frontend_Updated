@@ -1155,74 +1155,76 @@ const Advertisements = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full overflow-hidden">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+      <div className="mb-6 sm:mb-8 w-full">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0 w-full">
+          <div className="min-w-0 flex-1">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2 break-words">
               My Advertisements
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 break-words">
               Manage your travel advertisements and promotional content
             </p>
           </div>
           <button
             onClick={() => navigate('/post-advertisement')}
-            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors"
+            className="flex items-center justify-center space-x-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors text-sm sm:text-base w-full sm:w-auto flex-shrink-0"
           >
-            <Plus className="w-5 h-5" />
-            <span>Create New Ad</span>
+            <Plus className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+            <span className="whitespace-nowrap">Create New Ad</span>
           </button>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 w-full overflow-hidden">
           {/* Search Bar */}
-          <form onSubmit={handleSearch} className="mb-4">
-            <div className="flex space-x-4">
+          <form onSubmit={handleSearch} className="mb-4 w-full">
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
               <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                 <input
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Search by Slot ID (e.g., AD12345678)"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 />
               </div>
-              <button
-                type="submit"
-                className="px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-1.5 text-sm font-medium"
-              >
-                <Search className="w-4 h-4" />
-                <span>Search</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setShowFilters(!showFilters)}
-                className="px-4 py-2.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center space-x-1.5 text-sm font-medium"
-              >
-                <Filter className="w-4 h-4" />
-                <span>Filters</span>
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-              </button>
+              <div className="flex space-x-2">
+                <button
+                  type="submit"
+                  className="flex-1 sm:flex-none px-4 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-1.5 text-sm font-medium"
+                >
+                  <Search className="w-4 h-4" />
+                  <span>Search</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="flex-1 sm:flex-none px-4 py-2.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center justify-center space-x-1.5 text-sm font-medium"
+                >
+                  <Filter className="w-4 h-4" />
+                  <span>Filters</span>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
+                </button>
+              </div>
             </div>
           </form>
 
           {/* Filter Options */}
           {showFilters && (
             <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4 mb-4">
                 {/* Status Filter */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Status
                   </label>
                   <select
                     value={filters.status}
                     onChange={(e) => handleFilterChange('status', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   >
                     <option value="all">All Statuses</option>
                     <option value="active">Active</option>
@@ -1234,13 +1236,13 @@ const Advertisements = () => {
 
                 {/* Plan Filter */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Plan
                   </label>
                   <select
                     value={filters.plan}
                     onChange={(e) => handleFilterChange('plan', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   >
                     <option value="all">All Plans</option>
                     <option value="hourly">Hourly</option>
@@ -1251,14 +1253,14 @@ const Advertisements = () => {
                 </div>
 
                 {/* Category Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <div className="sm:col-span-2 md:col-span-1">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Category
                   </label>
                   <select
                     value={filters.category}
                     onChange={(e) => handleFilterChange('category', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   >
                     <option value="all">All Categories</option>
                     {filterOptions.categories?.map((category) => (
@@ -1271,13 +1273,13 @@ const Advertisements = () => {
               </div>
 
               {/* Clear Filters */}
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
+                <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   {pagination.totalCount || 0} advertisement{(pagination.totalCount || 0) !== 1 ? 's' : ''} found
                 </span>
                 <button
                   onClick={clearFilters}
-                  className="flex items-center space-x-2 px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  className="flex items-center justify-center sm:justify-start space-x-2 px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                 >
                   <X className="w-4 h-4" />
                   <span>Clear Filters</span>
@@ -1290,42 +1292,42 @@ const Advertisements = () => {
 
       {/* Loading State */}
       {loading && (
-        <div className="flex items-center justify-center h-64">
-          <Loader className="w-8 h-8 animate-spin text-blue-600" />
+        <div className="flex items-center justify-center h-48 sm:h-64">
+          <Loader className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-blue-600" />
         </div>
       )}
 
       {/* Error State */}
       {error && (
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
-          <div className="flex items-center space-x-2">
-            <AlertCircle className="w-5 h-5 text-red-500" />
-            <span className="text-red-800 dark:text-red-200">{error}</span>
+        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+          <div className="flex items-start sm:items-center space-x-2">
+            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5 sm:mt-0" />
+            <span className="text-sm sm:text-base text-red-800 dark:text-red-200">{error}</span>
           </div>
         </div>
       )}
 
       {/* User Verification Notice */}
       {!loading && !error && advertisements.length > 0 && !userVerificationStatus.loading && !userVerificationStatus.isVerified && (
-        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-4 sm:p-6 mb-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center space-x-3 mb-4 sm:mb-0">
-              <Shield className="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
-              <div>
-                <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-300">
+        <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-4 sm:p-6 mb-4 sm:mb-6 w-full overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="flex items-start sm:items-center space-x-3 min-w-0 flex-1">
+              <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5 sm:mt-0" />
+              <div className="min-w-0 flex-1">
+                <h3 className="text-base sm:text-lg font-semibold text-yellow-800 dark:text-yellow-300 break-words">
                   Verify Your Identity
                 </h3>
-                <p className="text-sm text-yellow-700 dark:text-yellow-400">
+                <p className="text-xs sm:text-sm text-yellow-700 dark:text-yellow-400 break-words">
                   Verify now to get a verified badge for all your advertisements
                 </p>
               </div>
             </div>
             <button
               onClick={() => setShowVerificationModal(true)}
-              className="inline-flex items-center space-x-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium transition-colors"
+              className="inline-flex items-center justify-center space-x-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-medium transition-colors text-sm w-full sm:w-auto flex-shrink-0"
             >
-              <CheckCircle className="w-4 h-4" />
-              <span>Verify Now</span>
+              <CheckCircle className="w-4 h-4 flex-shrink-0" />
+              <span className="whitespace-nowrap">Verify Now</span>
             </button>
           </div>
         </div>
@@ -1337,64 +1339,64 @@ const Advertisements = () => {
           {advertisements.length === 0 ? (
             /* Empty State */
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-8 text-center">
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-6">
-                  <Megaphone className="w-10 h-10 text-white" />
+              <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 sm:p-8 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-white/20 rounded-full mb-4 sm:mb-6">
+                  <Megaphone className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
                 </div>
 
-                <h2 className="text-2xl font-bold text-white mb-4">
+                <h2 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">
                   Start Your Advertising Journey
                 </h2>
 
-                <p className="text-blue-100 text-lg max-w-2xl mx-auto mb-6">
+                <p className="text-sm sm:text-base md:text-lg text-blue-100 max-w-2xl mx-auto mb-4 sm:mb-6 px-4">
                   Create, manage, and track your travel advertisements. Promote your services
                   and reach more customers with our powerful advertising platform.
                 </p>
 
                 <button
                   onClick={() => navigate('/post-advertisement')}
-                  className="inline-flex items-center space-x-2 px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                  className="inline-flex items-center justify-center space-x-2 px-6 sm:px-8 py-2.5 sm:py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors text-sm sm:text-base"
                 >
-                  <Plus className="w-5 h-5" />
+                  <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Create Your First Advertisement</span>
                 </button>
               </div>
 
               {/* Features Preview */}
-              <div className="p-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="p-6 sm:p-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                   <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg mb-4">
-                      <Eye className="w-6 h-6 text-blue-600" />
+                    <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 dark:bg-blue-900/20 rounded-lg mb-3 sm:mb-4">
+                      <Eye className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
                     </div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                    <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2">
                       Track Performance
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                       Monitor views, clicks, and engagement metrics
                     </p>
                   </div>
 
                   <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 dark:bg-green-900/20 rounded-lg mb-4">
-                      <BarChart3 className="w-6 h-6 text-green-600" />
+                    <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-green-100 dark:bg-green-900/20 rounded-lg mb-3 sm:mb-4">
+                      <BarChart3 className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
                     </div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                    <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2">
                       Analytics Dashboard
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                       Detailed insights and performance reports
                     </p>
                   </div>
 
-                  <div className="text-center">
-                    <div className="inline-flex items-center justify-center w-12 h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg mb-4">
-                      <Star className="w-6 h-6 text-purple-600" />
+                  <div className="text-center sm:col-span-2 md:col-span-1">
+                    <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 dark:bg-purple-900/20 rounded-lg mb-3 sm:mb-4">
+                      <Star className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
                     </div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2">
+                    <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2">
                       Premium Placement
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                       Get maximum visibility for your business
                     </p>
                   </div>
@@ -1404,15 +1406,15 @@ const Advertisements = () => {
           ) : (
             /* Advertisements Grid */
             <div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {advertisements.map((ad) => (
                 <div key={ad._id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow flex flex-col h-full">
                   {/* Ad Header */}
-                  <div className="p-6 flex-grow">
-                    <div className="flex items-center justify-between mb-4">
+                  <div className="p-4 sm:p-6 flex-grow">
+                    <div className="flex items-center justify-between mb-3 sm:mb-4">
                       <div className="flex items-center space-x-2">
                         {getPlanIcon(ad.selectedPlan)}
-                        <span className="text-sm font-medium text-gray-600 dark:text-gray-400 capitalize">
+                        <span className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400 capitalize">
                           {ad.selectedPlan === 'hourly' && ad.planDuration?.hours
                             ? `${ad.selectedPlan} (${ad.planDuration.hours}h)`
                             : ad.selectedPlan
@@ -1424,11 +1426,11 @@ const Advertisements = () => {
                       </span>
                     </div>
 
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 space-y-2 sm:space-y-0">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
                         {formatCategoryName(ad.category)}
                       </h3>
-                      <div className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-2 flex-wrap">
                         <span className="text-xs font-mono bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 px-2 py-1 rounded">
                           {ad.slotId}
                         </span>
@@ -1464,15 +1466,15 @@ const Advertisements = () => {
                       </div>
                     </div>
 
-                    <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
                       Advertisement Slot
                     </p>
 
                     {/* Ad Details */}
-                    <div className="space-y-2 text-sm">
+                    <div className="space-y-2 text-xs sm:text-sm">
                       <div className="flex items-center justify-between">
                         <span className="text-gray-600 dark:text-gray-400">Slot ID:</span>
-                        <span className="font-mono text-gray-900 dark:text-white">
+                        <span className="font-mono text-gray-900 dark:text-white text-xs">
                           {ad.slotId}
                         </span>
                       </div>
@@ -1493,9 +1495,9 @@ const Advertisements = () => {
                         </div>
                       )}
 
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-1 sm:space-y-0">
                         <span className="text-gray-600 dark:text-gray-400">Expires:</span>
-                        <span className="font-medium text-gray-900 dark:text-white">
+                        <span className="font-medium text-gray-900 dark:text-white text-xs sm:text-sm">
                           {ad.expiresAt ? (
                             new Date(ad.expiresAt).toLocaleDateString('en-US', {
                               year: 'numeric',
@@ -1517,10 +1519,10 @@ const Advertisements = () => {
 
                   {/* Warning Message for slots without paused expiration */}
                   {ad.status === 'active' && ad.expiresAt && !isAdvertisementExpired(ad) && (
-                    <div className="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 p-4 mx-6">
+                    <div className="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 p-3 sm:p-4 mx-4 sm:mx-6">
                       <div className="flex items-start">
-                        <AlertCircle className="w-5 h-5 text-amber-400 mt-0.5 mr-3 flex-shrink-0" />
-                        <div className="text-sm text-amber-700 dark:text-amber-300">
+                        <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-amber-400 mt-0.5 mr-2 sm:mr-3 flex-shrink-0" />
+                        <div className="text-xs sm:text-sm text-amber-700 dark:text-amber-300">
                           <p className="font-medium mb-1">Expiration Notice</p>
                           <p>
                             If you are not ready to publish your advertisement now, use the "Pause Expiration" option to prevent your slot from expiring.
@@ -1532,18 +1534,18 @@ const Advertisements = () => {
                   )}
 
                   {/* Ad Info */}
-                  <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4">
+                  <div className="bg-gray-50 dark:bg-gray-700 px-4 sm:px-6 py-3 sm:py-4">
                     <div className="text-center">
-                      <div className="text-sm text-gray-600 dark:text-gray-400">
+                      <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                         Advertisement Status: <span className="font-medium text-gray-900 dark:text-white capitalize">{ad.status}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Ad Actions */}
-                  <div className="p-4 border-t border-gray-200 dark:border-gray-700 mt-auto">
+                  <div className="p-3 sm:p-4 border-t border-gray-200 dark:border-gray-700 mt-auto">
                     <div className="flex flex-col space-y-2">
-                      <div className="flex space-x-2">
+                      <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                         {/* Active status with expiration date - Show Pause Expiration + Publish Now */}
                         {ad.status === 'active' && ad.expiresAt && !isAdvertisementExpired(ad) && (
                           <>
@@ -1551,22 +1553,23 @@ const Advertisements = () => {
                             <button
                               onClick={() => handlePauseExpiration(ad._id)}
                               disabled={actionLoading[ad._id] === 'pausing'}
-                              className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-orange-100 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 rounded-lg hover:bg-orange-200 dark:hover:bg-orange-900/30 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                              className="flex-1 flex items-center justify-center space-x-1 px-2 sm:px-3 py-2 bg-orange-100 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 rounded-lg hover:bg-orange-200 dark:hover:bg-orange-900/30 transition-colors text-xs sm:text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                               {actionLoading[ad._id] === 'pausing' ? (
-                                <Loader className="w-4 h-4 animate-spin" />
+                                <Loader className="w-3 h-3 sm:w-4 sm:h-4 animate-spin" />
                               ) : (
-                                <Pause className="w-4 h-4" />
+                                <Pause className="w-3 h-3 sm:w-4 sm:h-4" />
                               )}
-                              <span>Pause Expiration</span>
+                              <span className="hidden sm:inline">Pause Expiration</span>
+                              <span className="sm:hidden">Pause</span>
                             </button>
 
                             {/* Publish Now Button */}
                             <button
                               onClick={() => handlePublishNow(ad._id)}
-                              className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-sm"
+                              className="flex-1 flex items-center justify-center space-x-1 px-2 sm:px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-xs sm:text-sm"
                             >
-                              <PlayCircle className="w-4 h-4" />
+                              <PlayCircle className="w-3 h-3 sm:w-4 sm:h-4" />
                               <span>Publish Now</span>
                             </button>
                           </>
@@ -1578,9 +1581,9 @@ const Advertisements = () => {
                             {/* Publish Now Button */}
                             <button
                               onClick={() => handlePublishNow(ad._id)}
-                              className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-sm"
+                              className="flex-1 flex items-center justify-center space-x-1 px-2 sm:px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-xs sm:text-sm"
                             >
-                              <PlayCircle className="w-4 h-4" />
+                              <PlayCircle className="w-3 h-3 sm:w-4 sm:h-4" />
                               <span>Publish Now</span>
                             </button>
 
@@ -1588,13 +1591,13 @@ const Advertisements = () => {
                             <button
                               onClick={() => handleRenew(ad._id)}
                               disabled={!ad.expiresAt}
-                              className={`flex-1 flex items-center justify-center space-x-1 px-3 py-2 rounded-lg transition-colors text-sm ${
+                              className={`flex-1 flex items-center justify-center space-x-1 px-2 sm:px-3 py-2 rounded-lg transition-colors text-xs sm:text-sm ${
                                 !ad.expiresAt
                                   ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-60'
                                   : 'bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/30'
                               }`}
                             >
-                              <RefreshCw className="w-4 h-4" />
+                              <RefreshCw className="w-3 h-3 sm:w-4 sm:h-4" />
                               <span>Renew</span>
                             </button>
                           </>
@@ -1606,9 +1609,9 @@ const Advertisements = () => {
                             {/* Manage Button */}
                             <button
                               onClick={() => handleViewAd(ad._id)}
-                              className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-purple-100 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-900/30 transition-colors text-sm"
+                              className="flex-1 flex items-center justify-center space-x-1 px-2 sm:px-3 py-2 bg-purple-100 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-900/30 transition-colors text-xs sm:text-sm"
                             >
-                              <Eye className="w-4 h-4" />
+                              <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
                               <span>Manage</span>
                             </button>
 
@@ -1628,9 +1631,9 @@ const Advertisements = () => {
                                   handleViewPublishedProfile(ad._id);
                                 }
                               }}
-                              className="flex-1 flex items-center justify-center space-x-1 px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-sm"
+                              className="flex-1 flex items-center justify-center space-x-1 px-2 sm:px-3 py-2 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors text-xs sm:text-sm"
                             >
-                              <Eye className="w-4 h-4" />
+                              <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
                               <span>View</span>
                             </button>
 
@@ -1638,13 +1641,13 @@ const Advertisements = () => {
                             <button
                               onClick={() => handleRenew(ad._id)}
                               disabled={!ad.expiresAt}
-                              className={`flex-1 flex items-center justify-center space-x-1 px-3 py-2 rounded-lg transition-colors text-sm ${
+                              className={`flex-1 flex items-center justify-center space-x-1 px-2 sm:px-3 py-2 rounded-lg transition-colors text-xs sm:text-sm ${
                                 !ad.expiresAt
                                   ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-60'
                                   : 'bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/30'
                               }`}
                             >
-                              <RefreshCw className="w-4 h-4" />
+                              <RefreshCw className="w-3 h-3 sm:w-4 sm:h-4" />
                               <span>Renew</span>
                             </button>
                           </>
@@ -1654,9 +1657,9 @@ const Advertisements = () => {
                         {(ad.status === 'expired' || isAdvertisementExpired(ad)) && (
                           <button
                             onClick={() => handleExpiredSlotRenew(ad._id)}
-                            className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors text-sm font-semibold border-2 border-red-200 dark:border-red-800"
+                            className="w-full flex items-center justify-center space-x-2 px-3 sm:px-4 py-2.5 sm:py-3 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-300 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors text-xs sm:text-sm font-semibold border-2 border-red-200 dark:border-red-800"
                           >
-                            <RefreshCw className="w-5 h-5" />
+                            <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5" />
                             <span>Expired Slot Renew Now</span>
                           </button>
                         )}
@@ -1666,9 +1669,9 @@ const Advertisements = () => {
                       {ad.category === 'home_banner_slot' && (
                         <button
                           onClick={() => setShowAvailabilityModal(true)}
-                          className="w-full flex items-center justify-center space-x-2 px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-lg transition-all text-sm font-semibold shadow-md hover:shadow-lg"
+                          className="w-full flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white rounded-lg transition-all text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg"
                         >
-                          <Grid3x3 className="w-5 h-5" />
+                          <Grid3x3 className="w-4 h-4 sm:w-5 sm:h-5" />
                           <span>Check Slot Availability</span>
                         </button>
                       )}
@@ -1680,13 +1683,14 @@ const Advertisements = () => {
 
             {/* Pagination */}
             {pagination.totalPages > 1 && (
-              <div className="mt-8 flex items-center justify-center space-x-2">
+              <div className="mt-6 sm:mt-8 flex items-center justify-center space-x-1 sm:space-x-2">
                 <button
                   onClick={() => handlePageChange(pagination.currentPage - 1)}
                   disabled={!pagination.hasPrev}
-                  className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
+                  className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
                 >
-                  Previous
+                  <span className="hidden sm:inline">Previous</span>
+                  <span className="sm:hidden">Prev</span>
                 </button>
 
                 {/* Page Numbers */}
@@ -1698,7 +1702,7 @@ const Advertisements = () => {
                     <button
                       key={pageNum}
                       onClick={() => handlePageChange(pageNum)}
-                      className={`px-4 py-2 text-sm font-medium rounded-lg ${
+                      className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg ${
                         pageNum === pagination.currentPage
                           ? 'bg-blue-600 text-white'
                           : 'text-gray-500 bg-white border border-gray-300 hover:bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700'
@@ -1712,7 +1716,7 @@ const Advertisements = () => {
                 <button
                   onClick={() => handlePageChange(pagination.currentPage + 1)}
                   disabled={!pagination.hasNext}
-                  className="px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
+                  className="px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400 dark:hover:bg-gray-700"
                 >
                   Next
                 </button>
