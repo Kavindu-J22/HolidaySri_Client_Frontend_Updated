@@ -7,13 +7,16 @@ import PostCard from '../components/holidayMemories/PostCard';
 import UploadPhotoModal from '../components/holidayMemories/UploadPhotoModal';
 import RightSidebar from '../components/holidayMemories/RightSidebar';
 import LeftSidebar from '../components/holidayMemories/LeftSidebar';
+import QuickActionsMenu from '../components/holidayMemories/QuickActionsMenu';
 import {
   Upload,
   Search,
   TrendingUp,
   Clock,
   DownloadCloud,
-  Filter
+  Filter,
+  Menu,
+  X
 } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://holidaysri-backend-9xm4.onrender.com/api';
@@ -44,6 +47,7 @@ const HolidayMemories = () => {
   const [provinceFilter, setProvinceFilter] = useState('');
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
+  const [showQuickActions, setShowQuickActions] = useState(false);
 
   // Fetch posts
   const fetchPosts = async (pageNum = 1, reset = false) => {
@@ -94,11 +98,11 @@ const HolidayMemories = () => {
   return (
     <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       {/* Header */}
-      <div className={`sticky top-0 z-40 ${isDarkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white border-b border-gray-200'} overflow-hidden`}>
-        <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 py-3">
+      <div className={`sticky top-0 z-40 ${isDarkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white border-b border-gray-200'}`}>
+        <div className="w-full max-w-7xl mx-auto">
           {/* Top Bar */}
-          <div className="flex items-center justify-between mb-3 gap-2 min-w-0">
-            <h1 className={`text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent truncate min-w-0`}>
+          <div className="flex items-center justify-between mb-3 gap-2 px-3 sm:px-4 pt-3">
+            <h1 className={`text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent truncate`}>
               Holiday Memories
             </h1>
             <button
@@ -112,8 +116,8 @@ const HolidayMemories = () => {
           </div>
 
           {/* Search Bar */}
-          <div className="relative mb-3 w-full">
-            <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} pointer-events-none`} />
+          <div className="relative mb-3 px-3 sm:px-4">
+            <Search className={`absolute left-6 sm:left-7 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} pointer-events-none`} />
             <input
               type="text"
               placeholder="Search by location or tags..."
@@ -127,28 +131,29 @@ const HolidayMemories = () => {
             />
           </div>
 
-          {/* Navigation Tabs */}
-          <div className="w-full overflow-x-auto overflow-y-hidden pb-2 scrollbar-hide -mx-3 sm:-mx-4">
-            <div className="flex items-center gap-2 px-3 sm:px-4 min-w-max">
+          {/* Navigation Tabs - Scrollable Container */}
+          <div className="w-full overflow-x-auto overflow-y-hidden scrollbar-hide pb-3 px-3 sm:px-4">
+            <div className="flex items-center gap-2 min-w-max">
               {/* Mobile Filter Button */}
               <button
                 onClick={() => setShowMobileFilter(true)}
                 className={`lg:hidden flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0 ${
-                  provinceFilter
+                  provinceFilter || sortBy === 'random' || sortBy === 'mostDownloaded'
                     ? 'bg-blue-600 text-white shadow-md'
                     : isDarkMode
                     ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                <Filter className="w-4 h-4" />
-                <span className="text-xs sm:text-sm font-medium">Filter</span>
+                <Filter className="w-4 h-4 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-medium">Filters</span>
               </button>
 
-              {/* Sort Options */}
+              {/* Sort Options - Mobile: Only Recent & Popular */}
+              {/* Desktop: All Options */}
               <button
                 onClick={() => setSortBy('random')}
-                className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0 ${
+                className={`hidden lg:flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0 ${
                   sortBy === 'random'
                     ? 'bg-blue-600 text-white shadow-md'
                     : isDarkMode
@@ -168,7 +173,7 @@ const HolidayMemories = () => {
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
                 <span className="text-xs sm:text-sm font-medium">Recent</span>
               </button>
               <button
@@ -181,12 +186,12 @@ const HolidayMemories = () => {
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
                 <span className="text-xs sm:text-sm font-medium">Popular</span>
               </button>
               <button
                 onClick={() => setSortBy('mostDownloaded')}
-                className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0 ${
+                className={`hidden lg:flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full whitespace-nowrap transition-all flex-shrink-0 ${
                   sortBy === 'mostDownloaded'
                     ? 'bg-blue-600 text-white shadow-md'
                     : isDarkMode
@@ -194,7 +199,7 @@ const HolidayMemories = () => {
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                <DownloadCloud className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                <DownloadCloud className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
                 <span className="text-xs sm:text-sm font-medium">Most Downloaded</span>
               </button>
             </div>
@@ -309,62 +314,194 @@ const HolidayMemories = () => {
         <div className="fixed inset-0 z-50 flex items-end lg:hidden">
           {/* Backdrop */}
           <div
-            className="absolute inset-0 bg-black bg-opacity-50"
+            className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity"
             onClick={() => setShowMobileFilter(false)}
           ></div>
 
           {/* Modal Content */}
-          <div className={`relative w-full rounded-t-2xl ${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 max-h-[80vh] overflow-y-auto`}>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                Filter by Province
-              </h3>
-              <button
-                onClick={() => setShowMobileFilter(false)}
-                className={`p-2 rounded-full ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
-              >
-                ✕
-              </button>
+          <div className={`relative w-full rounded-t-2xl ${isDarkMode ? 'bg-gray-800' : 'bg-white'} shadow-2xl max-h-[75vh] overflow-hidden animate-slide-up`}>
+            {/* Header */}
+            <div className={`sticky top-0 z-10 ${isDarkMode ? 'bg-gray-800 border-b border-gray-700' : 'bg-white border-b border-gray-200'} px-4 py-3`}>
+              <div className="flex items-center justify-between">
+                <h3 className={`text-base font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Sort & Filter
+                </h3>
+                <button
+                  onClick={() => setShowMobileFilter(false)}
+                  className={`p-1.5 rounded-full transition-colors ${isDarkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-600'}`}
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <button
-                onClick={() => {
-                  setProvinceFilter('');
-                  setShowMobileFilter(false);
-                }}
-                className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
-                  provinceFilter === ''
-                    ? 'bg-blue-600 text-white'
-                    : isDarkMode
-                    ? 'hover:bg-gray-700 text-gray-300'
-                    : 'hover:bg-gray-100 text-gray-700'
-                }`}
-              >
-                All Provinces
-              </button>
-              {provinces.map((province) => (
-                <button
-                  key={province}
-                  onClick={() => {
-                    setProvinceFilter(province);
-                    setShowMobileFilter(false);
-                  }}
-                  className={`w-full text-left px-4 py-3 rounded-lg transition-all ${
-                    provinceFilter === province
-                      ? 'bg-blue-600 text-white'
-                      : isDarkMode
-                      ? 'hover:bg-gray-700 text-gray-300'
-                      : 'hover:bg-gray-100 text-gray-700'
-                  }`}
-                >
-                  {province}
-                </button>
-              ))}
+            {/* Scrollable Content */}
+            <div className="overflow-y-auto max-h-[calc(75vh-56px)] px-4 py-3 space-y-4">
+              {/* Sort Options Section */}
+              <div>
+                <h4 className={`text-xs font-semibold mb-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} uppercase tracking-wide`}>
+                  Sort Options
+                </h4>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={() => {
+                      setSortBy('random');
+                      setShowMobileFilter(false);
+                    }}
+                    className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${
+                      sortBy === 'random'
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md'
+                        : isDarkMode
+                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    <span className="text-base">🎲</span>
+                    <span>Random</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSortBy('recent');
+                      setShowMobileFilter(false);
+                    }}
+                    className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${
+                      sortBy === 'recent'
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md'
+                        : isDarkMode
+                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Recent</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSortBy('popular');
+                      setShowMobileFilter(false);
+                    }}
+                    className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${
+                      sortBy === 'popular'
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md'
+                        : isDarkMode
+                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    <TrendingUp className="w-3.5 h-3.5" />
+                    <span>Popular</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setSortBy('mostDownloaded');
+                      setShowMobileFilter(false);
+                    }}
+                    className={`flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${
+                      sortBy === 'mostDownloaded'
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md'
+                        : isDarkMode
+                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    <DownloadCloud className="w-3.5 h-3.5" />
+                    <span>Downloads</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className={`border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}></div>
+
+              {/* Province Filter Section */}
+              <div>
+                <h4 className={`text-xs font-semibold mb-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} uppercase tracking-wide`}>
+                  Filter by Province
+                </h4>
+                <div className="space-y-1.5">
+                  <button
+                    onClick={() => {
+                      setProvinceFilter('');
+                      setShowMobileFilter(false);
+                    }}
+                    className={`w-full text-left px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${
+                      provinceFilter === ''
+                        ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md'
+                        : isDarkMode
+                        ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
+                  >
+                    All Provinces
+                  </button>
+                  {provinces.map((province) => (
+                    <button
+                      key={province}
+                      onClick={() => {
+                        setProvinceFilter(province);
+                        setShowMobileFilter(false);
+                      }}
+                      className={`w-full text-left px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${
+                        provinceFilter === province
+                          ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md'
+                          : isDarkMode
+                          ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      }`}
+                    >
+                      {province}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bottom Padding for safe area */}
+              <div className="h-2"></div>
             </div>
           </div>
         </div>
       )}
+
+      {/* Mobile Quick Actions FAB & Dropdown */}
+      <div className="lg:hidden">
+        {/* Floating Action Button */}
+        <button
+          onClick={() => setShowQuickActions(!showQuickActions)}
+          className={`fixed bottom-6 right-6 z-40 p-4 rounded-full shadow-2xl transition-all transform hover:scale-110 ${
+            showQuickActions
+              ? 'bg-red-600 hover:bg-red-700'
+              : 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700'
+          }`}
+          aria-label="Quick Actions Menu"
+        >
+          {showQuickActions ? (
+            <X className="w-6 h-6 text-white" />
+          ) : (
+            <Menu className="w-6 h-6 text-white" />
+          )}
+        </button>
+
+        {/* Quick Actions Dropdown */}
+        {showQuickActions && (
+          <>
+            {/* Backdrop */}
+            <div
+              className="fixed inset-0 z-30 bg-black bg-opacity-30"
+              onClick={() => setShowQuickActions(false)}
+            ></div>
+
+            {/* Dropdown Menu */}
+            <div className={`fixed bottom-24 right-6 z-40 w-64 rounded-2xl shadow-2xl ${isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'} overflow-hidden animate-slide-up`}>
+              <div className="p-4">
+                <h3 className={`text-lg font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  Quick Actions
+                </h3>
+                <QuickActionsMenu onActionClick={() => setShowQuickActions(false)} />
+              </div>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

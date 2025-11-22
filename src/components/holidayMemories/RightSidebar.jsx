@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FileText, Download, Bookmark, DollarSign, MapPin, TrendingUp } from 'lucide-react';
+import { MapPin, TrendingUp } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
 import axios from 'axios';
+import QuickActionsMenu from './QuickActionsMenu';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://holidaysri-backend-9xm4.onrender.com/api';
 
@@ -35,13 +36,6 @@ const RightSidebar = () => {
     }
   };
 
-  const userActions = [
-    { icon: FileText, label: 'My Posts', path: '/my-posts', color: 'text-blue-600 dark:text-blue-400' },
-    { icon: Download, label: 'My Downloads', path: '/my-downloads', color: 'text-green-600 dark:text-green-400' },
-    { icon: Bookmark, label: 'Saved Posts', path: '/my-saved-posts', color: 'text-yellow-600 dark:text-yellow-400' },
-    { icon: DollarSign, label: 'Photo Earnings', path: '/my-photo-earnings', color: 'text-purple-600 dark:text-purple-400' },
-  ];
-
   return (
     <div className="space-y-6">
       {/* User Actions */}
@@ -49,22 +43,7 @@ const RightSidebar = () => {
         <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           Quick Actions
         </h3>
-        <div className="space-y-2">
-          {userActions.map((action) => (
-            <button
-              key={action.path}
-              onClick={() => navigate(action.path)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all ${
-                isDarkMode 
-                  ? 'hover:bg-gray-700 text-gray-300 hover:text-white' 
-                  : 'hover:bg-gray-50 text-gray-700 hover:text-gray-900'
-              }`}
-            >
-              <action.icon className={`w-5 h-5 ${action.color}`} />
-              <span className="font-medium">{action.label}</span>
-            </button>
-          ))}
-        </div>
+        <QuickActionsMenu />
       </div>
 
       {/* Popular Locations */}
