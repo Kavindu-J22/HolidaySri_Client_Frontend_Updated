@@ -4,6 +4,7 @@ import { Layers, Sparkles, X } from 'lucide-react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
+import BackgroundAnimation from '../common/BackgroundAnimation';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,10 +18,13 @@ const Layout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col relative">
+      {/* Background Animation */}
+      <BackgroundAnimation />
+
       <Navbar />
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 relative z-10">
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
         <main className="flex-1 lg:ml-0 flex flex-col">

@@ -354,10 +354,11 @@ const Sidebar = ({ isOpen, onClose }) => {
       {/* Sidebar */}
       <div
         className={`
-          fixed lg:static inset-y-0 left-0 z-50 w-80 bg-white dark:bg-gray-900
+          fixed lg:static inset-y-0 left-0 z-50 w-80
+          bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
           border-r border-gray-200 dark:border-gray-700 transform transition-transform duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-          overflow-y-auto shadow-xl lg:shadow-none
+          overflow-y-auto shadow-xl lg:shadow-none glass-shine
         `}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
@@ -460,7 +461,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 <div key={category.id}>
                   <button
                     onClick={() => toggleCategory(category.id)}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200 sidebar-item-glow"
                   >
                     <div className="flex items-center space-x-3">
                       <div className={`p-1.5 rounded-md ${category.bgColor} dark:bg-gray-800`}>

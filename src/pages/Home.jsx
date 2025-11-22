@@ -368,28 +368,6 @@ const Home = () => {
           <div className="absolute top-1/3 right-0 animate-airplane-2">
             <Plane className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400/40 dark:text-purple-300/30 transform rotate-12" />
           </div>
-
-          {/* Floating Leaves */}
-          <div className="absolute top-1/4 left-1/4 animate-leaf-1">
-            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-400/30 dark:text-green-300/20" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2c-1.5 3-4 5-7 6 0 3 1.5 6 4 8 1-2 2-4 3-6 1 2 2 4 3 6 2.5-2 4-5 4-8-3-1-5.5-3-7-6z"/>
-            </svg>
-          </div>
-          <div className="absolute top-1/2 right-1/3 animate-leaf-2">
-            <svg className="w-5 h-5 sm:w-6 sm:h-6 text-green-500/30 dark:text-green-400/20" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2c-1.5 3-4 5-7 6 0 3 1.5 6 4 8 1-2 2-4 3-6 1 2 2 4 3 6 2.5-2 4-5 4-8-3-1-5.5-3-7-6z"/>
-            </svg>
-          </div>
-          <div className="absolute top-2/3 left-1/2 animate-leaf-3">
-            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-400/25 dark:text-green-300/15" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2c-1.5 3-4 5-7 6 0 3 1.5 6 4 8 1-2 2-4 3-6 1 2 2 4 3 6 2.5-2 4-5 4-8-3-1-5.5-3-7-6z"/>
-            </svg>
-          </div>
-          <div className="absolute top-1/3 left-2/3 animate-leaf-4">
-            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-500/25 dark:text-green-400/15" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M10 2c-1.5 3-4 5-7 6 0 3 1.5 6 4 8 1-2 2-4 3-6 1 2 2 4 3 6 2.5-2 4-5 4-8-3-1-5.5-3-7-6z"/>
-            </svg>
-          </div>
         </div>
         <div className="relative px-3 sm:px-6 py-10 sm:py-16 text-center">
           <div className="max-w-5xl mx-auto">

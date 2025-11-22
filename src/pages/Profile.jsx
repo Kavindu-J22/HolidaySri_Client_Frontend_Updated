@@ -128,9 +128,9 @@ const Profile = () => {
           ${sidebarOpen ? 'w-80' : 'w-20'}
           ${isMobile ? 'fixed inset-y-0 left-0 z-50' : 'relative'}
           ${isMobile && !sidebarOpen ? '-translate-x-full' : 'translate-x-0'}
-          bg-white dark:bg-gray-800 shadow-lg transition-all duration-300 ease-in-out
+          bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm shadow-lg transition-all duration-300 ease-in-out
           ${isMobile ? 'top-16' : ''}
-          h-screen ${isMobile ? '' : 'rounded-2xl'} border-r border-gray-200 dark:border-gray-700
+          h-screen ${isMobile ? '' : 'rounded-2xl'} border-r border-gray-200 dark:border-gray-700 glass-shine
         `}>
           {/* Desktop Header */}
           <div className="hidden md:flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
