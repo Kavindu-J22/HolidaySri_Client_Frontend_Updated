@@ -1021,31 +1021,31 @@ const PostAdvertisement = () => {
                   </div>
 
                   {/* Action Buttons - Fixed at Bottom */}
-                  <div className="flex gap-3 mt-6">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mt-6">
                     <button
                       onClick={() => handlePostNow(category, slot)}
-                      className="btn-primary flex-1 flex items-center justify-center space-x-2"
+                      className="btn-primary flex-1 flex items-center justify-center space-x-2 py-2.5 sm:py-2"
                     >
                       <Zap className="w-4 h-4" />
-                      <span>Post Now</span>
+                      <span className="text-sm sm:text-base">Post Now</span>
                     </button>
 
                     {/* Check Availability button for home_banner_slot only */}
                     {slot.id === 'home_banner_slot' ? (
                       <button
                         onClick={() => setShowAvailabilityModal(true)}
-                        className="btn-secondary flex items-center justify-center space-x-2"
+                        className="btn-secondary flex items-center justify-center space-x-2 py-2.5 sm:py-2 flex-1 sm:flex-initial"
                       >
                         <Grid3x3 className="w-4 h-4" />
-                        <span>Check Availability</span>
+                        <span className="text-sm sm:text-base">Check Availability</span>
                       </button>
                     ) : (
                       <button
                         onClick={() => handleViewExamples(slot.id)}
-                        className="btn-secondary flex items-center justify-center space-x-2"
+                        className="btn-secondary flex items-center justify-center space-x-2 py-2.5 sm:py-2 flex-1 sm:flex-initial"
                       >
                         <Eye className="w-4 h-4" />
-                        <span>View Examples</span>
+                        <span className="text-sm sm:text-base">View Examples</span>
                       </button>
                     )}
                   </div>

@@ -297,22 +297,22 @@ const AdvertisementPayment = () => {
             </div>
 
             {/* Promo Code Section */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                <Gift className="w-5 h-5 text-green-500 mr-2" />
-                Apply Promo Code for Discount
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                <Gift className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 mr-2" />
+                <span className="text-base sm:text-xl">Apply Promo Code for Discount</span>
               </h2>
 
               {/* Check if payment method supports discounts */}
               {paymentMethod?.type !== 'HSC' ? (
-                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
-                  <div className="flex items-start space-x-3">
-                    <AlertCircle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
+                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg p-3 sm:p-4">
+                  <div className="flex items-start space-x-2 sm:space-x-3">
+                    <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500 mt-0.5 flex-shrink-0" />
                     <div>
-                      <h3 className="font-medium text-amber-800 dark:text-amber-200 mb-1">
+                      <h3 className="text-sm sm:text-base font-medium text-amber-800 dark:text-amber-200 mb-1">
                         Discount Not Available
                       </h3>
-                      <p className="text-sm text-amber-700 dark:text-amber-300">
+                      <p className="text-xs sm:text-sm text-amber-700 dark:text-amber-300">
                         Promo code discounts can only be applied to <strong>HSC payments</strong>.
                         Please select HSC as your payment method to use promo codes and get discounts on your advertisement purchase.
                       </p>
@@ -322,19 +322,19 @@ const AdvertisementPayment = () => {
               ) : (
                 <>
                   {!appliedPromoCode ? (
-                    <div className="space-y-4">
-                      <div className="flex space-x-2">
+                    <div className="space-y-3 sm:space-y-4">
+                      <div className="flex flex-col sm:flex-row gap-2 sm:gap-2">
                         <input
                           type="text"
                           value={promoCodeInput || ''}
                           onChange={(e) => setPromoCodeInput((e.target.value || '').toUpperCase())}
                           placeholder="Enter promo code"
-                          className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                          className="flex-1 px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                         />
                         <button
                           onClick={handleApplyPromoCode}
                           disabled={validatingPromo || !promoCodeInput?.trim()}
-                          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                          className="px-4 sm:px-6 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 whitespace-nowrap"
                         >
                           {validatingPromo ? (
                             <Loader className="w-4 h-4 animate-spin" />
@@ -347,24 +347,24 @@ const AdvertisementPayment = () => {
 
                       <button
                         onClick={() => setShowFavoriteSelector(true)}
-                        className="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                        className="inline-flex items-center space-x-1.5 px-3 py-1.5 text-xs sm:text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
                       >
                         <Star className="w-3.5 h-3.5" />
                         <span>Select from Favorites</span>
                       </button>
                     </div>
                   ) : (
-                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                      <div className="flex items-center justify-between">
+                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 sm:p-4">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0">
                         <div className="flex items-center space-x-2">
-                          <CheckCircle className="w-5 h-5 text-green-500" />
-                          <span className="font-medium text-green-800 dark:text-green-200">
+                          <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" />
+                          <span className="text-sm sm:text-base font-medium text-green-800 dark:text-green-200 break-all">
                             Promo code applied: {appliedPromoCode}
                           </span>
                         </div>
                         <button
                           onClick={handleRemovePromoCode}
-                          className="text-red-600 hover:text-red-800 text-sm"
+                          className="text-red-600 hover:text-red-800 text-xs sm:text-sm whitespace-nowrap self-end sm:self-auto"
                         >
                           Remove
                         </button>

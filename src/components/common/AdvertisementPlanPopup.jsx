@@ -450,49 +450,49 @@ const AdvertisementPlanPopup = ({
   const paymentMethods = getPaymentMethods();
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-2xl max-w-4xl w-full mx-2 sm:mx-4 max-h-[95vh] sm:max-h-[90vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <div className="flex items-center space-x-3">
-            <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
-              <Star className="w-6 h-6 text-white" />
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0">
+            <div className="p-1.5 sm:p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex-shrink-0">
+              <Star className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+            <div className="min-w-0 flex-1">
+              <h3 className="text-base sm:text-xl font-bold text-gray-900 dark:text-white truncate">
                 {currentStep === 1 ? (isRenewal ? 'Select Renewal Plan' : 'Select Advertisement Plan') :
                  currentStep === 2 ? 'Choose Payment Method' :
                  'Select Duration Hours'}
               </h3>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 truncate">
                 {selectedSlot?.name || 'Advertisement Slot'}
               </p>
             </div>
           </div>
           <button
             onClick={handleClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex-shrink-0 ml-2"
           >
-            <X className="w-6 h-6 text-gray-500" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6 text-gray-500" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+        <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(95vh-100px)] sm:max-h-[calc(90vh-140px)]">
           {error && (
-            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-center space-x-3">
-              <AlertTriangle className="w-5 h-5 text-red-500" />
-              <p className="text-red-700 dark:text-red-400">{error}</p>
+            <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-2 sm:space-x-3">
+              <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0 mt-0.5" />
+              <p className="text-sm sm:text-base text-red-700 dark:text-red-400">{error}</p>
             </div>
           )}
 
           {currentStep === 1 && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <div className="text-center">
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1 sm:mb-2">
                   Choose Your Advertisement Duration
                 </h4>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                   Select the plan that best fits your advertising needs
                 </p>
               </div>
@@ -505,44 +505,44 @@ const AdvertisementPlanPopup = ({
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                   {availablePlans.map((plan) => {
                     const IconComponent = plan.icon;
                     return (
                       <div
                         key={plan.id}
                         onClick={() => handlePlanSelect(plan)}
-                        className={`relative cursor-pointer p-6 rounded-xl border-2 transition-all duration-300 hover:shadow-lg ${
+                        className={`relative cursor-pointer p-4 sm:p-6 rounded-lg sm:rounded-xl border-2 transition-all duration-300 hover:shadow-lg ${
                           plan.popular
                             ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
                             : 'border-gray-200 dark:border-gray-700 hover:border-blue-500'
                         }`}
                       >
                         {plan.popular && (
-                          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                            <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                          <div className="absolute -top-2 sm:-top-3 left-1/2 transform -translate-x-1/2">
+                            <span className="bg-green-500 text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs font-semibold">
                               Most Popular
                             </span>
                           </div>
                         )}
 
                         <div className="text-center">
-                          <div className={`inline-flex p-3 rounded-lg bg-gradient-to-r ${plan.color} mb-4`}>
-                            <IconComponent className="w-6 h-6 text-white" />
+                          <div className={`inline-flex p-2 sm:p-3 rounded-lg bg-gradient-to-r ${plan.color} mb-3 sm:mb-4`}>
+                            <IconComponent className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                           </div>
 
-                          <h5 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                          <h5 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-1">
                             {plan.name}
                           </h5>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
                             {plan.duration}
                           </p>
 
-                          <div className="space-y-2 mb-4">
-                            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                          <div className="space-y-1 sm:space-y-2 mb-3 sm:mb-4">
+                            <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                               {plan.lkrPrice.toLocaleString()} LKR
                             </div>
-                            <div className="text-lg text-blue-600 dark:text-blue-400">
+                            <div className="text-base sm:text-lg text-blue-600 dark:text-blue-400">
                               {plan.hscPrice} HSC
                             </div>
                           </div>
@@ -560,37 +560,37 @@ const AdvertisementPlanPopup = ({
           )}
 
           {currentStep === 3 && selectedPlan && selectedPlan.requiresHours && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <div className="text-center">
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1 sm:mb-2">
                   Select Duration Hours
                 </h4>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                   How many hours do you want to advertise?
                 </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-2">
                   Rate: {selectedPlan.lkrPrice.toLocaleString()} LKR per hour ({selectedPlan.hscPrice} HSC per hour)
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
                 {[1, 2, 3, 4, 6, 8, 12, 24].map((hours) => (
                   <div
                     key={hours}
                     onClick={() => handleHourSelect(hours)}
-                    className={`cursor-pointer p-4 rounded-xl border-2 text-center transition-all duration-300 hover:shadow-lg ${
+                    className={`cursor-pointer p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 text-center transition-all duration-300 hover:shadow-lg ${
                       selectedHours === hours
                         ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
                         : 'border-gray-200 dark:border-gray-700 hover:border-blue-500'
                     }`}
                   >
-                    <div className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                    <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-1 sm:mb-2">
                       {hours}
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1 sm:mb-2">
                       {hours === 1 ? 'Hour' : 'Hours'}
                     </div>
-                    <div className="text-sm font-semibold text-blue-600 dark:text-blue-400">
+                    <div className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400">
                       {(selectedPlan.lkrPrice * hours).toLocaleString()} LKR
                     </div>
                     <div className="text-xs text-gray-500 dark:text-gray-400">
@@ -600,20 +600,20 @@ const AdvertisementPlanPopup = ({
                 ))}
               </div>
 
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 sm:p-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-700 dark:text-gray-300">Selected Duration:</span>
-                  <span className="font-semibold text-gray-900 dark:text-white">
+                  <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">Selected Duration:</span>
+                  <span className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                     {selectedHours} {selectedHours === 1 ? 'Hour' : 'Hours'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center mt-2">
-                  <span className="text-gray-700 dark:text-gray-300">Total Cost:</span>
+                  <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">Total Cost:</span>
                   <div className="text-right">
-                    <div className="font-bold text-lg text-gray-900 dark:text-white">
+                    <div className="font-bold text-base sm:text-lg text-gray-900 dark:text-white">
                       {(selectedPlan.lkrPrice * selectedHours).toLocaleString()} LKR
                     </div>
-                    <div className="text-sm text-blue-600 dark:text-blue-400">
+                    <div className="text-xs sm:text-sm text-blue-600 dark:text-blue-400">
                       {(selectedPlan.hscPrice * selectedHours).toFixed(2)} HSC
                     </div>
                   </div>
@@ -623,12 +623,12 @@ const AdvertisementPlanPopup = ({
           )}
 
           {currentStep === 2 && selectedPlan && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <div className="text-center">
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                <h4 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1 sm:mb-2">
                   Choose Your Payment Method
                 </h4>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-xs sm:text-sm md:text-base text-gray-600 dark:text-gray-400 px-2">
                   Selected Plan: {selectedPlan.name} - {
                     selectedPlan.requiresHours
                       ? `${(selectedPlan.lkrPrice * selectedHours).toLocaleString()} LKR (${selectedHours} ${selectedHours === 1 ? 'hour' : 'hours'})`
@@ -637,7 +637,7 @@ const AdvertisementPlanPopup = ({
                 </p>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {paymentMethods.map((method) => {
                   const IconComponent = method.icon;
                   const isSelected = selectedPaymentMethod?.id === method.id;
@@ -647,49 +647,49 @@ const AdvertisementPlanPopup = ({
                     <div
                       key={method.id}
                       onClick={() => handlePaymentMethodSelect(method)}
-                      className={`cursor-pointer p-4 rounded-xl border-2 transition-all duration-300 ${
+                      className={`cursor-pointer p-3 sm:p-4 rounded-lg sm:rounded-xl border-2 transition-all duration-300 ${
                         isSelected
                           ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
                           : 'border-gray-200 dark:border-gray-700 hover:border-gray-300'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4">
-                          <div className={`p-3 rounded-lg bg-gradient-to-r ${method.color}`}>
-                            <IconComponent className="w-6 h-6 text-white" />
+                      <div className="flex items-start sm:items-center justify-between gap-2">
+                        <div className="flex items-start sm:items-center space-x-2 sm:space-x-4 flex-1 min-w-0">
+                          <div className={`p-2 sm:p-3 rounded-lg bg-gradient-to-r ${method.color} flex-shrink-0`}>
+                            <IconComponent className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                           </div>
 
-                          <div>
-                            <h5 className="text-lg font-semibold text-gray-900 dark:text-white">
+                          <div className="flex-1 min-w-0">
+                            <h5 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900 dark:text-white truncate">
                               {method.name}
                             </h5>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 line-clamp-1">
                               {method.description}
                             </p>
                           </div>
                         </div>
 
-                        <div className="text-right">
-                          <div className="text-lg font-bold text-gray-900 dark:text-white">
+                        <div className="text-right flex-shrink-0">
+                          <div className="text-sm sm:text-base md:text-lg font-bold text-gray-900 dark:text-white">
                             {method.requiredAmount} {method.currency}
                           </div>
-                          <div className={`text-sm ${
+                          <div className={`text-xs sm:text-sm ${
                             hasSufficientBalance
                               ? 'text-green-600 dark:text-green-400'
                               : 'text-red-600 dark:text-red-400'
                           }`}>
-                            Balance: {method.balance} {method.currency}
+                            Bal: {method.balance} {method.currency}
                           </div>
                           {!hasSufficientBalance && (
                             <div className="text-xs text-red-500 mt-1">
-                              Insufficient balance
+                              Insufficient
                             </div>
                           )}
                         </div>
 
                         {isSelected && (
-                          <div className="ml-4">
-                            <CheckCircle className="w-6 h-6 text-blue-500" />
+                          <div className="ml-2 flex-shrink-0">
+                            <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500" />
                           </div>
                         )}
                       </div>
@@ -702,12 +702,12 @@ const AdvertisementPlanPopup = ({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between p-6 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-0 p-4 sm:p-6 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-center sm:justify-start">
             {(currentStep === 2 || currentStep === 3) && (
               <button
                 onClick={handleBack}
-                className="flex items-center space-x-2 px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+                className="flex items-center space-x-2 px-4 py-2 text-sm sm:text-base text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Back</span>
@@ -715,10 +715,10 @@ const AdvertisementPlanPopup = ({
             )}
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4">
             <button
               onClick={handleClose}
-              className="px-6 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+              className="px-4 sm:px-6 py-2 text-sm sm:text-base text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors order-2 sm:order-1"
             >
               Cancel
             </button>
@@ -727,7 +727,7 @@ const AdvertisementPlanPopup = ({
               <button
                 onClick={handleNext}
                 disabled={!selectedPaymentMethod}
-                className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center justify-center space-x-2 px-4 sm:px-6 py-2 text-sm sm:text-base bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed order-1 sm:order-2"
               >
                 <span>Next</span>
                 <ArrowRight className="w-4 h-4" />
@@ -740,7 +740,7 @@ const AdvertisementPlanPopup = ({
                   setCurrentStep(2);
                   setError(null);
                 }}
-                className="flex items-center space-x-2 px-6 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300"
+                className="flex items-center justify-center space-x-2 px-4 sm:px-6 py-2 text-sm sm:text-base bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-300 order-1 sm:order-2"
               >
                 <span>Continue</span>
                 <ArrowRight className="w-4 h-4" />
