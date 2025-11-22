@@ -357,6 +357,39 @@ const Home = () => {
           <div className="absolute top-20 left-10 w-72 h-72 bg-primary-200/30 dark:bg-primary-500/10 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl animate-blob"></div>
           <div className="absolute top-40 right-10 w-72 h-72 bg-purple-200/30 dark:bg-purple-500/10 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl animate-blob animation-delay-2000"></div>
           <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200/30 dark:bg-pink-500/10 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl animate-blob animation-delay-4000"></div>
+
+          {/* Shimmer Effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
+
+          {/* Floating Airplanes */}
+          <div className="absolute top-1/4 left-0 animate-airplane-1">
+            <Plane className="w-8 h-8 sm:w-10 sm:h-10 text-primary-400/40 dark:text-primary-300/30 transform -rotate-12" />
+          </div>
+          <div className="absolute top-1/3 right-0 animate-airplane-2">
+            <Plane className="w-6 h-6 sm:w-8 sm:h-8 text-purple-400/40 dark:text-purple-300/30 transform rotate-12" />
+          </div>
+
+          {/* Floating Leaves */}
+          <div className="absolute top-1/4 left-1/4 animate-leaf-1">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-400/30 dark:text-green-300/20" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2c-1.5 3-4 5-7 6 0 3 1.5 6 4 8 1-2 2-4 3-6 1 2 2 4 3 6 2.5-2 4-5 4-8-3-1-5.5-3-7-6z"/>
+            </svg>
+          </div>
+          <div className="absolute top-1/2 right-1/3 animate-leaf-2">
+            <svg className="w-5 h-5 sm:w-6 sm:h-6 text-green-500/30 dark:text-green-400/20" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2c-1.5 3-4 5-7 6 0 3 1.5 6 4 8 1-2 2-4 3-6 1 2 2 4 3 6 2.5-2 4-5 4-8-3-1-5.5-3-7-6z"/>
+            </svg>
+          </div>
+          <div className="absolute top-2/3 left-1/2 animate-leaf-3">
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-green-400/25 dark:text-green-300/15" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2c-1.5 3-4 5-7 6 0 3 1.5 6 4 8 1-2 2-4 3-6 1 2 2 4 3 6 2.5-2 4-5 4-8-3-1-5.5-3-7-6z"/>
+            </svg>
+          </div>
+          <div className="absolute top-1/3 left-2/3 animate-leaf-4">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-green-500/25 dark:text-green-400/15" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2c-1.5 3-4 5-7 6 0 3 1.5 6 4 8 1-2 2-4 3-6 1 2 2 4 3 6 2.5-2 4-5 4-8-3-1-5.5-3-7-6z"/>
+            </svg>
+          </div>
         </div>
         <div className="relative px-3 sm:px-6 py-10 sm:py-16 text-center">
           <div className="max-w-5xl mx-auto">

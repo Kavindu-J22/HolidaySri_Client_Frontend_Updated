@@ -347,3 +347,127 @@
 .animate-shimmer {
   animation: shimmer 8s ease-in-out infinite;
 }
+
+/* Airplane Animations - Flying across the screen */
+@keyframes airplane-1 {
+  0% {
+    transform: translateX(-100px) translateY(0) rotate(-12deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateX(calc(100vw + 100px)) translateY(-50px) rotate(-12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes airplane-2 {
+  0% {
+    transform: translateX(100px) translateY(0) rotate(12deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.4;
+  }
+  90% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateX(calc(-100vw - 100px)) translateY(-30px) rotate(12deg);
+    opacity: 0;
+  }
+}
+
+.animate-airplane-1 {
+  animation: airplane-1 20s ease-in-out infinite;
+}
+
+.animate-airplane-2 {
+  animation: airplane-2 25s ease-in-out infinite;
+  animation-delay: 5s;
+}
+
+/* Leaf Floating Animations - Smooth random floating */
+@keyframes leaf-1 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(20px, -30px) rotate(90deg);
+  }
+  50% {
+    transform: translate(-15px, -60px) rotate(180deg);
+  }
+  75% {
+    transform: translate(25px, -40px) rotate(270deg);
+  }
+}
+
+@keyframes leaf-2 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-25px, -35px) rotate(-90deg);
+  }
+  50% {
+    transform: translate(20px, -70px) rotate(-180deg);
+  }
+  75% {
+    transform: translate(-20px, -45px) rotate(-270deg);
+  }
+}
+
+@keyframes leaf-3 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(15px, -25px) rotate(120deg);
+  }
+  50% {
+    transform: translate(-20px, -50px) rotate(240deg);
+  }
+  75% {
+    transform: translate(18px, -35px) rotate(360deg);
+  }
+}
+
+@keyframes leaf-4 {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-18px, -40px) rotate(-120deg);
+  }
+  50% {
+    transform: translate(22px, -65px) rotate(-240deg);
+  }
+  75% {
+    transform: translate(-15px, -50px) rotate(-360deg);
+  }
+}
+
+.animate-leaf-1 {
+  animation: leaf-1 12s ease-in-out infinite;
+}
+
+.animate-leaf-2 {
+  animation: leaf-2 15s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-leaf-3 {
+  animation: leaf-3 13s ease-in-out infinite;
+  animation-delay: 4s;
+}
+
+.animate-leaf-4 {
+  animation: leaf-4 14s ease-in-out infinite;
+  animation-delay: 1s;
+}
