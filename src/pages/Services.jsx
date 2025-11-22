@@ -53,7 +53,19 @@ import {
   Sparkles,
   TrendingUp,
   ChevronRight,
-  X
+  X,
+  UserCheck,
+  Shield,
+  Tent,
+  Coffee,
+  Palette,
+  Scissors,
+  Building,
+  DollarSign,
+  Flower2,
+  Image,
+  Headphones,
+  Coins
 } from 'lucide-react';
 
 const Services = () => {
@@ -71,13 +83,13 @@ const Services = () => {
       darkBgColor: 'dark:bg-blue-900/20',
       description: 'Explore Sri Lanka with expert guides, tour packages, and travel companions',
       services: [
-        { name: 'Explore Locations', path: '/explore-locations', description: 'Discover amazing destinations across Sri Lanka' },
-        { name: 'Find Travel Buddies', path: '/travel-buddies', description: 'Connect with fellow travelers' },
-        { name: 'Expert Tour Guiders', path: '/ads/tourism/tour-guiders', description: 'Professional local tour guides' },
-        { name: 'Local Tour Packages', path: '/local-tour-packages', description: 'Curated tour packages for every budget' },
-        { name: 'Customize Tour Package', path: '/ads/tourism/customize-package', description: 'Create your personalized tour' },
-        { name: 'TravelSafe & Help Professionals', path: '/ads/tourism/travel-safe', description: 'Travel assistance and safety services' },
-        { name: 'Rent a Land for Camping or Parking', path: '/rent-land-camping-parking', description: 'Find perfect camping spots' },
+        { name: 'Explore Locations', path: '/explore-locations', description: 'Discover amazing destinations across Sri Lanka', icon: MapPin },
+        { name: 'Find Travel Buddies', path: '/travel-buddies', description: 'Connect with fellow travelers', icon: Users },
+        { name: 'Expert Tour Guiders', path: '/ads/tourism/tour-guiders', description: 'Professional local tour guides', icon: Compass },
+        { name: 'Local Tour Packages', path: '/local-tour-packages', description: 'Curated tour packages for every budget', icon: Package },
+        { name: 'Customize Tour Package', path: '/ads/tourism/customize-package', description: 'Create your personalized tour', icon: Target },
+        { name: 'TravelSafe & Help Professionals', path: '/ads/tourism/travel-safe', description: 'Travel assistance and safety services', icon: Shield },
+        { name: 'Rent a Land for Camping or Parking', path: '/rent-land-camping-parking', description: 'Find perfect camping spots', icon: Tent },
       ]
     },
     {
@@ -89,9 +101,9 @@ const Services = () => {
       darkBgColor: 'dark:bg-green-900/20',
       description: 'Comfortable stays and delicious dining experiences',
       services: [
-        { name: 'Hotels & Accommodations', path: '/hotels-accommodations', description: 'Book hotels, resorts, and guesthouses' },
-        { name: 'Cafes & Restaurants', path: '/cafes-restaurants', description: 'Discover local and international cuisine' },
-        { name: 'Foods & Beverages', path: '/foods-beverages', description: 'Order food and beverages' },
+        { name: 'Hotels & Accommodations', path: '/hotels-accommodations', description: 'Book hotels, resorts, and guesthouses', icon: Hotel },
+        { name: 'Cafes & Restaurants', path: '/cafes-restaurants', description: 'Discover local and international cuisine', icon: UtensilsCrossed },
+        { name: 'Foods & Beverages', path: '/foods-beverages', description: 'Order food and beverages', icon: Coffee },
       ]
     },
     {
@@ -103,10 +115,10 @@ const Services = () => {
       darkBgColor: 'dark:bg-purple-900/20',
       description: 'Reliable transportation solutions for your journey',
       services: [
-        { name: 'Vehicle Rentals & Hire Services', path: '/vehicle-rentals-hire', description: 'Rent cars, vans, bikes, and more' },
-        { name: 'Live Rides Updates & Carpooling', path: '/ads/vehicles-transport/live-rides-carpooling', description: 'Share rides and save money' },
-        { name: 'Professional Drivers', path: '/professional-drivers', description: 'Hire experienced drivers' },
-        { name: 'Vehicle Repairs & Mechanics', path: '/vehicle-repairs-mechanics', description: 'Trusted vehicle repair services' },
+        { name: 'Vehicle Rentals & Hire Services', path: '/vehicle-rentals-hire', description: 'Rent cars, vans, bikes, and more', icon: Car },
+        { name: 'Live Rides Updates & Carpooling', path: '/ads/vehicles-transport/live-rides-carpooling', description: 'Share rides and save money', icon: Share2 },
+        { name: 'Professional Drivers', path: '/professional-drivers', description: 'Hire experienced drivers', icon: UserCheck },
+        { name: 'Vehicle Repairs & Mechanics', path: '/vehicle-repairs-mechanics', description: 'Trusted vehicle repair services', icon: Wrench },
       ]
     },
     {
@@ -118,13 +130,13 @@ const Services = () => {
       darkBgColor: 'dark:bg-red-900/20',
       description: 'Make your special events unforgettable',
       services: [
-        { name: 'Events Updates', path: '/ads/events-management/events-updates', description: 'Stay updated on local events' },
-        { name: 'Manage or Customize Your Event', path: '/ads/events-management/customize-event', description: 'Plan your perfect event' },
-        { name: 'Expert Event Planners & Coordinators', path: '/event-planners-coordinators', description: 'Professional event planning' },
-        { name: 'Creative Photographers', path: '/ads/events/photographers', description: 'Capture your precious moments' },
-        { name: 'Decorators & Florists', path: '/decorators-florists', description: 'Beautiful decorations and flowers' },
-        { name: 'Salon & Makeup Artists', path: '/salon-makeup-artists', description: 'Look your best for any occasion' },
-        { name: 'Fashion Designers', path: '/ads/events/fashion-designers', description: 'Custom fashion and styling' },
+        { name: 'Events Updates', path: '/ads/events-management/events-updates', description: 'Stay updated on local events', icon: Calendar },
+        { name: 'Manage or Customize Your Event', path: '/ads/events-management/customize-event', description: 'Plan your perfect event', icon: Target },
+        { name: 'Expert Event Planners & Coordinators', path: '/event-planners-coordinators', description: 'Professional event planning', icon: Briefcase },
+        { name: 'Creative Photographers', path: '/ads/events/photographers', description: 'Capture your precious moments', icon: Camera },
+        { name: 'Decorators & Florists', path: '/decorators-florists', description: 'Beautiful decorations and flowers', icon: Flower2 },
+        { name: 'Salon & Makeup Artists', path: '/salon-makeup-artists', description: 'Look your best for any occasion', icon: Scissors },
+        { name: 'Fashion Designers', path: '/ads/events/fashion-designers', description: 'Custom fashion and styling', icon: Shirt },
       ]
     },
     {
@@ -136,17 +148,17 @@ const Services = () => {
       darkBgColor: 'dark:bg-indigo-900/20',
       description: 'Expert professional services for all your needs',
       services: [
-        { name: 'Meet Expert Doctors', path: '/expert-doctors', description: 'Consult with medical professionals' },
-        { name: 'Professional Lawyers', path: '/professional-lawyers', description: 'Legal advice and representation' },
-        { name: 'Experienced Advisors & Counselors', path: '/advisors-counselors', description: 'Professional guidance and counseling' },
-        { name: 'Language Translators & Interpreters', path: '/language-translators', description: 'Translation and interpretation services' },
-        { name: 'Expert Architects', path: '/expert-architects-browse', description: 'Architectural design and planning' },
-        { name: 'Trusted Astrologists', path: '/ads/professionals/astrologists', description: 'Astrological consultations' },
-        { name: 'Delivery Partners', path: '/delivery-partners', description: 'Reliable delivery services' },
-        { name: 'Graphics/IT Supports & Tech Repair', path: '/graphics-it-tech-repair', description: 'IT support and tech repairs' },
-        { name: 'Educational & Tutoring Services', path: '/educational-tutoring', description: 'Quality education and tutoring' },
-        { name: 'Currency Exchange Rates & Services', path: '/currency-exchange', description: 'Best currency exchange rates' },
-        { name: 'Other Professionals & Services', path: '/other-professionals-services', description: 'Various professional services' },
+        { name: 'Meet Expert Doctors', path: '/expert-doctors', description: 'Consult with medical professionals', icon: Stethoscope },
+        { name: 'Professional Lawyers', path: '/professional-lawyers', description: 'Legal advice and representation', icon: Scale },
+        { name: 'Experienced Advisors & Counselors', path: '/advisors-counselors', description: 'Professional guidance and counseling', icon: MessageCircle },
+        { name: 'Language Translators & Interpreters', path: '/language-translators', description: 'Translation and interpretation services', icon: Languages },
+        { name: 'Expert Architects', path: '/expert-architects-browse', description: 'Architectural design and planning', icon: Building },
+        { name: 'Trusted Astrologists', path: '/ads/professionals/astrologists', description: 'Astrological consultations', icon: Stars },
+        { name: 'Delivery Partners', path: '/delivery-partners', description: 'Reliable delivery services', icon: Truck },
+        { name: 'Graphics/IT Supports & Tech Repair', path: '/graphics-it-tech-repair', description: 'IT support and tech repairs', icon: Monitor },
+        { name: 'Educational & Tutoring Services', path: '/educational-tutoring', description: 'Quality education and tutoring', icon: GraduationCap },
+        { name: 'Currency Exchange Rates & Services', path: '/currency-exchange', description: 'Best currency exchange rates', icon: DollarSign },
+        { name: 'Other Professionals & Services', path: '/other-professionals-services', description: 'Various professional services', icon: Briefcase },
       ]
     },
     {
@@ -158,10 +170,10 @@ const Services = () => {
       darkBgColor: 'dark:bg-pink-900/20',
       description: 'Compassionate care and community support',
       services: [
-        { name: 'Compassionate Caregivers & Time Currency', path: '/caregivers-time-currency-browse', description: 'Professional caregiving services' },
-        { name: 'Trusted Babysitters & Childcare', path: '/babysitters-childcare', description: 'Safe and reliable childcare' },
-        { name: 'Pet Care & Animal Services', path: '/pet-care-animal-services', description: 'Care for your beloved pets' },
-        { name: 'Donations / Raise Your Fund', path: '/donations-raise-fund-browse', description: 'Support causes and fundraising' },
+        { name: 'Compassionate Caregivers & Time Currency', path: '/caregivers-time-currency-browse', description: 'Professional caregiving services', icon: HandHeart },
+        { name: 'Trusted Babysitters & Childcare', path: '/babysitters-childcare', description: 'Safe and reliable childcare', icon: Baby },
+        { name: 'Pet Care & Animal Services', path: '/pet-care-animal-services', description: 'Care for your beloved pets', icon: PawPrint },
+        { name: 'Donations / Raise Your Fund', path: '/donations-raise-fund-browse', description: 'Support causes and fundraising', icon: Heart },
       ]
     },
     {
@@ -173,16 +185,16 @@ const Services = () => {
       darkBgColor: 'dark:bg-orange-900/20',
       description: 'Shop for everything you need',
       services: [
-        { name: 'Rent & Property Buying & Selling', path: '/rent-property-buying-selling', description: 'Find your dream property' },
-        { name: 'Exclusive Gift Packs', path: '/ads/marketplace/gift-packs', description: 'Unique gift packages' },
-        { name: 'Souvenirs & Collectibles', path: '/ads/marketplace/souvenirs', description: 'Memorable souvenirs' },
-        { name: 'Jewelry & Gem Sellers', path: '/ads/marketplace/jewelry-gem-sellers', description: 'Precious gems and jewelry' },
-        { name: 'Home/Office Accessories & Tech', path: '/ads/marketplace/home-office-accessories-tech', description: 'Tech gadgets and accessories' },
-        { name: 'Fashion/Beauty & Clothing', path: '/ads/marketplace/fashion-beauty-clothing', description: 'Latest fashion trends' },
-        { name: 'Daily Grocery Essentials', path: '/ads/marketplace/daily-grocery-essentials', description: 'Fresh groceries delivered' },
-        { name: 'Organic Herbal Products & Spices', path: '/ads/marketplace/organic-herbal-products-spices', description: 'Natural and organic products' },
-        { name: 'Books, Magazines & Educational', path: '/books-magazines-educational', description: 'Educational materials' },
-        { name: 'Other Items', path: '/other-items', description: 'Various marketplace items' },
+        { name: 'Rent & Property Buying & Selling', path: '/rent-property-buying-selling', description: 'Find your dream property', icon: HomeIcon },
+        { name: 'Exclusive Gift Packs', path: '/ads/marketplace/gift-packs', description: 'Unique gift packages', icon: Gift },
+        { name: 'Souvenirs & Collectibles', path: '/ads/marketplace/souvenirs', description: 'Memorable souvenirs', icon: Store },
+        { name: 'Jewelry & Gem Sellers', path: '/ads/marketplace/jewelry-gem-sellers', description: 'Precious gems and jewelry', icon: Gem },
+        { name: 'Home/Office Accessories & Tech', path: '/ads/marketplace/home-office-accessories-tech', description: 'Tech gadgets and accessories', icon: Laptop },
+        { name: 'Fashion/Beauty & Clothing', path: '/ads/marketplace/fashion-beauty-clothing', description: 'Latest fashion trends', icon: Shirt },
+        { name: 'Daily Grocery Essentials', path: '/ads/marketplace/daily-grocery-essentials', description: 'Fresh groceries delivered', icon: Apple },
+        { name: 'Organic Herbal Products & Spices', path: '/ads/marketplace/organic-herbal-products-spices', description: 'Natural and organic products', icon: Leaf },
+        { name: 'Books, Magazines & Educational', path: '/books-magazines-educational', description: 'Educational materials', icon: Book },
+        { name: 'Other Items', path: '/other-items', description: 'Various marketplace items', icon: ShoppingBag },
       ]
     },
     {
@@ -194,9 +206,9 @@ const Services = () => {
       darkBgColor: 'dark:bg-cyan-900/20',
       description: 'Stay entertained and healthy',
       services: [
-        { name: 'Exclusive Combo Packages', path: '/exclusive-combo-packages', description: 'Wedding, tour, and event packages' },
-        { name: 'Talented Entertainers & Artists', path: '/ads/entertainment/entertainers-artists', description: 'Book entertainers for events' },
-        { name: 'Fitness & Health: Spas, Gym & Professionals', path: '/ads/professionals/fitness-health-spas-gym', description: 'Wellness and fitness services' },
+        { name: 'Exclusive Combo Packages', path: '/exclusive-combo-packages', description: 'Wedding, tour, and event packages', icon: Package },
+        { name: 'Talented Entertainers & Artists', path: '/ads/entertainment/entertainers-artists', description: 'Book entertainers for events', icon: Music },
+        { name: 'Fitness & Health: Spas, Gym & Professionals', path: '/ads/professionals/fitness-health-spas-gym', description: 'Wellness and fitness services', icon: Dumbbell },
       ]
     },
     {
@@ -208,8 +220,8 @@ const Services = () => {
       darkBgColor: 'dark:bg-yellow-900/20',
       description: 'Unique opportunities and offers',
       services: [
-        { name: 'Exciting Job Opportunities', path: '/ads/professionals/job-opportunities', description: 'Find your next career move' },
-        { name: 'Local SIM Cards & Mobile Data', path: '/ads/special-opportunities/local-sim-mobile-data', description: 'Stay connected in Sri Lanka' },
+        { name: 'Exciting Job Opportunities', path: '/ads/professionals/job-opportunities', description: 'Find your next career move', icon: Briefcase },
+        { name: 'Local SIM Cards & Mobile Data', path: '/ads/special-opportunities/local-sim-mobile-data', description: 'Stay connected in Sri Lanka', icon: Smartphone },
       ]
     },
     {
@@ -221,7 +233,7 @@ const Services = () => {
       darkBgColor: 'dark:bg-gray-900/20',
       description: 'Critical services for your peace of mind',
       services: [
-        { name: 'Emergency Services & Insurance', path: '/ads/essential-services/emergency-services-insurance', description: 'Emergency assistance and insurance' },
+        { name: 'Emergency Services & Insurance', path: '/ads/essential-services/emergency-services-insurance', description: 'Emergency assistance and insurance', icon: AlertTriangle },
       ]
     }
   ];
@@ -381,23 +393,33 @@ const Services = () => {
                     return service.name.toLowerCase().includes(searchLower) ||
                            service.description.toLowerCase().includes(searchLower);
                   })
-                  .map((service, index) => (
-                    <Link
-                      key={index}
-                      to={service.path}
-                      className="group p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-transparent hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 hover:bg-gradient-to-br hover:from-gray-50 hover:to-white dark:hover:from-gray-800 dark:hover:to-gray-700"
-                    >
-                      <div className="flex items-start justify-between mb-2">
-                        <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                          {service.name}
-                        </h3>
-                        <ChevronRight className={`w-5 h-5 ${category.color} opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-200`} />
-                      </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
-                        {service.description}
-                      </p>
-                    </Link>
-                  ))}
+                  .map((service, index) => {
+                    const ServiceIcon = service.icon;
+                    return (
+                      <Link
+                        key={index}
+                        to={service.path}
+                        className="group p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-transparent hover:shadow-lg transition-all duration-200 bg-white dark:bg-gray-800 hover:bg-gradient-to-br hover:from-gray-50 hover:to-white dark:hover:from-gray-800 dark:hover:to-gray-700"
+                      >
+                        <div className="flex items-start space-x-3 mb-2">
+                          <div className={`p-2 rounded-lg ${category.bgColor} ${category.darkBgColor} flex-shrink-0`}>
+                            <ServiceIcon className={`w-4 h-4 ${category.color}`} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between">
+                              <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                {service.name}
+                              </h3>
+                              <ChevronRight className={`w-5 h-5 ${category.color} opacity-0 group-hover:opacity-100 transform translate-x-0 group-hover:translate-x-1 transition-all duration-200 flex-shrink-0 ml-2`} />
+                            </div>
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-2 ml-11">
+                          {service.description}
+                        </p>
+                      </Link>
+                    );
+                  })}
               </div>
             </div>
           ))}

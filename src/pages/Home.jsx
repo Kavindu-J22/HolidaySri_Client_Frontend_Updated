@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
   MapPin,
   Star,
   Users,
-  Award,
   ArrowRight,
   Hotel,
   Car,
@@ -16,9 +15,20 @@ import {
   ChevronRight,
   ExternalLink,
   Sparkles,
-  Globe,
   Heart,
-  Loader
+  Loader,
+  Image,
+  Shield,
+  Zap,
+  CheckCircle,
+  Building2,
+  Plane,
+  Coffee,
+  Phone,
+  BadgeCheck,
+  Briefcase,
+  Package,
+  Clock
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -149,56 +159,104 @@ const Home = () => {
     setCurrentSlide((prev) => (prev - 1 + bannerSlides.length) % bannerSlides.length);
   };
 
-  const features = [
+  // Core Services Data
+  const coreServices = [
     {
       icon: Hotel,
-      title: 'Premium Hotels',
-      description: 'Discover luxury accommodations across Sri Lanka',
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50'
-    },
-    {
-      icon: Compass,
-      title: 'Anything You Want "Sri Lanka"',
-      description: 'Tailored experiences curated by local experts',
-      color: 'text-green-600',
-      bgColor: 'bg-green-50'
+      title: 'Accommodations',
+      description: 'From luxury resorts to cozy guesthouses',
+      link: '/services?category=hotels',
+      color: 'from-blue-500 to-blue-600',
+      iconBg: 'bg-blue-100 dark:bg-blue-900/30',
+      iconColor: 'text-blue-600 dark:text-blue-400'
     },
     {
       icon: Car,
       title: 'Transportation',
-      description: 'Reliable vehicle rentals and transport services',
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50'
+      description: 'Reliable vehicle rentals & professional drivers',
+      link: '/vehicle-rentals-hire',
+      color: 'from-purple-500 to-purple-600',
+      iconBg: 'bg-purple-100 dark:bg-purple-900/30',
+      iconColor: 'text-purple-600 dark:text-purple-400'
+    },
+    {
+      icon: Compass,
+      title: 'Tour Packages',
+      description: 'Curated experiences by local experts',
+      link: '/local-tour-packages',
+      color: 'from-green-500 to-green-600',
+      iconBg: 'bg-green-100 dark:bg-green-900/30',
+      iconColor: 'text-green-600 dark:text-green-400'
     },
     {
       icon: UtensilsCrossed,
-      title: 'Local Cuisine',
-      description: 'Experience authentic Sri Lankan dining',
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50'
+      title: 'Dining',
+      description: 'Authentic Sri Lankan cuisine & cafes',
+      link: '/cafes-restaurants',
+      color: 'from-orange-500 to-orange-600',
+      iconBg: 'bg-orange-100 dark:bg-orange-900/30',
+      iconColor: 'text-orange-600 dark:text-orange-400'
     },
     {
       icon: Camera,
       title: 'Attractions',
-      description: 'Explore historical sites and natural wonders',
-      color: 'text-red-600',
-      bgColor: 'bg-red-50'
+      description: 'Historical sites & natural wonders',
+      link: '/services?category=attractions',
+      color: 'from-red-500 to-red-600',
+      iconBg: 'bg-red-100 dark:bg-red-900/30',
+      iconColor: 'text-red-600 dark:text-red-400'
     },
     {
-      icon: TrendingUp,
-      title: 'HSC System',
-      description: 'Advertise your services with our token system',
-      color: 'text-indigo-600',
-      bgColor: 'bg-indigo-50'
+      icon: Image,
+      title: 'Holiday Memories',
+      description: 'Share & discover travel photos',
+      link: '/ads/entertainment/holiday-memories',
+      color: 'from-pink-500 to-pink-600',
+      iconBg: 'bg-pink-100 dark:bg-pink-900/30',
+      iconColor: 'text-pink-600 dark:text-pink-400',
+      featured: true
+    }
+  ];
+
+  // Why Choose Us Features
+  const whyChooseUs = [
+    {
+      icon: Shield,
+      title: 'Verified Listings',
+      description: 'All service providers are verified for your safety and peace of mind'
+    },
+    {
+      icon: BadgeCheck,
+      title: 'Trusted Platform',
+      description: 'Join 10,000+ satisfied travelers who trust Holidaysri'
+    },
+    {
+      icon: Zap,
+      title: 'Instant Booking',
+      description: 'Quick and easy booking process with instant confirmation'
+    },
+    {
+      icon: Clock,
+      title: '24/7 Support',
+      description: 'Round-the-clock customer support for all your needs'
     }
   ];
 
   const stats = [
-    { label: 'Active Listings', value: '2,500+', icon: MapPin },
-    { label: 'Happy Customers', value: '10,000+', icon: Users },
-    { label: 'Partner Hotels', value: '500+', icon: Hotel },
-    { label: 'Others', value: '50,000+', icon: Compass }
+    { label: 'Active Listings', value: '2,500+', icon: MapPin, color: 'text-blue-600' },
+    { label: 'Happy Travelers', value: '10,000+', icon: Users, color: 'text-green-600' },
+    { label: 'Partner Hotels', value: '500+', icon: Hotel, color: 'text-purple-600' },
+    { label: 'Tour Packages', value: '1,000+', icon: Compass, color: 'text-orange-600' }
+  ];
+
+  // Popular Categories
+  const popularCategories = [
+    { name: 'Hotels & Resorts', icon: Building2, link: '/services?category=hotels', count: '500+' },
+    { name: 'Tour Packages', icon: Package, link: '/local-tour-packages', count: '1,000+' },
+    { name: 'Vehicle Rentals', icon: Car, link: '/vehicle-rentals-hire', count: '300+' },
+    { name: 'Restaurants', icon: Coffee, link: '/cafes-restaurants', count: '400+' },
+    { name: 'Travel Guides', icon: Compass, link: '/ads/tourism/tour-guiders', count: '200+' },
+    { name: 'Photographers', icon: Camera, link: '/ads/events/photographers', count: '150+' }
   ];
 
   return (
@@ -291,74 +349,267 @@ const Home = () => {
         </div>
       </section>
 
-           {/* Smart Welcome Section */}
+      {/* Welcome Section - Professional & Engaging */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20"></div>
-        <div className="relative px-8 py-12 text-center">
-          <div className="max-w-4xl mx-auto">
-            
-            <h1 className="text-3xl sm:text-5xl font-bold mb-6 bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Welcome to Holidaysri.com
+        <div className="relative px-3 sm:px-6 py-10 sm:py-16 text-center">
+          <div className="max-w-5xl mx-auto">
+            <div className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full mb-4 sm:mb-6">
+              <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-primary-600 dark:text-primary-400 mr-1.5 sm:mr-2 flex-shrink-0" />
+              <span className="text-xs sm:text-sm font-semibold text-primary-600 dark:text-primary-400 whitespace-nowrap">
+                Sri Lanka's #1 Travel Platform
+              </span>
+            </div>
+
+            <h1 className="font-bold mb-4 sm:mb-6 leading-tight">
+              <div className="mb-2 sm:mb-3">
+                <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent pb-1">
+                  Holidaysri.com
+                </span>
+              </div>
+              <div className="relative">
+                <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-gray-100 tracking-wide">
+                  Unforgettable Sri Lankan
+                </span>
+                <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 bg-clip-text text-transparent mt-1">
+                  Adventures
+                </span>
+              </div>
             </h1>
-            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-              Your intelligent gateway to authentic Sri Lankan experiences. Discover, connect, and create unforgettable memories with our smart platform.
+
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 mb-6 sm:mb-10 max-w-3xl mx-auto leading-relaxed px-2 sm:px-4">
+              Discover authentic experiences, connect with trusted service providers, and create memories that last a lifetime.
+              Everything you need for the perfect Sri Lankan holiday, all in one place.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                <Globe className="w-4 h-4" />
-                <span>Trusted by 10,000+ travelers</span>
+
+            <div className="flex flex-wrap gap-2 sm:gap-4 md:gap-6 justify-center items-center mb-6 sm:mb-10 px-2">
+              <div className="flex items-center space-x-1.5 sm:space-x-2">
+                <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
+                  <CheckCircle className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-green-600 dark:text-green-400" />
+                </div>
+                <div className="text-left">
+                  <div className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white whitespace-nowrap">Verified Providers</div>
+                  <div className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">100% Trusted</div>
+                </div>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                <Heart className="w-4 h-4" />
-                <span>2,500+ verified listings</span>
+
+              <div className="flex items-center space-x-1.5 sm:space-x-2">
+                <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
+                  <Users className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400" />
+                </div>
+                <div className="text-left">
+                  <div className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white whitespace-nowrap">10,000+ Travelers</div>
+                  <div className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Trust Us</div>
+                </div>
               </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                <Star className="w-4 h-4" />
-                <span>4.9/5 average rating</span>
+
+              <div className="flex items-center space-x-1.5 sm:space-x-2">
+                <div className="w-7 h-7 sm:w-10 sm:h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center flex-shrink-0">
+                  <Star className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-yellow-600 dark:text-yellow-400" />
+                </div>
+                <div className="text-left">
+                  <div className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white whitespace-nowrap">4.9/5 Rating</div>
+                  <div className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Excellent Service</div>
+                </div>
               </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-3 sm:px-4">
+              <Link
+                to="/services"
+                className="inline-flex items-center justify-center px-5 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary-600 to-purple-600 text-white text-sm sm:text-base font-semibold rounded-xl hover:from-primary-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl w-full sm:w-auto"
+              >
+                Explore Services
+                <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+              </Link>
+              <Link
+                to="/ads/entertainment/holiday-memories"
+                className="inline-flex items-center justify-center px-5 sm:px-8 py-3 sm:py-4 bg-white dark:bg-gray-800 text-primary-600 dark:text-primary-400 text-sm sm:text-base font-semibold rounded-xl border-2 border-primary-600 dark:border-primary-400 hover:bg-primary-50 dark:hover:bg-gray-700 transform hover:scale-105 transition-all duration-200 w-full sm:w-auto"
+              >
+                <Image className="mr-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                View Holiday Memories
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* Stats Section - Enhanced */}
+      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 px-2 sm:px-0">
         {stats.map((stat, index) => (
-          <div key={index} className="card p-6 text-center">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg mb-4">
-              <stat.icon className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+          <div key={index} className="card p-4 sm:p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="inline-flex items-center justify-center w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-primary-100 to-purple-100 dark:from-primary-900/30 dark:to-purple-900/30 rounded-xl mb-3 sm:mb-4">
+              <stat.icon className={`w-5 h-5 sm:w-7 sm:h-7 ${stat.color} dark:opacity-90`} />
             </div>
-            <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+            <div className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
               {stat.value}
             </div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">
+            <div className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400">
               {stat.label}
             </div>
           </div>
         ))}
       </section>
 
-      {/* Features Section */}
-      <section>
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Why Choose Holidaysri?
+      {/* Core Services Section - Professional Grid */}
+      <section className="px-2 sm:px-0">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 px-2">
+            Explore Our Services
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            We connect travelers with authentic Sri Lankan experiences through our comprehensive platform
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-3 sm:px-4">
+            Everything you need for an unforgettable Sri Lankan experience, from accommodations to unique local experiences
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <div key={index} className="card p-6 hover:shadow-lg transition-shadow duration-200">
-              <div className={`inline-flex items-center justify-center w-12 h-12 ${feature.bgColor} dark:bg-gray-800 rounded-lg mb-4`}>
-                <feature.icon className={`w-6 h-6 ${feature.color}`} />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {coreServices.map((service, index) => (
+            <Link
+              key={index}
+              to={service.link}
+              className={`group card p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 ${
+                service.featured ? 'ring-2 ring-pink-500 dark:ring-pink-400' : ''
+              }`}
+            >
+              {service.featured && (
+                <div className="absolute top-4 right-4">
+                  <span className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold rounded-full">
+                    <Sparkles className="w-3 h-3 mr-1" />
+                    NEW
+                  </span>
+                </div>
+              )}
+
+              <div className={`inline-flex items-center justify-center w-16 h-16 ${service.iconBg} rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                <service.icon className={`w-8 h-8 ${service.iconColor}`} />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                {service.title}
+              </h3>
+
+              <p className="text-gray-600 dark:text-gray-400 mb-4">
+                {service.description}
+              </p>
+
+              <div className="flex items-center text-primary-600 dark:text-primary-400 font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                Explore Now
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* Holiday Memories Feature Section */}
+      <section className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl mx-2 sm:mx-0">
+        <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500"></div>
+        <div className="relative px-3 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16">
+          <div className="max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
+              <div className="text-white">
+                <div className="inline-flex items-center px-2.5 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-full mb-3 sm:mb-6">
+                  <Image className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 flex-shrink-0" />
+                  <span className="text-xs sm:text-sm font-semibold">Community Feature</span>
+                </div>
+
+                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 md:mb-6">
+                  Share Your Holiday Memories
+                </h2>
+
+                <p className="text-xs sm:text-sm md:text-base lg:text-lg mb-4 sm:mb-6 md:mb-8 text-white/90 leading-relaxed">
+                  Join our vibrant community of travelers! Upload your stunning Sri Lankan travel photos,
+                  discover hidden gems through others' experiences, and earn rewards when travelers download your photos.
+                  Your memories inspire the next adventure!
+                </p>
+
+                <div className="space-y-2 sm:space-y-3 md:space-y-4 mb-4 sm:mb-6 md:mb-8">
+                  <div className="flex items-start space-x-2 sm:space-x-3">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <div className="text-xs sm:text-sm md:text-base font-semibold mb-0.5 sm:mb-1">Upload & Share</div>
+                      <div className="text-[10px] sm:text-xs md:text-sm text-white/80">Share your travel photos with the community</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-2 sm:space-x-3">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <div className="text-xs sm:text-sm md:text-base font-semibold mb-0.5 sm:mb-1">Earn Rewards</div>
+                      <div className="text-[10px] sm:text-xs md:text-sm text-white/80">Get paid when travelers download your photos</div>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-2 sm:space-x-3">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 flex-shrink-0 mt-0.5" />
+                    <div>
+                      <div className="text-xs sm:text-sm md:text-base font-semibold mb-0.5 sm:mb-1">Discover Destinations</div>
+                      <div className="text-[10px] sm:text-xs md:text-sm text-white/80">Explore Sri Lanka through authentic traveler photos</div>
+                    </div>
+                  </div>
+                </div>
+
+                <Link
+                  to="/ads/entertainment/holiday-memories"
+                  className="inline-flex items-center px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-white text-purple-600 text-xs sm:text-sm md:text-base font-bold rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-200 shadow-xl w-full sm:w-auto justify-center"
+                >
+                  Explore Holiday Memories
+                  <ArrowRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 flex-shrink-0" />
+                </Link>
+              </div>
+
+              <div className="relative mt-6 md:mt-0">
+                <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4">
+                  <div className="space-y-2 sm:space-y-3 md:space-y-4">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-2.5 sm:p-3 md:p-4 transform hover:scale-105 transition-transform">
+                      <Camera className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white mb-1 sm:mb-2" />
+                      <div className="text-lg sm:text-xl md:text-2xl font-bold text-white">5,000+</div>
+                      <div className="text-[10px] sm:text-xs md:text-sm text-white/80">Photos Shared</div>
+                    </div>
+                    <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-2.5 sm:p-3 md:p-4 transform hover:scale-105 transition-transform">
+                      <Users className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white mb-1 sm:mb-2" />
+                      <div className="text-lg sm:text-xl md:text-2xl font-bold text-white">1,200+</div>
+                      <div className="text-[10px] sm:text-xs md:text-sm text-white/80">Contributors</div>
+                    </div>
+                  </div>
+                  <div className="space-y-2 sm:space-y-3 md:space-y-4 mt-4 sm:mt-6 md:mt-8">
+                    <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-2.5 sm:p-3 md:p-4 transform hover:scale-105 transition-transform">
+                      <MapPin className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white mb-1 sm:mb-2" />
+                      <div className="text-lg sm:text-xl md:text-2xl font-bold text-white">300+</div>
+                      <div className="text-[10px] sm:text-xs md:text-sm text-white/80">Locations</div>
+                    </div>
+                    <div className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl md:rounded-2xl p-2.5 sm:p-3 md:p-4 transform hover:scale-105 transition-transform">
+                      <Heart className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-white mb-1 sm:mb-2" />
+                      <div className="text-lg sm:text-xl md:text-2xl font-bold text-white">15,000+</div>
+                      <div className="text-[10px] sm:text-xs md:text-sm text-white/80">Likes</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="px-2 sm:px-0">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 px-2">
+            Why Choose Holidaysri?
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-3 sm:px-4">
+            We're committed to providing the best travel experience with verified providers and exceptional service
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+          {whyChooseUs.map((feature, index) => (
+            <div key={index} className="card p-4 sm:p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-100 to-purple-100 dark:from-primary-900/30 dark:to-purple-900/30 rounded-xl sm:rounded-2xl mb-3 sm:mb-4">
+                <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 text-primary-600 dark:text-primary-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2">
                 {feature.title}
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 {feature.description}
               </p>
             </div>
@@ -366,58 +617,162 @@ const Home = () => {
         </div>
       </section>
 
-      {/* HSC System Section */}
-      <section className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-2xl p-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-xl mb-6">
-            <TrendingUp className="w-8 h-8 text-white" />
-          </div>
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            HSC Token System
+      {/* Popular Categories Section */}
+      <section className="px-2 sm:px-0">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 px-2">
+            Popular Categories
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-            Advertise your tourism services using our innovative HSC token system. 
-            Purchase tokens to promote your hotels, restaurants, tours, and more to thousands of travelers.
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-3 sm:px-4">
+            Browse our most popular service categories
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+          {popularCategories.map((category, index) => (
             <Link
-              to="/hsc"
-              className="btn-primary"
+              key={index}
+              to={category.link}
+              className="card p-3 sm:p-4 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group"
             >
-              Learn About HSC
+              <div className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg sm:rounded-xl mb-2 sm:mb-3 group-hover:scale-110 transition-transform">
+                <category.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400" />
+              </div>
+              <h3 className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white mb-1">
+                {category.name}
+              </h3>
+              <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">
+                {category.count}
+              </p>
             </Link>
-            {!user && (
-              <Link
-                to="/register"
-                className="btn-outline"
-              >
-                Start Advertising
-              </Link>
-            )}
+          ))}
+        </div>
+      </section>
+
+      {/* HSC System Section - Enhanced */}
+      <section className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl sm:rounded-2xl md:rounded-3xl p-4 sm:p-8 md:p-12 mx-2 sm:mx-0">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-center">
+            <div>
+              <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mb-4 sm:mb-6">
+                <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-600 dark:text-indigo-400 mr-1.5 sm:mr-2 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-semibold text-indigo-600 dark:text-indigo-400">For Business Owners</span>
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
+                HSC Token System
+              </h2>
+
+              <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 mb-4 sm:mb-6 leading-relaxed">
+                Advertise your tourism services using our innovative HSC token system.
+                Purchase tokens to promote your hotels, restaurants, tours, and more to thousands of travelers.
+              </p>
+
+              <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+                  <span className="text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300">Reach 10,000+ active travelers</span>
+                </div>
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+                  <span className="text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300">Flexible token-based pricing</span>
+                </div>
+                <div className="flex items-center space-x-2 sm:space-x-3">
+                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
+                  <span className="text-xs sm:text-sm md:text-base text-gray-700 dark:text-gray-300">Real-time analytics & insights</span>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <Link
+                  to="/hsc"
+                  className="inline-flex items-center justify-center px-5 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm sm:text-base font-semibold rounded-xl hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg w-full sm:w-auto"
+                >
+                  Learn About HSC
+                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                </Link>
+                {!user && (
+                  <Link
+                    to="/register"
+                    className="inline-flex items-center justify-center px-5 sm:px-6 py-2.5 sm:py-3 bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 text-sm sm:text-base font-semibold rounded-xl border-2 border-indigo-600 dark:border-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 transform hover:scale-105 transition-all duration-200 w-full sm:w-auto"
+                  >
+                    Start Advertising
+                  </Link>
+                )}
+              </div>
+            </div>
+
+            <div className="relative mt-6 md:mt-0">
+              <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl">
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="flex items-center justify-between p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg sm:rounded-xl">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                      <Briefcase className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+                      <div>
+                        <div className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">Active Ads</div>
+                        <div className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Running campaigns</div>
+                      </div>
+                    </div>
+                    <div className="text-lg sm:text-2xl font-bold text-blue-600 dark:text-blue-400">2,500+</div>
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 sm:p-4 bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-900/20 rounded-lg sm:rounded-xl">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                      <Users className="w-6 h-6 sm:w-8 sm:h-8 text-green-600 dark:text-green-400 flex-shrink-0" />
+                      <div>
+                        <div className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">Advertisers</div>
+                        <div className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Trusted partners</div>
+                      </div>
+                    </div>
+                    <div className="text-lg sm:text-2xl font-bold text-green-600 dark:text-green-400">800+</div>
+                  </div>
+
+                  <div className="flex items-center justify-between p-3 sm:p-4 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20 rounded-lg sm:rounded-xl">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                      <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 dark:text-purple-400 flex-shrink-0" />
+                      <div>
+                        <div className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">Success Rate</div>
+                        <div className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Customer satisfaction</div>
+                      </div>
+                    </div>
+                    <div className="text-lg sm:text-2xl font-bold text-purple-600 dark:text-purple-400">95%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="text-center">
-        <div className="card p-8 max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+      {/* Final CTA Section */}
+      <section className="text-center px-2 sm:px-0">
+        <div className="card p-6 sm:p-8 md:p-12 max-w-3xl mx-auto bg-gradient-to-br from-white to-primary-50 dark:from-gray-800 dark:to-gray-900 border-2 border-primary-200 dark:border-primary-800">
+          <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-primary-600 rounded-xl sm:rounded-2xl mb-4 sm:mb-6">
+            <Plane className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+          </div>
+
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
             Ready to Explore Sri Lanka?
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Join thousands of travelers who have discovered amazing experiences through Holidaysri
+
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 mb-6 sm:mb-8 max-w-2xl mx-auto">
+            Join thousands of travelers who have discovered amazing experiences through Holidaysri.
+            Start planning your dream vacation today!
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Link
               to="/services"
-              className="btn-primary"
+              className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-primary-600 to-purple-600 text-white text-sm sm:text-base font-bold rounded-xl hover:from-primary-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl w-full sm:w-auto"
             >
-              Browse Services
+              Browse All Services
+              <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
             </Link>
             <Link
               to="/contact"
-              className="btn-secondary"
+              className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-white dark:bg-gray-700 text-primary-600 dark:text-primary-400 text-sm sm:text-base font-bold rounded-xl border-2 border-primary-600 dark:border-primary-400 hover:bg-primary-50 dark:hover:bg-gray-600 transform hover:scale-105 transition-all duration-200 w-full sm:w-auto"
             >
+              <Phone className="mr-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
               Contact Us
             </Link>
           </div>
