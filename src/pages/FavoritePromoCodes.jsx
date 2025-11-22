@@ -125,22 +125,22 @@ const FavoritePromoCodes = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6 px-2 sm:px-0">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
+      <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col space-y-3">
           <button
             onClick={() => navigate('/explore-promo-codes')}
-            className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+            className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors w-fit"
           >
             <ArrowLeft className="w-5 h-5" />
             <span>Back to Explore</span>
           </button>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
               My Favorite Promo Codes
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
               Your saved promo codes for quick access
             </p>
           </div>
@@ -148,10 +148,10 @@ const FavoritePromoCodes = () => {
         <button
           onClick={fetchFavorites}
           disabled={loading}
-          className="flex items-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+          className="flex items-center justify-center space-x-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50"
         >
           <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
-          <span>Refresh</span>
+          <span className="text-sm sm:text-base">Refresh</span>
         </button>
       </div>
 
@@ -175,26 +175,26 @@ const FavoritePromoCodes = () => {
       )}
 
       {/* Stats */}
-      <div className="bg-gradient-to-r from-pink-50 to-red-50 dark:from-pink-900/20 dark:to-red-900/20 rounded-2xl p-6 border border-pink-100 dark:border-pink-800">
+      <div className="bg-gradient-to-r from-pink-50 to-red-50 dark:from-pink-900/20 dark:to-red-900/20 rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-pink-100 dark:border-pink-800">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="bg-pink-500 p-3 rounded-xl">
-              <Heart className="w-6 h-6 text-white" />
+          <div className="flex items-center space-x-3 sm:space-x-4">
+            <div className="bg-pink-500 p-2 sm:p-3 rounded-lg sm:rounded-xl">
+              <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
                 Favorite Promo Codes
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 {favorites.length} codes saved for quick access
               </p>
             </div>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-pink-600 dark:text-pink-400">
+            <div className="text-xl sm:text-2xl font-bold text-pink-600 dark:text-pink-400">
               {favorites.length}
             </div>
-            <div className="text-sm text-gray-500 dark:text-gray-400">
+            <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
               Favorites
             </div>
           </div>
