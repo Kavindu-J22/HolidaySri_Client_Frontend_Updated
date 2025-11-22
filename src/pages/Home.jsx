@@ -351,7 +351,13 @@ const Home = () => {
 
       {/* Welcome Section - Professional & Engaging */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20"></div>
+        {/* Animated Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-blue-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20">
+          {/* Floating Orbs Animation */}
+          <div className="absolute top-20 left-10 w-72 h-72 bg-primary-200/30 dark:bg-primary-500/10 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl animate-blob"></div>
+          <div className="absolute top-40 right-10 w-72 h-72 bg-purple-200/30 dark:bg-purple-500/10 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200/30 dark:bg-pink-500/10 rounded-full mix-blend-multiply dark:mix-blend-soft-light filter blur-xl animate-blob animation-delay-4000"></div>
+        </div>
         <div className="relative px-3 sm:px-6 py-10 sm:py-16 text-center">
           <div className="max-w-5xl mx-auto">
             <div className="inline-flex items-center justify-center px-3 sm:px-4 py-1.5 sm:py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full mb-4 sm:mb-6">
@@ -503,7 +509,15 @@ const Home = () => {
 
       {/* Holiday Memories Feature Section */}
       <section className="relative overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl mx-2 sm:mx-0">
-        <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500"></div>
+        {/* Animated Gradient Background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 animate-gradient-x"></div>
+        {/* Subtle Overlay Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+            backgroundSize: '40px 40px'
+          }}></div>
+        </div>
         <div className="relative px-3 sm:px-6 md:px-8 py-8 sm:py-12 md:py-16">
           <div className="max-w-5xl mx-auto">
             <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
@@ -650,8 +664,10 @@ const Home = () => {
       </section>
 
       {/* HSC System Section - Enhanced */}
-      <section className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl sm:rounded-2xl md:rounded-3xl p-4 sm:p-8 md:p-12 mx-2 sm:mx-0">
-        <div className="max-w-4xl mx-auto">
+      <section className="relative overflow-hidden bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-xl sm:rounded-2xl md:rounded-3xl p-4 sm:p-8 md:p-12 mx-2 sm:mx-0">
+        {/* Subtle Shimmer Effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-shimmer"></div>
+        <div className="max-w-4xl mx-auto relative">
           <div className="grid md:grid-cols-2 gap-6 sm:gap-8 items-center">
             <div>
               <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mb-4 sm:mb-6">
