@@ -149,59 +149,60 @@ const HSDLeaderBoard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
+    <div className="min-h-screen w-full overflow-x-hidden bg-gray-50 dark:bg-gray-900 p-3 sm:p-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           {/* Back to Wallet Button */}
-          <div className="flex justify-start mb-6">
+          <div className="flex justify-start mb-4 sm:mb-6">
             <button
               onClick={() => navigate('/hsc')}
-              className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300 text-sm sm:text-base"
             >
               <ArrowLeft className="w-4 h-4" />
               <Wallet className="w-4 h-4" />
-              Back to Wallet
+              <span className="hidden sm:inline">Back to Wallet</span>
+              <span className="sm:hidden">Back</span>
             </button>
           </div>
 
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full mb-3 sm:mb-4">
             <img
               src="https://res.cloudinary.com/dqdcmluxj/image/upload/v1734609205/file_g75vh2.png"
               alt="HSD Diamond"
-              className="w-12 h-12 object-contain"
+              className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
             />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2 px-4">
             HSD Leader Board
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
+          <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base md:text-lg px-4">
             Top HSC spenders competing for HSD Diamond rewards
           </p>
         </div>
 
         {/* Current Period & Countdown */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
           {/* Current Period */}
-          <div className="card p-6">
-            <div className="flex items-center mb-4">
-              <Calendar className="w-6 h-6 text-purple-600 dark:text-purple-400 mr-3" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <div className="card p-4 sm:p-6">
+            <div className="flex items-center mb-3 sm:mb-4">
+              <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 dark:text-purple-400 mr-2 sm:mr-3 flex-shrink-0" />
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white">
                 Current Period
               </h3>
             </div>
             <div className="space-y-2">
-              <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-purple-600 dark:text-purple-400 break-words">
                 {currentPeriod.name}
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 break-words">
                 {new Date(currentPeriod.start).toLocaleDateString('en-US', {
                   year: 'numeric',
-                  month: 'long',
+                  month: 'short',
                   day: 'numeric'
                 })} - {new Date(currentPeriod.end).toLocaleDateString('en-US', {
                   year: 'numeric',
-                  month: 'long',
+                  month: 'short',
                   day: 'numeric'
                 })}
               </p>
@@ -209,36 +210,36 @@ const HSDLeaderBoard = () => {
           </div>
 
           {/* Countdown Timer */}
-          <div className="card p-6">
-            <div className="flex items-center mb-4">
-              <Clock className="w-6 h-6 text-orange-600 dark:text-orange-400 mr-3" />
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <div className="card p-4 sm:p-6">
+            <div className="flex items-center mb-3 sm:mb-4">
+              <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600 dark:text-orange-400 mr-2 sm:mr-3 flex-shrink-0" />
+              <h3 className="text-base sm:text-lg md:text-xl font-semibold text-gray-900 dark:text-white">
                 Time Remaining
               </h3>
             </div>
-            <div className="grid grid-cols-4 gap-2">
-              <div className="text-center">
-                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg p-3">
-                  <div className="text-2xl font-bold">{countdown.days}</div>
-                  <div className="text-xs">Days</div>
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+              <div className="text-center min-w-0">
+                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg p-1.5 sm:p-2 md:p-3">
+                  <div className="text-base sm:text-lg md:text-2xl font-bold break-words">{countdown.days}</div>
+                  <div className="text-[9px] sm:text-[10px] md:text-xs">Days</div>
                 </div>
               </div>
-              <div className="text-center">
-                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg p-3">
-                  <div className="text-2xl font-bold">{countdown.hours}</div>
-                  <div className="text-xs">Hours</div>
+              <div className="text-center min-w-0">
+                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg p-1.5 sm:p-2 md:p-3">
+                  <div className="text-base sm:text-lg md:text-2xl font-bold break-words">{countdown.hours}</div>
+                  <div className="text-[9px] sm:text-[10px] md:text-xs">Hours</div>
                 </div>
               </div>
-              <div className="text-center">
-                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg p-3">
-                  <div className="text-2xl font-bold">{countdown.minutes}</div>
-                  <div className="text-xs">Minutes</div>
+              <div className="text-center min-w-0">
+                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg p-1.5 sm:p-2 md:p-3">
+                  <div className="text-base sm:text-lg md:text-2xl font-bold break-words">{countdown.minutes}</div>
+                  <div className="text-[9px] sm:text-[10px] md:text-xs">Min</div>
                 </div>
               </div>
-              <div className="text-center">
-                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg p-3">
-                  <div className="text-2xl font-bold">{countdown.seconds}</div>
-                  <div className="text-xs">Seconds</div>
+              <div className="text-center min-w-0">
+                <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg p-1.5 sm:p-2 md:p-3">
+                  <div className="text-base sm:text-lg md:text-2xl font-bold break-words">{countdown.seconds}</div>
+                  <div className="text-[9px] sm:text-[10px] md:text-xs">Sec</div>
                 </div>
               </div>
             </div>
@@ -247,26 +248,26 @@ const HSDLeaderBoard = () => {
 
         {/* User's Current Rank */}
         {userRank && (
-          <div className="card p-6 mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mr-4">
-                  <Users className="w-6 h-6 text-white" />
+          <div className="card p-4 sm:p-6 mb-6 sm:mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+              <div className="flex items-center w-full sm:w-auto">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-600 rounded-full flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0">
+                  <Users className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                <div className="flex-1 sm:flex-initial min-w-0">
+                  <h3 className="text-sm sm:text-base md:text-lg font-semibold text-gray-900 dark:text-white">
                     Your Current Position
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     Keep spending to climb the ranks!
                   </p>
                 </div>
               </div>
-              <div className="text-right">
-                <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+              <div className="text-center sm:text-right w-full sm:w-auto">
+                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600 dark:text-blue-400 break-words">
                   #{userRank.rank}
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 break-words">
                   {userRank.totalSpent.toLocaleString()} HSC spent
                 </div>
               </div>
@@ -283,100 +284,165 @@ const HSDLeaderBoard = () => {
 
         {/* Leader Board */}
         <div className="card overflow-hidden">
-          <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-6">
-            <h2 className="text-2xl font-bold text-white flex items-center">
-              <Trophy className="w-8 h-8 mr-3" />
-              Top HSC Spenders
+          <div className="bg-gradient-to-r from-purple-600 to-pink-600 p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white flex items-center">
+              <Trophy className="w-6 h-6 sm:w-8 sm:h-8 mr-2 sm:mr-3 flex-shrink-0" />
+              <span>Top HSC Spenders</span>
             </h2>
-            <p className="text-purple-100 mt-2">
+            <p className="text-purple-100 mt-2 text-xs sm:text-sm md:text-base">
               Top 3 users will receive +1 HSD Diamond at the end of this period
             </p>
           </div>
 
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             {leaderBoard.length === 0 ? (
               <div className="text-center py-12">
-                <Trophy className="mx-auto h-12 w-12 text-gray-400" />
+                <Trophy className="mx-auto h-10 w-10 sm:h-12 sm:w-12 text-gray-400" />
                 <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">
                   No data available
                 </h3>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                <p className="mt-1 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                   Start spending HSC to appear on the leader board!
                 </p>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {leaderBoard.map((entry, index) => (
                   <div
                     key={entry.userId._id}
-                    className={`rounded-xl border-2 p-6 transition-all duration-200 hover:shadow-lg ${getRowHighlight(index + 1)}`}
+                    className={`rounded-xl border-2 p-3 sm:p-4 md:p-6 transition-all duration-200 hover:shadow-lg ${getRowHighlight(index + 1)}`}
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        {/* Rank Icon */}
-                        <div className="flex-shrink-0">
-                          {getRankIcon(index + 1)}
-                        </div>
-
-                        {/* User Info */}
-                        <div className="flex items-center space-x-4">
-                          <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
-                            {entry.userId.profileImage ? (
-                              <img
-                                src={entry.userId.profileImage}
-                                alt={entry.userId.name}
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <span className="text-gray-600 font-semibold text-lg">
-                                {entry.userId.name.charAt(0).toUpperCase()}
-                              </span>
-                            )}
+                    {/* Mobile Layout */}
+                    <div className="md:hidden">
+                      <div className="flex items-start justify-between gap-2 mb-3">
+                        <div className="flex items-center gap-2 min-w-0 flex-1">
+                          {/* Rank Icon */}
+                          <div className="flex-shrink-0">
+                            {getRankIcon(index + 1)}
                           </div>
-                          <div>
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                              {entry.userId.name}
-                            </h3>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
-                              {maskEmail(entry.userId.email)}
-                            </p>
+                          {/* Rank Badge */}
+                          <div className={`px-2 sm:px-3 py-1 rounded-full font-bold text-sm sm:text-base whitespace-nowrap ${getRankBadge(index + 1)}`}>
+                            #{index + 1}
                           </div>
                         </div>
-                      </div>
-
-                      <div className="flex items-center space-x-6">
-                        {/* HSC Spent */}
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                            {entry.totalSpent.toLocaleString()}
-                          </div>
-                          <div className="text-sm text-gray-600 dark:text-gray-400">
-                            HSC Spent
-                          </div>
-                        </div>
-
-                        {/* Rank Badge */}
-                        <div className={`px-4 py-2 rounded-full font-bold text-lg ${getRankBadge(index + 1)}`}>
-                          #{index + 1}
-                        </div>
-
                         {/* Top 3 Star */}
                         {index < 3 && (
-                          <Star className="w-6 h-6 text-yellow-500 fill-current" />
+                          <Star className="w-5 h-5 sm:w-6 sm:h-6 text-yellow-500 fill-current flex-shrink-0" />
                         )}
                       </div>
-                    </div>
 
-                    {/* Additional Info for Top 3 */}
-                    {index < 3 && (
-                      <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
-                        <div className="flex items-center justify-center">
-                          <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-medium">
+                      <div className="flex items-center gap-2 sm:gap-3 mb-3">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden flex-shrink-0">
+                          {entry.userId.profileImage ? (
+                            <img
+                              src={entry.userId.profileImage}
+                              alt={entry.userId.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <span className="text-gray-600 font-semibold text-base sm:text-lg">
+                              {entry.userId.name.charAt(0).toUpperCase()}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white truncate">
+                            {entry.userId.name}
+                          </h3>
+                          <p className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400 truncate">
+                            {maskEmail(entry.userId.email)}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-2.5 sm:p-3 text-center">
+                        <div className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white break-words">
+                          {entry.totalSpent.toLocaleString()}
+                        </div>
+                        <div className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">
+                          HSC Spent
+                        </div>
+                      </div>
+
+                      {/* Additional Info for Top 3 */}
+                      {index < 3 && (
+                        <div className="mt-2.5 sm:mt-3 pt-2.5 sm:pt-3 border-t border-gray-200 dark:border-gray-600">
+                          <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs font-medium text-center break-words">
                             🎉 Will receive +1 HSD Diamond at period end!
                           </div>
                         </div>
+                      )}
+                    </div>
+
+                    {/* Desktop Layout */}
+                    <div className="hidden md:block">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4">
+                          {/* Rank Icon */}
+                          <div className="flex-shrink-0">
+                            {getRankIcon(index + 1)}
+                          </div>
+
+                          {/* User Info */}
+                          <div className="flex items-center space-x-4">
+                            <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden">
+                              {entry.userId.profileImage ? (
+                                <img
+                                  src={entry.userId.profileImage}
+                                  alt={entry.userId.name}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <span className="text-gray-600 font-semibold text-lg">
+                                  {entry.userId.name.charAt(0).toUpperCase()}
+                                </span>
+                              )}
+                            </div>
+                            <div>
+                              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                {entry.userId.name}
+                              </h3>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">
+                                {maskEmail(entry.userId.email)}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center space-x-6">
+                          {/* HSC Spent */}
+                          <div className="text-right">
+                            <div className="text-2xl font-bold text-gray-900 dark:text-white">
+                              {entry.totalSpent.toLocaleString()}
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400">
+                              HSC Spent
+                            </div>
+                          </div>
+
+                          {/* Rank Badge */}
+                          <div className={`px-4 py-2 rounded-full font-bold text-lg ${getRankBadge(index + 1)}`}>
+                            #{index + 1}
+                          </div>
+
+                          {/* Top 3 Star */}
+                          {index < 3 && (
+                            <Star className="w-6 h-6 text-yellow-500 fill-current" />
+                          )}
+                        </div>
                       </div>
-                    )}
+
+                      {/* Additional Info for Top 3 */}
+                      {index < 3 && (
+                        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                          <div className="flex items-center justify-center">
+                            <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-medium">
+                              🎉 Will receive +1 HSD Diamond at period end!
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>

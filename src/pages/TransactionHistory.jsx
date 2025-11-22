@@ -161,70 +161,70 @@ const TransactionHistory = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
+    <div className="min-h-screen w-full overflow-x-hidden bg-gray-50 dark:bg-gray-900 p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Transaction History
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             View and manage your payment activities
           </p>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="card p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+          <div className="card p-4 sm:p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-                <Package className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg flex-shrink-0">
+                <Package className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400" />
               </div>
-              <div className="ml-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Total Transactions</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <div className="ml-3 sm:ml-4 min-w-0">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Transactions</p>
+                <p className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white break-words">
                   {stats.totalTransactions}
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="card p-6">
+          <div className="card p-4 sm:p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
-                <TrendingUp className="w-6 h-6 text-green-600 dark:text-green-400" />
+              <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg flex-shrink-0">
+                <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-green-600 dark:text-green-400" />
               </div>
-              <div className="ml-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Total Spent (HSC)</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <div className="ml-3 sm:ml-4 min-w-0">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Spent (HSC)</p>
+                <p className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white break-words">
                   {stats.totalHSCAmount?.toLocaleString() || 0} HSC
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="card p-6">
+          <div className="card p-4 sm:p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
-                <CreditCard className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg flex-shrink-0">
+                <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 dark:text-purple-400" />
               </div>
-              <div className="ml-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Original Amount (HSC)</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <div className="ml-3 sm:ml-4 min-w-0">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Original Amount (HSC)</p>
+                <p className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white break-words">
                   {stats.totalHSCOriginalAmount?.toLocaleString() || 0} HSC
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="card p-6">
+          <div className="card p-4 sm:p-6">
             <div className="flex items-center">
-              <div className="p-2 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
-                <Package className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+              <div className="p-2 bg-orange-100 dark:bg-orange-900/20 rounded-lg flex-shrink-0">
+                <Package className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600 dark:text-orange-400" />
               </div>
-              <div className="ml-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Total Savings (HSC)</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <div className="ml-3 sm:ml-4 min-w-0">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Savings (HSC)</p>
+                <p className="text-lg sm:text-2xl font-bold text-gray-900 dark:text-white break-words">
                   {stats.totalHSCDiscountedAmount?.toLocaleString() || 0} HSC
                 </p>
               </div>
@@ -233,18 +233,18 @@ const TransactionHistory = () => {
         </div>
 
         {/* Search and Filters */}
-        <div className="card p-6 mb-8">
-          <div className="flex flex-col lg:flex-row gap-4">
+        <div className="card p-4 sm:p-6 mb-8">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             {/* Search */}
             <form onSubmit={handleSearch} className="flex-1">
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
                 <input
                   type="text"
                   placeholder="Search by Transaction ID..."
                   value={filters.search}
                   onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                  className="input-field pl-10"
+                  className="input-field pl-9 sm:pl-10 text-sm sm:text-base"
                 />
               </div>
             </form>
@@ -252,7 +252,7 @@ const TransactionHistory = () => {
             {/* Filter Toggle */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="btn-secondary flex items-center gap-2"
+              className="btn-secondary flex items-center justify-center gap-2 text-sm sm:text-base whitespace-nowrap"
             >
               <Filter className="w-4 h-4" />
               Filters
@@ -262,7 +262,7 @@ const TransactionHistory = () => {
             <button
               onClick={handleRefresh}
               disabled={loading}
-              className="btn-primary flex items-center gap-2"
+              className="btn-primary flex items-center justify-center gap-2 text-sm sm:text-base whitespace-nowrap"
             >
               <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               Refresh
@@ -271,17 +271,17 @@ const TransactionHistory = () => {
 
           {/* Filter Options */}
           {showFilters && (
-            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                 {/* Category Filter */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Category
                   </label>
                   <select
                     value={filters.category}
                     onChange={(e) => handleFilterChange('category', e.target.value)}
-                    className="input-field"
+                    className="input-field text-sm sm:text-base"
                   >
                     <option value="all">All Categories</option>
                     {filterOptions.categories.map(category => (
@@ -292,13 +292,13 @@ const TransactionHistory = () => {
 
                 {/* Payment Method Filter */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Payment Method
                   </label>
                   <select
                     value={filters.paymentMethod}
                     onChange={(e) => handleFilterChange('paymentMethod', e.target.value)}
-                    className="input-field"
+                    className="input-field text-sm sm:text-base"
                   >
                     <option value="all">All Methods</option>
                     {filterOptions.paymentMethods.map(method => (
@@ -309,13 +309,13 @@ const TransactionHistory = () => {
 
                 {/* Status Filter */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Status
                   </label>
                   <select
                     value={filters.status}
                     onChange={(e) => handleFilterChange('status', e.target.value)}
-                    className="input-field"
+                    className="input-field text-sm sm:text-base"
                   >
                     <option value="all">All Statuses</option>
                     {filterOptions.statuses.map(status => (
@@ -335,9 +335,9 @@ const TransactionHistory = () => {
           </div>
         )}
 
-        {/* Transactions Table */}
+        {/* Transactions Table - Desktop */}
         <div className="card overflow-hidden">
-          <div className="overflow-x-auto">
+          <div className="hidden md:block overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
               <thead className="bg-gray-50 dark:bg-gray-800">
                 <tr>
@@ -414,6 +414,63 @@ const TransactionHistory = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Transactions Cards - Mobile */}
+          <div className="md:hidden divide-y divide-gray-200 dark:divide-gray-700">
+            {activities.map((activity) => (
+              <div key={activity._id} className="p-3 sm:p-4 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <div className="flex items-center gap-2 min-w-0 flex-1">
+                    <div className="flex-shrink-0">
+                      {getCategoryIcon(activity.category)}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white truncate">
+                        {activity.transactionId}
+                      </div>
+                      <div className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 truncate">
+                        {activity.category}
+                      </div>
+                    </div>
+                  </div>
+                  <span className={`inline-flex px-2 py-1 text-[10px] sm:text-xs font-semibold rounded-full whitespace-nowrap flex-shrink-0 ${getStatusColor(activity.status)}`}>
+                    {activity.status}
+                  </span>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="min-w-0">
+                    <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Item</p>
+                    <p className="text-xs sm:text-sm text-gray-900 dark:text-white break-words">{activity.item}</p>
+                    <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Qty: {activity.quantity}</p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+                    <div className="min-w-0">
+                      <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Amount</p>
+                      <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white break-words">
+                        {activity.amount.toLocaleString()} {activity.paymentMethod}
+                      </p>
+                      {activity.discountedAmount > 0 && (
+                        <p className="text-[10px] sm:text-xs text-green-600 dark:text-green-400 break-words">
+                          Saved: {activity.discountedAmount.toLocaleString()} {activity.paymentMethod}
+                        </p>
+                      )}
+                    </div>
+                    <div className="min-w-0 sm:text-right">
+                      <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Method</p>
+                      <p className="text-xs sm:text-sm text-gray-900 dark:text-white break-words">{activity.paymentMethod}</p>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 border-t border-gray-100 dark:border-gray-700 min-w-0">
+                    <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-400">Date</p>
+                    <p className="text-xs sm:text-sm text-gray-900 dark:text-white break-words">{formatDate(activity.createdAt)}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Empty State */}
