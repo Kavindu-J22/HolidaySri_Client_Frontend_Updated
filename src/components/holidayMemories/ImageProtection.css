@@ -1,0 +1,70 @@
+/* Image Protection Styles - Prevent Download on All Devices */
+
+/* Prevent right-click, long-press, and drag on images */
+.protected-image,
+.protected-image-container img {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+  
+  pointer-events: none;
+}
+
+/* Allow pointer events on container for click functionality */
+.protected-image-container {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  
+  -webkit-touch-callout: none;
+}
+
+/* Prevent iOS Safari long-press menu */
+@supports (-webkit-touch-callout: none) {
+  .protected-image,
+  .protected-image-container img {
+    -webkit-touch-callout: none !important;
+  }
+}
+
+/* Prevent Android long-press menu */
+.protected-image,
+.protected-image-container img {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Additional protection for Firefox */
+@-moz-document url-prefix() {
+  .protected-image,
+  .protected-image-container img {
+    -moz-user-select: none;
+  }
+}
+
+/* Prevent selection on double-tap (mobile) */
+.protected-image-container {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent image context menu on all browsers */
+.protected-image::before,
+.protected-image-container img::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+

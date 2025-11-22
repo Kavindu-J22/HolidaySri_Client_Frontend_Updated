@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
 import { X, Upload, MapPin, Tag, Link as LinkIcon, Image as ImageIcon, CheckCircle, AlertCircle, Sparkles, DollarSign, Camera } from 'lucide-react';
+import './ImageProtection.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://holidaysri-backend-9xm4.onrender.com/api';
 const CLOUDINARY_UPLOAD_PRESET = 'ml_default';
@@ -23,6 +24,12 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
   const [province, setProvince] = useState('');
   const [mapLink, setMapLink] = useState('');
   const [tags, setTags] = useState('');
+
+  // Image protection handlers
+  const handleContextMenu = (e) => {
+    e.preventDefault();
+    return false;
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -266,11 +273,31 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
               </div>
 
               {preview && (
-                <div className="mt-4">
+                <div className="protected-image-container mt-4 relative">
                   <img
                     src={preview}
                     alt="Preview"
-                    className="w-full max-h-96 object-contain rounded-lg border-2 border-blue-500"
+                    className="protected-image w-full max-h-96 object-contain rounded-lg border-2 border-blue-500"
+                    onContextMenu={handleContextMenu}
+                    onDragStart={(e) => e.preventDefault()}
+                    style={{
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      MozUserSelect: 'none',
+                      msUserSelect: 'none',
+                      WebkitTouchCallout: 'none',
+                      pointerEvents: 'none'
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 bg-transparent rounded-lg"
+                    onContextMenu={handleContextMenu}
+                    onDragStart={(e) => e.preventDefault()}
+                    style={{
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      WebkitTouchCallout: 'none'
+                    }}
                   />
                 </div>
               )}
@@ -476,11 +503,33 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
               </div>
 
               {preview && (
-                <img
-                  src={preview}
-                  alt="Preview"
-                  className="w-full max-h-64 object-contain rounded-lg"
-                />
+                <div className="protected-image-container relative">
+                  <img
+                    src={preview}
+                    alt="Preview"
+                    className="protected-image w-full max-h-64 object-contain rounded-lg"
+                    onContextMenu={handleContextMenu}
+                    onDragStart={(e) => e.preventDefault()}
+                    style={{
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      MozUserSelect: 'none',
+                      msUserSelect: 'none',
+                      WebkitTouchCallout: 'none',
+                      pointerEvents: 'none'
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 bg-transparent rounded-lg"
+                    onContextMenu={handleContextMenu}
+                    onDragStart={(e) => e.preventDefault()}
+                    style={{
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      WebkitTouchCallout: 'none'
+                    }}
+                  />
+                </div>
               )}
 
               <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>

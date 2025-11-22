@@ -17,6 +17,7 @@ import {
   MoreHorizontal,
   Send
 } from 'lucide-react';
+import './ImageProtection.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://holidaysri-backend-9xm4.onrender.com/api';
 
@@ -41,6 +42,7 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
   const [showReportModal, setShowReportModal] = useState(false);
   const [reportReason, setReportReason] = useState('');
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const [showImageModal, setShowImageModal] = useState(false);
 
   // Initialize state only once when component mounts or post ID changes
   useEffect(() => {
@@ -333,11 +335,14 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
         </div>
 
         {/* Image - Original Size */}
-        <div className="relative w-full overflow-hidden">
+        <div
+          className="protected-image-container relative w-full overflow-hidden cursor-pointer"
+          onClick={() => setShowImageModal(true)}
+        >
           <img
             src={post.image}
             alt={post.caption}
-            className="w-full object-contain max-h-[600px] bg-black"
+            className="protected-image w-full object-contain max-h-[600px] bg-black"
             onContextMenu={handleContextMenu}
             onDragStart={(e) => e.preventDefault()}
             onTouchStart={handleTouchStart}
@@ -349,7 +354,19 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
               MozUserSelect: 'none',
               msUserSelect: 'none',
               WebkitTouchCallout: 'none',
+              pointerEvents: 'none',
               maxWidth: '100%'
+            }}
+          />
+          {/* Transparent overlay to prevent any interaction */}
+          <div
+            className="absolute inset-0 bg-transparent"
+            onContextMenu={handleContextMenu}
+            onDragStart={(e) => e.preventDefault()}
+            style={{
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              WebkitTouchCallout: 'none'
             }}
           />
         </div>
@@ -592,11 +609,11 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
               </button>
             </div>
 
-            <div className="mb-4">
+            <div className="protected-image-container mb-4 relative">
               <img
                 src={post.image}
                 alt={post.caption}
-                className="w-full h-48 object-cover rounded-lg"
+                className="protected-image w-full h-48 object-cover rounded-lg"
                 onContextMenu={handleContextMenu}
                 onDragStart={(e) => e.preventDefault()}
                 onTouchStart={handleTouchStart}
@@ -607,6 +624,17 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
                   WebkitUserSelect: 'none',
                   MozUserSelect: 'none',
                   msUserSelect: 'none',
+                  WebkitTouchCallout: 'none',
+                  pointerEvents: 'none'
+                }}
+              />
+              <div
+                className="absolute inset-0 bg-transparent rounded-lg"
+                onContextMenu={handleContextMenu}
+                onDragStart={(e) => e.preventDefault()}
+                style={{
+                  userSelect: 'none',
+                  WebkitUserSelect: 'none',
                   WebkitTouchCallout: 'none'
                 }}
               />
@@ -707,11 +735,34 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
             </div>
 
             {/* Image Preview */}
-            <div className="mb-6">
+            <div className="protected-image-container mb-6 relative">
               <img
                 src={post.image}
                 alt={post.caption}
-                className="w-full h-48 object-cover rounded-lg border-2 border-green-500"
+                className="protected-image w-full h-48 object-cover rounded-lg border-2 border-green-500"
+                onContextMenu={handleContextMenu}
+                onDragStart={(e) => e.preventDefault()}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                onTouchMove={handleTouchEnd}
+                style={{
+                  userSelect: 'none',
+                  WebkitUserSelect: 'none',
+                  MozUserSelect: 'none',
+                  msUserSelect: 'none',
+                  WebkitTouchCallout: 'none',
+                  pointerEvents: 'none'
+                }}
+              />
+              <div
+                className="absolute inset-0 bg-transparent rounded-lg"
+                onContextMenu={handleContextMenu}
+                onDragStart={(e) => e.preventDefault()}
+                style={{
+                  userSelect: 'none',
+                  WebkitUserSelect: 'none',
+                  WebkitTouchCallout: 'none'
+                }}
               />
             </div>
 
@@ -817,6 +868,75 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
               >
                 {saved ? 'Unsave' : 'Save'}
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Image View Modal */}
+      {showImageModal && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black bg-opacity-90 backdrop-blur-sm"
+          onClick={() => setShowImageModal(false)}
+        >
+          <div className="relative max-w-7xl w-full h-full flex items-center justify-center">
+            {/* Close Button */}
+            <button
+              onClick={() => setShowImageModal(false)}
+              className="absolute top-4 right-4 z-10 p-3 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full transition-all transform hover:scale-110 active:scale-95"
+              aria-label="Close"
+            >
+              <X className="w-6 h-6 text-white" />
+            </button>
+
+            {/* Image Container */}
+            <div
+              className="protected-image-container relative max-h-[90vh] max-w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={post.image}
+                alt={post.caption}
+                className="protected-image max-h-[90vh] max-w-full w-auto h-auto object-contain rounded-lg shadow-2xl"
+                onContextMenu={handleContextMenu}
+                onDragStart={(e) => e.preventDefault()}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                onTouchMove={handleTouchEnd}
+                style={{
+                  userSelect: 'none',
+                  WebkitUserSelect: 'none',
+                  MozUserSelect: 'none',
+                  msUserSelect: 'none',
+                  WebkitTouchCallout: 'none',
+                  pointerEvents: 'none'
+                }}
+              />
+              {/* Transparent overlay to prevent any interaction with image */}
+              <div
+                className="absolute inset-0 bg-transparent"
+                onContextMenu={handleContextMenu}
+                onDragStart={(e) => e.preventDefault()}
+                onTouchStart={handleTouchStart}
+                onTouchEnd={handleTouchEnd}
+                style={{
+                  userSelect: 'none',
+                  WebkitUserSelect: 'none',
+                  WebkitTouchCallout: 'none'
+                }}
+              />
+            </div>
+
+            {/* Image Info Overlay */}
+            <div className="absolute bottom-4 left-4 right-4 bg-black/50 backdrop-blur-md rounded-lg p-4 text-white">
+              <p className="font-semibold text-lg mb-1">{post.userId?.name || 'Anonymous'}</p>
+              <p className="text-sm mb-2">{post.caption}</p>
+              {post.location && (
+                <div className="flex items-center gap-2 text-sm">
+                  <MapPin className="w-4 h-4" />
+                  <span>{post.location.province}</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
