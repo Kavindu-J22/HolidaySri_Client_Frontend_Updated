@@ -130,7 +130,7 @@ const Profile = () => {
           ${isMobile && !sidebarOpen ? '-translate-x-full' : 'translate-x-0'}
           bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm shadow-lg transition-all duration-300 ease-in-out
           ${isMobile ? 'top-16' : ''}
-          h-screen ${isMobile ? '' : 'rounded-2xl'} border-r border-gray-200 dark:border-gray-700 glass-shine
+          h-screen ${isMobile ? '' : 'rounded-2xl'} border-r border-gray-200 dark:border-gray-700
         `}>
           {/* Desktop Header */}
           <div className="hidden md:flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
