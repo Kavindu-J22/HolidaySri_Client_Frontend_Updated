@@ -128,15 +128,15 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-full my-8">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4 overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-2xl max-w-4xl w-full my-4 sm:my-8">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-200 dark:border-gray-700">
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">
               Add Trip Request
             </h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
               Charge: {charge} HSC | Your Balance: {user?.hscBalance || 0} HSC
             </p>
           </div>
@@ -144,16 +144,16 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
+        <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 sm:space-y-6 max-h-[75vh] sm:max-h-[70vh] overflow-y-auto">
           {error && (
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 flex items-start space-x-3">
-              <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-red-700 dark:text-red-400">{error}</p>
+            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 sm:p-4 flex items-start space-x-2 sm:space-x-3">
+              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              <p className="text-sm sm:text-base text-red-700 dark:text-red-400">{error}</p>
             </div>
           )}
 
@@ -168,7 +168,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                   type="text"
                   value={dest}
                   onChange={(e) => handleArrayFieldChange('destinations', index, e.target.value)}
-                  className="input-field flex-1"
+                  className="input-field flex-1 text-sm sm:text-base"
                   placeholder="e.g., Kandy"
                   required
                 />
@@ -176,7 +176,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                   <button
                     type="button"
                     onClick={() => removeArrayField('destinations', index)}
-                    className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                    className="px-2 sm:px-3 py-2 text-xs sm:text-sm bg-red-500 text-white rounded-lg hover:bg-red-600"
                   >
                     Remove
                   </button>
@@ -186,14 +186,14 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               type="button"
               onClick={() => addArrayField('destinations')}
-              className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+              className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:underline"
             >
               + Add Destination
             </button>
           </div>
 
           {/* Start Location */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Start Location Name *
@@ -223,7 +223,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
           </div>
 
           {/* End Location */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 End Location Name *
@@ -232,7 +232,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                 type="text"
                 value={formData.endLocation.name}
                 onChange={(e) => handleLocationChange('endLocation', 'name', e.target.value)}
-                className="input-field"
+                className="input-field text-sm sm:text-base"
                 placeholder="e.g., Colombo Airport"
                 required
               />
@@ -245,7 +245,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                 type="url"
                 value={formData.endLocation.mapLink}
                 onChange={(e) => handleLocationChange('endLocation', 'mapLink', e.target.value)}
-                className="input-field"
+                className="input-field text-sm sm:text-base"
                 placeholder="https://maps.google.com/..."
                 required
               />
@@ -260,7 +260,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="input-field"
+              className="input-field text-sm sm:text-base"
               rows="4"
               placeholder="Describe your trip plan..."
               required
@@ -268,7 +268,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
           </div>
 
           {/* Days, Required Buddies, Budget */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Days *
@@ -325,14 +325,14 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                   type="text"
                   value={wish}
                   onChange={(e) => handleArrayFieldChange('wishToExplore', index, e.target.value)}
-                  className="input-field flex-1"
+                  className="input-field flex-1 text-sm sm:text-base"
                   placeholder="e.g., Ancient temples"
                 />
                 {formData.wishToExplore.length > 1 && (
                   <button
                     type="button"
                     onClick={() => removeArrayField('wishToExplore', index)}
-                    className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                    className="px-2 sm:px-3 py-2 text-xs sm:text-sm bg-red-500 text-white rounded-lg hover:bg-red-600"
                   >
                     Remove
                   </button>
@@ -342,7 +342,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               type="button"
               onClick={() => addArrayField('wishToExplore')}
-              className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+              className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:underline"
             >
               + Add Item
             </button>
@@ -359,7 +359,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                   type="text"
                   value={activity}
                   onChange={(e) => handleArrayFieldChange('activities', index, e.target.value)}
-                  className="input-field flex-1"
+                  className="input-field flex-1 text-sm sm:text-base"
                   placeholder="e.g., Hiking"
                   required
                 />
@@ -367,7 +367,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                   <button
                     type="button"
                     onClick={() => removeArrayField('activities', index)}
-                    className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                    className="px-2 sm:px-3 py-2 text-xs sm:text-sm bg-red-500 text-white rounded-lg hover:bg-red-600"
                   >
                     Remove
                   </button>
@@ -377,14 +377,14 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
             <button
               type="button"
               onClick={() => addArrayField('activities')}
-              className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+              className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:underline"
             >
               + Add Activity
             </button>
           </div>
 
           {/* Dates */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Start Date *
@@ -393,7 +393,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                 type="date"
                 value={formData.startDate}
                 onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                className="input-field"
+                className="input-field text-sm sm:text-base"
                 required
               />
             </div>
@@ -405,14 +405,14 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                 type="date"
                 value={formData.endDate}
                 onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                className="input-field"
+                className="input-field text-sm sm:text-base"
                 required
               />
             </div>
           </div>
 
           {/* Accommodation & Transport */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Accommodation *
@@ -421,7 +421,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                 type="text"
                 value={formData.accommodation}
                 onChange={(e) => setFormData({ ...formData, accommodation: e.target.value })}
-                className="input-field"
+                className="input-field text-sm sm:text-base"
                 placeholder="e.g., Mix of hostels and boutique hotels"
                 required
               />
@@ -434,7 +434,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                 type="text"
                 value={formData.transport}
                 onChange={(e) => setFormData({ ...formData, transport: e.target.value })}
-                className="input-field"
+                className="input-field text-sm sm:text-base"
                 placeholder="e.g., Scooters and private drivers"
                 required
               />
@@ -442,7 +442,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
           </div>
 
           {/* WhatsApp Details */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Organizer's WhatsApp Number *
@@ -451,7 +451,7 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                 type="tel"
                 value={formData.organizerWhatsapp}
                 onChange={(e) => setFormData({ ...formData, organizerWhatsapp: e.target.value })}
-                className="input-field"
+                className="input-field text-sm sm:text-base"
                 placeholder="+94771234567"
                 required
               />
@@ -464,30 +464,30 @@ const TripRequestModal = ({ isOpen, onClose, onSuccess }) => {
                 type="url"
                 value={formData.whatsappGroupLink}
                 onChange={(e) => setFormData({ ...formData, whatsappGroupLink: e.target.value })}
-                className="input-field"
+                className="input-field text-sm sm:text-base"
                 placeholder="https://chat.whatsapp.com/..."
               />
             </div>
           </div>
 
           {/* Submit Button */}
-          <div className="flex gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || (user?.hscBalance || 0) < charge}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Submitting...
+                  <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                  <span>Submitting...</span>
                 </>
               ) : (
                 <>Submit Request ({charge} HSC)</>

@@ -248,9 +248,9 @@ const TravelBuddyPlatform = () => {
   };
 
   const TravelBuddyCard = ({ buddy }) => (
-    <div className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700 w-full max-w-sm mx-auto flex flex-col h-full">
+    <div className="group bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 dark:border-gray-700 w-full max-w-sm mx-auto flex flex-col h-full">
       {/* Cover Photo */}
-      <div className="relative h-56 overflow-hidden">
+      <div className="relative h-48 sm:h-56 overflow-hidden">
         <img
           src={buddy.coverPhoto.url}
           alt={`${buddy.userName}'s cover`}
@@ -260,23 +260,23 @@ const TravelBuddyPlatform = () => {
 
         {/* Member/Partner Badge */}
         {(buddy.user?.isMember || buddy.user?.isPartner) && (
-          <div className={`absolute top-4 right-4 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm ${
+          <div className={`absolute top-2 sm:top-4 right-2 sm:right-4 text-white px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-sm ${
             buddy.user?.isPartner
               ? 'bg-gradient-to-r from-green-500 to-emerald-600'
               : 'bg-gradient-to-r from-amber-400 to-orange-500'
           }`}>
             <span className="flex items-center space-x-1">
-              <span>{buddy.user?.isPartner ? '💼' : '👑'}</span>
-              <span>{buddy.user?.isPartner ? 'PARTNER' : 'MEMBER'}</span>
+              <span className="text-xs sm:text-sm">{buddy.user?.isPartner ? '💼' : '👑'}</span>
+              <span className="hidden xs:inline">{buddy.user?.isPartner ? 'PARTNER' : 'MEMBER'}</span>
             </span>
           </div>
         )}
 
         {/* Verified Badge */}
         {buddy.user?.isVerified && (
-          <div className="absolute bottom-4 right-4">
+          <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4">
             <svg
-              className="w-6 h-6"
+              className="w-5 h-5 sm:w-6 sm:h-6"
               viewBox="0 0 24 24"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -299,14 +299,14 @@ const TravelBuddyPlatform = () => {
         )}
 
         {/* Quick Stats Overlay */}
-        <div className="absolute top-4 left-4">
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 text-white">
+        <div className="absolute top-2 sm:top-4 left-2 sm:left-4">
+          <div className="flex items-center space-x-1.5 sm:space-x-2">
+            <div className="flex items-center space-x-1 bg-black/40 backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 sm:py-1.5 text-white">
               <Eye className="w-3 h-3" />
               <span className="text-xs font-semibold">{formatViewCount(buddy.viewCount)}</span>
             </div>
             {buddy.averageRating > 0 && (
-              <div className="flex items-center space-x-1 bg-black/40 backdrop-blur-sm rounded-full px-3 py-1.5 text-white">
+              <div className="flex items-center space-x-1 bg-black/40 backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 sm:py-1.5 text-white">
                 <Star className="w-3 h-3 text-yellow-400 fill-current" />
                 <span className="text-xs font-semibold">{buddy.averageRating.toFixed(1)}</span>
               </div>
@@ -316,58 +316,58 @@ const TravelBuddyPlatform = () => {
       </div>
 
       {/* Profile Content */}
-      <div className="p-6 flex flex-col flex-grow">
+      <div className="p-4 sm:p-6 flex flex-col flex-grow">
         {/* Avatar */}
-        <div className="flex justify-center -mt-12 mb-4">
+        <div className="flex justify-center -mt-10 sm:-mt-12 mb-3 sm:mb-4">
           <div className="relative">
             <img
               src={buddy.avatarImage.url}
               alt={buddy.userName}
-              className="w-20 h-20 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-2xl ring-4 ring-blue-100 dark:ring-blue-900"
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-2xl ring-4 ring-blue-100 dark:ring-blue-900"
             />
-            <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-3 border-white dark:border-gray-800 shadow-lg ${
+            <div className={`absolute -bottom-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full border-3 border-white dark:border-gray-800 shadow-lg ${
               (buddy.isAvailable === undefined || buddy.isAvailable === true) ? 'bg-green-400' : 'bg-gray-400'
             }`}></div>
           </div>
         </div>
 
         {/* Profile Info */}
-        <div className="text-center mb-4">
-          <div className="flex items-center justify-center space-x-2 mb-2">
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+        <div className="text-center mb-3 sm:mb-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center sm:space-x-2 mb-2">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
               {buddy.userName}
             </h3>
             {buddy.nickName && (
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">
+              <span className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 sm:py-1 rounded-full mt-1 sm:mt-0">
                 "{buddy.nickName}"
               </span>
             )}
           </div>
 
-          <div className="flex items-center justify-center space-x-3 text-sm text-gray-600 dark:text-gray-400 mb-3">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 sm:mb-3">
             <div className="flex items-center space-x-1">
-              <MapPin className="w-4 h-4 text-blue-500" />
+              <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-blue-500" />
               <span className="font-medium">{buddy.country}</span>
             </div>
-            <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+            <span className="w-1 h-1 bg-gray-400 rounded-full hidden sm:block"></span>
             <div className="flex items-center space-x-1">
-              <User className="w-4 h-4 text-purple-500" />
+              <User className="w-3 h-3 sm:w-4 sm:h-4 text-purple-500" />
               <span className="font-medium">{buddy.age} years</span>
             </div>
           </div>
 
-          <div className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 text-blue-800 dark:text-blue-200 rounded-full text-xs font-semibold">
+          <div className="inline-flex items-center px-2.5 sm:px-3 py-1 bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 text-blue-800 dark:text-blue-200 rounded-full text-xs font-semibold">
             {buddy.gender}
           </div>
         </div>
 
         {/* Rating Display */}
-        <div className="flex items-center justify-between mb-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-xl border border-yellow-200 dark:border-yellow-700">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2 mb-3 sm:mb-4 p-3 sm:p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 rounded-lg sm:rounded-xl border border-yellow-200 dark:border-yellow-700">
           <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-0.5 sm:space-x-1">
               {renderStars(buddy.averageRating)}
             </div>
-            <span className="text-sm font-bold text-gray-800 dark:text-gray-200">
+            <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-gray-200">
               {buddy.averageRating > 0 ? buddy.averageRating.toFixed(1) : 'New Profile'}
             </span>
           </div>
@@ -377,23 +377,23 @@ const TravelBuddyPlatform = () => {
         </div>
 
         {/* Description */}
-        <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed mb-4 line-clamp-3">
+        <p className="text-gray-700 dark:text-gray-300 text-xs sm:text-sm leading-relaxed mb-3 sm:mb-4 line-clamp-3">
           {buddy.description}
         </p>
 
         {/* Interests */}
         {buddy.interests && buddy.interests.length > 0 && (
-          <div className="flex flex-wrap gap-2 mb-5">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-5">
             {buddy.interests.slice(0, 3).map((interest, index) => (
               <span
                 key={index}
-                className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-xs font-medium border border-blue-200 dark:border-blue-700"
+                className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/50 dark:to-purple-900/50 text-blue-800 dark:text-blue-200 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs font-medium border border-blue-200 dark:border-blue-700"
               >
                 {interest}
               </span>
             ))}
             {buddy.interests.length > 3 && (
-              <span className="text-xs text-gray-500 dark:text-gray-400 px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded-full">
+              <span className="text-xs text-gray-500 dark:text-gray-400 px-2 py-0.5 sm:py-1 bg-gray-100 dark:bg-gray-700 rounded-full">
                 +{buddy.interests.length - 3} more
               </span>
             )}
@@ -406,10 +406,10 @@ const TravelBuddyPlatform = () => {
         {/* Action Button */}
         <button
           onClick={() => handleProfileClick(buddy._id)}
-          className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95 flex items-center justify-center space-x-2"
+          className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-blue-700 hover:from-blue-700 hover:via-purple-700 hover:to-blue-800 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg sm:rounded-xl text-sm sm:text-base transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95 flex items-center justify-center space-x-2"
         >
           <span>View Profile</span>
-          <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -456,65 +456,74 @@ const TravelBuddyPlatform = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
       <div className="bg-gradient-to-r from-blue-600 to-purple-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center relative">
-            {user && (
-              <button
-                onClick={() => navigate('/travel-buddy-favorites')}
-                className="absolute right-0 top-0 flex items-center space-x-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors"
-              >
-                <Heart className="w-5 h-5" />
-                <span>My Favorites</span>
-              </button>
-            )}
-            <h1 className="text-4xl font-bold mb-2">Travel Buddies Platform</h1>
-            <p className="text-xl opacity-90">Connect with amazing travel companions from around the world</p>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+          {/* Header Content */}
+          <div className="flex flex-col space-y-4">
+            {/* Title and Favorites Button */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <div className="text-center sm:text-left flex-1">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-1 sm:mb-2">Travel Buddies Platform</h1>
+                <p className="text-sm sm:text-base lg:text-xl opacity-90">Connect with amazing travel companions from around the world</p>
+              </div>
+              {user && (
+                <button
+                  onClick={() => navigate('/travel-buddy-favorites')}
+                  className="flex items-center justify-center space-x-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg transition-colors self-center sm:self-auto"
+                >
+                  <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base">My Favorites</span>
+                </button>
+              )}
+            </div>
 
-          {/* Tab Navigation */}
-          <div className="mt-8 flex justify-center space-x-2">
-            <button
-              onClick={() => {
-                setActiveTab('buddies');
-                setCurrentPage(1);
-              }}
-              className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-                activeTab === 'buddies'
-                  ? 'bg-white text-blue-600 shadow-lg'
-                  : 'bg-white/20 hover:bg-white/30 text-white'
-              }`}
-            >
-              <Users className="w-5 h-5 inline-block mr-2" />
-              Travel Buddies
-            </button>
-            <button
-              onClick={() => {
-                setActiveTab('tripRequests');
-                setCurrentPage(1);
-              }}
-              className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-                activeTab === 'tripRequests'
-                  ? 'bg-white text-blue-600 shadow-lg'
-                  : 'bg-white/20 hover:bg-white/30 text-white'
-              }`}
-            >
-              <MapPin className="w-5 h-5 inline-block mr-2" />
-              Trip Requests
-            </button>
-            <button
-              onClick={() => {
-                setActiveTab('myTripRequests');
-                setCurrentPage(1);
-              }}
-              className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-                activeTab === 'myTripRequests'
-                  ? 'bg-white text-blue-600 shadow-lg'
-                  : 'bg-white/20 hover:bg-white/30 text-white'
-              }`}
-            >
-              <Calendar className="w-5 h-5 inline-block mr-2" />
-              My Trip Requests
-            </button>
+            {/* Tab Navigation */}
+            <div className="flex flex-col sm:flex-row justify-center gap-2 sm:space-x-2">
+              <button
+                onClick={() => {
+                  setActiveTab('buddies');
+                  setCurrentPage(1);
+                }}
+                className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
+                  activeTab === 'buddies'
+                    ? 'bg-white text-blue-600 shadow-lg'
+                    : 'bg-white/20 hover:bg-white/30 text-white'
+                }`}
+              >
+                <Users className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
+                <span className="hidden xs:inline">Travel Buddies</span>
+                <span className="xs:hidden">Buddies</span>
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab('tripRequests');
+                  setCurrentPage(1);
+                }}
+                className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
+                  activeTab === 'tripRequests'
+                    ? 'bg-white text-blue-600 shadow-lg'
+                    : 'bg-white/20 hover:bg-white/30 text-white'
+                }`}
+              >
+                <MapPin className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
+                <span className="hidden xs:inline">Trip Requests</span>
+                <span className="xs:hidden">Trips</span>
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab('myTripRequests');
+                  setCurrentPage(1);
+                }}
+                className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
+                  activeTab === 'myTripRequests'
+                    ? 'bg-white text-blue-600 shadow-lg'
+                    : 'bg-white/20 hover:bg-white/30 text-white'
+                }`}
+              >
+                <Calendar className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
+                <span className="hidden xs:inline">My Trip Requests</span>
+                <span className="xs:hidden">My Trips</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -530,141 +539,141 @@ const TravelBuddyPlatform = () => {
       />
 
       {/* Search and Filters - Only show for buddies tab */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         {activeTab === 'tripRequests' && (
-          <div className="mb-6 flex justify-end">
+          <div className="mb-4 sm:mb-6 flex justify-center sm:justify-end">
             <button
               onClick={() => setShowTripRequestModal(true)}
-              className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
+              className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg text-sm sm:text-base w-full sm:w-auto justify-center"
             >
-              <Plus className="w-5 h-5" />
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Add Trip Request</span>
             </button>
           </div>
         )}
 
         {activeTab === 'buddies' && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 mb-4 sm:mb-6">
             {/* Search Bar */}
-            <form onSubmit={handleSearch} className="flex gap-4 mb-4">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search by name, interests, or description..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-              />
-            </div>
-            <button
-              type="button"
-              onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-            >
-              <Filter className="w-5 h-5" />
-              <span>Filters</span>
-              <ChevronDown className={`w-4 h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-            </button>
-          </form>
+            <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
+              <div className="flex-1 relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
+                <input
+                  type="text"
+                  placeholder="Search by name, interests..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex items-center justify-center space-x-2 px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              >
+                <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Filters</span>
+                <ChevronDown className={`w-3 h-3 sm:w-4 sm:h-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
+              </button>
+            </form>
 
-          {/* Filters Panel */}
-          {showFilters && (
-            <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-                {/* Country Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Country
-                  </label>
-                  <select
-                    value={filters.country}
-                    onChange={(e) => handleFilterChange('country', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+            {/* Filters Panel */}
+            {showFilters && (
+              <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
+                  {/* Country Filter */}
+                  <div>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Country
+                    </label>
+                    <select
+                      value={filters.country}
+                      onChange={(e) => handleFilterChange('country', e.target.value)}
+                      className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    >
+                      <option value="">All Countries</option>
+                      {countries.map(country => (
+                        <option key={country} value={country}>{country}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Gender Filter */}
+                  <div>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Gender
+                    </label>
+                    <select
+                      value={filters.gender}
+                      onChange={(e) => handleFilterChange('gender', e.target.value)}
+                      className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    >
+                      <option value="">All Genders</option>
+                      {genders.map(gender => (
+                        <option key={gender} value={gender}>{gender}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Age Range */}
+                  <div>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Min Age
+                    </label>
+                    <input
+                      type="number"
+                      min="18"
+                      max="100"
+                      value={filters.minAge}
+                      onChange={(e) => handleFilterChange('minAge', e.target.value)}
+                      className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      placeholder="18"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Max Age
+                    </label>
+                    <input
+                      type="number"
+                      min="18"
+                      max="100"
+                      value={filters.maxAge}
+                      onChange={(e) => handleFilterChange('maxAge', e.target.value)}
+                      className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      placeholder="100"
+                    />
+                  </div>
+
+                  {/* Sort By */}
+                  <div className="sm:col-span-2 lg:col-span-1">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                      Sort By
+                    </label>
+                    <select
+                      value={filters.sortBy}
+                      onChange={(e) => handleFilterChange('sortBy', e.target.value)}
+                      className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    >
+                      {sortOptions.map(option => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="flex justify-center sm:justify-end mt-4">
+                  <button
+                    onClick={clearFilters}
+                    className="flex items-center space-x-2 px-4 py-2 text-sm sm:text-base text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
                   >
-                    <option value="">All Countries</option>
-                    {countries.map(country => (
-                      <option key={country} value={country}>{country}</option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Gender Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Gender
-                  </label>
-                  <select
-                    value={filters.gender}
-                    onChange={(e) => handleFilterChange('gender', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  >
-                    <option value="">All Genders</option>
-                    {genders.map(gender => (
-                      <option key={gender} value={gender}>{gender}</option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Age Range */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Min Age
-                  </label>
-                  <input
-                    type="number"
-                    min="18"
-                    max="100"
-                    value={filters.minAge}
-                    onChange={(e) => handleFilterChange('minAge', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    placeholder="18"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Max Age
-                  </label>
-                  <input
-                    type="number"
-                    min="18"
-                    max="100"
-                    value={filters.maxAge}
-                    onChange={(e) => handleFilterChange('maxAge', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    placeholder="100"
-                  />
-                </div>
-
-                {/* Sort By */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Sort By
-                  </label>
-                  <select
-                    value={filters.sortBy}
-                    onChange={(e) => handleFilterChange('sortBy', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                  >
-                    {sortOptions.map(option => (
-                      <option key={option.value} value={option.value}>{option.label}</option>
-                    ))}
-                  </select>
+                    <X className="w-4 h-4" />
+                    <span>Clear Filters</span>
+                  </button>
                 </div>
               </div>
-
-              <div className="flex justify-end mt-4">
-                <button
-                  onClick={clearFilters}
-                  className="flex items-center space-x-2 px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
-                >
-                  <X className="w-4 h-4" />
-                  <span>Clear Filters</span>
-                </button>
-              </div>
-            </div>
-          )}
+            )}
           </div>
         )}
 
@@ -678,8 +687,8 @@ const TravelBuddyPlatform = () => {
             {activeTab === 'buddies' && (
               <>
                 {/* Results Count */}
-                <div className="mb-6">
-                  <p className="text-gray-600 dark:text-gray-400">
+                <div className="mb-4 sm:mb-6">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                     {travelBuddies.length > 0
                       ? `Showing ${travelBuddies.length} travel ${travelBuddies.length === 1 ? 'buddy' : 'buddies'}`
                       : 'No travel buddies found'
@@ -689,23 +698,23 @@ const TravelBuddyPlatform = () => {
 
                 {/* Travel Buddy Grid */}
                 {travelBuddies.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 justify-items-center items-stretch">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 mb-6 sm:mb-8 justify-items-center items-stretch">
                     {travelBuddies.map((buddy) => (
                       <TravelBuddyCard key={buddy._id} buddy={buddy} />
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-12">
-                    <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  <div className="text-center py-8 sm:py-12 px-4">
+                    <Users className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
+                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
                       No Travel Buddies Found
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">
                       Try adjusting your search criteria or filters
                     </p>
                     <button
                       onClick={clearFilters}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 sm:px-6 py-2 rounded-lg transition-colors text-sm sm:text-base"
                     >
                       Clear All Filters
                     </button>
@@ -717,8 +726,8 @@ const TravelBuddyPlatform = () => {
             {/* Trip Requests Tab */}
             {activeTab === 'tripRequests' && (
               <>
-                <div className="mb-6">
-                  <p className="text-gray-600 dark:text-gray-400 font-medium">
+                <div className="mb-4 sm:mb-6">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 font-medium">
                     {tripRequests.length > 0
                       ? `Showing ${tripRequests.length} trip ${tripRequests.length === 1 ? 'request' : 'requests'}`
                       : 'No trip requests found'
@@ -727,23 +736,23 @@ const TravelBuddyPlatform = () => {
                 </div>
 
                 {tripRequests.length > 0 ? (
-                  <div className="space-y-3 mb-8">
+                  <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                     {tripRequests.map((request) => (
                       <TripRequestCard key={request._id} request={request} />
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700">
-                    <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  <div className="text-center py-8 sm:py-12 px-4 bg-white dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700">
+                    <MapPin className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
+                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
                       No Trip Requests Yet
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">
                       Be the first to create a trip request!
                     </p>
                     <button
                       onClick={() => setShowTripRequestModal(true)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 sm:px-6 py-2 rounded-lg transition-colors text-sm sm:text-base"
                     >
                       Add Trip Request
                     </button>
@@ -755,8 +764,8 @@ const TravelBuddyPlatform = () => {
             {/* My Trip Requests Tab */}
             {activeTab === 'myTripRequests' && (
               <>
-                <div className="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                  <p className="text-gray-600 dark:text-gray-400 font-medium">
+                <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 font-medium">
                     {myTripRequests.length > 0
                       ? `You have ${myTripRequests.length} trip ${myTripRequests.length === 1 ? 'request' : 'requests'}`
                       : 'You have no trip requests'
@@ -764,22 +773,22 @@ const TravelBuddyPlatform = () => {
                   </p>
                   <button
                     onClick={() => setShowTripRequestModal(true)}
-                    className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-md"
+                    className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-md text-sm sm:text-base w-full sm:w-auto"
                   >
-                    <Plus className="w-5 h-5" />
+                    <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>Add New Request</span>
                   </button>
                 </div>
 
                 {myTripRequests.length > 0 ? (
                   <>
-                    <div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-lg p-4 mb-6">
-                      <p className="text-yellow-800 dark:text-yellow-300 text-sm flex items-start">
-                        <span className="font-bold mr-2">⚠️ Note:</span>
+                    <div className="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-400 dark:border-yellow-600 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+                      <p className="text-yellow-800 dark:text-yellow-300 text-xs sm:text-sm flex items-start">
+                        <span className="font-bold mr-2 flex-shrink-0">⚠️ Note:</span>
                         <span>You cannot edit your trip requests once submitted. You can only delete them if needed.</span>
                       </p>
                     </div>
-                    <div className="space-y-3 mb-8">
+                    <div className="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                       {myTripRequests.map((request) => (
                         <TripRequestCard
                           key={request._id}
@@ -791,17 +800,17 @@ const TravelBuddyPlatform = () => {
                     </div>
                   </>
                 ) : (
-                  <div className="text-center py-12 bg-white dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700">
-                    <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  <div className="text-center py-8 sm:py-12 px-4 bg-white dark:bg-gray-800 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-700">
+                    <Calendar className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
+                    <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
                       No Trip Requests Yet
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-4">
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">
                       Create your first trip request to find travel buddies!
                     </p>
                     <button
                       onClick={() => setShowTripRequestModal(true)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-4 sm:px-6 py-2 rounded-lg transition-colors text-sm sm:text-base"
                     >
                       Add Trip Request
                     </button>
@@ -812,22 +821,31 @@ const TravelBuddyPlatform = () => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex justify-center space-x-2">
+              <div className="flex flex-wrap justify-center gap-2 px-2">
                 <button
                   onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
-                  Previous
+                  <span className="hidden sm:inline">Previous</span>
+                  <span className="sm:hidden">Prev</span>
                 </button>
-                
+
                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                   const page = i + 1;
+                  // On mobile, show fewer page numbers
+                  const isMobile = window.innerWidth < 640;
+                  if (isMobile && totalPages > 3) {
+                    // Show first, current, and last page on mobile
+                    if (page !== 1 && page !== totalPages && page !== currentPage) {
+                      return null;
+                    }
+                  }
                   return (
                     <button
                       key={page}
                       onClick={() => setCurrentPage(page)}
-                      className={`px-4 py-2 rounded-lg transition-colors ${
+                      className={`px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg transition-colors min-w-[2.5rem] sm:min-w-[3rem] ${
                         currentPage === page
                           ? 'bg-blue-500 text-white'
                           : 'border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700'
@@ -837,11 +855,11 @@ const TravelBuddyPlatform = () => {
                     </button>
                   );
                 })}
-                
+
                 <button
                   onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   Next
                 </button>
