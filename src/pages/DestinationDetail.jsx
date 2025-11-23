@@ -316,35 +316,35 @@ const DestinationDetail = () => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <button
           onClick={() => navigate('/plan-dream-tour')}
           className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200 self-start"
         >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back to Destinations</span>
+          <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="text-sm sm:text-base">Back to Destinations</span>
         </button>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
           <button
             onClick={toggleFavorite}
             disabled={favoriteLoading}
-            className={`btn-secondary flex items-center justify-center space-x-2 ${
+            className={`btn-secondary flex items-center justify-center space-x-1.5 sm:space-x-2 text-sm sm:text-base ${
               isFavorite ? 'text-red-600 border-red-600' : ''
             }`}
           >
-            <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
+            <Heart className={`w-4 h-4 sm:w-5 sm:h-5 ${isFavorite ? 'fill-current' : ''}`} />
             <span className="hidden sm:inline">{isFavorite ? 'Favorited' : 'Add to Favorites'}</span>
             <span className="sm:hidden">{isFavorite ? 'Favorited' : 'Favorite'}</span>
           </button>
 
           <button
             onClick={handleShare}
-            className="btn-secondary flex items-center justify-center space-x-2"
+            className="btn-secondary flex items-center justify-center space-x-1.5 sm:space-x-2 text-sm sm:text-base"
           >
-            <Share2 className="w-5 h-5" />
+            <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Share</span>
           </button>
         </div>
@@ -358,25 +358,25 @@ const DestinationDetail = () => {
           <ImageGallery images={destination.images} />
 
           {/* Basic Info */}
-          <div className="card p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <div className="flex items-center space-x-3 mb-2">
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <div className="card p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 sm:gap-0 mb-4">
+              <div className="flex-1">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-2">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                     {destination.name}
                   </h1>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${getTypeColor(destination.type)}`}>
+                  <span className={`px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium w-fit ${getTypeColor(destination.type)}`}>
                     {destination.type}
                   </span>
                 </div>
 
-                <div className="flex items-center space-x-4 text-gray-600 dark:text-gray-400">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm sm:text-base text-gray-600 dark:text-gray-400">
                   <div className="flex items-center space-x-1">
-                    <MapPin className="w-4 h-4" />
+                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
                     <span>{destination.district}, {destination.province}</span>
                   </div>
                   <div className="flex items-center space-x-1">
-                    <Navigation className="w-4 h-4" />
+                    <Navigation className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
                     <span>{destination.distanceFromColombo} km from Colombo</span>
                   </div>
                 </div>
@@ -384,15 +384,15 @@ const DestinationDetail = () => {
             </div>
 
             {/* Rating */}
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="flex items-center space-x-2">
-                <div className="flex items-center space-x-1">
+            <div className="flex items-center space-x-3 sm:space-x-4 mb-4 sm:mb-6">
+              <div className="flex items-center space-x-1.5 sm:space-x-2">
+                <div className="flex items-center space-x-0.5 sm:space-x-1">
                   {renderStars(destination.averageRating)}
                 </div>
-                <span className="text-lg font-semibold text-gray-900 dark:text-white">
+                <span className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
                   {destination.averageRating.toFixed(1)}
                 </span>
-                <span className="text-gray-600 dark:text-gray-400">
+                <span className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                   ({destination.totalReviews} reviews)
                 </span>
               </div>
@@ -400,25 +400,25 @@ const DestinationDetail = () => {
 
             {/* Description */}
             <div className="prose dark:prose-invert max-w-none text-justify">
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
                 {destination.description}
               </p>
             </div>
           </div>
 
           {/* Reviews Section */}
-          <div className="card p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <div className="card p-4 sm:p-6 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                 Reviews & Ratings
               </h2>
 
               {user && !userReview && (
                 <button
                   onClick={() => setShowReviewForm(true)}
-                  className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto"
+                  className="btn-primary flex items-center justify-center space-x-1.5 sm:space-x-2 text-sm sm:text-base w-full sm:w-auto"
                 >
-                  <MessageSquare className="w-5 h-5" />
+                  <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Write a Review</span>
                 </button>
               )}
@@ -447,11 +447,11 @@ const DestinationDetail = () => {
 
             {/* Rating Statistics */}
             {ratingStats.length > 0 && (
-              <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              <div className="mb-6 p-4 sm:p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-4">
                   Rating Breakdown
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   {[5, 4, 3, 2, 1].map(rating => {
                     const stat = ratingStats.find(s => s._id === rating);
                     const count = stat ? stat.count : 0;
@@ -460,17 +460,17 @@ const DestinationDetail = () => {
                       : 0;
 
                     return (
-                      <div key={rating} className="flex items-center space-x-3">
-                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 w-8">
+                      <div key={rating} className="flex items-center space-x-2 sm:space-x-3">
+                        <span className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 w-6 sm:w-8">
                           {rating}★
                         </span>
-                        <div className="flex-1 bg-gray-200 dark:bg-gray-600 rounded-full h-3">
+                        <div className="flex-1 bg-gray-200 dark:bg-gray-600 rounded-full h-2 sm:h-3">
                           <div
-                            className="bg-yellow-400 dark:bg-yellow-500 h-3 rounded-full transition-all duration-300"
+                            className="bg-yellow-400 dark:bg-yellow-500 h-2 sm:h-3 rounded-full transition-all duration-300"
                             style={{ width: `${percentage}%` }}
                           ></div>
                         </div>
-                        <span className="text-sm text-gray-600 dark:text-gray-400 w-12 text-right">
+                        <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 w-8 sm:w-12 text-right">
                           {count}
                         </span>
                       </div>
@@ -481,17 +481,17 @@ const DestinationDetail = () => {
             )}
 
             {/* Reviews List */}
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Sort Controls */}
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
                   All Reviews ({destination.totalReviews})
                 </h3>
-                
+
                 <select
                   value={reviewSort}
                   onChange={(e) => setReviewSort(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent transition-colors duration-200"
+                  className="w-full sm:w-auto px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent transition-colors duration-200"
                 >
                   <option value="createdAt">Most Recent</option>
                   <option value="rating">Highest Rating</option>
@@ -533,23 +533,23 @@ const DestinationDetail = () => {
 
                   {/* Pagination */}
                   {totalReviewPages > 1 && (
-                    <div className="flex justify-center items-center space-x-4 pt-6">
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 pt-6">
                       <button
                         onClick={() => setReviewsPage(prev => Math.max(prev - 1, 1))}
                         disabled={reviewsPage === 1}
-                        className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full sm:w-auto btn-secondary disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base px-4 py-2"
                       >
                         Previous
                       </button>
-                      
-                      <span className="text-sm text-gray-600 dark:text-gray-400">
+
+                      <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
                         Page {reviewsPage} of {totalReviewPages}
                       </span>
-                      
+
                       <button
                         onClick={() => setReviewsPage(prev => Math.min(prev + 1, totalReviewPages))}
                         disabled={reviewsPage === totalReviewPages}
-                        className="btn-secondary disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full sm:w-auto btn-secondary disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base px-4 py-2"
                       >
                         Next
                       </button>
@@ -561,168 +561,168 @@ const DestinationDetail = () => {
           </div>
 
           {/* Explore Around Section */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-            <div className="flex items-center space-x-3 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 shadow-sm">
+            <div className="flex flex-col sm:flex-row items-center justify-center text-center sm:text-left space-y-2 sm:space-y-0 sm:space-x-3 mb-4 sm:mb-6">
               <div className="p-2 bg-primary-100 dark:bg-primary-900/30 rounded-lg">
-                <Search className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                <Search className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                   Explore Around {destination.name}
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Discover services and attractions nearby
                 </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-6xl mx-auto">
               <button
                 onClick={() => handleExploreClick('explore-locations', 'Explore Locations')}
-                className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
-                <div className="flex items-center space-x-3 mb-2">
-                  <MapPin className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200" />
-                  <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-1 sm:mb-2">
+                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" />
+                  <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                     Explore Locations
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Discover nearby attractions
                 </div>
               </button>
 
               <button
                 onClick={() => handleExploreClick('hotels', 'Find Perfect Stay')}
-                className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
-                <div className="flex items-center space-x-3 mb-2">
-                  <Bed className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200" />
-                  <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-1 sm:mb-2">
+                  <Bed className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" />
+                  <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                     Find Perfect Stay
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Hotels & accommodations
                 </div>
               </button>
 
               <button
                 onClick={() => handleExploreClick('cafes', 'Cafes & Restaurants')}
-                className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
-                <div className="flex items-center space-x-3 mb-2">
-                  <Coffee className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200" />
-                  <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-1 sm:mb-2">
+                  <Coffee className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" />
+                  <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                     Cafes & Restaurants
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Dining options nearby
                 </div>
               </button>
 
               <button
                 onClick={() => handleExploreClick('foods', 'Foods & Beverages')}
-                className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
-                <div className="flex items-center space-x-3 mb-2">
-                  <UtensilsCrossed className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200" />
-                  <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-1 sm:mb-2">
+                  <UtensilsCrossed className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" />
+                  <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                     Foods & Beverages
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Local cuisine & drinks
                 </div>
               </button>
 
               <button
                 onClick={() => handleExploreClick('live-rides', 'Live Ride Updates')}
-                className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
-                <div className="flex items-center space-x-3 mb-2">
-                  <Navigation className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200" />
-                  <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-1 sm:mb-2">
+                  <Navigation className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" />
+                  <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                     Live Ride Updates
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Traffic & transport info
                 </div>
               </button>
 
               <button
                 onClick={() => handleExploreClick('vehicle-rentals', 'Vehicle Rentals')}
-                className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
-                <div className="flex items-center space-x-3 mb-2">
-                  <Car className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200" />
-                  <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-1 sm:mb-2">
+                  <Car className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" />
+                  <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                     Vehicle Rentals
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Cars, bikes & more
                 </div>
               </button>
 
               <button
                 onClick={() => handleExploreClick('tour-guides', 'Find Tour Guides')}
-                className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
-                <div className="flex items-center space-x-3 mb-2">
-                  <UserCheck className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200" />
-                  <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-1 sm:mb-2">
+                  <UserCheck className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" />
+                  <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                     Find Tour Guides
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Local expert guides
                 </div>
               </button>
 
               <button
                 onClick={() => handleExploreClick('combo-packages', 'Exclusive Combo Packages')}
-                className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
-                <div className="flex items-center space-x-3 mb-2">
-                  <Package className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200" />
-                  <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-1 sm:mb-2">
+                  <Package className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" />
+                  <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                     Exclusive Combo Packages
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Special tour deals
                 </div>
               </button>
 
               <button
                 onClick={() => handleExploreClick('local-packages', 'Local Tour Packages')}
-                className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
-                <div className="flex items-center space-x-3 mb-2">
-                  <Plane className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200" />
-                  <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-1 sm:mb-2">
+                  <Plane className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" />
+                  <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                     Local Tour Packages
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Guided local tours
                 </div>
               </button>
 
               <button
                 onClick={() => handleExploreClick('events', 'Event Updates & Services')}
-                className="group p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-left hover:shadow-md"
               >
-                <div className="flex items-center space-x-3 mb-2">
-                  <Bell className="w-5 h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200" />
-                  <div className="font-semibold text-gray-900 dark:text-white">
+                <div className="flex items-center space-x-2 sm:space-x-3 mb-1 sm:mb-2">
+                  <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 group-hover:scale-110 transition-transform duration-200 flex-shrink-0" />
+                  <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                     Event Updates & Services
                   </div>
                 </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Local events & delivery
                 </div>
               </button>
@@ -730,35 +730,35 @@ const DestinationDetail = () => {
           </div>
 
           {/* Additional Information Section */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-            <div className="flex items-center space-x-3 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 shadow-sm">
+            <div className="flex flex-col sm:flex-row items-center justify-center text-center sm:text-left space-y-2 sm:space-y-0 sm:space-x-3 mb-4 sm:mb-6">
               <div className="p-2 bg-primary-100 dark:bg-primary-900/30 rounded-lg">
-                <Info className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                <Info className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400" />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                   More About {destination.name}
                 </h2>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Additional resources and information
                 </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-6xl mx-auto">
               <button
                 onClick={() => window.open(`https://www.google.com/search?q=${encodeURIComponent(destination.name)}+images&tbm=isch`, '_blank')}
-                className="group p-6 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-center hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-4 sm:p-6 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-center hover:shadow-md"
               >
-                <div className="flex flex-col items-center space-y-3">
-                  <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-full group-hover:scale-110 transition-transform duration-200">
-                    <Image className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                <div className="flex flex-col items-center space-y-2 sm:space-y-3">
+                  <div className="p-2 sm:p-3 bg-primary-100 dark:bg-primary-900/30 rounded-full group-hover:scale-110 transition-transform duration-200">
+                    <Image className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900 dark:text-white mb-1">
+                    <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-1">
                       View More Images
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                       Browse photo gallery
                     </div>
                   </div>
@@ -767,17 +767,17 @@ const DestinationDetail = () => {
 
               <button
                 onClick={() => window.open(`https://www.google.com/search?q=${encodeURIComponent(destination.name)}+Sri+Lanka+information`, '_blank')}
-                className="group p-6 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-center hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-4 sm:p-6 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-center hover:shadow-md"
               >
-                <div className="flex flex-col items-center space-y-3">
-                  <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-full group-hover:scale-110 transition-transform duration-200">
-                    <Info className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                <div className="flex flex-col items-center space-y-2 sm:space-y-3">
+                  <div className="p-2 sm:p-3 bg-primary-100 dark:bg-primary-900/30 rounded-full group-hover:scale-110 transition-transform duration-200">
+                    <Info className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900 dark:text-white mb-1">
+                    <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-1">
                       Know More About
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                       Detailed information
                     </div>
                   </div>
@@ -786,17 +786,17 @@ const DestinationDetail = () => {
 
               <button
                 onClick={() => window.open(`https://www.google.com/search?q=${encodeURIComponent(destination.name)}+weather+Sri+Lanka`, '_blank')}
-                className="group p-6 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-center hover:shadow-md"
+                className="group w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] p-4 sm:p-6 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-xl border border-gray-200 dark:border-gray-600 transition-all duration-200 text-center hover:shadow-md"
               >
-                <div className="flex flex-col items-center space-y-3">
-                  <div className="p-3 bg-primary-100 dark:bg-primary-900/30 rounded-full group-hover:scale-110 transition-transform duration-200">
-                    <CloudRain className="w-6 h-6 text-primary-600 dark:text-primary-400" />
+                <div className="flex flex-col items-center space-y-2 sm:space-y-3">
+                  <div className="p-2 sm:p-3 bg-primary-100 dark:bg-primary-900/30 rounded-full group-hover:scale-110 transition-transform duration-200">
+                    <CloudRain className="w-5 h-5 sm:w-6 sm:h-6 text-primary-600 dark:text-primary-400" />
                   </div>
                   <div>
-                    <div className="font-semibold text-gray-900 dark:text-white mb-1">
+                    <div className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-1">
                       Check Current Weather
                     </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                       Weather updates
                     </div>
                   </div>
@@ -807,46 +807,46 @@ const DestinationDetail = () => {
         </div>
 
         {/* Right Column - Sidebar */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Quick Info */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 shadow-sm">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
               Quick Information
             </h3>
-            
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Climate:</span>
-                <span className="font-medium text-gray-900 dark:text-white">
+
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Climate:</span>
+                <span className="text-sm sm:text-base font-medium text-gray-900 dark:text-white text-right">
                   {destination.climate}
                 </span>
               </div>
-              
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Province:</span>
-                <span className="font-medium text-gray-900 dark:text-white">
+
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Province:</span>
+                <span className="text-sm sm:text-base font-medium text-gray-900 dark:text-white text-right">
                   {destination.province}
                 </span>
               </div>
-              
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600 dark:text-gray-400">District:</span>
-                <span className="font-medium text-gray-900 dark:text-white">
+
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm sm:text-base text-gray-600 dark:text-gray-400">District:</span>
+                <span className="text-sm sm:text-base font-medium text-gray-900 dark:text-white text-right">
                   {destination.district}
                 </span>
               </div>
-              
-              <div className="flex items-center justify-between">
-                <span className="text-gray-600 dark:text-gray-400">Distance from colombo:</span>
-                <span className="font-medium text-gray-900 dark:text-white">
+
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Distance from colombo:</span>
+                <span className="text-sm sm:text-base font-medium text-gray-900 dark:text-white text-right">
                   {destination.distanceFromColombo} km
                 </span>
               </div>
 
               {destination.recommendedToVisit && (
-                <div className="flex items-center justify-between">
-                  <span className="text-gray-600 dark:text-gray-400">Best time to visit:</span>
-                  <span className="font-medium text-gray-900 dark:text-white">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Best time to visit:</span>
+                  <span className="text-sm sm:text-base font-medium text-gray-900 dark:text-white text-right">
                     {destination.recommendedToVisit}
                   </span>
                 </div>
@@ -855,53 +855,53 @@ const DestinationDetail = () => {
           </div>
 
           {/* Map */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 shadow-sm">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
               Location
             </h3>
-            
+
             <button
               onClick={openGoogleMaps}
-              className="w-full btn-primary flex items-center justify-center space-x-2"
+              className="w-full btn-primary flex items-center justify-center space-x-1.5 sm:space-x-2 text-sm sm:text-base"
             >
-              <ExternalLink className="w-5 h-5" />
+              <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>View on Google Maps</span>
             </button>
           </div>
 
           {/* Stats */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 sm:p-6 shadow-sm">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
               Statistics
             </h3>
-            
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Star className="w-5 h-5 text-yellow-400" />
-                  <span className="text-gray-600 dark:text-gray-400">Average Rating:</span>
+
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center space-x-1.5 sm:space-x-2">
+                  <Star className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 flex-shrink-0" />
+                  <span className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Average Rating:</span>
                 </div>
-                <span className="font-bold text-lg text-gray-900 dark:text-white">
+                <span className="font-bold text-base sm:text-lg text-gray-900 dark:text-white">
                   {destination.averageRating.toFixed(1)}
                 </span>
               </div>
-              
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <MessageSquare className="w-5 h-5 text-blue-500" />
-                  <span className="text-gray-600 dark:text-gray-400">Total Reviews:</span>
+
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center space-x-1.5 sm:space-x-2">
+                  <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-blue-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Total Reviews:</span>
                 </div>
-                <span className="font-bold text-lg text-gray-900 dark:text-white">
+                <span className="font-bold text-base sm:text-lg text-gray-900 dark:text-white">
                   {destination.totalReviews}
                 </span>
               </div>
-              
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <Camera className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-600 dark:text-gray-400">Photos:</span>
+
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center space-x-1.5 sm:space-x-2">
+                  <Camera className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Photos:</span>
                 </div>
-                <span className="font-bold text-lg text-gray-900 dark:text-white">
+                <span className="font-bold text-base sm:text-lg text-gray-900 dark:text-white">
                   {destination.images?.length || 0}
                 </span>
               </div>

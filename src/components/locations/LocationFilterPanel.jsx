@@ -39,9 +39,9 @@ const LocationFilterPanel = ({
   const availableDistricts = filters.province ? provincesAndDistricts[filters.province] || [] : [];
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 sticky top-4">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white dark:bg-gray-800 lg:rounded-lg lg:shadow-sm lg:border lg:border-gray-200 lg:dark:border-gray-700 lg:p-6 lg:sticky lg:top-4">
+      {/* Header - Hidden on mobile when in modal */}
+      <div className="hidden lg:flex items-center justify-between mb-6">
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           Filters
         </h3>
@@ -54,6 +54,18 @@ const LocationFilterPanel = ({
           </button>
         )}
       </div>
+
+      {/* Mobile Clear All Button */}
+      {hasActiveFilters && (
+        <div className="lg:hidden mb-4">
+          <button
+            onClick={clearAllFilters}
+            className="w-full px-4 py-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 border border-blue-600 dark:border-blue-400 rounded-lg"
+          >
+            Clear all filters
+          </button>
+        </div>
+      )}
 
       <div className="space-y-6">
         {/* Location Type */}

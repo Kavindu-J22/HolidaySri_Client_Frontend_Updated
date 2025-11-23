@@ -289,50 +289,50 @@ const LocationDetail = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
       <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center space-x-2 sm:space-x-4 flex-1 min-w-0">
               <button
                 onClick={() => navigate(-1)}
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex-shrink-0"
               >
-                <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
               </button>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900 dark:text-white line-clamp-1">
+              <div className="min-w-0 flex-1">
+                <h1 className="text-base sm:text-xl font-bold text-gray-900 dark:text-white line-clamp-1">
                   {location.name}
                 </h1>
-                <div className="flex items-center space-x-2 mt-1">
-                  <div className="flex items-center space-x-1">
+                <div className="flex items-center space-x-1 sm:space-x-2 mt-0.5 sm:mt-1">
+                  <div className="flex items-center space-x-0.5 sm:space-x-1">
                     {renderStars(location.averageRating)}
                   </div>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
-                    {location.averageRating.toFixed(1)} ({location.totalReviews} reviews)
+                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
+                    {location.averageRating.toFixed(1)} ({location.totalReviews})
                   </span>
                 </div>
               </div>
             </div>
-            
+
             {/* Action Buttons */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1 sm:space-x-2 flex-shrink-0">
               <button
                 onClick={handleShare}
-                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                className="p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                 title="Share Location"
               >
-                <Share2 className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                <Share2 className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400" />
               </button>
               <button
                 onClick={handleFavoriteToggle}
                 disabled={favoriteLoading}
-                className={`p-2 rounded-lg transition-colors ${
+                className={`p-1.5 sm:p-2 rounded-lg transition-colors ${
                   isFavorite
                     ? 'bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-400'
                     : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
                 } ${favoriteLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
                 title={isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
               >
-                <Heart className={`w-5 h-5 ${isFavorite ? 'fill-current' : ''}`} />
+                <Heart className={`w-4 h-4 sm:w-5 sm:h-5 ${isFavorite ? 'fill-current' : ''}`} />
               </button>
             </div>
           </div>
@@ -345,11 +345,11 @@ const LocationDetail = () => {
           <div className="lg:col-span-2 space-y-8">
             {/* Image Gallery */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 p-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 sm:gap-2 p-2 sm:p-4">
                 {location.images.slice(0, 6).map((image, index) => (
                   <div
                     key={index}
-                    className="relative aspect-square bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden cursor-pointer group"
+                    className="relative aspect-square bg-gray-200 dark:bg-gray-700 rounded-md sm:rounded-lg overflow-hidden cursor-pointer group"
                     onClick={() => handleImageClick(index)}
                   >
                     <img
@@ -359,7 +359,7 @@ const LocationDetail = () => {
                     />
                     {index === 5 && location.images.length > 6 && (
                       <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                        <span className="text-white font-semibold">
+                        <span className="text-white text-sm sm:text-base font-semibold">
                           +{location.images.length - 6} more
                         </span>
                       </div>
@@ -370,68 +370,68 @@ const LocationDetail = () => {
             </div>
 
             {/* Location Info */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
                   Location Information
                 </h2>
-                <span className={`px-3 py-1.5 rounded-full text-sm font-semibold ${getTypeColor(location.locationType)}`}>
+                <span className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold w-fit ${getTypeColor(location.locationType)}`}>
                   {location.locationType}
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <MapPin className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="flex items-start space-x-2 sm:space-x-3">
+                    <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Location</p>
-                      <p className="text-gray-900 dark:text-white">{location.district}, {location.province}</p>
+                      <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Location</p>
+                      <p className="text-sm sm:text-base text-gray-900 dark:text-white">{location.district}, {location.province}</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-3">
-                    <Navigation className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                  <div className="flex items-start space-x-2 sm:space-x-3">
+                    <Navigation className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Distance from Colombo</p>
-                      <p className="text-gray-900 dark:text-white">{location.distanceFromColombo} km</p>
+                      <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Distance from Colombo</p>
+                      <p className="text-sm sm:text-base text-gray-900 dark:text-white">{location.distanceFromColombo} km</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-3">
-                    <Thermometer className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                  <div className="flex items-start space-x-2 sm:space-x-3">
+                    <Thermometer className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Climate</p>
-                      <p className="text-gray-900 dark:text-white">{location.climate}</p>
+                      <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Climate</p>
+                      <p className="text-sm sm:text-base text-gray-900 dark:text-white">{location.climate}</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <Calendar className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                <div className="space-y-3 sm:space-y-4">
+                  <div className="flex items-start space-x-2 sm:space-x-3">
+                    <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Best time to visit</p>
-                      <p className="text-gray-900 dark:text-white">{location.recommendedToVisit}</p>
+                      <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Best time to visit</p>
+                      <p className="text-sm sm:text-base text-gray-900 dark:text-white">{location.recommendedToVisit}</p>
                     </div>
                   </div>
 
-                  <div className="flex items-start space-x-3">
-                    <DollarSign className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                  <div className="flex items-start space-x-2 sm:space-x-3">
+                    <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Entering Fee</p>
-                      <p className={`font-semibold ${location.enteringFee.isFree ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400'}`}>
+                      <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Entering Fee</p>
+                      <p className={`text-sm sm:text-base font-semibold ${location.enteringFee.isFree ? 'text-green-600 dark:text-green-400' : 'text-blue-600 dark:text-blue-400'}`}>
                         {formatEnteringFee(location.enteringFee)}
                       </p>
                     </div>
                   </div>
 
                   {location.mainDestination && (
-                    <div className="flex items-start space-x-3">
-                      <Building className="w-5 h-5 text-gray-400 mt-0.5 flex-shrink-0" />
+                    <div className="flex items-start space-x-2 sm:space-x-3">
+                      <Building className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mt-0.5 flex-shrink-0" />
                       <div>
-                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Main Destination</p>
-                        <p className="text-gray-900 dark:text-white">{location.mainDestination.name}</p>
+                        <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Main Destination</p>
+                        <p className="text-sm sm:text-base text-gray-900 dark:text-white">{location.mainDestination.name}</p>
                       </div>
                     </div>
                   )}
@@ -440,12 +440,12 @@ const LocationDetail = () => {
 
               {/* Map Link */}
               {location.mapUrl && (
-                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
                   <a
                     href={location.mapUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                   >
                     <ExternalLink className="w-4 h-4 mr-2" />
                     View on Google Maps
@@ -455,31 +455,31 @@ const LocationDetail = () => {
             </div>
 
             {/* Description */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
                 About This Location
               </h2>
               <div className="prose dark:prose-invert max-w-none">
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
                   {location.description}
                 </p>
               </div>
             </div>
 
             {/* Facilities & Activities */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {/* Facilities */}
               {location.facilities && location.facilities.length > 0 && (
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                    <Info className="w-5 h-5 mr-2" />
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                    <Info className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                     Facilities
                   </h3>
                   <div className="space-y-2">
                     {location.facilities.map((facility, index) => (
                       <div key={index} className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                        <span className="text-gray-700 dark:text-gray-300">{facility}</span>
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-blue-600 rounded-full flex-shrink-0"></div>
+                        <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">{facility}</span>
                       </div>
                     ))}
                   </div>
@@ -488,16 +488,16 @@ const LocationDetail = () => {
 
               {/* Nearby Activities */}
               {location.nearbyActivities && location.nearbyActivities.length > 0 && (
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                    <Activity className="w-5 h-5 mr-2" />
+                <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                    <Activity className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                     Nearby Activities
                   </h3>
                   <div className="space-y-2">
                     {location.nearbyActivities.map((activity, index) => (
                       <div key={index} className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                        <span className="text-gray-700 dark:text-gray-300">{activity}</span>
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-600 rounded-full flex-shrink-0"></div>
+                        <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">{activity}</span>
                       </div>
                     ))}
                   </div>
@@ -506,17 +506,17 @@ const LocationDetail = () => {
             </div>
 
             {/* Reviews Section */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
-                  <MessageSquare className="w-5 h-5 mr-2" />
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0 mb-6">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white flex items-center">
+                  <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Reviews ({location.totalReviews})
                 </h2>
 
                 {user && !userReview && (
                   <button
                     onClick={() => setShowReviewForm(true)}
-                    className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="inline-flex items-center justify-center px-3 sm:px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full sm:w-auto"
                   >
                     <Star className="w-4 h-4 mr-2" />
                     Write Review
@@ -525,15 +525,15 @@ const LocationDetail = () => {
               </div>
 
               {/* Rating Overview */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className="text-center">
-                  <div className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                <div className="text-center p-4 bg-gray-50 dark:bg-gray-900 rounded-lg">
+                  <div className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
                     {location.averageRating.toFixed(1)}
                   </div>
-                  <div className="flex items-center justify-center space-x-1 mb-2">
+                  <div className="flex items-center justify-center space-x-0.5 sm:space-x-1 mb-2">
                     {renderStars(location.averageRating)}
                   </div>
-                  <p className="text-gray-600 dark:text-gray-400">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                     Based on {location.totalReviews} reviews
                   </p>
                 </div>
@@ -541,7 +541,7 @@ const LocationDetail = () => {
                 <div className="space-y-2">
                   {[5, 4, 3, 2, 1].map(rating => (
                     <div key={rating} className="flex items-center space-x-2">
-                      <span className="text-sm text-gray-600 dark:text-gray-400 w-8">
+                      <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 w-6 sm:w-8">
                         {rating}★
                       </span>
                       <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
@@ -552,7 +552,7 @@ const LocationDetail = () => {
                           }}
                         ></div>
                       </div>
-                      <span className="text-sm text-gray-600 dark:text-gray-400 w-8">
+                      <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 w-6 sm:w-8 text-right">
                         {ratingDistribution[rating] || 0}
                       </span>
                     </div>
@@ -575,14 +575,14 @@ const LocationDetail = () => {
               {/* Reviews List */}
               {reviews.length > 0 && (
                 <>
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-gray-900 dark:text-white">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-0 mb-4">
+                    <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                       All Reviews
                     </h3>
                     <select
                       value={reviewsSort}
                       onChange={(e) => setReviewsSort(e.target.value)}
-                      className="px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                      className="w-full sm:w-auto px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-xs sm:text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     >
                       <option value="createdAt-desc">Newest First</option>
                       <option value="createdAt-asc">Oldest First</option>
@@ -592,7 +592,7 @@ const LocationDetail = () => {
                     </select>
                   </div>
 
-                  <div className="space-y-6">
+                  <div className="space-y-4 sm:space-y-6">
                     {reviews.map((review) => (
                       <LocationReviewCard
                         key={review._id}
@@ -605,23 +605,23 @@ const LocationDetail = () => {
 
                   {/* Reviews Pagination */}
                   {reviewsTotalPages > 1 && (
-                    <div className="flex justify-center items-center space-x-4 mt-6">
+                    <div className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-4 mt-6">
                       <button
                         onClick={() => setReviewsPage(prev => Math.max(prev - 1, 1))}
                         disabled={reviewsPage === 1}
-                        className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="w-full sm:w-auto px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                       >
                         Previous
                       </button>
 
-                      <span className="text-gray-600 dark:text-gray-400">
+                      <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 whitespace-nowrap">
                         Page {reviewsPage} of {reviewsTotalPages}
                       </span>
 
                       <button
                         onClick={() => setReviewsPage(prev => Math.min(prev + 1, reviewsTotalPages))}
                         disabled={reviewsPage === reviewsTotalPages}
-                        className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="w-full sm:w-auto px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                       >
                         Next
                       </button>
@@ -632,18 +632,18 @@ const LocationDetail = () => {
 
               {/* No Reviews State */}
               {reviews.length === 0 && !reviewsLoading && (
-                <div className="text-center py-8">
-                  <MessageSquare className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                <div className="text-center py-6 sm:py-8">
+                  <MessageSquare className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-3 sm:mb-4" />
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2">
                     No reviews yet
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">
                     Be the first to share your experience!
                   </p>
                   {user && !userReview && (
                     <button
                       onClick={() => setShowReviewForm(true)}
-                      className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="inline-flex items-center justify-center w-full sm:w-auto px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
                       <Star className="w-4 h-4 mr-2" />
                       Write First Review

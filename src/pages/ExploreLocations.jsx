@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, MapPin, Star, SlidersHorizontal, ArrowLeft, Heart } from 'lucide-react';
+import { Search, Filter, MapPin, Star, SlidersHorizontal, ArrowLeft, Heart, X } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import LocationCard from '../components/locations/LocationCard';
@@ -286,10 +286,10 @@ const ExploreLocations = () => {
           )}
         </div>
 
-        <div className="flex gap-8">
-          {/* Filter Panel */}
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Filter Panel - Desktop */}
           {showFilters && (
-            <div className="w-80 flex-shrink-0">
+            <div className="hidden lg:block w-80 flex-shrink-0">
               <LocationFilterPanel
                 filters={filters}
                 onFilterChange={handleFilterChange}
@@ -299,6 +299,44 @@ const ExploreLocations = () => {
                 destinations={destinations}
                 stats={stats}
               />
+            </div>
+          )}
+
+          {/* Filter Panel - Mobile Modal */}
+          {showFilters && (
+            <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+              <div className="bg-white dark:bg-gray-800 w-full sm:max-w-lg max-h-[90vh] sm:max-h-[80vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl">
+                <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between z-10">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    Filters
+                  </h3>
+                  <button
+                    onClick={() => setShowFilters(false)}
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                  >
+                    <X className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+                  </button>
+                </div>
+                <div className="p-4">
+                  <LocationFilterPanel
+                    filters={filters}
+                    onFilterChange={handleFilterChange}
+                    locationTypes={locationTypes}
+                    climateOptions={climateOptions}
+                    provincesAndDistricts={provincesAndDistricts}
+                    destinations={destinations}
+                    stats={stats}
+                  />
+                </div>
+                <div className="sticky bottom-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4">
+                  <button
+                    onClick={() => setShowFilters(false)}
+                    className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  >
+                    Apply Filters
+                  </button>
+                </div>
+              </div>
             </div>
           )}
 
