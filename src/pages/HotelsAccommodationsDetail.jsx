@@ -64,6 +64,10 @@ const HotelsAccommodationsDetail = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [additionalRoomCharge, setAdditionalRoomCharge] = useState(50);
 
+  // Touch gesture state for image gallery
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
   // Booking state
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedRoomForBooking, setSelectedRoomForBooking] = useState(null);
@@ -121,6 +125,33 @@ const HotelsAccommodationsDetail = () => {
     fetchAdditionalRoomCharge();
   }, []);
 
+  // Touch gesture handlers for image gallery
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd || !selectedRoomImages) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && currentImageIndex < selectedRoomImages.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
+    }
+    if (isRightSwipe && currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  };
+
   // Keyboard navigation for image gallery
   useEffect(() => {
     if (!selectedRoomImages) return;
@@ -139,6 +170,18 @@ const HotelsAccommodationsDetail = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedRoomImages, currentImageIndex]);
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (selectedRoomImages) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedRoomImages]);
 
 
 
@@ -2220,52 +2263,105 @@ const HotelsAccommodationsDetail = () => {
           </div>
         </div>
 
-        {/* Room Image Gallery Modal */}
+        {/* Room Image Gallery Modal - Enhanced Mobile Responsive */}
         {selectedRoomImages && (
-          <div className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 p-4">
+          <div
+            className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 p-0 sm:p-4"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             <div className="relative w-full h-full flex items-center justify-center">
-              {/* Close Button */}
+              {/* Close Button - Mobile Responsive */}
               <button
                 onClick={() => {
                   setSelectedRoomImages(null);
                   setCurrentImageIndex(0);
                 }}
-                className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors z-10"
+                className="absolute top-2 right-2 sm:top-4 sm:right-4 p-2 sm:p-3 bg-black/50 sm:bg-white/10 hover:bg-black/70 sm:hover:bg-white/20 rounded-full text-white transition-colors z-20"
+                aria-label="Close gallery"
               >
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6 sm:w-7 sm:h-7" />
               </button>
 
-              {/* Previous Button */}
-              {selectedRoomImages.length > 1 && currentImageIndex > 0 && (
+              {/* Image Counter - Mobile Responsive */}
+              <div className="absolute top-2 sm:top-4 left-1/2 transform -translate-x-1/2 px-3 py-1.5 sm:px-4 sm:py-2 bg-black/70 backdrop-blur-sm text-white rounded-full text-xs sm:text-sm font-medium z-20">
+                {currentImageIndex + 1} / {selectedRoomImages.length}
+              </div>
+
+              {/* Previous Button - Enhanced for Mobile */}
+              {selectedRoomImages.length > 1 && (
                 <button
-                  onClick={() => setCurrentImageIndex(currentImageIndex - 1)}
-                  className="absolute left-4 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors z-10"
+                  onClick={() => setCurrentImageIndex(prev => Math.max(0, prev - 1))}
+                  disabled={currentImageIndex === 0}
+                  className={`absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 p-2 sm:p-3 rounded-full text-white transition-all duration-200 z-20 active:scale-95 ${
+                    currentImageIndex === 0
+                      ? 'bg-black/30 cursor-not-allowed opacity-50'
+                      : 'bg-black/50 hover:bg-black/70 sm:bg-white/10 sm:hover:bg-white/20'
+                  }`}
+                  aria-label="Previous image"
                 >
-                  <ChevronLeft className="w-8 h-8" />
+                  <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
                 </button>
               )}
 
-              {/* Image */}
-              <div className="max-w-6xl max-h-[90vh] flex flex-col items-center">
+              {/* Image - Mobile Optimized */}
+              <div className="w-full h-full flex flex-col items-center justify-center px-12 sm:px-16 py-16 sm:py-20">
                 <img
                   src={selectedRoomImages[currentImageIndex].url}
                   alt={`Room image ${currentImageIndex + 1}`}
-                  className="max-w-full max-h-[80vh] object-contain rounded-lg"
+                  className="max-w-full max-h-full object-contain select-none"
+                  draggable={false}
                 />
-                {/* Image Counter */}
-                <div className="mt-4 px-4 py-2 bg-white/10 rounded-full text-white text-sm">
-                  {currentImageIndex + 1} / {selectedRoomImages.length}
-                </div>
               </div>
 
-              {/* Next Button */}
-              {selectedRoomImages.length > 1 && currentImageIndex < selectedRoomImages.length - 1 && (
+              {/* Next Button - Enhanced for Mobile */}
+              {selectedRoomImages.length > 1 && (
                 <button
-                  onClick={() => setCurrentImageIndex(currentImageIndex + 1)}
-                  className="absolute right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors z-10"
+                  onClick={() => setCurrentImageIndex(prev => Math.min(selectedRoomImages.length - 1, prev + 1))}
+                  disabled={currentImageIndex === selectedRoomImages.length - 1}
+                  className={`absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 p-2 sm:p-3 rounded-full text-white transition-all duration-200 z-20 active:scale-95 ${
+                    currentImageIndex === selectedRoomImages.length - 1
+                      ? 'bg-black/30 cursor-not-allowed opacity-50'
+                      : 'bg-black/50 hover:bg-black/70 sm:bg-white/10 sm:hover:bg-white/20'
+                  }`}
+                  aria-label="Next image"
                 >
-                  <ChevronRight className="w-8 h-8" />
+                  <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8" />
                 </button>
+              )}
+
+              {/* Thumbnail Strip - Mobile Responsive */}
+              {selectedRoomImages.length > 1 && (
+                <div className="absolute bottom-2 sm:bottom-4 left-0 right-0 z-20">
+                  <div className="flex justify-center px-2 sm:px-4">
+                    <div className="flex space-x-1.5 sm:space-x-2 bg-black/70 backdrop-blur-sm p-2 sm:p-3 rounded-lg sm:rounded-xl max-w-full overflow-x-auto scrollbar-hide">
+                      {selectedRoomImages.map((image, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentImageIndex(index)}
+                          className={`flex-shrink-0 w-12 h-12 sm:w-16 sm:h-16 rounded-md sm:rounded-lg overflow-hidden border-2 transition-all duration-200 active:scale-95 ${
+                            index === currentImageIndex
+                              ? 'border-white shadow-lg scale-105'
+                              : 'border-transparent opacity-60 hover:opacity-90'
+                          }`}
+                          aria-label={`View image ${index + 1}`}
+                        >
+                          <img
+                            src={image.url}
+                            alt={`Thumbnail ${index + 1}`}
+                            className="w-full h-full object-cover"
+                            draggable={false}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  {/* Swipe hint for mobile */}
+                  <div className="sm:hidden text-center mt-2">
+                    <p className="text-white/60 text-xs">Swipe left or right to navigate</p>
+                  </div>
+                </div>
               )}
             </div>
           </div>
