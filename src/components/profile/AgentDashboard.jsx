@@ -52,9 +52,9 @@ const AgentDashboard = () => {
   const [uploadingVerification, setUploadingVerification] = useState(false);
   const [verificationSuccess, setVerificationSuccess] = useState('');
   const [uploadedDocuments, setUploadedDocuments] = useState({
-    nicFront: false,
-    nicBack: false,
-    passport: false
+    nicFront: null,
+    nicBack: null,
+    passport: null
   });
   const [showStatusConfirm, setShowStatusConfirm] = useState(false);
   const [togglingStatus, setTogglingStatus] = useState(false);
@@ -349,16 +349,16 @@ const AgentDashboard = () => {
 
       const data = await response.json();
 
+      // Update uploaded documents state with image URL
+      const docKey = documentType === 'NIC_FRONT' ? 'nicFront' :
+                     documentType === 'NIC_BACK' ? 'nicBack' : 'passport';
+      setUploadedDocuments(prev => ({ ...prev, [docKey]: data.secure_url }));
+
       // Submit verification to backend
       const verificationResponse = await userAPI.submitAgentVerification({
         documentType,
         documentUrl: data.secure_url
       });
-
-      // Update uploaded documents state
-      const docKey = documentType === 'NIC_FRONT' ? 'nicFront' :
-                     documentType === 'NIC_BACK' ? 'nicBack' : 'passport';
-      setUploadedDocuments(prev => ({ ...prev, [docKey]: true }));
 
       if (verificationResponse.data.verificationStatus === 'verified') {
         setVerificationSuccess(`${documentType} uploaded successfully! You are now verified!`);
@@ -618,127 +618,172 @@ const AgentDashboard = () => {
                   Upload both NIC front and back sides, OR upload your passport photo page
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                  <div className={`border-2 border-dashed rounded-lg p-4 text-center relative ${
-                    uploadedDocuments.nicFront
-                      ? 'border-green-300 dark:border-green-600 bg-green-50 dark:bg-green-900/20'
-                      : 'border-yellow-300 dark:border-yellow-600'
-                  }`}>
-                    {uploadedDocuments.nicFront && (
-                      <div className="absolute top-2 right-2">
-                        <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
-                      </div>
+                  <div>
+                    <div className={`border-2 border-dashed rounded-lg overflow-hidden relative ${
+                      uploadedDocuments.nicFront
+                        ? 'border-green-500 dark:border-green-400'
+                        : 'border-yellow-300 dark:border-yellow-600'
+                    }`}>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleVerificationUpload(e.target.files[0], 'NIC_FRONT')}
+                        className="hidden"
+                        id="nic-front-upload"
+                        disabled={uploadingVerification}
+                      />
+                      <label htmlFor="nic-front-upload" className={`block h-32 ${uploadedDocuments.nicFront ? 'cursor-default' : 'cursor-pointer'}`}>
+                        {uploadedDocuments.nicFront ? (
+                          <div className="relative w-full h-full">
+                            {/* Background Image */}
+                            <img
+                              src={uploadedDocuments.nicFront}
+                              alt="NIC Front"
+                              className="absolute inset-0 w-full h-full object-cover"
+                            />
+                            {/* Green Overlay */}
+                            <div className="absolute inset-0 bg-green-500 bg-opacity-40"></div>
+                            {/* Checkmark */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="bg-white rounded-full p-2 shadow-lg">
+                                <CheckCircle className="w-8 h-8 text-green-600" />
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center h-full p-4 text-center">
+                            <Camera className="w-8 h-8 mx-auto mb-2 text-yellow-600 dark:text-yellow-400" />
+                            <p className="text-sm font-medium text-yellow-800 dark:text-yellow-300">
+                              Upload NIC Front
+                            </p>
+                            <p className="text-xs text-yellow-600 dark:text-yellow-400">
+                              Front side only
+                            </p>
+                          </div>
+                        )}
+                      </label>
+                    </div>
+                    {uploadedDocuments.nicFront && !uploadingVerification && (
+                      <button
+                        onClick={() => document.getElementById('nic-front-upload').click()}
+                        className="mt-2 w-full px-3 py-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors flex items-center justify-center space-x-1.5"
+                      >
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Change</span>
+                      </button>
                     )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleVerificationUpload(e.target.files[0], 'NIC_FRONT')}
-                      className="hidden"
-                      id="nic-front-upload"
-                      disabled={uploadingVerification || uploadedDocuments.nicFront}
-                    />
-                    <label htmlFor="nic-front-upload" className={uploadedDocuments.nicFront ? 'cursor-default' : 'cursor-pointer'}>
-                      <Camera className={`w-8 h-8 mx-auto mb-2 ${
-                        uploadedDocuments.nicFront
-                          ? 'text-green-600 dark:text-green-400'
-                          : 'text-yellow-600 dark:text-yellow-400'
-                      }`} />
-                      <p className={`text-sm font-medium ${
-                        uploadedDocuments.nicFront
-                          ? 'text-green-800 dark:text-green-300'
-                          : 'text-yellow-800 dark:text-yellow-300'
-                      }`}>
-                        {uploadedDocuments.nicFront ? 'NIC Front ✓' : 'Upload NIC Front'}
-                      </p>
-                      <p className={`text-xs ${
-                        uploadedDocuments.nicFront
-                          ? 'text-green-600 dark:text-green-400'
-                          : 'text-yellow-600 dark:text-yellow-400'
-                      }`}>
-                        {uploadedDocuments.nicFront ? 'Uploaded successfully' : 'Front side only'}
-                      </p>
-                    </label>
                   </div>
 
-                  <div className={`border-2 border-dashed rounded-lg p-4 text-center relative ${
-                    uploadedDocuments.nicBack
-                      ? 'border-green-300 dark:border-green-600 bg-green-50 dark:bg-green-900/20'
-                      : 'border-yellow-300 dark:border-yellow-600'
-                  }`}>
-                    {uploadedDocuments.nicBack && (
-                      <div className="absolute top-2 right-2">
-                        <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
-                      </div>
+                  <div>
+                    <div className={`border-2 border-dashed rounded-lg overflow-hidden relative ${
+                      uploadedDocuments.nicBack
+                        ? 'border-green-500 dark:border-green-400'
+                        : 'border-yellow-300 dark:border-yellow-600'
+                    }`}>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleVerificationUpload(e.target.files[0], 'NIC_BACK')}
+                        className="hidden"
+                        id="nic-back-upload"
+                        disabled={uploadingVerification}
+                      />
+                      <label htmlFor="nic-back-upload" className={`block h-32 ${uploadedDocuments.nicBack ? 'cursor-default' : 'cursor-pointer'}`}>
+                        {uploadedDocuments.nicBack ? (
+                          <div className="relative w-full h-full">
+                            {/* Background Image */}
+                            <img
+                              src={uploadedDocuments.nicBack}
+                              alt="NIC Back"
+                              className="absolute inset-0 w-full h-full object-cover"
+                            />
+                            {/* Green Overlay */}
+                            <div className="absolute inset-0 bg-green-500 bg-opacity-40"></div>
+                            {/* Checkmark */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="bg-white rounded-full p-2 shadow-lg">
+                                <CheckCircle className="w-8 h-8 text-green-600" />
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center h-full p-4 text-center">
+                            <Upload className="w-8 h-8 mx-auto mb-2 text-yellow-600 dark:text-yellow-400" />
+                            <p className="text-sm font-medium text-yellow-800 dark:text-yellow-300">
+                              Upload NIC Back
+                            </p>
+                            <p className="text-xs text-yellow-600 dark:text-yellow-400">
+                              Back side only
+                            </p>
+                          </div>
+                        )}
+                      </label>
+                    </div>
+                    {uploadedDocuments.nicBack && !uploadingVerification && (
+                      <button
+                        onClick={() => document.getElementById('nic-back-upload').click()}
+                        className="mt-2 w-full px-3 py-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors flex items-center justify-center space-x-1.5"
+                      >
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Change</span>
+                      </button>
                     )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleVerificationUpload(e.target.files[0], 'NIC_BACK')}
-                      className="hidden"
-                      id="nic-back-upload"
-                      disabled={uploadingVerification || uploadedDocuments.nicBack}
-                    />
-                    <label htmlFor="nic-back-upload" className={uploadedDocuments.nicBack ? 'cursor-default' : 'cursor-pointer'}>
-                      <Upload className={`w-8 h-8 mx-auto mb-2 ${
-                        uploadedDocuments.nicBack
-                          ? 'text-green-600 dark:text-green-400'
-                          : 'text-yellow-600 dark:text-yellow-400'
-                      }`} />
-                      <p className={`text-sm font-medium ${
-                        uploadedDocuments.nicBack
-                          ? 'text-green-800 dark:text-green-300'
-                          : 'text-yellow-800 dark:text-yellow-300'
-                      }`}>
-                        {uploadedDocuments.nicBack ? 'NIC Back ✓' : 'Upload NIC Back'}
-                      </p>
-                      <p className={`text-xs ${
-                        uploadedDocuments.nicBack
-                          ? 'text-green-600 dark:text-green-400'
-                          : 'text-yellow-600 dark:text-yellow-400'
-                      }`}>
-                        {uploadedDocuments.nicBack ? 'Uploaded successfully' : 'Back side only'}
-                      </p>
-                    </label>
                   </div>
 
-                  <div className={`border-2 border-dashed rounded-lg p-4 text-center sm:col-span-2 lg:col-span-1 relative ${
-                    uploadedDocuments.passport
-                      ? 'border-green-300 dark:border-green-600 bg-green-50 dark:bg-green-900/20'
-                      : 'border-yellow-300 dark:border-yellow-600'
-                  }`}>
-                    {uploadedDocuments.passport && (
-                      <div className="absolute top-2 right-2">
-                        <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
-                      </div>
+                  <div className="sm:col-span-2 lg:col-span-1">
+                    <div className={`border-2 border-dashed rounded-lg overflow-hidden relative ${
+                      uploadedDocuments.passport
+                        ? 'border-green-500 dark:border-green-400'
+                        : 'border-yellow-300 dark:border-yellow-600'
+                    }`}>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => handleVerificationUpload(e.target.files[0], 'PASSPORT')}
+                        className="hidden"
+                        id="passport-upload"
+                        disabled={uploadingVerification}
+                      />
+                      <label htmlFor="passport-upload" className={`block h-32 ${uploadedDocuments.passport ? 'cursor-default' : 'cursor-pointer'}`}>
+                        {uploadedDocuments.passport ? (
+                          <div className="relative w-full h-full">
+                            {/* Background Image */}
+                            <img
+                              src={uploadedDocuments.passport}
+                              alt="Passport"
+                              className="absolute inset-0 w-full h-full object-cover"
+                            />
+                            {/* Green Overlay */}
+                            <div className="absolute inset-0 bg-green-500 bg-opacity-40"></div>
+                            {/* Checkmark */}
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="bg-white rounded-full p-2 shadow-lg">
+                                <CheckCircle className="w-8 h-8 text-green-600" />
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center h-full p-4 text-center">
+                            <Camera className="w-8 h-8 mx-auto mb-2 text-yellow-600 dark:text-yellow-400" />
+                            <p className="text-sm font-medium text-yellow-800 dark:text-yellow-300">
+                              Upload Passport (Alternative)
+                            </p>
+                            <p className="text-xs text-yellow-600 dark:text-yellow-400">
+                              Photo page only
+                            </p>
+                          </div>
+                        )}
+                      </label>
+                    </div>
+                    {uploadedDocuments.passport && !uploadingVerification && (
+                      <button
+                        onClick={() => document.getElementById('passport-upload').click()}
+                        className="mt-2 w-full px-3 py-1.5 text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors flex items-center justify-center space-x-1.5"
+                      >
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Change</span>
+                      </button>
                     )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleVerificationUpload(e.target.files[0], 'PASSPORT')}
-                      className="hidden"
-                      id="passport-upload"
-                      disabled={uploadingVerification || uploadedDocuments.passport}
-                    />
-                    <label htmlFor="passport-upload" className={uploadedDocuments.passport ? 'cursor-default' : 'cursor-pointer'}>
-                      <Camera className={`w-8 h-8 mx-auto mb-2 ${
-                        uploadedDocuments.passport
-                          ? 'text-green-600 dark:text-green-400'
-                          : 'text-yellow-600 dark:text-yellow-400'
-                      }`} />
-                      <p className={`text-sm font-medium ${
-                        uploadedDocuments.passport
-                          ? 'text-green-800 dark:text-green-300'
-                          : 'text-yellow-800 dark:text-yellow-300'
-                      }`}>
-                        {uploadedDocuments.passport ? 'Passport ✓' : 'Upload Passport (Alternative)'}
-                      </p>
-                      <p className={`text-xs ${
-                        uploadedDocuments.passport
-                          ? 'text-green-600 dark:text-green-400'
-                          : 'text-yellow-600 dark:text-yellow-400'
-                      }`}>
-                        {uploadedDocuments.passport ? 'Uploaded successfully' : 'Photo page only'}
-                      </p>
-                    </label>
                   </div>
                 </div>
 

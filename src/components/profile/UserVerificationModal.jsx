@@ -6,6 +6,11 @@ const UserVerificationModal = ({ isOpen, onClose, onVerificationComplete }) => {
   const [uploadingVerification, setUploadingVerification] = useState(false);
   const [verificationSuccess, setVerificationSuccess] = useState('');
   const [verificationError, setVerificationError] = useState('');
+  const [uploadedDocuments, setUploadedDocuments] = useState({
+    nicFront: null,
+    nicBack: null,
+    passport: null
+  });
 
   if (!isOpen) return null;
 
@@ -36,6 +41,11 @@ const UserVerificationModal = ({ isOpen, onClose, onVerificationComplete }) => {
       }
 
       const data = await response.json();
+
+      // Update uploaded documents state with image URL
+      const docKey = documentType === 'NIC_FRONT' ? 'nicFront' :
+                     documentType === 'NIC_BACK' ? 'nicBack' : 'passport';
+      setUploadedDocuments(prev => ({ ...prev, [docKey]: data.secure_url }));
 
       // Submit verification to backend
       const verificationResponse = await userAPI.submitUserVerification({
@@ -142,30 +152,68 @@ const UserVerificationModal = ({ isOpen, onClose, onVerificationComplete }) => {
               <h3 className="font-medium text-gray-900 dark:text-white mb-2">
                 National Identity Card (Front)
               </h3>
-              <label className="block">
+              <div className="relative">
                 <input
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleFileSelect('NIC_FRONT', e)}
                   disabled={uploadingVerification}
                   className="hidden"
+                  id="nic-front-input"
                 />
-                <div className="flex items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
-                  {uploadingVerification ? (
-                    <div className="flex items-center space-x-2">
-                      <Loader className="w-5 h-5 animate-spin text-blue-600" />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Uploading...</span>
-                    </div>
-                  ) : (
-                    <div className="text-center">
-                      <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Click to upload NIC front
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </label>
+                <label
+                  htmlFor="nic-front-input"
+                  className={`block ${!uploadedDocuments.nicFront ? 'cursor-pointer' : ''}`}
+                >
+                  <div className={`relative flex items-center justify-center w-full h-32 border-2 border-dashed rounded-lg overflow-hidden transition-colors ${
+                    uploadedDocuments.nicFront
+                      ? 'border-green-500 dark:border-green-400'
+                      : 'border-gray-300 dark:border-gray-600 hover:border-blue-500'
+                  }`}>
+                    {uploadedDocuments.nicFront && (
+                      <>
+                        {/* Background Image */}
+                        <img
+                          src={uploadedDocuments.nicFront}
+                          alt="NIC Front"
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        {/* Green Overlay */}
+                        <div className="absolute inset-0 bg-green-500 bg-opacity-40"></div>
+                        {/* Checkmark */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="bg-white rounded-full p-2 shadow-lg">
+                            <CheckCircle className="w-8 h-8 text-green-600" />
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    {!uploadedDocuments.nicFront && uploadingVerification && (
+                      <div className="flex items-center space-x-2">
+                        <Loader className="w-5 h-5 animate-spin text-blue-600" />
+                        <span className="text-sm text-gray-600 dark:text-gray-400">Uploading...</span>
+                      </div>
+                    )}
+                    {!uploadedDocuments.nicFront && !uploadingVerification && (
+                      <div className="text-center">
+                        <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Click to upload NIC front
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </label>
+                {uploadedDocuments.nicFront && !uploadingVerification && (
+                  <button
+                    onClick={() => document.getElementById('nic-front-input').click()}
+                    className="mt-2 w-full px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <Upload className="w-4 h-4" />
+                    <span>Change Document</span>
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* NIC Back */}
@@ -173,30 +221,68 @@ const UserVerificationModal = ({ isOpen, onClose, onVerificationComplete }) => {
               <h3 className="font-medium text-gray-900 dark:text-white mb-2">
                 National Identity Card (Back)
               </h3>
-              <label className="block">
+              <div className="relative">
                 <input
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleFileSelect('NIC_BACK', e)}
                   disabled={uploadingVerification}
                   className="hidden"
+                  id="nic-back-input"
                 />
-                <div className="flex items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
-                  {uploadingVerification ? (
-                    <div className="flex items-center space-x-2">
-                      <Loader className="w-5 h-5 animate-spin text-blue-600" />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Uploading...</span>
-                    </div>
-                  ) : (
-                    <div className="text-center">
-                      <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Click to upload NIC back
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </label>
+                <label
+                  htmlFor="nic-back-input"
+                  className={`block ${!uploadedDocuments.nicBack ? 'cursor-pointer' : ''}`}
+                >
+                  <div className={`relative flex items-center justify-center w-full h-32 border-2 border-dashed rounded-lg overflow-hidden transition-colors ${
+                    uploadedDocuments.nicBack
+                      ? 'border-green-500 dark:border-green-400'
+                      : 'border-gray-300 dark:border-gray-600 hover:border-blue-500'
+                  }`}>
+                    {uploadedDocuments.nicBack && (
+                      <>
+                        {/* Background Image */}
+                        <img
+                          src={uploadedDocuments.nicBack}
+                          alt="NIC Back"
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        {/* Green Overlay */}
+                        <div className="absolute inset-0 bg-green-500 bg-opacity-40"></div>
+                        {/* Checkmark */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="bg-white rounded-full p-2 shadow-lg">
+                            <CheckCircle className="w-8 h-8 text-green-600" />
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    {!uploadedDocuments.nicBack && uploadingVerification && (
+                      <div className="flex items-center space-x-2">
+                        <Loader className="w-5 h-5 animate-spin text-blue-600" />
+                        <span className="text-sm text-gray-600 dark:text-gray-400">Uploading...</span>
+                      </div>
+                    )}
+                    {!uploadedDocuments.nicBack && !uploadingVerification && (
+                      <div className="text-center">
+                        <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Click to upload NIC back
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </label>
+                {uploadedDocuments.nicBack && !uploadingVerification && (
+                  <button
+                    onClick={() => document.getElementById('nic-back-input').click()}
+                    className="mt-2 w-full px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <Upload className="w-4 h-4" />
+                    <span>Change Document</span>
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Passport */}
@@ -204,30 +290,68 @@ const UserVerificationModal = ({ isOpen, onClose, onVerificationComplete }) => {
               <h3 className="font-medium text-gray-900 dark:text-white mb-2">
                 Passport (Alternative)
               </h3>
-              <label className="block">
+              <div className="relative">
                 <input
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleFileSelect('PASSPORT', e)}
                   disabled={uploadingVerification}
                   className="hidden"
+                  id="passport-input"
                 />
-                <div className="flex items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
-                  {uploadingVerification ? (
-                    <div className="flex items-center space-x-2">
-                      <Loader className="w-5 h-5 animate-spin text-blue-600" />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">Uploading...</span>
-                    </div>
-                  ) : (
-                    <div className="text-center">
-                      <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Click to upload passport
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </label>
+                <label
+                  htmlFor="passport-input"
+                  className={`block ${!uploadedDocuments.passport ? 'cursor-pointer' : ''}`}
+                >
+                  <div className={`relative flex items-center justify-center w-full h-32 border-2 border-dashed rounded-lg overflow-hidden transition-colors ${
+                    uploadedDocuments.passport
+                      ? 'border-green-500 dark:border-green-400'
+                      : 'border-gray-300 dark:border-gray-600 hover:border-blue-500'
+                  }`}>
+                    {uploadedDocuments.passport && (
+                      <>
+                        {/* Background Image */}
+                        <img
+                          src={uploadedDocuments.passport}
+                          alt="Passport"
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        {/* Green Overlay */}
+                        <div className="absolute inset-0 bg-green-500 bg-opacity-40"></div>
+                        {/* Checkmark */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="bg-white rounded-full p-2 shadow-lg">
+                            <CheckCircle className="w-8 h-8 text-green-600" />
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    {!uploadedDocuments.passport && uploadingVerification && (
+                      <div className="flex items-center space-x-2">
+                        <Loader className="w-5 h-5 animate-spin text-blue-600" />
+                        <span className="text-sm text-gray-600 dark:text-gray-400">Uploading...</span>
+                      </div>
+                    )}
+                    {!uploadedDocuments.passport && !uploadingVerification && (
+                      <div className="text-center">
+                        <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                          Click to upload passport
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </label>
+                {uploadedDocuments.passport && !uploadingVerification && (
+                  <button
+                    onClick={() => document.getElementById('passport-input').click()}
+                    className="mt-2 w-full px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <Upload className="w-4 h-4" />
+                    <span>Change Document</span>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
