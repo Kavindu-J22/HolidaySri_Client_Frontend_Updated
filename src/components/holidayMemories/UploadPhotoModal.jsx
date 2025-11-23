@@ -147,55 +147,55 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
-      <div className={`max-w-2xl w-full rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} max-h-[90vh] overflow-y-auto`}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black bg-opacity-50">
+      <div className={`max-w-2xl w-full rounded-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} max-h-[95vh] sm:max-h-[90vh] overflow-y-auto`}>
         {/* Header */}
-        <div className={`sticky top-0 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
-          <div className="flex items-center justify-between p-6 border-b border-gray-700">
-            <div>
-              <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+        <div className={`sticky top-0 z-10 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} rounded-t-lg`}>
+          <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-700">
+            <div className="flex-1 pr-2">
+              <h2 className={`text-lg sm:text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                 Share Your Travel Memory
               </h2>
-              <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`text-xs sm:text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                 Post for FREE & Earn Extra Money! 💰
               </p>
             </div>
             <button
               onClick={onClose}
-              className={`p-2 rounded-lg ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
+              className={`p-2 rounded-lg flex-shrink-0 ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-100'}`}
             >
               <X className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`} />
             </button>
           </div>
 
-          {/* Attractive Banner */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4">
-            <div className="flex items-center justify-center gap-6 text-white text-sm">
+          {/* Attractive Banner - Mobile Responsive */}
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 sm:p-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 text-white text-xs sm:text-sm">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5" />
-                <span className="font-semibold">100% FREE to Post</span>
+                <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                <span className="font-semibold whitespace-nowrap">100% FREE to Post</span>
               </div>
               <div className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5" />
-                <span className="font-semibold">Earn 1.5 HSC per Download</span>
+                <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                <span className="font-semibold whitespace-nowrap">Earn 1.5 HSC per Download</span>
               </div>
               <div className="flex items-center gap-2">
-                <Camera className="w-5 h-5" />
-                <span className="font-semibold">Use High-Quality Images</span>
+                <Camera className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                <span className="font-semibold whitespace-nowrap">Use High-Quality Images</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Progress Steps */}
-        <div className="p-6">
-          <div className="max-w-md mx-auto mb-6">
+        <div className="p-4 sm:p-6">
+          <div className="max-w-md mx-auto mb-4 sm:mb-6">
             {/* Progress Bar */}
             <div className="flex items-center justify-center mb-3">
               {[1, 2, 3].map((s) => (
                 <div key={s} className="flex items-center">
                   <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${
+                    className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-semibold text-sm sm:text-base transition-all ${
                       step >= s
                         ? 'bg-blue-600 text-white shadow-lg'
                         : isDarkMode
@@ -207,7 +207,7 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                   </div>
                   {s < 3 && (
                     <div
-                      className={`w-24 h-1 mx-3 transition-all ${
+                      className={`w-12 sm:w-24 h-1 mx-2 sm:mx-3 transition-all ${
                         step > s
                           ? 'bg-blue-600'
                           : isDarkMode
@@ -221,14 +221,14 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
             </div>
 
             {/* Step Labels */}
-            <div className="flex items-center justify-between px-2">
-              <span className={`text-xs font-medium ${step >= 1 ? (isDarkMode ? 'text-blue-400' : 'text-blue-600') : (isDarkMode ? 'text-gray-500' : 'text-gray-400')}`}>
+            <div className="flex items-center justify-between px-1 sm:px-2">
+              <span className={`text-[10px] sm:text-xs font-medium text-center ${step >= 1 ? (isDarkMode ? 'text-blue-400' : 'text-blue-600') : (isDarkMode ? 'text-gray-500' : 'text-gray-400')}`}>
                 Select Image
               </span>
-              <span className={`text-xs font-medium ${step >= 2 ? (isDarkMode ? 'text-blue-400' : 'text-blue-600') : (isDarkMode ? 'text-gray-500' : 'text-gray-400')}`}>
+              <span className={`text-[10px] sm:text-xs font-medium text-center ${step >= 2 ? (isDarkMode ? 'text-blue-400' : 'text-blue-600') : (isDarkMode ? 'text-gray-500' : 'text-gray-400')}`}>
                 Add Details
               </span>
-              <span className={`text-xs font-medium ${step >= 3 ? (isDarkMode ? 'text-blue-400' : 'text-blue-600') : (isDarkMode ? 'text-gray-500' : 'text-gray-400')}`}>
+              <span className={`text-[10px] sm:text-xs font-medium text-center ${step >= 3 ? (isDarkMode ? 'text-blue-400' : 'text-blue-600') : (isDarkMode ? 'text-gray-500' : 'text-gray-400')}`}>
                 Tags & Map
               </span>
             </div>
@@ -244,12 +244,12 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
 
           {/* Step 1: Select Image */}
           {step === 1 && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               <div className="text-center">
-                <h3 className={`text-lg font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-base sm:text-lg font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                   Upload Your Best Travel Photo
                 </h3>
-                <p className={`text-sm mb-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={`text-xs sm:text-sm mb-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   Share your amazing travel moments with the world
                 </p>
 
@@ -262,12 +262,12 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                 />
                 <label
                   htmlFor="photo-upload"
-                  className="inline-flex items-center gap-2 px-8 py-4 rounded-lg cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transition-all transform hover:scale-105 shadow-lg"
+                  className="inline-flex items-center gap-2 px-4 sm:px-8 py-3 sm:py-4 rounded-lg cursor-pointer bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white transition-all transform hover:scale-105 shadow-lg text-sm sm:text-base"
                 >
-                  <ImageIcon className="w-6 h-6" />
+                  <ImageIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                   <span className="font-semibold">Choose High-Quality Image</span>
                 </label>
-                <p className={`text-xs mt-2 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
+                <p className={`text-[10px] sm:text-xs mt-2 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
                   Max file size: 10MB • Supported: JPG, PNG, WEBP
                 </p>
               </div>
@@ -303,33 +303,33 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
               )}
 
               {/* Benefits Section */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className={`p-4 rounded-lg border-2 ${isDarkMode ? 'bg-gray-700 border-green-500' : 'bg-green-50 border-green-300'}`}>
-                  <div className="flex items-start gap-3">
-                    <div className="bg-green-500 rounded-full p-2">
-                      <DollarSign className="w-5 h-5 text-white" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className={`p-3 sm:p-4 rounded-lg border-2 ${isDarkMode ? 'bg-gray-700 border-green-500' : 'bg-green-50 border-green-300'}`}>
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <div className="bg-green-500 rounded-full p-1.5 sm:p-2 flex-shrink-0">
+                      <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
                     <div>
-                      <h4 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <h4 className={`font-semibold text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                         Earn Money
                       </h4>
-                      <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <p className={`text-xs sm:text-sm mt-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         Get 1.5 HSC for every download of your photo
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div className={`p-4 rounded-lg border-2 ${isDarkMode ? 'bg-gray-700 border-blue-500' : 'bg-blue-50 border-blue-300'}`}>
-                  <div className="flex items-start gap-3">
-                    <div className="bg-blue-500 rounded-full p-2">
-                      <Sparkles className="w-5 h-5 text-white" />
+                <div className={`p-3 sm:p-4 rounded-lg border-2 ${isDarkMode ? 'bg-gray-700 border-blue-500' : 'bg-blue-50 border-blue-300'}`}>
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <div className="bg-blue-500 rounded-full p-1.5 sm:p-2 flex-shrink-0">
+                      <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                     </div>
                     <div>
-                      <h4 className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                      <h4 className={`font-semibold text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                         100% Free
                       </h4>
-                      <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <p className={`text-xs sm:text-sm mt-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                         No fees to post. Share unlimited photos!
                       </p>
                     </div>
@@ -338,12 +338,12 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
               </div>
 
               {/* Tips Section */}
-              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-yellow-900/20 border border-yellow-700' : 'bg-yellow-50 border border-yellow-300'}`}>
-                <h4 className={`font-semibold mb-2 flex items-center gap-2 ${isDarkMode ? 'text-yellow-400' : 'text-yellow-800'}`}>
-                  <Camera className="w-5 h-5" />
+              <div className={`p-3 sm:p-4 rounded-lg ${isDarkMode ? 'bg-yellow-900/20 border border-yellow-700' : 'bg-yellow-50 border border-yellow-300'}`}>
+                <h4 className={`font-semibold mb-2 flex items-center gap-2 text-sm sm:text-base ${isDarkMode ? 'text-yellow-400' : 'text-yellow-800'}`}>
+                  <Camera className="w-4 h-4 sm:w-5 sm:h-5" />
                   Tips for Best Results
                 </h4>
-                <ul className={`text-sm space-y-1 ${isDarkMode ? 'text-yellow-300' : 'text-yellow-900'}`}>
+                <ul className={`text-xs sm:text-sm space-y-1 ${isDarkMode ? 'text-yellow-300' : 'text-yellow-900'}`}>
                   <li>✓ Use high-resolution images (at least 1920x1080)</li>
                   <li>✓ Ensure good lighting and clear focus</li>
                   <li>✓ Capture unique and interesting perspectives</li>
@@ -355,9 +355,9 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
 
           {/* Step 2: Add Details */}
           {step === 2 && (
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <div>
-                <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <label className={`block text-xs sm:text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Caption *
                 </label>
                 <textarea
@@ -366,40 +366,40 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                   placeholder="Describe your memory..."
                   rows={3}
                   maxLength={1000}
-                  className={`w-full px-3 py-2 rounded-lg border ${
+                  className={`w-full px-3 py-2 text-sm rounded-lg border ${
                     isDarkMode
-                      ? 'bg-gray-700 border-gray-600 text-white'
-                      : 'bg-white border-gray-300 text-gray-900'
+                      ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                   } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                 />
-                <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={`text-[10px] sm:text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   {caption.length}/1000 characters
                 </p>
               </div>
 
               <div>
-                <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <label className={`block text-xs sm:text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Location Name *
                 </label>
                 <div className="relative">
-                  <MapPin className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                  <MapPin className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
                   <input
                     type="text"
                     value={locationName}
                     onChange={(e) => setLocationName(e.target.value)}
                     placeholder="e.g., Sigiriya Rock Fortress"
-                    className={`w-full pl-10 pr-3 py-2 rounded-lg border ${
+                    className={`w-full pl-9 sm:pl-10 pr-3 py-2 text-sm rounded-lg border ${
                       isDarkMode
-                        ? 'bg-gray-700 border-gray-600 text-white'
-                        : 'bg-white border-gray-300 text-gray-900'
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                     } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-xs sm:text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     City
                   </label>
                   <input
@@ -407,22 +407,22 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                     placeholder="e.g., Sigiriya"
-                    className={`w-full px-3 py-2 rounded-lg border ${
+                    className={`w-full px-3 py-2 text-sm rounded-lg border ${
                       isDarkMode
-                        ? 'bg-gray-700 border-gray-600 text-white'
-                        : 'bg-white border-gray-300 text-gray-900'
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                     } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   />
                 </div>
 
                 <div>
-                  <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <label className={`block text-xs sm:text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                     Province
                   </label>
                   <select
                     value={province}
                     onChange={(e) => setProvince(e.target.value)}
-                    className={`w-full px-3 py-2 rounded-lg border ${
+                    className={`w-full px-3 py-2 text-sm rounded-lg border ${
                       isDarkMode
                         ? 'bg-gray-700 border-gray-600 text-white'
                         : 'bg-white border-gray-300 text-gray-900'
@@ -443,44 +443,44 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
               </div>
 
               <div>
-                <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <label className={`block text-xs sm:text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Google Maps Link
                 </label>
                 <div className="relative">
-                  <LinkIcon className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                  <LinkIcon className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
                   <input
                     type="url"
                     value={mapLink}
                     onChange={(e) => setMapLink(e.target.value)}
                     placeholder="https://maps.google.com/..."
-                    className={`w-full pl-10 pr-3 py-2 rounded-lg border ${
+                    className={`w-full pl-9 sm:pl-10 pr-3 py-2 text-sm rounded-lg border ${
                       isDarkMode
-                        ? 'bg-gray-700 border-gray-600 text-white'
-                        : 'bg-white border-gray-300 text-gray-900'
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                     } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   />
                 </div>
               </div>
 
               <div>
-                <label className={`block text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <label className={`block text-xs sm:text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Tags (Maximum 5)
                 </label>
                 <div className="relative">
-                  <Tag className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                  <Tag className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`} />
                   <input
                     type="text"
                     value={tags}
                     onChange={(e) => setTags(e.target.value)}
                     placeholder="#vacation, #beach, #sunset"
-                    className={`w-full pl-10 pr-3 py-2 rounded-lg border ${
+                    className={`w-full pl-9 sm:pl-10 pr-3 py-2 text-sm rounded-lg border ${
                       isDarkMode
-                        ? 'bg-gray-700 border-gray-600 text-white'
-                        : 'bg-white border-gray-300 text-gray-900'
+                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                     } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   />
                 </div>
-                <p className={`text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={`text-[10px] sm:text-xs mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   Separate tags with commas
                 </p>
               </div>
@@ -489,15 +489,15 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
 
           {/* Step 3: Confirm */}
           {step === 3 && (
-            <div className="space-y-4">
-              <div className="text-center mb-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-4">
-                  <CheckCircle className="w-10 h-10 text-green-600 dark:text-green-400" />
+            <div className="space-y-3 sm:space-y-4">
+              <div className="text-center mb-3 sm:mb-4">
+                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 bg-green-100 dark:bg-green-900/30 rounded-full mb-3 sm:mb-4">
+                  <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className={`text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`text-lg sm:text-xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                   Ready to Share?
                 </h3>
-                <p className={`text-sm mt-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={`text-xs sm:text-sm mt-2 px-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   Your photo will be available for others to download and you'll earn 1.5 HSC per download.
                 </p>
               </div>
@@ -507,7 +507,7 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                   <img
                     src={preview}
                     alt="Preview"
-                    className="protected-image w-full max-h-64 object-contain rounded-lg"
+                    className="protected-image w-full max-h-48 sm:max-h-64 object-contain rounded-lg"
                     onContextMenu={handleContextMenu}
                     onDragStart={(e) => e.preventDefault()}
                     style={{
@@ -532,11 +532,11 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                 </div>
               )}
 
-              <div className={`p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
-                <h4 className={`font-semibold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              <div className={`p-3 sm:p-4 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
+                <h4 className={`font-semibold mb-2 text-sm sm:text-base ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                   Summary
                 </h4>
-                <div className="space-y-1 text-sm">
+                <div className="space-y-1 text-xs sm:text-sm">
                   <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                     <strong>Location:</strong> {locationName}
                   </p>
@@ -561,16 +561,16 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex gap-3 mt-6">
+          <div className="flex gap-2 sm:gap-3 mt-4 sm:mt-6">
             {step > 1 && (
               <button
                 onClick={handleBack}
                 disabled={uploading}
-                className={`flex-1 px-4 py-2 rounded-lg border ${
+                className={`flex-1 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${
                   isDarkMode
                     ? 'border-gray-600 text-gray-300 hover:bg-gray-700'
                     : 'border-gray-300 text-gray-700 hover:bg-gray-50'
-                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                } disabled:opacity-50 disabled:cursor-not-allowed transition-colors`}
               >
                 Back
               </button>
@@ -579,7 +579,7 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
             {step < 3 ? (
               <button
                 onClick={handleNext}
-                className={`${step === 1 ? 'w-full' : 'flex-1'} px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700`}
+                className={`${step === 1 ? 'w-full' : 'flex-1'} px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium`}
               >
                 Next
               </button>
@@ -587,17 +587,17 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
               <button
                 onClick={handleSubmit}
                 disabled={uploading}
-                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-colors font-medium"
               >
                 {uploading ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Uploading...
+                    <span>Uploading...</span>
                   </>
                 ) : (
                   <>
                     <Upload className="w-4 h-4" />
-                    Upload & Share
+                    <span>Upload & Share</span>
                   </>
                 )}
               </button>

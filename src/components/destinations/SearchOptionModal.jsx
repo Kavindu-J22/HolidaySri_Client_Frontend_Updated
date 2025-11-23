@@ -28,28 +28,7 @@ const SearchOptionModal = ({ isOpen, onClose, onGoogleSearch, onOnsiteSearch, ti
           </p>
 
           <div className="space-y-4">
-            {/* Google Search Option */}
-            <button
-              onClick={() => {
-                onGoogleSearch();
-                onClose();
-              }}
-              className="w-full group relative overflow-hidden bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl p-5 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
-            >
-              <div className="flex items-center space-x-4">
-                <div className="bg-white/20 p-3 rounded-lg">
-                  <Globe className="w-7 h-7" />
-                </div>
-                <div className="text-left flex-1">
-                  <div className="font-bold text-lg mb-1">Google Search</div>
-                  <div className="text-sm text-blue-100">
-                    Search across the web with Google
-                  </div>
-                </div>
-              </div>
-              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
-            </button>
-
+            
             {/* Onsite Search Option */}
             <button
               onClick={() => {
@@ -66,6 +45,28 @@ const SearchOptionModal = ({ isOpen, onClose, onGoogleSearch, onOnsiteSearch, ti
                   <div className="font-bold text-lg mb-1">Onsite Search</div>
                   <div className="text-sm text-primary-100">
                     Browse our curated local listings
+                  </div>
+                </div>
+              </div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+            </button>
+
+          {/* Google Search Option */}
+            <button
+              onClick={() => {
+                onGoogleSearch();
+                onClose();
+              }}
+              className="w-full group relative overflow-hidden bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl p-5 transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="bg-white/20 p-3 rounded-lg">
+                  <Globe className="w-7 h-7" />
+                </div>
+                <div className="text-left flex-1">
+                  <div className="font-bold text-lg mb-1">Google Search</div>
+                  <div className="text-sm text-blue-100">
+                    Search across the web with Google
                   </div>
                 </div>
               </div>

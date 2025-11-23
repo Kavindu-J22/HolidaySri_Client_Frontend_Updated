@@ -2389,6 +2389,23 @@ const HotelsAccommodationsDetail = () => {
               </p>
 
               <div className="space-y-3">
+                
+                <button
+                  onClick={() => {
+                    navigate(`/explore-locations?search=${encodeURIComponent(selectedAttraction)}`);
+                  }}
+                  className="w-full flex items-center justify-between gap-3 p-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg transition-all shadow-md hover:shadow-lg"
+                >
+                  <div className="flex items-center gap-3">
+                    <MapPinned className="w-5 h-5" />
+                    <div className="text-left">
+                      <div className="font-semibold">Onsite Search</div>
+                      <div className="text-xs text-green-100">Search in our locations</div>
+                    </div>
+                  </div>
+                  <ChevronLeft className="w-5 h-5 rotate-180" />
+                </button>
+
                 <button
                   onClick={() => {
                     window.open(`https://www.google.com/search?q=${encodeURIComponent(selectedAttraction + ' Sri Lanka')}`, '_blank');
@@ -2407,21 +2424,6 @@ const HotelsAccommodationsDetail = () => {
                   <ChevronLeft className="w-5 h-5 rotate-180" />
                 </button>
 
-                <button
-                  onClick={() => {
-                    navigate(`/explore-locations?search=${encodeURIComponent(selectedAttraction)}`);
-                  }}
-                  className="w-full flex items-center justify-between gap-3 p-4 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg transition-all shadow-md hover:shadow-lg"
-                >
-                  <div className="flex items-center gap-3">
-                    <MapPinned className="w-5 h-5" />
-                    <div className="text-left">
-                      <div className="font-semibold">Onsite Search</div>
-                      <div className="text-xs text-green-100">Search in our locations</div>
-                    </div>
-                  </div>
-                  <ChevronLeft className="w-5 h-5 rotate-180" />
-                </button>
               </div>
             </div>
           </div>
