@@ -258,112 +258,112 @@ const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId 
   if (!isOpen) return null;
   
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-3xl w-full my-8">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Book Room</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 xs:p-4 overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-3xl w-full my-4 xs:my-8">
+        {/* Header - Mobile Responsive */}
+        <div className="flex items-center justify-between p-3 xs:p-4 sm:p-5 md:p-6 border-b border-gray-200 dark:border-gray-700">
+          <div className="flex-1 min-w-0 pr-2">
+            <h2 className="text-lg xs:text-xl sm:text-2xl font-bold text-gray-900 dark:text-white truncate">Book Room</h2>
+            <p className="text-xs xs:text-sm text-gray-600 dark:text-gray-400 mt-1 truncate">
               {room.roomName} - {room.type}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            className="p-1.5 xs:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors flex-shrink-0"
           >
-            <X className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+            <X className="w-5 h-5 xs:w-6 xs:h-6 text-gray-600 dark:text-gray-400" />
           </button>
         </div>
-        
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[70vh] overflow-y-auto">
-          {/* Error Message */}
+
+        {/* Form - Mobile Responsive */}
+        <form onSubmit={handleSubmit} className="p-3 xs:p-4 sm:p-5 md:p-6 space-y-4 xs:space-y-5 sm:space-y-6 max-h-[70vh] overflow-y-auto">
+          {/* Error Message - Mobile Responsive */}
           {error && (
-            <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-800 dark:text-red-200">{error}</p>
+            <div className="p-2 xs:p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-2 xs:gap-3">
+              <AlertCircle className="w-4 h-4 xs:w-5 xs:h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              <p className="text-xs xs:text-sm text-red-800 dark:text-red-200">{error}</p>
             </div>
           )}
-          
-          {/* Customer Details */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-              <Users className="w-5 h-5" />
-              Customer Details
+
+          {/* Customer Details - Mobile Responsive */}
+          <div className="space-y-3 xs:space-y-4">
+            <h3 className="text-base xs:text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+              <Users className="w-4 h-4 xs:w-5 xs:h-5" />
+              <span>Customer Details</span>
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 xs:gap-4">
+              <div className="min-w-0">
+                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Name *
                 </label>
                 <input
                   type="text"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
-                  className="input-field"
+                  className="w-full px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 text-xs xs:text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <div className="min-w-0">
+                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   NIC or Passport *
                 </label>
                 <input
                   type="text"
                   value={nicOrPassport}
                   onChange={(e) => setNicOrPassport(e.target.value)}
-                  className="input-field"
+                  className="w-full px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 text-xs xs:text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <div className="min-w-0">
+                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Contact Number *
                 </label>
                 <input
                   type="text"
                   value={contactNumber}
                   onChange={(e) => setContactNumber(e.target.value)}
-                  className="input-field"
+                  className="w-full px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 text-xs xs:text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <div className="min-w-0">
+                <label className="block text-xs xs:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Email *
                 </label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="input-field"
+                  className="w-full px-2 xs:px-3 sm:px-4 py-1.5 xs:py-2 text-xs xs:text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   required
                 />
               </div>
             </div>
           </div>
 
-          {/* Package Selection */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-              <Tag className="w-5 h-5" />
-              Select Package *
+          {/* Package Selection - Mobile Responsive */}
+          <div className="space-y-3 xs:space-y-4">
+            <h3 className="text-base xs:text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+              <Tag className="w-4 h-4 xs:w-5 xs:h-5" />
+              <span>Select Package *</span>
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 xs:gap-3">
               {availablePackages.map((pkg) => (
                 <button
                   key={pkg.name}
                   type="button"
                   onClick={() => handlePackageChange(pkg.name, pkg.price)}
-                  className={`p-4 border-2 rounded-lg text-left transition-all ${
+                  className={`p-3 xs:p-4 border-2 rounded-lg text-left transition-all ${
                     selectedPackage === pkg.name
                       ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20'
                       : 'border-gray-200 dark:border-gray-700 hover:border-blue-300'
                   }`}
                 >
-                  <div className="font-semibold text-gray-900 dark:text-white">{pkg.name}</div>
-                  <div className="text-lg font-bold text-blue-600 dark:text-blue-400 mt-1">
+                  <div className="font-semibold text-sm xs:text-base text-gray-900 dark:text-white">{pkg.name}</div>
+                  <div className="text-base xs:text-lg font-bold text-blue-600 dark:text-blue-400 mt-1">
                     LKR {pkg.price.toLocaleString()}
                   </div>
                 </button>
@@ -470,11 +470,11 @@ const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId 
             </div>
           </div>
 
-          {/* Total Amount */}
-          <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
-            <div className="flex items-center justify-between">
-              <span className="text-gray-700 dark:text-gray-300 font-medium">Total Amount:</span>
-              <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+          {/* Total Amount - Mobile Responsive */}
+          <div className="bg-blue-50 dark:bg-blue-900/20 p-3 xs:p-4 rounded-lg">
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-sm xs:text-base text-gray-700 dark:text-gray-300 font-medium">Total Amount:</span>
+              <span className="text-lg xs:text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">
                 LKR {totalAmount.toLocaleString()}
               </span>
             </div>
@@ -615,27 +615,27 @@ const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId 
           )}
         </form>
 
-        {/* Footer */}
-        <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200 dark:border-gray-700">
+        {/* Footer - Mobile Responsive */}
+        <div className="flex flex-col xs:flex-row items-stretch xs:items-center justify-end gap-2 xs:gap-3 p-3 xs:p-4 sm:p-5 md:p-6 border-t border-gray-200 dark:border-gray-700">
           <button
             type="button"
             onClick={onClose}
-            className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="px-4 xs:px-6 py-2 text-sm xs:text-base border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="btn-primary"
+            className="px-4 xs:px-6 py-2 text-sm xs:text-base bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg font-semibold flex items-center justify-center gap-2"
           >
             {submitting ? (
               <>
-                <Loader className="w-4 h-4 mr-2 animate-spin" />
-                Submitting...
+                <Loader className="w-4 h-4 animate-spin" />
+                <span>Submitting...</span>
               </>
             ) : promocodeApplied ? (
-              `Pay ${hscRequired.toFixed(2)} HSC & Confirm Request`
+              <span className="text-center">Pay {hscRequired.toFixed(2)} HSC & Confirm</span>
             ) : (
               'Confirm Request'
             )}

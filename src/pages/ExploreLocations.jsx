@@ -9,16 +9,18 @@ import { API_BASE_URL } from '../config/api';
 const ExploreLocations = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [locations, setLocations] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
 
-  // Get initial filters from URL params
+  // Get initial values from URL params
   const initialProvince = searchParams.get('province') || '';
   const initialDistrict = searchParams.get('district') || '';
   const fromDestination = searchParams.get('fromDestination') || '';
   const destinationName = searchParams.get('destinationName') || '';
+  const initialSearch = searchParams.get('search') || '';
+
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
 
   const [filters, setFilters] = useState({
     locationType: '',
@@ -44,6 +46,15 @@ const ExploreLocations = () => {
   const [provincesAndDistricts, setProvincesAndDistricts] = useState({});
   const [destinations, setDestinations] = useState([]);
 
+  // Sync searchTerm with URL param on mount and when URL changes
+  useEffect(() => {
+    const urlSearch = searchParams.get('search') || '';
+    if (urlSearch && urlSearch !== searchTerm) {
+      setSearchTerm(urlSearch);
+      setCurrentPage(1);
+    }
+  }, [searchParams.get('search')]);
+
   useEffect(() => {
     fetchConstants();
     fetchDestinations();
@@ -51,7 +62,7 @@ const ExploreLocations = () => {
 
   useEffect(() => {
     fetchLocations();
-  }, [currentPage, searchTerm, filters, sortBy, sortOrder]);
+  }, [currentPage, searchTerm, filters.locationType, filters.climate, filters.province, filters.district, filters.mainDestination, sortBy, sortOrder]);
 
   const fetchConstants = async () => {
     try {
@@ -153,6 +164,10 @@ const ExploreLocations = () => {
     setSortBy('createdAt');
     setSortOrder('desc');
     setCurrentPage(1);
+    // Clear search param from URL
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('search');
+    setSearchParams(newParams);
   };
 
   const hasActiveFilters = searchTerm || Object.values(filters).some(filter => filter);

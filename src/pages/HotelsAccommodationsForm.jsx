@@ -5,8 +5,9 @@ import axios from 'axios';
 import {
   Building2, MapPin, Phone, Utensils, PartyPopper, FileText,
   Image as ImageIcon, CheckCircle, Loader, X, Upload, ChevronRight,
-  ChevronLeft, Home, Mail, Globe, Facebook, MessageCircle
+  ChevronLeft, Home, Mail, Globe, Facebook, MessageCircle, ChevronDown, ChevronUp
 } from 'lucide-react';
+import { hotelFacilities } from '../config/hotelFacilities';
 
 const HotelsAccommodationsForm = () => {
   const navigate = useNavigate();
@@ -762,22 +763,34 @@ const HotelsAccommodationsForm = () => {
                 Facilities, Dining & Policies
               </h2>
 
-              {/* Key Facilities */}
+              {/* Key Facilities - Comprehensive List */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Key Facilities (Select all that apply)</h3>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                  {['internet', 'parking', 'swimmingPool', 'gym', 'spa', 'restaurant', 'roomService', 'airportShuttle', 'petFriendly', 'bar', 'wheelchairAccess', 'garden'].map((facility) => (
-                    <label key={facility} className="flex items-center space-x-2 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={formData.facilities[facility] || false}
-                        onChange={() => handleFacilityChange(facility)}
-                        className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
-                      />
-                      <span className="text-sm text-gray-700 dark:text-gray-300 capitalize">
-                        {facility.replace(/([A-Z])/g, ' $1').trim()}
-                      </span>
-                    </label>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  Key Facilities (Select all that apply)
+                </h3>
+                <div className="space-y-6">
+                  {hotelFacilities.map((category, idx) => (
+                    <div key={idx} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                      <h4 className="text-md font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
+                        <span className="text-blue-600 dark:text-blue-400">●</span>
+                        {category.category}
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                        {category.facilities.map((facility) => (
+                          <label key={facility.key} className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 p-2 rounded transition-colors">
+                            <input
+                              type="checkbox"
+                              checked={formData.facilities[facility.key] || false}
+                              onChange={() => handleFacilityChange(facility.key)}
+                              className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500 flex-shrink-0"
+                            />
+                            <span className="text-sm text-gray-700 dark:text-gray-300">
+                              {facility.label}
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
