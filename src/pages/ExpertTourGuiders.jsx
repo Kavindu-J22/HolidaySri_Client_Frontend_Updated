@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Loader, Filter, X, ArrowLeft } from 'lucide-react';
+import { Loader, Filter, X, ArrowLeft, Search } from 'lucide-react';
 import TourGuiderCard from '../components/tourGuider/TourGuiderCard';
 import axios from 'axios';
 
@@ -12,6 +12,7 @@ const ExpertTourGuiders = () => {
   const [tourGuiders, setTourGuiders] = useState([]);
   const [error, setError] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const [provinces, setProvinces] = useState({});
   const [cities, setCities] = useState([]);
@@ -116,15 +117,29 @@ const ExpertTourGuiders = () => {
 
   const hasActiveFilters = Object.values(filters).some(val => val !== '');
 
+  // Filter tour guiders based on search query
+  const filteredTourGuiders = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return tourGuiders;
+    }
+
+    const query = searchQuery.toLowerCase().trim();
+    return tourGuiders.filter(tourGuider => {
+      const name = tourGuider.name?.toLowerCase() || '';
+      const description = tourGuider.description?.toLowerCase() || '';
+      return name.includes(query) || description.includes(query);
+    });
+  }, [tourGuiders, searchQuery]);
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Expert Tour Guiders{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             {fromDestination ? `Find and connect with professional tour guides in ${destinationName}` : 'Find and connect with professional tour guides in Sri Lanka'}
           </p>
           {fromDestination && (
@@ -138,11 +153,33 @@ const ExpertTourGuiders = () => {
           )}
         </div>
 
+        {/* Search Bar */}
+        <div className="mb-6">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search by name or description..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* Filters Section */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center space-x-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+            className="flex items-center space-x-2 px-4 py-2.5 sm:py-2 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow w-full sm:w-auto justify-center sm:justify-start"
           >
             <Filter className="w-5 h-5" />
             <span className="font-medium">Filters</span>
@@ -155,8 +192,8 @@ const ExpertTourGuiders = () => {
 
           {/* Filter Panel */}
           {showFilters && (
-            <div className="mt-4 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+            <div className="mt-4 p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                 {/* Experience Filter */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -258,17 +295,35 @@ const ExpertTourGuiders = () => {
           <div className="flex items-center justify-center py-12">
             <Loader className="w-8 h-8 animate-spin text-blue-600" />
           </div>
-        ) : tourGuiders.length === 0 ? (
+        ) : filteredTourGuiders.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
-              No tour guiders found matching your criteria
+            <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg">
+              {searchQuery
+                ? `No tour guiders found matching "${searchQuery}"`
+                : 'No tour guiders found matching your criteria'
+              }
             </p>
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Clear Search
+              </button>
+            )}
           </div>
         ) : (
           <>
+            {/* Results Count */}
+            {searchQuery && (
+              <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                Found {filteredTourGuiders.length} tour guider{filteredTourGuiders.length !== 1 ? 's' : ''} matching "{searchQuery}"
+              </div>
+            )}
+
             {/* Tour Guiders Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {tourGuiders.map(tourGuider => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
+              {filteredTourGuiders.map(tourGuider => (
                 <TourGuiderCard
                   key={tourGuider._id}
                   tourGuider={tourGuider}
@@ -279,11 +334,11 @@ const ExpertTourGuiders = () => {
 
             {/* Pagination */}
             {pagination.totalPages > 1 && (
-              <div className="flex items-center justify-center space-x-2">
+              <div className="flex flex-wrap items-center justify-center gap-2">
                 <button
                   onClick={() => setPagination(prev => ({ ...prev, currentPage: Math.max(1, prev.currentPage - 1) }))}
                   disabled={pagination.currentPage === 1}
-                  className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 transition-colors"
+                  className="px-3 sm:px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 transition-colors text-sm sm:text-base"
                 >
                   Previous
                 </button>
@@ -294,7 +349,7 @@ const ExpertTourGuiders = () => {
                     <button
                       key={pageNum}
                       onClick={() => setPagination(prev => ({ ...prev, currentPage: pageNum }))}
-                      className={`px-4 py-2 rounded-lg transition-colors ${
+                      className={`px-3 sm:px-4 py-2 rounded-lg transition-colors text-sm sm:text-base ${
                         pageNum === pagination.currentPage
                           ? 'bg-blue-600 text-white'
                           : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700'
@@ -308,7 +363,7 @@ const ExpertTourGuiders = () => {
                 <button
                   onClick={() => setPagination(prev => ({ ...prev, currentPage: Math.min(prev.totalPages, prev.currentPage + 1) }))}
                   disabled={pagination.currentPage === pagination.totalPages}
-                  className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 transition-colors"
+                  className="px-3 sm:px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 transition-colors text-sm sm:text-base"
                 >
                   Next
                 </button>
