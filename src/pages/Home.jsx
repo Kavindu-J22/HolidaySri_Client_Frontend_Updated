@@ -444,7 +444,7 @@ const Home = () => {
                 className="inline-flex items-center justify-center px-5 sm:px-8 py-3 sm:py-4 bg-white dark:bg-gray-800 text-primary-600 dark:text-primary-400 text-sm sm:text-base font-semibold rounded-xl border-2 border-primary-600 dark:border-primary-400 hover:bg-primary-50 dark:hover:bg-gray-700 transform hover:scale-105 transition-all duration-200 w-full sm:w-auto"
               >
                 <Image className="mr-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                View Holiday Memories
+                Visit our social media 
               </Link>
             </div>
           </div>
@@ -535,7 +535,7 @@ const Home = () => {
               <div className="text-white">
                 <div className="inline-flex items-center px-2.5 sm:px-4 py-1.5 sm:py-2 bg-white/20 backdrop-blur-sm rounded-full mb-3 sm:mb-6">
                   <Image className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 flex-shrink-0" />
-                  <span className="text-xs sm:text-sm font-semibold">Community Feature</span>
+                  <span className="text-xs sm:text-sm font-semibold">OUR SOCIAL MEDIA</span>
                 </div>
 
                 <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4 md:mb-6">
@@ -683,7 +683,7 @@ const Home = () => {
             <div>
               <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mb-4 sm:mb-6">
                 <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-600 dark:text-indigo-400 mr-1.5 sm:mr-2 flex-shrink-0" />
-                <span className="text-xs sm:text-sm font-semibold text-indigo-600 dark:text-indigo-400">For Business Owners</span>
+                <span className="text-xs sm:text-sm font-semibold text-indigo-600 dark:text-indigo-400">HLIDAYSRI COINS (HSC)</span>
               </div>
 
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
