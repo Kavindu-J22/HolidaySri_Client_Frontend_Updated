@@ -4,7 +4,8 @@ import { useAuth } from '../contexts/AuthContext';
 import {
   MapPin, Star, Eye, Filter, X, ChevronLeft, ChevronRight,
   Loader, AlertCircle, Building2, Sparkles, FileText, Users,
-  Check, XCircle, ArrowLeft, Search, TrendingUp, DoorOpen, Bed
+  Check, XCircle, ArrowLeft, Search, TrendingUp, DoorOpen, Bed,
+  Copy, CheckCircle2, Calendar, Home, Tag
 } from 'lucide-react';
 
 // Client Booking Card Component
@@ -13,6 +14,13 @@ const ClientBookingCard = ({ booking, onUpdate }) => {
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [note, setNote] = useState('');
   const [processing, setProcessing] = useState(false);
+  const [copiedId, setCopiedId] = useState(false);
+
+  const copyBookingId = () => {
+    navigator.clipboard.writeText(booking.bookingId);
+    setCopiedId(true);
+    setTimeout(() => setCopiedId(false), 2000);
+  };
 
   const handleApprove = async () => {
     setProcessing(true);
@@ -74,87 +82,173 @@ const ClientBookingCard = ({ booking, onUpdate }) => {
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-        <div className="flex justify-between items-start mb-4">
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{booking.hotelName}</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Room: {booking.roomName}</p>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Booking ID: {booking.bookingId}</p>
-          </div>
-          <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-            booking.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' :
-            booking.status === 'Approved' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
-            'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-          }`}>
-            {booking.status}
-          </span>
-        </div>
-
-        <div className="space-y-3 mb-4">
-          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Customer Details</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-              <p className="text-gray-600 dark:text-gray-400">Name: <span className="text-gray-900 dark:text-white font-medium">{booking.customerName}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Email: <span className="text-gray-900 dark:text-white font-medium">{booking.customerEmail}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Contact: <span className="text-gray-900 dark:text-white font-medium">{booking.customerContactNumber}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">NIC/Passport: <span className="text-gray-900 dark:text-white font-medium">{booking.customerNicOrPassport}</span></p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div>
-              <p className="text-gray-600 dark:text-gray-400">Room Type: <span className="text-gray-900 dark:text-white font-medium">{booking.roomType}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Package: <span className="text-gray-900 dark:text-white font-medium">{booking.selectedPackage}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Check-in: <span className="text-gray-900 dark:text-white font-medium">{new Date(booking.checkInDate).toLocaleDateString()}</span></p>
-            </div>
-            <div>
-              <p className="text-gray-600 dark:text-gray-400">Days: <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfDays}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Rooms: <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfRooms}</span></p>
-              <p className="text-gray-600 dark:text-gray-400">Persons: <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfAdults} adults, {booking.numberOfChildren} children</span></p>
-            </div>
-          </div>
-        </div>
-
-        <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="flex justify-between items-center mb-4">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Total: <span className="text-lg font-bold text-gray-900 dark:text-white">LKR {booking.totalAmount.toLocaleString()}</span></p>
-              {booking.discountedAmount > 0 && (
-                <p className="text-sm text-green-600 dark:text-green-400">After Discount: LKR {booking.discountedAmount.toLocaleString()}</p>
-              )}
-              <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">Final Amount: LKR {booking.finalAmount.toLocaleString()}</p>
-            </div>
-            {booking.promocodeUsed && (
-              <div className="text-right">
-                <p className="text-sm text-gray-600 dark:text-gray-400">Promocode</p>
-                <p className="text-sm font-semibold text-purple-600 dark:text-purple-400">{booking.promocodeUsed}</p>
+      <div className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+        {/* Header Section */}
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600 p-4 sm:p-5 border-b border-gray-200 dark:border-gray-600">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start gap-2 mb-2">
+                <Building2 className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white break-words">{booking.hotelName}</h3>
               </div>
-            )}
+              <div className="flex items-center gap-2 mb-2">
+                <Home className="w-4 h-4 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                <p className="text-sm text-gray-600 dark:text-gray-400 break-words">{booking.roomName}</p>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap">
+                <Tag className="w-4 h-4 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-mono break-all">{booking.bookingId}</span>
+                <button
+                  onClick={copyBookingId}
+                  className="flex items-center gap-1 px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                  title="Copy Booking ID"
+                >
+                  {copiedId ? (
+                    <>
+                      <CheckCircle2 className="w-3 h-3" />
+                      <span>Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3 h-3" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+            <span className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold self-start whitespace-nowrap shadow-sm ${
+              booking.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-300 dark:border-yellow-700' :
+              booking.status === 'Approved' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-300 dark:border-green-700' :
+              'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border border-red-300 dark:border-red-700'
+            }`}>
+              {booking.status}
+            </span>
+          </div>
+        </div>
+
+        {/* Content Section */}
+        <div className="p-4 sm:p-6">
+          {/* Customer Details */}
+          <div className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 p-4 sm:p-5 rounded-lg mb-4 border border-gray-200 dark:border-gray-600">
+            <h4 className="font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+              <Users className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              Customer Details
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+              <div className="flex flex-col">
+                <span className="text-gray-500 dark:text-gray-400 mb-1">Name</span>
+                <span className="text-gray-900 dark:text-white font-semibold break-words">{booking.customerName}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-gray-500 dark:text-gray-400 mb-1">Email</span>
+                <span className="text-gray-900 dark:text-white font-semibold break-all">{booking.customerEmail}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-gray-500 dark:text-gray-400 mb-1">Contact</span>
+                <span className="text-gray-900 dark:text-white font-semibold">{booking.customerContactNumber}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-gray-500 dark:text-gray-400 mb-1">NIC/Passport</span>
+                <span className="text-gray-900 dark:text-white font-semibold break-all">{booking.customerNicOrPassport}</span>
+              </div>
+            </div>
           </div>
 
+          {/* Booking Details */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+              <h5 className="font-semibold text-blue-900 dark:text-blue-300 mb-3 text-sm">Room Information</h5>
+              <div className="space-y-2 text-xs sm:text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600 dark:text-gray-400">Room Type:</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{booking.roomType}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600 dark:text-gray-400">Package:</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{booking.selectedPackage}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600 dark:text-gray-400">Check-in:</span>
+                  <span className="text-gray-900 dark:text-white font-medium flex items-center gap-1">
+                    <Calendar className="w-3 h-3" />
+                    {new Date(booking.checkInDate).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
+              <h5 className="font-semibold text-purple-900 dark:text-purple-300 mb-3 text-sm">Booking Details</h5>
+              <div className="space-y-2 text-xs sm:text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-600 dark:text-gray-400">Days:</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfDays}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600 dark:text-gray-400">Rooms:</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfRooms}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600 dark:text-gray-400">Persons:</span>
+                  <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfAdults} adults, {booking.numberOfChildren} children</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Pricing Section */}
+          <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 sm:p-5 rounded-lg border border-green-200 dark:border-green-800 mb-4">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+              <div className="space-y-1">
+                <div className="flex items-baseline gap-2">
+                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Amount:</span>
+                  <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">LKR {booking.totalAmount.toLocaleString()}</span>
+                </div>
+                {booking.discountedAmount > 0 && (
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">After Discount:</span>
+                    <span className="text-base sm:text-lg font-semibold text-green-600 dark:text-green-400">LKR {booking.discountedAmount.toLocaleString()}</span>
+                  </div>
+                )}
+                <div className="flex items-baseline gap-2">
+                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Final Amount:</span>
+                  <span className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">LKR {booking.finalAmount.toLocaleString()}</span>
+                </div>
+              </div>
+              {booking.promocodeUsed && (
+                <div className="bg-purple-100 dark:bg-purple-900/30 px-3 py-2 rounded-lg border border-purple-300 dark:border-purple-700 self-start sm:self-auto">
+                  <p className="text-xs text-purple-600 dark:text-purple-400 mb-1">Promocode Applied</p>
+                  <p className="text-sm font-bold text-purple-700 dark:text-purple-300">{booking.promocodeUsed}</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Action Buttons */}
           {booking.status === 'Pending' && (
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 mb-4">
               <button
                 onClick={() => setShowApproveModal(true)}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-semibold"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-lg transition-all duration-300 font-semibold shadow-md hover:shadow-lg transform hover:scale-[1.02]"
               >
                 <Check className="w-5 h-5" />
-                Approve
+                <span>Approve Booking</span>
               </button>
               <button
                 onClick={() => setShowRejectModal(true)}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white rounded-lg transition-all duration-300 font-semibold shadow-md hover:shadow-lg transform hover:scale-[1.02]"
               >
                 <XCircle className="w-5 h-5" />
-                Reject
+                <span>Reject Booking</span>
               </button>
             </div>
           )}
 
+          {/* Owner Note */}
           {booking.ownerNote && (
-            <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-              <p className="text-sm text-gray-600 dark:text-gray-400">Your Note:</p>
-              <p className="text-sm text-gray-900 dark:text-white mt-1">{booking.ownerNote}</p>
+            <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
+              <p className="text-xs sm:text-sm font-semibold text-amber-900 dark:text-amber-300 mb-2">Your Note:</p>
+              <p className="text-sm text-gray-900 dark:text-white">{booking.ownerNote}</p>
             </div>
           )}
         </div>
@@ -258,6 +352,13 @@ const HotelsAccommodationsBrowse = () => {
   const [clientRequests, setClientRequests] = useState([]);
   const [loadingBookings, setLoadingBookings] = useState(false);
   const [isHotelOwner, setIsHotelOwner] = useState(false);
+
+  // My Bookings filters and UI state
+  const [myBookingsStatusFilter, setMyBookingsStatusFilter] = useState('all');
+  const [copiedBookingId, setCopiedBookingId] = useState(null);
+
+  // Client Requests search
+  const [clientRequestsSearch, setClientRequestsSearch] = useState('');
 
   // Filter state
   const [filters, setFilters] = useState({
@@ -994,94 +1095,260 @@ const HotelsAccommodationsBrowse = () => {
         {/* My Booking Requests Tab Content */}
         {activeTab === 'my-bookings' && (
           <div className="space-y-4 sm:space-y-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 px-1">My Booking Requests</h2>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white px-1">My Booking Requests</h2>
+
+              {/* Status Filter */}
+              <div className="flex items-center gap-2 px-1">
+                <Filter className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                <select
+                  value={myBookingsStatusFilter}
+                  onChange={(e) => setMyBookingsStatusFilter(e.target.value)}
+                  className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="all">All Status</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Approved">Approved</option>
+                  <option value="Rejected">Rejected</option>
+                </select>
+              </div>
+            </div>
 
             {loadingBookings ? (
               <div className="flex justify-center items-center py-8 sm:py-12">
                 <Loader className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-blue-600" />
               </div>
-            ) : myBookings.length > 0 ? (
-              <div className="space-y-3 sm:space-y-4">
-                {myBookings.map((booking) => (
-                  <div key={booking._id} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 sm:p-6">
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 sm:gap-0 mb-4">
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white break-words">{booking.hotelName}</h3>
-                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 break-all">Booking ID: {booking.bookingId}</p>
-                      </div>
-                      <span className={`px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium self-start whitespace-nowrap ${
-                        booking.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' :
-                        booking.status === 'Approved' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' :
-                        'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                      }`}>
-                        {booking.status}
-                      </span>
-                    </div>
+            ) : (() => {
+              const filteredMyBookings = myBookingsStatusFilter === 'all'
+                ? myBookings
+                : myBookings.filter(b => b.status === myBookingsStatusFilter);
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mb-4">
-                      <div>
-                        <p className="text-gray-600 dark:text-gray-400">Room: <span className="text-gray-900 dark:text-white font-medium">{booking.roomName}</span></p>
-                        <p className="text-gray-600 dark:text-gray-400">Type: <span className="text-gray-900 dark:text-white font-medium">{booking.roomType}</span></p>
-                        <p className="text-gray-600 dark:text-gray-400">Package: <span className="text-gray-900 dark:text-white font-medium">{booking.selectedPackage}</span></p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600 dark:text-gray-400">Check-in: <span className="text-gray-900 dark:text-white font-medium">{new Date(booking.checkInDate).toLocaleDateString()}</span></p>
-                        <p className="text-gray-600 dark:text-gray-400">Days: <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfDays}</span></p>
-                        <p className="text-gray-600 dark:text-gray-400">Rooms: <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfRooms}</span></p>
-                      </div>
-                    </div>
-
-                    <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <p className="text-sm text-gray-600 dark:text-gray-400">Total: <span className="text-lg font-bold text-gray-900 dark:text-white">LKR {booking.totalAmount.toLocaleString()}</span></p>
-                      {booking.discountedAmount > 0 && (
-                        <p className="text-sm text-green-600 dark:text-green-400">After Discount: LKR {booking.discountedAmount.toLocaleString()}</p>
-                      )}
-                      <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">Final Amount: LKR {booking.finalAmount.toLocaleString()}</p>
-                    </div>
-
-                    {booking.ownerNote && (
-                      <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                        <p className="text-sm text-gray-600 dark:text-gray-400">Hotel Note:</p>
-                        <p className="text-sm text-gray-900 dark:text-white mt-1">{booking.ownerNote}</p>
-                      </div>
-                    )}
+              return filteredMyBookings.length > 0 ? (
+                <>
+                  <div className="mb-3 px-1">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Showing <span className="font-semibold text-gray-900 dark:text-white">{filteredMyBookings.length}</span> of {myBookings.length} booking{myBookings.length !== 1 ? 's' : ''}
+                    </p>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8 sm:py-12 px-4 bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl shadow-lg">
-                <FileText className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">No booking requests yet</p>
-              </div>
-            )}
+                  <div className="space-y-3 sm:space-y-4">
+                    {filteredMyBookings.map((booking) => (
+                  <div key={booking._id} className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+                    {/* Header */}
+                    <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600 p-4 sm:p-5 border-b border-gray-200 dark:border-gray-600">
+                      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-start gap-2 mb-2">
+                            <Building2 className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white break-words">{booking.hotelName}</h3>
+                          </div>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <Tag className="w-4 h-4 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 font-mono break-all">{booking.bookingId}</span>
+                            <button
+                              onClick={() => {
+                                navigator.clipboard.writeText(booking.bookingId);
+                                setCopiedBookingId(booking.bookingId);
+                                setTimeout(() => setCopiedBookingId(null), 2000);
+                              }}
+                              className="flex items-center gap-1 px-2 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors"
+                              title="Copy Booking ID"
+                            >
+                              {copiedBookingId === booking.bookingId ? (
+                                <>
+                                  <CheckCircle2 className="w-3 h-3" />
+                                  <span>Copied!</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="w-3 h-3" />
+                                  <span>Copy</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+                        <span className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold self-start whitespace-nowrap shadow-sm ${
+                          booking.status === 'Pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 border border-yellow-300 dark:border-yellow-700' :
+                          booking.status === 'Approved' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 border border-green-300 dark:border-green-700' :
+                          'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 border border-red-300 dark:border-red-700'
+                        }`}>
+                          {booking.status}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-4 sm:p-6">
+                      {/* Booking Details */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
+                          <h5 className="font-semibold text-blue-900 dark:text-blue-300 mb-3 text-sm">Room Information</h5>
+                          <div className="space-y-2 text-xs sm:text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Room:</span>
+                              <span className="text-gray-900 dark:text-white font-medium break-words text-right">{booking.roomName}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Type:</span>
+                              <span className="text-gray-900 dark:text-white font-medium">{booking.roomType}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Package:</span>
+                              <span className="text-gray-900 dark:text-white font-medium">{booking.selectedPackage}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="bg-purple-50 dark:bg-purple-900/20 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
+                          <h5 className="font-semibold text-purple-900 dark:text-purple-300 mb-3 text-sm">Stay Details</h5>
+                          <div className="space-y-2 text-xs sm:text-sm">
+                            <div className="flex justify-between items-center">
+                              <span className="text-gray-600 dark:text-gray-400">Check-in:</span>
+                              <span className="text-gray-900 dark:text-white font-medium flex items-center gap-1">
+                                <Calendar className="w-3 h-3" />
+                                {new Date(booking.checkInDate).toLocaleDateString()}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Days:</span>
+                              <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfDays}</span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600 dark:text-gray-400">Rooms:</span>
+                              <span className="text-gray-900 dark:text-white font-medium">{booking.numberOfRooms}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Pricing */}
+                      <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800 mb-4">
+                        <div className="space-y-1">
+                          <div className="flex items-baseline justify-between">
+                            <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Amount:</span>
+                            <span className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">LKR {booking.totalAmount.toLocaleString()}</span>
+                          </div>
+                          {booking.discountedAmount > 0 && (
+                            <div className="flex items-baseline justify-between">
+                              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">After Discount:</span>
+                              <span className="text-sm sm:text-base font-semibold text-green-600 dark:text-green-400">LKR {booking.discountedAmount.toLocaleString()}</span>
+                            </div>
+                          )}
+                          <div className="flex items-baseline justify-between pt-2 border-t border-green-300 dark:border-green-700">
+                            <span className="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300">Final Amount:</span>
+                            <span className="text-lg sm:text-xl font-bold text-blue-600 dark:text-blue-400">LKR {booking.finalAmount.toLocaleString()}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Hotel Note */}
+                      {booking.ownerNote && (
+                        <div className="bg-amber-50 dark:bg-amber-900/20 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
+                          <p className="text-xs sm:text-sm font-semibold text-amber-900 dark:text-amber-300 mb-2">Hotel Note:</p>
+                          <p className="text-sm text-gray-900 dark:text-white">{booking.ownerNote}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-8 sm:py-12 px-4 bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl shadow-lg">
+                  <FileText className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                    {myBookingsStatusFilter === 'all' ? 'No booking requests yet' : `No ${myBookingsStatusFilter.toLowerCase()} bookings found`}
+                  </p>
+                </div>
+              );
+            })()}
           </div>
         )}
 
         {/* Client's Requests Tab Content */}
         {activeTab === 'client-requests' && isHotelOwner && (
           <div className="space-y-4 sm:space-y-6">
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 px-1">Client's Booking Requests</h2>
+            <div className="flex flex-col gap-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white px-1">Client's Booking Requests</h2>
+
+              {/* Search Bar */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl shadow-md p-4">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Search by Booking ID
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
+                  <input
+                    type="text"
+                    value={clientRequestsSearch}
+                    onChange={(e) => setClientRequestsSearch(e.target.value)}
+                    placeholder="Enter booking ID to search..."
+                    className="w-full pl-9 sm:pl-10 pr-10 sm:pr-12 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder:text-sm sm:placeholder:text-base focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  {clientRequestsSearch && (
+                    <button
+                      onClick={() => setClientRequestsSearch('')}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                    >
+                      <X className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
 
             {loadingBookings ? (
               <div className="flex justify-center items-center py-8 sm:py-12">
                 <Loader className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-blue-600" />
               </div>
-            ) : clientRequests.length > 0 ? (
-              <div className="space-y-3 sm:space-y-4">
-                {clientRequests.map((booking) => (
-                  <ClientBookingCard
-                    key={booking._id}
-                    booking={booking}
-                    onUpdate={fetchClientRequests}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8 sm:py-12 px-4 bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl shadow-lg">
-                <Users className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">No client requests yet</p>
-              </div>
-            )}
+            ) : (() => {
+              const filteredClientRequests = clientRequestsSearch.trim()
+                ? clientRequests.filter(booking =>
+                    booking.bookingId.toLowerCase().includes(clientRequestsSearch.toLowerCase())
+                  )
+                : clientRequests;
+
+              return filteredClientRequests.length > 0 ? (
+                <>
+                  <div className="mb-3 px-1">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {clientRequestsSearch ? (
+                        <>
+                          Found <span className="font-semibold text-gray-900 dark:text-white">{filteredClientRequests.length}</span> of {clientRequests.length} request{clientRequests.length !== 1 ? 's' : ''} matching "<span className="font-mono">{clientRequestsSearch}</span>"
+                        </>
+                      ) : (
+                        <>
+                          Showing <span className="font-semibold text-gray-900 dark:text-white">{filteredClientRequests.length}</span> client request{filteredClientRequests.length !== 1 ? 's' : ''}
+                        </>
+                      )}
+                    </p>
+                  </div>
+                  <div className="space-y-3 sm:space-y-4">
+                    {filteredClientRequests.map((booking) => (
+                      <ClientBookingCard
+                        key={booking._id}
+                        booking={booking}
+                        onUpdate={fetchClientRequests}
+                      />
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className="text-center py-8 sm:py-12 px-4 bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl shadow-lg">
+                  <Users className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-2">
+                    {clientRequestsSearch ? `No requests found matching "${clientRequestsSearch}"` : 'No client requests yet'}
+                  </p>
+                  {clientRequestsSearch && (
+                    <button
+                      onClick={() => setClientRequestsSearch('')}
+                      className="mt-3 px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      Clear Search
+                    </button>
+                  )}
+                </div>
+              );
+            })()}
           </div>
         )}
       </div>
