@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Star, Loader, MapPin, Eye, TrendingUp, Sparkles, Award, Search, Filter, X, Crown } from 'lucide-react';
+import { Star, Loader, MapPin, Eye, TrendingUp, Sparkles, Award, Search, Filter, X, Crown, ShieldCheck } from 'lucide-react';
 import { API_BASE_URL } from '../config/api';
 
 const FeaturedAds = () => {
@@ -406,6 +406,14 @@ const FeaturedAds = () => {
                         <span>Member</span>
                       </div>
                     ) : null}
+
+                    {/* Verified Badge - Shows for verified users */}
+                    {ad.userId?.verificationStatus === 'verified' && (
+                      <div className="absolute top-1.5 left-1.5 sm:top-2 sm:left-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-1.5 py-0.5 sm:px-2 rounded-full text-[10px] sm:text-xs font-semibold flex items-center gap-0.5 sm:gap-1 shadow-lg">
+                        <ShieldCheck className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current" />
+                        <span>Verified</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Content - flex-grow to push button to bottom */}
