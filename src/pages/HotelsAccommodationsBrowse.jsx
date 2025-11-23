@@ -244,19 +244,20 @@ const HotelsAccommodationsBrowse = () => {
     pages: 1
   });
 
-  // Tab state
-  const [activeTab, setActiveTab] = useState('browse');
+  // Get destination info from URL params
+  const fromDestination = searchParams.get('fromDestination') || '';
+  const destinationName = searchParams.get('destinationName') || '';
+  const cityFromUrl = searchParams.get('city') || '';
+  const tabFromUrl = searchParams.get('tab') || 'browse';
+
+  // Tab state - initialize from URL parameter
+  const [activeTab, setActiveTab] = useState(tabFromUrl);
 
   // Booking state
   const [myBookings, setMyBookings] = useState([]);
   const [clientRequests, setClientRequests] = useState([]);
   const [loadingBookings, setLoadingBookings] = useState(false);
   const [isHotelOwner, setIsHotelOwner] = useState(false);
-
-  // Get destination info from URL params
-  const fromDestination = searchParams.get('fromDestination') || '';
-  const destinationName = searchParams.get('destinationName') || '';
-  const cityFromUrl = searchParams.get('city') || '';
 
   // Filter state
   const [filters, setFilters] = useState({
@@ -316,6 +317,14 @@ const HotelsAccommodationsBrowse = () => {
   useEffect(() => {
     setProvincesData(provincesAndDistricts);
   }, []);
+
+  // Update active tab when URL parameter changes
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam && tabParam !== activeTab) {
+      setActiveTab(tabParam);
+    }
+  }, [searchParams]);
 
   // Fetch hotels
   useEffect(() => {

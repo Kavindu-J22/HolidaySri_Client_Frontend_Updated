@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { X, Calendar, Users, Home, Tag, AlertCircle, CheckCircle, Loader } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { API_BASE_URL } from '../../config/api';
 
 const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId }) => {
   const { user, updateUser } = useAuth();
+  const navigate = useNavigate();
   
   // Customer Details
   const [customerName, setCustomerName] = useState('');
@@ -38,6 +40,8 @@ const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId 
   // UI State
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [bookingId, setBookingId] = useState('');
   
   // Available packages based on room data
   const availablePackages = [];
@@ -241,9 +245,10 @@ const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId 
             updateUser({ hscBalance: userData.balance });
           }
         }
-        
-        alert(`Booking request submitted successfully! Booking ID: ${data.bookingId}`);
-        onClose();
+
+        // Show success popup instead of alert
+        setBookingId(data.bookingId);
+        setShowSuccessPopup(true);
       } else {
         setError(data.message || 'Failed to submit booking request');
       }
@@ -255,10 +260,73 @@ const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId 
     }
   };
   
+  // Handle navigation to Hotels & Accommodations page
+  const handleBackToHotels = () => {
+    setShowSuccessPopup(false);
+    onClose();
+    navigate('/hotels-accommodations?page=1&limit=12');
+  };
+
+  // Handle staying on the same page
+  const handleStayOnPage = () => {
+    setShowSuccessPopup(false);
+    onClose();
+  };
+
   if (!isOpen) return null;
-  
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 xs:p-4 overflow-y-auto">
+    <>
+      {/* Success Popup */}
+      {showSuccessPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-[60] p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all animate-fadeIn">
+            {/* Success Icon */}
+            <div className="flex justify-center pt-8 pb-4">
+              <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                <CheckCircle className="w-12 h-12 text-green-600 dark:text-green-400" />
+              </div>
+            </div>
+
+            {/* Success Message */}
+            <div className="px-6 pb-6 text-center">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                Booking Request Submitted Successfully!
+              </h3>
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-4">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Booking ID:</p>
+                <p className="text-xl font-bold text-blue-600 dark:text-blue-400 font-mono">
+                  {bookingId}
+                </p>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+                Check the <span className="font-semibold text-blue-600 dark:text-blue-400">Hotels & Accommodations</span> page's{' '}
+                <span className="font-semibold text-blue-600 dark:text-blue-400">My Booking Requests</span> tab to see your booking with its status.
+              </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 px-6 pb-6">
+              <button
+                onClick={handleBackToHotels}
+                className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg transition-all duration-300 font-semibold shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+              >
+                <CheckCircle className="w-5 h-5" />
+                <span>Back to Hotels & Accommodations</span>
+              </button>
+              <button
+                onClick={handleStayOnPage}
+                className="flex-1 px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-semibold"
+              >
+                Stay Here
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Main Booking Modal */}
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 xs:p-4 overflow-y-auto">
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-3xl w-full my-4 xs:my-8">
         {/* Header - Mobile Responsive */}
         <div className="flex items-center justify-between p-3 xs:p-4 sm:p-5 md:p-6 border-b border-gray-200 dark:border-gray-700">
@@ -642,7 +710,8 @@ const BookingModal = ({ isOpen, onClose, room, hotelName, hotelId, hotelOwnerId 
           </button>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 
