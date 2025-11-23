@@ -8,10 +8,10 @@ import {
   User,
   Bell,
   LogOut,
-  Download,
   Home,
   Settings,
-  CreditCard
+  CreditCard,
+  Megaphone
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useTheme } from '../../contexts/ThemeContext';
@@ -33,7 +33,7 @@ const Navbar = () => {
     { name: 'Services', path: '/services' },
     { name: 'About', path: '/about' },
     { name: 'Contact', path: '/contact' },
-    { name: 'Download', path: '/download', icon: Download },
+    { name: 'Post advertisement', path: '/post-advertisement', icon: Megaphone },
   ];
 
   // Fetch unread notification count

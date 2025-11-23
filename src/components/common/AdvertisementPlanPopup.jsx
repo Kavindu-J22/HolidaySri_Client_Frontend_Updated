@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  X, 
-  Clock, 
-  Calendar, 
-  CalendarDays, 
+import {
+  X,
+  Clock,
+  Calendar,
+  CalendarDays,
   CalendarRange,
   Star,
   Zap,
@@ -15,7 +15,8 @@ import {
   ArrowLeft,
   CheckCircle,
   AlertTriangle,
-  Info
+  Info,
+  ShoppingCart
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -697,6 +698,38 @@ const AdvertisementPlanPopup = ({
                   );
                 })}
               </div>
+
+              {/* Purchase HSC Now Button - Show only when HSC balance is insufficient */}
+              {currentStep === 2 && (() => {
+                const hscMethod = paymentMethods.find(method => method.id === 'hsc');
+                return hscMethod && hscMethod.balance < hscMethod.requiredAmount;
+              })() && (
+                <div className="mt-4 sm:mt-6 p-3 sm:p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div className="flex items-start space-x-2 sm:space-x-3">
+                      <Info className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
+                      <div className="text-center sm:text-left">
+                        <h4 className="text-sm sm:text-base font-semibold text-yellow-800 dark:text-yellow-200 mb-1">
+                          Insufficient HSC Balance
+                        </h4>
+                        <p className="text-xs sm:text-sm text-yellow-700 dark:text-yellow-300">
+                          Purchase HSC tokens to complete your advertisement payment.
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => {
+                        onClose();
+                        navigate('/hsc-treasure');
+                      }}
+                      className="flex items-center justify-center space-x-2 px-4 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white rounded-lg font-semibold text-sm transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 whitespace-nowrap"
+                    >
+                      <ShoppingCart className="w-4 h-4" />
+                      <span>Purchase HSC Now</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
