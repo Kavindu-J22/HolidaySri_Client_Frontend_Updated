@@ -34,8 +34,8 @@ const EditTourGuiderProfile = () => {
   });
 
   const [images, setImages] = useState({
-    avatar: { url: '', file: null, publicId: '' },
-    certificate: { url: '', file: null, publicId: '' }
+    avatar: { url: '', publicId: '', uploading: false },
+    certificate: { url: '', publicId: '', name: '', uploading: false }
   });
 
   // Fetch provinces
@@ -82,8 +82,13 @@ const EditTourGuiderProfile = () => {
           });
 
           setImages({
-            avatar: { url: data.avatar?.url || '', publicId: data.avatar?.publicId || '' },
-            certificate: { url: data.certificate?.url || '', publicId: data.certificate?.publicId || '' }
+            avatar: { url: data.avatar?.url || '', publicId: data.avatar?.publicId || '', uploading: false },
+            certificate: {
+              url: data.certificate?.url || '',
+              publicId: data.certificate?.publicId || '',
+              name: data.certificate?.name || '',
+              uploading: false
+            }
           });
         }
       } catch (err) {
@@ -106,32 +111,115 @@ const EditTourGuiderProfile = () => {
     }));
   };
 
-  const handleImageUpload = async (e, imageType) => {
+  // Upload to Cloudinary
+  const uploadToCloudinary = async (file, resourceType = 'image') => {
+    const formDataUpload = new FormData();
+    formDataUpload.append('file', file);
+    formDataUpload.append('upload_preset', 'ml_default');
+    formDataUpload.append('cloud_name', 'daa9e83as');
+
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/daa9e83as/${resourceType}/upload`,
+        {
+          method: 'POST',
+          body: formDataUpload
+        }
+      );
+
+      const data = await response.json();
+      if (data.secure_url) {
+        return {
+          url: data.secure_url,
+          publicId: data.public_id
+        };
+      }
+      throw new Error('Upload failed');
+    } catch (error) {
+      console.error('Cloudinary upload error:', error);
+      throw error;
+    }
+  };
+
+  // Handle avatar upload
+  const handleAvatarUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    if (!file.type.startsWith('image/')) {
+      setError('Avatar must be an image file');
+      return;
+    }
+
+    setImages(prev => ({
+      ...prev,
+      avatar: { ...prev.avatar, uploading: true }
+    }));
+
     try {
-      const formDataUpload = new FormData();
-      formDataUpload.append('file', file);
-      formDataUpload.append('upload_preset', 'holidaysri_tour_guider');
-      formDataUpload.append('folder', 'tour_guiders');
-
-      const response = await axios.post(
-        'https://api.cloudinary.com/v1_1/dkqvqvvvv/auto/upload',
-        formDataUpload
-      );
-
+      const result = await uploadToCloudinary(file, 'image');
       setImages(prev => ({
         ...prev,
-        [imageType]: {
-          url: response.data.secure_url,
-          publicId: response.data.public_id,
-          file: file
+        avatar: {
+          url: result.url,
+          publicId: result.publicId,
+          uploading: false
         }
       }));
-    } catch (err) {
-      setError(`Failed to upload ${imageType}`);
+      setError('');
+    } catch (error) {
+      setError('Failed to upload avatar image');
+      setImages(prev => ({
+        ...prev,
+        avatar: { ...prev.avatar, uploading: false }
+      }));
     }
+  };
+
+  // Handle certificate upload
+  const handleCertificateUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf') {
+      setError('Certificate must be a PDF file');
+      return;
+    }
+
+    setImages(prev => ({
+      ...prev,
+      certificate: { ...prev.certificate, uploading: true }
+    }));
+
+    try {
+      const result = await uploadToCloudinary(file, 'raw');
+      setImages(prev => ({
+        ...prev,
+        certificate: {
+          url: result.url,
+          publicId: result.publicId,
+          name: file.name,
+          uploading: false
+        }
+      }));
+      setError('');
+    } catch (error) {
+      setError('Failed to upload certificate');
+      setImages(prev => ({
+        ...prev,
+        certificate: { ...prev.certificate, uploading: false }
+      }));
+    }
+  };
+
+  // Handle facilities checkbox
+  const handleFacilityChange = (facility) => {
+    setFormData(prev => ({
+      ...prev,
+      facilitiesProvided: prev.facilitiesProvided.includes(facility)
+        ? prev.facilitiesProvided.filter(f => f !== facility)
+        : [...prev.facilitiesProvided, facility]
+    }));
   };
 
   const validateForm = () => {
@@ -152,6 +240,16 @@ const EditTourGuiderProfile = () => {
     return null;
   };
 
+  const facilities = [
+    'Transportation',
+    'Meals',
+    'Accommodation',
+    'Equipment',
+    'Insurance',
+    'Photography',
+    'Interpretation Services'
+  ];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -168,7 +266,11 @@ const EditTourGuiderProfile = () => {
       const updateData = {
         ...formData,
         avatar: { url: images.avatar.url, publicId: images.avatar.publicId },
-        certificate: { url: images.certificate.url, publicId: images.certificate.publicId }
+        certificate: {
+          url: images.certificate.url,
+          publicId: images.certificate.publicId,
+          name: images.certificate.name || 'certificate.pdf'
+        }
       };
 
       const response = await axios.put(
@@ -312,38 +414,133 @@ const EditTourGuiderProfile = () => {
             </div>
           </div>
 
-          {/* Description */}
+          {/* Professional Information */}
           <div>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Professional Information</h2>
-            <textarea
-              name="description"
-              placeholder="Tell us about your tour guiding experience and services..."
-              value={formData.description}
-              onChange={handleInputChange}
-              rows="5"
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-            />
+            <div className="space-y-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Description *
+                </label>
+                <textarea
+                  name="description"
+                  placeholder="Tell us about your tour guiding experience and services..."
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  rows="5"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+                  Facilities Provided
+                </label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {facilities.map(facility => (
+                    <label key={facility} className="flex items-center space-x-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={formData.facilitiesProvided.includes(facility)}
+                        onChange={() => handleFacilityChange(facility)}
+                        className="w-4 h-4 text-blue-600 rounded"
+                      />
+                      <span className="text-gray-700 dark:text-gray-300">{facility}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Availability */}
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Availability</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="flex items-center space-x-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    name="isAvailable"
+                    checked={formData.isAvailable}
+                    onChange={handleInputChange}
+                    className="w-4 h-4 text-blue-600 rounded"
+                  />
+                  <span className="text-gray-700 dark:text-gray-300">Currently Available</span>
+                </label>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Available From *
+                </label>
+                <input
+                  type="date"
+                  name="availableFrom"
+                  value={formData.availableFrom}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Social Media & Website */}
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Social Media & Website (Optional)</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Facebook Profile
+                </label>
+                <input
+                  type="url"
+                  name="facebook"
+                  value={formData.facebook}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  placeholder="https://facebook.com/yourprofile"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Website
+                </label>
+                <input
+                  type="url"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  placeholder="https://yourwebsite.com"
+                />
+              </div>
+            </div>
           </div>
 
           {/* Media Upload */}
           <div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Media</h2>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Profile Images</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Avatar */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Avatar Image
+                  Avatar Image *
                 </label>
                 {images.avatar.url && (
                   <img src={images.avatar.url} alt="Avatar" className="w-full h-40 object-cover rounded-lg mb-2" />
                 )}
                 <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
                   <Upload className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Upload Avatar</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                    {images.avatar.uploading ? 'Uploading...' : 'Upload Avatar (JPG, PNG)'}
+                  </span>
                   <input
                     type="file"
-                    accept="image/*"
-                    onChange={(e) => handleImageUpload(e, 'avatar')}
+                    accept="image/jpeg,image/png,image/jpg"
+                    onChange={handleAvatarUpload}
+                    disabled={images.avatar.uploading}
                     className="hidden"
                   />
                 </label>
@@ -352,20 +549,30 @@ const EditTourGuiderProfile = () => {
               {/* Certificate */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Certificate (PDF)
+                  Certificate (PDF) *
                 </label>
                 {images.certificate.url && (
-                  <div className="mb-2 p-2 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm text-gray-600 dark:text-gray-400">
-                    Certificate uploaded
+                  <div className="mb-2 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                    <p className="text-sm text-green-700 dark:text-green-300 font-medium">
+                      ✓ Certificate uploaded
+                    </p>
+                    {images.certificate.name && (
+                      <p className="text-xs text-green-600 dark:text-green-400 mt-1">
+                        {images.certificate.name}
+                      </p>
+                    )}
                   </div>
                 )}
                 <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
                   <Upload className="w-5 h-5 mr-2 text-gray-600 dark:text-gray-400" />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Upload Certificate</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                    {images.certificate.uploading ? 'Uploading...' : 'Upload Certificate (PDF)'}
+                  </span>
                   <input
                     type="file"
-                    accept=".pdf"
-                    onChange={(e) => handleImageUpload(e, 'certificate')}
+                    accept="application/pdf,.pdf"
+                    onChange={handleCertificateUpload}
+                    disabled={images.certificate.uploading}
                     className="hidden"
                   />
                 </label>
