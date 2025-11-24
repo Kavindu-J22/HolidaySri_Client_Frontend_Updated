@@ -291,31 +291,31 @@ const CustomizeTourPackageForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8 px-3 sm:px-4 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            <Package className="w-12 h-12 text-orange-600 dark:text-orange-400" />
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="flex items-center justify-center mb-3 sm:mb-4">
+            <Package className="w-10 h-10 sm:w-12 sm:h-12 text-orange-600 dark:text-orange-400" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2 px-2">
             CUSTOMIZE YOUR SRI LANKAN ADVENTURE
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 px-2">
             Tell us your preferences and we'll create the perfect tour package for you
           </p>
-          
+
           {/* HSC Balance & Charge Info */}
-          <div className="mt-4 flex items-center justify-center gap-6">
+          <div className="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 px-2">
             <div className="flex items-center gap-2">
-              <DollarSign className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+              <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400" />
+              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 Your Balance: <span className="font-semibold text-blue-600 dark:text-blue-400">{userBalance} HSC</span>
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <Package className="w-5 h-5 text-orange-600 dark:text-orange-400" />
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+              <Package className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600 dark:text-orange-400" />
+              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                 Request Charge: <span className="font-semibold text-orange-600 dark:text-orange-400">{hscCharge} HSC</span>
               </span>
             </div>
@@ -323,11 +323,11 @@ const CustomizeTourPackageForm = () => {
         </div>
 
         {/* Tabs */}
-        <div className="bg-white dark:bg-gray-800 rounded-t-lg border-b border-gray-200 dark:border-gray-700">
-          <nav className="flex">
+        <div className="bg-white dark:bg-gray-800 rounded-t-lg border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
+          <nav className="flex min-w-full">
             <button
               onClick={() => setActiveTab('submit')}
-              className={`flex-1 py-4 px-6 text-center font-medium transition-colors ${
+              className={`flex-1 py-3 sm:py-4 px-3 sm:px-6 text-center font-medium text-xs sm:text-sm transition-colors whitespace-nowrap ${
                 activeTab === 'submit'
                   ? 'text-orange-600 dark:text-orange-400 border-b-2 border-orange-600 dark:border-orange-400'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
@@ -337,7 +337,7 @@ const CustomizeTourPackageForm = () => {
             </button>
             <button
               onClick={() => setActiveTab('my-requests')}
-              className={`flex-1 py-4 px-6 text-center font-medium transition-colors ${
+              className={`flex-1 py-3 sm:py-4 px-3 sm:px-6 text-center font-medium text-xs sm:text-sm transition-colors whitespace-nowrap ${
                 activeTab === 'my-requests'
                   ? 'text-orange-600 dark:text-orange-400 border-b-2 border-orange-600 dark:border-orange-400'
                   : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
@@ -348,7 +348,7 @@ const CustomizeTourPackageForm = () => {
             {isPartner && (
               <button
                 onClick={() => setActiveTab('partner-requests')}
-                className={`flex-1 py-4 px-6 text-center font-medium transition-colors relative ${
+                className={`flex-1 py-3 sm:py-4 px-3 sm:px-6 text-center font-medium text-xs sm:text-sm transition-colors relative whitespace-nowrap ${
                   activeTab === 'partner-requests'
                     ? 'text-orange-600 dark:text-orange-400 border-b-2 border-orange-600 dark:border-orange-400'
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
@@ -356,7 +356,7 @@ const CustomizeTourPackageForm = () => {
               >
                 Partner Requests
                 {partnerRequestsCount > 0 && (
-                  <span className="absolute top-2 right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  <span className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
                     {partnerRequestsCount}
                   </span>
                 )}
@@ -366,18 +366,18 @@ const CustomizeTourPackageForm = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-white dark:bg-gray-800 rounded-b-lg shadow-lg p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-b-lg shadow-lg p-4 sm:p-6">
           {activeTab === 'submit' ? (
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
               {/* Personal Information */}
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                  <Users className="w-5 h-5 mr-2 text-orange-600" />
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                  <Users className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-600" />
                   Personal Information
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Full Name *
                     </label>
                     <input
@@ -385,13 +385,13 @@ const CustomizeTourPackageForm = () => {
                       name="fullName"
                       value={formData.fullName}
                       onChange={handleInputChange}
-                      className={`input-field ${errors.fullName ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base ${errors.fullName ? 'border-red-500' : ''}`}
                       placeholder="Enter your full name"
                     />
-                    {errors.fullName && <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>}
+                    {errors.fullName && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.fullName}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Email *
                     </label>
                     <input
@@ -399,13 +399,13 @@ const CustomizeTourPackageForm = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className={`input-field ${errors.email ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base ${errors.email ? 'border-red-500' : ''}`}
                       placeholder="your.email@example.com"
                     />
-                    {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                    {errors.email && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.email}</p>}
                   </div>
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Contact Number *
                     </label>
                     <input
@@ -413,23 +413,23 @@ const CustomizeTourPackageForm = () => {
                       name="contactNumber"
                       value={formData.contactNumber}
                       onChange={handleInputChange}
-                      className={`input-field ${errors.contactNumber ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base ${errors.contactNumber ? 'border-red-500' : ''}`}
                       placeholder="Enter any type of contact number"
                     />
-                    {errors.contactNumber && <p className="text-red-500 text-sm mt-1">{errors.contactNumber}</p>}
+                    {errors.contactNumber && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.contactNumber}</p>}
                   </div>
                 </div>
               </div>
 
               {/* Travel Details */}
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                  <Calendar className="w-5 h-5 mr-2 text-orange-600" />
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                  <Calendar className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-600" />
                   Travel Details
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Start Date *
                     </label>
                     <input
@@ -437,12 +437,12 @@ const CustomizeTourPackageForm = () => {
                       name="startDate"
                       value={formData.startDate}
                       onChange={handleInputChange}
-                      className={`input-field ${errors.startDate ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base ${errors.startDate ? 'border-red-500' : ''}`}
                     />
-                    {errors.startDate && <p className="text-red-500 text-sm mt-1">{errors.startDate}</p>}
+                    {errors.startDate && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.startDate}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Number of Travelers *
                     </label>
                     <input
@@ -451,12 +451,12 @@ const CustomizeTourPackageForm = () => {
                       value={formData.numberOfTravelers}
                       onChange={handleInputChange}
                       min="1"
-                      className={`input-field ${errors.numberOfTravelers ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base ${errors.numberOfTravelers ? 'border-red-500' : ''}`}
                     />
-                    {errors.numberOfTravelers && <p className="text-red-500 text-sm mt-1">{errors.numberOfTravelers}</p>}
+                    {errors.numberOfTravelers && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.numberOfTravelers}</p>}
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <div className="sm:col-span-2 md:col-span-1">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Duration (Days) *
                     </label>
                     <input
@@ -465,20 +465,20 @@ const CustomizeTourPackageForm = () => {
                       value={formData.duration}
                       onChange={handleInputChange}
                       min="1"
-                      className={`input-field ${errors.duration ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base ${errors.duration ? 'border-red-500' : ''}`}
                     />
-                    {errors.duration && <p className="text-red-500 text-sm mt-1">{errors.duration}</p>}
+                    {errors.duration && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.duration}</p>}
                   </div>
                 </div>
               </div>
 
               {/* Accommodation */}
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                  <Home className="w-5 h-5 mr-2 text-orange-600" />
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                  <Home className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-600" />
                   Accommodation Preference
                 </h2>
-                <div className="space-y-3">
+                <div className="space-y-2.5 sm:space-y-3">
                   {['budget', 'comfort', 'luxury', 'villas-boutique', 'other'].map((option) => (
                     <label key={option} className="flex items-center cursor-pointer">
                       <input
@@ -489,7 +489,7 @@ const CustomizeTourPackageForm = () => {
                         onChange={handleInputChange}
                         className="w-4 h-4 text-orange-600 focus:ring-orange-500"
                       />
-                      <span className="ml-3 text-gray-700 dark:text-gray-300 capitalize">
+                      <span className="ml-3 text-sm sm:text-base text-gray-700 dark:text-gray-300 capitalize">
                         {option.replace('-', ' & ')}
                       </span>
                     </label>
@@ -500,30 +500,30 @@ const CustomizeTourPackageForm = () => {
                       name="accommodationOther"
                       value={formData.accommodationOther}
                       onChange={handleInputChange}
-                      className={`input-field ml-7 ${errors.accommodationOther ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base ml-7 ${errors.accommodationOther ? 'border-red-500' : ''}`}
                       placeholder="Please specify accommodation type"
                     />
                   )}
-                  {errors.accommodationOther && <p className="text-red-500 text-sm mt-1 ml-7">{errors.accommodationOther}</p>}
+                  {errors.accommodationOther && <p className="text-red-500 text-xs sm:text-sm mt-1 ml-7">{errors.accommodationOther}</p>}
                 </div>
               </div>
 
               {/* Activities & Interests */}
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                  <Activity className="w-5 h-5 mr-2 text-orange-600" />
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                  <Activity className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-600" />
                   Activities & Interests
                 </h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3">
                   {activityOptions.map((activity) => (
                     <label key={activity} className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
                         checked={formData.activities.includes(activity)}
                         onChange={() => handleActivityToggle(activity)}
-                        className="w-4 h-4 text-orange-600 focus:ring-orange-500 rounded"
+                        className="w-4 h-4 text-orange-600 focus:ring-orange-500 rounded flex-shrink-0"
                       />
-                      <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                      <span className="ml-2 text-xs sm:text-sm text-gray-700 dark:text-gray-300">
                         {activity}
                       </span>
                     </label>
@@ -533,8 +533,8 @@ const CustomizeTourPackageForm = () => {
 
               {/* Special Requests */}
               <div>
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                  <MessageSquare className="w-5 h-5 mr-2 text-orange-600" />
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                  <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-600" />
                   Special Requests / Description
                 </h2>
                 <textarea
@@ -542,47 +542,47 @@ const CustomizeTourPackageForm = () => {
                   value={formData.specialRequests}
                   onChange={handleInputChange}
                   rows="4"
-                  className="input-field"
+                  className="input-field text-sm sm:text-base"
                   placeholder="Tell us about any special requirements, dietary restrictions, accessibility needs, or specific places you'd like to visit..."
                 />
               </div>
 
               {/* Submit Button */}
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <button
                   type="button"
                   onClick={() => navigate(-1)}
-                  className="flex-1 px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  className="w-full sm:flex-1 px-4 sm:px-6 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-sm sm:text-base text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading || userBalance < hscCharge}
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-orange-600 to-orange-700 text-white rounded-lg hover:from-orange-700 hover:to-orange-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                  className="w-full sm:flex-1 px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-orange-600 to-orange-700 text-white text-sm sm:text-base rounded-lg hover:from-orange-700 hover:to-orange-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
                 >
                   {loading ? 'Submitting...' : `Submit Request (${hscCharge} HSC)`}
                 </button>
               </div>
 
               {userBalance < hscCharge && (
-                <p className="text-red-500 text-center text-sm">
+                <p className="text-red-500 text-center text-xs sm:text-sm">
                   Insufficient HSC balance. Please purchase more HSC to submit your request.
                 </p>
               )}
             </form>
           ) : activeTab === 'my-requests' ? (
             // My Requests Tab
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {/* Filter */}
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
                   My Requests
                 </h2>
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="input-field w-auto"
+                  className="input-field text-sm sm:text-base w-full sm:w-auto"
                 >
                   <option value="all">All Status</option>
                   <option value="pending">Pending</option>
@@ -605,66 +605,66 @@ const CustomizeTourPackageForm = () => {
                   <p className="text-gray-500 dark:text-gray-400">No requests found</p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {myRequests.map((request) => {
                     const statusInfo = getStatusBadge(request.status);
                     const StatusIcon = statusInfo.icon;
-                    
+
                     return (
-                      <div key={request._id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 hover:shadow-md transition-shadow">
-                        <div className="flex justify-between items-start mb-4">
-                          <div>
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      <div key={request._id} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 sm:p-6 hover:shadow-md transition-shadow">
+                        <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-0 mb-3 sm:mb-4">
+                          <div className="flex-1">
+                            <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
                               {request.numberOfTravelers} Traveler{request.numberOfTravelers > 1 ? 's' : ''} • {request.duration} Day{request.duration > 1 ? 's' : ''}
                             </h3>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">
+                            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
                               Starting: {new Date(request.startDate).toLocaleDateString()}
                             </p>
                           </div>
-                          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium ${statusInfo.bg} ${statusInfo.text}`}>
-                            <StatusIcon className="w-4 h-4" />
+                          <span className={`inline-flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${statusInfo.bg} ${statusInfo.text} whitespace-nowrap`}>
+                            <StatusIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                             {request.status.replace('-', ' ').toUpperCase()}
                           </span>
                         </div>
-                        
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-3 sm:mb-4">
                           <div>
                             <p className="text-xs text-gray-500 dark:text-gray-400">Accommodation</p>
-                            <p className="text-sm font-medium text-gray-900 dark:text-white capitalize">
+                            <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white capitalize break-words">
                               {request.accommodation === 'other' ? request.accommodationOther : request.accommodation.replace('-', ' ')}
                             </p>
                           </div>
                           <div>
                             <p className="text-xs text-gray-500 dark:text-gray-400">HSC Charge</p>
-                            <p className="text-sm font-medium text-orange-600 dark:text-orange-400">
+                            <p className="text-xs sm:text-sm font-medium text-orange-600 dark:text-orange-400">
                               {request.hscCharge} HSC
                             </p>
                           </div>
                           <div>
                             <p className="text-xs text-gray-500 dark:text-gray-400">Submitted</p>
-                            <p className="text-sm font-medium text-gray-900 dark:text-white">
+                            <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">
                               {new Date(request.createdAt).toLocaleDateString()}
                             </p>
                           </div>
                           <div>
                             <p className="text-xs text-gray-500 dark:text-gray-400">Activities</p>
-                            <p className="text-sm font-medium text-gray-900 dark:text-white">
+                            <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">
                               {request.activities?.length || 0} selected
                             </p>
                           </div>
                         </div>
 
                         {request.specialRequests && (
-                          <div className="bg-gray-50 dark:bg-gray-900 rounded p-3 mb-3">
+                          <div className="bg-gray-50 dark:bg-gray-900 rounded p-2.5 sm:p-3 mb-2.5 sm:mb-3">
                             <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Special Requests</p>
-                            <p className="text-sm text-gray-700 dark:text-gray-300">{request.specialRequests}</p>
+                            <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 break-words">{request.specialRequests}</p>
                           </div>
                         )}
 
                         {request.adminNote && (
-                          <div className="bg-blue-50 dark:bg-blue-900/20 rounded p-3">
+                          <div className="bg-blue-50 dark:bg-blue-900/20 rounded p-2.5 sm:p-3">
                             <p className="text-xs text-blue-600 dark:text-blue-400 mb-1">Admin Note</p>
-                            <p className="text-sm text-gray-700 dark:text-gray-300">{request.adminNote}</p>
+                            <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 break-words">{request.adminNote}</p>
                           </div>
                         )}
                       </div>
@@ -675,14 +675,14 @@ const CustomizeTourPackageForm = () => {
             </div>
           ) : (
             // Partner Requests Tab
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {/* Header with Count */}
               <div className="flex justify-between items-center">
                 <div>
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
                     Partner Requests
                   </h2>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {partnerRequestsCount} request{partnerRequestsCount !== 1 ? 's' : ''} available for partners
                   </p>
                 </div>
@@ -699,7 +699,7 @@ const CustomizeTourPackageForm = () => {
                   <p className="text-gray-500 dark:text-gray-400">No partner requests available at the moment</p>
                 </div>
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   {partnerRequests.map((request) => {
                     const isExpanded = expandedRequest === request._id;
 
@@ -707,45 +707,45 @@ const CustomizeTourPackageForm = () => {
                       <div key={request._id} className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
                         {/* Request Header */}
                         <div
-                          className="p-6 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                          className="p-4 sm:p-6 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
                           onClick={() => setExpandedRequest(isExpanded ? null : request._id)}
                         >
-                          <div className="flex justify-between items-start mb-4">
-                            <div>
-                              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                          <div className="flex flex-col sm:flex-row justify-between items-start gap-3 sm:gap-0 mb-3 sm:mb-4">
+                            <div className="flex-1">
+                              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
                                 {request.numberOfTravelers} Traveler{request.numberOfTravelers > 1 ? 's' : ''} • {request.duration} Day{request.duration > 1 ? 's' : ''}
                               </h3>
-                              <p className="text-sm text-gray-600 dark:text-gray-400">
+                              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
                                 Starting: {new Date(request.startDate).toLocaleDateString()}
                               </p>
                             </div>
-                            <button className="text-orange-600 dark:text-orange-400 text-sm font-medium">
+                            <button className="text-orange-600 dark:text-orange-400 text-xs sm:text-sm font-medium whitespace-nowrap">
                               {isExpanded ? 'Collapse' : 'Expand'} Details
                             </button>
                           </div>
 
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                             <div>
                               <p className="text-xs text-gray-500 dark:text-gray-400">Accommodation</p>
-                              <p className="text-sm font-medium text-gray-900 dark:text-white capitalize">
+                              <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white capitalize break-words">
                                 {request.accommodation === 'other' ? request.accommodationOther : request.accommodation.replace('-', ' ')}
                               </p>
                             </div>
                             <div>
                               <p className="text-xs text-gray-500 dark:text-gray-400">HSC Charge</p>
-                              <p className="text-sm font-medium text-orange-600 dark:text-orange-400">
+                              <p className="text-xs sm:text-sm font-medium text-orange-600 dark:text-orange-400">
                                 {request.hscCharge} HSC
                               </p>
                             </div>
                             <div>
                               <p className="text-xs text-gray-500 dark:text-gray-400">Submitted</p>
-                              <p className="text-sm font-medium text-gray-900 dark:text-white">
+                              <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">
                                 {new Date(request.createdAt).toLocaleDateString()}
                               </p>
                             </div>
                             <div>
                               <p className="text-xs text-gray-500 dark:text-gray-400">Activities</p>
-                              <p className="text-sm font-medium text-gray-900 dark:text-white">
+                              <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">
                                 {request.activities?.length || 0} selected
                               </p>
                             </div>
@@ -754,25 +754,25 @@ const CustomizeTourPackageForm = () => {
 
                         {/* Expanded Details */}
                         {isExpanded && (
-                          <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-6 space-y-4">
+                          <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 space-y-3 sm:space-y-4">
                             {/* Customer Information */}
                             <div>
-                              <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                                <Users className="w-5 h-5 text-orange-600" />
+                              <h4 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3 flex items-center gap-2">
+                                <Users className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
                                 Customer Information
                               </h4>
-                              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 bg-white dark:bg-gray-800 rounded-lg p-4">
+                              <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-3 bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4">
                                 <div>
                                   <p className="text-xs text-gray-500 dark:text-gray-400">Full Name</p>
-                                  <p className="text-sm font-medium text-gray-900 dark:text-white">{request.fullName}</p>
+                                  <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white break-words">{request.fullName}</p>
                                 </div>
                                 <div>
                                   <p className="text-xs text-gray-500 dark:text-gray-400">Email</p>
-                                  <p className="text-sm font-medium text-gray-900 dark:text-white">{request.email}</p>
+                                  <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white break-all">{request.email}</p>
                                 </div>
                                 <div>
                                   <p className="text-xs text-gray-500 dark:text-gray-400">Contact Number</p>
-                                  <p className="text-sm font-medium text-gray-900 dark:text-white">{request.contactNumber}</p>
+                                  <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white break-words">{request.contactNumber}</p>
                                 </div>
                               </div>
                             </div>
@@ -780,13 +780,13 @@ const CustomizeTourPackageForm = () => {
                             {/* Activities */}
                             {request.activities && request.activities.length > 0 && (
                               <div>
-                                <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                                  <Activity className="w-5 h-5 text-orange-600" />
+                                <h4 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3 flex items-center gap-2">
+                                  <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
                                   Activities & Interests
                                 </h4>
-                                <div className="flex flex-wrap gap-2">
+                                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                                   {request.activities.map((activity, index) => (
-                                    <span key={index} className="px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400 rounded-full text-sm">
+                                    <span key={index} className="px-2 sm:px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-400 rounded-full text-xs sm:text-sm">
                                       {activity}
                                     </span>
                                   ))}
@@ -797,12 +797,12 @@ const CustomizeTourPackageForm = () => {
                             {/* Special Requests */}
                             {request.specialRequests && (
                               <div>
-                                <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                                  <MessageSquare className="w-5 h-5 text-orange-600" />
+                                <h4 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3 flex items-center gap-2">
+                                  <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-orange-600" />
                                   Special Requests
                                 </h4>
-                                <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
-                                  <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{request.specialRequests}</p>
+                                <div className="bg-white dark:bg-gray-800 rounded-lg p-3 sm:p-4">
+                                  <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words">{request.specialRequests}</p>
                                 </div>
                               </div>
                             )}
@@ -810,27 +810,27 @@ const CustomizeTourPackageForm = () => {
                             {/* Admin Note */}
                             {request.adminNote && (
                               <div>
-                                <h4 className="font-semibold text-blue-900 dark:text-blue-400 mb-3 flex items-center gap-2">
-                                  <MessageSquare className="w-5 h-5" />
+                                <h4 className="text-sm sm:text-base font-semibold text-blue-900 dark:text-blue-400 mb-2 sm:mb-3 flex items-center gap-2">
+                                  <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5" />
                                   Admin Note
                                 </h4>
-                                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-                                  <p className="text-sm text-blue-900 dark:text-blue-300 whitespace-pre-wrap">{request.adminNote}</p>
+                                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 sm:p-4">
+                                  <p className="text-xs sm:text-sm text-blue-900 dark:text-blue-300 whitespace-pre-wrap break-words">{request.adminNote}</p>
                                 </div>
                               </div>
                             )}
 
                             {/* Approve Button */}
-                            <div className="pt-4">
+                            <div className="pt-3 sm:pt-4">
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   handleApproveRequest(request._id);
                                 }}
                                 disabled={loading}
-                                className="w-full px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
+                                className="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-green-600 to-green-700 text-white text-sm sm:text-base rounded-lg hover:from-green-700 hover:to-green-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
                               >
-                                <CheckCircle className="w-5 h-5" />
+                                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                                 {loading ? 'Processing...' : 'Approve Request & Share Contact'}
                               </button>
                               <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-2">
