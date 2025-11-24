@@ -68,6 +68,40 @@ const RentLandCampingParkingDetail = () => {
     }
   };
 
+  // Handle share
+  const handleShare = async () => {
+    const shareUrl = window.location.href;
+    const shareText = `Check out ${listing?.title} on HolidaySri!`;
+
+    // Check if Web Share API is supported
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: listing?.title,
+          text: shareText,
+          url: shareUrl,
+        });
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          // Fallback to clipboard
+          copyToClipboard(shareUrl);
+        }
+      }
+    } else {
+      // Fallback to clipboard
+      copyToClipboard(shareUrl);
+    }
+  };
+
+  // Copy to clipboard helper
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Link copied to clipboard!');
+    }).catch(err => {
+      console.error('Failed to copy:', err);
+    });
+  };
+
   // Handle review submission
   const handleSubmitReview = async (e) => {
     e.preventDefault();
@@ -143,22 +177,22 @@ const RentLandCampingParkingDetail = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8 px-3 sm:px-4">
       <div className="max-w-6xl mx-auto">
         {/* Back Button */}
         <button
           onClick={() => navigate(-1)}
-          className="mb-6 flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition"
+          className="mb-4 sm:mb-6 flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition text-sm sm:text-base"
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
           Back
         </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Image Gallery */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden mb-4 sm:mb-6">
               <div className="relative bg-gray-900 aspect-video flex items-center justify-center">
                 {listing.images && listing.images.length > 0 ? (
                   <>
@@ -171,35 +205,35 @@ const RentLandCampingParkingDetail = () => {
                       <>
                         <button
                           onClick={prevImage}
-                          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition"
+                          className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1.5 sm:p-2 rounded-full transition"
                         >
-                          <ChevronLeft className="w-6 h-6" />
+                          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
                         </button>
                         <button
                           onClick={nextImage}
-                          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition"
+                          className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1.5 sm:p-2 rounded-full transition"
                         >
-                          <ChevronRight className="w-6 h-6" />
+                          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
                         </button>
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
+                        <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                           {currentImageIndex + 1} / {listing.images.length}
                         </div>
                       </>
                     )}
                   </>
                 ) : (
-                  <div className="text-gray-400">No images available</div>
+                  <div className="text-gray-400 text-sm sm:text-base">No images available</div>
                 )}
               </div>
 
               {/* Thumbnail Gallery */}
               {listing.images && listing.images.length > 1 && (
-                <div className="flex gap-2 p-4 overflow-x-auto">
+                <div className="flex gap-2 p-3 sm:p-4 overflow-x-auto">
                   {listing.images.map((image, index) => (
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition ${
+                      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition ${
                         index === currentImageIndex
                           ? 'border-blue-600'
                           : 'border-gray-300 dark:border-gray-600'
@@ -217,36 +251,40 @@ const RentLandCampingParkingDetail = () => {
             </div>
 
             {/* Title and Basic Info */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+              <div className="flex items-start justify-between gap-3 mb-4">
+                <div className="flex-1 min-w-0">
+                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">
                     {listing.title}
                   </h1>
-                  <div className="flex items-center gap-4 text-gray-600 dark:text-gray-400">
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-5 h-5" />
-                      <span>{listing.location.city}, {listing.location.province}</span>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-gray-600 dark:text-gray-400 text-sm sm:text-base">
+                    <div className="flex items-center gap-1.5">
+                      <MapPin className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+                      <span className="truncate">{listing.location.city}, {listing.location.province}</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Eye className="w-5 h-5" />
+                    <div className="flex items-center gap-1.5">
+                      <Eye className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                       <span>{listing.viewCount || 0} views</span>
                     </div>
                   </div>
                 </div>
-                <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition">
-                  <Share2 className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+                <button
+                  onClick={handleShare}
+                  className="flex-shrink-0 p-2 sm:p-2.5 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition"
+                  title="Share this listing"
+                >
+                  <Share2 className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-400" />
                 </button>
               </div>
 
               {/* Rating */}
-              <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-2">
                   <div className="flex gap-1">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-5 h-5 ${
+                        className={`w-4 h-4 sm:w-5 sm:h-5 ${
                           i < Math.round(listing.averageRating || 0)
                             ? 'fill-yellow-400 text-yellow-400'
                             : 'text-gray-300 dark:text-gray-600'
@@ -254,31 +292,31 @@ const RentLandCampingParkingDetail = () => {
                       />
                     ))}
                   </div>
-                  <span className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <span className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
                     {listing.averageRating || 'No'} ({listing.totalReviews || 0} reviews)
                   </span>
                 </div>
               </div>
 
               {/* Description */}
-              <div className="mb-6">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+              <div className="mb-4 sm:mb-6">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">
                   About this place
                 </h2>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
                   {listing.description}
                 </p>
               </div>
 
               {/* Category and Details */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Category</p>
-                  <p className="font-semibold text-gray-900 dark:text-white">{listing.category}</p>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Category</p>
+                  <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">{listing.category}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Status</p>
-                  <p className="font-semibold text-green-600 dark:text-green-400">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Status</p>
+                  <p className="text-sm sm:text-base font-semibold text-green-600 dark:text-green-400">
                     {listing.available ? 'Available' : 'Not Available'}
                   </p>
                 </div>
@@ -286,19 +324,19 @@ const RentLandCampingParkingDetail = () => {
 
               {/* Amenities */}
               {(listing.nearby?.length > 0 || listing.activities?.length > 0 || listing.includes?.length > 0) && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+                <div className="mb-4 sm:mb-6">
+                  <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
                     Amenities & Features
                   </h3>
-                  <div className="space-y-4">
+                  <div className="space-y-3 sm:space-y-4">
                     {listing.nearby?.length > 0 && (
                       <div>
-                        <p className="font-semibold text-gray-900 dark:text-white mb-2">Nearby Attractions</p>
-                        <div className="flex flex-wrap gap-2">
+                        <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2">Nearby Attractions</p>
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
                           {listing.nearby.map((item, index) => (
                             <span
                               key={index}
-                              className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-3 py-1 rounded-full text-sm"
+                              className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm"
                             >
                               {item}
                             </span>
@@ -308,12 +346,12 @@ const RentLandCampingParkingDetail = () => {
                     )}
                     {listing.activities?.length > 0 && (
                       <div>
-                        <p className="font-semibold text-gray-900 dark:text-white mb-2">Activities</p>
-                        <div className="flex flex-wrap gap-2">
+                        <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2">Activities</p>
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
                           {listing.activities.map((item, index) => (
                             <span
                               key={index}
-                              className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-3 py-1 rounded-full text-sm"
+                              className="bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm"
                             >
                               {item}
                             </span>
@@ -323,12 +361,12 @@ const RentLandCampingParkingDetail = () => {
                     )}
                     {listing.includes?.length > 0 && (
                       <div>
-                        <p className="font-semibold text-gray-900 dark:text-white mb-2">What's Included</p>
-                        <div className="flex flex-wrap gap-2">
+                        <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2">What's Included</p>
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
                           {listing.includes.map((item, index) => (
                             <span
                               key={index}
-                              className="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 px-3 py-1 rounded-full text-sm"
+                              className="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm"
                             >
                               {item}
                             </span>
@@ -341,11 +379,11 @@ const RentLandCampingParkingDetail = () => {
               )}
 
               {/* Availability */}
-              <div className="mb-6">
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+              <div className="mb-4 sm:mb-6">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
                   Availability
                 </h3>
-                <div className="space-y-2 text-gray-700 dark:text-gray-300">
+                <div className="space-y-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <p>
                     <span className="font-semibold">Weekdays:</span>{' '}
                     {listing.availability?.weekdays ? 'Available' : 'Not Available'}
@@ -362,14 +400,14 @@ const RentLandCampingParkingDetail = () => {
 
               {/* Map Link */}
               {listing.mapLink && (
-                <div className="mb-6">
+                <div className="mb-4 sm:mb-6">
                   <a
                     href={listing.mapLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition"
+                    className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold transition text-sm sm:text-base"
                   >
-                    <MapPin className="w-5 h-5" />
+                    <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                     View on Google Maps
                   </a>
                 </div>
@@ -377,20 +415,20 @@ const RentLandCampingParkingDetail = () => {
             </div>
 
             {/* Reviews Section */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                <MessageCircle className="w-6 h-6" />
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
+                <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                 Reviews & Ratings
               </h2>
 
               {/* Review Form */}
               {localStorage.getItem('token') && (
-                <form onSubmit={handleSubmitReview} className="mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+                <form onSubmit={handleSubmitReview} className="mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-gray-200 dark:border-gray-700">
                   <div className="mb-4">
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Your Rating *
                     </label>
-                    <div className="flex gap-2">
+                    <div className="flex gap-1.5 sm:gap-2">
                       {[1, 2, 3, 4, 5].map((star) => (
                         <button
                           key={star}
@@ -399,7 +437,7 @@ const RentLandCampingParkingDetail = () => {
                           className="transition transform hover:scale-110"
                         >
                           <Star
-                            className={`w-8 h-8 ${
+                            className={`w-7 h-7 sm:w-8 sm:h-8 ${
                               star <= rating
                                 ? 'fill-yellow-400 text-yellow-400'
                                 : 'text-gray-300 dark:text-gray-600'
@@ -411,7 +449,7 @@ const RentLandCampingParkingDetail = () => {
                   </div>
 
                   <div className="mb-4">
-                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Your Review (Optional)
                     </label>
                     <textarea
@@ -420,7 +458,7 @@ const RentLandCampingParkingDetail = () => {
                       placeholder="Share your experience..."
                       maxLength="500"
                       rows="4"
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                      className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                     />
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                       {reviewText.length}/500 characters
@@ -429,15 +467,15 @@ const RentLandCampingParkingDetail = () => {
 
                   {error && (
                     <div className="mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 flex items-start gap-2">
-                      <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-                      <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
+                      <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                      <p className="text-red-700 dark:text-red-300 text-xs sm:text-sm">{error}</p>
                     </div>
                   )}
 
                   <button
                     type="submit"
                     disabled={submittingReview}
-                    className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold rounded-lg transition flex items-center gap-2"
+                    className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold rounded-lg transition flex items-center justify-center gap-2"
                   >
                     {submittingReview ? (
                       <>
@@ -452,32 +490,32 @@ const RentLandCampingParkingDetail = () => {
               )}
 
               {/* Reviews List */}
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {reviews && reviews.length > 0 ? (
                   reviews.map((review, index) => (
-                    <div key={index} className="pb-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
-                      <div className="flex items-start gap-4">
+                    <div key={index} className="pb-3 sm:pb-4 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
+                      <div className="flex items-start gap-3 sm:gap-4">
                         {review.userImage && (
                           <img
                             src={review.userImage}
                             alt={review.userName}
-                            className="w-10 h-10 rounded-full object-cover"
+                            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover flex-shrink-0"
                           />
                         )}
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between mb-1">
-                            <p className="font-semibold text-gray-900 dark:text-white">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2 mb-1">
+                            <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white truncate">
                               {review.userName}
                             </p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                            <p className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
                               {new Date(review.createdAt).toLocaleDateString()}
                             </p>
                           </div>
-                          <div className="flex gap-1 mb-2">
+                          <div className="flex gap-0.5 sm:gap-1 mb-2">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                className={`w-4 h-4 ${
+                                className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
                                   i < review.rating
                                     ? 'fill-yellow-400 text-yellow-400'
                                     : 'text-gray-300 dark:text-gray-600'
@@ -486,14 +524,14 @@ const RentLandCampingParkingDetail = () => {
                             ))}
                           </div>
                           {review.reviewText && (
-                            <p className="text-gray-700 dark:text-gray-300">{review.reviewText}</p>
+                            <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 break-words">{review.reviewText}</p>
                           )}
                         </div>
                       </div>
                     </div>
                   ))
                 ) : (
-                  <p className="text-center text-gray-600 dark:text-gray-400 py-8">
+                  <p className="text-center text-sm sm:text-base text-gray-600 dark:text-gray-400 py-6 sm:py-8">
                     No reviews yet. Be the first to review!
                   </p>
                 )}
@@ -504,29 +542,29 @@ const RentLandCampingParkingDetail = () => {
           {/* Sidebar - Contact & Pricing */}
           <div className="lg:col-span-1">
             {/* Pricing Card */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6 sticky top-8">
-              <div className="mb-6">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Daily Price</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white">
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6 lg:sticky lg:top-8">
+              <div className="mb-4 sm:mb-6">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Daily Price</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
                   LKR {listing.price?.toLocaleString()}
                 </p>
               </div>
 
-              <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Weekend Price</p>
-                <p className="text-2xl font-bold text-gray-900 dark:text-white">
+              <div className="mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Weekend Price</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
                   LKR {listing.weekendPrice?.toLocaleString()}
                 </p>
               </div>
 
               {/* Contact Information */}
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {listing.contact && (
                   <a
                     href={`tel:${listing.contact}`}
-                    className="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg transition text-blue-600 dark:text-blue-400 font-semibold"
+                    className="flex items-center justify-center gap-2 sm:gap-3 p-3 text-sm sm:text-base bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg transition text-blue-600 dark:text-blue-400 font-semibold"
                   >
-                    <Phone className="w-5 h-5" />
+                    <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
                     Call Now
                   </a>
                 )}
@@ -536,9 +574,9 @@ const RentLandCampingParkingDetail = () => {
                     href={listing.website}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition text-gray-700 dark:text-gray-300 font-semibold"
+                    className="flex items-center justify-center gap-2 sm:gap-3 p-3 text-sm sm:text-base bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition text-gray-700 dark:text-gray-300 font-semibold"
                   >
-                    <Globe className="w-5 h-5" />
+                    <Globe className="w-4 h-4 sm:w-5 sm:h-5" />
                     Website
                   </a>
                 )}
@@ -548,12 +586,21 @@ const RentLandCampingParkingDetail = () => {
                     href={listing.facebook}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-3 p-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition text-white font-semibold"
+                    className="flex items-center justify-center gap-2 sm:gap-3 p-3 text-sm sm:text-base bg-blue-600 hover:bg-blue-700 rounded-lg transition text-white font-semibold"
                   >
-                    <Facebook className="w-5 h-5" />
+                    <Facebook className="w-4 h-4 sm:w-5 sm:h-5" />
                     Facebook
                   </a>
                 )}
+
+                {/* Share Button in Sidebar */}
+                <button
+                  onClick={handleShare}
+                  className="w-full flex items-center justify-center gap-2 sm:gap-3 p-3 text-sm sm:text-base bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-lg transition text-white font-semibold shadow-md hover:shadow-lg"
+                >
+                  <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                  Share Listing
+                </button>
               </div>
             </div>
           </div>

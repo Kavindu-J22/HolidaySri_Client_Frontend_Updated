@@ -340,14 +340,26 @@ const EditRentLandCampingParking = () => {
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Category *
                 </label>
-                <input
-                  type="text"
+                <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  maxLength="100"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                />
+                >
+                  <option value="">Select Category</option>
+                  <option value="RV Parking">RV Parking</option>
+                  <option value="Camping Site">Camping Site</option>
+                  <option value="Tent Camping">Tent Camping</option>
+                  <option value="Caravan Park">Caravan Park</option>
+                  <option value="Motorhome Parking">Motorhome Parking</option>
+                  <option value="Glamping Site">Glamping Site</option>
+                  <option value="Beach Camping">Beach Camping</option>
+                  <option value="Forest Camping">Forest Camping</option>
+                  <option value="Mountain Camping">Mountain Camping</option>
+                  <option value="Parking Space">Parking Space</option>
+                  <option value="Overnight Parking">Overnight Parking</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
             </div>
           </div>
