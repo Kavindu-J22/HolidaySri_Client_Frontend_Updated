@@ -35,12 +35,16 @@ const CafesRestaurantsBrowse = () => {
   const destinationName = searchParams.get('destinationName') || '';
   const cityFromUrl = searchParams.get('city') || '';
 
+  // Search state
+  const [searchTerm, setSearchTerm] = useState('');
+
   // Filter state
   const [filters, setFilters] = useState({
     categoryType: searchParams.get('categoryType') || '',
     province: searchParams.get('province') || '',
     city: cityFromUrl,
     diningOptions: [],
+    search: '',
     page: parseInt(searchParams.get('page')) || 1
   });
 
@@ -82,6 +86,7 @@ const CafesRestaurantsBrowse = () => {
         if (filters.categoryType) params.append('categoryType', filters.categoryType);
         if (filters.province) params.append('province', filters.province);
         if (filters.city) params.append('city', filters.city);
+        if (filters.search) params.append('search', filters.search);
         if (filters.diningOptions && filters.diningOptions.length > 0) {
           filters.diningOptions.forEach(option => params.append('diningOptions', option));
         }
@@ -134,6 +139,31 @@ const CafesRestaurantsBrowse = () => {
     }));
   };
 
+  // Handle search
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setFilters(prev => ({
+      ...prev,
+      search: searchTerm,
+      page: 1 // Reset to first page when searching
+    }));
+  };
+
+  // Handle search input change
+  const handleSearchInputChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // Clear search
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    setFilters(prev => ({
+      ...prev,
+      search: '',
+      page: 1
+    }));
+  };
+
   // Handle pagination
   const handlePageChange = (newPage) => {
     setFilters(prev => ({
@@ -145,11 +175,13 @@ const CafesRestaurantsBrowse = () => {
 
   // Reset filters
   const handleResetFilters = () => {
+    setSearchTerm('');
     setFilters({
       categoryType: '',
       province: '',
       city: '',
       diningOptions: [],
+      search: '',
       page: 1
     });
   };
@@ -160,7 +192,7 @@ const CafesRestaurantsBrowse = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Cafes & Restaurants{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
@@ -175,6 +207,52 @@ const CafesRestaurantsBrowse = () => {
               <ArrowLeft className="w-3 h-3" />
               <span>Back to {destinationName}</span>
             </button>
+          )}
+        </div>
+
+        {/* Search Bar */}
+        <div className="mb-8">
+          <form onSubmit={handleSearch} className="relative">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={handleSearchInputChange}
+                placeholder="Search by name or description..."
+                className="w-full pl-12 pr-24 py-3 sm:py-4 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-800 dark:text-white text-sm sm:text-base shadow-sm"
+              />
+              <div className="absolute right-2 top-1/2 transform -translate-y-1/2 flex items-center space-x-2">
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={handleClearSearch}
+                    className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  >
+                    Clear
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  className="px-4 py-1.5 sm:py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold text-sm shadow-md hover:shadow-lg"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+          </form>
+          {filters.search && (
+            <div className="mt-3 flex items-center justify-between bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg px-4 py-2">
+              <p className="text-sm text-blue-800 dark:text-blue-200">
+                Searching for: <span className="font-semibold">"{filters.search}"</span>
+              </p>
+              <button
+                onClick={handleClearSearch}
+                className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 font-medium"
+              >
+                Clear Search
+              </button>
+            </div>
           )}
         </div>
 
