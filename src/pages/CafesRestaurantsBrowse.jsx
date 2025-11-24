@@ -169,29 +169,61 @@ const CafesRestaurantsBrowse = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
           {/* Sidebar - Filters */}
           <div className="lg:col-span-1">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sticky top-8">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">Filters</h2>
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 lg:sticky lg:top-8">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center">
+                <Search className="w-5 h-5 mr-2" />
+                Filters
+              </h2>
 
               {/* Category Type Filter */}
-              <div className="mb-6">
+              <div className="mb-4 sm:mb-6">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Category Type
                 </label>
-                <input
-                  type="text"
+                <select
                   name="categoryType"
                   value={filters.categoryType}
                   onChange={handleFilterChange}
-                  placeholder="e.g., Seafood, Italian"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                />
+                >
+                  <option value="">All Categories</option>
+                  <option value="Seafood">All Types</option>
+                  <option value="Seafood">Seafood</option>
+                  <option value="Italian">Italian</option>
+                  <option value="Chinese">Chinese</option>
+                  <option value="Indian">Indian</option>
+                  <option value="Japanese">Japanese</option>
+                  <option value="Thai">Thai</option>
+                  <option value="Korean">Korean</option>
+                  <option value="Mexican">Mexican</option>
+                  <option value="French">French</option>
+                  <option value="Mediterranean">Mediterranean</option>
+                  <option value="American">American</option>
+                  <option value="Sri Lankan">Sri Lankan</option>
+                  <option value="Fast Food">Fast Food</option>
+                  <option value="Cafe">Cafe</option>
+                  <option value="Bakery">Bakery</option>
+                  <option value="Dessert">Dessert</option>
+                  <option value="Vegetarian">Vegetarian</option>
+                  <option value="Vegan">Vegan</option>
+                  <option value="BBQ & Grill">BBQ & Grill</option>
+                  <option value="Pizza">Pizza</option>
+                  <option value="Burger">Burger</option>
+                  <option value="Sushi">Sushi</option>
+                  <option value="Fine Dining">Fine Dining</option>
+                  <option value="Casual Dining">Casual Dining</option>
+                  <option value="Street Food">Street Food</option>
+                  <option value="Buffet">Buffet</option>
+                  <option value="Bar & Pub">Bar & Pub</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
 
               {/* Province Filter */}
-              <div className="mb-6">
+              <div className="mb-4 sm:mb-6">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Province
                 </label>
@@ -214,7 +246,7 @@ const CafesRestaurantsBrowse = () => {
               </div>
 
               {/* City Filter */}
-              <div className="mb-6">
+              <div className="mb-4 sm:mb-6">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   City
                 </label>
@@ -258,45 +290,46 @@ const CafesRestaurantsBrowse = () => {
                 </div>
 
                 {/* Cafes Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
                   {cafes.map(cafe => (
                     <div
                       key={cafe._id}
-                      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full"
                     >
                       {/* Image */}
-                      <div className="relative h-48 bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                      <div className="relative h-48 sm:h-52 bg-gray-200 dark:bg-gray-700 overflow-hidden flex-shrink-0">
                         {cafe.images && cafe.images.length > 0 ? (
                           <img
                             src={cafe.images[0].url}
                             alt={cafe.name}
-                            className="w-full h-full object-cover hover:scale-105 transition-transform"
+                            className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                           />
                         ) : (
                           <div className="flex items-center justify-center h-full">
                             <span className="text-gray-400">No image</span>
                           </div>
                         )}
+                        {/* Category Badge */}
+                        <div className="absolute top-3 right-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                          {cafe.categoryType}
+                        </div>
                       </div>
 
                       {/* Content */}
-                      <div className="p-4">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1 truncate">
+                      <div className="p-4 sm:p-5 flex flex-col flex-grow">
+                        <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-1">
                           {cafe.name}
                         </h3>
-                        <p className="text-sm text-blue-600 dark:text-blue-400 mb-3">
-                          {cafe.categoryType}
-                        </p>
 
                         {/* Location */}
                         <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                          <MapPin className="w-4 h-4" />
-                          <span>{cafe.location.city}, {cafe.location.province}</span>
+                          <MapPin className="w-4 h-4 flex-shrink-0" />
+                          <span className="truncate">{cafe.location.city}, {cafe.location.province}</span>
                         </div>
 
                         {/* Rating */}
                         <div className="flex items-center space-x-2 mb-4">
-                          <div className="flex items-center space-x-1">
+                          <div className="flex items-center space-x-0.5">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
@@ -308,18 +341,18 @@ const CafesRestaurantsBrowse = () => {
                               />
                             ))}
                           </div>
-                          <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                            {cafe.averageRating || 'N/A'}
+                          <span className="text-sm font-bold text-gray-900 dark:text-white">
+                            {cafe.averageRating ? cafe.averageRating.toFixed(1) : 'N/A'}
                           </span>
                           <span className="text-xs text-gray-500 dark:text-gray-400">
-                            ({cafe.totalReviews || 0})
+                            ({cafe.totalReviews || 0} reviews)
                           </span>
                         </div>
 
                         {/* View Button */}
                         <button
                           onClick={() => navigate(`/cafes-restaurants/${cafe._id}`)}
-                          className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center justify-center space-x-2"
+                          className="w-full mt-auto px-4 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-semibold flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
                         >
                           <Eye className="w-4 h-4" />
                           <span>View Details</span>

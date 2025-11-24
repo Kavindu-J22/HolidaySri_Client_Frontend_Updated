@@ -12,7 +12,8 @@ import {
   Loader,
   AlertCircle,
   Truck,
-  CheckCircle
+  CheckCircle,
+  Share2
 } from 'lucide-react';
 
 const FoodsBeveragesDetail = () => {
@@ -28,6 +29,35 @@ const FoodsBeveragesDetail = () => {
   const [reviewText, setReviewText] = useState('');
   const [userReview, setUserReview] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showShareMenu, setShowShareMenu] = useState(false);
+
+  // Handle share functionality
+  const handleShare = async () => {
+    const shareData = {
+      title: foodsBeverages?.name || 'Foods & Beverages',
+      text: `Check out ${foodsBeverages?.name} - ${foodsBeverages?.category}`,
+      url: window.location.href
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error('Error sharing:', err);
+          setShowShareMenu(true);
+        }
+      }
+    } else {
+      setShowShareMenu(true);
+    }
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert('Link copied to clipboard!');
+    setShowShareMenu(false);
+  };
 
   // Fetch foods & beverages detail
   useEffect(() => {
@@ -172,22 +202,53 @@ const FoodsBeveragesDetail = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Go Back</span>
-        </button>
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+          >
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="text-sm sm:text-base">Go Back</span>
+          </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Share Button */}
+          <div className="relative">
+            <button
+              onClick={handleShare}
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
+            >
+              <Share2 className="w-4 h-4" />
+              <span className="hidden sm:inline">Share</span>
+            </button>
+
+            {/* Share Menu */}
+            {showShareMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-10">
+                <button
+                  onClick={copyToClipboard}
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-t-lg"
+                >
+                  Copy Link
+                </button>
+                <button
+                  onClick={() => setShowShareMenu(false)}
+                  className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-lg"
+                >
+                  Close
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
             {/* Image Gallery */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-4 sm:mb-6">
               <div className="relative bg-gray-200 dark:bg-gray-700 aspect-video">
                 <img
                   src={foodsBeverages.images[currentImageIndex]?.url}
@@ -197,18 +258,18 @@ const FoodsBeveragesDetail = () => {
                 {foodsBeverages.images.length > 1 && (
                   <>
                     <button
-                      onClick={() => setCurrentImageIndex(prev => 
+                      onClick={() => setCurrentImageIndex(prev =>
                         prev === 0 ? foodsBeverages.images.length - 1 : prev - 1
                       )}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                      className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1.5 sm:p-2 rounded-full transition-colors text-lg sm:text-xl"
                     >
                       ‹
                     </button>
                     <button
-                      onClick={() => setCurrentImageIndex(prev => 
+                      onClick={() => setCurrentImageIndex(prev =>
                         prev === foodsBeverages.images.length - 1 ? 0 : prev + 1
                       )}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                      className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1.5 sm:p-2 rounded-full transition-colors text-lg sm:text-xl"
                     >
                       ›
                     </button>
@@ -218,12 +279,12 @@ const FoodsBeveragesDetail = () => {
 
               {/* Thumbnails */}
               {foodsBeverages.images.length > 1 && (
-                <div className="flex gap-2 p-4 bg-gray-100 dark:bg-gray-700">
+                <div className="flex gap-2 p-3 sm:p-4 bg-gray-100 dark:bg-gray-700 overflow-x-auto">
                   {foodsBeverages.images.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => setCurrentImageIndex(idx)}
-                      className={`w-16 h-16 rounded-lg overflow-hidden border-2 transition-colors ${
+                      className={`w-14 h-14 sm:w-16 sm:h-16 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-colors ${
                         idx === currentImageIndex
                           ? 'border-blue-500'
                           : 'border-gray-300 dark:border-gray-600'
@@ -237,60 +298,60 @@ const FoodsBeveragesDetail = () => {
             </div>
 
             {/* Product Info */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 gap-3">
+                <div className="flex-1">
+                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     {foodsBeverages.name}
                   </h1>
-                  <p className="text-lg text-gray-600 dark:text-gray-400">
+                  <div className="inline-block bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-900/30 dark:to-blue-800/30 text-blue-800 dark:text-blue-300 px-3 py-1.5 rounded-full text-sm font-semibold">
                     {foodsBeverages.category}
-                  </p>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                <div className="text-left sm:text-right">
+                  <p className="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400">
                     LKR {foodsBeverages.price.toLocaleString()}
                   </p>
                 </div>
               </div>
 
               {/* Rating */}
-              <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-2">
                   {renderStars(foodsBeverages.averageRating)}
-                  <span className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <span className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">
                     {foodsBeverages.averageRating.toFixed(1)}
                   </span>
                 </div>
-                <span className="text-gray-600 dark:text-gray-400">
-                  ({foodsBeverages.totalReviews} reviews)
+                <span className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+                  ({foodsBeverages.totalReviews} {foodsBeverages.totalReviews === 1 ? 'review' : 'reviews'})
                 </span>
               </div>
 
               {/* Product Details */}
-              <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                  <span className="text-gray-700 dark:text-gray-300">
-                    {foodsBeverages.available ? 'Available' : 'Not Available'}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-6">
+                <div className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300 font-medium">
+                    {foodsBeverages.available ? 'Available Now' : 'Not Available'}
                   </span>
                 </div>
                 {foodsBeverages.delivery && (
-                  <div className="flex items-center gap-2">
-                    <Truck className="w-5 h-5 text-blue-500" />
-                    <span className="text-gray-700 dark:text-gray-300">Delivery Available</span>
+                  <div className="flex items-center gap-2 bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+                    <Truck className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                    <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300 font-medium">Delivery Available</span>
                   </div>
                 )}
               </div>
 
               {/* Types */}
               <div className="mb-6">
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Product Types:</h3>
+                <h3 className="font-semibold text-base sm:text-lg text-gray-900 dark:text-white mb-3">Product Types:</h3>
                 <div className="flex flex-wrap gap-2">
                   {foodsBeverages.type.map(t => (
                     <span
                       key={t}
-                      className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm"
+                      className="px-3 py-1.5 bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-900 dark:to-blue-800 text-blue-800 dark:text-blue-200 rounded-full text-xs sm:text-sm font-medium"
                     >
                       {t}
                     </span>
@@ -300,8 +361,8 @@ const FoodsBeveragesDetail = () => {
 
               {/* Description */}
               <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-2">Description:</h3>
-                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                <h3 className="font-semibold text-base sm:text-lg text-gray-900 dark:text-white mb-3">Description:</h3>
+                <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
                   {foodsBeverages.description}
                 </p>
               </div>
@@ -401,17 +462,18 @@ const FoodsBeveragesDetail = () => {
 
           {/* Sidebar - Contact Info */}
           <div className="lg:col-span-1">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sticky top-8">
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 lg:sticky lg:top-8">
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                 Contact Information
               </h2>
 
               {/* Location */}
-              <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+              <div className="mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
                   <div>
-                    <p className="font-semibold text-gray-900 dark:text-white">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Location</p>
+                    <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                       {foodsBeverages.location.city}, {foodsBeverages.location.province}
                     </p>
                   </div>
@@ -419,14 +481,14 @@ const FoodsBeveragesDetail = () => {
               </div>
 
               {/* Phone */}
-              <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+              <div className="mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-start gap-3">
                   <Phone className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Phone</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Phone</p>
                     <a
                       href={`tel:${foodsBeverages.contact.phone}`}
-                      className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                      className="text-sm sm:text-base font-semibold text-blue-600 dark:text-blue-400 hover:underline block"
                     >
                       {foodsBeverages.contact.phone}
                     </a>
@@ -435,14 +497,14 @@ const FoodsBeveragesDetail = () => {
               </div>
 
               {/* Email */}
-              <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+              <div className="mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-start gap-3">
                   <Mail className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Email</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Email</p>
                     <a
                       href={`mailto:${foodsBeverages.contact.email}`}
-                      className="font-semibold text-blue-600 dark:text-blue-400 hover:underline break-all"
+                      className="text-sm sm:text-base font-semibold text-blue-600 dark:text-blue-400 hover:underline break-all block"
                     >
                       {foodsBeverages.contact.email}
                     </a>
@@ -452,18 +514,19 @@ const FoodsBeveragesDetail = () => {
 
               {/* Facebook */}
               {foodsBeverages.contact.facebook && (
-                <div className="mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
+                <div className="mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
                   <div className="flex items-start gap-3">
                     <Facebook className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
-                    <div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Facebook</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Facebook</p>
                       <a
                         href={foodsBeverages.contact.facebook}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-semibold text-blue-600 dark:text-blue-400 hover:underline break-all"
+                        className="text-sm sm:text-base font-semibold text-blue-600 dark:text-blue-400 hover:underline inline-flex items-center gap-1"
                       >
                         Visit Profile
+                        <span className="text-xs">↗</span>
                       </a>
                     </div>
                   </div>
@@ -475,15 +538,16 @@ const FoodsBeveragesDetail = () => {
                 <div>
                   <div className="flex items-start gap-3">
                     <MessageCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-1" />
-                    <div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">WhatsApp</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">WhatsApp</p>
                       <a
                         href={`https://wa.me/${foodsBeverages.contact.whatsapp.replace(/\D/g, '')}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-semibold text-green-600 dark:text-green-400 hover:underline"
+                        className="text-sm sm:text-base font-semibold text-green-600 dark:text-green-400 hover:underline inline-flex items-center gap-1"
                       >
                         Chat on WhatsApp
+                        <span className="text-xs">↗</span>
                       </a>
                     </div>
                   </div>

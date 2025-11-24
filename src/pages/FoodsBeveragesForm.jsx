@@ -48,6 +48,103 @@ const FoodsBeveragesForm = () => {
   // Images state
   const [images, setImages] = useState([]);
 
+  // Category options
+const categoryOptions = [
+  // RESTAURANT TYPES
+  'Fine Dining',
+  'Casual Dining',
+  'Fast Casual',
+  'Fast Food',
+  'Family Restaurant',
+  'Buffet Restaurant',
+  'All-You-Can-Eat',
+  'Themed Restaurant',
+  
+  // CUISINE TYPES
+  'American',
+  'Italian',
+  'Mexican',
+  'Chinese',
+  'Japanese',
+  'Indian',
+  'Thai',
+  'Mediterranean',
+  'French',
+  'Korean',
+  'Vietnamese',
+  'Middle Eastern',
+  'Greek',
+  'Spanish',
+  'Brazilian',
+  'Caribbean',
+  'African',
+  'Fusion Cuisine',
+  
+  // SPECIALTY FOOD ESTABLISHMENTS
+  'Steakhouse',
+  'Seafood Restaurant',
+  'Barbecue & Grill',
+  'Pizzeria',
+  'Burger Joint',
+  'Sushi Bar',
+  'Ramen Shop',
+  'Taco Shop',
+  'Sandwich Shop',
+  'Deli',
+  
+  // HEALTH & DIETARY FOCUS
+  'Vegetarian Restaurant',
+  'Vegan Restaurant',
+  'Organic Food',
+  'Health Food',
+  'Gluten-Free',
+  'Farm-to-Table',
+  
+  // BEVERAGE ESTABLISHMENTS
+  'Coffee Shop',
+  'Cafe',
+  'Tea House',
+  'Juice Bar',
+  'Smoothie Shop',
+  'Bubble Tea Shop',
+  'Wine Bar',
+  'Cocktail Bar',
+  'Pub',
+  'Brewery',
+  'Microbrewery',
+  
+  // SWEETS & DESSERTS
+  'Bakery',
+  'Patisserie',
+  'Dessert Shop',
+  'Ice Cream Parlor',
+  'Gelato Shop',
+  'Donut Shop',
+  'Chocolatier',
+  'Candy Store',
+  
+  // QUICK SERVICE & STREET FOOD
+  'Food Truck',
+  'Food Stall',
+  'Street Food',
+  'Snack Bar',
+  'Food Court',
+  'Pop-Up Restaurant',
+  
+  // MEAL-SPECIFIC
+  'Breakfast Spot',
+  'Brunch Restaurant',
+  'Lunch Counter',
+  
+  // SERVICES & OTHER
+  'Catering Service',
+  'Meal Delivery',
+  'Takeaway Only',
+  'Grocery Store with Dining',
+  'Food Hall',
+  'Other'
+];
+
   // Fetch provinces on mount
   useEffect(() => {
     const fetchProvinces = async () => {
@@ -301,14 +398,18 @@ const FoodsBeveragesForm = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Category *
                 </label>
-                <input
-                  type="text"
+                <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="e.g., Bakery, Cafe, Juice Bar"
-                />
+                  required
+                >
+                  <option value="">Select a category</option>
+                  {categoryOptions.map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>

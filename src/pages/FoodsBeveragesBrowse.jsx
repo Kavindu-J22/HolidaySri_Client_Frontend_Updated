@@ -39,6 +39,103 @@ const FoodsBeveragesBrowse = () => {
     page: 1
   });
 
+  // Category options
+const categoryOptions = [
+  // RESTAURANT TYPES
+  'Fine Dining',
+  'Casual Dining',
+  'Fast Casual',
+  'Fast Food',
+  'Family Restaurant',
+  'Buffet Restaurant',
+  'All-You-Can-Eat',
+  'Themed Restaurant',
+  
+  // CUISINE TYPES
+  'American',
+  'Italian',
+  'Mexican',
+  'Chinese',
+  'Japanese',
+  'Indian',
+  'Thai',
+  'Mediterranean',
+  'French',
+  'Korean',
+  'Vietnamese',
+  'Middle Eastern',
+  'Greek',
+  'Spanish',
+  'Brazilian',
+  'Caribbean',
+  'African',
+  'Fusion Cuisine',
+  
+  // SPECIALTY FOOD ESTABLISHMENTS
+  'Steakhouse',
+  'Seafood Restaurant',
+  'Barbecue & Grill',
+  'Pizzeria',
+  'Burger Joint',
+  'Sushi Bar',
+  'Ramen Shop',
+  'Taco Shop',
+  'Sandwich Shop',
+  'Deli',
+  
+  // HEALTH & DIETARY FOCUS
+  'Vegetarian Restaurant',
+  'Vegan Restaurant',
+  'Organic Food',
+  'Health Food',
+  'Gluten-Free',
+  'Farm-to-Table',
+  
+  // BEVERAGE ESTABLISHMENTS
+  'Coffee Shop',
+  'Cafe',
+  'Tea House',
+  'Juice Bar',
+  'Smoothie Shop',
+  'Bubble Tea Shop',
+  'Wine Bar',
+  'Cocktail Bar',
+  'Pub',
+  'Brewery',
+  'Microbrewery',
+  
+  // SWEETS & DESSERTS
+  'Bakery',
+  'Patisserie',
+  'Dessert Shop',
+  'Ice Cream Parlor',
+  'Gelato Shop',
+  'Donut Shop',
+  'Chocolatier',
+  'Candy Store',
+  
+  // QUICK SERVICE & STREET FOOD
+  'Food Truck',
+  'Food Stall',
+  'Street Food',
+  'Snack Bar',
+  'Food Court',
+  'Pop-Up Restaurant',
+  
+  // MEAL-SPECIFIC
+  'Breakfast Spot',
+  'Brunch Restaurant',
+  'Lunch Counter',
+  
+  // SERVICES & OTHER
+  'Catering Service',
+  'Meal Delivery',
+  'Takeaway Only',
+  'Grocery Store with Dining',
+  'Food Hall',
+  'Other'
+];
+
   // Fetch provinces
   useEffect(() => {
     const fetchProvinces = async () => {
@@ -140,17 +237,17 @@ const FoodsBeveragesBrowse = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Foods & Beverages{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             {fromDestination ? `Discover delicious food and beverage products in ${destinationName}` : 'Discover delicious food and beverage products from local businesses'}
           </p>
           {fromDestination && (
             <button
               onClick={() => navigate(`/destinations/${fromDestination}`)}
-              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+              className="mt-2 text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
             >
               <ArrowLeft className="w-3 h-3" />
               <span>Back to {destinationName}</span>
@@ -158,10 +255,10 @@ const FoodsBeveragesBrowse = () => {
           )}
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-8">
           {/* Filters Sidebar */}
           <div className={`lg:col-span-1 ${showFilters ? 'block' : 'hidden lg:block'}`}>
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sticky top-8">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 sticky top-4 sm:top-8">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
                   <Filter className="w-5 h-5" />
@@ -180,14 +277,17 @@ const FoodsBeveragesBrowse = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Category
                 </label>
-                <input
-                  type="text"
+                <select
                   name="category"
                   value={filters.category}
                   onChange={handleFilterChange}
-                  placeholder="e.g., Bakery, Cafe"
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
-                />
+                >
+                  <option value="">All Categories</option>
+                  {categoryOptions.map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
+                </select>
               </div>
 
               {/* Province Filter */}
@@ -279,54 +379,61 @@ const FoodsBeveragesBrowse = () => {
                 </p>
 
                 {/* Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
                   {foodsBeverages.map(item => (
                     <div
                       key={item._id}
-                      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col h-full"
                     >
                       {/* Image */}
-                      <div className="relative bg-gray-200 dark:bg-gray-700 aspect-video overflow-hidden">
+                      <div className="relative bg-gray-200 dark:bg-gray-700 h-48 sm:h-52 overflow-hidden">
                         <img
                           src={item.images[0]?.url}
                           alt={item.name}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                          className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                         />
-                        <div className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-bold shadow-lg">
                           LKR {item.price.toLocaleString()}
                         </div>
+                        {item.available && (
+                          <div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
+                            Available
+                          </div>
+                        )}
                       </div>
 
                       {/* Content */}
-                      <div className="p-4">
-                        <h3 className="font-bold text-gray-900 dark:text-white mb-1 line-clamp-2">
-                          {item.name}
-                        </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
-                          {item.category}
-                        </p>
+                      <div className="p-4 sm:p-5 flex flex-col flex-grow">
+                        <div className="flex-grow">
+                          <h3 className="font-bold text-lg sm:text-xl text-gray-900 dark:text-white mb-2 line-clamp-2 min-h-[3.5rem]">
+                            {item.name}
+                          </h3>
+                          <div className="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-medium mb-3">
+                            {item.category}
+                          </div>
 
-                        {/* Location */}
-                        <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                          <MapPin className="w-4 h-4" />
-                          <span>{item.location.city}, {item.location.province}</span>
-                        </div>
+                          {/* Location */}
+                          <div className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                            <MapPin className="w-4 h-4 flex-shrink-0" />
+                            <span className="truncate">{item.location.city}, {item.location.province}</span>
+                          </div>
 
-                        {/* Rating */}
-                        <div className="flex items-center gap-2 mb-4">
-                          {renderStars(Math.round(item.averageRating))}
-                          <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                            {item.averageRating.toFixed(1)}
-                          </span>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
-                            ({item.totalReviews})
-                          </span>
+                          {/* Rating */}
+                          <div className="flex items-center gap-2 mb-4">
+                            {renderStars(Math.round(item.averageRating))}
+                            <span className="text-sm font-bold text-gray-900 dark:text-white">
+                              {item.averageRating.toFixed(1)}
+                            </span>
+                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                              ({item.totalReviews} {item.totalReviews === 1 ? 'review' : 'reviews'})
+                            </span>
+                          </div>
                         </div>
 
                         {/* View Button */}
                         <button
                           onClick={() => navigate(`/foods-beverages/${item._id}`)}
-                          className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm"
+                          className="w-full px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 font-semibold text-sm shadow-md hover:shadow-lg"
                         >
                           View Details
                         </button>

@@ -314,14 +314,43 @@ const CafesRestaurantsForm = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Category Type *
                 </label>
-                <input
-                  type="text"
+                <select
                   name="categoryType"
                   value={formData.categoryType}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="e.g., Seafood, Italian, Asian"
-                />
+                >
+                  <option value="">Select Category Type</option>
+                  <option value="Seafood">All Types</option>
+                  <option value="Seafood">Seafood</option>
+                  <option value="Italian">Italian</option>
+                  <option value="Chinese">Chinese</option>
+                  <option value="Indian">Indian</option>
+                  <option value="Japanese">Japanese</option>
+                  <option value="Thai">Thai</option>
+                  <option value="Korean">Korean</option>
+                  <option value="Mexican">Mexican</option>
+                  <option value="French">French</option>
+                  <option value="Mediterranean">Mediterranean</option>
+                  <option value="American">American</option>
+                  <option value="Sri Lankan">Sri Lankan</option>
+                  <option value="Fast Food">Fast Food</option>
+                  <option value="Cafe">Cafe</option>
+                  <option value="Bakery">Bakery</option>
+                  <option value="Dessert">Dessert</option>
+                  <option value="Vegetarian">Vegetarian</option>
+                  <option value="Vegan">Vegan</option>
+                  <option value="BBQ & Grill">BBQ & Grill</option>
+                  <option value="Pizza">Pizza</option>
+                  <option value="Burger">Burger</option>
+                  <option value="Sushi">Sushi</option>
+                  <option value="Fine Dining">Fine Dining</option>
+                  <option value="Casual Dining">Casual Dining</option>
+                  <option value="Street Food">Street Food</option>
+                  <option value="Buffet">Buffet</option>
+                  <option value="Bar & Pub">Bar & Pub</option>
+                  <option value="Other">Other</option>
+                </select>
               </div>
             </div>
           </div>
