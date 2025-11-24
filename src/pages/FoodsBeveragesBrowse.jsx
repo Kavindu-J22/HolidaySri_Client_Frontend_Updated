@@ -27,12 +27,16 @@ const FoodsBeveragesBrowse = () => {
 
   // Filter states
   const [filters, setFilters] = useState({
+    search: searchParams.get('search') || '',
     category: searchParams.get('category') || '',
     province: searchParams.get('province') || '',
     city: cityFromUrl,
     productType: searchParams.get('productType') || '',
     page: parseInt(searchParams.get('page')) || 1
   });
+
+  // Search input state
+  const [searchInput, setSearchInput] = useState(searchParams.get('search') || '');
 
   const [pagination, setPagination] = useState({
     total: 0,
@@ -162,6 +166,7 @@ const categoryOptions = [
 
       try {
         const params = new URLSearchParams();
+        if (filters.search) params.append('search', filters.search);
         if (filters.category) params.append('category', filters.category);
         if (filters.province) params.append('province', filters.province);
         if (filters.city) params.append('city', filters.city);
@@ -204,9 +209,36 @@ const categoryOptions = [
     }));
   };
 
+  // Handle search
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setFilters(prev => ({
+      ...prev,
+      search: searchInput,
+      page: 1
+    }));
+  };
+
+  // Handle search input change
+  const handleSearchInputChange = (e) => {
+    setSearchInput(e.target.value);
+  };
+
+  // Clear search
+  const clearSearch = () => {
+    setSearchInput('');
+    setFilters(prev => ({
+      ...prev,
+      search: '',
+      page: 1
+    }));
+  };
+
   // Clear filters
   const clearFilters = () => {
+    setSearchInput('');
     setFilters({
+      search: '',
       category: '',
       province: '',
       city: '',
@@ -373,12 +405,12 @@ const categoryOptions = [
               </div>
 
               {/* Clear Filters */}
-              {(filters.category || filters.province || filters.city || filters.productType) && (
+              {(filters.search || filters.category || filters.province || filters.city || filters.productType) && (
                 <button
                   onClick={clearFilters}
                   className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium text-sm"
                 >
-                  Clear Filters
+                  Clear All Filters
                 </button>
               )}
             </div>
@@ -386,6 +418,48 @@ const categoryOptions = [
 
           {/* Main Content */}
           <div className="lg:col-span-3">
+            {/* Search Bar */}
+            <div className="mb-6">
+              <form onSubmit={handleSearch} className="relative">
+                <div className="relative">
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                  <input
+                    type="text"
+                    value={searchInput}
+                    onChange={handleSearchInputChange}
+                    placeholder="Search by name, description, or business name..."
+                    className="w-full pl-12 pr-24 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                  {searchInput && (
+                    <button
+                      type="button"
+                      onClick={clearSearch}
+                      className="absolute right-20 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  )}
+                  <button
+                    type="submit"
+                    className="absolute right-2 top-1/2 transform -translate-y-1/2 px-4 py-1.5 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm font-medium"
+                  >
+                    Search
+                  </button>
+                </div>
+              </form>
+              {filters.search && (
+                <div className="mt-2 flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <span>Searching for: <strong className="text-gray-900 dark:text-white">{filters.search}</strong></span>
+                  <button
+                    onClick={clearSearch}
+                    className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+                  >
+                    Clear
+                  </button>
+                </div>
+              )}
+            </div>
+
             {/* Mobile Filter Toggle */}
             <button
               onClick={() => setShowFilters(!showFilters)}
