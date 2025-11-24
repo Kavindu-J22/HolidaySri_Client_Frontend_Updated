@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { Star, Loader, MapPin, Users, DollarSign, Eye, ArrowLeft } from 'lucide-react';
+import { Star, Loader, MapPin, Users, DollarSign, Eye, ArrowLeft, Calendar } from 'lucide-react';
 import { API_BASE_URL } from '../config/api';
 
 const LocalTourPackagesBrowse = () => {
@@ -104,20 +104,20 @@ const LocalTourPackagesBrowse = () => {
   const availableCities = filters.province ? provincesData[filters.province] || [] : [];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Local Tour Packages{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             {fromDestination ? `Discover amazing tour packages in ${destinationName}` : 'Discover amazing tour packages across Sri Lanka'}
           </p>
           {fromDestination && (
             <button
               onClick={() => navigate(`/destinations/${fromDestination}`)}
-              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+              className="mt-2 text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
             >
               <ArrowLeft className="w-3 h-3" />
               <span>Back to {destinationName}</span>
@@ -126,12 +126,12 @@ const LocalTourPackagesBrowse = () => {
         </div>
 
         {/* Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
+          <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
             Filters
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {/* Province Filter */}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -228,84 +228,91 @@ const LocalTourPackagesBrowse = () => {
 
         {/* Packages Grid */}
         {!loading && packages.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {packages.map(pkg => (
               <div
                 key={pkg._id}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                className="flex flex-col bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-100 dark:border-gray-700 group"
               >
                 {/* Image */}
                 {pkg.images && pkg.images.length > 0 && (
-                  <div className="relative h-48 overflow-hidden bg-gray-200 dark:bg-gray-700">
+                  <div className="relative h-48 sm:h-56 overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
                     <img
                       src={pkg.images[0].url}
                       alt={pkg.title}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
+                    {/* Rating Badge Overlay */}
+                    <div className="absolute top-3 right-3 bg-white dark:bg-gray-800 rounded-lg px-2.5 py-1.5 shadow-lg flex items-center space-x-1">
+                      <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-400 fill-yellow-400" />
+                      <span className="font-bold text-gray-900 dark:text-white text-xs sm:text-sm">
+                        {pkg.averageRating.toFixed(1)}
+                      </span>
+                    </div>
+                    {/* Adventure Type Badge */}
+                    <div className="absolute bottom-3 left-3">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-600/90 backdrop-blur-sm text-white text-xs font-medium rounded-full">
+                        <Calendar className="w-3 h-3" />
+                        {pkg.adventureType}
+                      </span>
+                    </div>
                   </div>
                 )}
 
-                {/* Content */}
-                <div className="p-4">
-                  {/* Title */}
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
+                {/* Content - Flex grow to fill space */}
+                <div className="flex flex-col flex-grow p-4 sm:p-5">
+                  {/* Title - Fixed height with line clamp */}
+                  <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 min-h-[3rem]">
                     {pkg.title}
                   </h3>
 
-                  {/* Rating */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <Star
-                          key={i}
-                          className={`w-4 h-4 ${
-                            i < Math.round(pkg.averageRating)
-                              ? 'fill-yellow-400 text-yellow-400'
-                              : 'text-gray-300'
-                          }`}
-                        />
-                      ))}
-                    </div>
-                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                      {pkg.averageRating.toFixed(1)}
-                    </span>
-                    <span className="text-xs text-gray-600 dark:text-gray-400">
-                      ({pkg.totalReviews})
-                    </span>
-                  </div>
-
                   {/* Location */}
-                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-2">
-                    <MapPin className="w-4 h-4" />
-                    <span>{pkg.location.city}, {pkg.location.province}</span>
+                  <div className="flex items-center gap-1.5 text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                    <span className="truncate">{pkg.location.city}, {pkg.location.province}</span>
                   </div>
 
-                  {/* Adventure Type */}
-                  <div className="mb-3">
-                    <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 text-xs rounded-full">
-                      {pkg.adventureType}
-                    </span>
+                  {/* Reviews count */}
+                  <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 mb-4">
+                    <span>({pkg.totalReviews} {pkg.totalReviews === 1 ? 'review' : 'reviews'})</span>
                   </div>
+
+                  {/* Spacer to push bottom content down */}
+                  <div className="flex-grow"></div>
 
                   {/* Info Row */}
-                  <div className="grid grid-cols-2 gap-2 mb-4 text-sm">
-                    <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                      <Users className="w-4 h-4" />
-                      <span>{pkg.pax.min}-{pkg.pax.max}</span>
+                  <div className="grid grid-cols-2 gap-3 mb-4 pb-4 border-t border-gray-100 dark:border-gray-700 pt-4">
+                    <div className="flex items-center gap-1.5">
+                      <div className="p-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                        <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-600 dark:text-blue-400" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">Capacity</span>
+                        <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
+                          {pkg.pax.min}-{pkg.pax.max}
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-                      <DollarSign className="w-4 h-4" />
-                      <span>LKR {pkg.price.amount.toLocaleString()}</span>
+                    <div className="flex items-center gap-1.5">
+                      <div className="p-1.5 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                        <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-600 dark:text-green-400" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">Price</span>
+                        <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
+                          LKR {pkg.price.amount.toLocaleString()}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   {/* View Button */}
                   <button
                     onClick={() => navigate(`/local-tour-package/${pkg._id}`)}
-                    className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                    className="w-full px-4 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium rounded-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
                   >
                     <Eye className="w-4 h-4" />
-                    <span>View Details</span>
+                    <span className="text-sm sm:text-base">View Details</span>
                   </button>
                 </div>
               </div>
@@ -315,10 +322,16 @@ const LocalTourPackagesBrowse = () => {
 
         {/* No Results */}
         {!loading && packages.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
-              No tour packages found. Try adjusting your filters.
-            </p>
+          <div className="text-center py-12 px-4">
+            <div className="max-w-md mx-auto">
+              <MapPin className="w-16 h-16 mx-auto mb-4 text-gray-400 dark:text-gray-500" />
+              <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg mb-2">
+                No tour packages found
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-500">
+                Try adjusting your filters to see more results
+              </p>
+            </div>
           </div>
         )}
       </div>
