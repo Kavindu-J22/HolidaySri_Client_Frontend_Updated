@@ -77,11 +77,10 @@ const CafesRestaurantsDetail = () => {
       const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/cafes-restaurants/${id}/reviews`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify({
-          userId: user._id,
-          userName: user.firstName + ' ' + user.lastName,
           rating: reviewForm.rating,
           reviewText: reviewForm.reviewText
         })
