@@ -179,22 +179,22 @@ const TourGuiderDetailView = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <div className="flex items-center justify-between gap-2 mb-4 sm:mb-6">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 transition-colors"
+            className="flex items-center space-x-1 sm:space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 transition-colors flex-shrink-0"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span className="font-medium">Back</span>
+            <span className="font-medium text-sm sm:text-base">Back</span>
           </button>
 
           {/* Share Button */}
           <button
             onClick={handleShareProfile}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium shadow-md hover:shadow-lg"
+            className="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium shadow-md hover:shadow-lg text-sm sm:text-base flex-shrink-0"
           >
-            <Share2 className="w-5 h-5" />
-            <span className="hidden sm:inline">Share Profile</span>
+            <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span>Share</span>
           </button>
         </div>
 
@@ -341,30 +341,31 @@ const TourGuiderDetailView = () => {
             {tourGuider.certificate?.url && (
               <div className="mb-8">
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">Certification</h2>
-                <div className="p-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <div className="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                        <FileText className="w-8 h-8 text-green-600 dark:text-green-400" />
-                      </div>
-                      <div>
-                        <p className="text-lg font-semibold text-gray-900 dark:text-white">
-                          {tourGuider.certificate.name || 'Tour Guide Certificate'}
-                        </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          Verified certification document
-                        </p>
-                      </div>
+                <div className="p-2 sm:p-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                  {/* Certificate Info */}
+                  <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
+                    <div className="p-1.5 sm:p-3 bg-green-100 dark:bg-green-900/30 rounded-lg flex-shrink-0">
+                      <FileText className="w-4 h-4 sm:w-8 sm:h-8 text-green-600 dark:text-green-400" />
                     </div>
-                    <a
-                      href={tourGuider.certificate.url}
-                      download={tourGuider.certificate.name || 'certificate.pdf'}
-                      className="flex items-center space-x-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium"
-                    >
-                      <Download className="w-5 h-5" />
-                      <span className="hidden sm:inline">Download</span>
-                    </a>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs sm:text-lg font-semibold text-gray-900 dark:text-white truncate" title={tourGuider.certificate.name || 'Tour Guide Certificate'}>
+                        {tourGuider.certificate.name || 'Tour Guide Certificate'}
+                      </p>
+                      <p className="text-[10px] sm:text-sm text-gray-600 dark:text-gray-400">
+                        Verified document
+                      </p>
+                    </div>
                   </div>
+
+                  {/* Download Button */}
+                  <a
+                    href={tourGuider.certificate.url}
+                    download={tourGuider.certificate.name || 'certificate.pdf'}
+                    className="flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 bg-green-600 hover:bg-green-700 active:bg-green-800 text-white rounded-lg transition-colors font-medium shadow-md hover:shadow-lg w-full"
+                  >
+                    <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span className="text-xs sm:text-base">Download Certificate</span>
+                  </a>
                 </div>
               </div>
             )}
