@@ -29,6 +29,7 @@ const EditFoodsBeverages = () => {
     name: '',
     description: '',
     category: '',
+    businessName: '',
     type: [],
     province: '',
     city: '',
@@ -165,6 +166,7 @@ const categoryOptions = [
             name: fb.name,
             description: fb.description,
             category: fb.category,
+            businessName: fb.businessName || '',
             type: fb.type,
             province: fb.location.province,
             city: fb.location.city,
@@ -305,6 +307,7 @@ const categoryOptions = [
     if (!formData.description.trim()) return 'Description is required';
     if (formData.description.length > 3000) return 'Description must be less than 3000 characters';
     if (!formData.category.trim()) return 'Category is required';
+    if (!formData.businessName.trim()) return 'Business Name is required';
     if (formData.type.length === 0) return 'At least one type must be selected';
     if (!formData.province) return 'Province is required';
     if (!formData.city) return 'City is required';
@@ -374,7 +377,28 @@ const categoryOptions = [
     );
   }
 
-  const typeOptions = ['Vegetarian', 'Vegan Options', 'Gluten-Free Options'];
+  const typeOptions = [
+    'Vegetarian',
+    'Vegan Options',
+    'Gluten-Free Options',
+    'Halal',
+    'Kosher',
+    'Organic',
+    'Sugar-Free',
+    'Dairy-Free',
+    'Nut-Free',
+    'Keto-Friendly',
+    'Paleo-Friendly',
+    'Low-Carb',
+    'High-Protein',
+    'Raw Food',
+    'Locally Sourced',
+    'Fair Trade',
+    'Non-GMO',
+    'Preservative-Free',
+    'Artisan',
+    'Homemade'
+  ];
   const availableCities = formData.province ? provincesData[formData.province] || [] : [];
 
   return (
@@ -450,6 +474,20 @@ const categoryOptions = [
                   ))}
                 </select>
               </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Business Name (Shop or Owner's Name) *
+                </label>
+                <input
+                  type="text"
+                  name="businessName"
+                  value={formData.businessName}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="Enter shop or owner's name"
+                />
+              </div>
             </div>
           </div>
 
@@ -474,20 +512,23 @@ const categoryOptions = [
 
           {/* Type Selection */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
               Product Type *
             </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+              Select all that apply to your product
+            </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
               {typeOptions.map(option => (
-                <label key={option} className="flex items-center space-x-3 cursor-pointer">
+                <label key={option} className="flex items-center space-x-2 cursor-pointer p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                   <input
                     type="checkbox"
                     checked={formData.type.includes(option)}
                     onChange={() => handleTypeChange(option)}
                     className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                   />
-                  <span className="text-gray-700 dark:text-gray-300">{option}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{option}</span>
                 </label>
               ))}
             </div>

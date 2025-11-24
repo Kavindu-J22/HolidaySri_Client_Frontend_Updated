@@ -304,6 +304,14 @@ const FoodsBeveragesDetail = () => {
                   <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     {foodsBeverages.name}
                   </h1>
+
+                  {/* Business Name */}
+                  {foodsBeverages.businessName && (
+                    <p className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                      <span className="text-gray-500 dark:text-gray-400">Business:</span> {foodsBeverages.businessName}
+                    </p>
+                  )}
+
                   <div className="inline-block bg-gradient-to-r from-blue-100 to-blue-200 dark:from-blue-900/30 dark:to-blue-800/30 text-blue-800 dark:text-blue-300 px-3 py-1.5 rounded-full text-sm font-semibold">
                     {foodsBeverages.category}
                   </div>

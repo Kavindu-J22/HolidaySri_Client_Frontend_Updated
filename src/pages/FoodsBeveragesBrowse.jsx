@@ -30,6 +30,7 @@ const FoodsBeveragesBrowse = () => {
     category: searchParams.get('category') || '',
     province: searchParams.get('province') || '',
     city: cityFromUrl,
+    productType: searchParams.get('productType') || '',
     page: parseInt(searchParams.get('page')) || 1
   });
 
@@ -164,6 +165,7 @@ const categoryOptions = [
         if (filters.category) params.append('category', filters.category);
         if (filters.province) params.append('province', filters.province);
         if (filters.city) params.append('city', filters.city);
+        if (filters.productType) params.append('productType', filters.productType);
         params.append('page', filters.page);
         params.append('limit', 12);
 
@@ -208,9 +210,34 @@ const categoryOptions = [
       category: '',
       province: '',
       city: '',
+      productType: '',
       page: 1
     });
   };
+
+  // Product Type options
+  const productTypeOptions = [
+    'Vegetarian',
+    'Vegan Options',
+    'Gluten-Free Options',
+    'Halal',
+    'Kosher',
+    'Organic',
+    'Sugar-Free',
+    'Dairy-Free',
+    'Nut-Free',
+    'Keto-Friendly',
+    'Paleo-Friendly',
+    'Low-Carb',
+    'High-Protein',
+    'Raw Food',
+    'Locally Sourced',
+    'Fair Trade',
+    'Non-GMO',
+    'Preservative-Free',
+    'Artisan',
+    'Homemade'
+  ];
 
   // Get available cities
   const availableCities = filters.province ? provincesData[filters.province] || [] : [];
@@ -327,8 +354,26 @@ const categoryOptions = [
                 </select>
               </div>
 
+              {/* Product Type Filter */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Product Type
+                </label>
+                <select
+                  name="productType"
+                  value={filters.productType}
+                  onChange={handleFilterChange}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+                >
+                  <option value="">All Types</option>
+                  {productTypeOptions.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
+              </div>
+
               {/* Clear Filters */}
-              {(filters.category || filters.province || filters.city) && (
+              {(filters.category || filters.province || filters.city || filters.productType) && (
                 <button
                   onClick={clearFilters}
                   className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium text-sm"
@@ -408,6 +453,14 @@ const categoryOptions = [
                           <h3 className="font-bold text-lg sm:text-xl text-gray-900 dark:text-white mb-2 line-clamp-2 min-h-[3.5rem]">
                             {item.name}
                           </h3>
+
+                          {/* Business Name */}
+                          {item.businessName && (
+                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              <span className="text-gray-500 dark:text-gray-400">By:</span> {item.businessName}
+                            </p>
+                          )}
+
                           <div className="inline-block bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-3 py-1 rounded-full text-xs font-medium mb-3">
                             {item.category}
                           </div>
