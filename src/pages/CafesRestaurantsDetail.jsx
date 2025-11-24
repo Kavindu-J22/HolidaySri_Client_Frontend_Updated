@@ -87,8 +87,6 @@ const CafesRestaurantsDetail = () => {
 
         if (data.success) {
           setCafe(data.data);
-          console.log('Cafe data:', data.data);
-          console.log('Cafe userId:', data.data.userId);
         } else {
           setError(data.message || 'Failed to load cafe details');
         }
@@ -102,19 +100,6 @@ const CafesRestaurantsDetail = () => {
 
     fetchCafe();
   }, [id]);
-
-  // Debug ownership check
-  useEffect(() => {
-    if (user && cafe) {
-      console.log('Current user:', user);
-      console.log('Current user ID (user.id):', user.id);
-      console.log('Current user ID (user._id):', user._id);
-      console.log('Cafe owner ID (userId._id):', cafe.userId?._id);
-      console.log('Cafe owner ID (userId):', cafe.userId);
-      console.log('Is owner (user.id === userId._id)?', user.id === cafe.userId?._id);
-      console.log('Is owner (user._id === userId._id)?', user._id === cafe.userId?._id);
-    }
-  }, [user, cafe]);
 
   // Handle review submission
   const handleSubmitReview = async (e) => {
@@ -619,7 +604,7 @@ const CafesRestaurantsDetail = () => {
               <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
                   <UtensilsCrossed className="w-6 h-6 mr-2" />
-                  Menu Items
+                  Top Menu Items
                 </h2>
 
                 {/* Banner for adding items */}
