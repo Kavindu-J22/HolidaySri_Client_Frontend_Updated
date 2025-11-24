@@ -9,8 +9,11 @@ import {
   Eye,
   ChevronLeft,
   ChevronRight,
-  ArrowLeft
+  ArrowLeft,
+  Clock,
+  UtensilsCrossed
 } from 'lucide-react';
+import { formatOperatingHours } from '../utils/timeFormat';
 
 const CafesRestaurantsBrowse = () => {
   const navigate = useNavigate();
@@ -37,6 +40,7 @@ const CafesRestaurantsBrowse = () => {
     categoryType: searchParams.get('categoryType') || '',
     province: searchParams.get('province') || '',
     city: cityFromUrl,
+    diningOptions: [],
     page: parseInt(searchParams.get('page')) || 1
   });
 
@@ -78,6 +82,9 @@ const CafesRestaurantsBrowse = () => {
         if (filters.categoryType) params.append('categoryType', filters.categoryType);
         if (filters.province) params.append('province', filters.province);
         if (filters.city) params.append('city', filters.city);
+        if (filters.diningOptions && filters.diningOptions.length > 0) {
+          filters.diningOptions.forEach(option => params.append('diningOptions', option));
+        }
         params.append('page', filters.page);
         params.append('limit', 12);
 
@@ -116,6 +123,17 @@ const CafesRestaurantsBrowse = () => {
     }));
   };
 
+  // Handle dining options checkbox
+  const handleDiningOptionChange = (option) => {
+    setFilters(prev => ({
+      ...prev,
+      diningOptions: prev.diningOptions.includes(option)
+        ? prev.diningOptions.filter(o => o !== option)
+        : [...prev.diningOptions, option],
+      page: 1 // Reset to first page when filter changes
+    }));
+  };
+
   // Handle pagination
   const handlePageChange = (newPage) => {
     setFilters(prev => ({
@@ -131,6 +149,7 @@ const CafesRestaurantsBrowse = () => {
       categoryType: '',
       province: '',
       city: '',
+      diningOptions: [],
       page: 1
     });
   };
@@ -264,6 +283,28 @@ const CafesRestaurantsBrowse = () => {
                 </select>
               </div>
 
+              {/* Dining Options Filter */}
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                  Dining Options
+                </label>
+                <div className="space-y-2">
+                  {['Dine-in', 'Outdoor Seating', 'Delivery', 'Takeaway', 'Catering'].map(option => (
+                    <label key={option} className="flex items-center space-x-2 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        checked={filters.diningOptions.includes(option)}
+                        onChange={() => handleDiningOptionChange(option)}
+                        className="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 cursor-pointer"
+                      />
+                      <span className="text-sm text-gray-700 dark:text-gray-300 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {option}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               {/* Reset Button */}
               <button
                 onClick={handleResetFilters}
@@ -326,6 +367,38 @@ const CafesRestaurantsBrowse = () => {
                           <MapPin className="w-4 h-4 flex-shrink-0" />
                           <span className="truncate">{cafe.location.city}, {cafe.location.province}</span>
                         </div>
+
+                        {/* Operating Hours */}
+                        {cafe.operatingHours && (
+                          <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                            <Clock className="w-4 h-4 flex-shrink-0" />
+                            <span className="truncate">
+                              {formatOperatingHours(cafe.operatingHours.openTime, cafe.operatingHours.closeTime)}
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Dining Options */}
+                        {cafe.diningOptions && cafe.diningOptions.length > 0 && (
+                          <div className="flex items-start space-x-1 mb-3">
+                            <UtensilsCrossed className="w-4 h-4 flex-shrink-0 text-gray-600 dark:text-gray-400 mt-0.5" />
+                            <div className="flex flex-wrap gap-1">
+                              {cafe.diningOptions.slice(0, 3).map((option, index) => (
+                                <span
+                                  key={index}
+                                  className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-2 py-0.5 rounded-full"
+                                >
+                                  {option}
+                                </span>
+                              ))}
+                              {cafe.diningOptions.length > 3 && (
+                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                  +{cafe.diningOptions.length - 3} more
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        )}
 
                         {/* Rating */}
                         <div className="flex items-center space-x-2 mb-4">

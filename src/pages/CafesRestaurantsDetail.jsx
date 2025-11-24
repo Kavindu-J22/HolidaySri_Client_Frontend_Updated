@@ -17,6 +17,7 @@ import {
   Check
 } from 'lucide-react';
 import SuccessModal from '../components/common/SuccessModal';
+import { formatOperatingHours } from '../utils/timeFormat';
 
 const CafesRestaurantsDetail = () => {
   const { id } = useParams();
@@ -307,7 +308,9 @@ const CafesRestaurantsDetail = () => {
                   <Clock className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Operating Hours</p>
-                    <p className="text-sm sm:text-base text-gray-900 dark:text-white font-medium">{cafe.operatingHours.openTime} - {cafe.operatingHours.closeTime}</p>
+                    <p className="text-sm sm:text-base text-gray-900 dark:text-white font-medium">
+                      {formatOperatingHours(cafe.operatingHours.openTime, cafe.operatingHours.closeTime)}
+                    </p>
                   </div>
                 </div>
 
