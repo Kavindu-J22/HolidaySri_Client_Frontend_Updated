@@ -44,6 +44,22 @@ const RentLandCampingParkingBrowse = () => {
     "Sabaragamuwa Province": ["Kegalle", "Ratnapura"]
   };
 
+  // Category options for dropdown
+  const categoryOptions = [
+    'RV Parking',
+    'Camping Site',
+    'Tent Camping',
+    'Caravan Park',
+    'Motorhome Parking',
+    'Glamping Site',
+    'Beach Camping',
+    'Forest Camping',
+    'Mountain Camping',
+    'Parking Space',
+    'Overnight Parking',
+    'Other'
+  ];
+
   // Fetch listings on mount
   useEffect(() => {
     const fetchListings = async () => {
@@ -176,14 +192,19 @@ const RentLandCampingParkingBrowse = () => {
                   <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Category
                   </label>
-                  <input
-                    type="text"
+                  <select
                     name="category"
                     value={filters.category}
                     onChange={handleFilterChange}
-                    placeholder="e.g., RV Parking"
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                  />
+                  >
+                    <option value="">All Categories</option>
+                    {categoryOptions.map(category => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>
