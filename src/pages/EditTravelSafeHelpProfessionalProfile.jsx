@@ -25,6 +25,24 @@ const EditTravelSafeHelpProfessionalProfile = () => {
   const [error, setError] = useState('');
   const [provincesData, setProvincesData] = useState({});
 
+  // Category options for Travel Safe Help Professionals
+  const categoryOptions = [
+    'Emergency Response',
+    'Medical Assistance',
+    'Security Services',
+    'Wildlife Safety',
+    'Adventure Safety',
+    'Mountain Rescue',
+    'Water Safety',
+    'First Aid Services',
+    'Travel Insurance Assistance',
+    'Crisis Management',
+    'Safety Consulting',
+    'Risk Assessment',
+    'Village Guider',
+    'Other'
+  ];
+
   // Form state
   const [formData, setFormData] = useState({
     name: '',
@@ -315,14 +333,17 @@ const EditTravelSafeHelpProfessionalProfile = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category</label>
-                <input
-                  type="text"
+                <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  placeholder="e.g., Wildlife Guide"
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                />
+                >
+                  <option value="">Select Category</option>
+                  {categoryOptions.map(option => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Experience (Years)</label>

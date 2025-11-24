@@ -28,6 +28,24 @@ const TravelSafeHelpProfessionalForm = () => {
   // Get advertisement ID from navigation state
   const advertisementId = location.state?.advertisementId;
 
+  // Category options for Travel Safe Help Professionals
+  const categoryOptions = [
+    'Emergency Response',
+    'Medical Assistance',
+    'Security Services',
+    'Wildlife Safety',
+    'Adventure Safety',
+    'Mountain Rescue',
+    'Water Safety',
+    'First Aid Services',
+    'Travel Insurance Assistance',
+    'Crisis Management',
+    'Safety Consulting',
+    'Risk Assessment',
+    'Village Guider',
+    'Other'
+  ];
+
   // Form state
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -292,14 +310,17 @@ const TravelSafeHelpProfessionalForm = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Category *
                 </label>
-                <input
-                  type="text"
+                <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="e.g., Wildlife Guide, Adventure Guide"
-                />
+                >
+                  <option value="">Select Category</option>
+                  {categoryOptions.map(option => (
+                    <option key={option} value={option}>{option}</option>
+                  ))}
+                </select>
               </div>
 
               <div>
