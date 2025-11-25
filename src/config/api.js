@@ -205,6 +205,9 @@ export const professionalDriversAPI = {
   updateProfile: (id, data) => api.put(`/professional-drivers/${id}`, data),
   addReview: (id, reviewData) => api.post(`/professional-drivers/${id}/reviews`, reviewData),
   getReviews: (id) => api.get(`/professional-drivers/${id}/reviews`),
+  addLiveRide: (id, rideData) => api.post(`/professional-drivers/${id}/live-rides`, rideData),
+  updateLiveRide: (id, rideId, rideData) => api.put(`/professional-drivers/${id}/live-rides/${rideId}`, rideData),
+  deleteLiveRide: (id, rideId) => api.delete(`/professional-drivers/${id}/live-rides/${rideId}`),
 };
 
 // Vehicle Repairs & Mechanics API calls
