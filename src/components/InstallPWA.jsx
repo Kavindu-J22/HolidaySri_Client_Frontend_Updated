@@ -89,19 +89,19 @@ const InstallPWA = () => {
           <Download className="w-5 h-5 sm:w-6 sm:h-6" />
           <span className="font-semibold text-sm sm:text-base hidden sm:inline">Install App</span>
 
+          {/* Pulse effect */}
+          <div className="absolute inset-0 rounded-full bg-blue-400 opacity-75 animate-ping pointer-events-none" />
+
           {/* Dismiss button */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleDismiss();
             }}
-            className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 transition-colors"
+            className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 transition-colors z-10"
           >
             <X className="w-3 h-3 sm:w-4 sm:h-4" />
           </button>
-
-          {/* Pulse effect */}
-          <div className="absolute inset-0 rounded-full bg-blue-400 opacity-75 animate-ping" />
         </button>
       </div>
 
