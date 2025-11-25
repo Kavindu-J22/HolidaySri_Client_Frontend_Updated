@@ -116,7 +116,7 @@ const CafesRestaurantsBrowse = () => {
     };
 
     fetchCafes();
-  }, [filters, setSearchParams]);
+  }, [filters, fromDestination, destinationName]);
 
   // Handle filter change
   const handleFilterChange = (e) => {

@@ -211,7 +211,7 @@ const categoryOptions = [
     };
 
     fetchFoodsBeverages();
-  }, [filters, setSearchParams, activeTab]);
+  }, [filters, activeTab, fromDestination, destinationName]);
 
   // Fetch menu items from restaurants
   useEffect(() => {
