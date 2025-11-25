@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { decoratorsFloristsAPI } from '../config/api';
 import SuccessModal from '../components/common/SuccessModal';
+import { DECORATOR_FLORIST_CATEGORIES } from '../constants/decoratorFloristCategories';
 
 const EditDecoratorsFloristsForm = () => {
   const navigate = useNavigate();
@@ -388,14 +389,21 @@ const EditDecoratorsFloristsForm = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Category *
                 </label>
-                <input
-                  type="text"
+                <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="e.g., Florist, Decorator, Event Decorator"
-                />
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white appearance-none cursor-pointer"
+                  style={{ maxHeight: '300px' }}
+                >
+                  <option value="">Select Category</option>
+                  {DECORATOR_FLORIST_CATEGORIES.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
