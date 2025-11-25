@@ -345,15 +345,15 @@ const VehicleRentalsHireDetail = () => {
 
             {/* Live Ride Banner - Only for Owner */}
             {isOwner && (
-              <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6 lg:mb-8 text-white">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl shadow-lg p-3 sm:p-4 md:p-6 mb-4 sm:mb-6 lg:mb-8 text-white">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
                   <div className="flex-1">
-                    <h3 className="text-lg sm:text-xl font-bold mb-2">
+                    <h3 className="text-base sm:text-lg md:text-xl font-bold mb-1 sm:mb-2">
                       {listing.liveRides && listing.liveRides.length > 0
                         ? '🚗 Add More Live Rides'
                         : '🎉 Add 1 Free Live Ride'}
                     </h3>
-                    <p className="text-sm sm:text-base opacity-90">
+                    <p className="text-xs sm:text-sm md:text-base opacity-90 leading-relaxed">
                       {listing.liveRides && listing.liveRides.length > 0
                         ? 'Want to add more live rides? Purchase a Live Ride & Carpooling advertisement slot.'
                         : 'Offer carpooling services to passengers! Add your first live ride for free.'}
@@ -362,14 +362,14 @@ const VehicleRentalsHireDetail = () => {
                   <button
                     onClick={() => {
                       if (listing.liveRides && listing.liveRides.length > 0) {
-                        navigate('/live-rides-carpooling');
+                        navigate('/ads/vehicles-transport/live-rides-carpooling');
                       } else {
                         handleAddLiveRide();
                       }
                     }}
-                    className="w-full sm:w-auto flex items-center justify-center gap-2 bg-white text-blue-600 px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-gray-100 transition whitespace-nowrap"
+                    className="w-full sm:w-auto flex items-center justify-center gap-1.5 sm:gap-2 bg-white text-blue-600 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 rounded-lg text-sm sm:text-base font-semibold hover:bg-gray-100 transition whitespace-nowrap"
                   >
-                    <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                     {listing.liveRides && listing.liveRides.length > 0 ? 'Browse Live Rides' : 'Add Live Ride'}
                   </button>
                 </div>
