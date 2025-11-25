@@ -246,7 +246,7 @@ const LiveRidesCarpoolingBrowse = () => {
             }`}
           >
             <Users className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
-            V & D Rides
+            More Rides
           </button>
         </div>
 
