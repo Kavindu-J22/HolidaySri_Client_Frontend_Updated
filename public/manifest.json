@@ -1,0 +1,89 @@
+{
+  "name": "Holidaysri - Sri Lanka Tourism Platform",
+  "short_name": "Holidaysri",
+  "description": "Sri Lanka's premier tourism and travel platform. Discover destinations, book tours, find accommodations, and explore the beauty of Sri Lanka.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712705/Hsllogo_3_gye6nd.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712705/Hsllogo_3_gye6nd.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "travel",
+    "tourism",
+    "lifestyle",
+    "business"
+  ],
+  "screenshots": [
+    {
+      "src": "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712705/Hsllogo_3_gye6nd.png",
+      "sizes": "540x720",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Explore Destinations",
+      "short_name": "Explore",
+      "description": "Discover amazing destinations in Sri Lanka",
+      "url": "/plan-dream-tour",
+      "icons": [
+        {
+          "src": "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712705/Hsllogo_3_gye6nd.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Post Advertisement",
+      "short_name": "Post Ad",
+      "description": "Post your tourism advertisement",
+      "url": "/post-advertisement",
+      "icons": [
+        {
+          "src": "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712705/Hsllogo_3_gye6nd.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "My Profile",
+      "short_name": "Profile",
+      "description": "View and manage your profile",
+      "url": "/profile",
+      "icons": [
+        {
+          "src": "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712705/Hsllogo_3_gye6nd.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.holidaysri.app",
+      "id": "com.holidaysri.app"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/holidaysri/id123456789"
+    }
+  ]
+}
+

@@ -58,6 +58,7 @@ import {
   Film,
   Share2,
   Bitcoin,
+  Download,
   Smartphone,
   Target,
   Handshake,
@@ -259,6 +260,12 @@ const Sidebar = ({ isOpen, onClose }) => {
       icon: MapPin,
       color: 'text-green-600',
       path: '/plan-dream-tour'
+    },
+    {
+      title: 'Download App',
+      icon: Download,
+      color: 'text-indigo-600',
+      path: '/download'
     }
   ];
 

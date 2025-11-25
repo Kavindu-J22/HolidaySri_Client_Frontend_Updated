@@ -1,0 +1,118 @@
+{
+  "name": "holidaysri-desktop",
+  "version": "1.0.0",
+  "description": "Holidaysri Desktop Application - Sri Lanka's Premier Tourism Platform",
+  "main": "electron/main.js",
+  "author": "Holidaysri Team",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "electron:dev": "concurrently \"npm run dev\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:build": "npm run build && electron-builder",
+    "electron:build:win": "npm run build && electron-builder --win",
+    "electron:build:mac": "npm run build && electron-builder --mac",
+    "electron:build:linux": "npm run build && electron-builder --linux",
+    "electron:build:all": "npm run build && electron-builder -mwl"
+  },
+  "dependencies": {
+    "electron-updater": "^6.1.7"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1",
+    "wait-on": "^7.2.0"
+  },
+  "build": {
+    "appId": "com.holidaysri.app",
+    "productName": "Holidaysri",
+    "copyright": "Copyright © 2024 Holidaysri",
+    "directories": {
+      "output": "electron-dist",
+      "buildResources": "electron/build"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "public/logo.png"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "public/logo.png",
+      "artifactName": "Holidaysri-Setup-${version}.${ext}",
+      "publisherName": "Holidaysri"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Holidaysri"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "icon": "public/logo.png",
+      "category": "public.app-category.travel",
+      "artifactName": "Holidaysri-${version}-${arch}.${ext}"
+    },
+    "dmg": {
+      "title": "Holidaysri ${version}",
+      "icon": "public/logo.png",
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "public/logo.png",
+      "category": "Network",
+      "artifactName": "Holidaysri-${version}.${ext}"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "holidaysri",
+      "repo": "holidaysri-desktop"
+    }
+  }
+}
+
