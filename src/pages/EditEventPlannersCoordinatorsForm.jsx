@@ -13,7 +13,9 @@ import {
   Facebook,
   Plus,
   X,
-  CheckCircle
+  CheckCircle,
+  User,
+  Upload
 } from 'lucide-react';
 import { eventPlannersCoordinatorsAPI } from '../config/api';
 import { EVENT_PLANNER_CATEGORIES } from '../constants/eventPlannerCategories';
@@ -48,6 +50,21 @@ const EditEventPlannersCoordinatorsForm = () => {
 
   const [specializationInput, setSpecializationInput] = useState('');
 
+  // Image and file state
+  const [images, setImages] = useState({
+    avatar: {
+      url: '',
+      publicId: '',
+      uploading: false
+    },
+    packages: {
+      url: '',
+      publicId: '',
+      fileName: '',
+      uploading: false
+    }
+  });
+
   // Fetch profile and provinces
   useEffect(() => {
     const fetchData = async () => {
@@ -76,6 +93,30 @@ const EditEventPlannersCoordinatorsForm = () => {
             website: profile.website || '',
             facebook: profile.facebook || ''
           });
+
+          // Set existing images
+          if (profile.avatar) {
+            setImages(prev => ({
+              ...prev,
+              avatar: {
+                url: profile.avatar.url || '',
+                publicId: profile.avatar.publicId || '',
+                uploading: false
+              }
+            }));
+          }
+
+          if (profile.packages) {
+            setImages(prev => ({
+              ...prev,
+              packages: {
+                url: profile.packages.url || '',
+                publicId: profile.packages.publicId || '',
+                fileName: profile.packages.fileName || '',
+                uploading: false
+              }
+            }));
+          }
         }
 
         if (provincesRes.data && provincesRes.data.data) {
@@ -120,6 +161,117 @@ const EditEventPlannersCoordinatorsForm = () => {
     }));
   };
 
+  // Upload to Cloudinary
+  const uploadToCloudinary = async (file, resourceType = 'image') => {
+    const formDataUpload = new FormData();
+    formDataUpload.append('file', file);
+    formDataUpload.append('upload_preset', 'ml_default');
+    formDataUpload.append('cloud_name', 'daa9e83as');
+
+    try {
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/daa9e83as/${resourceType}/upload`,
+        {
+          method: 'POST',
+          body: formDataUpload
+        }
+      );
+
+      const data = await response.json();
+      if (data.secure_url) {
+        return {
+          url: data.secure_url,
+          publicId: data.public_id
+        };
+      }
+      throw new Error('Upload failed');
+    } catch (error) {
+      console.error('Cloudinary upload error:', error);
+      throw error;
+    }
+  };
+
+  // Handle avatar upload
+  const handleAvatarUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setError('Avatar must be an image file');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Avatar must be less than 5MB');
+      return;
+    }
+
+    setImages(prev => ({
+      ...prev,
+      avatar: { ...prev.avatar, uploading: true }
+    }));
+
+    try {
+      const result = await uploadToCloudinary(file, 'image');
+      setImages(prev => ({
+        ...prev,
+        avatar: {
+          url: result.url,
+          publicId: result.publicId,
+          uploading: false
+        }
+      }));
+      setError('');
+    } catch (error) {
+      setError('Failed to upload avatar image');
+      setImages(prev => ({
+        ...prev,
+        avatar: { ...prev.avatar, uploading: false }
+      }));
+    }
+  };
+
+  // Handle packages PDF upload
+  const handlePackagesUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf') {
+      setError('Packages must be a PDF file');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setError('PDF must be less than 10MB');
+      return;
+    }
+
+    setImages(prev => ({
+      ...prev,
+      packages: { ...prev.packages, uploading: true }
+    }));
+
+    try {
+      const result = await uploadToCloudinary(file, 'raw');
+      setImages(prev => ({
+        ...prev,
+        packages: {
+          url: result.url,
+          publicId: result.publicId,
+          fileName: file.name,
+          uploading: false
+        }
+      }));
+      setError('');
+    } catch (error) {
+      setError('Failed to upload packages PDF');
+      setImages(prev => ({
+        ...prev,
+        packages: { ...prev.packages, uploading: false }
+      }));
+    }
+  };
+
   // Validate form
   const validateForm = () => {
     if (!formData.name.trim()) return 'Name is required';
@@ -149,7 +301,7 @@ const EditEventPlannersCoordinatorsForm = () => {
     setError('');
 
     try {
-      const response = await eventPlannersCoordinatorsAPI.updateProfile(id, {
+      const updateData = {
         name: formData.name,
         specialization: formData.specialization,
         category: formData.category,
@@ -163,7 +315,26 @@ const EditEventPlannersCoordinatorsForm = () => {
         website: formData.website || null,
         weekdayAvailability: formData.weekdayAvailability,
         weekendAvailability: formData.weekendAvailability
-      });
+      };
+
+      // Include avatar if updated
+      if (images.avatar.url && images.avatar.publicId) {
+        updateData.avatar = {
+          url: images.avatar.url,
+          publicId: images.avatar.publicId
+        };
+      }
+
+      // Include packages if updated
+      if (images.packages.url && images.packages.publicId) {
+        updateData.packages = {
+          url: images.packages.url,
+          publicId: images.packages.publicId,
+          fileName: images.packages.fileName
+        };
+      }
+
+      const response = await eventPlannersCoordinatorsAPI.updateProfile(id, updateData);
 
       if (response.data && response.data.success) {
         setShowSuccessModal(true);
@@ -480,6 +651,116 @@ const EditEventPlannersCoordinatorsForm = () => {
                   placeholder="https://yourwebsite.com"
                 />
               </div>
+            </div>
+          </div>
+
+          {/* Avatar Upload */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
+              <User className="w-5 h-5" />
+              <span>Profile Avatar</span>
+            </h2>
+
+            <div className="flex flex-col items-center">
+              {images.avatar.url ? (
+                <div className="relative mb-4">
+                  <img
+                    src={images.avatar.url}
+                    alt="Avatar preview"
+                    className="w-32 h-32 rounded-full object-cover border-4 border-blue-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setImages(prev => ({ ...prev, avatar: { url: '', publicId: '', uploading: false } }))}
+                    className="absolute top-0 right-0 bg-red-500 text-white rounded-full p-2 hover:bg-red-600"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="w-32 h-32 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center mb-4">
+                  <User className="w-16 h-16 text-gray-400" />
+                </div>
+              )}
+
+              <label className="relative cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarUpload}
+                  disabled={images.avatar.uploading}
+                  className="hidden"
+                />
+                <div className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors font-medium flex items-center space-x-2">
+                  {images.avatar.uploading ? (
+                    <>
+                      <Loader className="w-5 h-5 animate-spin" />
+                      <span>Uploading...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="w-5 h-5" />
+                      <span>{images.avatar.url ? 'Change Avatar' : 'Upload Avatar'}</span>
+                    </>
+                  )}
+                </div>
+              </label>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                Max size: 5MB. Formats: JPG, PNG, GIF
+              </p>
+            </div>
+          </div>
+
+          {/* Packages PDF Upload */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
+              <FileText className="w-5 h-5" />
+              <span>Packages (Optional)</span>
+            </h2>
+
+            <div className="flex flex-col items-center">
+              {images.packages.url ? (
+                <div className="mb-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800 w-full">
+                  <p className="text-green-800 dark:text-green-200 font-medium">
+                    ✓ {images.packages.fileName || 'Package PDF uploaded'}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setImages(prev => ({ ...prev, packages: { url: '', publicId: '', fileName: '', uploading: false } }))}
+                    className="mt-2 text-sm text-red-600 hover:text-red-700 font-medium"
+                  >
+                    Remove PDF
+                  </button>
+                </div>
+              ) : (
+                <label className="relative cursor-pointer w-full">
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={handlePackagesUpload}
+                    disabled={images.packages.uploading}
+                    className="hidden"
+                  />
+                  <div className="w-full px-6 py-8 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-500 dark:hover:border-blue-400 transition-colors flex flex-col items-center justify-center">
+                    {images.packages.uploading ? (
+                      <>
+                        <Loader className="w-12 h-12 text-blue-600 animate-spin mb-3" />
+                        <p className="text-gray-600 dark:text-gray-400">Uploading PDF...</p>
+                      </>
+                    ) : (
+                      <>
+                        <FileText className="w-12 h-12 text-gray-400 mb-3" />
+                        <p className="text-gray-700 dark:text-gray-300 font-medium mb-1">
+                          Click to upload packages PDF
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Max size: 10MB
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </label>
+              )}
             </div>
           </div>
 

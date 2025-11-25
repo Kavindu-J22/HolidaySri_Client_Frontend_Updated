@@ -55,7 +55,10 @@ const EventPlannersCoordinatorsDetail = () => {
         ]);
 
         if (profileRes.data && profileRes.data.data) {
-          setProfile(profileRes.data.data);
+          const profileData = profileRes.data.data;
+          console.log('Event Planner Profile Data:', profileData);
+          console.log('Packages Data:', profileData.packages);
+          setProfile(profileData);
         }
 
         if (reviewsRes.data && reviewsRes.data.data) {
@@ -512,7 +515,7 @@ const EventPlannersCoordinatorsDetail = () => {
         </div>
 
         {/* Packages - Enhanced */}
-        {profile.packages?.url && (
+        {profile.packages && profile.packages.url && (
           <div className="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl shadow-xl p-[2px] mb-6 sm:mb-8 hover:shadow-2xl transition-shadow duration-300">
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 lg:p-8 h-full">
               <div className="flex items-center space-x-3 mb-4 sm:mb-6">
@@ -526,17 +529,36 @@ const EventPlannersCoordinatorsDetail = () => {
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">
                 Download our comprehensive service packages and pricing information
               </p>
-              <a
-                href={profile.packages.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center space-x-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white rounded-xl hover:from-indigo-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-2xl text-sm sm:text-base font-bold transform hover:scale-105"
-              >
-                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                <span>Download Packages PDF</span>
-              </a>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <a
+                  href={profile.packages.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center justify-center space-x-2 px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white rounded-xl hover:from-indigo-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-2xl text-sm sm:text-base font-bold transform hover:scale-105"
+                >
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span>Download Packages PDF</span>
+                </a>
+                <a
+                  href={profile.packages.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex items-center justify-center space-x-2 px-6 sm:px-8 py-3 sm:py-4 bg-white dark:bg-gray-700 text-indigo-600 dark:text-indigo-400 border-2 border-indigo-600 dark:border-indigo-400 rounded-xl hover:bg-indigo-50 dark:hover:bg-gray-600 transition-all duration-300 shadow-lg hover:shadow-2xl text-sm sm:text-base font-bold transform hover:scale-105"
+                >
+                  <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <span>View Packages</span>
+                </a>
+              </div>
+              {profile.packages.fileName && (
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-3 sm:mt-4">
+                  📄 {profile.packages.fileName}
+                </p>
+              )}
             </div>
           </div>
         )}

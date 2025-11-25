@@ -311,13 +311,33 @@ const EditCreativePhotographersForm = () => {
               <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
                 Category *
               </label>
-              <input
-                type="text"
+              <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                placeholder="e.g., Fashion Photography"
-              />
+              >
+                <option value="">Select Category</option>
+                <option value="Wedding Photography">Wedding Photography</option>
+                <option value="Portrait Photography">Portrait Photography</option>
+                <option value="Fashion Photography">Fashion Photography</option>
+                <option value="Commercial Photography">Commercial Photography</option>
+                <option value="Event Photography">Event Photography</option>
+                <option value="Product Photography">Product Photography</option>
+                <option value="Real Estate Photography">Real Estate Photography</option>
+                <option value="Food Photography">Food Photography</option>
+                <option value="Nature & Wildlife Photography">Nature & Wildlife Photography</option>
+                <option value="Sports Photography">Sports Photography</option>
+                <option value="Newborn & Baby Photography">Newborn & Baby Photography</option>
+                <option value="Corporate Photography">Corporate Photography</option>
+                <option value="Aerial & Drone Photography">Aerial & Drone Photography</option>
+                <option value="Fine Art Photography">Fine Art Photography</option>
+                <option value="Documentary Photography">Documentary Photography</option>
+                <option value="Travel Photography">Travel Photography</option>
+                <option value="Architectural Photography">Architectural Photography</option>
+                <option value="Automotive Photography">Automotive Photography</option>
+                <option value="Maternity Photography">Maternity Photography</option>
+                <option value="Family Photography">Family Photography</option>
+              </select>
             </div>
 
             {/* Description */}
