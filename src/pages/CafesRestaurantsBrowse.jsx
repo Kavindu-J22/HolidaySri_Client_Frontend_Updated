@@ -17,7 +17,7 @@ import { formatOperatingHours } from '../utils/timeFormat';
 
 const CafesRestaurantsBrowse = () => {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [cafes, setCafes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -103,7 +103,6 @@ const CafesRestaurantsBrowse = () => {
         if (data.success) {
           setCafes(data.data);
           setPagination(data.pagination);
-          setSearchParams(params);
         } else {
           setError(data.message || 'Failed to load cafes');
         }

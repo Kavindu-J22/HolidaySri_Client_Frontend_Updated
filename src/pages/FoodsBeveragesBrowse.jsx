@@ -16,7 +16,7 @@ import {
 
 const FoodsBeveragesBrowse = () => {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(true);
   const [foodsBeverages, setFoodsBeverages] = useState([]);
   const [menuItems, setMenuItems] = useState([]);
@@ -198,7 +198,6 @@ const categoryOptions = [
         if (data.success) {
           setFoodsBeverages(data.data);
           setPagination(data.pagination);
-          setSearchParams(params);
         } else {
           setError('Failed to load foods & beverages');
         }
