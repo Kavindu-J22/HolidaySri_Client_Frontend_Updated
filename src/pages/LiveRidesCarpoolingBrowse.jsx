@@ -13,16 +13,22 @@ import {
   Calendar,
   Users,
   Clock,
-  ArrowLeft
+  ArrowLeft,
+  MessageCircle,
+  Eye,
+  Badge
 } from 'lucide-react';
+import { liveRidesCarpoolingAPI } from '../config/api';
 
 const LiveRidesCarpoolingBrowse = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [rides, setRides] = useState([]);
+  const [vdRides, setVdRides] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [activeTab, setActiveTab] = useState('liveRides'); // 'liveRides' or 'vdRides'
 
   // Get destination info from URL params
   const fromDestination = searchParams.get('fromDestination') || '';
@@ -40,6 +46,11 @@ const LiveRidesCarpoolingBrowse = () => {
     rideDate: ''
   });
 
+  const [vdFilters, setVdFilters] = useState({
+    fromLocation: '',
+    toLocation: ''
+  });
+
   const provincesAndDistricts = {
     "Western Province": ["Colombo", "Gampaha", "Kalutara"],
     "Central Province": ["Kandy", "Matale", "Nuwara Eliya"],
@@ -53,8 +64,12 @@ const LiveRidesCarpoolingBrowse = () => {
   };
 
   useEffect(() => {
-    fetchRides();
-  }, [filters]);
+    if (activeTab === 'liveRides') {
+      fetchRides();
+    } else {
+      fetchVDRides();
+    }
+  }, [filters, vdFilters, activeTab]);
 
   const fetchRides = async () => {
     setLoading(true);
@@ -99,17 +114,56 @@ const LiveRidesCarpoolingBrowse = () => {
     }));
   };
 
+  const fetchVDRides = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const params = {};
+      if (vdFilters.fromLocation) params.fromLocation = vdFilters.fromLocation;
+      if (vdFilters.toLocation) params.toLocation = vdFilters.toLocation;
+
+      const response = await liveRidesCarpoolingAPI.getVAndDRides(params);
+
+      if (response.data && response.data.success) {
+        setVdRides(response.data.data);
+      } else {
+        setError('Failed to load V & D rides');
+      }
+    } catch (err) {
+      console.error('Error fetching V & D rides:', err);
+      setError('Failed to load V & D rides');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const clearFilters = () => {
-    setFilters({
-      search: '',
-      fromLocation: '',
-      toLocation: '',
-      city: '',
-      province: '',
-      minPrice: '',
-      maxPrice: '',
-      rideDate: ''
-    });
+    if (activeTab === 'liveRides') {
+      setFilters({
+        search: '',
+        fromLocation: '',
+        toLocation: '',
+        city: '',
+        province: '',
+        minPrice: '',
+        maxPrice: '',
+        rideDate: ''
+      });
+    } else {
+      setVdFilters({
+        fromLocation: '',
+        toLocation: ''
+      });
+    }
+  };
+
+  const handleVdFilterChange = (e) => {
+    const { name, value } = e.target;
+    setVdFilters(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
   const renderStars = (rating) => {
@@ -131,6 +185,21 @@ const LiveRidesCarpoolingBrowse = () => {
 
   const handleViewRide = (rideId) => {
     navigate(`/live-rides-carpooling/${rideId}`);
+  };
+
+  const handleViewMore = (ride) => {
+    if (ride.sourceType === 'vehicle') {
+      navigate(`/vehicle-rentals-hire/${ride.sourceId}`);
+    } else if (ride.sourceType === 'driver') {
+      navigate(`/professional-drivers/${ride.sourceId}`);
+    }
+  };
+
+  const handleContactForJoin = (contact) => {
+    if (contact) {
+      const message = encodeURIComponent('Hi, I would like to join your live ride. Is it still available?');
+      window.open(`https://wa.me/${contact}?text=${message}`, '_blank');
+    }
   };
 
   return (
@@ -155,20 +224,48 @@ const LiveRidesCarpoolingBrowse = () => {
           )}
         </div>
 
-        {/* Search Bar */}
-        <div className="mb-6">
-          <div className="relative">
-            <Search className="absolute left-4 top-3 w-5 h-5 text-gray-400" />
-            <input
-              type="text"
-              name="search"
-              value={filters.search}
-              onChange={handleFilterChange}
-              placeholder="Search by vehicle, owner, or description..."
-              className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-            />
-          </div>
+        {/* Tab Navigation */}
+        <div className="mb-6 flex flex-col sm:flex-row justify-center gap-2 sm:gap-4">
+          <button
+            onClick={() => setActiveTab('liveRides')}
+            className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
+              activeTab === 'liveRides'
+                ? 'bg-blue-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+            }`}
+          >
+            <Car className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
+            Live Rides
+          </button>
+          <button
+            onClick={() => setActiveTab('vdRides')}
+            className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-all text-sm sm:text-base ${
+              activeTab === 'vdRides'
+                ? 'bg-blue-600 text-white shadow-lg'
+                : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+            }`}
+          >
+            <Users className="w-4 h-4 sm:w-5 sm:h-5 inline-block mr-2" />
+            V & D Rides
+          </button>
         </div>
+
+        {/* Search Bar - Only for Live Rides tab */}
+        {activeTab === 'liveRides' && (
+          <div className="mb-6">
+            <div className="relative">
+              <Search className="absolute left-4 top-3 w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                name="search"
+                value={filters.search}
+                onChange={handleFilterChange}
+                placeholder="Search by vehicle, owner, or description..."
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Filters Sidebar */}
@@ -196,8 +293,8 @@ const LiveRidesCarpoolingBrowse = () => {
                   <input
                     type="text"
                     name="fromLocation"
-                    value={filters.fromLocation}
-                    onChange={handleFilterChange}
+                    value={activeTab === 'liveRides' ? filters.fromLocation : vdFilters.fromLocation}
+                    onChange={activeTab === 'liveRides' ? handleFilterChange : handleVdFilterChange}
                     placeholder="e.g., Colombo"
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                   />
@@ -211,12 +308,16 @@ const LiveRidesCarpoolingBrowse = () => {
                   <input
                     type="text"
                     name="toLocation"
-                    value={filters.toLocation}
-                    onChange={handleFilterChange}
+                    value={activeTab === 'liveRides' ? filters.toLocation : vdFilters.toLocation}
+                    onChange={activeTab === 'liveRides' ? handleFilterChange : handleVdFilterChange}
                     placeholder="e.g., Kandy"
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                   />
                 </div>
+
+                {/* Province - Only for Live Rides */}
+                {activeTab === 'liveRides' && (
+                  <>
 
                 {/* Province */}
                 <div>
@@ -293,6 +394,8 @@ const LiveRidesCarpoolingBrowse = () => {
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                   />
                 </div>
+                  </>
+                )}
 
                 {/* Clear Filters */}
                 <button
@@ -328,7 +431,8 @@ const LiveRidesCarpoolingBrowse = () => {
               <div className="flex justify-center items-center py-20">
                 <Loader className="w-8 h-8 animate-spin text-blue-600" />
               </div>
-            ) : rides.length > 0 ? (
+            ) : activeTab === 'liveRides' ? (
+              rides.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {rides.map(ride => (
                   <div
@@ -412,22 +516,146 @@ const LiveRidesCarpoolingBrowse = () => {
                   </div>
                 ))}
               </div>
+              ) : (
+                <div className="text-center py-20">
+                  <Car className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                    No Rides Found
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">
+                    Try adjusting your search criteria or filters
+                  </p>
+                  <button
+                    onClick={clearFilters}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition"
+                  >
+                    Clear All Filters
+                  </button>
+                </div>
+              )
             ) : (
-              <div className="text-center py-20">
-                <Car className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  No Rides Found
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  Try adjusting your search criteria or filters
-                </p>
-                <button
-                  onClick={clearFilters}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition"
-                >
-                  Clear All Filters
-                </button>
-              </div>
+              // V & D Rides Tab
+              vdRides.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {vdRides.map(ride => (
+                    <div
+                      key={ride._id}
+                      className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition"
+                    >
+                      {/* Card Image */}
+                      <div className="relative h-48">
+                        <img
+                          src={ride.image || '/placeholder-car.jpg'}
+                          alt={ride.sourceName}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                          Rs. {ride.pricePerSeat}
+                        </div>
+                        <div className="absolute top-3 left-3">
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            ride.sourceType === 'vehicle'
+                              ? 'bg-green-500 text-white'
+                              : 'bg-purple-500 text-white'
+                          }`}>
+                            <Badge className="w-3 h-3 inline mr-1" />
+                            {ride.sourceType === 'vehicle' ? 'Vehicle Owner' : 'Driver'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Card Content */}
+                      <div className="p-4">
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 truncate">
+                          {ride.sourceName}
+                        </h3>
+
+                        {/* Route */}
+                        <div className="flex items-center gap-2 mb-3">
+                          <MapPin className="w-4 h-4 text-blue-600 flex-shrink-0" />
+                          <span className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                            {ride.from} → {ride.to}
+                          </span>
+                        </div>
+
+                        {/* Details */}
+                        <div className="space-y-2 mb-4">
+                          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <Calendar className="w-4 h-4" />
+                            {new Date(ride.date).toLocaleDateString()}
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <Clock className="w-4 h-4" />
+                            {ride.time}
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <Users className="w-4 h-4" />
+                            {ride.availablePassengerCount}/{ride.maxPassengerCount} seats available
+                          </div>
+                          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                            <Clock className="w-4 h-4" />
+                            Approx. {ride.approximateTimeToRide}
+                          </div>
+                        </div>
+
+                        {/* Status Badge */}
+                        <div className="mb-4">
+                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                            ride.status === 'Upcoming' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
+                            ride.status === 'Starting Soon' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
+                            ride.status === 'Ongoing' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                            ride.status === 'Over Soon' ? 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200' :
+                            'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+                          }`}>
+                            {ride.status}
+                          </span>
+                        </div>
+
+                        {/* Description */}
+                        {ride.description && (
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                            {ride.description}
+                          </p>
+                        )}
+
+                        {/* Action Buttons */}
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleViewMore(ride)}
+                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-semibold"
+                          >
+                            <Eye className="w-4 h-4" />
+                            View More
+                          </button>
+                          <button
+                            onClick={() => handleContactForJoin(ride.ownerContact)}
+                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-semibold"
+                          >
+                            <MessageCircle className="w-4 h-4" />
+                            Contact
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-20">
+                  <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                    No V & D Rides Found
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 mb-4">
+                    Try adjusting your filters or check back later
+                  </p>
+                  <button
+                    onClick={clearFilters}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition"
+                  >
+                    Clear Filters
+                  </button>
+                </div>
+              )
             )}
           </div>
         </div>

@@ -276,4 +276,9 @@ export const tripRequestAPI = {
   deleteTripRequest: (id) => api.delete(`/trip-requests/${id}`),
 };
 
+// Live Rides & Carpooling API calls
+export const liveRidesCarpoolingAPI = {
+  getVAndDRides: (params) => api.get('/live-rides-carpooling/v-and-d-rides', { params }),
+};
+
 export default api;
