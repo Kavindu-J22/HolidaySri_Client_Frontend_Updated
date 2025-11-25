@@ -30,6 +30,7 @@ const EditVehicleRentalsHire = () => {
     contact: '',
     pricePerKm: '',
     features: [],
+    vehicleStatus: '',
     driverStatus: '',
     driverGender: '',
     capacity: '',
@@ -49,6 +50,7 @@ const EditVehicleRentalsHire = () => {
 
   const vehicleCategories = ['Three Wheeler', 'Car', 'Van', 'Bus', 'Truck', 'Motorcycle', 'Bicycle', 'Other'];
   const serviceCategories = ['Hire', 'Rent', 'Taxi', 'Tour', 'Delivery'];
+  const vehicleStatuses = ['Available', 'Unavailable'];
   const driverStatuses = ['Available', 'Unavailable', 'On Demand'];
   const driverGenders = ['Male Driver', 'Female Driver', 'Any'];
 
@@ -77,6 +79,7 @@ const EditVehicleRentalsHire = () => {
           contact: listing.contact,
           pricePerKm: listing.pricePerKm,
           features: listing.features || [],
+          vehicleStatus: listing.vehicleStatus || '',
           driverStatus: listing.driverStatus,
           driverGender: listing.driverGender,
           capacity: listing.capacity,
@@ -174,6 +177,7 @@ const EditVehicleRentalsHire = () => {
     if (!formData.contact.trim()) return 'Contact number is required';
     if (!/^\+?[0-9\s\-\(\)]{7,20}$/.test(formData.contact)) return 'Invalid contact number format';
     if (!formData.pricePerKm || formData.pricePerKm < 0) return 'Valid price per km is required';
+    if (!formData.vehicleStatus) return 'Vehicle status is required';
     if (!formData.driverStatus) return 'Driver status is required';
     if (!formData.driverGender) return 'Driver gender is required';
     if (!formData.capacity || formData.capacity < 1) return 'Valid capacity is required';
@@ -422,6 +426,23 @@ const EditVehicleRentalsHire = () => {
               Vehicle Details
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  Vehicle Status *
+                </label>
+                <select
+                  name="vehicleStatus"
+                  value={formData.vehicleStatus}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                >
+                  <option value="">Select vehicle status</option>
+                  {vehicleStatuses.map(status => (
+                    <option key={status} value={status}>{status}</option>
+                  ))}
+                </select>
+              </div>
+
               <div>
                 <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Driver Status *

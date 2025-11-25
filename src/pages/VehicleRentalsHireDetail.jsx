@@ -435,11 +435,29 @@ const VehicleRentalsHireDetail = () => {
                 </div>
               </div>
 
-              {/* Driver Info */}
+              {/* Status Information */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
                 <div>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">Vehicle Status</p>
+                  <p className={`text-sm sm:text-base font-semibold ${
+                    listing.vehicleStatus === 'Available'
+                      ? 'text-green-600 dark:text-green-400'
+                      : 'text-red-600 dark:text-red-400'
+                  }`}>
+                    {listing.vehicleStatus}
+                  </p>
+                </div>
+                <div>
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">Driver Status</p>
-                  <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">{listing.driverStatus}</p>
+                  <p className={`text-sm sm:text-base font-semibold ${
+                    listing.driverStatus === 'Available'
+                      ? 'text-green-600 dark:text-green-400'
+                      : listing.driverStatus === 'On Demand'
+                      ? 'text-blue-600 dark:text-blue-400'
+                      : 'text-gray-600 dark:text-gray-400'
+                  }`}>
+                    {listing.driverStatus}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">Driver Gender</p>
