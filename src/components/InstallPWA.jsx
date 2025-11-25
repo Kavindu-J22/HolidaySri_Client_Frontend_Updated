@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Download, X, CheckCircle } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import InstallModal from './InstallModal';
 
 const InstallPWA = () => {
   const { isDarkMode } = useTheme();
@@ -8,6 +9,7 @@ const InstallPWA = () => {
   const [showInstallButton, setShowInstallButton] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
+  const [showInstallModal, setShowInstallModal] = useState(false);
 
   useEffect(() => {
     // Check if user has dismissed the prompt
@@ -43,7 +45,12 @@ const InstallPWA = () => {
     };
   }, []);
 
-  const handleInstall = async () => {
+  const handleInstall = () => {
+    // Show modal instead of direct install
+    setShowInstallModal(true);
+  };
+
+  const handleModalInstall = async () => {
     if (!deferredPrompt) return;
 
     deferredPrompt.prompt();
@@ -126,6 +133,14 @@ const InstallPWA = () => {
           </div>
         </div>
       </div>
+
+      {/* Install Modal */}
+      <InstallModal
+        isOpen={showInstallModal}
+        onClose={() => setShowInstallModal(false)}
+        onInstall={handleModalInstall}
+        canInstall={!!deferredPrompt}
+      />
     </>
   );
 };

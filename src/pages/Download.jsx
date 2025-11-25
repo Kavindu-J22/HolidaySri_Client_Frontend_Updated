@@ -13,6 +13,7 @@ import {
   Shield,
   Globe
 } from 'lucide-react';
+import InstallModal from '../components/InstallModal';
 
 const Download = () => {
   const { isDarkMode } = useTheme();
@@ -20,6 +21,7 @@ const Download = () => {
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isInstallable, setIsInstallable] = useState(false);
   const [isInstalled, setIsInstalled] = useState(false);
+  const [showInstallModal, setShowInstallModal] = useState(false);
 
   const platforms = [
     {
@@ -124,9 +126,13 @@ const Download = () => {
   }, []);
 
   const handleInstallPWA = async () => {
+    // Always show the modal with instructions
+    setShowInstallModal(true);
+  };
+
+  const handleModalInstall = async () => {
     if (!deferredPrompt) {
-      // Fallback for browsers that don't support the install prompt
-      alert('To install the web app:\n\n1. Click the menu (⋮) in your browser\n2. Select "Install Holidaysri" or "Add to Home Screen"\n3. Follow the prompts to install');
+      // Modal will show manual instructions
       return;
     }
 
@@ -435,6 +441,14 @@ const Download = () => {
           </div>
         </div>
       </div>
+
+      {/* Install Modal */}
+      <InstallModal
+        isOpen={showInstallModal}
+        onClose={() => setShowInstallModal(false)}
+        onInstall={handleModalInstall}
+        canInstall={isInstallable && !!deferredPrompt}
+      />
     </div>
   );
 };
