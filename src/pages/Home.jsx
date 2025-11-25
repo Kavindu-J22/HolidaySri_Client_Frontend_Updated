@@ -28,7 +28,9 @@ import {
   BadgeCheck,
   Briefcase,
   Package,
-  Clock
+  Clock,
+  Map,
+  Navigation
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -37,6 +39,8 @@ const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [bannerSlides, setBannerSlides] = useState([]);
   const [loadingBanners, setLoadingBanners] = useState(true);
+  const [popularDestinations, setPopularDestinations] = useState([]);
+  const [loadingDestinations, setLoadingDestinations] = useState(true);
 
   // Default banner slideshow data (fallback)
   const defaultBannerSlides = [
@@ -138,6 +142,26 @@ const Home = () => {
     };
 
     fetchBannerSlots();
+  }, []);
+
+  // Fetch popular destinations for Plan Your Dream Tour section
+  useEffect(() => {
+    const fetchPopularDestinations = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/destinations?sortBy=popular&limit=4');
+        const data = await response.json();
+
+        if (data.destinations && data.destinations.length > 0) {
+          setPopularDestinations(data.destinations);
+        }
+      } catch (error) {
+        console.error('Error fetching popular destinations:', error);
+      } finally {
+        setLoadingDestinations(false);
+      }
+    };
+
+    fetchPopularDestinations();
   }, []);
 
   // Auto-slide functionality
@@ -447,6 +471,132 @@ const Home = () => {
                 Visit our social media 
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Plan Your Dream Tour Section - Professional & Attractive */}
+      <section className="relative overflow-hidden px-4 sm:px-6 md:px-8">
+        {/* Background Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-blue-900/10 dark:via-purple-900/10 dark:to-pink-900/10 rounded-3xl"></div>
+
+        {/* Decorative Elements */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-primary-200/20 to-purple-200/20 dark:from-primary-500/5 dark:to-purple-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-pink-200/20 to-blue-200/20 dark:from-pink-500/5 dark:to-blue-500/5 rounded-full blur-3xl"></div>
+
+        <div className="relative py-12 sm:py-16 md:py-20">
+          {/* Section Header */}
+          <div className="text-center mb-8 sm:mb-12">
+            <div className="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-primary-100 to-purple-100 dark:from-primary-900/30 dark:to-purple-900/30 rounded-full mb-4 sm:mb-6">
+              <Map className="w-4 h-4 sm:w-5 sm:h-5 text-primary-600 dark:text-primary-400 mr-2 flex-shrink-0" />
+              <span className="text-sm sm:text-base font-bold text-primary-600 dark:text-primary-400">
+                DISCOVER SRI LANKA
+              </span>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
+              Plan Your Dream Tour
+            </h2>
+
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-4 leading-relaxed">
+              Explore Sri Lanka's most captivating destinations. From vibrant cities to ancient wonders,
+              start your unforgettable journey here.
+            </p>
+          </div>
+
+          {/* Destination Cards Grid */}
+          {loadingDestinations ? (
+            <div className="flex items-center justify-center py-20">
+              <div className="text-center">
+                <Loader className="w-12 h-12 sm:w-16 sm:h-16 animate-spin mx-auto mb-4 text-primary-600 dark:text-primary-400" />
+                <p className="text-base sm:text-lg font-semibold text-gray-600 dark:text-gray-400">
+                  Loading destinations...
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8 sm:mb-12 px-2 sm:px-0">
+              {popularDestinations.map((destination, index) => (
+                <div
+                  key={destination._id}
+                  className="group relative bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+                >
+                  {/* Destination Image */}
+                  <div className="relative h-56 sm:h-64 overflow-hidden">
+                    <img
+                      src={destination.images && destination.images[0] ? destination.images[0].url : 'https://via.placeholder.com/400x300'}
+                      alt={destination.name}
+                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                    />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+
+                    {/* Destination Type Badge */}
+                    <div className="absolute top-4 right-4">
+                      <span className="inline-flex items-center px-3 py-1.5 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-full text-xs font-bold text-primary-600 dark:text-primary-400 shadow-lg">
+                        <Sparkles className="w-3 h-3 mr-1" />
+                        {destination.type || 'Popular'}
+                      </span>
+                    </div>
+
+                    {/* Destination Name & Info Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+                      <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">
+                        {destination.name}
+                      </h3>
+                      <div className="flex items-center space-x-4 text-white/90 text-sm">
+                        <div className="flex items-center">
+                          <MapPin className="w-4 h-4 mr-1 flex-shrink-0" />
+                          <span className="truncate">{destination.province}</span>
+                        </div>
+                        {destination.averageRating > 0 && (
+                          <div className="flex items-center">
+                            <Star className="w-4 h-4 mr-1 text-yellow-400 fill-yellow-400 flex-shrink-0" />
+                            <span>{destination.averageRating.toFixed(1)}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Card Content */}
+                  <div className="p-4 sm:p-5">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2 leading-relaxed">
+                      {destination.description}
+                    </p>
+
+                    {/* Distance Info */}
+                    <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                      <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                        <Navigation className="w-4 h-4 mr-1.5 text-primary-600 dark:text-primary-400 flex-shrink-0" />
+                        <span>{destination.distanceFromColombo} km from Colombo</span>
+                      </div>
+                    </div>
+
+                    {/* Explore Now Button */}
+                    <Link
+                      to={`/destinations/${destination._id}`}
+                      className="w-full inline-flex items-center justify-center px-5 py-3 bg-gradient-to-r from-primary-600 to-purple-600 text-white font-semibold rounded-xl hover:from-primary-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg group"
+                    >
+                      Explore Now
+                      <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Explore More Button */}
+          <div className="text-center">
+            <Link
+              to="/plan-dream-tour"
+              className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 text-white text-sm sm:text-base font-bold rounded-xl hover:from-primary-700 hover:via-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+            >
+              <Compass className="mr-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+              Explore More Destinations
+              <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+            </Link>
           </div>
         </div>
       </section>

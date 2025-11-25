@@ -14,7 +14,7 @@ const PlanDreamTour = () => {
     province: '',
     district: ''
   });
-  const [sortBy, setSortBy] = useState('createdAt');
+  const [sortBy, setSortBy] = useState('popular');
   const [sortOrder, setSortOrder] = useState('desc');
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -85,7 +85,7 @@ const PlanDreamTour = () => {
       province: '',
       district: ''
     });
-    setSortBy('createdAt');
+    setSortBy('popular');
     setSortOrder('desc');
     setCurrentPage(1);
   };
@@ -141,6 +141,7 @@ const PlanDreamTour = () => {
               onChange={(e) => handleSortChange(e.target.value)}
               className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent transition-colors duration-200 min-w-[140px]"
             >
+              <option value="popular">Popular</option>
               <option value="createdAt">Latest</option>
               <option value="rating">Rating</option>
               <option value="name">Name</option>
