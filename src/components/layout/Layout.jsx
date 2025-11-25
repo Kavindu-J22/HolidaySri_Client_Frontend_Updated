@@ -24,7 +24,8 @@ const Layout = () => {
 
       <Navbar />
 
-      <div className="flex flex-1 relative z-10">
+      {/* Add padding-top to account for fixed navbar */}
+      <div className="flex flex-1 relative z-10 pt-16">
         <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
         <main className="flex-1 lg:ml-0 flex flex-col">
