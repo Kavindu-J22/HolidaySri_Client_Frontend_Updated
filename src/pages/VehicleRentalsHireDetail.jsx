@@ -139,6 +139,7 @@ const VehicleRentalsHireDetail = () => {
           <SuccessModal
             title="Review Submitted!"
             message="Thank you for your review. It has been added successfully."
+            onClose={() => setSuccess(false)}
           />
         )}
 
