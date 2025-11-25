@@ -1,0 +1,147 @@
+// Event Planner & Day Coordinator Categories
+export const EVENT_PLANNER_CATEGORIES = [
+  // WEDDING & CELEBRATIONS
+  'Wedding Planner',
+  'Wedding Coordinator',
+  'Destination Wedding Planner',
+  'Traditional Wedding Specialist',
+  'Modern Wedding Planner',
+  'Intimate Wedding Planner',
+  'Grand Wedding Specialist',
+  'Engagement Party Planner',
+  'Anniversary Celebration Planner',
+  'Vow Renewal Coordinator',
+  
+  // CORPORATE & BUSINESS
+  'Corporate Event Planner',
+  'Conference Organizer',
+  'Business Meeting Coordinator',
+  'Product Launch Specialist',
+  'Trade Show Coordinator',
+  'Corporate Retreat Planner',
+  'Team Building Event Planner',
+  'Networking Event Coordinator',
+  'Business Seminar Organizer',
+  'Corporate Gala Planner',
+  
+  // SOCIAL & PRIVATE EVENTS
+  'Birthday Party Planner',
+  'Kids Birthday Specialist',
+  'Adult Birthday Planner',
+  'Milestone Birthday Coordinator',
+  'Graduation Party Planner',
+  'Retirement Party Coordinator',
+  'Baby Shower Planner',
+  'Bridal Shower Coordinator',
+  'Housewarming Party Planner',
+  'Reunion Event Planner',
+  
+  // CULTURAL & TRADITIONAL
+  'Cultural Event Coordinator',
+  'Traditional Ceremony Planner',
+  'Religious Event Coordinator',
+  'Festival Event Planner',
+  'Cultural Show Organizer',
+  'Heritage Event Specialist',
+  'Temple Event Coordinator',
+  'Perahera Event Planner',
+  'Traditional Dance Event Coordinator',
+  'Cultural Exhibition Planner',
+  
+  // ENTERTAINMENT & PERFORMANCES
+  'Concert Event Planner',
+  'Music Festival Coordinator',
+  'Live Performance Organizer',
+  'Theater Event Planner',
+  'Dance Show Coordinator',
+  'Comedy Show Planner',
+  'Talent Show Organizer',
+  'Award Ceremony Planner',
+  'Fashion Show Coordinator',
+  'Art Exhibition Planner',
+  
+  // CHARITY & FUNDRAISING
+  'Charity Event Planner',
+  'Fundraising Event Coordinator',
+  'Gala Dinner Organizer',
+  'Auction Event Planner',
+  'Benefit Concert Coordinator',
+  'Community Event Planner',
+  'Non-Profit Event Specialist',
+  'Awareness Campaign Coordinator',
+  'Volunteer Event Organizer',
+  'Donation Drive Planner',
+  
+  // SPORTS & FITNESS
+  'Sports Event Coordinator',
+  'Marathon Event Planner',
+  'Tournament Organizer',
+  'Fitness Event Coordinator',
+  'Yoga Retreat Planner',
+  'Sports Day Organizer',
+  'Athletic Event Coordinator',
+  'Adventure Race Planner',
+  'Wellness Event Coordinator',
+  'Health Fair Organizer',
+  
+  // EDUCATIONAL & PROFESSIONAL
+  'Workshop Coordinator',
+  'Seminar Planner',
+  'Training Event Organizer',
+  'Educational Conference Planner',
+  'Academic Event Coordinator',
+  'Symposium Organizer',
+  'Lecture Series Planner',
+  'Career Fair Coordinator',
+  'Professional Development Event Planner',
+  'Certification Event Organizer',
+  
+  // THEMED & SPECIALTY
+  'Theme Party Planner',
+  'Costume Party Coordinator',
+  'Holiday Party Planner',
+  'Seasonal Event Coordinator',
+  'Beach Event Planner',
+  'Garden Party Specialist',
+  'Outdoor Event Coordinator',
+  'Indoor Event Specialist',
+  'Luxury Event Planner',
+  'Budget Event Coordinator',
+  
+  // FOOD & BEVERAGE EVENTS
+  'Food Festival Coordinator',
+  'Wine Tasting Event Planner',
+  'Culinary Event Organizer',
+  'Restaurant Opening Coordinator',
+  'Food & Wine Pairing Event Planner',
+  'Cooking Class Coordinator',
+  'Chef\'s Table Event Planner',
+  'Tasting Menu Event Coordinator',
+  'Farm-to-Table Event Planner',
+  'Street Food Event Organizer',
+  
+  // TOURISM & HOSPITALITY
+  'Tourism Event Planner',
+  'Hotel Event Coordinator',
+  'Resort Event Specialist',
+  'Destination Event Planner',
+  'Travel Event Coordinator',
+  'Hospitality Event Organizer',
+  'Guest Experience Coordinator',
+  'VIP Event Planner',
+  'Exclusive Event Coordinator',
+  'Boutique Event Specialist',
+  
+  // GENERAL & MULTI-PURPOSE
+  'Full-Service Event Planner',
+  'Day Coordinator',
+  'Event Management Specialist',
+  'Multi-Event Coordinator',
+  'Versatile Event Planner',
+  'Custom Event Designer',
+  'Event Consultant',
+  'Event Production Specialist',
+  'Event Logistics Coordinator',
+  'General Event Planner'
+];
+

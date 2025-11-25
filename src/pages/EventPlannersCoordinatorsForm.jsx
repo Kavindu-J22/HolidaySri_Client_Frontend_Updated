@@ -14,6 +14,7 @@ import {
   Loader,
   CheckCircle
 } from 'lucide-react';
+import { EVENT_PLANNER_CATEGORIES } from '../constants/eventPlannerCategories';
 
 const EventPlannersCoordinatorsForm = () => {
   const navigate = useNavigate();
@@ -428,14 +429,21 @@ const EventPlannersCoordinatorsForm = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Category *
                 </label>
-                <input
-                  type="text"
+                <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="e.g., Event Planner & Day Coordinator"
-                />
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white appearance-none cursor-pointer"
+                  style={{ maxHeight: '300px' }}
+                >
+                  <option value="">Select Category</option>
+                  {EVENT_PLANNER_CATEGORIES.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
