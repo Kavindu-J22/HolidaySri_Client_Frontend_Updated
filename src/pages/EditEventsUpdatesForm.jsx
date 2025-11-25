@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { 
-  Calendar, Clock, MapPin, DollarSign, Phone, User, 
-  Globe, Facebook, Upload, X, Loader, CheckCircle, 
+import {
+  Calendar, Clock, MapPin, DollarSign, Phone, User,
+  Globe, Facebook, Upload, X, Loader, CheckCircle,
   Image as ImageIcon, Plus, Trash2
 } from 'lucide-react';
 import { eventsUpdatesAPI } from '../config/api';
+import { EVENT_CATEGORIES } from '../constants/eventCategories';
 
 const provincesAndDistricts = {
   "Western Province": ["Colombo", "Gampaha", "Kalutara"],
@@ -305,16 +306,21 @@ const EditEventsUpdatesForm = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Category Type *
                 </label>
-                <input
-                  type="text"
+                <select
                   name="categoryType"
                   value={formData.categoryType}
                   onChange={handleInputChange}
-                  placeholder="e.g., Music Concert, Festival, Workshop"
                   required
-                  maxLength={100}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                />
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white appearance-none cursor-pointer"
+                  style={{ maxHeight: '300px' }}
+                >
+                  <option value="">Select Event Category</option>
+                  {EVENT_CATEGORIES.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               {/* Description */}

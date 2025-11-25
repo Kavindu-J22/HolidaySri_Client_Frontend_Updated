@@ -118,46 +118,46 @@ const EventsUpdatesBrowse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Events & Updates{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             {fromDestination ? `Discover exciting events happening in ${destinationName}` : 'Discover exciting events happening in Sri Lanka'}
           </p>
           {fromDestination && (
             <button
               onClick={() => navigate(`/destinations/${fromDestination}`)}
-              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+              className="mt-2 text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
             >
-              <ArrowLeft className="w-3 h-3" />
+              <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4" />
               <span>Back to {destinationName}</span>
             </button>
           )}
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl p-4 sm:p-6 mb-6 sm:mb-8">
           {/* Search Bar */}
-          <div className="flex flex-col md:flex-row gap-4 mb-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search events by name, category, or description..."
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                placeholder="Search events..."
+                className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 text-sm sm:text-base"
             >
-              <Filter className="w-5 h-5" />
+              <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Filters</span>
             </button>
           </div>
@@ -165,7 +165,7 @@ const EventsUpdatesBrowse = () => {
           {/* Filters Panel */}
           {showFilters && (
             <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 {/* Featured */}
                 <div className="flex items-center">
                   <input
@@ -174,7 +174,7 @@ const EventsUpdatesBrowse = () => {
                     onChange={(e) => handleFilterChange('featured', e.target.checked)}
                     className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                   />
-                  <label className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+                  <label className="ml-2 text-xs sm:text-sm text-gray-700 dark:text-gray-300">
                     Featured Events Only
                   </label>
                 </div>
@@ -264,77 +264,86 @@ const EventsUpdatesBrowse = () => {
 
         {/* Events Grid */}
         {loading ? (
-          <div className="flex items-center justify-center py-20">
-            <Loader className="w-8 h-8 text-blue-600 animate-spin" />
+          <div className="flex items-center justify-center py-12 sm:py-20">
+            <Loader className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 animate-spin" />
           </div>
         ) : events.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
+          <div className="text-center py-12 sm:py-20">
+            <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg">
               No events found. Try adjusting your filters.
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {events.map((event) => (
               <div
                 key={event._id}
-                className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-shadow cursor-pointer group"
+                className="h-full flex flex-col bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer group"
               >
                 {/* Event Image */}
-                {event.images && event.images.length > 0 && (
-                  <div className="relative h-48 overflow-hidden">
+                {event.images && event.images.length > 0 ? (
+                  <div className="relative h-44 sm:h-48 overflow-hidden flex-shrink-0">
                     <img
                       src={event.images[0].url}
                       alt={event.eventName}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                     {event.featured && (
-                      <span className="absolute top-3 right-3 px-3 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full text-xs font-semibold">
+                      <span className="absolute top-2 sm:top-3 right-2 sm:right-3 px-2 sm:px-3 py-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full text-xs font-semibold shadow-lg">
                         ⭐ Featured
                       </span>
                     )}
                   </div>
+                ) : (
+                  <div className="relative h-44 sm:h-48 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900/30 dark:to-purple-900/30 flex items-center justify-center flex-shrink-0">
+                    <Calendar className="w-16 h-16 sm:w-20 sm:h-20 text-gray-400 dark:text-gray-600" />
+                  </div>
                 )}
 
                 {/* Event Details */}
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
-                    {event.eventName}
-                  </h3>
-                  
-                  <p className="text-sm text-blue-600 dark:text-blue-400 mb-3">
-                    {event.categoryType}
-                  </p>
+                <div className="flex flex-col flex-1 p-4 sm:p-5 md:p-6">
+                  {/* Title and Category */}
+                  <div className="flex-shrink-0 mb-3">
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 min-h-[3.5rem]">
+                      {event.eventName}
+                    </h3>
 
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
-                    {event.description}
-                  </p>
+                    <p className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 font-medium mb-2 truncate">
+                      {event.categoryType}
+                    </p>
+
+                    <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-3 line-clamp-2 min-h-[2.5rem]">
+                      {event.description}
+                    </p>
+                  </div>
 
                   {/* Event Info */}
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                      <Calendar className="w-4 h-4 mr-2" />
-                      {new Date(event.date).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
-                      })}
+                  <div className="space-y-1.5 sm:space-y-2 mb-3 sm:mb-4 flex-shrink-0">
+                    <div className="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                      <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 flex-shrink-0" />
+                      <span className="truncate">
+                        {new Date(event.date).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric'
+                        })}
+                      </span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                      <MapPin className="w-4 h-4 mr-2" />
-                      {event.city}, {event.province}
+                    <div className="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                      <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 flex-shrink-0" />
+                      <span className="truncate">{event.city}, {event.province}</span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                      <DollarSign className="w-4 h-4 mr-2" />
-                      {event.ticketPrice}
+                    <div className="flex items-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                      <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 mr-2 flex-shrink-0" />
+                      <span className="truncate">{event.ticketPrice} LKR</span>
                     </div>
                   </div>
 
                   {/* Rating */}
-                  <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
-                    <div className="flex items-center space-x-2">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4 pb-3 sm:pb-4 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+                    <div className="flex items-center space-x-1.5 sm:space-x-2">
                       {renderStars(event.averageRating || 0)}
-                      <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                      <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
                         {event.averageRating ? event.averageRating.toFixed(1) : '0.0'}
                       </span>
                     </div>
@@ -346,9 +355,9 @@ const EventsUpdatesBrowse = () => {
                   {/* View More Button */}
                   <button
                     onClick={() => navigate(`/events-updates/${event._id}`)}
-                    className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors font-medium"
+                    className="w-full px-4 py-2 sm:py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium text-sm sm:text-base shadow-md hover:shadow-lg mt-auto"
                   >
-                    View More
+                    View Details
                   </button>
                 </div>
               </div>
