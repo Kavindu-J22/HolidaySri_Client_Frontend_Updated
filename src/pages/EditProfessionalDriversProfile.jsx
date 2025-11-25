@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { professionalDriversAPI } from '../config/api';
 import SuccessModal from '../components/common/SuccessModal';
+import { DRIVER_CATEGORIES } from '../constants/driverCategories';
 
 const EditProfessionalDriversProfile = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const EditProfessionalDriversProfile = () => {
     facebook: ''
   });
 
-  const [categoryInput, setCategoryInput] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [imagePreview, setImagePreview] = useState(null);
   const [uploadingImage, setUploadingImage] = useState(false);
 
@@ -154,14 +155,14 @@ const EditProfessionalDriversProfile = () => {
     }));
   };
 
-  // Add category
+  // Add category from dropdown
   const handleAddCategory = () => {
-    if (categoryInput.trim() && formData.categories.length < 5) {
+    if (selectedCategory && formData.categories.length < 5 && !formData.categories.includes(selectedCategory)) {
       setFormData(prev => ({
         ...prev,
-        categories: [...prev.categories, categoryInput.trim()]
+        categories: [...prev.categories, selectedCategory]
       }));
-      setCategoryInput('');
+      setSelectedCategory('');
     }
   };
 
@@ -172,6 +173,9 @@ const EditProfessionalDriversProfile = () => {
       categories: prev.categories.filter((_, i) => i !== index)
     }));
   };
+
+  // Get available categories (not already selected)
+  const availableCategories = DRIVER_CATEGORIES.filter(cat => !formData.categories.includes(cat));
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -315,39 +319,49 @@ const EditProfessionalDriversProfile = () => {
 
           {/* Categories */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Categories * (Max 5)</label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Categories * (Select up to 5)</label>
             <div className="flex gap-2 mb-3">
-              <input
-                type="text"
-                value={categoryInput}
-                onChange={(e) => setCategoryInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddCategory())}
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
                 className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                placeholder="Add category"
-              />
+                disabled={formData.categories.length >= 5}
+              >
+                <option value="">Select a category</option>
+                {availableCategories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
               <button
                 type="button"
                 onClick={handleAddCategory}
-                disabled={formData.categories.length >= 5}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                disabled={formData.categories.length >= 5 || !selectedCategory}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Plus className="w-5 h-5" />
               </button>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {formData.categories.map((cat, idx) => (
-                <div key={idx} className="flex items-center space-x-2 bg-blue-100 dark:bg-blue-900/30 px-3 py-1 rounded-full">
-                  <span className="text-sm text-blue-700 dark:text-blue-300">{cat}</span>
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveCategory(idx)}
-                    className="text-blue-600 dark:text-blue-400 hover:text-blue-800"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ))}
-            </div>
+            {formData.categories.length > 0 && (
+              <div className="flex flex-wrap gap-2 mb-2">
+                {formData.categories.map((cat, idx) => (
+                  <div key={idx} className="flex items-center space-x-2 bg-blue-100 dark:bg-blue-900/30 px-3 py-1 rounded-full">
+                    <span className="text-sm text-blue-700 dark:text-blue-300">{cat}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveCategory(idx)}
+                      className="text-blue-600 dark:text-blue-400 hover:text-blue-800 transition-colors"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              {formData.categories.length}/5 categories selected
+            </p>
           </div>
 
           {/* Description */}
