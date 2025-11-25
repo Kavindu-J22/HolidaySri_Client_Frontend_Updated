@@ -40,6 +40,7 @@ import LocationDetail from './pages/LocationDetail';
 import ScrollToTop from './components/ScrollToTop';
 import ProtectedRoute from './components/ProtectedRoute';
 import HSGPopup from './components/common/HSGPopup';
+import InstallPWA from './components/InstallPWA';
 import PostAdvertisement from './pages/PostAdvertisement';
 import AdvertisementPayment from './pages/AdvertisementPayment';
 import RenewAdvertisement from './pages/RenewAdvertisement';
@@ -290,6 +291,7 @@ function App() {
         <Router>
           <ScrollToTop />
           <HSGPopup />
+          <InstallPWA />
           <div className="App">
             <Routes>
               {/* Auth routes */}
