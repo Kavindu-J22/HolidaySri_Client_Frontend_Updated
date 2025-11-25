@@ -203,20 +203,20 @@ const LiveRidesCarpoolingBrowse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8 px-3 sm:px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Live Rides & Carpooling{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             {fromDestination ? `Find and share rides in ${destinationName}` : 'Find and share rides across Sri Lanka'}
           </p>
           {fromDestination && (
             <button
               onClick={() => navigate(`/destinations/${fromDestination}`)}
-              className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
+              className="mt-2 text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 flex items-center space-x-1"
             >
               <ArrowLeft className="w-3 h-3" />
               <span>Back to {destinationName}</span>
@@ -252,16 +252,16 @@ const LiveRidesCarpoolingBrowse = () => {
 
         {/* Search Bar - Only for Live Rides tab */}
         {activeTab === 'liveRides' && (
-          <div className="mb-6">
+          <div className="mb-4 sm:mb-6">
             <div className="relative">
-              <Search className="absolute left-4 top-3 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 sm:left-4 top-2.5 sm:top-3 w-4 sm:w-5 h-4 sm:h-5 text-gray-400" />
               <input
                 type="text"
                 name="search"
                 value={filters.search}
                 onChange={handleFilterChange}
                 placeholder="Search by vehicle, owner, or description..."
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
           </div>
@@ -433,74 +433,74 @@ const LiveRidesCarpoolingBrowse = () => {
               </div>
             ) : activeTab === 'liveRides' ? (
               rides.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
                 {rides.map(ride => (
                   <div
                     key={ride._id}
-                    className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition transform hover:scale-105"
+                    className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full"
                   >
                     {/* Card Image */}
-                    <div className="relative h-48">
+                    <div className="relative h-44 sm:h-48">
                       <img
                         src={ride.images?.vehicleImage?.url || '/placeholder-car.jpg'}
                         alt={`${ride.vehicleBrand} ${ride.vehicleNumber}`}
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                      <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-blue-600 text-white px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold shadow-lg">
                         LKR {ride.pricePerSeat}
                       </div>
-                      <div className="absolute bottom-3 left-3 bg-black bg-opacity-60 text-white px-3 py-1 rounded-full text-xs">
+                      <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 bg-black bg-opacity-70 text-white px-2.5 sm:px-3 py-1 rounded-full text-xs font-medium">
                         {ride.status}
                       </div>
                     </div>
 
                     {/* Card Content */}
-                    <div className="p-5">
+                    <div className="p-4 sm:p-5 flex flex-col flex-grow">
                       {/* Route */}
                       <div className="mb-3">
-                        <div className="flex items-center gap-2 text-gray-900 dark:text-white font-semibold text-lg mb-1">
-                          <MapPin className="w-5 h-5 text-blue-600" />
-                          {ride.rideRoute.from}
+                        <div className="flex items-center gap-2 text-gray-900 dark:text-white font-semibold text-base sm:text-lg mb-1.5 truncate">
+                          <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
+                          <span className="truncate">{ride.rideRoute.from}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-gray-900 dark:text-white font-semibold text-lg">
-                          <MapPin className="w-5 h-5 text-green-600" />
-                          {ride.rideRoute.to}
+                        <div className="flex items-center gap-2 text-gray-900 dark:text-white font-semibold text-base sm:text-lg truncate">
+                          <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" />
+                          <span className="truncate">{ride.rideRoute.to}</span>
                         </div>
                       </div>
 
                       {/* Vehicle Info */}
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm mb-3">
-                        <Car className="w-4 h-4" />
-                        <span>{ride.vehicleBrand} - {ride.vehicleNumber}</span>
+                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-2.5 truncate">
+                        <Car className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                        <span className="truncate">{ride.vehicleBrand} - {ride.vehicleNumber}</span>
                       </div>
 
                       {/* Date & Time */}
-                      <div className="grid grid-cols-2 gap-2 mb-3">
-                        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm">
-                          <Calendar className="w-4 h-4" />
-                          <span>{new Date(ride.rideDate).toLocaleDateString()}</span>
+                      <div className="grid grid-cols-2 gap-2 mb-2.5">
+                        <div className="flex items-center gap-1.5 text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+                          <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                          <span className="truncate">{new Date(ride.rideDate).toLocaleDateString()}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm">
-                          <Clock className="w-4 h-4" />
-                          <span>{ride.rideTime}</span>
+                        <div className="flex items-center gap-1.5 text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
+                          <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                          <span className="truncate">{ride.rideTime}</span>
                         </div>
                       </div>
 
                       {/* Available Seats */}
-                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-sm mb-3">
-                        <Users className="w-4 h-4" />
-                        <span>{ride.availablePassengerCount} / {ride.maxPassengerCount} seats available</span>
+                      <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-2.5">
+                        <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                        <span>{ride.availablePassengerCount} / {ride.maxPassengerCount} seats</span>
                       </div>
 
-                      {/* Rating */}
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-2">
+                      {/* Rating & Duration */}
+                      <div className="flex items-center justify-between mb-3 sm:mb-4 text-xs sm:text-sm">
+                        <div className="flex items-center gap-1.5">
                           {renderStars(Math.round(ride.averageRating || 0))}
-                          <span className="text-sm text-gray-600 dark:text-gray-400">
+                          <span className="text-gray-600 dark:text-gray-400">
                             ({ride.totalReviews || 0})
                           </span>
                         </div>
-                        <div className="text-sm text-gray-600 dark:text-gray-400">
+                        <div className="text-gray-600 dark:text-gray-400 text-xs truncate ml-2">
                           {ride.approximateTimeToRide}
                         </div>
                       </div>
@@ -508,26 +508,26 @@ const LiveRidesCarpoolingBrowse = () => {
                       {/* View Button */}
                       <button
                         onClick={() => handleViewRide(ride._id)}
-                        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold"
+                        className="w-full px-3 sm:px-4 py-2 sm:py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium text-sm sm:text-base mt-auto"
                       >
-                        View More
+                        View Details
                       </button>
                     </div>
                   </div>
                 ))}
               </div>
               ) : (
-                <div className="text-center py-20">
-                  <Car className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                <div className="text-center py-12 sm:py-20">
+                  <Car className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
                     No Rides Found
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 px-4">
                     Try adjusting your search criteria or filters
                   </p>
                   <button
                     onClick={clearFilters}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg transition text-sm sm:text-base"
                   >
                     Clear All Filters
                   </button>
@@ -536,71 +536,71 @@ const LiveRidesCarpoolingBrowse = () => {
             ) : (
               // V & D Rides Tab
               vdRides.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
                   {vdRides.map(ride => (
                     <div
                       key={ride._id}
-                      className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition"
+                      className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full"
                     >
                       {/* Card Image */}
-                      <div className="relative h-48">
+                      <div className="relative h-44 sm:h-48">
                         <img
                           src={ride.image || '/placeholder-car.jpg'}
                           alt={ride.sourceName}
                           className="w-full h-full object-cover"
                         />
-                        <div className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                          Rs. {ride.pricePerSeat}
+                        <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-blue-600 text-white px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold shadow-lg">
+                          LKR {ride.pricePerSeat}
                         </div>
-                        <div className="absolute top-3 left-3">
-                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        <div className="absolute top-2 sm:top-3 left-2 sm:left-3">
+                          <span className={`px-2 sm:px-2.5 py-1 rounded-full text-xs font-semibold shadow-lg ${
                             ride.sourceType === 'vehicle'
                               ? 'bg-green-500 text-white'
                               : 'bg-purple-500 text-white'
                           }`}>
                             <Badge className="w-3 h-3 inline mr-1" />
-                            {ride.sourceType === 'vehicle' ? 'Vehicle Owner' : 'Driver'}
+                            {ride.sourceType === 'vehicle' ? 'Vehicle' : 'Driver'}
                           </span>
                         </div>
                       </div>
 
                       {/* Card Content */}
-                      <div className="p-4">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 truncate">
+                      <div className="p-4 sm:p-5 flex flex-col flex-grow">
+                        <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2.5 truncate">
                           {ride.sourceName}
                         </h3>
 
                         {/* Route */}
                         <div className="flex items-center gap-2 mb-3">
-                          <MapPin className="w-4 h-4 text-blue-600 flex-shrink-0" />
-                          <span className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                          <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
+                          <span className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white truncate">
                             {ride.from} → {ride.to}
                           </span>
                         </div>
 
                         {/* Details */}
-                        <div className="space-y-2 mb-4">
-                          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                            <Calendar className="w-4 h-4" />
-                            {new Date(ride.date).toLocaleDateString()}
+                        <div className="space-y-2 mb-3">
+                          <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                            <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                            <span className="truncate">{new Date(ride.date).toLocaleDateString()}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                            <Clock className="w-4 h-4" />
-                            {ride.time}
+                          <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                            <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                            <span className="truncate">{ride.time}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                            <Users className="w-4 h-4" />
-                            {ride.availablePassengerCount}/{ride.maxPassengerCount} seats available
+                          <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                            <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                            <span>{ride.availablePassengerCount}/{ride.maxPassengerCount} seats</span>
                           </div>
-                          <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                            <Clock className="w-4 h-4" />
-                            Approx. {ride.approximateTimeToRide}
+                          <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                            <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                            <span className="truncate">~{ride.approximateTimeToRide}</span>
                           </div>
                         </div>
 
                         {/* Status Badge */}
-                        <div className="mb-4">
-                          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        <div className="mb-3">
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
                             ride.status === 'Upcoming' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
                             ride.status === 'Starting Soon' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
                             ride.status === 'Ongoing' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
@@ -613,26 +613,26 @@ const LiveRidesCarpoolingBrowse = () => {
 
                         {/* Description */}
                         {ride.description && (
-                          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                          <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                             {ride.description}
                           </p>
                         )}
 
                         {/* Action Buttons */}
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 mt-auto">
                           <button
                             onClick={() => handleViewMore(ride)}
-                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition font-semibold"
+                            className="flex-1 flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium text-xs sm:text-sm"
                           >
-                            <Eye className="w-4 h-4" />
-                            View More
+                            <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                            <span className="hidden sm:inline">View</span>
                           </button>
                           <button
                             onClick={() => handleContactForJoin(ride.ownerContact)}
-                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-semibold"
+                            className="flex-1 flex items-center justify-center gap-1.5 px-2.5 sm:px-3 py-2 sm:py-2.5 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors font-medium text-xs sm:text-sm"
                           >
-                            <MessageCircle className="w-4 h-4" />
-                            Contact
+                            <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                            <span className="hidden sm:inline">Contact</span>
                           </button>
                         </div>
                       </div>
@@ -640,17 +640,17 @@ const LiveRidesCarpoolingBrowse = () => {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-20">
-                  <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                    No V & D Rides Found
+                <div className="text-center py-12 sm:py-20">
+                  <Users className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                    No More Rides Found
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 px-4">
                     Try adjusting your filters or check back later
                   </p>
                   <button
                     onClick={clearFilters}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg transition text-sm sm:text-base"
                   >
                     Clear Filters
                   </button>

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
   ArrowLeft, Car, MapPin, Calendar, Clock, DollarSign, Users,
-  Star, Phone, User, Loader, Send, Image as ImageIcon
+  Star, Phone, User, Loader, Send, Image as ImageIcon, Share2
 } from 'lucide-react';
 
 const LiveRidesCarpoolingDetailView = () => {
@@ -133,6 +133,26 @@ const LiveRidesCarpoolingDetailView = () => {
     );
   };
 
+  const handleShare = async () => {
+    const shareData = {
+      title: `${ride.rideRoute.from} → ${ride.rideRoute.to}`,
+      text: `Check out this ride from ${ride.rideRoute.from} to ${ride.rideRoute.to} for LKR ${ride.pricePerSeat} per seat!`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: copy to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    } catch (err) {
+      console.error('Error sharing:', err);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
@@ -158,27 +178,39 @@ const LiveRidesCarpoolingDetailView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8 px-3 sm:px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <button
-          onClick={() => navigate('/ads/vehicles-transport/live-rides-carpooling')}
-          className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6"
-        >
-          <ArrowLeft className="w-5 h-5 mr-2" />
-          Back to Live Rides
-        </button>
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
+          <button
+            onClick={() => navigate('/ads/vehicles-transport/live-rides-carpooling')}
+            className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white text-sm sm:text-base"
+          >
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1.5 sm:mr-2" />
+            <span className="hidden sm:inline">Back to Live Rides</span>
+            <span className="sm:hidden">Back</span>
+          </button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Share Button */}
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm sm:text-base"
+          >
+            <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="hidden sm:inline">Share</span>
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             {/* Images Gallery */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                <ImageIcon className="w-6 h-6 mr-2" />
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
+                <ImageIcon className="w-5 h-5 sm:w-6 sm:h-6 mr-2" />
                 Vehicle Images
               </h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
                 {ride.images?.vehicleImage?.url && (
                   <div className="relative aspect-square">
                     <img
@@ -186,7 +218,7 @@ const LiveRidesCarpoolingDetailView = () => {
                       alt="Vehicle"
                       className="w-full h-full object-cover rounded-lg"
                     />
-                    <div className="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                    <div className="absolute bottom-1.5 sm:bottom-2 left-1.5 sm:left-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
                       Vehicle
                     </div>
                   </div>
@@ -198,7 +230,7 @@ const LiveRidesCarpoolingDetailView = () => {
                       alt="Number Plate"
                       className="w-full h-full object-cover rounded-lg"
                     />
-                    <div className="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                    <div className="absolute bottom-1.5 sm:bottom-2 left-1.5 sm:left-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
                       Number Plate
                     </div>
                   </div>
@@ -210,7 +242,7 @@ const LiveRidesCarpoolingDetailView = () => {
                       alt="Owner"
                       className="w-full h-full object-cover rounded-lg"
                     />
-                    <div className="absolute bottom-2 left-2 bg-black bg-opacity-60 text-white text-xs px-2 py-1 rounded">
+                    <div className="absolute bottom-1.5 sm:bottom-2 left-1.5 sm:left-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
                       Owner
                     </div>
                   </div>
@@ -219,97 +251,97 @@ const LiveRidesCarpoolingDetailView = () => {
             </div>
 
             {/* Ride Details */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-              <div className="flex items-start justify-between mb-6">
-                <div>
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 sm:mb-6 gap-3 sm:gap-0">
+                <div className="flex-1">
+                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-2">
                     {ride.rideRoute.from} → {ride.rideRoute.to}
                   </h1>
                   <div className="flex items-center gap-2">
                     {renderStars(Math.round(ride.averageRating || 0))}
-                    <span className="text-gray-600 dark:text-gray-400 text-sm">
+                    <span className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
                       ({ride.totalReviews || 0} reviews)
                     </span>
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                <div className="text-left sm:text-right">
+                  <div className="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400">
                     LKR {ride.pricePerSeat}
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">per seat</div>
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">per seat</div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div className="flex items-center gap-3">
-                  <div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-                    <Car className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-2 sm:p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+                    <Car className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Vehicle</div>
-                    <div className="font-semibold text-gray-900 dark:text-white">
+                  <div className="min-w-0">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Vehicle</div>
+                    <div className="font-semibold text-sm sm:text-base text-gray-900 dark:text-white truncate">
                       {ride.vehicleBrand} - {ride.vehicleNumber}
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
-                    <Users className="w-6 h-6 text-green-600 dark:text-green-400" />
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-2 sm:p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
+                    <Users className="w-5 h-5 sm:w-6 sm:h-6 text-green-600 dark:text-green-400" />
                   </div>
                   <div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Available Seats</div>
-                    <div className="font-semibold text-gray-900 dark:text-white">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Available Seats</div>
+                    <div className="font-semibold text-sm sm:text-base text-gray-900 dark:text-white">
                       {ride.availablePassengerCount} / {ride.maxPassengerCount}
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
-                    <Calendar className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-2 sm:p-3 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
+                    <Calendar className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Ride Date</div>
-                    <div className="font-semibold text-gray-900 dark:text-white">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Ride Date</div>
+                    <div className="font-semibold text-sm sm:text-base text-gray-900 dark:text-white">
                       {new Date(ride.rideDate).toLocaleDateString()}
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="p-3 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
-                    <Clock className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-2 sm:p-3 bg-orange-100 dark:bg-orange-900/20 rounded-lg">
+                    <Clock className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600 dark:text-orange-400" />
                   </div>
                   <div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Ride Time</div>
-                    <div className="font-semibold text-gray-900 dark:text-white">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Ride Time</div>
+                    <div className="font-semibold text-sm sm:text-base text-gray-900 dark:text-white">
                       {ride.rideTime}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mb-6">
-                <div className="inline-block px-4 py-2 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium">
+              <div className="mb-4 sm:mb-6">
+                <div className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full text-xs sm:text-sm font-medium">
                   {ride.status}
                 </div>
               </div>
 
-              <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-4 sm:pt-6">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                   Description
                 </h3>
-                <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
                   {ride.description}
                 </p>
               </div>
 
-              <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mt-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-4 sm:pt-6 mt-4 sm:mt-6">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                   Additional Information
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-xs sm:text-sm">
                   <div>
                     <span className="text-gray-600 dark:text-gray-400">Approximate Duration:</span>
                     <span className="ml-2 font-medium text-gray-900 dark:text-white">
@@ -327,27 +359,27 @@ const LiveRidesCarpoolingDetailView = () => {
             </div>
 
             {/* Reviews Section */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6">
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">
                 Reviews & Ratings
               </h2>
 
               {/* Add Review Form */}
               {user && (
-                <div className="mb-8 p-6 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <div className="mb-6 sm:mb-8 p-4 sm:p-6 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
                     Write a Review
                   </h3>
-                  <form onSubmit={handleReviewSubmit} className="space-y-4">
+                  <form onSubmit={handleReviewSubmit} className="space-y-3 sm:space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Your Rating
                       </label>
                       {renderRatingInput()}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Your Review
                       </label>
                       <textarea
@@ -356,22 +388,22 @@ const LiveRidesCarpoolingDetailView = () => {
                         rows="4"
                         maxLength="1000"
                         placeholder="Share your experience with this ride..."
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                        className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                         required
                       />
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
                         {reviewForm.comment.length}/1000 characters
                       </p>
                     </div>
 
                     {reviewError && (
-                      <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 text-sm">
+                      <div className="p-2.5 sm:p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 text-xs sm:text-sm">
                         {reviewError}
                       </div>
                     )}
 
                     {reviewSuccess && (
-                      <div className="p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-600 dark:text-green-400 text-sm">
+                      <div className="p-2.5 sm:p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg text-green-600 dark:text-green-400 text-xs sm:text-sm">
                         Review submitted successfully!
                       </div>
                     )}
@@ -379,16 +411,16 @@ const LiveRidesCarpoolingDetailView = () => {
                     <button
                       type="submit"
                       disabled={submittingReview}
-                      className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center"
+                      className="w-full px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center"
                     >
                       {submittingReview ? (
                         <>
-                          <Loader className="w-5 h-5 mr-2 animate-spin" />
+                          <Loader className="w-4 h-4 sm:w-5 sm:h-5 mr-2 animate-spin" />
                           Submitting...
                         </>
                       ) : (
                         <>
-                          <Send className="w-5 h-5 mr-2" />
+                          <Send className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                           Submit Review
                         </>
                       )}
@@ -398,37 +430,37 @@ const LiveRidesCarpoolingDetailView = () => {
               )}
 
               {/* Reviews List */}
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {ride.reviews && ride.reviews.length > 0 ? (
                   ride.reviews.map((review, index) => (
-                    <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-0">
-                      <div className="flex items-start gap-4">
+                    <div key={index} className="border-b border-gray-200 dark:border-gray-700 pb-4 sm:pb-6 last:border-0">
+                      <div className="flex items-start gap-3 sm:gap-4">
                         <div className="flex-shrink-0">
                           {review.userProfileImage ? (
                             <img
                               src={review.userProfileImage}
                               alt={review.userName}
-                              className="w-12 h-12 rounded-full object-cover"
+                              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
                             />
                           ) : (
-                            <div className="w-12 h-12 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center">
-                              <User className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center">
+                              <User className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-400" />
                             </div>
                           )}
                         </div>
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between mb-2">
-                            <h4 className="font-semibold text-gray-900 dark:text-white">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2 gap-1 sm:gap-0">
+                            <h4 className="font-semibold text-sm sm:text-base text-gray-900 dark:text-white truncate">
                               {review.userName}
                             </h4>
-                            <span className="text-sm text-gray-500 dark:text-gray-400">
+                            <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                               {new Date(review.createdAt).toLocaleDateString()}
                             </span>
                           </div>
                           <div className="mb-2">
                             {renderStars(review.rating)}
                           </div>
-                          <p className="text-gray-700 dark:text-gray-300">
+                          <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                             {review.comment}
                           </p>
                         </div>
@@ -436,7 +468,7 @@ const LiveRidesCarpoolingDetailView = () => {
                     </div>
                   ))
                 ) : (
-                  <p className="text-center text-gray-500 dark:text-gray-400 py-8">
+                  <p className="text-center text-sm sm:text-base text-gray-500 dark:text-gray-400 py-6 sm:py-8">
                     No reviews yet. Be the first to review!
                   </p>
                 )}
@@ -446,71 +478,71 @@ const LiveRidesCarpoolingDetailView = () => {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 sticky top-8">
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 lg:sticky lg:top-8">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">
                 Owner Information
               </h3>
 
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <div className="p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-                    <User className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="space-y-3 sm:space-y-4">
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-2 sm:p-3 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+                    <User className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Owner Name</div>
-                    <div className="font-semibold text-gray-900 dark:text-white">
+                  <div className="min-w-0">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Owner Name</div>
+                    <div className="font-semibold text-sm sm:text-base text-gray-900 dark:text-white truncate">
                       {ride.vehicleOwnerName}
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
-                    <Phone className="w-6 h-6 text-green-600 dark:text-green-400" />
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-2 sm:p-3 bg-green-100 dark:bg-green-900/20 rounded-lg">
+                    <Phone className="w-5 h-5 sm:w-6 sm:h-6 text-green-600 dark:text-green-400" />
                   </div>
-                  <div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Contact</div>
+                  <div className="min-w-0">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Contact</div>
                     <a
                       href={`tel:${ride.phoneNumber}`}
-                      className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                      className="font-semibold text-sm sm:text-base text-blue-600 dark:text-blue-400 hover:underline truncate block"
                     >
                       {ride.phoneNumber}
                     </a>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
-                  <div className="p-3 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
-                    <MapPin className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="p-2 sm:p-3 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
+                    <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 dark:text-purple-400" />
                   </div>
-                  <div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400">Address</div>
-                    <div className="font-semibold text-gray-900 dark:text-white text-sm">
+                  <div className="min-w-0">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Address</div>
+                    <div className="font-semibold text-xs sm:text-sm text-gray-900 dark:text-white line-clamp-2">
                       {ride.ownerLocation.address}
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                <h4 className="font-semibold text-gray-900 dark:text-white mb-3">
+              <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
+                <h4 className="font-semibold text-sm sm:text-base text-gray-900 dark:text-white mb-2 sm:mb-3">
                   Overall Rating
                 </h4>
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">
+                <div className="flex items-center gap-2 sm:gap-3 mb-2">
+                  <div className="text-3xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">
                     {ride.averageRating ? ride.averageRating.toFixed(1) : '0.0'}
                   </div>
                   <div>
                     {renderStars(Math.round(ride.averageRating || 0))}
-                    <div className="text-sm text-gray-600 dark:text-gray-400">
+                    <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                       {ride.totalReviews || 0} reviews
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                <div className="text-sm text-gray-600 dark:text-gray-400 space-y-2">
+              <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
+                <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 space-y-2">
                   <div className="flex justify-between">
                     <span>Views:</span>
                     <span className="font-semibold text-gray-900 dark:text-white">
