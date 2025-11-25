@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { vehicleRepairsMechanicsAPI } from '../config/api';
 import SuccessModal from '../components/common/SuccessModal';
+import { VEHICLE_REPAIR_CATEGORIES } from '../constants/vehicleRepairCategories';
 
 const EditVehicleRepairsMechanicsForm = () => {
   const navigate = useNavigate();
@@ -352,15 +353,18 @@ const EditVehicleRepairsMechanicsForm = () => {
             {/* Category */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Category (e.g., General Mechanic) *
+                Category *
               </label>
-              <input
-                type="text"
+              <select
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                placeholder="General Mechanic, Specialist, Certified Technician"
-              />
+              >
+                <option value="">Select a category</option>
+                {VEHICLE_REPAIR_CATEGORIES.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
             </div>
 
             {/* Description */}

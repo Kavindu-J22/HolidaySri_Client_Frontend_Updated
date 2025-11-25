@@ -18,6 +18,7 @@ import {
   Clock
 } from 'lucide-react';
 import SuccessModal from '../components/common/SuccessModal';
+import { VEHICLE_REPAIR_CATEGORIES } from '../constants/vehicleRepairCategories';
 
 const VehicleRepairsMechanicsForm = () => {
   const navigate = useNavigate();
@@ -490,14 +491,17 @@ const VehicleRepairsMechanicsForm = () => {
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Category *
                 </label>
-                <input
-                  type="text"
+                <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="e.g., General Mechanic, Specialist"
-                />
+                >
+                  <option value="">Select a category</option>
+                  {VEHICLE_REPAIR_CATEGORIES.map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
               </div>
             </div>
 

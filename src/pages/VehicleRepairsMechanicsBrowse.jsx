@@ -228,73 +228,95 @@ const VehicleRepairsMechanicsBrowse = () => {
             ) : (
               <>
                 <p className="text-gray-600 dark:text-gray-400 mb-6">Found {mechanics.length} mechanic(s)</p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                   {mechanics.map((mechanic) => (
                     <div
                       key={mechanic._id}
-                      className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                      className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full"
                     >
-                      {/* Image */}
-                      {mechanic.images && mechanic.images.length > 0 && (
-                        <img
-                          src={mechanic.images[0].url}
-                          alt={mechanic.name}
-                          className="w-full h-48 object-cover"
-                        />
-                      )}
+                      {/* Image with overlay */}
+                      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-blue-100 to-blue-50 dark:from-gray-700 dark:to-gray-600">
+                        {mechanic.images && mechanic.images.length > 0 ? (
+                          <img
+                            src={mechanic.images[0].url}
+                            alt={mechanic.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <Briefcase className="w-16 h-16 text-gray-400" />
+                          </div>
+                        )}
+                        {/* Availability Badge */}
+                        {mechanic.available && (
+                          <div className="absolute top-3 right-3 bg-green-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
+                            Available
+                          </div>
+                        )}
+                      </div>
 
                       {/* Content */}
-                      <div className="p-6">
+                      <div className="p-5 flex flex-col flex-grow">
                         {/* Avatar and Name */}
-                        <div className="flex items-start space-x-4 mb-4">
-                          <img
-                            src={mechanic.avatar?.url}
-                            alt={mechanic.name}
-                            className="w-12 h-12 rounded-full object-cover"
-                          />
-                          <div className="flex-1">
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white">{mechanic.name}</h3>
-                            <p className="text-sm text-blue-600 dark:text-blue-400">{mechanic.specialization}</p>
+                        <div className="flex items-start space-x-3 mb-4">
+                          <div className="flex-shrink-0">
+                            <img
+                              src={mechanic.avatar?.url || '/default-avatar.png'}
+                              alt={mechanic.name}
+                              className="w-14 h-14 rounded-full object-cover border-2 border-blue-500 shadow-md"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white truncate" title={mechanic.name}>
+                              {mechanic.name}
+                            </h3>
+                            <p className="text-sm text-blue-600 dark:text-blue-400 truncate" title={mechanic.specialization}>
+                              {mechanic.specialization}
+                            </p>
                           </div>
                         </div>
 
                         {/* Rating */}
-                        <div className="flex items-center space-x-2 mb-4">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`w-4 h-4 ${
-                                i < Math.round(mechanic.averageRating || 0)
-                                  ? 'fill-yellow-400 text-yellow-400'
-                                  : 'text-gray-300 dark:text-gray-600'
-                              }`}
-                            />
-                          ))}
+                        <div className="flex items-center justify-between mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+                          <div className="flex items-center space-x-1">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${
+                                  i < Math.round(mechanic.averageRating || 0)
+                                    ? 'fill-yellow-400 text-yellow-400'
+                                    : 'text-gray-300 dark:text-gray-600'
+                                }`}
+                              />
+                            ))}
+                          </div>
                           <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
-                            {mechanic.averageRating || 'No ratings'} ({mechanic.totalReviews || 0})
+                            {mechanic.averageRating ? mechanic.averageRating.toFixed(1) : 'N/A'} ({mechanic.totalReviews || 0})
                           </span>
                         </div>
 
                         {/* Quick Info */}
-                        <div className="space-y-2 mb-4 text-sm text-gray-600 dark:text-gray-400">
-                          <div className="flex items-center space-x-2">
-                            <Briefcase className="w-4 h-4" />
-                            <span>{mechanic.category}</span>
+                        <div className="space-y-2.5 mb-5 flex-grow">
+                          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                            <Briefcase className="w-4 h-4 flex-shrink-0 text-blue-600 dark:text-blue-400" />
+                            <span className="truncate" title={mechanic.category}>{mechanic.category}</span>
                           </div>
-                          <div className="flex items-center space-x-2">
-                            <Award className="w-4 h-4" />
-                            <span>{mechanic.experience} years experience</span>
+                          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                            <Award className="w-4 h-4 flex-shrink-0 text-blue-600 dark:text-blue-400" />
+                            <span>{mechanic.experience} years exp.</span>
                           </div>
-                          <div className="flex items-center space-x-2">
-                            <MapPin className="w-4 h-4" />
-                            <span>{mechanic.location?.city}, {mechanic.location?.province}</span>
+                          <div className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
+                            <MapPin className="w-4 h-4 flex-shrink-0 text-blue-600 dark:text-blue-400" />
+                            <span className="truncate" title={`${mechanic.location?.city}, ${mechanic.location?.province}`}>
+                              {mechanic.location?.city}, {mechanic.location?.province}
+                            </span>
                           </div>
                         </div>
 
                         {/* View Button */}
                         <button
                           onClick={() => navigate(`/vehicle-repairs-mechanics/${mechanic._id}`)}
-                          className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center justify-center space-x-2"
+                          className="w-full py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 font-medium shadow-md hover:shadow-lg"
                         >
                           <Eye className="w-4 h-4" />
                           <span>View Details</span>
