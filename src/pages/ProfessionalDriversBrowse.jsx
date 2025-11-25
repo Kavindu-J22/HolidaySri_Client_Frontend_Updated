@@ -203,7 +203,7 @@ const ProfessionalDriversBrowse = () => {
                   className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">All Cities</option>
-                  {filters.province && provincesData[filters.province]?.map(city => (
+                  {filters.province && Array.isArray(provincesData[filters.province]) && provincesData[filters.province].map(city => (
                     <option key={city} value={city}>{city}</option>
                   ))}
                 </select>

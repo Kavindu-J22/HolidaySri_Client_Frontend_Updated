@@ -26,7 +26,21 @@ const EditProfessionalDriversProfile = () => {
   const [submitting, setSubmitting] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState('');
-  const [provincesData, setProvincesData] = useState({});
+
+  // Fallback province data
+  const fallbackProvincesData = {
+    "Western Province": ["Colombo", "Gampaha", "Kalutara"],
+    "Central Province": ["Kandy", "Matale", "Nuwara Eliya"],
+    "Southern Province": ["Galle", "Matara", "Hambantota"],
+    "Northern Province": ["Jaffna", "Mannar", "Vavuniya", "Kilinochchi", "Mullaitivu"],
+    "Eastern Province": ["Batticaloa", "Ampara", "Trincomalee"],
+    "North Western Province": ["Kurunegala", "Puttalam"],
+    "North Central Province": ["Anuradhapura", "Polonnaruwa"],
+    "Uva Province": ["Badulla", "Monaragala"],
+    "Sabaragamuwa Province": ["Kegalle", "Ratnapura"]
+  };
+
+  const [provincesData, setProvincesData] = useState(fallbackProvincesData);
   const [profileData, setProfileData] = useState(null);
 
   // Form state
@@ -60,8 +74,11 @@ const EditProfessionalDriversProfile = () => {
           professionalDriversAPI.getDriverProfile(id)
         ]);
 
-        if (provincesRes.data) {
+        // Use API data if available, otherwise keep fallback
+        if (provincesRes.data && Object.keys(provincesRes.data).length > 0) {
           setProvincesData(provincesRes.data);
+        } else {
+          console.log('Using fallback province data');
         }
 
         if (profileRes.data && profileRes.data.data) {
@@ -89,6 +106,7 @@ const EditProfessionalDriversProfile = () => {
       } catch (err) {
         console.error('Error fetching data:', err);
         setError('Failed to load profile data');
+        // Keep fallback province data on error
       } finally {
         setLoading(false);
       }
@@ -416,7 +434,7 @@ const EditProfessionalDriversProfile = () => {
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Select City</option>
-                {formData.province && provincesData[formData.province]?.map(city => (
+                {formData.province && Array.isArray(provincesData[formData.province]) && provincesData[formData.province].map(city => (
                   <option key={city} value={city}>{city}</option>
                 ))}
               </select>

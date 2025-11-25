@@ -25,7 +25,21 @@ const ProfessionalDriversForm = () => {
   const [loading, setLoading] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [error, setError] = useState('');
-  const [provincesData, setProvincesData] = useState({});
+
+  // Fallback province data
+  const fallbackProvincesData = {
+    "Western Province": ["Colombo", "Gampaha", "Kalutara"],
+    "Central Province": ["Kandy", "Matale", "Nuwara Eliya"],
+    "Southern Province": ["Galle", "Matara", "Hambantota"],
+    "Northern Province": ["Jaffna", "Mannar", "Vavuniya", "Kilinochchi", "Mullaitivu"],
+    "Eastern Province": ["Batticaloa", "Ampara", "Trincomalee"],
+    "North Western Province": ["Kurunegala", "Puttalam"],
+    "North Central Province": ["Anuradhapura", "Polonnaruwa"],
+    "Uva Province": ["Badulla", "Monaragala"],
+    "Sabaragamuwa Province": ["Kegalle", "Ratnapura"]
+  };
+
+  const [provincesData, setProvincesData] = useState(fallbackProvincesData);
 
   // Get advertisement ID from navigation state
   const advertisementId = location.state?.advertisementId;
@@ -65,11 +79,14 @@ const ProfessionalDriversForm = () => {
       try {
         const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/professional-drivers/provinces');
         const data = await response.json();
-        if (data.success) {
+        if (data.success && data.data && Object.keys(data.data).length > 0) {
           setProvincesData(data.data);
+        } else {
+          console.log('Using fallback province data');
         }
       } catch (error) {
         console.error('Error fetching provinces:', error);
+        console.log('Using fallback province data');
       }
     };
     fetchProvinces();
@@ -249,7 +266,9 @@ const ProfessionalDriversForm = () => {
     return null;
   }
 
-  const availableCities = formData.province ? provincesData[formData.province] || [] : [];
+  const availableCities = formData.province && Array.isArray(provincesData[formData.province])
+    ? provincesData[formData.province]
+    : [];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
