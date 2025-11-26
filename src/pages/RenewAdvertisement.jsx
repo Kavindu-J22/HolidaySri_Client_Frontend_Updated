@@ -76,7 +76,7 @@ const RenewAdvertisement = () => {
       'books_magazines_educational': 'marketplace_shopping',
       'other_items': 'marketplace_shopping',
       'create_link_own_store': 'marketplace_shopping',
-      'exclusive_combo_packages': 'marketplace_shopping',
+      'exclusive_combo_packages': 'entertainment_fitness',
       'talented_entertainers_artists': 'entertainment_fitness',
       'fitness_health_spas_gym': 'entertainment_fitness',
       'cinema_movie_hub': 'entertainment_fitness',
