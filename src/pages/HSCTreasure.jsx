@@ -169,9 +169,9 @@ const HSCTreasure = () => {
       )}
 
       {/* Current Balance & HSC Value Info */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
+      <div className={`grid grid-cols-1 ${user ? 'md:grid-cols-2' : ''} gap-4 sm:gap-6 max-w-4xl mx-auto justify-items-center`}>
         {user && (
-          <div className="card p-6 sm:p-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 dark:from-blue-900/30 dark:via-indigo-900/30 dark:to-blue-800/30 border-2 border-blue-200 dark:border-blue-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+          <div className="card p-6 sm:p-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 dark:from-blue-900/30 dark:via-indigo-900/30 dark:to-blue-800/30 border-2 border-blue-200 dark:border-blue-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 w-full">
             <div className="flex flex-col items-center justify-center text-center">
               <div className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl mb-3 sm:mb-4 shadow-lg">
                 <CreditCard className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
@@ -189,7 +189,7 @@ const HSCTreasure = () => {
           </div>
         )}
 
-        <div className="card p-6 sm:p-8 bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 dark:from-green-900/30 dark:via-emerald-900/30 dark:to-green-800/30 border-2 border-green-200 dark:border-green-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+        <div className="card p-6 sm:p-8 bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 dark:from-green-900/30 dark:via-emerald-900/30 dark:to-green-800/30 border-2 border-green-200 dark:border-green-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 w-full max-w-md">
           <div className="flex flex-col items-center justify-center text-center">
             <div className="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl mb-3 sm:mb-4 shadow-lg">
               <DollarSign className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
@@ -265,11 +265,10 @@ const HSCTreasure = () => {
           </div>
         )}
 
-        {/* Packages Grid - Centered with justify-items-center */}
-        <div className="flex justify-center">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 w-full max-w-7xl justify-items-center">
-            {packages.map((pkg) => (
-              <div key={pkg._id} className="card p-6 sm:p-8 relative hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col border-2 border-gray-200 dark:border-gray-700 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 w-full max-w-sm">
+        {/* Packages Grid - Centered with justify-content-center */}
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8 w-full max-w-7xl mx-auto">
+          {packages.map((pkg) => (
+              <div key={pkg._id} className="card p-6 sm:p-8 relative hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col border-2 border-gray-200 dark:border-gray-700 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm">
                 {/* Discount Badge */}
                 {pkg.discount > 0 && (
                   <div className="absolute top-3 right-3 sm:top-4 sm:right-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs font-bold shadow-lg animate-pulse">
@@ -348,7 +347,6 @@ const HSCTreasure = () => {
                 </div>
               </div>
             ))}
-          </div>
         </div>
 
         {packages.length === 0 && (
