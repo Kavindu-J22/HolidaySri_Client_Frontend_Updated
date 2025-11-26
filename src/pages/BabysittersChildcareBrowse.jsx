@@ -119,45 +119,45 @@ export default function BabysittersChildcareBrowse() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-6 lg:py-8 px-3 sm:px-4 lg:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Trusted Babysitters & Childcare Help
           </h1>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
             Find professional babysitters and childcare providers in your area
           </p>
         </div>
 
         {/* Search Bar */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <div className="relative">
-            <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+            <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
             <input
               type="text"
               placeholder="Search by name, category, or description..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full pl-10 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
         </div>
 
         {/* Filter Toggle Button */}
-        <div className="mb-6 flex justify-between items-center">
+        <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+            className="flex items-center justify-center gap-2 px-4 py-2.5 sm:py-2 text-sm sm:text-base bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
           >
-            <Filter className="w-5 h-5" />
+            <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
             {showFilters ? 'Hide Filters' : 'Show Filters'}
           </button>
           {(searchTerm || selectedCategory || selectedProvince || selectedCity) && (
             <button
               onClick={resetFilters}
-              className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white rounded-lg hover:bg-gray-400 transition"
+              className="px-4 py-2.5 sm:py-2 text-sm sm:text-base bg-gray-300 dark:bg-gray-600 text-gray-900 dark:text-white rounded-lg hover:bg-gray-400 transition"
             >
               Reset Filters
             </button>
@@ -166,16 +166,16 @@ export default function BabysittersChildcareBrowse() {
 
         {/* Filters */}
         {showFilters && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 mb-4 sm:mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Category Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Category
               </label>
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="">All Categories</option>
                 {getUniqueCategories().map(cat => (
@@ -186,13 +186,13 @@ export default function BabysittersChildcareBrowse() {
 
             {/* Province Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Province
               </label>
               <select
                 value={selectedProvince}
                 onChange={handleProvinceChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
               >
                 <option value="">All Provinces</option>
                 {Object.keys(provincesAndDistricts).map(province => (
@@ -203,14 +203,14 @@ export default function BabysittersChildcareBrowse() {
 
             {/* City Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 City
               </label>
               <select
                 value={selectedCity}
                 onChange={handleCityChange}
                 disabled={!selectedProvince}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50"
+                className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50"
               >
                 <option value="">All Cities</option>
                 {selectedProvince && provincesAndDistricts[selectedProvince].map(city => (
@@ -223,52 +223,52 @@ export default function BabysittersChildcareBrowse() {
 
         {/* Error Message */}
         {error && (
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6 flex items-center gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
-            <p className="text-red-700 dark:text-red-300">{error}</p>
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6 flex items-center gap-3">
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
+            <p className="text-sm sm:text-base text-red-700 dark:text-red-300">{error}</p>
           </div>
         )}
 
         {/* Results Count */}
-        <div className="mb-4 text-gray-600 dark:text-gray-300">
+        <div className="mb-4 text-sm sm:text-base text-gray-600 dark:text-gray-300">
           Showing {filteredProfiles.length} profile{filteredProfiles.length !== 1 ? 's' : ''}
         </div>
 
         {/* Profiles Grid */}
         {filteredProfiles.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {filteredProfiles.map(profile => (
               <div
                 key={profile._id}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition overflow-hidden"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full"
               >
                 {/* Image */}
                 {profile.images && profile.images.length > 0 && (
-                  <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
+                  <div className="relative h-44 sm:h-48 bg-gray-200 dark:bg-gray-700 flex-shrink-0">
                     <img
                       src={profile.images[0].url}
                       alt={profile.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                     />
-                    <div className="absolute top-3 right-3 bg-indigo-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-indigo-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium shadow-lg">
                       {profile.category}
                     </div>
                   </div>
                 )}
 
                 {/* Content */}
-                <div className="p-4">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+                <div className="p-4 sm:p-5 flex flex-col flex-grow">
+                  <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-1">
                     {profile.name}
                   </h3>
 
                   {/* Rating */}
                   <div className="flex items-center gap-2 mb-3">
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-0.5">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-4 h-4 ${
+                          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
                             i < Math.round(profile.averageRating || 0)
                               ? 'fill-yellow-400 text-yellow-400'
                               : 'text-gray-300 dark:text-gray-600'
@@ -276,31 +276,31 @@ export default function BabysittersChildcareBrowse() {
                         />
                       ))}
                     </div>
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
-                      {profile.averageRating || 0} ({profile.totalReviews || 0} reviews)
+                    <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                      {profile.averageRating || 0} ({profile.totalReviews || 0})
                     </span>
                   </div>
 
                   {/* Location */}
                   <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-3">
-                    <MapPin className="w-4 h-4" />
-                    <span className="text-sm">{profile.city}, {profile.province}</span>
+                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                    <span className="text-xs sm:text-sm truncate">{profile.city}, {profile.province}</span>
                   </div>
 
                   {/* Description */}
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-2">
+                  <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-3 line-clamp-2 flex-grow">
                     {profile.description}
                   </p>
 
                   {/* Experience */}
-                  <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4">
                     <span className="font-medium">{profile.experience} years</span> experience
                   </div>
 
                   {/* View Button */}
                   <button
                     onClick={() => handleViewProfile(profile._id)}
-                    className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition font-medium"
+                    className="w-full bg-indigo-600 text-white py-2.5 sm:py-2 text-sm sm:text-base rounded-lg hover:bg-indigo-700 transition-colors font-medium mt-auto"
                   >
                     View Profile
                   </button>
@@ -309,9 +309,9 @@ export default function BabysittersChildcareBrowse() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12">
-            <AlertCircle className="w-12 h-12 text-gray-400 dark:text-gray-600 mx-auto mb-4" />
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
+          <div className="text-center py-8 sm:py-12">
+            <AlertCircle className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 dark:text-gray-600 mx-auto mb-3 sm:mb-4" />
+            <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg">
               No profiles found matching your criteria
             </p>
           </div>

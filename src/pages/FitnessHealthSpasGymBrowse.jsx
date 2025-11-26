@@ -111,52 +111,52 @@ const FitnessHealthSpasGymBrowse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 py-4 sm:py-6 lg:py-8 px-3 sm:px-4 lg:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-2">
             Fitness, Health, Spas & Gym
           </h1>
-          <p className="text-slate-600 dark:text-slate-400">
+          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400">
             Discover the best fitness and wellness services in Sri Lanka
           </p>
         </div>
 
         {/* Search Bar */}
-        <div className="mb-6 flex gap-2">
+        <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row gap-2 sm:gap-3">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-3 w-5 h-5 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-slate-400" />
             <input
               type="text"
               placeholder="Search by name or description..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+              className="w-full pl-10 sm:pl-11 pr-4 py-2.5 sm:py-2 text-sm sm:text-base border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
             />
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+            className="px-4 py-2.5 sm:py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
           >
-            <Filter className="w-5 h-5" />
+            <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
             Filters
           </button>
         </div>
 
         {/* Filters */}
         {showFilters && (
-          <div className="mb-6 bg-white dark:bg-slate-800 rounded-lg p-6 shadow-lg">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+          <div className="mb-4 sm:mb-6 bg-white dark:bg-slate-800 rounded-lg p-4 sm:p-6 shadow-lg">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                   Category
                 </label>
                 <select
                   name="category"
                   value={filters.category}
                   onChange={handleFilterChange}
-                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg dark:bg-slate-700 dark:text-white"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-slate-300 dark:border-slate-600 rounded-lg dark:bg-slate-700 dark:text-white"
                 >
                   <option value="">All Categories</option>
                   {categoryOptions.map(cat => (
@@ -166,14 +166,14 @@ const FitnessHealthSpasGymBrowse = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                   Specialization
                 </label>
                 <select
                   name="specialization"
                   value={filters.specialization}
                   onChange={handleFilterChange}
-                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg dark:bg-slate-700 dark:text-white"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-slate-300 dark:border-slate-600 rounded-lg dark:bg-slate-700 dark:text-white"
                 >
                   <option value="">All Specializations</option>
                   {specializationOptions.map(spec => (
@@ -183,14 +183,14 @@ const FitnessHealthSpasGymBrowse = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                   Province
                 </label>
                 <select
                   name="province"
                   value={filters.province}
                   onChange={handleFilterChange}
-                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg dark:bg-slate-700 dark:text-white"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-slate-300 dark:border-slate-600 rounded-lg dark:bg-slate-700 dark:text-white"
                 >
                   <option value="">All Provinces</option>
                   {Object.keys(provincesAndDistricts).map(province => (
@@ -200,7 +200,7 @@ const FitnessHealthSpasGymBrowse = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
                   City
                 </label>
                 <select
@@ -208,7 +208,7 @@ const FitnessHealthSpasGymBrowse = () => {
                   value={filters.city}
                   onChange={handleFilterChange}
                   disabled={!filters.province}
-                  className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg dark:bg-slate-700 dark:text-white disabled:opacity-50"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-slate-300 dark:border-slate-600 rounded-lg dark:bg-slate-700 dark:text-white disabled:opacity-50"
                 >
                   <option value="">All Cities</option>
                   {filters.province && provincesAndDistricts[filters.province]?.map(city => (
@@ -220,7 +220,7 @@ const FitnessHealthSpasGymBrowse = () => {
 
             <button
               onClick={resetFilters}
-              className="px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+              className="px-4 py-2 text-sm sm:text-base text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
             >
               Reset Filters
             </button>
@@ -228,10 +228,10 @@ const FitnessHealthSpasGymBrowse = () => {
         )}
 
         {/* Tabs */}
-        <div className="mb-6 flex gap-2 border-b border-slate-300 dark:border-slate-600">
+        <div className="mb-4 sm:mb-6 flex gap-2 border-b border-slate-300 dark:border-slate-600 overflow-x-auto">
           <button
             onClick={() => setActiveTab('all')}
-            className={`px-4 py-2 font-semibold transition-colors ${
+            className={`px-3 sm:px-4 py-2 text-sm sm:text-base font-semibold transition-colors whitespace-nowrap ${
               activeTab === 'all'
                 ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -241,7 +241,7 @@ const FitnessHealthSpasGymBrowse = () => {
           </button>
           <button
             onClick={() => setActiveTab('Service')}
-            className={`px-4 py-2 font-semibold transition-colors ${
+            className={`px-3 sm:px-4 py-2 text-sm sm:text-base font-semibold transition-colors whitespace-nowrap ${
               activeTab === 'Service'
                 ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -251,7 +251,7 @@ const FitnessHealthSpasGymBrowse = () => {
           </button>
           <button
             onClick={() => setActiveTab('Professionals')}
-            className={`px-4 py-2 font-semibold transition-colors ${
+            className={`px-3 sm:px-4 py-2 text-sm sm:text-base font-semibold transition-colors whitespace-nowrap ${
               activeTab === 'Professionals'
                 ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
                 : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -263,22 +263,22 @@ const FitnessHealthSpasGymBrowse = () => {
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-            <p className="text-red-700 dark:text-red-300">{error}</p>
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+            <p className="text-sm sm:text-base text-red-700 dark:text-red-300">{error}</p>
           </div>
         )}
 
         {/* Loading */}
         {loading && (
-          <div className="flex justify-center items-center py-12">
-            <Loader className="w-8 h-8 animate-spin text-blue-600" />
+          <div className="flex justify-center items-center py-8 sm:py-12">
+            <Loader className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-blue-600" />
           </div>
         )}
 
         {/* Profiles Grid */}
         {!loading && profiles.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {profiles.map((profile) => (
               <ProfileCard
                 key={profile._id}
@@ -291,8 +291,8 @@ const FitnessHealthSpasGymBrowse = () => {
 
         {/* No Results */}
         {!loading && profiles.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-slate-600 dark:text-slate-400 text-lg">
+          <div className="text-center py-8 sm:py-12">
+            <p className="text-slate-600 dark:text-slate-400 text-base sm:text-lg">
               No profiles found. Try adjusting your filters.
             </p>
           </div>
@@ -326,44 +326,44 @@ const ProfileCard = ({ profile, onViewClick }) => {
   }, [profile._id]);
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+    <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full">
       {/* Image */}
-      <div className="relative h-48 overflow-hidden bg-slate-200 dark:bg-slate-700">
+      <div className="relative h-44 sm:h-48 overflow-hidden bg-slate-200 dark:bg-slate-700 flex-shrink-0">
         <img
           src={profile.avatar.url}
           alt={profile.name}
-          className="w-full h-full object-cover hover:scale-105 transition-transform"
+          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute top-2 right-2 bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+        <div className="absolute top-2 right-2 bg-blue-600 text-white px-2 sm:px-3 py-1 rounded-full text-xs font-semibold">
           {profile.type}
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-4 space-y-3">
+      <div className="p-4 sm:p-5 flex flex-col flex-grow">
         {/* Name and Category */}
-        <div>
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white truncate">
+        <div className="mb-2 sm:mb-3">
+          <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white line-clamp-1">
             {profile.name}
           </h3>
-          <p className="text-sm text-slate-600 dark:text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 line-clamp-1">
             {profile.category} • {profile.specialization}
           </p>
         </div>
 
         {/* Location */}
-        <div className="flex items-center gap-1 text-sm text-slate-600 dark:text-slate-400">
-          <MapPin className="w-4 h-4" />
-          <span>{profile.city}, {profile.province}</span>
+        <div className="flex items-center gap-1 text-xs sm:text-sm text-slate-600 dark:text-slate-400 mb-2 sm:mb-3">
+          <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+          <span className="truncate">{profile.city}, {profile.province}</span>
         </div>
 
         {/* Rating */}
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1">
+        <div className="flex items-center gap-2 mb-2 sm:mb-3">
+          <div className="flex items-center gap-0.5">
             {[...Array(5)].map((_, i) => (
               <Star
                 key={i}
-                className={`w-4 h-4 ${
+                className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
                   i < Math.round(rating.averageRating)
                     ? 'fill-yellow-400 text-yellow-400'
                     : 'text-slate-300 dark:text-slate-600'
@@ -372,21 +372,21 @@ const ProfileCard = ({ profile, onViewClick }) => {
             ))}
           </div>
           {!loadingRating && (
-            <span className="text-sm text-slate-600 dark:text-slate-400">
+            <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
               {rating.averageRating.toFixed(1)} ({rating.totalReviews})
             </span>
           )}
         </div>
 
         {/* Description */}
-        <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2">
+        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-3 sm:mb-4 flex-grow">
           {profile.description}
         </p>
 
         {/* View Button */}
         <button
           onClick={onViewClick}
-          className="w-full mt-4 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all font-semibold"
+          className="w-full px-4 py-2.5 sm:py-2 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all font-semibold mt-auto"
         >
           View Details
         </button>
