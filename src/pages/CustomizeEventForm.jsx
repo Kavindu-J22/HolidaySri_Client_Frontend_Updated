@@ -649,8 +649,8 @@ const CustomizeEventForm = () => {
                       <MessageSquare className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">Special Requests</h3>
-                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Any additional requirements or preferences</p>
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">Special Requests & Dates</h3>
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Enter Dates or date range you planed also additional requirements or preferences</p>
                     </div>
                   </div>
                   <textarea

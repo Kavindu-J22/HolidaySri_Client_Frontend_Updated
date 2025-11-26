@@ -376,7 +376,7 @@ const CustomizeTourPackageForm = () => {
                   Personal Information
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-                  <div>
+                  <div className="w-full">
                     <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Full Name *
                     </label>
@@ -385,12 +385,13 @@ const CustomizeTourPackageForm = () => {
                       name="fullName"
                       value={formData.fullName}
                       onChange={handleInputChange}
-                      className={`input-field text-sm sm:text-base ${errors.fullName ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base w-full max-w-full ${errors.fullName ? 'border-red-500' : ''}`}
                       placeholder="Enter your full name"
+                      style={{ minWidth: '0' }}
                     />
                     {errors.fullName && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.fullName}</p>}
                   </div>
-                  <div>
+                  <div className="w-full">
                     <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Email *
                     </label>
@@ -399,12 +400,13 @@ const CustomizeTourPackageForm = () => {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className={`input-field text-sm sm:text-base ${errors.email ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base w-full max-w-full ${errors.email ? 'border-red-500' : ''}`}
                       placeholder="your.email@example.com"
+                      style={{ minWidth: '0' }}
                     />
                     {errors.email && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.email}</p>}
                   </div>
-                  <div className="md:col-span-2">
+                  <div className="md:col-span-2 w-full">
                     <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Contact Number *
                     </label>
@@ -413,8 +415,9 @@ const CustomizeTourPackageForm = () => {
                       name="contactNumber"
                       value={formData.contactNumber}
                       onChange={handleInputChange}
-                      className={`input-field text-sm sm:text-base ${errors.contactNumber ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base w-full max-w-full ${errors.contactNumber ? 'border-red-500' : ''}`}
                       placeholder="Enter any type of contact number"
+                      style={{ minWidth: '0' }}
                     />
                     {errors.contactNumber && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.contactNumber}</p>}
                   </div>
@@ -428,7 +431,7 @@ const CustomizeTourPackageForm = () => {
                   Travel Details
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
-                  <div>
+                  <div className="w-full">
                     <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Start Date *
                     </label>
@@ -437,11 +440,12 @@ const CustomizeTourPackageForm = () => {
                       name="startDate"
                       value={formData.startDate}
                       onChange={handleInputChange}
-                      className={`input-field text-sm sm:text-base ${errors.startDate ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base w-full max-w-full ${errors.startDate ? 'border-red-500' : ''}`}
+                      style={{ minWidth: '0' }}
                     />
                     {errors.startDate && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.startDate}</p>}
                   </div>
-                  <div>
+                  <div className="w-full">
                     <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Number of Travelers *
                     </label>
@@ -451,11 +455,12 @@ const CustomizeTourPackageForm = () => {
                       value={formData.numberOfTravelers}
                       onChange={handleInputChange}
                       min="1"
-                      className={`input-field text-sm sm:text-base ${errors.numberOfTravelers ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base w-full max-w-full ${errors.numberOfTravelers ? 'border-red-500' : ''}`}
+                      style={{ minWidth: '0' }}
                     />
                     {errors.numberOfTravelers && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.numberOfTravelers}</p>}
                   </div>
-                  <div className="sm:col-span-2 md:col-span-1">
+                  <div className="sm:col-span-2 md:col-span-1 w-full">
                     <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                       Duration (Days) *
                     </label>
@@ -465,7 +470,8 @@ const CustomizeTourPackageForm = () => {
                       value={formData.duration}
                       onChange={handleInputChange}
                       min="1"
-                      className={`input-field text-sm sm:text-base ${errors.duration ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base w-full max-w-full ${errors.duration ? 'border-red-500' : ''}`}
+                      style={{ minWidth: '0' }}
                     />
                     {errors.duration && <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.duration}</p>}
                   </div>
@@ -500,8 +506,9 @@ const CustomizeTourPackageForm = () => {
                       name="accommodationOther"
                       value={formData.accommodationOther}
                       onChange={handleInputChange}
-                      className={`input-field text-sm sm:text-base ml-7 ${errors.accommodationOther ? 'border-red-500' : ''}`}
+                      className={`input-field text-sm sm:text-base ml-7 w-full max-w-full ${errors.accommodationOther ? 'border-red-500' : ''}`}
                       placeholder="Please specify accommodation type"
+                      style={{ minWidth: '0' }}
                     />
                   )}
                   {errors.accommodationOther && <p className="text-red-500 text-xs sm:text-sm mt-1 ml-7">{errors.accommodationOther}</p>}
@@ -532,7 +539,7 @@ const CustomizeTourPackageForm = () => {
               </div>
 
               {/* Special Requests */}
-              <div>
+              <div className="w-full">
                 <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center">
                   <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-orange-600" />
                   Special Requests / Description
@@ -542,8 +549,9 @@ const CustomizeTourPackageForm = () => {
                   value={formData.specialRequests}
                   onChange={handleInputChange}
                   rows="4"
-                  className="input-field text-sm sm:text-base"
+                  className="input-field text-sm sm:text-base w-full max-w-full resize-none"
                   placeholder="Tell us about any special requirements, dietary restrictions, accessibility needs, or specific places you'd like to visit..."
+                  style={{ minWidth: '0' }}
                 />
               </div>
 

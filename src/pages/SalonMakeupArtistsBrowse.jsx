@@ -123,42 +123,51 @@ const SalonMakeupArtistsBrowse = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-2">
             Salon & Makeup Artists
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             Discover professional salon and makeup artist services
           </p>
         </div>
 
         {/* Search and Filter Bar */}
-        <div className="mb-8 space-y-4">
-          <div className="flex gap-4">
+        <div className="mb-6 sm:mb-8 space-y-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
                 type="text"
-                placeholder="Search by name, specialization, or category..."
+                placeholder="Search by name, specialization..."
                 value={filters.search}
                 onChange={handleFilterChange}
                 name="search"
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
+                className="w-full pl-10 pr-4 py-2.5 sm:py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white text-sm sm:text-base"
               />
             </div>
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 font-medium shadow-md hover:shadow-lg"
             >
               <Filter className="w-5 h-5" />
-              <span>Filters</span>
+              <span className="text-sm sm:text-base">Filters</span>
             </button>
           </div>
 
           {/* Filters Panel */}
           {showFilters && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 sm:p-6 space-y-4 border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Filter Options</h3>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="sm:hidden p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
+                >
+                  <X className="w-5 h-5 text-gray-500" />
+                </button>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Province
@@ -167,7 +176,7 @@ const SalonMakeupArtistsBrowse = () => {
                     name="province"
                     value={filters.province}
                     onChange={handleFilterChange}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 text-sm"
                   >
                     <option value="">All Provinces</option>
                     {Object.keys(provincesData).map(province => (
@@ -185,7 +194,7 @@ const SalonMakeupArtistsBrowse = () => {
                     value={filters.city}
                     onChange={handleFilterChange}
                     disabled={!filters.province}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white disabled:bg-gray-100 dark:disabled:bg-gray-600"
+                    className="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white disabled:bg-gray-100 dark:disabled:bg-gray-600 disabled:cursor-not-allowed focus:ring-2 focus:ring-blue-500 text-sm"
                   >
                     <option value="">All Cities</option>
                     {availableCities.map(city => (
@@ -204,7 +213,7 @@ const SalonMakeupArtistsBrowse = () => {
                     value={filters.specialization}
                     onChange={handleFilterChange}
                     placeholder="e.g., Bridal Makeup"
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 text-sm"
                   />
                 </div>
 
@@ -218,22 +227,22 @@ const SalonMakeupArtistsBrowse = () => {
                     value={filters.category}
                     onChange={handleFilterChange}
                     placeholder="e.g., Premium Salon"
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-blue-500 text-sm"
                   />
                 </div>
 
-                <div className="flex items-end gap-2">
+                <div className="flex flex-col justify-end gap-2 sm:col-span-2 lg:col-span-1">
                   <button
                     onClick={handleApplyFilters}
-                    className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
+                    className="w-full px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium shadow-md hover:shadow-lg text-sm"
                   >
-                    Apply
+                    Apply Filters
                   </button>
                   <button
                     onClick={handleResetFilters}
-                    className="flex-1 px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors font-medium"
+                    className="w-full px-4 py-2.5 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors font-medium text-sm"
                   >
-                    Reset
+                    Reset All
                   </button>
                 </div>
               </div>
@@ -265,66 +274,84 @@ const SalonMakeupArtistsBrowse = () => {
 
             {/* Profiles Grid */}
             {profiles.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 {profiles.map((profile) => (
-                  <div key={profile._id} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+                  <div
+                    key={profile._id}
+                    className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full"
+                  >
                     {/* Avatar */}
-                    <div className="relative h-48 bg-gradient-to-br from-blue-400 to-purple-500">
-                      {profile.avatar?.url && (
+                    <div className="relative h-56 sm:h-64 bg-gradient-to-br from-pink-400 via-purple-500 to-indigo-500 overflow-hidden">
+                      {profile.avatar?.url ? (
                         <img
                           src={profile.avatar.url}
                           alt={profile.name}
                           className="w-full h-full object-cover"
                         />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <span className="text-white text-6xl font-bold">
+                            {profile.name.charAt(0)}
+                          </span>
+                        </div>
                       )}
                       {/* Rating Badge */}
-                      <div className="absolute top-4 right-4 bg-white dark:bg-gray-800 rounded-full px-3 py-1 flex items-center space-x-1 shadow-lg">
+                      <div className="absolute top-3 right-3 bg-white dark:bg-gray-800 rounded-full px-3 py-1.5 flex items-center space-x-1 shadow-lg">
                         <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                        <span className="font-semibold text-gray-900 dark:text-white">
-                          {profile.averageRating || 'N/A'}
+                        <span className="font-bold text-gray-900 dark:text-white text-sm">
+                          {profile.averageRating ? profile.averageRating.toFixed(1) : 'N/A'}
+                        </span>
+                      </div>
+                      {/* Category Badge */}
+                      <div className="absolute bottom-3 left-3">
+                        <span className="px-3 py-1.5 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-blue-700 dark:text-blue-300 rounded-full text-xs font-semibold shadow-md">
+                          {profile.category}
                         </span>
                       </div>
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
+                    <div className="p-5 sm:p-6 flex flex-col flex-grow">
                       {/* Name */}
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-1">
                         {profile.name}
                       </h3>
 
                       {/* Specialization */}
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2 min-h-[2.5rem]">
                         {profile.specialization}
                       </p>
 
-                      {/* Category Badge */}
-                      <div className="mb-4">
-                        <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium">
-                          {profile.category}
-                        </span>
-                      </div>
-
                       {/* Location */}
                       <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 text-sm mb-3">
-                        <MapPin className="w-4 h-4" />
-                        <span>{profile.location?.city}, {profile.location?.province}</span>
+                        <MapPin className="w-4 h-4 flex-shrink-0 text-blue-600 dark:text-blue-400" />
+                        <span className="line-clamp-1">{profile.location?.city}, {profile.location?.province}</span>
                       </div>
 
-                      {/* Experience */}
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                        <span className="font-medium">{profile.experience}</span> years experience
-                      </div>
-
-                      {/* Reviews Count */}
-                      <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                        <span className="font-medium">{profile.totalReviews}</span> reviews
+                      {/* Stats Grid */}
+                      <div className="grid grid-cols-2 gap-3 mb-4 py-3 border-t border-b border-gray-200 dark:border-gray-700">
+                        <div className="text-center">
+                          <div className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+                            {profile.experience}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            Years Exp.
+                          </div>
+                        </div>
+                        <div className="text-center">
+                          <div className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
+                            {profile.totalReviews || 0}
+                          </div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">
+                            Reviews
+                          </div>
+                        </div>
                       </div>
 
                       {/* View Button */}
                       <button
                         onClick={() => navigate(`/salon-makeup-artists/${profile._id}`)}
-                        className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2 font-semibold"
+                        className="w-full mt-auto px-4 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition-all duration-300 flex items-center justify-center space-x-2 font-semibold shadow-md hover:shadow-lg transform hover:scale-105"
                       >
                         <Eye className="w-4 h-4" />
                         <span>View Profile</span>
