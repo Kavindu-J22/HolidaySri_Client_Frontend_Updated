@@ -101,35 +101,35 @@ const GraphicsITTechRepairBrowse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Graphics/IT Supports & Tech Repair Services
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             Find professional graphics designers, IT support, and tech repair services
           </p>
         </div>
 
         {/* Search Bar */}
-        <div className="mb-6 relative">
-          <Search className="absolute left-4 top-3.5 w-5 h-5 text-gray-400" />
+        <div className="mb-4 sm:mb-6 relative">
+          <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 sm:w-5 h-4 sm:h-5 text-gray-400" />
           <input
             type="text"
-            placeholder="Search by name, specialization, or service..."
+            placeholder="Search by name, specialization..."
             value={filters.search}
             onChange={handleSearch}
-            className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
+            className="w-full pl-9 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:text-white"
           />
         </div>
 
         {/* Filters */}
-        <div className="mb-6 flex gap-2 flex-wrap">
+        <div className="mb-4 sm:mb-6 flex gap-2 flex-wrap">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition"
           >
             <Filter className="w-4 h-4" />
             Filters
@@ -137,7 +137,7 @@ const GraphicsITTechRepairBrowse = () => {
           {(filters.search || filters.specialization || filters.category || filters.city || filters.province) && (
             <button
               onClick={clearFilters}
-              className="flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition"
             >
               <X className="w-4 h-4" />
               Clear Filters
@@ -147,9 +147,9 @@ const GraphicsITTechRepairBrowse = () => {
 
         {/* Filter Panel */}
         {showFilters && (
-          <div className="mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="mb-4 sm:mb-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Specialization
               </label>
               <input
@@ -158,11 +158,11 @@ const GraphicsITTechRepairBrowse = () => {
                 value={filters.specialization}
                 onChange={handleFilterChange}
                 placeholder="e.g., Web Development"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+                className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Category
               </label>
               <input
@@ -171,11 +171,11 @@ const GraphicsITTechRepairBrowse = () => {
                 value={filters.category}
                 onChange={handleFilterChange}
                 placeholder="e.g., Software Engineer"
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+                className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Province
               </label>
               <select
@@ -191,7 +191,7 @@ const GraphicsITTechRepairBrowse = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 City
               </label>
               <select
@@ -199,7 +199,7 @@ const GraphicsITTechRepairBrowse = () => {
                 value={filters.city}
                 onChange={handleFilterChange}
                 disabled={!filters.province}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm disabled:opacity-50"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm sm:text-base disabled:opacity-50"
               >
                 <option value="">All Cities</option>
                 {filters.province && provincesAndDistricts[filters.province]?.map(city => (
@@ -228,43 +228,43 @@ const GraphicsITTechRepairBrowse = () => {
         {/* Profiles Grid */}
         {!loading && profiles.length > 0 && (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
               {profiles.map(profile => (
                 <div
                   key={profile._id}
-                  className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition transform hover:scale-105"
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition h-full flex flex-col"
                 >
                   {/* Image */}
-                  <div className="relative h-48 bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                  <div className="relative h-44 sm:h-48 bg-gray-200 dark:bg-gray-700 overflow-hidden flex-shrink-0">
                     <img
                       src={profile.images?.[0]?.url || 'https://via.placeholder.com/400x300'}
                       alt={profile.name}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-3 right-3 bg-white dark:bg-gray-800 rounded-full px-3 py-1 flex items-center gap-1 shadow-lg">
-                      <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                      <span className="text-sm font-bold text-gray-900 dark:text-white">
+                    <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-white dark:bg-gray-800 rounded-full px-2 sm:px-3 py-1 flex items-center gap-1 shadow-lg">
+                      <Star className="w-3 sm:w-4 h-3 sm:h-4 text-yellow-400 fill-yellow-400" />
+                      <span className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white">
                         {profile.averageRating || 'N/A'}
                       </span>
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-4">
+                  <div className="p-4 sm:p-5 flex flex-col flex-grow">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
                       {profile.name}
                     </h3>
-                    <p className="text-sm text-blue-600 dark:text-blue-400 font-semibold mb-2">
+                    <p className="text-sm text-blue-600 dark:text-blue-400 font-semibold mb-2 line-clamp-1">
                       {profile.specialization}
                     </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2 flex-grow">
                       {profile.description}
                     </p>
 
                     {/* Location */}
                     <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                      <MapPin className="w-4 h-4 text-red-500" />
-                      <span>{profile.city}, {profile.province}</span>
+                      <MapPin className="w-4 h-4 text-red-500 flex-shrink-0" />
+                      <span className="line-clamp-1">{profile.city}, {profile.province}</span>
                     </div>
 
                     {/* Stats */}
@@ -277,7 +277,7 @@ const GraphicsITTechRepairBrowse = () => {
                     {/* View Button */}
                     <button
                       onClick={() => handleViewProfile(profile._id)}
-                      className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition flex items-center justify-center gap-2"
+                      className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition flex items-center justify-center gap-2 flex-shrink-0"
                     >
                       <Eye className="w-4 h-4" />
                       View Profile

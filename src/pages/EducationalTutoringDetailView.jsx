@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, MapPin, Phone, Mail, Globe, Facebook, Star, Loader, AlertCircle, Send } from 'lucide-react';
+import { ArrowLeft, MapPin, Phone, Mail, Globe, Facebook, Star, Loader, AlertCircle, Send, Share2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const EducationalTutoringDetailView = () => {
@@ -18,6 +18,28 @@ const EducationalTutoringDetailView = () => {
     rating: 5,
     review: ''
   });
+
+  // Handle share functionality
+  const handleShare = async () => {
+    if (!profile) return;
+
+    const shareData = {
+      title: profile.name,
+      text: `Check out ${profile.name} - Educational Tutoring`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    } catch (err) {
+      console.error('Error sharing:', err);
+    }
+  };
 
   useEffect(() => {
     fetchProfile();
@@ -146,21 +168,30 @@ const EducationalTutoringDetailView = () => {
   if (!profile) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-8"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back</span>
-        </button>
+        {/* Back Button and Share */}
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Back</span>
+          </button>
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          >
+            <Share2 className="w-4 h-4" />
+            <span className="hidden sm:inline">Share</span>
+          </button>
+        </div>
 
         {/* Main Card */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
           {/* Hero Section */}
-          <div className="relative h-64 bg-gradient-to-br from-blue-400 to-indigo-600 overflow-hidden">
+          <div className="relative h-48 sm:h-56 md:h-64 bg-gradient-to-br from-blue-400 to-indigo-600 overflow-hidden">
             {profile.avatar?.url && (
               <img
                 src={profile.avatar.url}
@@ -172,37 +203,37 @@ const EducationalTutoringDetailView = () => {
           </div>
 
           {/* Content */}
-          <div className="p-8">
+          <div className="p-4 sm:p-6 md:p-8">
             {/* Header */}
-            <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-8">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-6 sm:mb-8">
               <div>
-                <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
                   {profile.name}
                 </h1>
-                <p className="text-xl text-gray-600 dark:text-gray-400 mb-4">
+                <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">
                   {profile.category}
                 </p>
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 sm:space-x-4 flex-wrap">
                   {renderStars(profile.overallRating || 0)}
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     ({profile.reviews?.length || 0} reviews)
                   </span>
                 </div>
               </div>
 
               {/* Stats */}
-              <div className="mt-6 md:mt-0 grid grid-cols-2 gap-4">
-                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-center">
-                  <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+              <div className="mt-4 sm:mt-6 md:mt-0 grid grid-cols-2 gap-3 sm:gap-4">
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 sm:p-4 text-center">
+                  <p className="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400">
                     {profile.experience}
                   </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">Years Experience</p>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Years Experience</p>
                 </div>
-                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 text-center">
-                  <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 sm:p-4 text-center">
+                  <p className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">
                     {profile.available ? '✓' : '✗'}
                   </p>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     {profile.available ? 'Available' : 'Not Available'}
                   </p>
                 </div>
@@ -210,15 +241,15 @@ const EducationalTutoringDetailView = () => {
             </div>
 
             {/* Specializations */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+            <div className="mb-6 sm:mb-8">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                 Specializations
               </h2>
               <div className="flex flex-wrap gap-2">
                 {profile.specialization?.map((spec, idx) => (
                   <span
                     key={idx}
-                    className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-4 py-2 rounded-full font-medium"
+                    className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base rounded-full font-medium"
                   >
                     {spec}
                   </span>
@@ -227,22 +258,22 @@ const EducationalTutoringDetailView = () => {
             </div>
 
             {/* Description */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+            <div className="mb-6 sm:mb-8">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                 About
               </h2>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
                 {profile.description}
               </p>
             </div>
 
             {/* Location */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+            <div className="mb-6 sm:mb-8">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                 Location
               </h2>
-              <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-                <MapPin className="w-5 h-5 text-blue-600" />
+              <div className="flex items-center space-x-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                <MapPin className="w-4 sm:w-5 h-4 sm:h-5 text-blue-600 flex-shrink-0" />
                 <span>{profile.location?.city}, {profile.location?.province}</span>
               </div>
             </div>
@@ -276,24 +307,30 @@ const EducationalTutoringDetailView = () => {
                 Contact Information
               </h2>
               <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <Phone className="w-5 h-5 text-blue-600" />
-                  <a href={`tel:${profile.contact}`} className="text-blue-600 hover:underline">
+                <div className="flex items-center space-x-3 overflow-hidden">
+                  <Phone className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                  <a href={`tel:${profile.contact}`} className="text-blue-600 hover:underline truncate">
                     {profile.contact}
                   </a>
                 </div>
                 {profile.website && (
-                  <div className="flex items-center space-x-3">
-                    <Globe className="w-5 h-5 text-blue-600" />
-                    <a href={profile.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                  <div className="flex items-start space-x-3">
+                    <Globe className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <a
+                      href={profile.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline break-all text-sm sm:text-base"
+                      style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}
+                    >
                       {profile.website}
                     </a>
                   </div>
                 )}
                 {profile.facebook && (
-                  <div className="flex items-center space-x-3">
-                    <Facebook className="w-5 h-5 text-blue-600" />
-                    <a href={profile.facebook} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                  <div className="flex items-center space-x-3 overflow-hidden">
+                    <Facebook className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                    <a href={profile.facebook} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline truncate">
                       Facebook Profile
                     </a>
                   </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Star, MessageCircle, Phone, MapPin, Briefcase, Award, Loader, AlertCircle, CheckCircle, X, Globe, Linkedin, Facebook } from 'lucide-react';
+import { ArrowLeft, Star, MessageCircle, Phone, MapPin, Briefcase, Award, Loader, AlertCircle, CheckCircle, X, Globe, Linkedin, Facebook, Share2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const GraphicsITTechRepairDetailView = () => {
@@ -15,6 +15,28 @@ const GraphicsITTechRepairDetailView = () => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [reviewData, setReviewData] = useState({ rating: 5, review: '' });
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  // Handle share functionality
+  const handleShare = async () => {
+    if (!profile) return;
+
+    const shareData = {
+      title: profile.name,
+      text: `Check out ${profile.name} - ${profile.specialization}`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    } catch (err) {
+      console.error('Error sharing:', err);
+    }
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -106,37 +128,46 @@ const GraphicsITTechRepairDetailView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-8 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 mb-6 transition"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Back
-        </button>
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 transition"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            Back
+          </button>
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          >
+            <Share2 className="w-4 h-4" />
+            <span className="hidden sm:inline">Share</span>
+          </button>
+        </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
           {/* Left Column - Images and Basic Info */}
           <div className="lg:col-span-2">
             {/* Image Gallery */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-4 sm:mb-6">
               <div className="relative">
                 <img
                   src={profile.images?.[selectedImageIndex]?.url || 'https://via.placeholder.com/600x400'}
                   alt="Portfolio"
-                  className="w-full h-96 object-cover"
+                  className="w-full h-64 sm:h-80 md:h-96 object-cover"
                 />
               </div>
               {profile.images && profile.images.length > 1 && (
-                <div className="flex gap-2 p-4 overflow-x-auto">
+                <div className="flex gap-2 p-3 sm:p-4 overflow-x-auto">
                   {profile.images.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => setSelectedImageIndex(idx)}
-                      className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition ${
+                      className={`flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden border-2 transition ${
                         selectedImageIndex === idx
                           ? 'border-blue-500'
                           : 'border-gray-300 dark:border-gray-600'
@@ -150,11 +181,11 @@ const GraphicsITTechRepairDetailView = () => {
             </div>
 
             {/* Profile Info */}
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-8 mb-4 sm:mb-6">
               <div className="flex items-start justify-between mb-6">
                 <div>
-                  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">{profile.name}</h1>
-                  <p className="text-lg text-blue-600 dark:text-blue-400 font-semibold">{profile.specialization}</p>
+                  <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-2">{profile.name}</h1>
+                  <p className="text-base sm:text-lg text-blue-600 dark:text-blue-400 font-semibold">{profile.specialization}</p>
                 </div>
                 <div className="text-right">
                   <div className="flex items-center gap-2 justify-end mb-2">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Star, MessageCircle, Phone, MapPin, Briefcase, Award, Calendar, Loader, AlertCircle, CheckCircle, X } from 'lucide-react';
+import { ArrowLeft, Star, MessageCircle, Phone, MapPin, Briefcase, Award, Calendar, Loader, AlertCircle, CheckCircle, X, Share2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const DeliveryPartnersDetailView = () => {
@@ -14,6 +14,28 @@ const DeliveryPartnersDetailView = () => {
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [reviewData, setReviewData] = useState({ rating: 5, review: '' });
+
+  // Handle share functionality
+  const handleShare = async () => {
+    if (!profile) return;
+
+    const shareData = {
+      title: profile.name,
+      text: `Check out ${profile.name} - ${profile.specialization}`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    } catch (err) {
+      console.error('Error sharing:', err);
+    }
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -105,38 +127,47 @@ const DeliveryPartnersDetailView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 mb-6"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back</span>
-        </button>
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Back</span>
+          </button>
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          >
+            <Share2 className="w-4 h-4" />
+            <span className="hidden sm:inline">Share</span>
+          </button>
+        </div>
 
         {/* Main Content */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
           {/* Hero Section */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white">
-            <div className="flex flex-col md:flex-row gap-6 items-start">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 sm:p-8 text-white">
+            <div className="flex flex-col md:flex-row gap-4 sm:gap-6 items-start">
               <img
                 src={profile.avatar?.url}
                 alt={profile.name}
-                className="w-32 h-32 rounded-lg object-cover border-4 border-white"
+                className="w-24 h-24 sm:w-32 sm:h-32 rounded-lg object-cover border-4 border-white"
               />
               <div className="flex-1">
-                <h1 className="text-4xl font-bold mb-2">{profile.name}</h1>
-                <p className="text-lg opacity-90 mb-4">{profile.specialization}</p>
-                
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">{profile.name}</h1>
+                <p className="text-base sm:text-lg opacity-90 mb-4">{profile.specialization}</p>
+
                 {/* Rating */}
-                <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 mb-4 flex-wrap">
                   <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-5 h-5 ${
+                        className={`w-4 sm:w-5 h-4 sm:h-5 ${
                           i < Math.round(profile.averageRating)
                             ? 'fill-yellow-300 text-yellow-300'
                             : 'text-gray-300'
@@ -144,7 +175,7 @@ const DeliveryPartnersDetailView = () => {
                       />
                     ))}
                   </div>
-                  <span className="text-lg font-semibold">
+                  <span className="text-base sm:text-lg font-semibold">
                     {profile.averageRating?.toFixed(1) || 'No ratings'}
                   </span>
                   <span className="text-sm opacity-75">
@@ -153,22 +184,22 @@ const DeliveryPartnersDetailView = () => {
                 </div>
 
                 {/* Quick Info */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 text-xs sm:text-sm">
                   <div className="flex items-center gap-2">
-                    <Award className="w-4 h-4" />
-                    <span>{profile.experience} years exp.</span>
+                    <Award className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">{profile.experience} years exp.</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4" />
-                    <span>{profile.city}, {profile.province}</span>
+                    <MapPin className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">{profile.city}, {profile.province}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Briefcase className="w-4 h-4" />
-                    <span>{profile.category}</span>
+                    <Briefcase className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">{profile.category}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    <span>{profile.available ? 'Available' : 'Unavailable'}</span>
+                    <Calendar className="w-4 h-4 flex-shrink-0" />
+                    <span className="truncate">{profile.available ? 'Available' : 'Unavailable'}</span>
                   </div>
                 </div>
               </div>

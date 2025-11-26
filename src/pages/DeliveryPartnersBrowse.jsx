@@ -101,35 +101,35 @@ const DeliveryPartnersBrowse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Delivery Partners
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             Find professional delivery partners in your area
           </p>
         </div>
 
         {/* Search Bar */}
-        <div className="mb-6 relative">
-          <Search className="absolute left-4 top-3 w-5 h-5 text-gray-400" />
+        <div className="mb-4 sm:mb-6 relative">
+          <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-4 sm:w-5 h-4 sm:h-5 text-gray-400" />
           <input
             type="text"
-            placeholder="Search by name, specialization, or category..."
+            placeholder="Search by name, specialization..."
             value={filters.search}
             onChange={handleSearch}
-            className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full pl-9 sm:pl-12 pr-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
           />
         </div>
 
         {/* Filters Toggle */}
-        <div className="mb-6 flex gap-2">
+        <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row gap-2">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="flex items-center justify-center gap-2 px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
           >
             <Filter className="w-4 h-4" />
             {showFilters ? 'Hide Filters' : 'Show Filters'}
@@ -137,7 +137,7 @@ const DeliveryPartnersBrowse = () => {
           {(filters.specialization || filters.category || filters.city || filters.province) && (
             <button
               onClick={clearFilters}
-              className="flex items-center gap-2 px-4 py-2 bg-gray-300 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-400 dark:hover:bg-gray-600 transition"
+              className="flex items-center justify-center gap-2 px-4 py-2 text-sm sm:text-base bg-gray-300 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-400 dark:hover:bg-gray-600 transition"
             >
               <X className="w-4 h-4" />
               Clear Filters
@@ -147,10 +147,10 @@ const DeliveryPartnersBrowse = () => {
 
         {/* Filters Panel */}
         {showFilters && (
-          <div className="mb-6 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="mb-4 sm:mb-6 p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Specialization
                 </label>
                 <input
@@ -159,12 +159,12 @@ const DeliveryPartnersBrowse = () => {
                   placeholder=""
                   value={filters.specialization}
                   onChange={handleFilterChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Category
                 </label>
                 <input
@@ -173,19 +173,19 @@ const DeliveryPartnersBrowse = () => {
                   placeholder=""
                   value={filters.category}
                   onChange={handleFilterChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Province
                 </label>
                 <select
                   name="province"
                   value={filters.province}
                   onChange={handleFilterChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
                 >
                   <option value="">All Provinces</option>
                   {Object.keys(provincesAndDistricts).map(province => (
@@ -197,7 +197,7 @@ const DeliveryPartnersBrowse = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   City
                 </label>
                 <select
@@ -205,7 +205,7 @@ const DeliveryPartnersBrowse = () => {
                   value={filters.city}
                   onChange={handleFilterChange}
                   disabled={!filters.province}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none disabled:opacity-50"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none disabled:opacity-50"
                 >
                   <option value="">All Cities</option>
                   {filters.province && provincesAndDistricts[filters.province]?.map(city => (
@@ -246,14 +246,14 @@ const DeliveryPartnersBrowse = () => {
         {/* Profiles Grid */}
         {!loading && profiles.length > 0 && (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
               {profiles.map(profile => (
                 <div
                   key={profile._id}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition transform hover:scale-105"
+                  className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition h-full flex flex-col"
                 >
                   {/* Card Header */}
-                  <div className="relative h-40 bg-gradient-to-r from-blue-500 to-purple-600">
+                  <div className="relative h-40 sm:h-44 bg-gradient-to-r from-blue-500 to-purple-600 flex-shrink-0">
                     <img
                       src={profile.avatar?.url}
                       alt={profile.name}
@@ -262,11 +262,11 @@ const DeliveryPartnersBrowse = () => {
                   </div>
 
                   {/* Card Content */}
-                  <div className="p-4">
+                  <div className="p-4 sm:p-5 flex flex-col flex-grow">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
                       {profile.name}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-1">
                       {profile.specialization}
                     </p>
 
@@ -294,19 +294,19 @@ const DeliveryPartnersBrowse = () => {
 
                     {/* Location */}
                     <div className="flex items-center gap-2 mb-3 text-sm text-gray-600 dark:text-gray-400">
-                      <MapPin className="w-4 h-4" />
-                      <span>{profile.city}, {profile.province}</span>
+                      <MapPin className="w-4 h-4 flex-shrink-0" />
+                      <span className="line-clamp-1">{profile.city}, {profile.province}</span>
                     </div>
 
                     {/* Category */}
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 flex-grow line-clamp-2">
                       {profile.category}
                     </p>
 
                     {/* View Button */}
                     <button
                       onClick={() => handleViewProfile(profile._id)}
-                      className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-medium"
+                      className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-medium flex-shrink-0"
                     >
                       View Profile
                     </button>

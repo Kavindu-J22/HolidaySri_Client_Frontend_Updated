@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { ArrowLeft, Star, Send, Loader, AlertCircle, MapPin, Phone, Globe, Facebook } from 'lucide-react';
+import { ArrowLeft, Star, Send, Loader, AlertCircle, MapPin, Phone, Globe, Facebook, Share2 } from 'lucide-react';
 
 const CurrencyExchangeDetailView = () => {
   const navigate = useNavigate();
@@ -15,6 +15,28 @@ const CurrencyExchangeDetailView = () => {
   const [rating, setRating] = useState(5);
   const [reviewText, setReviewText] = useState('');
   const [showReviewForm, setShowReviewForm] = useState(false);
+
+  // Handle share functionality
+  const handleShare = async () => {
+    if (!profile) return;
+
+    const shareData = {
+      title: profile.name,
+      text: `Check out ${profile.name} - Currency Exchange`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    } catch (err) {
+      console.error('Error sharing:', err);
+    }
+  };
 
   useEffect(() => {
     fetchProfileDetails();
@@ -99,38 +121,47 @@ const CurrencyExchangeDetailView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8">
       <div className="max-w-4xl mx-auto px-4">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 mb-8"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back</span>
-        </button>
+        {/* Back Button and Share */}
+        <div className="flex items-center justify-between mb-6 sm:mb-8">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Back</span>
+          </button>
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          >
+            <Share2 className="w-4 h-4" />
+            <span className="hidden sm:inline">Share</span>
+          </button>
+        </div>
 
         {/* Main Card */}
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
           {/* Header Section */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white">
-            <div className="flex items-start space-x-6">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 sm:p-8 text-white">
+            <div className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-6">
               <img
                 src={profile.image?.url}
                 alt={profile.name}
-                className="w-32 h-32 rounded-full border-4 border-white object-cover"
+                className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border-4 border-white object-cover"
               />
               <div className="flex-1">
-                <h1 className="text-3xl font-bold mb-2">{profile.name}</h1>
-                <p className="text-lg opacity-90 mb-4">{profile.specialization}</p>
-                
+                <h1 className="text-2xl sm:text-3xl font-bold mb-2">{profile.name}</h1>
+                <p className="text-base sm:text-lg opacity-90 mb-4">{profile.specialization}</p>
+
                 {/* Rating */}
-                <div className="flex items-center space-x-2 mb-4">
+                <div className="flex items-center space-x-2 mb-4 flex-wrap">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-5 h-5 ${
+                        className={`w-4 sm:w-5 h-4 sm:h-5 ${
                           i < Math.round(profile.averageRating || 0)
                             ? 'fill-yellow-300 text-yellow-300'
                             : 'text-gray-300'
@@ -138,12 +169,12 @@ const CurrencyExchangeDetailView = () => {
                       />
                     ))}
                   </div>
-                  <span className="text-lg font-semibold">{profile.averageRating || 0}</span>
+                  <span className="text-base sm:text-lg font-semibold">{profile.averageRating || 0}</span>
                   <span className="text-sm opacity-75">({profile.totalReviews || 0} reviews)</span>
                 </div>
 
                 {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 text-sm">
+                <div className="grid grid-cols-3 gap-3 sm:gap-4 text-xs sm:text-sm">
                   <div>
                     <p className="opacity-75">Experience</p>
                     <p className="font-semibold">{profile.experience} years</p>
@@ -162,38 +193,38 @@ const CurrencyExchangeDetailView = () => {
           </div>
 
           {/* Content Section */}
-          <div className="p-8 space-y-8">
+          <div className="p-4 sm:p-6 md:p-8 space-y-6 sm:space-y-8">
             {/* Error Message */}
             {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 sm:p-4">
                 <div className="flex items-center space-x-2">
-                  <AlertCircle className="w-5 h-5 text-red-500" />
-                  <span className="text-red-800 dark:text-red-200">{error}</span>
+                  <AlertCircle className="w-4 sm:w-5 h-4 sm:h-5 text-red-500 flex-shrink-0" />
+                  <span className="text-sm sm:text-base text-red-800 dark:text-red-200">{error}</span>
                 </div>
               </div>
             )}
 
             {/* Description */}
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">About</h2>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{profile.description}</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">About</h2>
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">{profile.description}</p>
             </div>
 
             {/* Location and Contact */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Location</h3>
-                <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-                  <MapPin className="w-5 h-5 text-blue-600" />
-                  <span>{profile.city}, {profile.province}</span>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 sm:p-4">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">Location</h3>
+                <div className="flex items-center space-x-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                  <MapPin className="w-4 sm:w-5 h-4 sm:h-5 text-blue-600 flex-shrink-0" />
+                  <span className="truncate">{profile.city}, {profile.province}</span>
                 </div>
               </div>
 
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Contact</h3>
-                <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-                  <Phone className="w-5 h-5 text-blue-600" />
-                  <span>{profile.contact}</span>
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 sm:p-4">
+                <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">Contact</h3>
+                <div className="flex items-center space-x-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                  <Phone className="w-4 sm:w-5 h-4 sm:h-5 text-blue-600 flex-shrink-0" />
+                  <span className="truncate">{profile.contact}</span>
                 </div>
               </div>
             </div>
@@ -201,12 +232,12 @@ const CurrencyExchangeDetailView = () => {
             {/* Services */}
             {profile.includes && profile.includes.length > 0 && (
               <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Services Included</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Services Included</h2>
                 <div className="flex flex-wrap gap-2">
                   {profile.includes.map((service, idx) => (
                     <span
                       key={idx}
-                      className="px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-sm font-medium"
+                      className="px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-xs sm:text-sm font-medium"
                     >
                       {service}
                     </span>
@@ -216,15 +247,15 @@ const CurrencyExchangeDetailView = () => {
             )}
 
             {/* Availability */}
-            <div className="space-y-3">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Availability</h2>
+            <div className="space-y-2 sm:space-y-3">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Availability</h2>
               {profile.available && (
-                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-                  <p className="text-green-800 dark:text-green-200 font-semibold">✓ Available for service</p>
+                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 sm:p-4">
+                  <p className="text-sm sm:text-base text-green-800 dark:text-green-200 font-semibold">✓ Available for service</p>
                 </div>
               )}
               {profile.availableDays && (
-                <p className="text-gray-700 dark:text-gray-300">
+                <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-semibold">Days:</span> {profile.availableDays}
                 </p>
               )}

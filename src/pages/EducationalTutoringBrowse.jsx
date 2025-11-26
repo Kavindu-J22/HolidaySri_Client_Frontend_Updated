@@ -120,28 +120,28 @@ const EducationalTutoringBrowse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Educational Tutoring Services
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             Find qualified tutors and educational professionals
           </p>
         </div>
 
         {/* Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
             Search & Filters
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 mb-4">
             {/* Search */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Search by Name or Description
               </label>
               <input
@@ -150,13 +150,13 @@ const EducationalTutoringBrowse = () => {
                 value={filters.search}
                 onChange={handleFilterChange}
                 placeholder="Search..."
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Specialization */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Specialization
               </label>
               <input
@@ -165,13 +165,13 @@ const EducationalTutoringBrowse = () => {
                 value={filters.specialization}
                 onChange={handleFilterChange}
                 placeholder="e.g., Mathematics"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Category
               </label>
               <input
@@ -180,20 +180,20 @@ const EducationalTutoringBrowse = () => {
                 value={filters.category}
                 onChange={handleFilterChange}
                 placeholder="e.g., University Level"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Province */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Province
               </label>
               <select
                 name="province"
                 value={filters.province}
                 onChange={handleFilterChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
               >
                 <option value="">All Provinces</option>
                 {Object.keys(provincesAndDistricts).map(province => (
@@ -204,14 +204,14 @@ const EducationalTutoringBrowse = () => {
 
             {/* City */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 City
               </label>
               <select
                 name="city"
                 value={filters.city}
                 onChange={handleFilterChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 disabled={!filters.province}
               >
                 <option value="">All Cities</option>
@@ -223,17 +223,17 @@ const EducationalTutoringBrowse = () => {
           </div>
 
           {/* Buttons */}
-          <div className="flex gap-3">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
             <button
               onClick={handleSearch}
-              className="flex-1 px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-colors font-medium flex items-center justify-center space-x-2"
+              className="flex-1 px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-colors font-medium flex items-center justify-center space-x-2"
             >
-              <Search className="w-5 h-5" />
+              <Search className="w-4 sm:w-5 h-4 sm:h-5" />
               <span>Search</span>
             </button>
             <button
               onClick={handleReset}
-              className="flex-1 px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium"
+              className="flex-1 px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium"
             >
               Reset Filters
             </button>
@@ -258,14 +258,14 @@ const EducationalTutoringBrowse = () => {
         {/* Profiles Grid */}
         {!loading && profiles.length > 0 && (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
               {profiles.map(profile => (
                 <div
                   key={profile._id}
-                  className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow h-full flex flex-col"
                 >
                   {/* Avatar */}
-                  <div className="relative h-48 bg-gradient-to-br from-blue-400 to-indigo-600 overflow-hidden">
+                  <div className="relative h-44 sm:h-48 bg-gradient-to-br from-blue-400 to-indigo-600 overflow-hidden flex-shrink-0">
                     {profile.avatar?.url && (
                       <img
                         src={profile.avatar.url}
@@ -273,18 +273,18 @@ const EducationalTutoringBrowse = () => {
                         className="w-full h-full object-cover"
                       />
                     )}
-                    <div className="absolute top-3 right-3 bg-white dark:bg-gray-800 rounded-full px-3 py-1 flex items-center space-x-1">
+                    <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-white dark:bg-gray-800 rounded-full px-2 sm:px-3 py-1 flex items-center space-x-1">
                       {renderStars(profile.overallRating || 0)}
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-5">
+                  <div className="p-4 sm:p-5 flex flex-col flex-grow">
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
                       {profile.name}
                     </h3>
 
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-1">
                       {profile.category}
                     </p>
 
@@ -308,20 +308,20 @@ const EducationalTutoringBrowse = () => {
                     </div>
 
                     {/* Location */}
-                    <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400 mb-4">
-                      <MapPin className="w-4 h-4" />
-                      <span>{profile.location?.city}, {profile.location?.province}</span>
+                    <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400 mb-3">
+                      <MapPin className="w-4 h-4 flex-shrink-0" />
+                      <span className="line-clamp-1">{profile.location?.city}, {profile.location?.province}</span>
                     </div>
 
                     {/* Experience */}
-                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-4 flex-grow">
                       <span className="font-semibold">{profile.experience}</span> years experience
                     </p>
 
                     {/* View Button */}
                     <button
                       onClick={() => navigate(`/educational-tutoring/${profile._id}`)}
-                      className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-colors font-medium"
+                      className="w-full px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-colors font-medium flex-shrink-0"
                     >
                       View Profile
                     </button>

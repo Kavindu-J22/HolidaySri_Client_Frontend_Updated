@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Star, Phone, MessageCircle, Globe, Facebook, Download, Loader, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Star, Phone, MessageCircle, Globe, Facebook, Download, Loader, AlertCircle, Share2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const TrustedAstrologistsDetailView = () => {
@@ -19,6 +19,27 @@ const TrustedAstrologistsDetailView = () => {
   useEffect(() => {
     fetchAstrologistDetails();
   }, [id]);
+
+  // Handle share functionality
+  const handleShare = async () => {
+    const shareData = {
+      title: astrologist.name,
+      text: `Check out ${astrologist.name} - ${astrologist.specialization}`,
+      url: window.location.href
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: copy to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    } catch (err) {
+      console.error('Error sharing:', err);
+    }
+  };
 
   // Fetch astrologist details
   const fetchAstrologistDetails = async () => {
@@ -136,16 +157,26 @@ const TrustedAstrologistsDetailView = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate('/trusted-astrologists')}
-          className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-6 font-semibold"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Back to Browse
-        </button>
+        {/* Back Button and Share */}
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => navigate('/trusted-astrologists')}
+            className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span className="hidden sm:inline">Back to Browse</span>
+            <span className="sm:hidden">Back</span>
+          </button>
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+          >
+            <Share2 className="w-4 h-4" />
+            <span className="hidden sm:inline">Share</span>
+          </button>
+        </div>
 
         {/* Error Alert */}
         {error && (
@@ -156,8 +187,8 @@ const TrustedAstrologistsDetailView = () => {
         )}
 
         {/* Profile Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden mb-6 sm:mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 p-4 sm:p-8">
             {/* Avatar */}
             <div className="md:col-span-1">
               <div className="relative">
@@ -165,10 +196,10 @@ const TrustedAstrologistsDetailView = () => {
                   <img
                     src={astrologist.avatar.url}
                     alt={astrologist.name}
-                    className="w-full h-64 rounded-lg object-cover"
+                    className="w-full h-56 sm:h-64 rounded-lg object-cover"
                   />
                 ) : (
-                  <div className="w-full h-64 rounded-lg bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-6xl font-bold">
+                  <div className="w-full h-56 sm:h-64 rounded-lg bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white text-5xl sm:text-6xl font-bold">
                     {astrologist.name.charAt(0)}
                   </div>
                 )}
@@ -177,11 +208,11 @@ const TrustedAstrologistsDetailView = () => {
               {/* Availability Badge */}
               <div className="mt-4">
                 {astrologist.available ? (
-                  <span className="inline-block px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-sm font-semibold">
+                  <span className="inline-block px-3 sm:px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-sm font-semibold">
                     ✓ Available
                   </span>
                 ) : (
-                  <span className="inline-block px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-full text-sm font-semibold">
+                  <span className="inline-block px-3 sm:px-4 py-2 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded-full text-sm font-semibold">
                     ✗ Not Available
                   </span>
                 )}
@@ -190,15 +221,15 @@ const TrustedAstrologistsDetailView = () => {
 
             {/* Profile Info */}
             <div className="md:col-span-2">
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
                 {astrologist.name}
               </h1>
 
-              <p className="text-xl text-blue-600 dark:text-blue-400 font-semibold mb-1">
+              <p className="text-lg sm:text-xl text-blue-600 dark:text-blue-400 font-semibold mb-1">
                 {astrologist.specialization}
               </p>
 
-              <p className="text-lg text-gray-600 dark:text-gray-400 mb-4">
+              <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-4">
                 {astrologist.category}
               </p>
 

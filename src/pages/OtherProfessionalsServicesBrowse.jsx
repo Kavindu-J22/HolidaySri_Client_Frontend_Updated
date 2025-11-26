@@ -98,15 +98,15 @@ const OtherProfessionalsServicesBrowse = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-gray-800 dark:text-white">Professionals & Services</h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">Browse and connect with professionals</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">Professionals & Services</h1>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-2">Browse and connect with professionals</p>
           </div>
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center space-x-2 px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+            className="flex items-center space-x-2 px-3 sm:px-4 py-2 text-sm sm:text-base text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span>Back</span>
+            <ArrowLeft className="w-4 sm:w-5 h-4 sm:h-5" />
+            <span className="hidden sm:inline">Back</span>
           </button>
         </div>
 
@@ -114,12 +114,12 @@ const OtherProfessionalsServicesBrowse = () => {
         {error && (
           <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
             <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-            <p className="text-red-700 dark:text-red-400">{error}</p>
+            <p className="text-sm sm:text-base text-red-700 dark:text-red-400">{error}</p>
           </div>
         )}
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-8">
+        <div className="flex gap-2 sm:gap-4 mb-6 sm:mb-8">
           {['Professionals', 'Service'].map(tab => (
             <button
               key={tab}
@@ -127,7 +127,7 @@ const OtherProfessionalsServicesBrowse = () => {
                 setActiveTab(tab);
                 setPage(1);
               }}
-              className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+              className={`flex-1 sm:flex-none px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base rounded-lg font-semibold transition-colors ${
                 activeTab === tab
                   ? 'bg-blue-600 text-white'
                   : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
@@ -139,38 +139,38 @@ const OtherProfessionalsServicesBrowse = () => {
         </div>
 
         {/* Filters */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            className="flex items-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-white dark:bg-gray-800 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
           >
-            <Filter className="w-5 h-5" />
+            <Filter className="w-4 sm:w-5 h-4 sm:h-5" />
             <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
           </button>
 
           {showFilters && (
-            <div className="mt-4 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg space-y-4">
+            <div className="mt-4 p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-lg space-y-3 sm:space-y-4">
               {/* Search */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Search
                 </label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 sm:w-5 h-4 sm:h-5 text-gray-400" />
                   <input
                     type="text"
                     name="search"
                     value={filters.search}
                     onChange={handleFilterChange}
                     placeholder="Search by name, specialization..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full pl-9 sm:pl-10 pr-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
 
               {/* Specialization */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Specialization
                 </label>
                 <input
@@ -179,13 +179,13 @@ const OtherProfessionalsServicesBrowse = () => {
                   value={filters.specialization}
                   onChange={handleFilterChange}
                   placeholder="e.g., Interior Designer"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               {/* Category */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Category
                 </label>
                 <input
@@ -194,20 +194,20 @@ const OtherProfessionalsServicesBrowse = () => {
                   value={filters.category}
                   onChange={handleFilterChange}
                   placeholder="e.g., Home Services"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               {/* Province */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Province
                 </label>
                 <select
                   name="province"
                   value={filters.province}
                   onChange={handleFilterChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">All Provinces</option>
                   {Object.keys(provincesAndDistricts).map(province => (
@@ -218,14 +218,14 @@ const OtherProfessionalsServicesBrowse = () => {
 
               {/* City */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   City
                 </label>
                 <select
                   name="city"
                   value={filters.city}
                   onChange={handleFilterChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="">All Cities</option>
                   {filters.province && provincesAndDistricts[filters.province]?.map(city => (
@@ -237,7 +237,7 @@ const OtherProfessionalsServicesBrowse = () => {
               {/* Reset Button */}
               <button
                 onClick={resetFilters}
-                className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-semibold"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-semibold"
               >
                 Reset Filters
               </button>
@@ -257,28 +257,28 @@ const OtherProfessionalsServicesBrowse = () => {
         ) : (
           <>
             {/* Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
               {professionals.map(professional => (
                 <div
                   key={professional._id}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                  className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow h-full flex flex-col"
                 >
                   {/* Image */}
                   {professional.avatar?.url && (
                     <img
                       src={professional.avatar.url}
                       alt={professional.name}
-                      className="w-full h-48 object-cover"
+                      className="w-full h-44 sm:h-48 object-cover flex-shrink-0"
                     />
                   )}
 
                   {/* Content */}
-                  <div className="p-6 space-y-4">
+                  <div className="p-4 sm:p-6 space-y-3 sm:space-y-4 flex flex-col flex-grow">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-1">
                         {professional.name}
                       </h3>
-                      <p className="text-blue-600 dark:text-blue-400 text-sm font-medium">
+                      <p className="text-blue-600 dark:text-blue-400 text-sm font-medium line-clamp-1">
                         {professional.specialization}
                       </p>
                     </div>
@@ -306,20 +306,20 @@ const OtherProfessionalsServicesBrowse = () => {
                     </div>
 
                     {/* Description */}
-                    <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
+                    <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2 flex-grow">
                       {professional.description}
                     </p>
 
                     {/* Category & Location */}
                     <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                      <p><span className="font-semibold">Category:</span> {professional.category}</p>
-                      <p><span className="font-semibold">Location:</span> {professional.city}, {professional.province}</p>
+                      <p className="line-clamp-1"><span className="font-semibold">Category:</span> {professional.category}</p>
+                      <p className="line-clamp-1"><span className="font-semibold">Location:</span> {professional.city}, {professional.province}</p>
                     </div>
 
                     {/* View Button */}
                     <button
                       onClick={() => navigate(`/other-professionals-services/${professional._id}`)}
-                      className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold"
+                      className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold flex-shrink-0"
                     >
                       View Profile
                     </button>
