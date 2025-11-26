@@ -369,84 +369,84 @@ const ManageTravelBuddyProfile = () => {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
       <div className="bg-white dark:bg-gray-800 shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
             <button
               onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-              className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+              className="flex items-center gap-1.5 sm:gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-xs sm:text-sm lg:text-base"
             >
-              <ArrowLeft className="w-5 h-5" />
-              <span>Back to My Advertisements</span>
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
+              <span className="truncate">Back to My Advertisements</span>
             </button>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-base sm:text-lg lg:text-xl font-bold text-gray-900 dark:text-white">
               Manage Travel Buddy Profile
             </h1>
           </div>
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
         {/* Status Messages */}
         {error && (
-          <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-            <div className="flex items-center space-x-2">
-              <AlertCircle className="w-5 h-5 text-red-500" />
-              <span className="text-red-800 dark:text-red-200">{error}</span>
+          <div className="mb-4 sm:mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 sm:p-4">
+            <div className="flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0" />
+              <span className="text-xs sm:text-sm text-red-800 dark:text-red-200 break-words">{error}</span>
             </div>
           </div>
         )}
 
         {success && (
-          <div className="mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-            <div className="flex items-center space-x-2">
-              <CheckCircle className="w-5 h-5 text-green-500" />
-              <span className="text-green-800 dark:text-green-200">{success}</span>
+          <div className="mb-4 sm:mb-6 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-3 sm:p-4">
+            <div className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 flex-shrink-0" />
+              <span className="text-xs sm:text-sm text-green-800 dark:text-green-200 break-words">{success}</span>
             </div>
           </div>
         )}
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 mb-6 sm:mb-8">
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="flex items-center justify-center space-x-2 px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors text-xs sm:text-sm"
           >
-            <Edit className="w-5 h-5" />
-            <span>{isEditing ? 'Cancel Edit' : 'Edit Profile'}</span>
+            <Edit className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+            <span className="truncate">{isEditing ? 'Cancel' : 'Edit'}</span>
           </button>
 
           <button
             onClick={handleViewAd}
-            className="flex items-center justify-center space-x-2 px-4 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2.5 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors text-xs sm:text-sm"
           >
-            <Eye className="w-5 h-5" />
-            <span>View Profile</span>
+            <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+            <span className="truncate">View</span>
           </button>
 
           <button
             onClick={handleGoToPlatform}
-            className="flex items-center justify-center space-x-2 px-4 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors"
+            className="flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2.5 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors text-xs sm:text-sm"
           >
-            <Users className="w-5 h-5" />
-            <span>Go to Platform</span>
+            <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+            <span className="truncate">Platform</span>
           </button>
 
           <button
             onClick={handleToggleAvailability}
             disabled={saving}
-            className={`flex items-center justify-center space-x-2 px-4 py-3 rounded-lg transition-colors ${
+            className={`flex items-center justify-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-2 sm:py-2.5 rounded-lg transition-colors text-xs sm:text-sm ${
               (travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true)
                 ? 'bg-orange-500 hover:bg-orange-600 text-white'
                 : 'bg-gray-500 hover:bg-gray-600 text-white'
             } ${saving ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             {saving ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin flex-shrink-0" />
             ) : (
-              <Globe className="w-5 h-5" />
+              <Globe className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
             )}
-            <span>
-              {(travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true) ? 'Mark Unavailable' : 'Mark Available'}
+            <span className="truncate">
+              {(travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true) ? 'Unavail.' : 'Avail.'}
             </span>
           </button>
         </div>
@@ -454,7 +454,7 @@ const ManageTravelBuddyProfile = () => {
         {/* Profile Card */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
           {/* Cover Photo */}
-          <div className="relative h-64 overflow-hidden">
+          <div className="relative h-48 sm:h-64 overflow-hidden">
             <img
               src={travelBuddy.coverPhoto.url}
               alt={`${travelBuddy.userName}'s cover`}
@@ -463,31 +463,31 @@ const ManageTravelBuddyProfile = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
 
             {/* Availability Status */}
-            <div className="absolute top-4 right-4">
-              <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-full text-sm font-semibold ${
+            <div className="absolute top-2 sm:top-4 right-2 sm:right-4">
+              <div className={`flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-semibold ${
                 (travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true)
                   ? 'bg-green-100 text-green-800 border border-green-200'
                   : 'bg-gray-100 text-gray-800 border border-gray-200'
               }`}>
-                <div className={`w-2 h-2 rounded-full ${
+                <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full flex-shrink-0 ${
                   (travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true) ? 'bg-green-500' : 'bg-gray-500'
                 }`}></div>
-                <span>{(travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true) ? 'Available' : 'Unavailable'}</span>
+                <span className="whitespace-nowrap">{(travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true) ? 'Available' : 'Unavailable'}</span>
               </div>
             </div>
           </div>
 
           {/* Profile Content */}
-          <div className="p-6">
+          <div className="p-3 sm:p-6">
             {/* Avatar */}
-            <div className="flex justify-center -mt-16 mb-6">
+            <div className="flex justify-center -mt-12 sm:-mt-16 mb-4 sm:mb-6">
               <div className="relative">
                 <img
                   src={travelBuddy.avatarImage.url}
                   alt={travelBuddy.userName}
-                  className="w-24 h-24 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-2xl"
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-2xl"
                 />
-                <div className={`absolute -bottom-1 -right-1 w-6 h-6 rounded-full border-3 border-white dark:border-gray-800 shadow-lg ${
+                <div className={`absolute -bottom-1 -right-1 w-5 h-5 sm:w-6 sm:h-6 rounded-full border-3 border-white dark:border-gray-800 shadow-lg ${
                   (travelBuddy.isAvailable === undefined || travelBuddy.isAvailable === true) ? 'bg-green-400' : 'bg-gray-400'
                 }`}></div>
               </div>
@@ -495,13 +495,13 @@ const ManageTravelBuddyProfile = () => {
 
             {isEditing ? (
               /* Edit Form */
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {/* Personal Information */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
                     Personal Information
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         User Name *
@@ -622,31 +622,31 @@ const ManageTravelBuddyProfile = () => {
                       value={newInterest}
                       onChange={(e) => setNewInterest(e.target.value)}
                       onKeyDown={handleInterestKeyDown}
-                      placeholder="Add a travel interest..."
-                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      placeholder="Add interest..."
+                      className="flex-1 min-w-0 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm sm:text-base"
                     />
                     <button
                       type="button"
                       onClick={handleAddInterest}
-                      className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center space-x-1"
+                      className="flex-shrink-0 px-3 sm:px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors flex items-center gap-1 text-sm sm:text-base"
                     >
-                      <Plus className="w-4 h-4" />
-                      <span>Add</span>
+                      <Plus className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                      <span className="hidden sm:inline">Add</span>
                     </button>
                   </div>
 
                   {/* Current Interests */}
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
                     {editForm.interests.map((interest, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center space-x-2 px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium"
+                        className="inline-flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full text-xs sm:text-sm font-medium"
                       >
-                        <span>{interest}</span>
+                        <span className="break-all">{interest}</span>
                         <button
                           type="button"
                           onClick={() => handleRemoveInterest(interest)}
-                          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors"
+                          className="flex-shrink-0 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200 transition-colors"
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -663,11 +663,11 @@ const ManageTravelBuddyProfile = () => {
 
                 {/* Images */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center space-x-2">
-                    <Camera className="w-5 h-5" />
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
+                    <Camera className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>Photos</span>
                   </h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     {/* Cover Photo */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -824,11 +824,11 @@ const ManageTravelBuddyProfile = () => {
                 </div>
 
                 {/* Save/Cancel Buttons */}
-                <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-4 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
                   <button
                     type="button"
                     onClick={() => setIsEditing(false)}
-                    className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                    className="w-full sm:w-auto px-4 sm:px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm sm:text-base"
                   >
                     Cancel
                   </button>
@@ -836,7 +836,7 @@ const ManageTravelBuddyProfile = () => {
                     type="button"
                     onClick={handleSaveChanges}
                     disabled={saving}
-                    className="flex items-center space-x-2 px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                   >
                     {saving ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -849,26 +849,26 @@ const ManageTravelBuddyProfile = () => {
               </div>
             ) : (
               /* View Mode */
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {/* Basic Info */}
                 <div className="text-center">
-                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">
                     {travelBuddy.userName}
                     {travelBuddy.nickName && (
-                      <span className="text-lg text-gray-500 ml-2">({travelBuddy.nickName})</span>
+                      <span className="text-base sm:text-lg text-gray-500 ml-2">({travelBuddy.nickName})</span>
                     )}
                   </h2>
-                  <div className="flex items-center justify-center space-x-4 text-gray-600 dark:text-gray-400">
-                    <div className="flex items-center space-x-1">
-                      <MapPin className="w-4 h-4" />
-                      <span>{travelBuddy.country}</span>
+                  <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <div className="flex items-center gap-1">
+                      <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                      <span className="truncate max-w-[100px] sm:max-w-none">{travelBuddy.country}</span>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <Calendar className="w-4 h-4" />
+                    <div className="flex items-center gap-1">
+                      <Calendar className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
                       <span>{travelBuddy.age} years</span>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <User className="w-4 h-4" />
+                    <div className="flex items-center gap-1">
+                      <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
                       <span className="capitalize">{travelBuddy.gender}</span>
                     </div>
                   </div>
@@ -876,10 +876,10 @@ const ManageTravelBuddyProfile = () => {
 
                 {/* Description */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                     About Me
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed break-words">
                     {travelBuddy.description}
                   </p>
                 </div>
@@ -887,14 +887,14 @@ const ManageTravelBuddyProfile = () => {
                 {/* Interests */}
                 {travelBuddy.interests && travelBuddy.interests.length > 0 && (
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                       Travel Interests
                     </h3>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                       {travelBuddy.interests.map((interest) => (
                         <span
                           key={interest}
-                          className="px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium"
+                          className="px-2 sm:px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full text-xs sm:text-sm font-medium"
                         >
                           {interest}
                         </span>
@@ -905,30 +905,30 @@ const ManageTravelBuddyProfile = () => {
 
                 {/* Contact Info */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                     Contact Information
                   </h3>
-                  <div className="flex items-center space-x-2 text-gray-600 dark:text-gray-400">
-                    <Phone className="w-4 h-4" />
-                    <span>{travelBuddy.whatsappNumber}</span>
+                  <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                    <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                    <span className="break-all">{travelBuddy.whatsappNumber}</span>
                   </div>
                 </div>
 
                 {/* Social Media */}
                 {(travelBuddy.socialMedia?.facebook || travelBuddy.socialMedia?.instagram || travelBuddy.socialMedia?.tiktok) && (
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-2 sm:mb-3">
                       Social Media
                     </h3>
-                    <div className="flex space-x-4">
+                    <div className="flex flex-wrap gap-3 sm:gap-4">
                       {travelBuddy.socialMedia?.facebook && (
                         <a
                           href={travelBuddy.socialMedia.facebook}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 transition-colors"
+                          className="flex items-center gap-1.5 sm:gap-2 text-blue-600 hover:text-blue-700 transition-colors text-xs sm:text-sm"
                         >
-                          <ExternalLink className="w-4 h-4" />
+                          <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
                           <span>Facebook</span>
                         </a>
                       )}
@@ -937,9 +937,9 @@ const ManageTravelBuddyProfile = () => {
                           href={travelBuddy.socialMedia.instagram}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center space-x-2 text-pink-600 hover:text-pink-700 transition-colors"
+                          className="flex items-center gap-1.5 sm:gap-2 text-pink-600 hover:text-pink-700 transition-colors text-xs sm:text-sm"
                         >
-                          <ExternalLink className="w-4 h-4" />
+                          <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
                           <span>Instagram</span>
                         </a>
                       )}
@@ -948,9 +948,9 @@ const ManageTravelBuddyProfile = () => {
                           href={travelBuddy.socialMedia.tiktok}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center space-x-2 text-gray-800 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white transition-colors"
+                          className="flex items-center gap-1.5 sm:gap-2 text-gray-800 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white transition-colors text-xs sm:text-sm"
                         >
-                          <ExternalLink className="w-4 h-4" />
+                          <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
                           <span>TikTok</span>
                         </a>
                       )}

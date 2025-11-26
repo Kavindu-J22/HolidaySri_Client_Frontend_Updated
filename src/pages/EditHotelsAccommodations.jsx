@@ -570,26 +570,26 @@ const EditHotelsAccommodations = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <button
             onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-            className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-4"
+            className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-3 sm:mb-4 text-sm sm:text-base"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Back to My Advertisements</span>
           </button>
 
           <div className="text-center">
-            <div className="flex items-center justify-center gap-3 mb-2">
-              <Building2 className="w-8 h-8 text-blue-600" />
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-2">
+              <Building2 className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
                 Edit Hotel & Accommodation
               </h1>
             </div>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
               Update your hotel listing information
             </p>
           </div>
@@ -597,18 +597,18 @@ const EditHotelsAccommodations = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
             <p className="text-red-800 dark:text-red-200 text-sm">{error}</p>
           </div>
         )}
 
         {/* Progress Bar */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-2">
+        <div className="mb-6 sm:mb-8">
+          <div className="flex items-center justify-between mb-2 px-1">
             {[1, 2, 3, 4, 5, 6].map((step) => (
-              <div key={step} className="flex items-center">
+              <div key={step} className="flex items-center flex-1">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
+                  className={`w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-semibold text-xs sm:text-sm md:text-base flex-shrink-0 ${
                     currentStep >= step
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
@@ -618,7 +618,7 @@ const EditHotelsAccommodations = () => {
                 </div>
                 {step < 6 && (
                   <div
-                    className={`w-12 h-1 mx-1 ${
+                    className={`flex-1 h-0.5 sm:h-1 mx-0.5 sm:mx-1 ${
                       currentStep > step ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'
                     }`}
                   />
@@ -626,22 +626,24 @@ const EditHotelsAccommodations = () => {
               </div>
             ))}
           </div>
-          <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mt-2">
-            <span>Basic</span>
-            <span>Location</span>
-            <span>Contact</span>
-            <span>Facilities</span>
-            <span>Images</span>
-            <span>Review</span>
+          <div className="flex justify-between text-[0.6rem] sm:text-xs text-gray-600 dark:text-gray-400 mt-2 px-1">
+            <span className="text-center w-6 sm:w-8 md:w-10">Basic</span>
+            <span className="text-center w-6 sm:w-8 md:w-10">Loc.</span>
+            <span className="text-center w-6 sm:w-8 md:w-10">Contact</span>
+            <span className="text-center w-6 sm:w-8 md:w-10 hidden xs:inline">Facilities</span>
+            <span className="text-center w-6 sm:w-8 md:w-10 xs:hidden">Fac.</span>
+            <span className="text-center w-6 sm:w-8 md:w-10 hidden xs:inline">Images</span>
+            <span className="text-center w-6 sm:w-8 md:w-10 xs:hidden">Img.</span>
+            <span className="text-center w-6 sm:w-8 md:w-10">Review</span>
           </div>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 md:p-8">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
           {/* Step 1: Basic Information */}
           {currentStep === 1 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <div className="space-y-4 sm:space-y-6">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                 Basic Information
               </h2>
 
@@ -721,9 +723,9 @@ const EditHotelsAccommodations = () => {
 
           {/* Step 2: Location Details */}
           {currentStep === 2 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                <MapPin className="w-6 h-6" />
+            <div className="space-y-4 sm:space-y-6">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
+                <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />
                 Location Details
               </h2>
 
@@ -804,9 +806,9 @@ const EditHotelsAccommodations = () => {
 
           {/* Step 3: Contact Information */}
           {currentStep === 3 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                <Phone className="w-6 h-6" />
+            <div className="space-y-4 sm:space-y-6">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
+                <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
                 Contact Information
               </h2>
 
@@ -893,8 +895,8 @@ const EditHotelsAccommodations = () => {
 
           {/* Step 4: Facilities & Policies - Condensed for Edit */}
           {currentStep === 4 && (
-            <div className="space-y-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <div className="space-y-6 sm:space-y-8">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                 Facilities & Policies
               </h2>
 
@@ -1108,9 +1110,9 @@ const EditHotelsAccommodations = () => {
 
           {/* Step 5: Images & Activities */}
           {currentStep === 5 && (
-            <div className="space-y-8">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                <ImageIcon className="w-6 h-6" />
+            <div className="space-y-6 sm:space-y-8">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
+                <ImageIcon className="w-5 h-5 sm:w-6 sm:h-6" />
                 Images & Activities
               </h2>
 
@@ -1350,9 +1352,9 @@ const EditHotelsAccommodations = () => {
 
           {/* Step 6: Review */}
           {currentStep === 6 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                <CheckCircle className="w-6 h-6" />
+            <div className="space-y-4 sm:space-y-6">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center gap-2">
+                <CheckCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                 Review Changes
               </h2>
 
@@ -1379,14 +1381,14 @@ const EditHotelsAccommodations = () => {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex justify-between mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex justify-between mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
             {currentStep > 1 && (
               <button
                 type="button"
                 onClick={prevStep}
-                className="flex items-center gap-2 px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                className="flex items-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors text-sm sm:text-base"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
                 Previous
               </button>
             )}
@@ -1395,10 +1397,10 @@ const EditHotelsAccommodations = () => {
               <button
                 type="button"
                 onClick={nextStep}
-                className="ml-auto flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="w-full sm:w-auto sm:ml-auto flex items-center justify-center gap-2 px-4 sm:px-6 py-2.5 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-base"
               >
                 Next
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             )}
 
@@ -1406,7 +1408,7 @@ const EditHotelsAccommodations = () => {
               <button
                 type="submit"
                 disabled={saving}
-                className="ml-auto flex items-center gap-2 px-8 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto sm:ml-auto flex items-center justify-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               >
                 {saving ? (
                   <>
