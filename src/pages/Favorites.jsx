@@ -22,6 +22,7 @@ const Favorites = () => {
     }
     fetchFavorites();
   }, [user, currentPage, activeTab]);
+  
 
   const fetchFavorites = async () => {
     try {
