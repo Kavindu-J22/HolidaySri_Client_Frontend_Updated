@@ -319,7 +319,7 @@ const SouvenirsCollectiblesBrowse = () => {
                         <div className="flex items-center justify-between mb-4">
                           <div className="flex items-center gap-1 text-lg font-bold text-blue-600 dark:text-blue-400">
                             <DollarSign className="w-5 h-5" />
-                            <span>{item.price.toLocaleString()}</span>
+                            <span>{item.price.toLocaleString()} LKR</span>
                           </div>
                           <span className={`text-xs px-2 py-1 rounded-full ${
                             item.available

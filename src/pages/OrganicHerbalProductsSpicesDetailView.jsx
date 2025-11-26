@@ -51,10 +51,21 @@ export default function OrganicHerbalProductsSpicesDetailView() {
     }
 
     setSubmitting(true);
+    setError('');
     try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Please login to add a review');
+        setSubmitting(false);
+        return;
+      }
+
       const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/organic-herbal-products-spices/${id}/reviews`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ rating, reviewText })
       });
 
