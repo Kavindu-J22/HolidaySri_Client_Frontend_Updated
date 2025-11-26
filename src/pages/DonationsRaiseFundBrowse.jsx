@@ -9,6 +9,7 @@ const DonationsRaiseFundBrowse = () => {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('browse'); // browse or myRequests
   const [campaigns, setCampaigns] = useState([]);
+  const [allCampaigns, setAllCampaigns] = useState([]); // Store all campaigns for search
   const [myWithdrawalRequests, setMyWithdrawalRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -70,17 +71,40 @@ const DonationsRaiseFundBrowse = () => {
       params.append('limit', 12);
 
       const response = await axios.get(`https://holidaysri-backend-9xm4.onrender.com/api/donations-raise-fund?${params}`);
-      
+
       if (response.data.success) {
-        // Filter out expired campaigns and randomize
+        console.log('Raw data from API:', response.data.data.length, 'campaigns');
+
+        // Filter out expired campaigns
         const activeCampaigns = response.data.data.filter(campaign => {
           return campaign.publishedAdId && campaign.publishedAdId.status !== 'expired';
         });
 
-        // Randomize campaigns
-        const randomized = activeCampaigns.sort(() => Math.random() - 0.5);
+        console.log('After filtering expired:', activeCampaigns.length, 'campaigns');
 
-        setCampaigns(randomized);
+        // Remove duplicates based on _id using Map for better performance
+        const uniqueCampaignsMap = new Map();
+        activeCampaigns.forEach(campaign => {
+          if (!uniqueCampaignsMap.has(campaign._id)) {
+            uniqueCampaignsMap.set(campaign._id, campaign);
+          }
+        });
+        const uniqueCampaigns = Array.from(uniqueCampaignsMap.values());
+
+        console.log('After removing duplicates:', uniqueCampaigns.length, 'campaigns');
+
+        // Check for duplicates
+        const ids = activeCampaigns.map(c => c._id);
+        const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
+        if (duplicateIds.length > 0) {
+          console.warn('Found duplicate campaign IDs:', duplicateIds);
+        }
+
+        // Randomize campaigns
+        const randomized = uniqueCampaigns.sort(() => Math.random() - 0.5);
+
+        setAllCampaigns(randomized); // Store all campaigns
+        setCampaigns(randomized); // Display campaigns
         setPagination({
           currentPage: response.data.currentPage,
           totalPages: response.data.totalPages,
@@ -113,7 +137,17 @@ const DonationsRaiseFundBrowse = () => {
             campaign.withdrawalRequest &&
             campaign.withdrawalRequest.status !== 'none'
         );
-        setMyWithdrawalRequests(userRequests);
+
+        // Remove duplicates based on _id
+        const uniqueRequests = userRequests.reduce((acc, current) => {
+          const exists = acc.find(item => item._id === current._id);
+          if (!exists) {
+            acc.push(current);
+          }
+          return acc;
+        }, []);
+
+        setMyWithdrawalRequests(uniqueRequests);
       }
     } catch (error) {
       console.error('Error fetching withdrawal requests:', error);
@@ -130,18 +164,31 @@ const DonationsRaiseFundBrowse = () => {
       ...(name === 'province' && { city: '' }) // Reset city when province changes
     }));
     setPagination(prev => ({ ...prev, currentPage: 1 }));
+    setSearchTerm(''); // Clear search when filters change
   };
 
   const handleSearch = () => {
     if (searchTerm.trim()) {
-      const filtered = campaigns.filter(campaign =>
+      // Filter from all campaigns
+      const filtered = allCampaigns.filter(campaign =>
         campaign.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         campaign.organizer.toLowerCase().includes(searchTerm.toLowerCase()) ||
         campaign.description.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      setCampaigns(filtered);
+
+      // Remove duplicates from filtered results
+      const uniqueFiltered = filtered.reduce((acc, current) => {
+        const exists = acc.find(item => item._id === current._id);
+        if (!exists) {
+          acc.push(current);
+        }
+        return acc;
+      }, []);
+
+      setCampaigns(uniqueFiltered);
     } else {
-      fetchCampaigns();
+      // Reset to show all campaigns
+      setCampaigns(allCampaigns);
     }
   };
 
@@ -228,7 +275,7 @@ const DonationsRaiseFundBrowse = () => {
                   placeholder="Search campaigns..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
