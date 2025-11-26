@@ -140,60 +140,62 @@ const HomeOfficeAccessoriesTechBrowse = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-6 lg:py-8 px-3 sm:px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Home Office Accessories & Tech Gadgets
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             Browse and discover quality products from trusted sellers
           </p>
         </div>
 
         {/* Search Bar */}
         <form onSubmit={handleSearch} className="mb-6">
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search products..."
-              className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             />
-            <button
-              type="submit"
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
-            >
-              <Search className="w-5 h-5" />
-              Search
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowFilters(!showFilters)}
-              className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex items-center gap-2"
-            >
-              <Filter className="w-5 h-5" />
-              Filters
-            </button>
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 font-medium shadow-md"
+              >
+                <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Search</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex-1 sm:flex-none px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors flex items-center justify-center gap-2 font-medium"
+              >
+                <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Filters</span>
+              </button>
+            </div>
           </div>
         </form>
 
         {/* Filters Panel */}
         {showFilters && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-6 space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-5 lg:p-6 mb-6 space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               {/* Specialization */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Specialization
                 </label>
                 <select
                   name="specialization"
                   value={filters.specialization}
                   onChange={handleFilterChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 >
                   <option value="">All Specializations</option>
                   {specializationOptions.map(spec => (
@@ -204,14 +206,14 @@ const HomeOfficeAccessoriesTechBrowse = () => {
 
               {/* Category */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Category
                 </label>
                 <select
                   name="category"
                   value={filters.category}
                   onChange={handleFilterChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 >
                   <option value="">All Categories</option>
                   {categoryOptions.map(cat => (
@@ -222,14 +224,14 @@ const HomeOfficeAccessoriesTechBrowse = () => {
 
               {/* Province */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Province
                 </label>
                 <select
                   name="province"
                   value={filters.province}
                   onChange={handleFilterChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 >
                   <option value="">All Provinces</option>
                   {provincesData && Object.keys(provincesData).map(prov => (
@@ -240,7 +242,7 @@ const HomeOfficeAccessoriesTechBrowse = () => {
 
               {/* City */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   City
                 </label>
                 <select
@@ -248,7 +250,7 @@ const HomeOfficeAccessoriesTechBrowse = () => {
                   value={filters.city}
                   onChange={handleFilterChange}
                   disabled={!filters.province}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white disabled:opacity-50"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white disabled:opacity-50"
                 >
                   <option value="">All Cities</option>
                   {filters.province && provincesData[filters.province]?.map(city => (
@@ -259,16 +261,16 @@ const HomeOfficeAccessoriesTechBrowse = () => {
             </div>
 
             {/* Filter Buttons */}
-            <div className="flex gap-2 pt-4">
+            <div className="flex flex-col sm:flex-row gap-2 pt-4">
               <button
                 onClick={handleApplyFilters}
-                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-4 sm:px-6 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium shadow-md"
               >
                 Apply Filters
               </button>
               <button
                 onClick={handleClearFilters}
-                className="px-6 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors"
+                className="px-4 sm:px-6 py-2 text-sm sm:text-base bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors font-medium"
               >
                 Clear All
               </button>
@@ -287,43 +289,43 @@ const HomeOfficeAccessoriesTechBrowse = () => {
         {/* Products Grid */}
         {products.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 mb-6 sm:mb-8">
               {products.map(product => (
                 <div
                   key={product._id}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full"
                 >
                   {/* Image */}
-                  <div className="relative bg-gray-100 dark:bg-gray-700 h-48 overflow-hidden">
+                  <div className="relative bg-gray-100 dark:bg-gray-700 h-44 sm:h-48 lg:h-52 overflow-hidden flex-shrink-0">
                     {product.images && product.images.length > 0 ? (
                       <img
                         src={product.images[0].url}
                         alt={product.name}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform"
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className="flex items-center justify-center h-full text-gray-400">
+                      <div className="flex items-center justify-center h-full text-gray-400 text-sm">
                         No image
                       </div>
                     )}
                   </div>
 
                   {/* Content */}
-                  <div className="p-4 space-y-3">
+                  <div className="p-3 sm:p-4 lg:p-5 space-y-3 flex flex-col flex-grow">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-white truncate">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white line-clamp-2 min-h-[3rem]">
                         {product.name}
                       </h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{product.category}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 line-clamp-1">{product.category}</p>
                     </div>
 
                     {/* Rating */}
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 flex-wrap">
                       <div className="flex items-center">
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
-                            className={`w-4 h-4 ${
+                            className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
                               i < Math.round(product.averageRating || 0)
                                 ? 'fill-yellow-400 text-yellow-400'
                                 : 'text-gray-300'
@@ -331,8 +333,8 @@ const HomeOfficeAccessoriesTechBrowse = () => {
                           />
                         ))}
                       </div>
-                      <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                        {product.averageRating || 0}
+                      <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
+                        {product.averageRating ? product.averageRating.toFixed(1) : '0.0'}
                       </span>
                       <span className="text-xs text-gray-600 dark:text-gray-400">
                         ({product.totalReviews || 0})
@@ -340,23 +342,23 @@ const HomeOfficeAccessoriesTechBrowse = () => {
                     </div>
 
                     {/* Location */}
-                    <div className="flex items-center space-x-1 text-sm text-gray-600 dark:text-gray-400">
-                      <MapPin className="w-4 h-4" />
-                      <span>{product.city}, {product.province}</span>
+                    <div className="flex items-center space-x-1 text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                      <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                      <span className="line-clamp-1">{product.city}, {product.province}</span>
                     </div>
 
                     {/* Price */}
-                    <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+                    <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400 flex-grow">
                       LKR {product.price?.toLocaleString()}
                     </div>
 
                     {/* View Button */}
                     <button
                       onClick={() => navigate(`/home-office-accessories-tech/${product._id}`)}
-                      className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                      className="w-full px-4 py-2 sm:py-2.5 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 flex items-center justify-center gap-2 font-medium shadow-md hover:shadow-lg flex-shrink-0"
                     >
                       <Eye className="w-4 h-4" />
-                      View Details
+                      <span>View Details</span>
                     </button>
                   </div>
                 </div>
@@ -365,11 +367,11 @@ const HomeOfficeAccessoriesTechBrowse = () => {
 
             {/* Pagination */}
             {pagination.totalPages > 1 && (
-              <div className="flex justify-center gap-2 mb-8">
+              <div className="flex flex-wrap justify-center gap-2 mb-6 sm:mb-8">
                 <button
                   onClick={() => handlePageChange(pagination.currentPage - 1)}
                   disabled={pagination.currentPage === 1}
-                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50"
+                  className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50 font-medium"
                 >
                   Previous
                 </button>
@@ -378,9 +380,9 @@ const HomeOfficeAccessoriesTechBrowse = () => {
                   <button
                     key={i + 1}
                     onClick={() => handlePageChange(i + 1)}
-                    className={`px-4 py-2 rounded-lg transition-colors ${
+                    className={`px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg transition-all duration-300 font-medium ${
                       pagination.currentPage === i + 1
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-blue-600 text-white shadow-md'
                         : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600'
                     }`}
                   >
@@ -391,7 +393,7 @@ const HomeOfficeAccessoriesTechBrowse = () => {
                 <button
                   onClick={() => handlePageChange(pagination.currentPage + 1)}
                   disabled={pagination.currentPage === pagination.totalPages}
-                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50"
+                  className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors disabled:opacity-50 font-medium"
                 >
                   Next
                 </button>
@@ -399,9 +401,9 @@ const HomeOfficeAccessoriesTechBrowse = () => {
             )}
           </>
         ) : (
-          <div className="text-center py-12">
-            <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
+          <div className="text-center py-8 sm:py-12">
+            <AlertCircle className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg">
               No products found. Try adjusting your filters.
             </p>
           </div>

@@ -132,38 +132,38 @@ const SouvenirsCollectiblesBrowse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
             Souvenirs & Collectibles
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             Discover unique souvenirs and collectibles from around Sri Lanka
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
           {/* Filters Sidebar */}
           <div className={`lg:col-span-1 ${showFilters ? 'block' : 'hidden lg:block'}`}>
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sticky top-8">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                  <Filter className="w-5 h-5" />
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-5 lg:p-6 sticky top-4 lg:top-8">
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <h2 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                  <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
                   Filters
                 </h2>
                 <button
                   onClick={() => setShowFilters(false)}
-                  className="lg:hidden text-gray-600 dark:text-gray-400"
+                  className="lg:hidden text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               {/* Category Filter */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Category
                 </label>
                 <input
@@ -172,13 +172,13 @@ const SouvenirsCollectiblesBrowse = () => {
                   value={filters.category}
                   onChange={handleFilterChange}
                   placeholder="e.g., Handicrafts"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
 
               {/* Specialization Filter */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Specialization
                 </label>
                 <input
@@ -187,20 +187,20 @@ const SouvenirsCollectiblesBrowse = () => {
                   value={filters.specialization}
                   onChange={handleFilterChange}
                   placeholder="e.g., Traditional Art"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
 
               {/* Province Filter */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Province
                 </label>
                 <select
                   name="province"
                   value={filters.province}
                   onChange={handleFilterChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">All Provinces</option>
                   {Object.keys(provincesData).map(province => (
@@ -210,8 +210,8 @@ const SouvenirsCollectiblesBrowse = () => {
               </div>
 
               {/* City Filter */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <div className="mb-4 sm:mb-6">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   City
                 </label>
                 <select
@@ -219,7 +219,7 @@ const SouvenirsCollectiblesBrowse = () => {
                   value={filters.city}
                   onChange={handleFilterChange}
                   disabled={!filters.province}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white text-sm disabled:opacity-50"
+                  className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
                 >
                   <option value="">All Cities</option>
                   {availableCities.map(city => (
@@ -232,7 +232,7 @@ const SouvenirsCollectiblesBrowse = () => {
               {(filters.category || filters.specialization || filters.province || filters.city) && (
                 <button
                   onClick={clearFilters}
-                  className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium text-sm"
+                  className="w-full px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Clear Filters
                 </button>
@@ -245,10 +245,10 @@ const SouvenirsCollectiblesBrowse = () => {
             {/* Mobile Filter Toggle */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="lg:hidden mb-6 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="lg:hidden mb-4 sm:mb-6 w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md font-medium"
             >
-              <Filter className="w-5 h-5" />
-              <span>Filters</span>
+              <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span>Show Filters</span>
             </button>
 
             {/* Error Message */}
@@ -263,18 +263,18 @@ const SouvenirsCollectiblesBrowse = () => {
 
             {/* Loading State */}
             {loading ? (
-              <div className="flex items-center justify-center py-12">
+              <div className="flex items-center justify-center py-8 sm:py-12">
                 <Loader className="w-8 h-8 animate-spin text-blue-600" />
               </div>
             ) : souvenirsCollectibles.length === 0 ? (
-              <div className="text-center py-12">
-                <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-                <p className="text-gray-600 dark:text-gray-400">No souvenirs & collectibles found</p>
+              <div className="text-center py-8 sm:py-12">
+                <AlertCircle className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" />
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">No souvenirs & collectibles found</p>
               </div>
             ) : (
               <>
                 {/* Products Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 mb-6 sm:mb-8">
                   {souvenirsCollectibles.map(item => (
                     <div
                       key={item._id}
@@ -282,7 +282,7 @@ const SouvenirsCollectiblesBrowse = () => {
                     >
                       {/* Image */}
                       {item.images && item.images.length > 0 && (
-                        <div className="relative h-48 bg-gray-200 dark:bg-gray-700 overflow-hidden flex-shrink-0">
+                        <div className="relative h-44 sm:h-48 lg:h-52 bg-gray-200 dark:bg-gray-700 overflow-hidden flex-shrink-0">
                           <img
                             src={item.images[0].url}
                             alt={item.name}
@@ -293,35 +293,35 @@ const SouvenirsCollectiblesBrowse = () => {
                       )}
 
                       {/* Content */}
-                      <div className="p-4 flex flex-col flex-grow">
-                        <h3 className="font-semibold text-gray-900 dark:text-white mb-1 line-clamp-2">
+                      <div className="p-3 sm:p-4 lg:p-5 flex flex-col flex-grow">
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-1 sm:mb-2 line-clamp-2 min-h-[3rem]">
                           {item.name}
                         </h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-1">
                           {item.specialization}
                         </p>
 
                         {/* Rating */}
                         <div className="flex items-center gap-2 mb-3">
                           {renderStars(Math.round(item.averageRating))}
-                          <span className="text-sm text-gray-600 dark:text-gray-400">
+                          <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                             ({item.totalReviews})
                           </span>
                         </div>
 
                         {/* Location */}
-                        <div className="flex items-center gap-1 text-sm text-gray-600 dark:text-gray-400 mb-3">
-                          <MapPin className="w-4 h-4" />
-                          <span>{item.location.city}, {item.location.province}</span>
+                        <div className="flex items-center gap-1 text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3">
+                          <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                          <span className="line-clamp-1">{item.location.city}, {item.location.province}</span>
                         </div>
 
                         {/* Price and Availability */}
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="flex items-center gap-1 text-lg font-bold text-blue-600 dark:text-blue-400">
-                            <DollarSign className="w-5 h-5" />
+                        <div className="flex items-center justify-between mb-4 flex-wrap gap-2 flex-grow">
+                          <div className="flex items-center gap-1 text-base sm:text-lg font-bold text-blue-600 dark:text-blue-400">
+                            <DollarSign className="w-4 h-4 sm:w-5 sm:h-5" />
                             <span>{item.price.toLocaleString()} LKR</span>
                           </div>
-                          <span className={`text-xs px-2 py-1 rounded-full ${
+                          <span className={`text-xs px-2 py-1 rounded-full font-medium ${
                             item.available
                               ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
                               : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200'
@@ -336,7 +336,7 @@ const SouvenirsCollectiblesBrowse = () => {
                             e.stopPropagation();
                             navigate(`/souvenirs-collectibles/${item._id}`);
                           }}
-                          className="w-full mt-auto px-4 py-2.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-lg transition-colors duration-300 font-medium flex items-center justify-center gap-2 group/btn shadow-md hover:shadow-lg"
+                          className="w-full mt-auto px-4 py-2 sm:py-2.5 text-sm sm:text-base bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 text-white rounded-lg transition-all duration-300 font-medium flex items-center justify-center gap-2 group/btn shadow-md hover:shadow-lg flex-shrink-0"
                         >
                           <Eye className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
                           <span>View Details</span>
@@ -348,14 +348,14 @@ const SouvenirsCollectiblesBrowse = () => {
 
                 {/* Pagination */}
                 {pagination.pages > 1 && (
-                  <div className="flex justify-center gap-2">
+                  <div className="flex flex-wrap justify-center gap-2">
                     {Array.from({ length: pagination.pages }, (_, i) => i + 1).map(page => (
                       <button
                         key={page}
                         onClick={() => setFilters(prev => ({ ...prev, page }))}
-                        className={`px-4 py-2 rounded-lg transition-colors ${
+                        className={`px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg transition-all duration-300 font-medium ${
                           pagination.page === page
-                            ? 'bg-blue-600 text-white'
+                            ? 'bg-blue-600 text-white shadow-md'
                             : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
                         }`}
                       >

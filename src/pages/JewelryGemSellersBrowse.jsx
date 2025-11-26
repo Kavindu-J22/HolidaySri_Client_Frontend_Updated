@@ -147,49 +147,51 @@ const JewelryGemSellersBrowse = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-100 dark:from-gray-900 dark:to-gray-800">
       {/* Header */}
-      <div className="bg-gradient-to-r from-amber-600 to-orange-600 text-white py-12 px-4">
+      <div className="bg-gradient-to-r from-amber-600 to-orange-600 text-white py-6 sm:py-8 lg:py-12 px-3 sm:px-4">
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold mb-4">Jewelry & Gem Sellers</h1>
-          <p className="text-amber-100 text-lg">Discover premium jewelry and gemstone professionals</p>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-2 sm:mb-3 lg:mb-4">Jewelry & Gem Sellers</h1>
+          <p className="text-sm sm:text-base lg:text-lg text-amber-100">Discover premium jewelry and gemstone professionals</p>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6 py-6 sm:py-8 lg:py-12">
         {/* Search Bar */}
-        <form onSubmit={handleSearch} className="mb-8">
-          <div className="flex gap-2">
+        <form onSubmit={handleSearch} className="mb-6 sm:mb-8">
+          <div className="flex flex-col sm:flex-row gap-2">
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by name, specialization, category..."
-              className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 dark:bg-gray-700 dark:text-white"
+              className="flex-1 px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 dark:bg-gray-700 dark:text-white"
             />
-            <button
-              type="submit"
-              className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold py-3 px-6 rounded-lg transition flex items-center gap-2"
-            >
-              <Search className="w-5 h-5" />
-              <span className="hidden sm:inline">Search</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setShowFilters(!showFilters)}
-              className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-bold py-3 px-6 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition flex items-center gap-2"
-            >
-              <Filter className="w-5 h-5" />
-              <span className="hidden sm:inline">Filters</span>
-            </button>
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                className="flex-1 sm:flex-none bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold py-2.5 sm:py-3 px-4 sm:px-6 text-sm sm:text-base rounded-lg transition flex items-center justify-center gap-2 shadow-md"
+              >
+                <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Search</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex-1 sm:flex-none bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-bold py-2.5 sm:py-3 px-4 sm:px-6 text-sm sm:text-base rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition flex items-center justify-center gap-2"
+              >
+                <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span>Filters</span>
+              </button>
+            </div>
           </div>
         </form>
 
         {/* Filters Panel */}
         {showFilters && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-5 lg:p-6 mb-6 sm:mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Specialization
                 </label>
                 <input
@@ -198,12 +200,12 @@ const JewelryGemSellersBrowse = () => {
                   value={filters.specialization}
                   onChange={handleFilterChange}
                   placeholder="e.g., Diamond & Gold"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Category
                 </label>
                 <input
@@ -212,19 +214,19 @@ const JewelryGemSellersBrowse = () => {
                   value={filters.category}
                   onChange={handleFilterChange}
                   placeholder="e.g., Diamond"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Province
                 </label>
                 <select
                   name="province"
                   value={filters.province}
                   onChange={handleFilterChange}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">All Provinces</option>
                   {Object.keys(provincesData).map(province => (
@@ -234,7 +236,7 @@ const JewelryGemSellersBrowse = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   City
                 </label>
                 <select
@@ -242,7 +244,7 @@ const JewelryGemSellersBrowse = () => {
                   value={filters.city}
                   onChange={handleFilterChange}
                   disabled={!filters.province}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                  className="w-full px-3 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
                 >
                   <option value="">All Cities</option>
                   {filters.province && provincesData[filters.province]?.map(city => (
@@ -252,16 +254,16 @@ const JewelryGemSellersBrowse = () => {
               </div>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <button
                 onClick={handleApplyFilters}
-                className="flex-1 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold py-2 px-4 rounded-lg transition"
+                className="flex-1 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold py-2 px-4 text-sm sm:text-base rounded-lg transition shadow-md"
               >
                 Apply Filters
               </button>
               <button
                 onClick={handleClearFilters}
-                className="flex-1 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-bold py-2 px-4 rounded-lg transition"
+                className="flex-1 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-bold py-2 px-4 text-sm sm:text-base rounded-lg transition"
               >
                 Clear All
               </button>
@@ -271,51 +273,51 @@ const JewelryGemSellersBrowse = () => {
 
         {/* Loading State */}
         {loading ? (
-          <div className="flex justify-center items-center py-12">
-            <Loader className="w-12 h-12 text-amber-600 animate-spin" />
+          <div className="flex justify-center items-center py-8 sm:py-12">
+            <Loader className="w-8 h-8 sm:w-12 sm:h-12 text-amber-600 animate-spin" />
           </div>
         ) : sellers.length === 0 ? (
-          <div className="text-center py-12">
-            <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">No sellers found</h3>
-            <p className="text-gray-600 dark:text-gray-400">Try adjusting your search or filters</p>
+          <div className="text-center py-8 sm:py-12">
+            <AlertCircle className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">No sellers found</h3>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Try adjusting your search or filters</p>
           </div>
         ) : (
           <>
             {/* Sellers Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 mb-6 sm:mb-8">
               {sellers.map(seller => (
                 <div
                   key={seller._id}
-                  className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all overflow-hidden group"
+                  className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group flex flex-col h-full"
                 >
                   {/* Card Header */}
-                  <div className="bg-gradient-to-r from-amber-600 to-orange-600 h-32 relative overflow-hidden">
+                  <div className="bg-gradient-to-r from-amber-600 to-orange-600 h-24 sm:h-28 lg:h-32 relative overflow-hidden flex-shrink-0">
                     <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity">
                       <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
                     </div>
                   </div>
 
                   {/* Card Content */}
-                  <div className="p-6 -mt-12 relative z-10">
+                  <div className="p-4 sm:p-5 lg:p-6 -mt-10 sm:-mt-12 relative z-10 flex flex-col flex-grow">
                     {/* Avatar/Image */}
                     {seller.images && seller.images.length > 0 && (
                       <img
                         src={seller.images[0].url}
                         alt={seller.name}
-                        className="w-24 h-24 rounded-full object-cover border-4 border-white dark:border-gray-800 mb-4"
+                        className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white dark:border-gray-800 mb-3 sm:mb-4"
                       />
                     )}
 
                     {/* Name and Rating */}
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{seller.name}</h3>
+                    <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-2 min-h-[3rem]">{seller.name}</h3>
 
-                    <div className="flex items-center gap-2 mb-4">
+                    <div className="flex items-center gap-2 mb-3 sm:mb-4 flex-wrap">
                       <div className="flex items-center gap-1">
                         {[...Array(5)].map((_, i) => (
                           <Star
                             key={i}
-                            className={`w-4 h-4 ${
+                            className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
                               i < Math.round(seller.averageRating || 0)
                                 ? 'fill-amber-500 text-amber-500'
                                 : 'text-gray-300'
@@ -323,8 +325,8 @@ const JewelryGemSellersBrowse = () => {
                           />
                         ))}
                       </div>
-                      <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                        {seller.averageRating || 'N/A'}
+                      <span className="text-xs sm:text-sm font-semibold text-gray-900 dark:text-white">
+                        {seller.averageRating ? seller.averageRating.toFixed(1) : 'N/A'}
                       </span>
                       <span className="text-xs text-gray-600 dark:text-gray-400">
                         ({seller.totalReviews || 0})
@@ -332,23 +334,23 @@ const JewelryGemSellersBrowse = () => {
                     </div>
 
                     {/* Details */}
-                    <div className="space-y-2 mb-4 text-sm">
-                      <p className="text-gray-700 dark:text-gray-300">
+                    <div className="space-y-2 mb-4 text-xs sm:text-sm flex-grow">
+                      <p className="text-gray-700 dark:text-gray-300 line-clamp-1">
                         <span className="font-semibold">Specialization:</span> {seller.specialization}
                       </p>
-                      <p className="text-gray-700 dark:text-gray-300">
+                      <p className="text-gray-700 dark:text-gray-300 line-clamp-1">
                         <span className="font-semibold">Category:</span> {seller.category}
                       </p>
                       <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
-                        <MapPin className="w-4 h-4 text-amber-600" />
-                        <span>{seller.city}, {seller.province}</span>
+                        <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 flex-shrink-0" />
+                        <span className="line-clamp-1">{seller.city}, {seller.province}</span>
                       </div>
                     </div>
 
                     {/* View Button */}
                     <button
                       onClick={() => navigate(`/jewelry-gem-sellers/${seller._id}`)}
-                      className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold py-2 px-4 rounded-lg transition"
+                      className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-bold py-2 sm:py-2.5 px-4 text-sm sm:text-base rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex-shrink-0"
                     >
                       View Profile
                     </button>
@@ -359,11 +361,11 @@ const JewelryGemSellersBrowse = () => {
 
             {/* Pagination */}
             {pagination.totalPages > 1 && (
-              <div className="flex justify-center items-center gap-2">
+              <div className="flex flex-wrap justify-center items-center gap-2">
                 <button
                   onClick={() => handlePageChange(pagination.currentPage - 1)}
                   disabled={pagination.currentPage === 1}
-                  className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 transition"
+                  className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 transition font-medium"
                 >
                   Previous
                 </button>
@@ -372,9 +374,9 @@ const JewelryGemSellersBrowse = () => {
                   <button
                     key={i + 1}
                     onClick={() => handlePageChange(i + 1)}
-                    className={`px-4 py-2 rounded-lg transition ${
+                    className={`px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg transition-all duration-300 font-medium ${
                       pagination.currentPage === i + 1
-                        ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white'
+                        ? 'bg-gradient-to-r from-amber-600 to-orange-600 text-white shadow-md'
                         : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700'
                     }`}
                   >
@@ -385,7 +387,7 @@ const JewelryGemSellersBrowse = () => {
                 <button
                   onClick={() => handlePageChange(pagination.currentPage + 1)}
                   disabled={pagination.currentPage === pagination.totalPages}
-                  className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 transition"
+                  className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 transition font-medium"
                 >
                   Next
                 </button>

@@ -98,16 +98,16 @@ const FashionBeautyClothingBrowse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-6 lg:py-8 px-3 sm:px-4">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-8">Fashion, Beauty & Clothing</h1>
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-white mb-6 sm:mb-8">Fashion, Beauty & Clothing</h1>
 
         {/* Filters */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-5 lg:p-6 mb-6 sm:mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
             {/* Search */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Search
               </label>
               <input
@@ -116,20 +116,20 @@ const FashionBeautyClothingBrowse = () => {
                 value={filters.search}
                 onChange={handleSearch}
                 placeholder="Search items..."
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Specialization */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Specialization
               </label>
               <select
                 name="specialization"
                 value={filters.specialization}
                 onChange={handleFilterChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">All</option>
                 {filterOptions.specializations?.map(spec => (
@@ -140,14 +140,14 @@ const FashionBeautyClothingBrowse = () => {
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Category
               </label>
               <select
                 name="category"
                 value={filters.category}
                 onChange={handleFilterChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">All</option>
                 {filterOptions.categories?.map(cat => (
@@ -158,14 +158,14 @@ const FashionBeautyClothingBrowse = () => {
 
             {/* Province */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Province
               </label>
               <select
                 name="province"
                 value={filters.province}
                 onChange={handleFilterChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">All</option>
                 {filterOptions.provinces?.map(prov => (
@@ -176,14 +176,14 @@ const FashionBeautyClothingBrowse = () => {
 
             {/* City */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 City
               </label>
               <select
                 name="city"
                 value={filters.city}
                 onChange={handleFilterChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">All</option>
                 {filterOptions.cities?.map(city => (
@@ -195,7 +195,7 @@ const FashionBeautyClothingBrowse = () => {
 
           <button
             onClick={handleResetFilters}
-            className="mt-4 px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition"
+            className="mt-4 px-4 sm:px-6 py-2 text-sm sm:text-base bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition font-medium shadow-md"
           >
             Reset Filters
           </button>
@@ -208,51 +208,51 @@ const FashionBeautyClothingBrowse = () => {
         )}
 
         {loading ? (
-          <div className="flex justify-center items-center min-h-96">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          <div className="flex justify-center items-center py-12 sm:py-16 lg:py-24">
+            <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-blue-500"></div>
           </div>
         ) : items.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-600 dark:text-gray-400 text-lg">No items found</p>
+          <div className="text-center py-8 sm:py-12">
+            <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg">No items found</p>
           </div>
         ) : (
           <>
             {/* Items Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 mb-6 sm:mb-8">
               {items.map(item => (
                 <div
                   key={item._id}
-                  className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition transform hover:scale-105"
+                  className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col h-full"
                 >
                   {/* Image */}
-                  <div className="relative h-48 bg-gray-200 dark:bg-gray-700">
+                  <div className="relative h-44 sm:h-48 lg:h-52 bg-gray-200 dark:bg-gray-700 flex-shrink-0">
                     {item.images && item.images.length > 0 ? (
                       <img
                         src={item.images[0].url}
                         alt={item.name}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                      <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
                         No Image
                       </div>
                     )}
-                    <div className="absolute top-2 right-2 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-blue-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold shadow-lg">
                       Rs. {item.price.toLocaleString()}
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-4">
-                    <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2 truncate">
+                  <div className="p-3 sm:p-4 lg:p-5 flex flex-col flex-grow">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-800 dark:text-white mb-2 line-clamp-2 min-h-[3rem]">
                       {item.name}
                     </h3>
 
                     <div className="mb-2">
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 line-clamp-1">
                         <span className="font-semibold">{item.specialization}</span> • {item.category}
                       </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 line-clamp-1">
                         {item.city}, {item.province}
                       </p>
                     </div>
@@ -262,19 +262,19 @@ const FashionBeautyClothingBrowse = () => {
                       {item.averageRating ? (
                         renderStars(item.averageRating)
                       ) : (
-                        <p className="text-sm text-gray-500">No ratings yet</p>
+                        <p className="text-xs sm:text-sm text-gray-500">No ratings yet</p>
                       )}
                     </div>
 
                     {/* Description Preview */}
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2 flex-grow">
                       {item.description}
                     </p>
 
                     {/* View Button */}
                     <button
                       onClick={() => navigate(`/fashion-beauty-clothing/${item._id}`)}
-                      className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-lg transition"
+                      className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 sm:py-2.5 text-sm sm:text-base rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex-shrink-0"
                     >
                       View Details
                     </button>
@@ -285,21 +285,21 @@ const FashionBeautyClothingBrowse = () => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex justify-center gap-2 mb-8">
+              <div className="flex flex-wrap justify-center gap-2 mb-6 sm:mb-8">
                 <button
                   onClick={() => setPage(Math.max(1, page - 1))}
                   disabled={page === 1}
-                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg disabled:opacity-50"
+                  className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-blue-500 hover:bg-blue-600 text-white rounded-lg disabled:opacity-50 transition font-medium shadow-md"
                 >
                   Previous
                 </button>
-                <span className="px-4 py-2 text-gray-700 dark:text-gray-300">
+                <span className="px-3 sm:px-4 py-2 text-sm sm:text-base text-gray-700 dark:text-gray-300 font-medium">
                   Page {page} of {totalPages}
                 </span>
                 <button
                   onClick={() => setPage(Math.min(totalPages, page + 1))}
                   disabled={page === totalPages}
-                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg disabled:opacity-50"
+                  className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-blue-500 hover:bg-blue-600 text-white rounded-lg disabled:opacity-50 transition font-medium shadow-md"
                 >
                   Next
                 </button>
