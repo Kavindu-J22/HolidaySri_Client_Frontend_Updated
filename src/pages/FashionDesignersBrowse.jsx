@@ -252,44 +252,50 @@ const FashionDesignersBrowse = () => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {designers.map((designer) => (
               <div
                 key={designer._id}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full border border-gray-100 dark:border-gray-700"
               >
                 {/* Image */}
-                <div className="relative h-48 bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                <div className="relative h-48 sm:h-56 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 overflow-hidden">
                   <img
                     src={designer.avatar?.url}
                     alt={designer.name}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute top-3 right-3 bg-black/50 text-white px-3 py-1 rounded-full text-sm flex items-center space-x-1">
-                    <Eye className="w-4 h-4" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-black/60 backdrop-blur-sm text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm flex items-center space-x-1 shadow-lg">
+                    <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
                     <span>{designer.viewCount || 0}</span>
                   </div>
+                  {designer.available && (
+                    <div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-green-500 text-white px-2 sm:px-3 py-1 rounded-full text-xs font-semibold shadow-lg">
+                      Available
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}
-                <div className="p-4">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                <div className="p-4 sm:p-5 flex flex-col flex-grow">
+                  <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {designer.name}
                   </h3>
-                  <p className="text-blue-600 dark:text-blue-400 text-sm font-semibold mb-2">
+                  <p className="text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-semibold mb-2 line-clamp-1">
                     {designer.specialization}
                   </p>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-2">
+                  <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2 flex-grow">
                     {designer.description}
                   </p>
 
                   {/* Rating */}
                   <div className="flex items-center space-x-2 mb-3">
-                    <div className="flex items-center space-x-1">
+                    <div className="flex items-center space-x-0.5 sm:space-x-1">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-4 h-4 ${
+                          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
                             i < Math.round(designer.averageRating)
                               ? 'fill-yellow-400 text-yellow-400'
                               : 'text-gray-300 dark:text-gray-600'
@@ -297,24 +303,24 @@ const FashionDesignersBrowse = () => {
                         />
                       ))}
                     </div>
-                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                      {designer.averageRating || 0}
+                    <span className="text-xs sm:text-sm font-bold text-gray-900 dark:text-white">
+                      {designer.averageRating ? designer.averageRating.toFixed(1) : '0.0'}
                     </span>
-                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
                       ({designer.totalReviews || 0})
                     </span>
                   </div>
 
                   {/* Location */}
-                  <div className="flex items-center space-x-1 text-gray-600 dark:text-gray-400 text-sm mb-4">
-                    <MapPin className="w-4 h-4" />
-                    <span>{designer.location?.city}, {designer.location?.province}</span>
+                  <div className="flex items-center space-x-1 text-gray-600 dark:text-gray-400 text-xs sm:text-sm mb-4 line-clamp-1">
+                    <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+                    <span className="truncate">{designer.location?.city}, {designer.location?.province}</span>
                   </div>
 
                   {/* View Button */}
                   <button
                     onClick={() => navigate(`/fashion-designers/${designer._id}`)}
-                    className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                    className="w-full px-4 py-2 sm:py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg transition-all duration-300 font-semibold text-sm sm:text-base shadow-md hover:shadow-lg transform hover:scale-[1.02]"
                   >
                     View Profile
                   </button>
