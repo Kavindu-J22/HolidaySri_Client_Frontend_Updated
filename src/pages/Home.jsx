@@ -30,7 +30,10 @@ import {
   Package,
   Clock,
   Map,
-  Navigation
+  Navigation,
+  Crown,
+  Handshake,
+  Rocket
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -576,7 +579,7 @@ const Home = () => {
                     {/* Explore Now Button */}
                     <Link
                       to={`/destinations/${destination._id}`}
-                      className="w-full inline-flex items-center justify-center px-5 py-3 bg-gradient-to-r from-primary-600 to-purple-600 text-white font-semibold rounded-xl hover:from-primary-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg group"
+                      className="w-full inline-flex items-center justify-center px-4 sm:px-5 py-2.5 sm:py-3 bg-gradient-to-r from-primary-600 to-purple-600 text-white text-sm sm:text-base font-semibold rounded-xl hover:from-primary-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg group"
                     >
                       Explore Now
                       <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
@@ -619,52 +622,87 @@ const Home = () => {
       </section>
 
       {/* Core Services Section - Professional Grid */}
-      <section className="px-2 sm:px-0">
-        <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 px-2">
+      <section className="px-3 sm:px-4 lg:px-0">
+        <div className="text-center mb-10 sm:mb-14">
+          <div className="inline-flex items-center justify-center px-4 py-2 bg-primary-100 dark:bg-primary-900/30 rounded-full mb-4">
+            <Sparkles className="w-4 h-4 text-primary-600 dark:text-primary-400 mr-2" />
+            <span className="text-sm font-semibold text-primary-600 dark:text-primary-400">
+              Our Services
+            </span>
+          </div>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-5 px-2">
             Explore Our Services
           </h2>
-          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-3 sm:px-4">
+          <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-3 sm:px-4 leading-relaxed">
             Everything you need for an unforgettable Sri Lankan experience, from accommodations to unique local experiences
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mb-10 sm:mb-12">
           {coreServices.map((service, index) => (
             <Link
               key={index}
               to={service.link}
-              className={`group card p-6 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 ${
-                service.featured ? 'ring-2 ring-pink-500 dark:ring-pink-400' : ''
+              className={`group relative bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-850 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-200 dark:border-gray-700 hover:border-transparent overflow-hidden ${
+                service.featured ? 'ring-2 ring-pink-500 dark:ring-pink-400 ring-offset-2 dark:ring-offset-gray-900' : ''
               }`}
             >
+              {/* Gradient Background on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-purple-50 to-pink-50 dark:from-primary-900/10 dark:via-purple-900/10 dark:to-pink-900/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+
+              {/* Featured Badge */}
               {service.featured && (
-                <div className="absolute top-4 right-4">
-                  <span className="inline-flex items-center px-3 py-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold rounded-full">
+                <div className="absolute top-3 sm:top-4 right-3 sm:right-4 z-10">
+                  <span className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-xs font-bold rounded-full shadow-lg animate-pulse">
                     <Sparkles className="w-3 h-3 mr-1" />
                     NEW
                   </span>
                 </div>
               )}
 
-              <div className={`inline-flex items-center justify-center w-16 h-16 ${service.iconBg} rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                <service.icon className={`w-8 h-8 ${service.iconColor}`} />
+              {/* Content */}
+              <div className="relative z-10">
+                {/* Icon Container */}
+                <div className={`inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 ${service.iconBg} rounded-2xl mb-4 sm:mb-5 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-md`}>
+                  <service.icon className={`w-7 h-7 sm:w-8 sm:h-8 ${service.iconColor}`} />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+                  {service.title}
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 sm:mb-5 leading-relaxed min-h-[2.5rem]">
+                  {service.description}
+                </p>
+
+                {/* CTA */}
+                <div className="flex items-center text-primary-600 dark:text-primary-400 font-semibold text-sm group-hover:translate-x-2 transition-transform duration-300">
+                  <span>Explore Now</span>
+                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                </div>
               </div>
 
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                {service.title}
-              </h3>
-
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                {service.description}
-              </p>
-
-              <div className="flex items-center text-primary-600 dark:text-primary-400 font-semibold group-hover:translate-x-2 transition-transform duration-300">
-                Explore Now
-                <ArrowRight className="ml-2 w-4 h-4" />
-              </div>
+              {/* Decorative Corner Element */}
+              <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-gradient-to-br from-primary-200/20 to-purple-200/20 dark:from-primary-700/10 dark:to-purple-700/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
             </Link>
           ))}
+        </div>
+
+        {/* Explore More Services Button */}
+        <div className="text-center pt-4 sm:pt-6">
+          <Link
+            to="/services"
+            className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 text-white text-sm sm:text-base font-bold rounded-xl hover:from-primary-700 hover:via-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group"
+          >
+            <Sparkles className="mr-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 group-hover:rotate-12 transition-transform duration-300" />
+            Explore More Services
+            <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 group-hover:translate-x-1 transition-transform duration-300" />
+          </Link>
+          <p className="mt-3 sm:mt-4 text-sm text-gray-500 dark:text-gray-400">
+            Discover all our services and find exactly what you need
+          </p>
         </div>
       </section>
 
@@ -722,12 +760,13 @@ const Home = () => {
                   </div>
                 </div>
 
+                {/* Button - Hidden on mobile, shown on md+ */}
                 <Link
                   to="/ads/entertainment/holiday-memories"
-                  className="inline-flex items-center px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-white text-purple-600 text-xs sm:text-sm md:text-base font-bold rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-200 shadow-xl w-full sm:w-auto justify-center"
+                  className="hidden md:inline-flex items-center px-6 sm:px-8 py-3 sm:py-3.5 bg-white text-purple-600 text-sm sm:text-base font-bold rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-200 shadow-xl w-full sm:w-auto justify-center"
                 >
                   Explore Holiday Memories
-                  <ArrowRight className="ml-2 w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5 flex-shrink-0" />
+                  <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
                 </Link>
               </div>
 
@@ -759,6 +798,17 @@ const Home = () => {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Button - Shown on mobile at bottom, hidden on md+ */}
+            <div className="mt-6 md:hidden">
+              <Link
+                to="/ads/entertainment/holiday-memories"
+                className="inline-flex items-center px-6 py-3 bg-white text-purple-600 text-sm font-bold rounded-xl hover:bg-gray-100 transform hover:scale-105 transition-all duration-200 shadow-xl w-full justify-center"
+              >
+                Explore Holiday Memories
+                <ArrowRight className="ml-2 w-4 h-4 flex-shrink-0" />
+              </Link>
             </div>
           </div>
         </div>
@@ -914,6 +964,162 @@ const Home = () => {
                     </div>
                     <div className="text-lg sm:text-2xl font-bold text-purple-600 dark:text-purple-400">95%</div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Membership & Partnership Section - Smart & Professional */}
+      <section className="px-2 sm:px-0">
+        <div className="max-w-6xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-8 sm:mb-12">
+            <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-primary-100 to-purple-100 dark:from-primary-900/30 dark:to-purple-900/30 rounded-full mb-4 sm:mb-6">
+              <Rocket className="w-3 h-3 sm:w-4 sm:h-4 text-primary-600 dark:text-primary-400 mr-1.5 sm:mr-2 flex-shrink-0" />
+              <span className="text-xs sm:text-sm font-semibold text-primary-600 dark:text-primary-400">JOIN OUR COMMUNITY</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
+              Grow With Holidaysri
+            </h2>
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Whether you're a traveler or a business, we have the perfect plan for you
+            </p>
+          </div>
+
+          {/* Two Cards Grid */}
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+            {/* Membership Card */}
+            <div className="group relative bg-gradient-to-br from-white via-primary-50/30 to-purple-50/30 dark:from-gray-800 dark:via-primary-900/10 dark:to-purple-900/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-primary-100 dark:border-primary-800 overflow-hidden flex flex-col">
+              {/* Animated Background Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-500/5 via-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              {/* Decorative Blob */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-br from-primary-200/20 to-purple-200/20 dark:from-primary-700/10 dark:to-purple-700/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+
+              <div className="relative z-10 flex flex-col flex-1">
+                {/* Badge and Icon Row */}
+                <div className="flex items-center gap-3 mb-5 sm:mb-6">
+                  {/* Icon */}
+                  <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-purple-600 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg flex-shrink-0">
+                    <Crown className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                  </div>
+
+                  {/* Badge */}
+                  <div className="inline-flex items-center px-3 py-1 bg-primary-100 dark:bg-primary-900/30 rounded-full">
+                    <Sparkles className="w-3 h-3 text-primary-600 dark:text-primary-400 mr-1.5 flex-shrink-0" />
+                    <span className="text-xs font-semibold text-primary-600 dark:text-primary-400 whitespace-nowrap">FOR TRAVELERS</span>
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
+                  Become a Member
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-5 sm:mb-6 leading-relaxed">
+                  Unlock exclusive benefits, special discounts, and premium features. Join thousands of travelers enjoying VIP experiences across Sri Lanka.
+                </p>
+
+                {/* Benefits List */}
+                <div className="space-y-2.5 sm:space-y-3 mb-6 sm:mb-8 flex-1">
+                  <div className="flex items-start space-x-2.5 sm:space-x-3">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Exclusive member-only discounts up to 30%</span>
+                  </div>
+                  <div className="flex items-start space-x-2.5 sm:space-x-3">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Priority booking and customer support</span>
+                  </div>
+                  <div className="flex items-start space-x-2.5 sm:space-x-3">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Earn bonus HSC tokens on every booking</span>
+                  </div>
+                  <div className="flex items-start space-x-2.5 sm:space-x-3">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Access to premium travel guides & tips</span>
+                  </div>
+                </div>
+
+                {/* CTA Button */}
+                <div className="mt-auto">
+                  <Link
+                    to="/ads/essential/pricing-memberships"
+                    className="inline-flex items-center justify-center w-full px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 text-white text-sm sm:text-base font-bold rounded-xl hover:from-primary-700 hover:via-purple-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/btn"
+                  >
+                    <Crown className="mr-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 group-hover/btn:rotate-12 transition-transform duration-300" />
+                    View Membership Plans
+                    <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Partnership Card */}
+            <div className="group relative bg-gradient-to-br from-white via-indigo-50/30 to-blue-50/30 dark:from-gray-800 dark:via-indigo-900/10 dark:to-blue-900/10 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-xl hover:shadow-2xl transition-all duration-500 border border-indigo-100 dark:border-indigo-800 overflow-hidden flex flex-col">
+              {/* Animated Background Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              {/* Decorative Blob */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-br from-indigo-200/20 to-blue-200/20 dark:from-indigo-700/10 dark:to-blue-700/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+
+              <div className="relative z-10 flex flex-col flex-1">
+                {/* Badge and Icon Row */}
+                <div className="flex items-center gap-3 mb-5 sm:mb-6">
+                  {/* Icon */}
+                  <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg flex-shrink-0">
+                    <Handshake className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                  </div>
+
+                  {/* Badge */}
+                  <div className="inline-flex items-center px-3 py-1 bg-indigo-100 dark:bg-indigo-900/30 rounded-full">
+                    <Briefcase className="w-3 h-3 text-indigo-600 dark:text-indigo-400 mr-1.5 flex-shrink-0" />
+                    <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 whitespace-nowrap">FOR BUSINESSES</span>
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
+                  Become a Partner
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-5 sm:mb-6 leading-relaxed">
+                  Join Sri Lanka's leading tourism platform. Reach thousands of travelers, grow your business, and be part of our success story.
+                </p>
+
+                {/* Benefits List */}
+                <div className="space-y-2.5 sm:space-y-3 mb-6 sm:mb-8 flex-1">
+                  <div className="flex items-start space-x-2.5 sm:space-x-3">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Reach 10,000+ active travelers monthly</span>
+                  </div>
+                  <div className="flex items-start space-x-2.5 sm:space-x-3">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Advanced analytics and booking management</span>
+                  </div>
+                  <div className="flex items-start space-x-2.5 sm:space-x-3">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Dedicated partner support & training</span>
+                  </div>
+                  <div className="flex items-start space-x-2.5 sm:space-x-3">
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+                    <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Flexible commission and payment options</span>
+                  </div>
+                </div>
+
+                {/* CTA Button */}
+                <div className="mt-auto">
+                  <Link
+                    to="/ads/opportunities/partnerships"
+                    className="inline-flex items-center justify-center w-full px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-600 text-white text-sm sm:text-base font-bold rounded-xl hover:from-indigo-700 hover:via-blue-700 hover:to-cyan-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group/btn"
+                  >
+                    <Handshake className="mr-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 group-hover/btn:scale-110 transition-transform duration-300" />
+                    Explore Partnership
+                    <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 group-hover/btn:translate-x-1 transition-transform duration-300" />
+                  </Link>
                 </div>
               </div>
             </div>
