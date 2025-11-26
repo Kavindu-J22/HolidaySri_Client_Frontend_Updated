@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Package,
@@ -171,35 +171,39 @@ const HSCTreasure = () => {
       {/* Current Balance & HSC Value Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {user && (
-          <div className="card p-6 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
-            <div className="flex items-center mb-4">
-              <CreditCard className="w-6 h-6 text-blue-600 dark:text-blue-400 mr-2" />
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+          <div className="card p-8 bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-100 dark:from-blue-900/30 dark:via-indigo-900/30 dark:to-blue-800/30 border-2 border-blue-200 dark:border-blue-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="flex flex-col items-center justify-center text-center">
+              <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl mb-4 shadow-lg">
+                <CreditCard className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
                 Your HSC Balance
               </h3>
+              <div className="text-4xl font-extrabold text-blue-600 dark:text-blue-400 mb-2">
+                {userBalance} HSC
+              </div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Current balance in your wallet
+              </p>
             </div>
-            <div className="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-              {userBalance} HSC
-            </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">
-              Current balance in your wallet
-            </p>
           </div>
         )}
 
-        <div className="card p-6 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20">
-          <div className="flex items-center mb-4">
-            <DollarSign className="w-6 h-6 text-green-600 dark:text-green-400 mr-2" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <div className="card p-8 bg-gradient-to-br from-green-50 via-emerald-50 to-green-100 dark:from-green-900/30 dark:via-emerald-900/30 dark:to-green-800/30 border-2 border-green-200 dark:border-green-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+          <div className="flex flex-col items-center justify-center text-center">
+            <div className="flex items-center justify-center w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl mb-4 shadow-lg">
+              <DollarSign className="w-7 h-7 text-white" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">
               Current HSC Value
             </h3>
+            <div className="text-4xl font-extrabold text-green-600 dark:text-green-400 mb-2">
+              1 HSC = {hscConfig.hscValue} {hscConfig.currency}
+            </div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Current exchange rate
+            </p>
           </div>
-          <div className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">
-            1 HSC = {hscConfig.hscValue} {hscConfig.currency}
-          </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Current exchange rate
-          </p>
         </div>
       </div>
 
@@ -214,19 +218,22 @@ const HSCTreasure = () => {
             className="btn-secondary flex items-center space-x-2"
           >
             <Calculator className="w-4 h-4" />
-            <span>Custom Purchase</span>
+            <span>Custom HSC Purchase</span>
           </button>
         </div>
 
         {/* Custom Purchase Section */}
         {showCustomPurchase && (
-          <div className="card p-6 mb-6 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Custom HSC Purchase
-            </h3>
+          <div className="card p-8 mb-6 bg-gradient-to-br from-purple-50 via-pink-50 to-purple-100 dark:from-purple-900/30 dark:via-pink-900/30 dark:to-purple-800/30 border-2 border-purple-200 dark:border-purple-700 shadow-lg">
+            <div className="flex items-center justify-center mb-6">
+              <Calculator className="w-6 h-6 text-purple-600 dark:text-purple-400 mr-2" />
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                Custom HSC Purchase
+              </h3>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   HSC Amount
                 </label>
                 <input
@@ -239,17 +246,17 @@ const HSCTreasure = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Total Price
                 </label>
-                <div className="input-field bg-gray-50 dark:bg-gray-700">
+                <div className="input-field bg-gray-100 dark:bg-gray-700 font-bold text-purple-600 dark:text-purple-400">
                   {customAmount ? (parseInt(customAmount) * hscConfig.hscValue).toFixed(2) : '0.00'} {hscConfig.currency}
                 </div>
               </div>
               <button
                 onClick={handleCustomPurchase}
                 disabled={!customAmount || parseInt(customAmount) <= 0}
-                className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed h-[42px] shadow-md hover:shadow-lg transition-shadow"
               >
                 Purchase Now
               </button>
@@ -258,64 +265,68 @@ const HSCTreasure = () => {
         )}
 
         {/* Packages Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {packages.map((pkg) => (
-            <div key={pkg._id} className="card p-6 relative hover:shadow-lg transition-shadow duration-200 flex flex-col">
+            <div key={pkg._id} className="card p-8 relative hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col border-2 border-gray-200 dark:border-gray-700 bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900">
               {/* Discount Badge */}
               {pkg.discount > 0 && (
-                <div className="absolute top-4 right-4 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
+                <div className="absolute top-4 right-4 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg animate-pulse">
                   {pkg.discount}% OFF
                 </div>
               )}
 
               {/* Package Icon */}
-              <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg mb-4">
-                <Package className="w-6 h-6 text-white" />
+              <div className="flex items-center justify-center mb-6">
+                <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-yellow-400 via-orange-500 to-red-500 rounded-2xl shadow-lg">
+                  <Package className="w-8 h-8 text-white" />
+                </div>
               </div>
 
               {/* Package Details */}
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                {pkg.name}
-              </h3>
+              <div className="text-center mb-4">
+                <h3 className="text-2xl font-extrabold text-gray-900 dark:text-white mb-3">
+                  {pkg.name}
+                </h3>
 
-              <div className="mb-4">
-                <div className="text-2xl font-bold text-primary-600 dark:text-primary-400 mb-1">
-                  {pkg.hscAmount} HSC
-                </div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  {pkg.discount > 0 ? (
-                    <>
-                      <span className="line-through mr-2">
+                <div className="mb-4">
+                  <div className="text-3xl font-extrabold text-primary-600 dark:text-primary-400 mb-2">
+                    {pkg.hscAmount} HSC
+                  </div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">
+                    {pkg.discount > 0 ? (
+                      <>
+                        <span className="line-through mr-2 text-gray-500">
+                          {(pkg.hscAmount * hscConfig.hscValue).toFixed(2)} {hscConfig.currency}
+                        </span>
+                        <span className="text-xl font-bold text-green-600 dark:text-green-400">
+                          {calculatePrice(pkg.hscAmount, pkg.discount).toFixed(2)} {hscConfig.currency}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="text-xl font-bold text-gray-900 dark:text-white">
                         {(pkg.hscAmount * hscConfig.hscValue).toFixed(2)} {hscConfig.currency}
                       </span>
-                      <span className="text-lg font-semibold text-green-600 dark:text-green-400">
-                        {calculatePrice(pkg.hscAmount, pkg.discount).toFixed(2)} {hscConfig.currency}
-                      </span>
-                    </>
-                  ) : (
-                    <span className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {(pkg.hscAmount * hscConfig.hscValue).toFixed(2)} {hscConfig.currency}
-                    </span>
-                  )}
+                    )}
+                  </div>
                 </div>
+
+                {pkg.description && (
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 px-2">
+                    {pkg.description}
+                  </p>
+                )}
               </div>
 
-              {pkg.description && (
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                  {pkg.description}
-                </p>
-              )}
-
               {/* Features */}
-              <div className="flex-grow">
+              <div className="flex-grow flex items-center justify-center">
                 {pkg.features && pkg.features.length > 0 && (
-                  <div className="mb-6">
-                    <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Features:</h4>
-                    <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                  <div className="mb-6 w-full">
+                    <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 text-center">Package Features:</h4>
+                    <ul className="text-sm text-gray-600 dark:text-gray-400 space-y-2">
                       {pkg.features.map((feature, index) => (
-                        <li key={index} className="flex items-start">
-                          <Star className="w-3 h-3 text-yellow-500 mr-1 mt-0.5 flex-shrink-0" />
-                          {feature}
+                        <li key={index} className="flex items-center justify-center">
+                          <Star className="w-4 h-4 text-yellow-500 mr-2 flex-shrink-0" />
+                          <span>{feature}</span>
                         </li>
                       ))}
                     </ul>
@@ -324,13 +335,13 @@ const HSCTreasure = () => {
               </div>
 
               {/* Purchase Button - Always at bottom */}
-              <div className="mt-auto">
+              <div className="mt-auto flex justify-center">
                 <button
                   onClick={() => handlePackagePurchase(pkg)}
-                  className="btn-primary w-full flex items-center justify-center space-x-2"
+                  className="btn-primary w-full flex items-center justify-center space-x-2 py-3 shadow-lg hover:shadow-xl transition-shadow"
                 >
-                  <ShoppingCart className="w-4 h-4" />
-                  <span>Purchase Package</span>
+                  <ShoppingCart className="w-5 h-5" />
+                  <span className="font-semibold">Purchase Package</span>
                 </button>
               </div>
             </div>
@@ -338,9 +349,13 @@ const HSCTreasure = () => {
         </div>
 
         {packages.length === 0 && (
-          <div className="card p-8 text-center">
-            <Package className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+          <div className="card p-12 text-center border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900">
+            <div className="flex justify-center mb-4">
+              <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                <Package className="w-10 h-10 text-gray-400" />
+              </div>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
               No packages available
             </h3>
             <p className="text-gray-600 dark:text-gray-400">
@@ -351,34 +366,34 @@ const HSCTreasure = () => {
       </div>
 
       {/* Information Section */}
-      <div className="card p-6 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="card p-8 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-900/30 dark:via-purple-900/30 dark:to-pink-900/30 border-2 border-indigo-200 dark:border-indigo-700 shadow-lg">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8 text-center">
           How HSC Tokens Work
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center">
-            <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <span className="text-white font-bold">1</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex flex-col items-center justify-center text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <span className="text-white font-bold text-2xl">1</span>
             </div>
-            <h4 className="font-medium text-gray-900 dark:text-white mb-2">Purchase HSC</h4>
+            <h4 className="font-bold text-lg text-gray-900 dark:text-white mb-3">Purchase HSC</h4>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Buy HSC tokens using our secure payment system
             </p>
           </div>
-          <div className="text-center">
-            <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <span className="text-white font-bold">2</span>
+          <div className="flex flex-col items-center justify-center text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
+            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <span className="text-white font-bold text-2xl">2</span>
             </div>
-            <h4 className="font-medium text-gray-900 dark:text-white mb-2">Create Ads</h4>
+            <h4 className="font-bold text-lg text-gray-900 dark:text-white mb-3">Create Ads</h4>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Use HSC tokens to publish your tourism advertisements
             </p>
           </div>
-          <div className="text-center">
-            <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mx-auto mb-3">
-              <span className="text-white font-bold">3</span>
+          <div className="flex flex-col items-center justify-center text-center p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 border border-gray-200 dark:border-gray-700">
+            <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <span className="text-white font-bold text-2xl">3</span>
             </div>
-            <h4 className="font-medium text-gray-900 dark:text-white mb-2">Reach Customers</h4>
+            <h4 className="font-bold text-lg text-gray-900 dark:text-white mb-3">Reach Customers</h4>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Get more visibility and attract more customers
             </p>
