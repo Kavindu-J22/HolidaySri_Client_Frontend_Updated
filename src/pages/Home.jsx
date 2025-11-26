@@ -33,7 +33,8 @@ import {
   Navigation,
   Crown,
   Handshake,
-  Rocket
+  Rocket,
+  ChevronUp
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -44,6 +45,7 @@ const Home = () => {
   const [loadingBanners, setLoadingBanners] = useState(true);
   const [popularDestinations, setPopularDestinations] = useState([]);
   const [loadingDestinations, setLoadingDestinations] = useState(true);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Default banner slideshow data (fallback)
   const defaultBannerSlides = [
@@ -177,6 +179,28 @@ const Home = () => {
 
     return () => clearInterval(timer);
   }, [bannerSlides.length]);
+
+  // Scroll to top button visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Scroll to top function
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % bannerSlides.length);
@@ -1161,6 +1185,34 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Scroll to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-6 right-6 z-50 group transition-all duration-500 ${
+          showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16 pointer-events-none'
+        }`}
+        aria-label="Scroll to top"
+      >
+        {/* Outer glow ring */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary-500 via-purple-500 to-pink-500 rounded-2xl blur-xl opacity-60 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
+
+        {/* Button container */}
+        <div className="relative bg-gradient-to-br from-primary-600 via-purple-600 to-pink-600 hover:from-primary-700 hover:via-purple-700 hover:to-pink-700 text-white p-3 sm:p-4 rounded-2xl shadow-2xl transform group-hover:scale-110 transition-all duration-300">
+          {/* Icon */}
+          <ChevronUp className="w-5 h-5 sm:w-6 sm:h-6 group-hover:-translate-y-1 transition-transform duration-300" />
+
+          {/* Decorative corner elements */}
+          <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-ping"></div>
+          <div className="absolute -bottom-1 -left-1 w-2 h-2 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-ping" style={{ animationDelay: '150ms' }}></div>
+        </div>
+
+        {/* Tooltip */}
+        <div className="absolute bottom-full right-0 mb-2 px-3 py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-xs font-semibold rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap pointer-events-none">
+          Back to Top
+          <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
+        </div>
+      </button>
     </div>
   );
 };
