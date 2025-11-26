@@ -192,7 +192,7 @@ const Home = () => {
       icon: Hotel,
       title: 'Accommodations',
       description: 'From luxury resorts to cozy guesthouses',
-      link: '/services?category=hotels',
+      link: '/hotels-accommodations',
       color: 'from-blue-500 to-blue-600',
       iconBg: 'bg-blue-100 dark:bg-blue-900/30',
       iconColor: 'text-blue-600 dark:text-blue-400'
@@ -228,7 +228,7 @@ const Home = () => {
       icon: Camera,
       title: 'Attractions',
       description: 'Historical sites & natural wonders',
-      link: '/services?category=attractions',
+      link: '/explore-locations',
       color: 'from-red-500 to-red-600',
       iconBg: 'bg-red-100 dark:bg-red-900/30',
       iconColor: 'text-red-600 dark:text-red-400'
