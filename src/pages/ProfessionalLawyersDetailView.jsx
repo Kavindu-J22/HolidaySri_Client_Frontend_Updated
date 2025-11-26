@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Star, MessageCircle, Phone, Globe, Facebook, Loader, AlertCircle, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Star, MessageCircle, Phone, Globe, Facebook, Loader, AlertCircle, CheckCircle, Share2, X } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const ProfessionalLawyersDetailView = () => {
@@ -15,6 +15,8 @@ const ProfessionalLawyersDetailView = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [showReviewForm, setShowReviewForm] = useState(false);
   const [userHasReviewed, setUserHasReviewed] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   // Review form state
   const [reviewForm, setReviewForm] = useState({
@@ -51,6 +53,32 @@ const ProfessionalLawyersDetailView = () => {
 
     fetchData();
   }, [id, user]);
+
+  // Handle share functionality
+  const handleShare = (platform) => {
+    const url = window.location.href;
+    const title = `Check out ${lawyer?.name} - Professional Lawyer on HolidaySri`;
+
+    switch (platform) {
+      case 'facebook':
+        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+        break;
+      case 'twitter':
+        window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`, '_blank');
+        break;
+      case 'whatsapp':
+        window.open(`https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`, '_blank');
+        break;
+      case 'copy':
+        navigator.clipboard.writeText(url);
+        setShowShareModal(false);
+        setShowSuccessModal(true);
+        setTimeout(() => setShowSuccessModal(false), 3000);
+        break;
+      default:
+        break;
+    }
+  };
 
   // Handle review submission
   const handleSubmitReview = async (e) => {
@@ -142,57 +170,75 @@ const ProfessionalLawyersDetailView = () => {
   const totalReviews = lawyer.totalReviews || 0;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate('/professional-lawyers')}
-          className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-8"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back to Lawyers</span>
-        </button>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 md:py-8">
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+        {/* Back Button and Share */}
+        <div className="flex items-center justify-between mb-4 sm:mb-6 md:mb-8">
+          <button
+            onClick={() => navigate('/professional-lawyers')}
+            className="flex items-center space-x-1.5 sm:space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors text-sm sm:text-base"
+          >
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="hidden sm:inline">Back to Lawyers</span>
+            <span className="sm:hidden">Back</span>
+          </button>
+          <button
+            onClick={() => setShowShareModal(true)}
+            className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-300 shadow-md hover:shadow-lg text-sm sm:text-base font-semibold"
+          >
+            <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+            <span>Share</span>
+          </button>
+        </div>
 
         {/* Success Message */}
         {successMessage && (
-          <div className="mb-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-start space-x-3">
-            <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
-            <p className="text-green-700 dark:text-green-400">{successMessage}</p>
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-start space-x-2 sm:space-x-3">
+            <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+            <p className="text-sm sm:text-base text-green-700 dark:text-green-400">{successMessage}</p>
+          </div>
+        )}
+
+        {/* Success Modal for Share */}
+        {showSuccessModal && (
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-start space-x-2 sm:space-x-3">
+            <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+            <p className="text-sm sm:text-base text-green-700 dark:text-green-400">Link copied to clipboard!</p>
           </div>
         )}
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-            <p className="text-red-700 dark:text-red-400">{error}</p>
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-2 sm:space-x-3">
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+            <p className="text-sm sm:text-base text-red-700 dark:text-red-400">{error}</p>
           </div>
         )}
 
         {/* Main Content */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
           {/* Header Section */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8">
-            <div className="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 md:space-x-6">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 sm:p-6 md:p-8">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 md:space-x-6">
               {/* Avatar */}
               <img
                 src={lawyer.avatar?.url}
                 alt={lawyer.name}
-                className="w-24 h-24 rounded-full object-cover border-4 border-white"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover border-4 border-white"
               />
 
               {/* Info */}
               <div className="flex-1">
-                <h1 className="text-3xl font-bold text-white mb-2">{lawyer.name}</h1>
-                <p className="text-blue-100 text-lg mb-3">{lawyer.specialization}</p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">{lawyer.name}</h1>
+                <p className="text-blue-100 text-base sm:text-lg mb-2 sm:mb-3">{lawyer.specialization}</p>
 
                 {/* Rating */}
-                <div className="flex items-center space-x-4">
-                  <div className="flex items-center space-x-2">
+                <div className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                  <div className="flex items-center space-x-1 sm:space-x-2">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-5 h-5 ${
+                        className={`w-4 h-4 sm:w-5 sm:h-5 ${
                           i < Math.round(avgRating)
                             ? 'fill-yellow-300 text-yellow-300'
                             : 'text-gray-300'
@@ -200,8 +246,8 @@ const ProfessionalLawyersDetailView = () => {
                       />
                     ))}
                   </div>
-                  <span className="text-white font-semibold">
-                    {avgRating.toFixed(1)} ({totalReviews} reviews)
+                  <span className="text-white font-semibold text-sm sm:text-base">
+                    {avgRating.toFixed(1)} ({totalReviews} {totalReviews === 1 ? 'review' : 'reviews'})
                   </span>
                 </div>
               </div>
@@ -209,25 +255,25 @@ const ProfessionalLawyersDetailView = () => {
           </div>
 
           {/* Content Section */}
-          <div className="p-8">
+          <div className="p-4 sm:p-6 md:p-8">
             {/* Professional Details */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-6 sm:mb-8">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
                   Professional Details
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Category</p>
-                    <p className="text-gray-900 dark:text-white font-medium">{lawyer.category}</p>
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Category</p>
+                    <p className="text-sm sm:text-base text-gray-900 dark:text-white font-medium">{lawyer.category}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Experience</p>
-                    <p className="text-gray-900 dark:text-white font-medium">{lawyer.experience} years</p>
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Experience</p>
+                    <p className="text-sm sm:text-base text-gray-900 dark:text-white font-medium">{lawyer.experience} years</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Status</p>
-                    <p className="text-gray-900 dark:text-white font-medium">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Status</p>
+                    <p className="text-sm sm:text-base text-gray-900 dark:text-white font-medium">
                       {lawyer.available ? '✓ Available' : '✗ Not Available'}
                     </p>
                   </div>
@@ -235,46 +281,46 @@ const ProfessionalLawyersDetailView = () => {
               </div>
 
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
                   Location & Contact
                 </h3>
-                <div className="space-y-3">
+                <div className="space-y-2 sm:space-y-3">
                   <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Location</p>
-                    <p className="text-gray-900 dark:text-white font-medium">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Location</p>
+                    <p className="text-sm sm:text-base text-gray-900 dark:text-white font-medium">
                       {lawyer.city}, {lawyer.province}
                     </p>
                   </div>
-                  <div className="flex items-center space-x-3 mt-4">
-                    <Phone className="w-5 h-5 text-blue-600" />
+                  <div className="flex items-center space-x-2 sm:space-x-3 mt-3 sm:mt-4">
+                    <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
                     <a
                       href={`tel:${lawyer.contact}`}
-                      className="text-blue-600 hover:text-blue-700 font-medium"
+                      className="text-sm sm:text-base text-blue-600 hover:text-blue-700 font-medium break-all"
                     >
                       {lawyer.contact}
                     </a>
                   </div>
                   {lawyer.website && (
-                    <div className="flex items-center space-x-3">
-                      <Globe className="w-5 h-5 text-blue-600" />
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                      <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
                       <a
                         href={lawyer.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-700 font-medium"
+                        className="text-sm sm:text-base text-blue-600 hover:text-blue-700 font-medium break-all"
                       >
                         Visit Website
                       </a>
                     </div>
                   )}
                   {lawyer.facebook && (
-                    <div className="flex items-center space-x-3">
-                      <Facebook className="w-5 h-5 text-blue-600" />
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                      <Facebook className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
                       <a
                         href={lawyer.facebook}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 hover:text-blue-700 font-medium"
+                        className="text-sm sm:text-base text-blue-600 hover:text-blue-700 font-medium break-all"
                       >
                         Facebook
                       </a>
@@ -285,48 +331,48 @@ const ProfessionalLawyersDetailView = () => {
             </div>
 
             {/* Description */}
-            <div className="mb-8">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <div className="mb-6 sm:mb-8">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
                 About
               </h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 leading-relaxed">
                 {lawyer.description}
               </p>
             </div>
 
             {/* Availability */}
-            <div className="mb-8">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <div className="mb-6 sm:mb-8">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">
                 Availability
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                 {lawyer.weekdays && lawyer.weekdays.length > 0 && (
-                  <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Weekdays</p>
-                    <p className="text-gray-900 dark:text-white font-medium">
+                  <div className="p-3 sm:p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1.5 sm:mb-2">Weekdays</p>
+                    <p className="text-sm sm:text-base text-gray-900 dark:text-white font-medium">
                       {lawyer.weekdays.join(', ')}
                     </p>
                   </div>
                 )}
                 {lawyer.weekends && lawyer.weekends.length > 0 && (
-                  <div className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Weekends</p>
-                    <p className="text-gray-900 dark:text-white font-medium">
+                  <div className="p-3 sm:p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1.5 sm:mb-2">Weekends</p>
+                    <p className="text-sm sm:text-base text-gray-900 dark:text-white font-medium">
                       {lawyer.weekends.join(', ')}
                     </p>
                   </div>
                 )}
                 {lawyer.times && lawyer.times.length > 0 && (
-                  <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Time Slots</p>
+                  <div className="p-3 sm:p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1.5 sm:mb-2">Time Slots</p>
                     <div className="space-y-1">
                       {lawyer.times.slice(0, 2).map((time, idx) => (
-                        <p key={idx} className="text-sm text-gray-900 dark:text-white font-medium">
+                        <p key={idx} className="text-xs sm:text-sm text-gray-900 dark:text-white font-medium">
                           {time}
                         </p>
                       ))}
                       {lawyer.times.length > 2 && (
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                           +{lawyer.times.length - 2} more
                         </p>
                       )}
@@ -337,16 +383,16 @@ const ProfessionalLawyersDetailView = () => {
             </div>
 
             {/* Reviews Section */}
-            <div className="border-t border-gray-200 dark:border-gray-700 pt-8">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center space-x-2">
-                  <MessageCircle className="w-5 h-5" />
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-6 sm:pt-8">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 mb-4 sm:mb-6">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white flex items-center space-x-2">
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Reviews ({totalReviews})</span>
                 </h3>
                 {user && !userHasReviewed && (
                   <button
                     onClick={() => setShowReviewForm(!showReviewForm)}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="w-full sm:w-auto px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                   >
                     {showReviewForm ? 'Cancel' : 'Add Review'}
                   </button>
@@ -355,12 +401,12 @@ const ProfessionalLawyersDetailView = () => {
 
               {/* Review Form */}
               {showReviewForm && !userHasReviewed && (
-                <form onSubmit={handleSubmitReview} className="mb-8 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <form onSubmit={handleSubmitReview} className="mb-6 sm:mb-8 p-4 sm:p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
                   <div className="mb-4">
-                    <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                    <label className="block text-xs sm:text-sm font-semibold text-gray-900 dark:text-white mb-2">
                       Rating
                     </label>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-1.5 sm:space-x-2">
                       {[1, 2, 3, 4, 5].map(star => (
                         <button
                           key={star}
@@ -369,7 +415,7 @@ const ProfessionalLawyersDetailView = () => {
                           className="focus:outline-none"
                         >
                           <Star
-                            className={`w-8 h-8 cursor-pointer transition-colors ${
+                            className={`w-6 h-6 sm:w-8 sm:h-8 cursor-pointer transition-colors ${
                               star <= reviewForm.rating
                                 ? 'fill-yellow-400 text-yellow-400'
                                 : 'text-gray-300'
@@ -381,7 +427,7 @@ const ProfessionalLawyersDetailView = () => {
                   </div>
 
                   <div className="mb-4">
-                    <label className="block text-sm font-semibold text-gray-900 dark:text-white mb-2">
+                    <label className="block text-xs sm:text-sm font-semibold text-gray-900 dark:text-white mb-2">
                       Your Review
                     </label>
                     <textarea
@@ -389,14 +435,14 @@ const ProfessionalLawyersDetailView = () => {
                       onChange={(e) => setReviewForm(prev => ({ ...prev, review: e.target.value }))}
                       rows="4"
                       placeholder="Share your experience with this lawyer..."
-                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-600 dark:text-white"
+                      className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-600 dark:text-white"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={submittingReview}
-                    className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                    className="w-full px-4 py-2 sm:py-2.5 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                   >
                     {submittingReview ? (
                       <>
@@ -411,20 +457,20 @@ const ProfessionalLawyersDetailView = () => {
               )}
 
               {/* Reviews List */}
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {reviews.length > 0 ? (
                   reviews.map(review => (
-                    <div key={review._id} className="p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                      <div className="flex items-start justify-between mb-2">
+                    <div key={review._id} className="p-3 sm:p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-0 mb-2">
                         <div>
-                          <p className="font-semibold text-gray-900 dark:text-white">
+                          <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
                             {review.userId?.name || 'Anonymous'}
                           </p>
-                          <div className="flex items-center space-x-2 mt-1">
+                          <div className="flex items-center space-x-1 sm:space-x-2 mt-1">
                             {[...Array(5)].map((_, i) => (
                               <Star
                                 key={i}
-                                className={`w-4 h-4 ${
+                                className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${
                                   i < review.rating
                                     ? 'fill-yellow-400 text-yellow-400'
                                     : 'text-gray-300'
@@ -433,15 +479,15 @@ const ProfessionalLawyersDetailView = () => {
                             ))}
                           </div>
                         </div>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
+                        <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                           {new Date(review.createdAt).toLocaleDateString()}
                         </p>
                       </div>
-                      <p className="text-gray-700 dark:text-gray-300">{review.review}</p>
+                      <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">{review.review}</p>
                     </div>
                   ))
                 ) : (
-                  <p className="text-center text-gray-600 dark:text-gray-400 py-8">
+                  <p className="text-center text-sm sm:text-base text-gray-600 dark:text-gray-400 py-6 sm:py-8">
                     No reviews yet. Be the first to review!
                   </p>
                 )}
@@ -449,6 +495,53 @@ const ProfessionalLawyersDetailView = () => {
             </div>
           </div>
         </div>
+
+        {/* Share Modal */}
+        {showShareModal && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-3 sm:p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-xl sm:rounded-2xl shadow-2xl max-w-md w-full p-4 sm:p-6 border border-gray-200 dark:border-gray-700">
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">Share this profile</h3>
+                <button
+                  onClick={() => setShowShareModal(false)}
+                  className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 p-1 transition"
+                >
+                  <X className="w-5 h-5 sm:w-6 sm:h-6" />
+                </button>
+              </div>
+              <div className="space-y-2 sm:space-y-3">
+                <button
+                  onClick={() => handleShare('facebook')}
+                  className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-blue-50 dark:bg-blue-900/20 hover:bg-blue-100 dark:hover:bg-blue-900/40 rounded-lg transition-all duration-300 group"
+                >
+                  <Facebook className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Share on Facebook</span>
+                </button>
+                <button
+                  onClick={() => handleShare('twitter')}
+                  className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-sky-50 dark:bg-sky-900/20 hover:bg-sky-100 dark:hover:bg-sky-900/40 rounded-lg transition-all duration-300 group"
+                >
+                  <Share2 className="w-4 h-4 sm:w-5 sm:h-5 text-sky-600 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Share on Twitter</span>
+                </button>
+                <button
+                  onClick={() => handleShare('whatsapp')}
+                  className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-green-50 dark:bg-green-900/20 hover:bg-green-100 dark:hover:bg-green-900/40 rounded-lg transition-all duration-300 group"
+                >
+                  <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Share on WhatsApp</span>
+                </button>
+                <button
+                  onClick={() => handleShare('copy')}
+                  className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-lg transition-all duration-300 group"
+                >
+                  <Share2 className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-400 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">Copy Link</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
