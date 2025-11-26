@@ -998,7 +998,7 @@ const HotelsAccommodationsBrowse = () => {
                       className="w-full px-4 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 font-semibold flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
                     >
                       <Eye className="w-4 h-4" />
-                      <span>View Details</span>
+                      <span>Details & Booking</span>
                     </button>
                   </div>
                 </div>

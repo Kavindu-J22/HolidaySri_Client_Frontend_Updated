@@ -34,7 +34,18 @@ import {
   Crown,
   Handshake,
   Rocket,
-  ChevronUp
+  ChevronUp,
+  UserPlus,
+  Settings,
+  Share2,
+  Calendar,
+  HeartHandshake,
+  DollarSign,
+  Gift,
+  ShoppingBag,
+  Wrench,
+  LifeBuoy,
+  Layers
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -215,7 +226,7 @@ const Home = () => {
     {
       icon: Hotel,
       title: 'Accommodations',
-      description: 'From luxury resorts to cozy guesthouses',
+      description: 'From luxury resorts to cozy guesthouses with Booking Feature',
       link: '/hotels-accommodations',
       color: 'from-blue-500 to-blue-600',
       iconBg: 'bg-blue-100 dark:bg-blue-900/30',
@@ -833,6 +844,271 @@ const Home = () => {
                 Explore Holiday Memories
                 <ArrowRight className="ml-2 w-4 h-4 flex-shrink-0" />
               </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Other Special Features Section */}
+      <section className="px-2 sm:px-0">
+        <div className="text-center mb-8 sm:mb-12">
+          <div className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-primary-100 to-purple-100 dark:from-primary-900/30 dark:to-purple-900/30 rounded-full mb-4 sm:mb-6">
+            <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-primary-600 dark:text-primary-400 mr-1.5 sm:mr-2 flex-shrink-0" />
+            <span className="text-xs sm:text-sm font-semibold text-primary-600 dark:text-primary-400">DISCOVER MORE</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4 px-2">
+            Other Special Features
+          </h2>
+          <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-3 sm:px-4">
+            Explore our comprehensive range of services designed to make your Sri Lankan experience extraordinary
+          </p>
+        </div>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
+          {/* Travel Buddies Platform */}
+          <Link
+            to="/travel-buddies"
+            className="group relative bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-blue-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-blue-200 dark:border-blue-800 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/50 dark:to-blue-800/50 rounded-xl sm:rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <UserPlus className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 dark:text-blue-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                TRAVEL BUDDIES PLATFORM
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Find Travel Buddys for your trips and Organize Your Trips with Travel Buddies
+              </p>
+              <div className="mt-4 flex items-center text-blue-600 dark:text-blue-400 text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                Explore Now <ArrowRight className="ml-1 w-4 h-4" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Customize Your Sri Lankan Adventure */}
+          <Link
+            to="/plan-dream-tour"
+            className="group relative bg-gradient-to-br from-white to-purple-50 dark:from-gray-800 dark:to-purple-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-purple-200 dark:border-purple-800 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900/50 dark:to-purple-800/50 rounded-xl sm:rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Settings className="w-6 h-6 sm:w-7 sm:h-7 text-purple-600 dark:text-purple-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                CUSTOMIZE YOUR SRI LANKAN ADVENTURE
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Request a Customize Tour Package from our Commercial Partners & Members
+              </p>
+              <div className="mt-4 flex items-center text-purple-600 dark:text-purple-400 text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                Explore Now <ArrowRight className="ml-1 w-4 h-4" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Live Rides & Carpooling */}
+          <Link
+            to="/live-rides-carpooling"
+            className="group relative bg-gradient-to-br from-white to-green-50 dark:from-gray-800 dark:to-green-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-green-200 dark:border-green-800 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-green-100 to-green-200 dark:from-green-900/50 dark:to-green-800/50 rounded-xl sm:rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Share2 className="w-6 h-6 sm:w-7 sm:h-7 text-green-600 dark:text-green-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                LIVE RIDES & CARPOOLING
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Offer Carpooling Services to Passengers & Find and Share Rides
+              </p>
+              <div className="mt-4 flex items-center text-green-600 dark:text-green-400 text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                Explore Now <ArrowRight className="ml-1 w-4 h-4" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Manage or Customize Your Event */}
+          <Link
+            to="/ads/events"
+            className="group relative bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-orange-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-orange-200 dark:border-orange-800 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900/50 dark:to-orange-800/50 rounded-xl sm:rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Calendar className="w-6 h-6 sm:w-7 sm:h-7 text-orange-600 dark:text-orange-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
+                MANAGE OR CUSTAMIZE YOUR EVENT
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Request a Customize Event from our Commercial Partners, Members, and Event Professionals
+              </p>
+              <div className="mt-4 flex items-center text-orange-600 dark:text-orange-400 text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                Explore Now <ArrowRight className="ml-1 w-4 h-4" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Compassionate Caregivers & Earn Time Currency */}
+          <Link
+            to="/caregivers"
+            className="group relative bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-pink-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-pink-200 dark:border-pink-800 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 via-rose-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-pink-100 to-pink-200 dark:from-pink-900/50 dark:to-pink-800/50 rounded-xl sm:rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <HeartHandshake className="w-6 h-6 sm:w-7 sm:h-7 text-pink-600 dark:text-pink-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">
+                COMPASSINATE CAREGIVERS & EARN TIME CURRENCY
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Connect with Compassionate Caregivers & Earn Time Currency for your Care Needs
+              </p>
+              <div className="mt-4 flex items-center text-pink-600 dark:text-pink-400 text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                Explore Now <ArrowRight className="ml-1 w-4 h-4" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Donations & Fundraising Campaigns */}
+          <Link
+            to="/donations-fundraising"
+            className="group relative bg-gradient-to-br from-white to-red-50 dark:from-gray-800 dark:to-red-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-red-200 dark:border-red-800 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-rose-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900/50 dark:to-red-800/50 rounded-xl sm:rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <DollarSign className="w-6 h-6 sm:w-7 sm:h-7 text-red-600 dark:text-red-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                DONATIONS & FUNDRAISING CAMPAIGNS
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Support Charitable Causes and Raise Funds for Your Causes
+              </p>
+              <div className="mt-4 flex items-center text-red-600 dark:text-red-400 text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                Explore Now <ArrowRight className="ml-1 w-4 h-4" />
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Second Row - Continued Features */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
+          {/* Exclusive Combo Packages */}
+          <Link
+            to="/combo-packages"
+            className="group relative bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-indigo-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-indigo-200 dark:border-indigo-800 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-indigo-100 to-indigo-200 dark:from-indigo-900/50 dark:to-indigo-800/50 rounded-xl sm:rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Gift className="w-6 h-6 sm:w-7 sm:h-7 text-indigo-600 dark:text-indigo-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                EXCLUSIVE COMBO PACKAGES
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Discover Unique Combo Packages for Weddings, Tours, and More
+              </p>
+              <div className="mt-4 flex items-center text-indigo-600 dark:text-indigo-400 text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                Explore Now <ArrowRight className="ml-1 w-4 h-4" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Exciting Job Opportunities */}
+          <Link
+            to="/job-opportunities"
+            className="group relative bg-gradient-to-br from-white to-teal-50 dark:from-gray-800 dark:to-teal-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-teal-200 dark:border-teal-800 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-teal-100 to-teal-200 dark:from-teal-900/50 dark:to-teal-800/50 rounded-xl sm:rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <Briefcase className="w-6 h-6 sm:w-7 sm:h-7 text-teal-600 dark:text-teal-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                EXCITING JOB OPPORTUNITIES
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Find Exciting Job Opportunities in Sri Lanka
+              </p>
+              <div className="mt-4 flex items-center text-teal-600 dark:text-teal-400 text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                Explore Now <ArrowRight className="ml-1 w-4 h-4" />
+              </div>
+            </div>
+          </Link>
+
+          {/* Emergency Services & Insurance */}
+          <Link
+            to="/emergency-services"
+            className="group relative bg-gradient-to-br from-white to-amber-50 dark:from-gray-800 dark:to-amber-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-amber-200 dark:border-amber-800 overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900/50 dark:to-amber-800/50 rounded-xl sm:rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <LifeBuoy className="w-6 h-6 sm:w-7 sm:h-7 text-amber-600 dark:text-amber-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                EMERGENCY SERVICES & INSURANCE
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                Access Emergency Services & Insurance Coverage
+              </p>
+              <div className="mt-4 flex items-center text-amber-600 dark:text-amber-400 text-sm font-semibold group-hover:translate-x-2 transition-transform duration-300">
+                Explore Now <ArrowRight className="ml-1 w-4 h-4" />
+              </div>
+            </div>
+          </Link>
+        </div>
+
+        {/* Special Info Cards - No Navigation */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+          {/* Marketplace & Shopping */}
+          <div className="relative bg-gradient-to-br from-white to-cyan-50 dark:from-gray-800 dark:to-cyan-900/10 rounded-2xl p-5 sm:p-6 shadow-lg border border-cyan-200 dark:border-cyan-800 overflow-hidden">
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-cyan-100 to-cyan-200 dark:from-cyan-900/50 dark:to-cyan-800/50 rounded-xl sm:rounded-2xl mb-4">
+                <ShoppingBag className="w-6 h-6 sm:w-7 sm:h-7 text-cyan-600 dark:text-cyan-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2">
+                Marketplace & Shopping
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
+                Explore a Wide Range of Products and Services
+              </p>
+              <div className="flex items-start space-x-2 bg-cyan-50 dark:bg-cyan-900/20 rounded-lg p-3">
+                <Layers className="w-5 h-5 text-cyan-600 dark:text-cyan-400 flex-shrink-0 mt-0.5" />
+                <p className="text-xs sm:text-sm text-cyan-900 dark:text-cyan-100 font-medium">
+                  Check 60+ Categories Sidebar → Marketplace & Shopping category
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Professionals & Services */}
+          <div className="relative bg-gradient-to-br from-white to-violet-50 dark:from-gray-800 dark:to-violet-900/10 rounded-2xl p-5 sm:p-6 shadow-lg border border-violet-200 dark:border-violet-800 overflow-hidden">
+            <div className="relative">
+              <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-violet-100 to-violet-200 dark:from-violet-900/50 dark:to-violet-800/50 rounded-xl sm:rounded-2xl mb-4">
+                <Wrench className="w-6 h-6 sm:w-7 sm:h-7 text-violet-600 dark:text-violet-400" />
+              </div>
+              <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2">
+                Professionals & Services
+              </h3>
+              <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 leading-relaxed mb-3">
+                Meet Expert Professionals & Services in Sri Lanka
+              </p>
+              <div className="flex items-start space-x-2 bg-violet-50 dark:bg-violet-900/20 rounded-lg p-3">
+                <Layers className="w-5 h-5 text-violet-600 dark:text-violet-400 flex-shrink-0 mt-0.5" />
+                <p className="text-xs sm:text-sm text-violet-900 dark:text-violet-100 font-medium">
+                  Check 60+ Categories Sidebar → Professionals & Services category
+                </p>
+              </div>
             </div>
           </div>
         </div>
