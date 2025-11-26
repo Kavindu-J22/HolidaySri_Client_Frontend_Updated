@@ -52,6 +52,7 @@ const ExclusiveComboPackagesForm = () => {
     'Luxury',
     'Family',
     'Honeymoon',
+    'Wedding',
     'Corporate'
   ];
 

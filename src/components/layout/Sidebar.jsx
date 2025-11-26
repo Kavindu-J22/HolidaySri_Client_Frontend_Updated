@@ -232,7 +232,7 @@ const Sidebar = ({ isOpen, onClose }) => {
 
   const featuredSections = [
     {
-      title: 'Featured Ads',
+      title: 'All & Featured Ads',
       icon: Star,
       color: 'text-yellow-600',
       path: '/ads/featured'
