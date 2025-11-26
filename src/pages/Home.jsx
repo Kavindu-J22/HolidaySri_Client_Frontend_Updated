@@ -153,7 +153,7 @@ const Home = () => {
   useEffect(() => {
     const fetchPopularDestinations = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/destinations?sortBy=popular&limit=4');
+        const response = await fetch('https://holidaysri-backend-9xm4.onrender.com/api/destinations?sortBy=popular&limit=4');
         const data = await response.json();
 
         if (data.destinations && data.destinations.length > 0) {
