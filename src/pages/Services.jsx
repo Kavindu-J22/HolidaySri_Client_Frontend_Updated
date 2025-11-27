@@ -132,7 +132,7 @@ const Services = () => {
       darkBgColor: 'dark:bg-red-900/20',
       description: 'Make your special events unforgettable',
       services: [
-        { name: 'Events Updates', path: '/ads/events-management/events-updates', description: 'Stay updated on local events', icon: Calendar },
+        { name: 'Events & Festivals Updates', path: '/ads/events-management/events-updates', description: 'Stay updated on local events', icon: Calendar },
         { name: 'Manage or Customize Your Event', path: '/ads/events-management/customize-event', description: 'Plan your perfect event', icon: Target },
         { name: 'Expert Event Planners & Coordinators', path: '/event-planners-coordinators', description: 'Professional event planning', icon: Briefcase },
         { name: 'Creative Photographers', path: '/ads/events/photographers', description: 'Capture your precious moments', icon: Camera },

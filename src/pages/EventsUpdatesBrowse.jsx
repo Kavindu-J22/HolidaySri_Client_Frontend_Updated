@@ -123,7 +123,7 @@ const EventsUpdatesBrowse = () => {
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Events & Updates{cityFromUrl && ` - ${cityFromUrl}`}
+            Events & Festivals Updates{cityFromUrl && ` - ${cityFromUrl}`}
           </h1>
           <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
             {fromDestination ? `Discover exciting events happening in ${destinationName}` : 'Discover exciting events happening in Sri Lanka'}

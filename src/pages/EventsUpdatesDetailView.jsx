@@ -96,7 +96,7 @@ const EventsUpdatesDetailView = () => {
   // Share functionality
   const handleShare = async (platform) => {
     const url = window.location.href;
-    const title = `${event.eventName} - Events & Updates`;
+    const title = `${event.eventName} - Events & Festivals Updates`;
     const text = `Check out this event: ${event.eventName} on ${new Date(event.date).toLocaleDateString()}`;
 
     switch (platform) {

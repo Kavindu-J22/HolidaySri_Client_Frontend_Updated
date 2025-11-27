@@ -124,7 +124,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       color: 'text-red-600',
       bgColor: 'bg-red-50',
       subcategories: [
-        { name: 'Events Updates', path: '/ads/events-management/events-updates' },
+        { name: 'Events & Festivals Updates', path: '/ads/events-management/events-updates' },
         { name: 'Manage or Customize Your Event', path: '/ads/events-management/customize-event' },
         { name: 'Expert Event Planners & day Coordinators', path: '/event-planners-coordinators' },
         { name: 'Creative Photographers', path: '/ads/events/photographers' },
