@@ -1,13 +1,15 @@
 {
-  "name": "Holidaysri - Sri Lanka Tourism Platform",
+  "name": "Holidaysri - Sri Lanka's Best Tourism & Travel Platform",
   "short_name": "Holidaysri",
-  "description": "Sri Lanka's premier tourism and travel platform. Discover destinations, book tours, find accommodations, and explore the beauty of Sri Lanka.",
+  "description": "Discover Sri Lanka with Holidaysri - Your premier tourism and travel platform. Book tours, find accommodations, explore destinations, hire tour guides, and experience the beauty of Sri Lanka. Complete travel solutions for your Sri Lankan adventure.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2563eb",
   "orientation": "portrait-primary",
   "scope": "/",
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
     {
       "src": "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712705/Hsllogo_3_gye6nd.png",

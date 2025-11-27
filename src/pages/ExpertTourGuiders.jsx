@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import SEO from '../components/SEO/SEO';
 import { Loader, Filter, X, ArrowLeft, Search } from 'lucide-react';
 import TourGuiderCard from '../components/tourGuider/TourGuiderCard';
 import axios from 'axios';
@@ -132,16 +133,23 @@ const ExpertTourGuiders = () => {
   }, [tourGuiders, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            Expert Tour Guiders{cityFromUrl && ` - ${cityFromUrl}`}
-          </h1>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
-            {fromDestination ? `Find and connect with professional tour guides in ${destinationName}` : 'Find and connect with professional tour guides in Sri Lanka'}
-          </p>
+    <>
+      <SEO
+        title="Expert Tour Guides in Sri Lanka | Professional Tour Guiders - Holidaysri"
+        description="Find and hire professional tour guides in Sri Lanka. Connect with experienced, certified tour guiders for personalized tours across Sri Lanka's beautiful destinations."
+        keywords="Sri Lanka tour guides, professional tour guiders, tour guide Sri Lanka, hire tour guide, certified tour guides, Sri Lanka travel guides, local tour guides, expert tour guiders"
+        canonical="https://www.holidaysri.com/ads/tourism/tour-guiders"
+      />
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+              Expert Tour Guiders{cityFromUrl && ` - ${cityFromUrl}`}
+            </h1>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+              {fromDestination ? `Find and connect with professional tour guides in ${destinationName}` : 'Find and connect with professional tour guides in Sri Lanka'}
+            </p>
           {fromDestination && (
             <button
               onClick={() => navigate(`/destinations/${fromDestination}`)}
@@ -371,8 +379,9 @@ const ExpertTourGuiders = () => {
             )}
           </>
         )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

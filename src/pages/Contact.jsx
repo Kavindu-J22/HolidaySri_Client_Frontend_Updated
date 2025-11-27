@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import SEO from '../components/SEO/SEO';
+import { getFAQSchema } from '../utils/seoUtils';
 import {
   Search,
   Phone,
@@ -265,10 +267,28 @@ const Contact = () => {
     )
   })).filter(category => category.questions.length > 0);
 
+  // Prepare FAQ structured data
+  const faqStructuredData = getFAQSchema(
+    faqs.flatMap(category =>
+      category.questions.map(q => ({
+        question: q.q,
+        answer: q.a
+      }))
+    )
+  );
+
   return (
-    <div className="space-y-12">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 via-purple-600 to-pink-600 p-8 md:p-12 text-white">
+    <>
+      <SEO
+        title="Contact Us | Holidaysri - Get Help & Support for Sri Lanka Travel"
+        description="Need help planning your Sri Lanka trip? Contact Holidaysri support team for assistance with bookings, services, and travel information. We're here to help 24/7."
+        keywords="contact Holidaysri, Sri Lanka travel support, customer service, help center, travel assistance Sri Lanka, contact tourism platform"
+        canonical="https://www.holidaysri.com/contact"
+        structuredData={faqStructuredData}
+      />
+      <div className="space-y-12">
+        {/* Hero Section */}
+        <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 via-purple-600 to-pink-600 p-8 md:p-12 text-white">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative z-10 text-center max-w-4xl mx-auto">
           <HelpCircle className="w-16 h-16 mx-auto mb-4 opacity-90" />
@@ -670,7 +690,8 @@ const Contact = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 

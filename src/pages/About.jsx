@@ -1,12 +1,14 @@
 import React from 'react';
-import { 
-  Target, 
-  Eye, 
-  Award, 
-  Users, 
-  Globe, 
-  Heart, 
-  TrendingUp, 
+import SEO from '../components/SEO/SEO';
+import { getOrganizationSchema } from '../utils/seoUtils';
+import {
+  Target,
+  Eye,
+  Award,
+  Users,
+  Globe,
+  Heart,
+  TrendingUp,
   Shield,
   Sparkles,
   MapPin,
@@ -64,9 +66,17 @@ const About = () => {
   ];
 
   return (
-    <div className="space-y-16">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 via-purple-600 to-pink-600 p-8 md:p-16 text-white">
+    <>
+      <SEO
+        title="About Holidaysri | Sri Lanka's Premier Tourism Platform"
+        description="Learn about Holidaysri - Sri Lanka's leading tourism platform connecting travelers with authentic experiences. Discover our mission, vision, and commitment to showcasing the beauty of Sri Lanka."
+        keywords="about Holidaysri, Sri Lanka tourism company, travel platform Sri Lanka, tourism services Sri Lanka, about us, company mission, travel agency Sri Lanka"
+        canonical="https://www.holidaysri.com/about"
+        structuredData={getOrganizationSchema()}
+      />
+      <div className="space-y-16">
+        {/* Hero Section */}
+        <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 via-purple-600 to-pink-600 p-8 md:p-16 text-white">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative z-10 text-center max-w-4xl mx-auto">
           {/* Logo */}
@@ -314,7 +324,8 @@ const About = () => {
           </div>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './contexts/AuthContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Layout from './components/layout/Layout';
@@ -279,21 +280,24 @@ function App() {
 
   if (isLoading) {
     return (
-      <ThemeProvider>
-        <Loader />
-      </ThemeProvider>
+      <HelmetProvider>
+        <ThemeProvider>
+          <Loader />
+        </ThemeProvider>
+      </HelmetProvider>
     );
   }
 
   return (
-    <ThemeProvider>
-      <AuthProvider>
-        <Router>
-          <ScrollToTop />
-          <HSGPopup />
-          <InstallPWA />
-          <div className="App">
-            <Routes>
+    <HelmetProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <Router>
+            <ScrollToTop />
+            <HSGPopup />
+            <InstallPWA />
+            <div className="App">
+              <Routes>
               {/* Auth routes */}
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -1065,6 +1069,7 @@ function App() {
         </Router>
       </AuthProvider>
     </ThemeProvider>
+    </HelmetProvider>
   );
 }
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import SEO from '../components/SEO/SEO';
 import {
   MapPin, Star, Eye, Filter, X, ChevronLeft, ChevronRight,
   Loader, AlertCircle, Building2, Sparkles, FileText, Users,
@@ -676,17 +677,24 @@ const HotelsAccommodationsBrowse = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-6 lg:py-8 px-3 sm:px-4 lg:px-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-4 sm:mb-6 lg:mb-8">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
-            <Building2 className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 text-blue-600 dark:text-blue-400 flex-shrink-0" />
-            <span className="break-words">Hotels & Accommodations{cityFromUrl && ` - ${cityFromUrl}`}</span>
-          </h1>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 ml-0 sm:ml-11 lg:ml-13">
-            {fromDestination ? `Discover the perfect place to stay in ${destinationName}` : 'Discover the perfect place to stay in Sri Lanka'}
-          </p>
+    <>
+      <SEO
+        title="Hotels & Accommodations in Sri Lanka | Book Hotels, Resorts & Stays - Holidaysri"
+        description="Find and book the best hotels, resorts, and accommodations in Sri Lanka. Browse luxury hotels, budget stays, beach resorts, and boutique accommodations across Sri Lanka."
+        keywords="Sri Lanka hotels, hotels in Sri Lanka, Sri Lanka accommodations, book hotels Sri Lanka, Sri Lanka resorts, beach hotels Sri Lanka, luxury hotels, budget hotels, boutique hotels"
+        canonical="https://www.holidaysri.com/ads/tourism/hotels-accommodations"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-6 lg:py-8 px-3 sm:px-4 lg:px-6">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="mb-4 sm:mb-6 lg:mb-8">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+              <Building2 className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 text-blue-600 dark:text-blue-400 flex-shrink-0" />
+              <span className="break-words">Hotels & Accommodations{cityFromUrl && ` - ${cityFromUrl}`}</span>
+            </h1>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 ml-0 sm:ml-11 lg:ml-13">
+              {fromDestination ? `Discover the perfect place to stay in ${destinationName}` : 'Discover the perfect place to stay in Sri Lanka'}
+            </p>
           {fromDestination && (
             <button
               onClick={() => navigate(`/destinations/${fromDestination}`)}
@@ -1351,8 +1359,9 @@ const HotelsAccommodationsBrowse = () => {
             })()}
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

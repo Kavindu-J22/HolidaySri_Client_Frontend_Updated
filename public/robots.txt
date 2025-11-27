@@ -1,0 +1,58 @@
+# Holidaysri - Robots.txt
+# https://www.holidaysri.com/robots.txt
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow admin and private pages
+Disallow: /profile
+Disallow: /hsc
+Disallow: /transaction-history
+Disallow: /hsd-leaderboard
+Disallow: /hsc-earnings-claim
+Disallow: /claim-earnings
+Disallow: /notifications
+Disallow: /favorites
+Disallow: /my-advertisements
+Disallow: /my-promo-codes
+Disallow: /my-downloads
+Disallow: /my-saved-posts
+Disallow: /my-photo-earnings
+Disallow: /my-posts
+Disallow: /travel-buddy-favorites
+Disallow: /favorite-promo-codes
+
+# Disallow authentication pages
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+
+# Disallow payment pages
+Disallow: /advertisement-payment
+Disallow: /renew-advertisement-payment
+Disallow: /promo-code-payment
+Disallow: /payhere-payment
+
+# Allow important public pages
+Allow: /
+Allow: /about
+Allow: /services
+Allow: /contact
+Allow: /download
+Allow: /plan-dream-tour
+Allow: /explore-locations
+Allow: /destinations/*
+Allow: /locations/*
+Allow: /ads/*
+Allow: /privacy-policy
+Allow: /terms-and-conditions
+Allow: /refund-policy
+
+# Crawl delay (optional - adjust as needed)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://www.holidaysri.com/sitemap.xml
+

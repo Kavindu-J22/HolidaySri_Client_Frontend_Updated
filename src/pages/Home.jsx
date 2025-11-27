@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO/SEO';
+import { getOrganizationSchema, getWebsiteSchema } from '../utils/seoUtils';
 import {
   MapPin,
   Star,
@@ -321,10 +323,24 @@ const Home = () => {
     { name: 'Photographers', icon: Camera, link: '/ads/events/photographers', count: '150+' }
   ];
 
+  // SEO structured data
+  const structuredData = [
+    getOrganizationSchema(),
+    getWebsiteSchema()
+  ];
+
   return (
-    <div className="space-y-16">
-      {/* Banner Slideshow Section */}
-      <section className="relative">
+    <>
+      <SEO
+        title="Holidaysri | Sri Lanka's Best Tourism Platform - Book Tours, Hotels & Travel Packages"
+        description="Discover Sri Lanka with Holidaysri - Your premier tourism and travel platform. Book tours, find accommodations, explore destinations, hire tour guides, and experience the beauty of Sri Lanka."
+        keywords="Sri Lanka tourism, Sri Lanka travel, Sri Lanka tours, Sri Lanka hotels, Sri Lanka destinations, tour packages Sri Lanka, travel Sri Lanka, visit Sri Lanka, Sri Lanka vacation, Sri Lanka holiday, tour guides Sri Lanka, Sri Lanka attractions, things to do in Sri Lanka, Sri Lanka travel guide, Ceylon tourism, Sri Lanka beach resorts, cultural tours Sri Lanka, wildlife Sri Lanka, adventure travel Sri Lanka"
+        canonical="https://www.holidaysri.com"
+        structuredData={structuredData}
+      />
+      <div className="space-y-16">
+        {/* Banner Slideshow Section */}
+        <section className="relative">
         <div className="relative h-96 sm:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
           {loadingBanners ? (
             <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
@@ -1489,7 +1505,8 @@ const Home = () => {
           <div className="absolute top-full right-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-900 dark:border-t-gray-700"></div>
         </div>
       </button>
-    </div>
+      </div>
+    </>
   );
 };
 

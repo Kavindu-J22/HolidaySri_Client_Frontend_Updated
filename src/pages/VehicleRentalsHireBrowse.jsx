@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import SEO from '../components/SEO/SEO';
 import {
   Search,
   MapPin,
@@ -120,16 +121,23 @@ const VehicleRentalsHireBrowse = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8 px-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-6 sm:mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
-            <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                Vehicle Rentals & Hire Services{cityFromUrl && ` - ${cityFromUrl}`}
-              </h1>
-              <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
+    <>
+      <SEO
+        title="Vehicle Rentals & Hire Services in Sri Lanka | Car Rentals, Vans & Drivers - Holidaysri"
+        description="Rent vehicles in Sri Lanka - cars, vans, buses, tuk-tuks with or without drivers. Find reliable vehicle rental services for your Sri Lankan journey at the best rates."
+        keywords="Sri Lanka vehicle rentals, car rental Sri Lanka, van hire Sri Lanka, vehicle hire, rent a car Sri Lanka, driver hire, tuk-tuk rental, bus rental, self-drive rentals"
+        canonical="https://www.holidaysri.com/ads/tourism/vehicle-rentals-hire"
+      />
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8 px-4">
+        <div className="max-w-7xl mx-auto">
+          {/* Header */}
+          <div className="mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
+              <div className="flex-1">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                  Vehicle Rentals & Hire Services{cityFromUrl && ` - ${cityFromUrl}`}
+                </h1>
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
                 {fromDestination ? `Find the perfect vehicle rental service in ${destinationName}` : 'Find the perfect vehicle rental service for your needs'}
               </p>
               {fromDestination && (
@@ -474,8 +482,9 @@ const VehicleRentalsHireBrowse = () => {
             )}
           </div>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

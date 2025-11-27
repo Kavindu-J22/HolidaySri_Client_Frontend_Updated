@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO/SEO';
+import { getServiceSchema } from '../utils/seoUtils';
 import {
   Compass,
   Hotel,
@@ -258,9 +260,16 @@ const Services = () => {
   const totalServices = serviceCategories.reduce((acc, cat) => acc + cat.services.length, 0);
 
   return (
-    <div className="space-y-8">
-      {/* Hero Section */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 via-purple-600 to-pink-600 p-8 md:p-12 text-white">
+    <>
+      <SEO
+        title="Services | Holidaysri - Complete Tourism & Travel Services in Sri Lanka"
+        description="Explore our comprehensive range of tourism services in Sri Lanka. From tour guides and hotels to vehicle rentals, restaurants, and professional services - everything you need for your Sri Lankan adventure."
+        keywords="Sri Lanka services, tourism services Sri Lanka, tour guides Sri Lanka, hotels Sri Lanka, vehicle rentals Sri Lanka, restaurants Sri Lanka, travel services, professional services Sri Lanka"
+        canonical="https://www.holidaysri.com/services"
+      />
+      <div className="space-y-8">
+        {/* Hero Section */}
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary-600 via-purple-600 to-pink-600 p-8 md:p-12 text-white">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative z-10 text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl mb-6">
@@ -465,7 +474,8 @@ const Services = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 };
 
