@@ -680,9 +680,21 @@ const EditHotelsAccommodations = () => {
                   <option value="Guest Houses">Guest Houses</option>
                   <option value="Homestays">Homestays</option>
                   <option value="Boutique Hotels">Boutique Hotels</option>
+                  <option value="Hostels">Hostels</option>
+                  <option value="Lodges">Lodges</option>
+                  <option value="Bungalows">Bungalows</option>
                   <option value="Eco Lodges">Eco Lodges</option>
                   <option value="Beach Hotels">Beach Hotels</option>
                   <option value="City Hotels">City Hotels</option>
+                  <option value="Bed & Breakfast">Bed & Breakfast</option>
+                  <option value="Cottages">Cottages</option>
+                  <option value="Chalets">Chalets</option>
+                  <option value="Farmstays">Farmstays</option>
+                  <option value="Treehouse">Treehouse</option>
+                  <option value="Floating Hotels">Floating Hotels</option>
+                  <option value="Heritage Hotels">Heritage Hotels</option>
+                  <option value="Motels">Motels</option>
+                  <option value="Service Apartments">Service Apartments</option>
                 </select>
               </div>
 

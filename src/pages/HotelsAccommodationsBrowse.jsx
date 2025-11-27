@@ -408,11 +408,23 @@ const HotelsAccommodationsBrowse = () => {
     { value: "Resorts", label: "Resorts" },
     { value: "Villas", label: "Villas" },
     { value: "Guest Houses", label: "Guest Houses" },
+    { value: "Homestays", label: "Homestays" },
     { value: "Boutique Hotels", label: "Boutique Hotels" },
     { value: "Hostels", label: "Hostels" },
     { value: "Lodges", label: "Lodges" },
     { value: "Bungalows", label: "Bungalows" },
-    { value: "Homestays", label: "Homestays" }
+    { value: "Eco Lodges", label: "Eco Lodges" },
+    { value: "Beach Hotels", label: "Beach Hotels" },
+    { value: "City Hotels", label: "City Hotels" },
+    { value: "Bed & Breakfast", label: "Bed & Breakfast" },
+    { value: "Cottages", label: "Cottages" },
+    { value: "Chalets", label: "Chalets" },
+    { value: "Farmstays", label: "Farmstays" },
+    { value: "Treehouse", label: "Treehouse" },
+    { value: "Floating Hotels", label: "Floating Hotels" },
+    { value: "Heritage Hotels", label: "Heritage Hotels" },
+    { value: "Motels", label: "Motels" },
+    { value: "Service Apartments", label: "Service Apartments" }
   ];
 
   // Load provinces data
