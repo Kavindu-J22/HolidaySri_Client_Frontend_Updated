@@ -47,47 +47,47 @@ const RightSidebar = () => {
       </div>
 
       {/* Popular Locations */}
-      <div className={`rounded-xl ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border shadow-sm p-4`}>
-        <div className="flex items-center gap-2 mb-4">
-          <TrendingUp className="w-5 h-5 text-orange-500" />
-          <h3 className={`text-lg font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+      <div className={`rounded-xl ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border shadow-sm p-3`}>
+        <div className="flex items-center gap-2 mb-3">
+          <TrendingUp className="w-4 h-4 text-orange-500" />
+          <h3 className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
             Popular Locations
           </h3>
         </div>
         {loading ? (
-          <div className="space-y-3">
-            {[...Array(7)].map((_, i) => (
-              <div key={i} className="animate-pulse flex gap-3">
-                <div className="w-16 h-16 bg-gray-300 dark:bg-gray-700 rounded-lg"></div>
-                <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
-                  <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
+          <div className="space-y-2">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="animate-pulse flex gap-2 items-center">
+                <div className="w-10 h-10 bg-gray-300 dark:bg-gray-700 rounded-md flex-shrink-0"></div>
+                <div className="flex-1 space-y-1">
+                  <div className="h-3 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+                  <div className="h-2.5 bg-gray-300 dark:bg-gray-700 rounded w-1/2"></div>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="space-y-3">
-            {popularLocations.map((location) => (
+          <div className="space-y-1">
+            {popularLocations.slice(0, 5).map((location) => (
               <button
                 key={location._id}
                 onClick={() => navigate(`/locations/${location._id}`)}
-                className={`w-full flex items-center gap-3 p-2 rounded-lg transition-all ${
+                className={`w-full flex items-center gap-2 p-1.5 rounded-md transition-all ${
                   isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'
                 }`}
               >
                 <img
-                  src={location.images?.[0]?.url || 'https://via.placeholder.com/64'}
+                  src={location.images?.[0]?.url || 'https://via.placeholder.com/40'}
                   alt={location.name}
-                  className="w-16 h-16 object-cover rounded-lg"
+                  className="w-10 h-10 object-cover rounded-md flex-shrink-0"
                 />
-                <div className="flex-1 text-left">
-                  <p className={`font-medium text-sm ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                <div className="flex-1 text-left min-w-0">
+                  <p className={`font-medium text-xs truncate ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                     {location.name}
                   </p>
                   <div className="flex items-center gap-1 text-xs text-yellow-500">
-                    <span>⭐</span>
-                    <span>{location.averageRating?.toFixed(1) || '0.0'}</span>
+                    <span className="text-[10px]">⭐</span>
+                    <span className="text-[10px]">{location.averageRating?.toFixed(1) || '0.0'}</span>
                   </div>
                 </div>
               </button>

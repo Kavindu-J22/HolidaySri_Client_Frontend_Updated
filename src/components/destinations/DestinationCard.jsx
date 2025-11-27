@@ -285,15 +285,15 @@ const DestinationCard = ({ destination }) => {
       </div>
 
       {/* View More Button - Fixed at bottom */}
-      <div className="px-6 pb-6 pt-0">
+      <div className="px-5 pb-5 pt-0 mt-auto">
         <button
           onClick={(e) => {
             e.stopPropagation();
             handleViewMore();
           }}
-          className="w-full bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+          className="w-full bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium py-2 px-3 rounded-md transition-colors duration-200 flex items-center justify-center space-x-1.5"
         >
-          <Eye className="w-4 h-4" />
+          <Eye className="w-3.5 h-3.5" />
           <span>Explore Now</span>
         </button>
       </div>

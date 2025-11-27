@@ -126,7 +126,7 @@ const LocationCard = ({ location, onFavoriteChange }) => {
   };
 
   return (
-    <div className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 dark:border-gray-700">
+    <div className="group relative bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col h-full">
       {/* Image */}
       <div className="relative h-56 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800">
         {location.images && location.images.length > 0 ? (
@@ -178,7 +178,7 @@ const LocationCard = ({ location, onFavoriteChange }) => {
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-5 flex-1 flex flex-col">
         {/* Header */}
         <div className="mb-4">
           <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
@@ -275,15 +275,16 @@ const LocationCard = ({ location, onFavoriteChange }) => {
           </div>
         )}
 
-        {/* View More Button */}
-        <button
-          onClick={handleViewMore}
-          className="w-full flex items-center justify-center px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors duration-200 group"
-        >
-          <Eye className="w-4 h-4 mr-2" />
-          View More
-          <span className="ml-2 transform group-hover:translate-x-1 transition-transform duration-200">→</span>
-        </button>
+        {/* View More Button - Fixed at bottom */}
+        <div className="mt-auto pt-3">
+          <button
+            onClick={handleViewMore}
+            className="w-full flex items-center justify-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-md transition-colors duration-200"
+          >
+            <Eye className="w-3.5 h-3.5 mr-1.5" />
+            View More
+          </button>
+        </div>
       </div>
     </div>
   );
