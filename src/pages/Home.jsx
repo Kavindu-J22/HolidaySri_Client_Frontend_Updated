@@ -906,7 +906,7 @@ const Home = () => {
 
           {/* Customize Your Sri Lankan Adventure */}
           <Link
-            to="/plan-dream-tour"
+            to="/ads/tourism/customize-package"
             className="group relative bg-gradient-to-br from-white to-purple-50 dark:from-gray-800 dark:to-purple-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-purple-200 dark:border-purple-800 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -928,7 +928,7 @@ const Home = () => {
 
           {/* Live Rides & Carpooling */}
           <Link
-            to="/live-rides-carpooling"
+            to="/ads/vehicles-transport/live-rides-carpooling"
             className="group relative bg-gradient-to-br from-white to-green-50 dark:from-gray-800 dark:to-green-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-green-200 dark:border-green-800 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -950,7 +950,7 @@ const Home = () => {
 
           {/* Manage or Customize Your Event */}
           <Link
-            to="/ads/events"
+            to="/ads/events-management/customize-event"
             className="group relative bg-gradient-to-br from-white to-orange-50 dark:from-gray-800 dark:to-orange-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-orange-200 dark:border-orange-800 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -972,7 +972,7 @@ const Home = () => {
 
           {/* Compassionate Caregivers & Earn Time Currency */}
           <Link
-            to="/caregivers"
+            to="/caregivers-time-currency-browse"
             className="group relative bg-gradient-to-br from-white to-pink-50 dark:from-gray-800 dark:to-pink-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-pink-200 dark:border-pink-800 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-pink-500/5 via-rose-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -994,7 +994,7 @@ const Home = () => {
 
           {/* Donations & Fundraising Campaigns */}
           <Link
-            to="/donations-fundraising"
+            to="/donations-raise-fund-browse"
             className="group relative bg-gradient-to-br from-white to-red-50 dark:from-gray-800 dark:to-red-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-red-200 dark:border-red-800 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-rose-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -1019,7 +1019,7 @@ const Home = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
           {/* Exclusive Combo Packages */}
           <Link
-            to="/combo-packages"
+            to="/exclusive-combo-packages"
             className="group relative bg-gradient-to-br from-white to-indigo-50 dark:from-gray-800 dark:to-indigo-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-indigo-200 dark:border-indigo-800 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -1041,7 +1041,7 @@ const Home = () => {
 
           {/* Exciting Job Opportunities */}
           <Link
-            to="/job-opportunities"
+            to="/ads/professionals/job-opportunities"
             className="group relative bg-gradient-to-br from-white to-teal-50 dark:from-gray-800 dark:to-teal-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-teal-200 dark:border-teal-800 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 via-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -1063,7 +1063,7 @@ const Home = () => {
 
           {/* Emergency Services & Insurance */}
           <Link
-            to="/emergency-services"
+            to="/ads/essential-services/emergency-services-insurance"
             className="group relative bg-gradient-to-br from-white to-amber-50 dark:from-gray-800 dark:to-amber-900/10 rounded-2xl p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-amber-200 dark:border-amber-800 overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-amber-500/5 via-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
