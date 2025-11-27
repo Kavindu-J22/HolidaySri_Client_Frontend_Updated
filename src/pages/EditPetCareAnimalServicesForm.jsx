@@ -217,32 +217,32 @@ const EditPetCareAnimalServicesForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Edit Pet Care Profile</h1>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 lg:p-8">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-6 sm:mb-8">Edit Pet Care Profile</h1>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3">
-              <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-red-700 dark:text-red-300">{error}</p>
+            <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-2 sm:gap-3">
+              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              <p className="text-sm sm:text-base text-red-700 dark:text-red-300">{error}</p>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
             {/* Avatar Upload */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Avatar Image *
               </label>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
                 {images.avatar && (
-                  <img src={images.avatar.url} alt="Avatar" className="w-20 h-20 rounded-lg object-cover" />
+                  <img src={images.avatar.url} alt="Avatar" className="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover" />
                 )}
-                <label className="flex-1 flex items-center justify-center px-6 py-4 border-2 border-dashed border-indigo-300 dark:border-indigo-600 rounded-lg cursor-pointer hover:border-indigo-500 transition">
+                <label className="flex-1 w-full flex items-center justify-center px-4 sm:px-6 py-3 sm:py-4 border-2 border-dashed border-indigo-300 dark:border-indigo-600 rounded-lg cursor-pointer hover:border-indigo-500 transition">
                   <div className="text-center">
-                    <Upload className="w-6 h-6 text-indigo-600 dark:text-indigo-400 mx-auto mb-2" />
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Click to upload image</p>
+                    <Upload className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600 dark:text-indigo-400 mx-auto mb-2" />
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Click to upload image</p>
                   </div>
                   <input
                     type="file"
@@ -257,7 +257,7 @@ const EditPetCareAnimalServicesForm = () => {
 
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Name *
               </label>
               <input
@@ -265,17 +265,17 @@ const EditPetCareAnimalServicesForm = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
                 disabled={submitting}
               />
             </div>
 
             {/* Specialization */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 sm:mb-3">
                 Specialization *
               </label>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
                 {specializations.map(spec => (
                   <label key={spec} className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -286,7 +286,7 @@ const EditPetCareAnimalServicesForm = () => {
                       className="w-4 h-4 text-indigo-600 rounded"
                       disabled={submitting}
                     />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{spec}</span>
+                    <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">{spec}</span>
                   </label>
                 ))}
               </div>
@@ -294,14 +294,14 @@ const EditPetCareAnimalServicesForm = () => {
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Category *
               </label>
               <select
                 name="category"
                 value={formData.category}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
                 disabled={submitting}
               >
                 {categories.map(cat => (
@@ -312,7 +312,7 @@ const EditPetCareAnimalServicesForm = () => {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Description *
               </label>
               <textarea
@@ -320,14 +320,14 @@ const EditPetCareAnimalServicesForm = () => {
                 value={formData.description}
                 onChange={handleInputChange}
                 rows="4"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
                 disabled={submitting}
               />
             </div>
 
             {/* Experience */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Experience (Years) *
               </label>
               <input
@@ -336,22 +336,22 @@ const EditPetCareAnimalServicesForm = () => {
                 value={formData.experience}
                 onChange={handleInputChange}
                 min="0"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
                 disabled={submitting}
               />
             </div>
 
             {/* Province and City */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Province *
                 </label>
                 <select
                   name="province"
                   value={formData.province}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
                   disabled={submitting}
                 >
                   <option value="">Select Province</option>
@@ -362,14 +362,14 @@ const EditPetCareAnimalServicesForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   City *
                 </label>
                 <select
                   name="city"
                   value={formData.city}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
                   disabled={submitting || !formData.province}
                 >
                   <option value="">Select City</option>
@@ -382,10 +382,10 @@ const EditPetCareAnimalServicesForm = () => {
 
             {/* Services */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 sm:mb-3">
                 Services *
               </label>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
                 {serviceOptions.map(service => (
                   <label key={service} className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -396,7 +396,7 @@ const EditPetCareAnimalServicesForm = () => {
                       className="w-4 h-4 text-indigo-600 rounded"
                       disabled={submitting}
                     />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{service}</span>
+                    <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">{service}</span>
                   </label>
                 ))}
               </div>
@@ -404,10 +404,10 @@ const EditPetCareAnimalServicesForm = () => {
 
             {/* Availability */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 sm:mb-3">
                 Availability *
               </label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                 {availabilityOptions.map(option => (
                   <label key={option} className="flex items-center gap-2 cursor-pointer">
                     <input
@@ -418,7 +418,7 @@ const EditPetCareAnimalServicesForm = () => {
                       className="w-4 h-4 text-indigo-600 rounded"
                       disabled={submitting}
                     />
-                    <span className="text-sm text-gray-700 dark:text-gray-300">{option}</span>
+                    <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">{option}</span>
                   </label>
                 ))}
               </div>
@@ -426,7 +426,7 @@ const EditPetCareAnimalServicesForm = () => {
 
             {/* Contact */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Contact (Phone or Email) *
               </label>
               <input
@@ -434,15 +434,15 @@ const EditPetCareAnimalServicesForm = () => {
                 name="contact"
                 value={formData.contact}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
                 disabled={submitting}
               />
             </div>
 
             {/* Facebook and Website */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Facebook (Optional)
                 </label>
                 <input
@@ -450,13 +450,13 @@ const EditPetCareAnimalServicesForm = () => {
                   name="facebook"
                   value={formData.facebook}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
                   disabled={submitting}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Website (Optional)
                 </label>
                 <input
@@ -464,7 +464,7 @@ const EditPetCareAnimalServicesForm = () => {
                   name="website"
                   value={formData.website}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
                   disabled={submitting}
                 />
               </div>
@@ -481,20 +481,20 @@ const EditPetCareAnimalServicesForm = () => {
                   className="w-4 h-4 text-indigo-600 rounded"
                   disabled={submitting}
                 />
-                <span className="text-sm text-gray-700 dark:text-gray-300">Currently Available</span>
+                <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Currently Available</span>
               </label>
             </div>
 
             {/* Submit Button */}
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <button
                 type="submit"
                 disabled={submitting}
-                className="flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white font-medium py-3 rounded-lg transition flex items-center justify-center gap-2"
+                className="w-full sm:flex-1 bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white font-medium py-2.5 sm:py-3 text-sm sm:text-base rounded-lg transition flex items-center justify-center gap-2"
               >
                 {submitting ? (
                   <>
-                    <Loader className="w-5 h-5 animate-spin" />
+                    <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                     Updating...
                   </>
                 ) : (
@@ -505,7 +505,7 @@ const EditPetCareAnimalServicesForm = () => {
                 type="button"
                 onClick={() => navigate('/my-advertisements')}
                 disabled={submitting}
-                className="flex-1 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-700 disabled:bg-gray-400 text-gray-900 dark:text-white font-medium py-3 rounded-lg transition"
+                className="w-full sm:flex-1 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-700 disabled:bg-gray-400 text-gray-900 dark:text-white font-medium py-2.5 sm:py-3 text-sm sm:text-base rounded-lg transition"
               >
                 Cancel
               </button>
@@ -516,12 +516,12 @@ const EditPetCareAnimalServicesForm = () => {
 
       {/* Success Modal */}
       {showSuccessModal && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 text-center">
-            <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Success!</h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">Your profile has been updated successfully.</p>
-            <p className="text-sm text-gray-500 dark:text-gray-500">Redirecting to My Advertisements...</p>
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 sm:p-8 max-w-md w-full text-center">
+            <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-green-500 mx-auto mb-3 sm:mb-4" />
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">Success!</h2>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4">Your profile has been updated successfully.</p>
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-500">Redirecting to My Advertisements...</p>
           </div>
         </div>
       )}

@@ -244,20 +244,20 @@ const EditDonationsRaiseFund = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6">
-            <h1 className="text-3xl font-bold text-white mb-2">Edit Donation Campaign</h1>
-            <p className="text-blue-100">Update your fundraising campaign details</p>
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 sm:p-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">Edit Donation Campaign</h1>
+            <p className="text-sm sm:text-base text-blue-100">Update your fundraising campaign details</p>
           </div>
 
           {/* Step Indicator */}
-          <div className="flex justify-between items-center p-6 bg-gray-50 dark:bg-gray-700">
+          <div className="flex justify-between items-center p-4 sm:p-6 bg-gray-50 dark:bg-gray-700">
             {[1, 2, 3, 4].map((step) => (
               <div key={step} className="flex items-center">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
+                <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-sm sm:text-base font-semibold ${
                   currentStep >= step
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-400'
@@ -265,7 +265,7 @@ const EditDonationsRaiseFund = () => {
                   {step}
                 </div>
                 {step < 4 && (
-                  <div className={`w-16 h-1 mx-2 ${
+                  <div className={`w-8 sm:w-16 h-1 mx-1 sm:mx-2 ${
                     currentStep > step ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-600'
                   }`}></div>
                 )}
@@ -273,20 +273,20 @@ const EditDonationsRaiseFund = () => {
             ))}
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6">
+          <form onSubmit={handleSubmit} className="p-4 sm:p-6">
             {error && (
-              <div className="bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200 p-4 rounded-lg mb-6">
+              <div className="bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200 p-3 sm:p-4 text-sm sm:text-base rounded-lg mb-4 sm:mb-6">
                 {error}
               </div>
             )}
 
             {/* Step 1: Basic Info */}
             {currentStep === 1 && (
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
+              <div className="space-y-3 sm:space-y-4">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Basic Information</h2>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Campaign Title *
                   </label>
                   <input
@@ -294,13 +294,13 @@ const EditDonationsRaiseFund = () => {
                     name="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="Enter campaign title"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Organizer Name *
                   </label>
                   <input
@@ -308,20 +308,20 @@ const EditDonationsRaiseFund = () => {
                     name="organizer"
                     value={formData.organizer}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="Enter organizer name"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Category *
                   </label>
                   <select
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   >
                     <option value="">Select a category</option>
                     {categories.map(cat => (
@@ -331,10 +331,10 @@ const EditDonationsRaiseFund = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Campaign Images * (Maximum 4)
                   </label>
-                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4">
+                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-3 sm:p-4">
                     <input
                       type="file"
                       accept="image/*"
@@ -350,28 +350,28 @@ const EditDonationsRaiseFund = () => {
                         uploadingImage || images.length >= 4 ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                     >
-                      <Upload className="w-10 h-10 text-gray-400 mb-2" />
-                      <span className="text-sm text-gray-600 dark:text-gray-400">
+                      <Upload className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400 mb-2" />
+                      <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                         {uploadingImage ? 'Uploading...' : 'Click to upload images'}
                       </span>
                     </label>
                   </div>
 
                   {images.length > 0 && (
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 mt-3 sm:mt-4">
                       {images.map((image, index) => (
                         <div key={index} className="relative">
                           <img
                             src={image.url || image}
                             alt={`Campaign ${index + 1}`}
-                            className="w-full h-32 object-cover rounded-lg"
+                            className="w-full h-24 sm:h-32 object-cover rounded-lg"
                           />
                           <button
                             type="button"
                             onClick={() => removeImage(index)}
-                            className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full hover:bg-red-700"
+                            className="absolute top-1 sm:top-2 right-1 sm:right-2 bg-red-600 text-white p-1 rounded-full hover:bg-red-700"
                           >
-                            <X className="w-4 h-4" />
+                            <X className="w-3 h-3 sm:w-4 sm:h-4" />
                           </button>
                         </div>
                       ))}
@@ -383,18 +383,18 @@ const EditDonationsRaiseFund = () => {
 
             {/* Step 2: Location */}
             {currentStep === 2 && (
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Location Details</h2>
+              <div className="space-y-3 sm:space-y-4">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Location Details</h2>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Province *
                   </label>
                   <select
                     name="province"
                     value={formData.province}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   >
                     <option value="">Select province</option>
                     {Object.keys(provincesData).map(province => (
@@ -404,7 +404,7 @@ const EditDonationsRaiseFund = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     City *
                   </label>
                   <select
@@ -412,7 +412,7 @@ const EditDonationsRaiseFund = () => {
                     value={formData.city}
                     onChange={handleInputChange}
                     disabled={!formData.province}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
                   >
                     <option value="">Select city</option>
                     {formData.province && provincesData[formData.province]?.map(city => (
@@ -422,7 +422,7 @@ const EditDonationsRaiseFund = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Full Address *
                   </label>
                   <textarea
@@ -430,7 +430,7 @@ const EditDonationsRaiseFund = () => {
                     value={formData.address}
                     onChange={handleInputChange}
                     rows="3"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="Enter complete address"
                   ></textarea>
                 </div>
@@ -439,11 +439,11 @@ const EditDonationsRaiseFund = () => {
 
             {/* Step 3: Description */}
             {currentStep === 3 && (
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Campaign Details</h2>
+              <div className="space-y-3 sm:space-y-4">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Campaign Details</h2>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Campaign Description * ({formData.description.length}/5000)
                   </label>
                   <textarea
@@ -452,7 +452,7 @@ const EditDonationsRaiseFund = () => {
                     onChange={handleInputChange}
                     rows="10"
                     maxLength="5000"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="Describe your campaign in detail..."
                   ></textarea>
                 </div>
@@ -461,11 +461,11 @@ const EditDonationsRaiseFund = () => {
 
             {/* Step 4: Contact & Funding */}
             {currentStep === 4 && (
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Contact & Funding Information</h2>
+              <div className="space-y-3 sm:space-y-4">
+                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Contact & Funding Information</h2>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Email Address *
                   </label>
                   <input
@@ -473,13 +473,13 @@ const EditDonationsRaiseFund = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="Enter email address"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Contact Number *
                   </label>
                   <input
@@ -487,13 +487,13 @@ const EditDonationsRaiseFund = () => {
                     name="contact"
                     value={formData.contact}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="Enter contact number"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Requested Amount (LKR) *
                   </label>
                   <input
@@ -503,22 +503,22 @@ const EditDonationsRaiseFund = () => {
                     onChange={handleInputChange}
                     min="0"
                     step="0.01"
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="Enter amount in LKR"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Requested Amount (HSC)
                   </label>
                   <input
                     type="text"
                     value={calculateHSCAmount()}
                     readOnly
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300"
+                    className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-100 dark:bg-gray-600 text-gray-700 dark:text-gray-300"
                   />
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
                     Auto-calculated based on current HSC value
                   </p>
                 </div>
@@ -526,12 +526,12 @@ const EditDonationsRaiseFund = () => {
             )}
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between mt-8">
+            <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-0 mt-6 sm:mt-8">
               <button
                 type="button"
                 onClick={prevStep}
                 disabled={currentStep === 1}
-                className="flex items-center gap-2 px-6 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-white rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-white rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <ArrowLeft className="w-4 h-4" /> Previous
               </button>
@@ -540,7 +540,7 @@ const EditDonationsRaiseFund = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  className="flex items-center justify-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 >
                   Next <ArrowRight className="w-4 h-4" />
                 </button>
@@ -548,7 +548,7 @@ const EditDonationsRaiseFund = () => {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+                  className="px-4 sm:px-6 py-2 sm:py-2.5 text-sm sm:text-base bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
                 >
                   {submitting ? 'Updating...' : 'Update Campaign'}
                 </button>
@@ -561,15 +561,15 @@ const EditDonationsRaiseFund = () => {
       {/* Success Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full text-center">
-            <div className="text-green-600 text-6xl mb-4">✓</div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Success!</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 sm:p-8 max-w-md w-full text-center">
+            <div className="text-green-600 text-5xl sm:text-6xl mb-3 sm:mb-4">✓</div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2">Success!</h3>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">
               Your campaign has been updated successfully!
             </p>
             <button
               onClick={handleSuccessClose}
-              className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="w-full bg-blue-600 text-white py-2.5 sm:py-3 text-sm sm:text-base rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
               Back to My Advertisements
             </button>

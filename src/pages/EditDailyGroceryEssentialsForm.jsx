@@ -243,42 +243,42 @@ const EditDailyGroceryEssentialsForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
           <button
             onClick={() => navigate('/my-advertisements')}
             className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition"
           >
-            <ArrowLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+            <ArrowLeft className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300" />
           </button>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
             Edit Daily Grocery Essentials
           </h1>
         </div>
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-            <p className="text-red-700 dark:text-red-300">{error}</p>
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-2 sm:gap-3">
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+            <p className="text-sm sm:text-base text-red-700 dark:text-red-300">{error}</p>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 space-y-8">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
           {/* Basic Information */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Basic Information</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <input
                 type="text"
                 name="name"
                 placeholder="Business Name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <input
                 type="text"
@@ -286,7 +286,7 @@ const EditDailyGroceryEssentialsForm = () => {
                 placeholder="Specialization (e.g., Fresh & Organic)"
                 value={formData.specialization}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <input
                 type="text"
@@ -294,17 +294,17 @@ const EditDailyGroceryEssentialsForm = () => {
                 placeholder="Category (e.g., Fruits)"
                 value={formData.category}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <div className="flex items-center gap-2">
-                <DollarSign className="w-5 h-5 text-gray-500" />
+                <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
                 <input
                   type="number"
                   name="price"
                   placeholder="Price (LKR)"
                   value={formData.price}
                   onChange={handleInputChange}
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -312,26 +312,26 @@ const EditDailyGroceryEssentialsForm = () => {
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">Description</label>
             <textarea
               name="description"
               placeholder="Describe your business and products..."
               value={formData.description}
               onChange={handleInputChange}
               rows="4"
-              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Location */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Location</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Location</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <select
                 name="province"
                 value={formData.province}
                 onChange={handleProvinceChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select Province</option>
                 {Object.keys(provincesData).map(province => (
@@ -342,7 +342,7 @@ const EditDailyGroceryEssentialsForm = () => {
                 name="city"
                 value={formData.city}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select City</option>
                 {formData.province && provincesData[formData.province]?.map(city => (
@@ -354,21 +354,21 @@ const EditDailyGroceryEssentialsForm = () => {
 
           {/* Contact & Payment */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Contact & Payment</h2>
-            <div className="space-y-4">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Contact & Payment</h2>
+            <div className="space-y-3 sm:space-y-4">
               <div className="flex items-center gap-2">
-                <Phone className="w-5 h-5 text-gray-500" />
+                <Phone className="w-4 h-4 sm:w-5 sm:h-5 text-gray-500" />
                 <input
                   type="tel"
                   name="contact"
                   placeholder="Contact Number"
                   value={formData.contact}
                   onChange={handleInputChange}
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Payment Methods</label>
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">Payment Methods</label>
                 <div className="space-y-2">
                   {['cash', 'cards', 'koko'].map(method => (
                     <label key={method} className="flex items-center gap-2 cursor-pointer">
@@ -378,7 +378,7 @@ const EditDailyGroceryEssentialsForm = () => {
                         onChange={() => handlePaymentMethodChange(method)}
                         className="w-4 h-4 rounded"
                       />
-                      <span className="text-gray-700 dark:text-gray-300 capitalize">{method}</span>
+                      <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 capitalize">{method}</span>
                     </label>
                   ))}
                 </div>
@@ -389,14 +389,14 @@ const EditDailyGroceryEssentialsForm = () => {
                 placeholder="Discount (%)"
                 value={formData.discount}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
 
           {/* Additional Options */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Additional Options</h2>
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Additional Options</h2>
             <div className="space-y-3">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -406,7 +406,7 @@ const EditDailyGroceryEssentialsForm = () => {
                   onChange={handleInputChange}
                   className="w-4 h-4 rounded"
                 />
-                <span className="text-gray-700 dark:text-gray-300">Delivery Available</span>
+                <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Delivery Available</span>
               </label>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -416,7 +416,7 @@ const EditDailyGroceryEssentialsForm = () => {
                   onChange={handleInputChange}
                   className="w-4 h-4 rounded"
                 />
-                <span className="text-gray-700 dark:text-gray-300">Currently Available</span>
+                <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Currently Available</span>
               </label>
               <input
                 type="url"
@@ -424,7 +424,7 @@ const EditDailyGroceryEssentialsForm = () => {
                 placeholder="Facebook URL (Optional)"
                 value={formData.facebook}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <input
                 type="url"
@@ -432,7 +432,7 @@ const EditDailyGroceryEssentialsForm = () => {
                 placeholder="Website URL (Optional)"
                 value={formData.website}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <input
                 type="url"
@@ -440,29 +440,29 @@ const EditDailyGroceryEssentialsForm = () => {
                 placeholder="Google Maps Link (Optional)"
                 value={formData.mapLink}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
 
           {/* Images */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Images (Max 2)</h2>
-            
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-3 sm:mb-4">Images (Max 2)</h2>
+
             {/* Existing Images */}
             {existingImages.length > 0 && (
-              <div className="mb-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Current Images</p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="mb-3 sm:mb-4">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">Current Images</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-4">
                   {existingImages.map((img, index) => (
                     <div key={index} className="relative group">
-                      <img src={img.url} alt={img.alt} className="w-full h-32 object-cover rounded-lg" />
+                      <img src={img.url} alt={img.alt} className="w-full h-24 sm:h-32 object-cover rounded-lg" />
                       <button
                         type="button"
                         onClick={() => removeExistingImage(index)}
-                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition"
+                        className="absolute top-1 sm:top-2 right-1 sm:right-2 p-1 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
                       </button>
                     </div>
                   ))}
@@ -472,18 +472,18 @@ const EditDailyGroceryEssentialsForm = () => {
 
             {/* New Images */}
             {images.length > 0 && (
-              <div className="mb-4">
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">New Images</p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="mb-3 sm:mb-4">
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">New Images</p>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-4">
                   {images.map((img, index) => (
                     <div key={index} className="relative group">
-                      <img src={img.url} alt={img.alt} className="w-full h-32 object-cover rounded-lg" />
+                      <img src={img.url} alt={img.alt} className="w-full h-24 sm:h-32 object-cover rounded-lg" />
                       <button
                         type="button"
                         onClick={() => removeNewImage(index)}
-                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition"
+                        className="absolute top-1 sm:top-2 right-1 sm:right-2 p-1 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 className="w-3 h-3 sm:w-4 sm:h-4" />
                       </button>
                     </div>
                   ))}
@@ -493,9 +493,9 @@ const EditDailyGroceryEssentialsForm = () => {
 
             {/* Upload Area */}
             {existingImages.length + images.length < 2 && (
-              <label className="block border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center cursor-pointer hover:border-blue-500 transition">
-                <ImageIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-600 dark:text-gray-400">Click to upload images</p>
+              <label className="block border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 sm:p-8 text-center cursor-pointer hover:border-blue-500 transition">
+                <ImageIcon className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400 mx-auto mb-2" />
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Click to upload images</p>
                 <input
                   type="file"
                   multiple
@@ -512,16 +512,16 @@ const EditDailyGroceryEssentialsForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 rounded-lg transition flex items-center justify-center gap-2"
+            className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-2.5 sm:py-3 text-sm sm:text-base rounded-lg transition flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
-                <Loader className="w-5 h-5 animate-spin" />
+                <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                 Updating...
               </>
             ) : (
               <>
-                <Check className="w-5 h-5" />
+                <Check className="w-4 h-4 sm:w-5 sm:h-5" />
                 Update Listing
               </>
             )}

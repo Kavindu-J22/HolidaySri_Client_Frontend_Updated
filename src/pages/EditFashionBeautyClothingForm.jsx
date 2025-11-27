@@ -191,27 +191,27 @@ const EditFashionBeautyClothingForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">Edit Fashion Beauty & Clothing</h1>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 lg:p-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-6 sm:mb-8">Edit Fashion Beauty & Clothing</h1>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200 rounded-lg">
+            <div className="mb-4 sm:mb-6 p-3 sm:p-4 text-sm sm:text-base bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-200 rounded-lg">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="mb-6 p-4 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200 rounded-lg">
+            <div className="mb-4 sm:mb-6 p-3 sm:p-4 text-sm sm:text-base bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200 rounded-lg">
               Item updated successfully! Redirecting...
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Name/Business Name *
               </label>
               <input
@@ -220,13 +220,13 @@ const EditFashionBeautyClothingForm = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Specialization */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Specialization *
               </label>
               <select
@@ -234,7 +234,7 @@ const EditFashionBeautyClothingForm = () => {
                 value={formData.specialization}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Select Specialization</option>
                 {specializationOptions.map(opt => (
@@ -245,7 +245,7 @@ const EditFashionBeautyClothingForm = () => {
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Category *
               </label>
               <select
@@ -253,7 +253,7 @@ const EditFashionBeautyClothingForm = () => {
                 value={formData.category}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Select Category</option>
                 {categoryOptions.map(opt => (
@@ -264,7 +264,7 @@ const EditFashionBeautyClothingForm = () => {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Description *
               </label>
               <textarea
@@ -274,14 +274,14 @@ const EditFashionBeautyClothingForm = () => {
                 required
                 rows="5"
                 maxLength="2000"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
-              <p className="text-sm text-gray-500 mt-1">{formData.description.length}/2000</p>
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">{formData.description.length}/2000</p>
             </div>
 
             {/* Price */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Price (LKR) *
               </label>
               <input
@@ -291,14 +291,14 @@ const EditFashionBeautyClothingForm = () => {
                 onChange={handleChange}
                 required
                 min="0"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Province and City */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Province *
                 </label>
                 <select
@@ -306,7 +306,7 @@ const EditFashionBeautyClothingForm = () => {
                   value={formData.province}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Select Province</option>
                   {Object.keys(provincesAndDistricts).map(prov => (
@@ -316,7 +316,7 @@ const EditFashionBeautyClothingForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   City *
                 </label>
                 <select
@@ -325,7 +325,7 @@ const EditFashionBeautyClothingForm = () => {
                   onChange={handleChange}
                   required
                   disabled={!formData.province}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
                 >
                   <option value="">Select City</option>
                   {formData.province && provincesAndDistricts[formData.province].map(city => (
@@ -337,7 +337,7 @@ const EditFashionBeautyClothingForm = () => {
 
             {/* Payment Methods */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 sm:mb-3">
                 Payment Methods *
               </label>
               <div className="space-y-2">
@@ -349,7 +349,7 @@ const EditFashionBeautyClothingForm = () => {
                       onChange={() => handlePaymentMethodChange(method.value)}
                       className="w-4 h-4 text-blue-500 rounded"
                     />
-                    <span className="ml-2 text-gray-700 dark:text-gray-300">{method.label}</span>
+                    <span className="ml-2 text-xs sm:text-sm text-gray-700 dark:text-gray-300">{method.label}</span>
                   </label>
                 ))}
               </div>
@@ -364,12 +364,12 @@ const EditFashionBeautyClothingForm = () => {
                 onChange={handleChange}
                 className="w-4 h-4 text-blue-500 rounded"
               />
-              <label className="ml-2 text-gray-700 dark:text-gray-300">Delivery Available</label>
+              <label className="ml-2 text-xs sm:text-sm text-gray-700 dark:text-gray-300">Delivery Available</label>
             </div>
 
             {/* Contact */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Contact *
               </label>
               <input
@@ -378,13 +378,13 @@ const EditFashionBeautyClothingForm = () => {
                 value={formData.contact}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Facebook */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Facebook (Optional)
               </label>
               <input
@@ -392,13 +392,13 @@ const EditFashionBeautyClothingForm = () => {
                 name="facebook"
                 value={formData.facebook}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Website */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Website (Optional)
               </label>
               <input
@@ -406,7 +406,7 @@ const EditFashionBeautyClothingForm = () => {
                 name="website"
                 value={formData.website}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
@@ -419,15 +419,15 @@ const EditFashionBeautyClothingForm = () => {
                 onChange={handleChange}
                 className="w-4 h-4 text-blue-500 rounded"
               />
-              <label className="ml-2 text-gray-700 dark:text-gray-300">Available</label>
+              <label className="ml-2 text-xs sm:text-sm text-gray-700 dark:text-gray-300">Available</label>
             </div>
 
             {/* Images */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Images (Max 3) *
               </label>
-              <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+              <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 sm:p-6 text-center">
                 <input
                   type="file"
                   multiple
@@ -437,18 +437,18 @@ const EditFashionBeautyClothingForm = () => {
                   id="image-upload"
                 />
                 <label htmlFor="image-upload" className="cursor-pointer">
-                  <p className="text-gray-600 dark:text-gray-400">Click to upload images</p>
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Click to upload images</p>
                 </label>
               </div>
 
               {/* Existing Images */}
               {images.length > 0 && (
-                <div className="mt-4">
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Existing Images:</p>
-                  <div className="grid grid-cols-3 gap-4">
+                <div className="mt-3 sm:mt-4">
+                  <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Existing Images:</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
                     {images.map((img, idx) => (
                       <div key={idx} className="relative">
-                        <img src={img.url} alt="preview" className="w-full h-32 object-cover rounded-lg" />
+                        <img src={img.url} alt="preview" className="w-full h-24 sm:h-32 object-cover rounded-lg" />
                         <button
                           type="button"
                           onClick={() => removeImage(idx, false)}
@@ -464,12 +464,12 @@ const EditFashionBeautyClothingForm = () => {
 
               {/* New Images */}
               {newImages.length > 0 && (
-                <div className="mt-4">
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">New Images:</p>
-                  <div className="grid grid-cols-3 gap-4">
+                <div className="mt-3 sm:mt-4">
+                  <p className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">New Images:</p>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
                     {newImages.map((img, idx) => (
                       <div key={idx} className="relative">
-                        <img src={img.url} alt="preview" className="w-full h-32 object-cover rounded-lg" />
+                        <img src={img.url} alt="preview" className="w-full h-24 sm:h-32 object-cover rounded-lg" />
                         <button
                           type="button"
                           onClick={() => removeImage(idx, true)}
@@ -485,18 +485,18 @@ const EditFashionBeautyClothingForm = () => {
             </div>
 
             {/* Buttons */}
-            <div className="flex gap-4 pt-6">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 sm:pt-6">
               <button
                 type="submit"
                 disabled={submitting}
-                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-lg transition disabled:opacity-50"
+                className="w-full sm:flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 sm:py-3 text-sm sm:text-base rounded-lg transition disabled:opacity-50"
               >
                 {submitting ? 'Updating...' : 'Update Item'}
               </button>
               <button
                 type="button"
                 onClick={() => navigate('/profile', { state: { tab: 'advertisements' } })}
-                className="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-bold py-3 rounded-lg transition"
+                className="w-full sm:flex-1 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2.5 sm:py-3 text-sm sm:text-base rounded-lg transition"
               >
                 Cancel
               </button>
