@@ -257,25 +257,25 @@ const EditCurrencyExchangeForm = () => {
   const availableCities = formData.province ? provincesData[formData.province] || [] : [];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8">
+      <div className="max-w-4xl mx-auto px-3 xs:px-4">
         {/* Header */}
-        <div className="flex items-center mb-8">
+        <div className="flex items-center mb-4 sm:mb-6 lg:mb-8">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700"
+            className="flex items-center space-x-1.5 sm:space-x-2 text-sm sm:text-base text-blue-600 dark:text-blue-400 hover:text-blue-700"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Back</span>
           </button>
         </div>
 
         {/* Form Card */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        <div className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-xl shadow-lg p-4 sm:p-6 lg:p-8">
+          <h1 className="text-xl xs:text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1.5 sm:mb-2">
             Edit Currency Exchange Profile
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-6 lg:mb-8">
             Update your currency exchange profile information
           </p>
 
@@ -289,7 +289,7 @@ const EditCurrencyExchangeForm = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 lg:space-y-8">
             {/* Image Upload */}
             <div>
               <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
@@ -545,7 +545,7 @@ const EditCurrencyExchangeForm = () => {
             <button
               type="submit"
               disabled={saving}
-              className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors font-semibold disabled:opacity-50"
+              className="w-full px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors font-semibold disabled:opacity-50"
             >
               {saving ? 'Saving...' : 'Save Changes'}
             </button>

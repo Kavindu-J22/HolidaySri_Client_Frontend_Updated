@@ -250,20 +250,20 @@ const EditDecoratorsFloristsForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8 px-3 xs:px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-4 sm:mb-6 lg:mb-8 flex items-center justify-between">
           <div>
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 mb-4"
+              className="flex items-center space-x-1.5 sm:space-x-2 text-sm sm:text-base text-blue-600 hover:text-blue-700 mb-3 sm:mb-4"
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Back</span>
             </button>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Edit Profile</h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">Update your decorator/florist profile information</p>
+            <h1 className="text-xl xs:text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Edit Profile</h1>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1.5 sm:mt-2">Update your decorator/florist profile information</p>
           </div>
         </div>
 
@@ -285,7 +285,7 @@ const EditDecoratorsFloristsForm = () => {
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 lg:space-y-8">
           {/* Images Upload */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
@@ -617,15 +617,15 @@ const EditDecoratorsFloristsForm = () => {
           </div>
 
           {/* Submit Button */}
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors disabled:opacity-50 flex items-center justify-center space-x-2 font-semibold"
+              className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors disabled:opacity-50 flex items-center justify-center space-x-2 font-semibold order-1 sm:order-1"
             >
               {submitting ? (
                 <>
-                  <Loader className="w-5 h-5 animate-spin" />
+                  <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                   <span>Updating...</span>
                 </>
               ) : (
@@ -635,7 +635,7 @@ const EditDecoratorsFloristsForm = () => {
             <button
               type="button"
               onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-              className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-semibold"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-semibold order-2 sm:order-2"
             >
               Cancel
             </button>

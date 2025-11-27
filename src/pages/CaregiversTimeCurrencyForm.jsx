@@ -342,25 +342,25 @@ const CaregiversTimeCurrencyForm = () => {
   const totalSteps = 5;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-4 sm:py-6 lg:py-12 px-3 xs:px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+        <div className="text-center mb-4 sm:mb-6 lg:mb-8">
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-gray-900 mb-1.5 sm:mb-2">
             Compassionate Caregivers & Earn Time Currency
           </h1>
-          <p className="text-gray-600">
+          <p className="text-sm sm:text-base text-gray-600">
             Share your care services or find the support you need
           </p>
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-8">
+        <div className="mb-4 sm:mb-6 lg:mb-8">
           <div className="flex items-center justify-between mb-2">
             {[1, 2, 3, 4, 5].map((step) => (
               <div key={step} className="flex items-center">
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
+                  className={`w-7 h-7 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-xs sm:text-base font-semibold ${
                     step <= currentStep
                       ? 'bg-blue-600 text-white'
                       : 'bg-gray-200 text-gray-600'
@@ -370,7 +370,7 @@ const CaregiversTimeCurrencyForm = () => {
                 </div>
                 {step < totalSteps && (
                   <div
-                    className={`w-16 h-1 ${
+                    className={`w-8 sm:w-16 h-1 ${
                       step < currentStep ? 'bg-blue-600' : 'bg-gray-200'
                     }`}
                   />
@@ -378,7 +378,7 @@ const CaregiversTimeCurrencyForm = () => {
               </div>
             ))}
           </div>
-          <div className="flex justify-between text-xs text-gray-600 mt-2">
+          <div className="flex justify-between text-[10px] xs:text-xs text-gray-600 mt-2">
             <span>Basic Info</span>
             <span>Location</span>
             <span>Type</span>
@@ -395,7 +395,7 @@ const CaregiversTimeCurrencyForm = () => {
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl p-8">
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8">
           {/* Step 1: Basic Information */}
           {currentStep === 1 && (
             <div className="space-y-6">
@@ -825,12 +825,12 @@ const CaregiversTimeCurrencyForm = () => {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex justify-between mt-8 pt-6 border-t border-gray-200">
+          <div className="flex justify-between mt-4 sm:mt-6 lg:mt-8 pt-4 sm:pt-6 border-t border-gray-200">
             {currentStep > 1 && (
               <button
                 type="button"
                 onClick={handlePrevious}
-                className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
               >
                 Previous
               </button>
@@ -840,7 +840,7 @@ const CaregiversTimeCurrencyForm = () => {
               <button
                 type="button"
                 onClick={handleNext}
-                className="ml-auto px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                className="ml-auto px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors"
               >
                 Next
               </button>
@@ -848,11 +848,11 @@ const CaregiversTimeCurrencyForm = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="ml-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                className="ml-auto px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
               >
                 {loading ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin -ml-1 mr-3 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -860,8 +860,9 @@ const CaregiversTimeCurrencyForm = () => {
                   </>
                 ) : (
                   <>
-                    <CheckCircle className="mr-2" size={20} />
-                    Publish Now
+                    <CheckCircle className="mr-2" size={16} />
+                    <span className="hidden xs:inline">Publish Now</span>
+                    <span className="xs:hidden">Publish</span>
                   </>
                 )}
               </button>

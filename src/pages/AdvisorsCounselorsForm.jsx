@@ -262,19 +262,19 @@ const AdvisorsCounselorsForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-4 sm:py-6 lg:py-8 px-3 xs:px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 lg:mb-8 gap-3 sm:gap-4">
           <div>
-            <h1 className="text-4xl font-bold text-gray-800">Publish Your Profile</h1>
-            <p className="text-gray-600 mt-2">Share your expertise as an Advisor/Counselor</p>
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-gray-800">Publish Your Profile</h1>
+            <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">Share your expertise as an Advisor/Counselor</p>
           </div>
           <button
             onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-            className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+            className="flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base text-gray-600 hover:text-gray-800 transition-colors"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Back</span>
           </button>
         </div>
@@ -288,7 +288,7 @@ const AdvisorsCounselorsForm = () => {
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-8 space-y-8">
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 lg:space-y-8">
           {/* Avatar Upload */}
           <div>
             <label className="block text-lg font-semibold text-gray-800 mb-4">Profile Photo *</label>
@@ -552,11 +552,11 @@ const AdvisorsCounselorsForm = () => {
           <button
             type="submit"
             disabled={loading || images.avatar.uploading}
-            className="w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors font-semibold flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors font-semibold flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <>
-                <Loader className="w-5 h-5 animate-spin" />
+                <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                 <span>Publishing...</span>
               </>
             ) : (
