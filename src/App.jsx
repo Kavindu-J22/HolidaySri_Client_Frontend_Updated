@@ -48,6 +48,7 @@ import RenewAdvertisement from './pages/RenewAdvertisement';
 import RenewAdvertisementPayment from './pages/RenewAdvertisementPayment';
 import TransactionHistory from './pages/TransactionHistory';
 import HSDLeaderBoard from './pages/HSDLeaderBoard';
+import NotFound from './pages/NotFound';
 import TravelBuddyForm from './pages/TravelBuddyForm';
 import TravelBuddyPlatform from './pages/TravelBuddyPlatform';
 import TravelBuddyDetail from './pages/TravelBuddyDetail';
@@ -1062,8 +1063,8 @@ function App() {
                 <Route path="my-posts" element={<MyPosts />} />
               </Route>
 
-              {/* Catch all route */}
-              <Route path="*" element={<Navigate to="/" replace />} />
+              {/* 404 Not Found */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
         </Router>
