@@ -13,6 +13,7 @@ import {
   Loader,
   AlertCircle,
   ChevronLeft,
+  ChevronRight,
   MessageCircle,
   Share2,
   Copy,
@@ -43,6 +44,7 @@ const VehicleRentalsHireDetail = () => {
   const [hoverRating, setHoverRating] = useState(0);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showLiveRideModal, setShowLiveRideModal] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [editingLiveRide, setEditingLiveRide] = useState(null);
   const [liveRideForm, setLiveRideForm] = useState({
     from: '',
@@ -327,18 +329,51 @@ const VehicleRentalsHireDetail = () => {
           <div className="lg:col-span-2">
             {/* Images */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-4 sm:mb-6 lg:mb-8">
-              {listing.images && listing.images.length > 0 && (
-                <div className="relative">
+              {listing.images && listing.images.length > 0 ? (
+                <div className="relative h-48 sm:h-64 md:h-80 lg:h-96">
                   <img
-                    src={listing.images[0].url}
-                    alt={listing.name}
-                    className="w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover"
+                    src={listing.images[currentImageIndex]?.url}
+                    alt={`${listing.name} - Image ${currentImageIndex + 1}`}
+                    className="w-full h-full object-cover"
                   />
                   {listing.images.length > 1 && (
-                    <div className="absolute bottom-2 sm:bottom-4 right-2 sm:right-4 bg-black/70 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
-                      {listing.images.length} photos
-                    </div>
+                    <>
+                      {/* Left Arrow */}
+                      <button
+                        onClick={() => setCurrentImageIndex((prev) => (prev - 1 + listing.images.length) % listing.images.length)}
+                        className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1.5 sm:p-2 rounded-full transition-colors"
+                      >
+                        <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+                      </button>
+                      {/* Right Arrow */}
+                      <button
+                        onClick={() => setCurrentImageIndex((prev) => (prev + 1) % listing.images.length)}
+                        className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-1.5 sm:p-2 rounded-full transition-colors"
+                      >
+                        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                      </button>
+                      {/* Dot Indicators */}
+                      <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex space-x-1.5 sm:space-x-2">
+                        {listing.images.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setCurrentImageIndex(idx)}
+                            className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-colors ${
+                              idx === currentImageIndex ? 'bg-white' : 'bg-white/50 hover:bg-white/75'
+                            }`}
+                          />
+                        ))}
+                      </div>
+                      {/* Image Counter */}
+                      <div className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-black/70 text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
+                        {currentImageIndex + 1} / {listing.images.length}
+                      </div>
+                    </>
                   )}
+                </div>
+              ) : (
+                <div className="h-48 sm:h-64 md:h-80 lg:h-96 flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-400">
+                  No Images Available
                 </div>
               )}
             </div>
