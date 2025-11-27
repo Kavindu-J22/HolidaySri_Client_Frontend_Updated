@@ -198,21 +198,21 @@ const OtherItemsForm = () => {
   if (showSuccessModal) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
-          <div className="flex justify-center mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-4 sm:p-6 lg:p-8 max-w-md w-full text-center">
+          <div className="flex justify-center mb-4 sm:mb-6">
             <div className="bg-green-100 dark:bg-green-900/20 rounded-full p-4">
-              <Check className="w-12 h-12 text-green-600" />
+              <Check className="w-10 h-10 sm:w-12 sm:h-12 text-green-600" />
             </div>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          <h2 className="font-bold text-gray-900 dark:text-white mb-2">
             Success!
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">
             Your Other Items advertisement has been published successfully!
           </p>
           <button
             onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition"
+            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-3 sm:px-4 md:px-6 rounded-lg transition"
           >
             Back to My Advertisements
           </button>
@@ -226,26 +226,26 @@ const OtherItemsForm = () => {
       <div className="max-w-4xl mx-auto">
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-8 text-white">
-            <h1 className="text-3xl font-bold mb-2">Other Items Advertisement</h1>
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4 sm:p-6 lg:p-8 text-white">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2">Other Items Advertisement</h1>
             <p className="text-blue-100">Publish your items for sale</p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="p-8 space-y-6">
+          <form onSubmit={handleSubmit} className="p-4 sm:p-6 lg:p-8 space-y-3 sm:space-y-6">
             {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg">
+              <div className="bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg">
                 {error}
               </div>
             )}
 
             {/* Basic Information */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Basic Information</h2>
+            <div className="space-y-3 sm:space-y-4">
+              <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Basic Information</h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Item Name *
                   </label>
                   <input
@@ -253,13 +253,13 @@ const OtherItemsForm = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="e.g., Leather Backpack"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Specialization *
                   </label>
                   <input
@@ -267,13 +267,13 @@ const OtherItemsForm = () => {
                     name="specialization"
                     value={formData.specialization}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="e.g., Ergonomic design with multiple compartments"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Category *
                   </label>
                   <input
@@ -281,13 +281,13 @@ const OtherItemsForm = () => {
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="e.g., Bags & Luggage"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Price (LKR) *
                   </label>
                   <input
@@ -295,7 +295,7 @@ const OtherItemsForm = () => {
                     name="price"
                     value={formData.price}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="0.00"
                     step="0.01"
                     min="0"
@@ -304,7 +304,7 @@ const OtherItemsForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Description *
                 </label>
                 <textarea
@@ -312,26 +312,26 @@ const OtherItemsForm = () => {
                   value={formData.description}
                   onChange={handleInputChange}
                   rows="4"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="Describe your item in detail..."
                 />
               </div>
             </div>
 
             {/* Location Information */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Location</h2>
+            <div className="space-y-3 sm:space-y-4">
+              <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Location</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Province *
                   </label>
                   <select
                     name="province"
                     value={formData.province}
                     onChange={handleProvinceChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   >
                     <option value="">Select Province</option>
                     {Object.keys(provincesData).map(province => (
@@ -341,14 +341,14 @@ const OtherItemsForm = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     City *
                   </label>
                   <select
                     name="city"
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     disabled={!formData.province}
                   >
                     <option value="">Select City</option>
@@ -361,11 +361,11 @@ const OtherItemsForm = () => {
             </div>
 
             {/* Payment & Delivery */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Payment & Delivery</h2>
+            <div className="space-y-3 sm:space-y-4">
+              <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Payment & Delivery</h2>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                <label className="block font-medium text-gray-700 dark:text-gray-300 mb-3">
                   Payment Methods *
                 </label>
                 <div className="space-y-2">
@@ -400,12 +400,12 @@ const OtherItemsForm = () => {
             </div>
 
             {/* Contact Information */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Contact Information</h2>
+            <div className="space-y-3 sm:space-y-4">
+              <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Contact Information</h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Contact Number *
                   </label>
                   <input
@@ -413,13 +413,13 @@ const OtherItemsForm = () => {
                     name="contact"
                     value={formData.contact}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="Phone number or contact method"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Website (Optional)
                   </label>
                   <input
@@ -427,13 +427,13 @@ const OtherItemsForm = () => {
                     name="website"
                     value={formData.website}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="https://example.com"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                     Facebook (Optional)
                   </label>
                   <input
@@ -441,7 +441,7 @@ const OtherItemsForm = () => {
                     name="facebook"
                     value={formData.facebook}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                     placeholder="https://facebook.com/..."
                   />
                 </div>
@@ -464,11 +464,11 @@ const OtherItemsForm = () => {
             </div>
 
             {/* Images */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Images (Maximum 3)</h2>
+            <div className="space-y-3 sm:space-y-4">
+              <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Images (Maximum 3)</h2>
 
-              <div className="border-2 border-dashed border-blue-300 dark:border-blue-700 rounded-lg p-6 text-center">
-                <Upload className="w-12 h-12 text-blue-400 mx-auto mb-2" />
+              <div className="border-blue-300 dark:border-blue-700 rounded-lg p-4 sm:p-6 text-center">
+                <Upload className="w-10 h-10 sm:w-12 sm:h-12 text-blue-400 mx-auto mb-2" />
                 <p className="text-gray-600 dark:text-gray-400 mb-2">
                   Drag and drop images here or click to select
                 </p>
@@ -489,13 +489,13 @@ const OtherItemsForm = () => {
               </div>
 
               {images.length > 0 && (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                   {images.map((image, index) => (
                     <div key={index} className="relative">
                       <img
                         src={image.url}
                         alt={`Preview ${index}`}
-                        className="w-full h-32 object-cover rounded-lg"
+                        className="w-full h-24 sm:h-32 object-cover rounded-lg"
                       />
                       <button
                         type="button"
@@ -511,15 +511,15 @@ const OtherItemsForm = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="flex gap-4 pt-6">
+            <div className="flex gap-3 sm:gap-4 pt-6">
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
+                className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-3 sm:px-4 md:px-6 rounded-lg transition disabled:opacity-50"
               >
                 {loading ? (
                   <>
-                    <Loader className="w-5 h-5 animate-spin inline mr-2" />
+                    <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin inline mr-2" />
                     Publishing...
                   </>
                 ) : (
@@ -529,7 +529,7 @@ const OtherItemsForm = () => {
               <button
                 type="button"
                 onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-                className="flex-1 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-bold py-3 px-6 rounded-lg transition"
+                className="flex-1 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-bold py-3 px-3 sm:px-4 md:px-6 rounded-lg transition"
               >
                 Cancel
               </button>

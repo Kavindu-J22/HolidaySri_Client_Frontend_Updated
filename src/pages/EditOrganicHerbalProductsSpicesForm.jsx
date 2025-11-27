@@ -172,47 +172,47 @@ export default function EditOrganicHerbalProductsSpicesForm() {
     }
   };
 
-  if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+  if (loading) return <div className="flex justify-center items-center h-screen text-sm sm:text-base">Loading...</div>;
 
   return (
-    <div className={`min-h-screen py-8 px-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
+    <div className={`min-h-screen py-4 sm:py-6 lg:py-8 px-3 sm:px-4 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
       <div className="max-w-4xl mx-auto">
-        <h1 className={`text-3xl font-bold mb-8 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+        <h1 className={`text-2xl sm:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           Edit Product
         </h1>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex items-center gap-2">
-            <AlertCircle size={20} />
+          <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex items-center gap-2 text-sm sm:text-base">
+            <AlertCircle size={16} className="sm:w-5 sm:h-5 flex-shrink-0" />
             {error}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className={`space-y-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-6 rounded-lg`}>
+        <form onSubmit={handleSubmit} className={`space-y-4 sm:space-y-6 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-4 sm:p-6 rounded-lg`}>
           {/* Basic Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <input
               type="text"
               placeholder="Product Name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
             />
             <select
               value={formData.specialization}
               onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
-              className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
             >
               <option value="">Select Specialization</option>
               {specializations.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <select
               value={formData.category}
               onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-              className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
             >
               <option value="">Select Category</option>
               {categories.map(c => <option key={c} value={c}>{c}</option>)}
@@ -222,7 +222,7 @@ export default function EditOrganicHerbalProductsSpicesForm() {
               placeholder="Price (LKR)"
               value={formData.price}
               onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-              className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
             />
           </div>
 
@@ -231,15 +231,15 @@ export default function EditOrganicHerbalProductsSpicesForm() {
             value={formData.description}
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
             rows="4"
-            className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+            className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
           />
 
           {/* Location */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <select
               value={formData.province}
               onChange={handleProvinceChange}
-              className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
             >
               <option value="">Select Province</option>
               {Object.keys(provincesAndDistricts).map(p => <option key={p} value={p}>{p}</option>)}
@@ -247,7 +247,7 @@ export default function EditOrganicHerbalProductsSpicesForm() {
             <select
               value={formData.city}
               onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-              className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
             >
               <option value="">Select City</option>
               {cities.map(c => <option key={c} value={c}>{c}</option>)}
@@ -256,10 +256,10 @@ export default function EditOrganicHerbalProductsSpicesForm() {
 
           {/* Payment Methods */}
           <div>
-            <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <label className={`block mb-2 text-sm sm:text-base font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Payment Methods
             </label>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3">
               {paymentMethodsOptions.map(method => (
                 <label key={method} className="flex items-center gap-2">
                   <input
@@ -274,14 +274,14 @@ export default function EditOrganicHerbalProductsSpicesForm() {
                     }}
                     className="w-4 h-4"
                   />
-                  <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>{method}</span>
+                  <span className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>{method}</span>
                 </label>
               ))}
             </div>
           </div>
 
           {/* Toggles */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <label className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -289,7 +289,7 @@ export default function EditOrganicHerbalProductsSpicesForm() {
                 onChange={(e) => setFormData({ ...formData, deliveryAvailable: e.target.checked })}
                 className="w-4 h-4"
               />
-              <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Delivery Available</span>
+              <span className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Delivery Available</span>
             </label>
             <label className="flex items-center gap-2">
               <input
@@ -298,39 +298,39 @@ export default function EditOrganicHerbalProductsSpicesForm() {
                 onChange={(e) => setFormData({ ...formData, available: e.target.checked })}
                 className="w-4 h-4"
               />
-              <span className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>Available</span>
+              <span className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Available</span>
             </label>
           </div>
 
           {/* Contact Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
             <input
               type="tel"
               placeholder="Phone"
               value={formData.contact.phone}
               onChange={(e) => setFormData({ ...formData, contact: { ...formData.contact, phone: e.target.value } })}
-              className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
             />
             <input
               type="email"
               placeholder="Email"
               value={formData.contact.email}
               onChange={(e) => setFormData({ ...formData, contact: { ...formData.contact, email: e.target.value } })}
-              className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
             />
             <input
               type="url"
               placeholder="Facebook (optional)"
               value={formData.contact.facebook}
               onChange={(e) => setFormData({ ...formData, contact: { ...formData.contact, facebook: e.target.value } })}
-              className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
             />
             <input
               type="tel"
               placeholder="WhatsApp (optional)"
               value={formData.contact.whatsapp}
               onChange={(e) => setFormData({ ...formData, contact: { ...formData.contact, whatsapp: e.target.value } })}
-              className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+              className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
             />
           </div>
 
@@ -339,15 +339,15 @@ export default function EditOrganicHerbalProductsSpicesForm() {
             placeholder="Website (optional)"
             value={formData.website}
             onChange={(e) => setFormData({ ...formData, website: e.target.value })}
-            className={`w-full px-4 py-2 rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+            className={`w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base rounded-lg border ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
           />
 
           {/* Images */}
           <div>
-            <label className={`block mb-2 font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+            <label className={`block mb-2 text-sm sm:text-base font-semibold ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
               Product Images (Max 3)
             </label>
-            <div className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer ${isDarkMode ? 'border-gray-600 hover:border-blue-500' : 'border-gray-300 hover:border-blue-500'}`}>
+            <div className={`border-2 border-dashed rounded-lg p-4 sm:p-6 text-center cursor-pointer ${isDarkMode ? 'border-gray-600 hover:border-blue-500' : 'border-gray-300 hover:border-blue-500'}`}>
               <input
                 type="file"
                 multiple
@@ -358,21 +358,21 @@ export default function EditOrganicHerbalProductsSpicesForm() {
                 id="image-upload"
               />
               <label htmlFor="image-upload" className="cursor-pointer">
-                <Upload className="mx-auto mb-2" size={32} />
-                <p className={isDarkMode ? 'text-gray-300' : 'text-gray-600'}>Click to upload images</p>
+                <Upload className="mx-auto mb-2" size={24} />
+                <p className={`text-sm sm:text-base ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Click to upload images</p>
               </label>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 mt-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mt-3 sm:mt-4">
               {uploadedImages.map((img, idx) => (
                 <div key={idx} className="relative">
-                  <img src={img.url} alt="preview" className="w-full h-32 object-cover rounded-lg" />
+                  <img src={img.url} alt="preview" className="w-full h-24 sm:h-32 object-cover rounded-lg" />
                   <button
                     type="button"
                     onClick={() => removeImage(idx)}
                     className="absolute top-1 right-1 bg-red-500 text-white p-1 rounded-full"
                   >
-                    <X size={16} />
+                    <X size={14} className="sm:w-4 sm:h-4" />
                   </button>
                 </div>
               ))}
@@ -383,7 +383,7 @@ export default function EditOrganicHerbalProductsSpicesForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg disabled:opacity-50"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 sm:py-3 text-sm sm:text-base rounded-lg disabled:opacity-50"
           >
             {submitting ? 'Updating...' : 'Update Product'}
           </button>

@@ -300,25 +300,25 @@ const EditBooksAndMagazinesEducationalForm = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
-        <Loader className="w-12 h-12 animate-spin text-blue-600" />
+        <Loader className="w-10 h-10 sm:w-12 sm:h-12 animate-spin text-blue-600" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-6 lg:py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-4 sm:mb-8">
           <div className="flex items-center space-x-3">
             <button
               onClick={() => navigate(-1)}
               className="p-2 hover:bg-white dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
-              <ArrowLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+              <ArrowLeft className="w-4 h-4 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300" />
             </button>
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
+              <h1 className="sm:text-3xl lg:text-2xl font-bold text-gray-900 dark:text-white flex items-center space-x-2">
                 <BookOpen className="w-8 h-8 text-blue-600" />
                 <span>Edit Book/Magazine</span>
               </h1>
@@ -329,21 +329,21 @@ const EditBooksAndMagazinesEducationalForm = () => {
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+          <div className="mb-4 sm:mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
             <p className="text-red-700 dark:text-red-300">{error}</p>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 lg:p-8 space-y-3 sm:space-y-6">
           {/* Basic Information */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Basic Information</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Basic Information</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Book/Magazine Name *
                 </label>
                 <input
@@ -352,12 +352,12 @@ const EditBooksAndMagazinesEducationalForm = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="Enter book or magazine name"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Author Name *
                 </label>
                 <input
@@ -366,13 +366,13 @@ const EditBooksAndMagazinesEducationalForm = () => {
                   value={formData.author}
                   onChange={handleInputChange}
                   placeholder="Enter author name"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Description *
               </label>
               <textarea
@@ -381,14 +381,14 @@ const EditBooksAndMagazinesEducationalForm = () => {
                 onChange={handleInputChange}
                 placeholder="Describe your book or magazine in detail"
                 rows="4"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
           </div>
 
           {/* Specializations */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Specializations</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Specializations</h2>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -396,17 +396,17 @@ const EditBooksAndMagazinesEducationalForm = () => {
                 onChange={(e) => setSpecializationInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('specialization', specializationInput, setSpecializationInput))}
                 placeholder="e.g., Web Development"
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="flex-1 px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
               <button
                 type="button"
                 onClick={() => addToArray('specialization', specializationInput, setSpecializationInput)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+                className="px-4 sm:px-4 md:px-6 py-2.5 sm:py-3 sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
               >
                 <Plus className="w-4 h-4" />
               </button>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex-wrap gap-2">
               {formData.specialization.map((spec, idx) => (
                 <span key={idx} className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full flex items-center space-x-2">
                   <span>{spec}</span>
@@ -419,8 +419,8 @@ const EditBooksAndMagazinesEducationalForm = () => {
           </div>
 
           {/* Languages */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Languages</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Languages</h2>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -428,17 +428,17 @@ const EditBooksAndMagazinesEducationalForm = () => {
                 onChange={(e) => setLanguageInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('languages', languageInput, setLanguageInput))}
                 placeholder="e.g., English"
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="flex-1 px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
               <button
                 type="button"
                 onClick={() => addToArray('languages', languageInput, setLanguageInput)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+                className="px-4 sm:px-4 md:px-6 py-2.5 sm:py-3 sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
               >
                 <Plus className="w-4 h-4" />
               </button>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex-wrap gap-2">
               {formData.languages.map((lang, idx) => (
                 <span key={idx} className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full flex items-center space-x-2">
                   <span>{lang}</span>
@@ -451,8 +451,8 @@ const EditBooksAndMagazinesEducationalForm = () => {
           </div>
 
           {/* Categories */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Categories</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Categories</h2>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -460,17 +460,17 @@ const EditBooksAndMagazinesEducationalForm = () => {
                 onChange={(e) => setCategoryInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('categories', categoryInput, setCategoryInput))}
                 placeholder="e.g., Programming"
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="flex-1 px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
               <button
                 type="button"
                 onClick={() => addToArray('categories', categoryInput, setCategoryInput)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+                className="px-4 sm:px-4 md:px-6 py-2.5 sm:py-3 sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
               >
                 <Plus className="w-4 h-4" />
               </button>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex-wrap gap-2">
               {formData.categories.map((cat, idx) => (
                 <span key={idx} className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full flex items-center space-x-2">
                   <span>{cat}</span>
@@ -483,8 +483,8 @@ const EditBooksAndMagazinesEducationalForm = () => {
           </div>
 
           {/* Includes */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">What's Included</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">What's Included</h2>
             <div className="flex gap-2">
               <input
                 type="text"
@@ -492,17 +492,17 @@ const EditBooksAndMagazinesEducationalForm = () => {
                 onChange={(e) => setIncludesInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addToArray('includes', includesInput, setIncludesInput))}
                 placeholder="e.g., PDF, ePub, Code Examples"
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="flex-1 px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
               <button
                 type="button"
                 onClick={() => addToArray('includes', includesInput, setIncludesInput)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+                className="px-4 sm:px-4 md:px-6 py-2.5 sm:py-3 sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
               >
                 <Plus className="w-4 h-4" />
               </button>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex-wrap gap-2">
               {formData.includes.map((inc, idx) => (
                 <span key={idx} className="px-3 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded-full flex items-center space-x-2">
                   <span>{inc}</span>
@@ -515,16 +515,16 @@ const EditBooksAndMagazinesEducationalForm = () => {
           </div>
 
           {/* Price and Availability */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Pricing & Availability</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Pricing & Availability</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Price (LKR) *
                 </label>
                 <div className="relative">
-                  <DollarSign className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                  <DollarSign className="absolute left-3 top-3 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                   <input
                     type="number"
                     name="price"
@@ -533,13 +533,13 @@ const EditBooksAndMagazinesEducationalForm = () => {
                     placeholder="0.00"
                     min="0"
                     step="0.01"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2.5 text-sm sm:text-base border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Available
                 </label>
                 <label className="flex items-center space-x-2 cursor-pointer">
@@ -557,29 +557,29 @@ const EditBooksAndMagazinesEducationalForm = () => {
           </div>
 
           {/* Contact Information */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Contact Information</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Contact Information</h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Contact Number *
                 </label>
                 <div className="relative">
-                  <Phone className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                  <Phone className="absolute left-3 top-3 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                   <input
                     type="text"
                     name="contact"
                     value={formData.contact}
                     onChange={handleInputChange}
                     placeholder="Phone or Email"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2.5 text-sm sm:text-base border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   WhatsApp Number *
                 </label>
                 <input
@@ -588,42 +588,42 @@ const EditBooksAndMagazinesEducationalForm = () => {
                   value={formData.whatsapp}
                   onChange={handleInputChange}
                   placeholder="WhatsApp number"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Facebook (Optional)
                 </label>
                 <div className="relative">
-                  <Facebook className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                  <Facebook className="absolute left-3 top-3 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                   <input
                     type="text"
                     name="facebook"
                     value={formData.facebook}
                     onChange={handleInputChange}
                     placeholder="Facebook profile URL"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2.5 text-sm sm:text-base border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Website (Optional)
                 </label>
                 <div className="relative">
-                  <Globe className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+                  <Globe className="absolute left-3 top-3 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                   <input
                     type="text"
                     name="website"
                     value={formData.website}
                     onChange={handleInputChange}
                     placeholder="Website URL"
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                    className="w-full pl-9 sm:pl-10 pr-3 sm:pr-4 py-2.5 text-sm sm:text-base border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   />
                 </div>
               </div>
@@ -631,11 +631,11 @@ const EditBooksAndMagazinesEducationalForm = () => {
           </div>
 
           {/* Images Upload */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Images (Maximum 2) *</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Images (Maximum 2) *</h2>
             
-            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-blue-500 transition-colors">
-              <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+            <div className="border-gray-300 dark:border-gray-600 rounded-lg p-4 sm:p-6 text-center hover:border-blue-500 transition-colors">
+              <ImageIcon className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-2" />
               <p className="text-gray-600 dark:text-gray-400 mb-2">Drag and drop images or click to select</p>
               <input
                 type="file"
@@ -651,10 +651,10 @@ const EditBooksAndMagazinesEducationalForm = () => {
             </div>
 
             {images.length > 0 && (
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 {images.map((img, idx) => (
                   <div key={idx} className="relative">
-                    <img src={img.url} alt={`Preview ${idx}`} className="w-full h-40 object-cover rounded-lg" />
+                    <img src={img.url} alt={`Preview ${idx}`} className="w-full h-24 sm:h-40 object-cover rounded-lg" />
                     <button
                       type="button"
                       onClick={() => removeImage(idx)}
@@ -669,11 +669,11 @@ const EditBooksAndMagazinesEducationalForm = () => {
           </div>
 
           {/* PDF Upload */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">PDF Document (Optional)</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">PDF Document (Optional)</h2>
             
-            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center hover:border-blue-500 transition-colors">
-              <FileText className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+            <div className="border-gray-300 dark:border-gray-600 rounded-lg p-4 sm:p-6 text-center hover:border-blue-500 transition-colors">
+              <FileText className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-2" />
               <p className="text-gray-600 dark:text-gray-400 mb-2">Upload PDF document (max 50MB)</p>
               <input
                 type="file"
@@ -689,9 +689,9 @@ const EditBooksAndMagazinesEducationalForm = () => {
             </div>
 
             {pdfDocument.url && (
-              <div className="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg flex items-center justify-between">
+              <div className="p-4 bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800 rounded-lg flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <FileText className="w-5 h-5 text-green-600" />
+                  <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-green-600" />
                   <span className="text-green-700 dark:text-green-300">{pdfDocument.fileName}</span>
                 </div>
                 <button
@@ -699,34 +699,34 @@ const EditBooksAndMagazinesEducationalForm = () => {
                   onClick={() => setPdfDocument({ url: '', publicId: '', fileName: '', uploading: false })}
                   className="text-green-600 hover:text-green-700"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-4 h-4 sm:w-5 sm:h-5" />
                 </button>
               </div>
             )}
           </div>
 
           {/* Submit Button */}
-          <div className="flex gap-4 pt-6">
+          <div className="flex gap-3 sm:gap-4 pt-6">
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="flex-1 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium"
+              className="flex-1 px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all font-medium flex items-center justify-center space-x-2 disabled:opacity-50"
+              className="px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all font-medium flex items-center justify-center space-x-2 disabled:opacity-50"
             >
               {submitting ? (
                 <>
-                  <Loader className="w-5 h-5 animate-spin" />
+                  <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                   <span>Updating...</span>
                 </>
               ) : (
                 <>
-                  <BookOpen className="w-5 h-5" />
+                  <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Update Now</span>
                 </>
               )}

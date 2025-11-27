@@ -241,11 +241,11 @@ const JobOpportunitiesForm = () => {
 
   // Success Modal Component
   const SuccessModal = () => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 text-center">
+    <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 lg:p-8 max-w-md w-full mx-4 text-center">
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Success!</h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-6">Your job opportunity has been published successfully.</p>
+        <h2 className="font-bold text-gray-800 dark:text-white mb-2">Success!</h2>
+        <p className="text-gray-600 dark:text-gray-300 mb-4 sm:mb-6">Your job opportunity has been published successfully.</p>
         <button
           onClick={handleSuccessClose}
           className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition"
@@ -257,25 +257,25 @@ const JobOpportunitiesForm = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">Publish Job Opportunity</h1>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 lg:p-8">
+          <h1 className="sm:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-white mb-4 sm:mb-8">Publish Job Opportunity</h1>
 
           {error && (
-            <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <div className="mb-4 sm:mb-6 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 rounded-lg p-4">
               <div className="flex items-center space-x-2">
-                <AlertCircle className="w-5 h-5 text-red-500" />
+                <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
                 <span className="text-red-800 dark:text-red-200">{error}</span>
               </div>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-6">
             {/* Title and Company */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Job Title *
                 </label>
                 <input
@@ -284,11 +284,11 @@ const JobOpportunitiesForm = () => {
                   value={formData.title}
                   onChange={handleInputChange}
                   placeholder="e.g., Senior UX Designer"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Company Name *
                 </label>
                 <input
@@ -297,17 +297,17 @@ const JobOpportunitiesForm = () => {
                   value={formData.company}
                   onChange={handleInputChange}
                   placeholder="e.g., TechNova Solutions"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
             </div>
 
             {/* Company Logo Upload */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Company Logo *
               </label>
-              <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+              <div className="border-gray-300 dark:border-gray-600 rounded-lg p-4 sm:p-6 text-center">
                 {images.companyLogo.url ? (
                   <div className="flex items-center justify-between">
                     <img src={images.companyLogo.url} alt="Logo" className="h-20 w-20 object-cover rounded" />
@@ -316,13 +316,13 @@ const JobOpportunitiesForm = () => {
                       onClick={() => setImages(prev => ({ ...prev, companyLogo: { url: '', publicId: '' } }))}
                       className="text-red-500 hover:text-red-700"
                     >
-                      <X className="w-5 h-5" />
+                      <X className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                   </div>
                 ) : (
                   <label className="cursor-pointer">
                     <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Click to upload logo</p>
+                    <p className="text-gray-600 dark:text-gray-400">Click to upload logo</p>
                     <input
                       type="file"
                       accept="image/*"
@@ -335,9 +335,9 @@ const JobOpportunitiesForm = () => {
             </div>
 
             {/* Specialization and Type */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Specialization *
                 </label>
                 <input
@@ -346,18 +346,18 @@ const JobOpportunitiesForm = () => {
                   value={formData.specialization}
                   onChange={handleInputChange}
                   placeholder="e.g., UI/UX Design"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Employment Type *
                 </label>
                 <select
                   name="type"
                   value={formData.type}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Select Type</option>
                   <option value="Full Time">Full Time</option>
@@ -369,9 +369,9 @@ const JobOpportunitiesForm = () => {
             </div>
 
             {/* Category and Priority */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Category *
                 </label>
                 <input
@@ -380,18 +380,18 @@ const JobOpportunitiesForm = () => {
                   value={formData.category}
                   onChange={handleInputChange}
                   placeholder="e.g., Technology"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Priority *
                 </label>
                 <select
                   name="priority"
                   value={formData.priority}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Select Priority</option>
                   <option value="Urgent">Urgent</option>
@@ -403,7 +403,7 @@ const JobOpportunitiesForm = () => {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Job Description *
               </label>
               <textarea
@@ -412,14 +412,14 @@ const JobOpportunitiesForm = () => {
                 onChange={handleInputChange}
                 placeholder="Describe the job opportunity in detail..."
                 rows="5"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Salary and Work Type */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Salary/Payment (LKR) *
                 </label>
                 <input
@@ -428,18 +428,18 @@ const JobOpportunitiesForm = () => {
                   value={formData.salary}
                   onChange={handleInputChange}
                   placeholder="e.g., LKR 250,000 - 300,000"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Work Type *
                 </label>
                 <select
                   name="workType"
                   value={formData.workType}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Select Work Type</option>
                   <option value="On-site">On-site</option>
@@ -450,16 +450,16 @@ const JobOpportunitiesForm = () => {
             </div>
 
             {/* Province and City */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Province *
                 </label>
                 <select
                   name="province"
                   value={formData.province}
                   onChange={handleProvinceChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Select Province</option>
                   {Object.keys(provincesData).map(province => (
@@ -468,7 +468,7 @@ const JobOpportunitiesForm = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   City *
                 </label>
                 <select
@@ -476,7 +476,7 @@ const JobOpportunitiesForm = () => {
                   value={formData.city}
                   onChange={handleInputChange}
                   disabled={!formData.province}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
                 >
                   <option value="">Select City</option>
                   {formData.province && provincesData[formData.province]?.map(city => (
@@ -488,7 +488,7 @@ const JobOpportunitiesForm = () => {
 
             {/* Requirements */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Requirements
               </label>
               <div className="flex gap-2 mb-3">
@@ -498,17 +498,17 @@ const JobOpportunitiesForm = () => {
                   onChange={(e) => setRequirementInput(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addRequirement())}
                   placeholder="e.g., 5+ years UX design experience"
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="flex-1 px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
                 <button
                   type="button"
                   onClick={addRequirement}
-                  className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition"
+                  className="px-4 sm:px-4 md:px-6 py-2.5 sm:py-3 sm:text-base bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition"
                 >
                   Add
                 </button>
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex-wrap gap-2">
                 {formData.requirements.map((req, index) => (
                   <div key={index} className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full flex items-center gap-2">
                     <span>{req}</span>
@@ -525,9 +525,9 @@ const JobOpportunitiesForm = () => {
             </div>
 
             {/* Contact and Email */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Contact Number *
                 </label>
                 <input
@@ -536,11 +536,11 @@ const JobOpportunitiesForm = () => {
                   value={formData.contact}
                   onChange={handleInputChange}
                   placeholder="e.g., +94 71 234 5678"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Email *
                 </label>
                 <input
@@ -549,15 +549,15 @@ const JobOpportunitiesForm = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="e.g., jobs@company.com"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
             </div>
 
             {/* Website and LinkedIn */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Website (Optional)
                 </label>
                 <input
@@ -566,11 +566,11 @@ const JobOpportunitiesForm = () => {
                   value={formData.website}
                   onChange={handleInputChange}
                   placeholder="https://example.com"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   LinkedIn (Optional)
                 </label>
                 <input
@@ -579,32 +579,32 @@ const JobOpportunitiesForm = () => {
                   value={formData.linkedin}
                   onChange={handleInputChange}
                   placeholder="https://linkedin.com/company/..."
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
             </div>
 
             {/* PDF Upload */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Job Description PDF (Optional)
               </label>
-              <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+              <div className="border-gray-300 dark:border-gray-600 rounded-lg p-4 sm:p-6 text-center">
                 {images.pdfDocument.url ? (
                   <div className="flex items-center justify-between">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">PDF uploaded successfully</p>
+                    <p className="text-gray-600 dark:text-gray-400">PDF uploaded successfully</p>
                     <button
                       type="button"
                       onClick={() => setImages(prev => ({ ...prev, pdfDocument: { url: '', publicId: '' } }))}
                       className="text-red-500 hover:text-red-700"
                     >
-                      <X className="w-5 h-5" />
+                      <X className="w-4 h-4 sm:w-5 sm:h-5" />
                     </button>
                   </div>
                 ) : (
                   <label className="cursor-pointer">
                     <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Click to upload PDF</p>
+                    <p className="text-gray-600 dark:text-gray-400">Click to upload PDF</p>
                     <input
                       type="file"
                       accept=".pdf"
@@ -617,20 +617,20 @@ const JobOpportunitiesForm = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="flex gap-4">
+            <div className="flex gap-3 sm:gap-4">
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-semibold py-3 px-4 rounded-lg transition flex items-center justify-center gap-2"
+                className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-semibold py-3 px-4 rounded-lg transition flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
-                    <Loader className="w-5 h-5 animate-spin" />
+                    <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                     Publishing...
                   </>
                 ) : (
                   <>
-                    <CheckCircle className="w-5 h-5" />
+                    <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                     Publish Now
                   </>
                 )}

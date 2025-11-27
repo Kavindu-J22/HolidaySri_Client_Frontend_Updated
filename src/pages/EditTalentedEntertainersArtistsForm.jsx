@@ -247,18 +247,18 @@ const EditTalentedEntertainersArtistsForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-6 lg:py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-4 sm:mb-8">
           <div className="flex items-center space-x-4">
             <button
               onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
               className="p-2 hover:bg-white dark:hover:bg-gray-700 rounded-lg transition"
             >
-              <ArrowLeft className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+              <ArrowLeft className="w-4 h-4 sm:w-6 sm:h-6 text-gray-700 dark:text-gray-300" />
             </button>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="sm:text-3xl lg:text-2xl font-bold text-gray-900 dark:text-white">
               Edit Profile
             </h1>
           </div>
@@ -267,14 +267,14 @@ const EditTalentedEntertainersArtistsForm = () => {
         {/* Success Modal */}
         {showSuccessModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full mx-4 text-center">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 sm:p-6 lg:p-8 max-w-md w-full mx-4 text-center">
               <div className="flex justify-center mb-4">
                 <CheckCircle className="w-16 h-16 text-green-500" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              <h2 className="font-bold text-gray-900 dark:text-white mb-2">
                 Success!
               </h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
+              <p className="text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">
                 Your profile has been updated successfully. Redirecting...
               </p>
             </div>
@@ -283,20 +283,20 @@ const EditTalentedEntertainersArtistsForm = () => {
 
         {/* Form Card */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden">
-          <form onSubmit={handleSubmit} className="p-8 space-y-8">
+          <form onSubmit={handleSubmit} className="p-4 sm:p-6 lg:p-8 space-y-8">
             {/* Error Message */}
             {error && (
-              <div className="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 rounded">
+              <div className="bg-red-50 dark:bg-red-900/20 border-red-500 p-4 rounded">
                 <div className="flex items-start">
-                  <AlertCircle className="w-5 h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" />
+                  <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 mt-0.5 mr-3 flex-shrink-0" />
                   <p className="text-red-700 dark:text-red-300">{error}</p>
                 </div>
               </div>
             )}
 
             {/* Avatar Upload */}
-            <div className="space-y-4">
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white">
+            <div className="space-y-3 sm:space-y-4">
+              <label className="block font-semibold text-gray-900 dark:text-white">
                 Avatar Image <span className="text-red-500">*</span>
               </label>
               {images.avatar.url ? (
@@ -315,7 +315,7 @@ const EditTalentedEntertainersArtistsForm = () => {
                   </button>
                 </div>
               ) : (
-                <label className="flex items-center justify-center w-full px-6 py-8 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition">
+                <label className="flex items-center justify-center w-full px-3 sm:px-4 md:px-6 py-4 sm:py-6 lg:py-8 border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 transition">
                   <div className="text-center">
                     <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                     <p className="text-gray-600 dark:text-gray-400">Click to upload avatar</p>
@@ -339,7 +339,7 @@ const EditTalentedEntertainersArtistsForm = () => {
 
             {/* Name */}
             <div>
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="block font-semibold text-gray-900 dark:text-white mb-2">
                 Name <span className="text-red-500">*</span>
               </label>
               <input
@@ -347,20 +347,20 @@ const EditTalentedEntertainersArtistsForm = () => {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Specialization */}
             <div>
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="block font-semibold text-gray-900 dark:text-white mb-2">
                 Specialization <span className="text-red-500">*</span>
               </label>
               <select
                 name="specialization"
                 value={formData.specialization}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Select specialization</option>
                 {specializationOptions.map(opt => (
@@ -371,14 +371,14 @@ const EditTalentedEntertainersArtistsForm = () => {
 
             {/* Category */}
             <div>
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="block font-semibold text-gray-900 dark:text-white mb-2">
                 Category <span className="text-red-500">*</span>
               </label>
               <select
                 name="category"
                 value={formData.category}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Select category</option>
                 {categoryOptions.map(opt => (
@@ -389,7 +389,7 @@ const EditTalentedEntertainersArtistsForm = () => {
 
             {/* Description */}
             <div>
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="block font-semibold text-gray-900 dark:text-white mb-2">
                 Description <span className="text-red-500">*</span>
               </label>
               <textarea
@@ -397,13 +397,13 @@ const EditTalentedEntertainersArtistsForm = () => {
                 value={formData.description}
                 onChange={handleInputChange}
                 rows="5"
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Experience */}
             <div>
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="block font-semibold text-gray-900 dark:text-white mb-2">
                 Experience (Years) <span className="text-red-500">*</span>
               </label>
               <input
@@ -413,20 +413,20 @@ const EditTalentedEntertainersArtistsForm = () => {
                 onChange={handleInputChange}
                 min="0"
                 max="70"
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Province */}
             <div>
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="block font-semibold text-gray-900 dark:text-white mb-2">
                 Province <span className="text-red-500">*</span>
               </label>
               <select
                 name="province"
                 value={formData.province}
                 onChange={handleProvinceChange}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Select province</option>
                 {Object.keys(provincesAndDistricts).map(province => (
@@ -437,7 +437,7 @@ const EditTalentedEntertainersArtistsForm = () => {
 
             {/* City */}
             <div>
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="block font-semibold text-gray-900 dark:text-white mb-2">
                 City <span className="text-red-500">*</span>
               </label>
               <select
@@ -445,7 +445,7 @@ const EditTalentedEntertainersArtistsForm = () => {
                 value={formData.city}
                 onChange={handleInputChange}
                 disabled={!formData.province}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
               >
                 <option value="">Select city</option>
                 {formData.province && provincesAndDistricts[formData.province]?.map(city => (
@@ -456,7 +456,7 @@ const EditTalentedEntertainersArtistsForm = () => {
 
             {/* Contact */}
             <div>
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="block font-semibold text-gray-900 dark:text-white mb-2">
                 Contact Number <span className="text-red-500">*</span>
               </label>
               <input
@@ -464,7 +464,7 @@ const EditTalentedEntertainersArtistsForm = () => {
                 name="contact"
                 value={formData.contact}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
@@ -475,16 +475,16 @@ const EditTalentedEntertainersArtistsForm = () => {
                 name="available"
                 checked={formData.available}
                 onChange={handleInputChange}
-                className="w-5 h-5 text-blue-600 rounded"
+                className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 rounded"
               />
-              <label className="text-lg font-semibold text-gray-900 dark:text-white">
+              <label className="font-semibold text-gray-900 dark:text-white">
                 Currently Available
               </label>
             </div>
 
             {/* Availability */}
             <div>
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="block font-semibold text-gray-900 dark:text-white mb-2">
                 Availability Details
               </label>
               <input
@@ -492,13 +492,13 @@ const EditTalentedEntertainersArtistsForm = () => {
                 name="availability"
                 value={formData.availability}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Facebook */}
             <div>
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="block font-semibold text-gray-900 dark:text-white mb-2">
                 Facebook Profile
               </label>
               <input
@@ -506,13 +506,13 @@ const EditTalentedEntertainersArtistsForm = () => {
                 name="facebook"
                 value={formData.facebook}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Website */}
             <div>
-              <label className="block text-lg font-semibold text-gray-900 dark:text-white mb-2">
+              <label className="block font-semibold text-gray-900 dark:text-white mb-2">
                 Website
               </label>
               <input
@@ -520,20 +520,20 @@ const EditTalentedEntertainersArtistsForm = () => {
                 name="website"
                 value={formData.website}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             {/* Submit Button */}
-            <div className="flex gap-4 pt-6">
+            <div className="flex gap-3 sm:gap-4 pt-6">
               <button
                 type="submit"
                 disabled={saving}
-                className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-6 rounded-lg transition disabled:opacity-50"
+                className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-3 sm:px-4 md:px-6 rounded-lg transition disabled:opacity-50"
               >
                 {saving ? (
                   <>
-                    <Loader className="w-5 h-5 animate-spin inline mr-2" />
+                    <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin inline mr-2" />
                     Saving...
                   </>
                 ) : (
@@ -543,7 +543,7 @@ const EditTalentedEntertainersArtistsForm = () => {
               <button
                 type="button"
                 onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-                className="flex-1 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-bold py-3 px-6 rounded-lg transition"
+                className="flex-1 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-700 text-gray-900 dark:text-white font-bold py-3 px-3 sm:px-4 md:px-6 rounded-lg transition"
               >
                 Cancel
               </button>

@@ -373,17 +373,17 @@ const EditCryptoConsultingSignalsForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="mb-8">
+        <div className="mb-4 sm:mb-8">
           <button
             onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
             className="flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-4"
           >
-            <ArrowLeft className="w-5 h-5 mr-2" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             Back to My Advertisements
           </button>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="sm:text-3xl lg:text-2xl font-bold text-gray-900 dark:text-white">
             Edit Crypto Consulting & Signals
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
@@ -392,10 +392,10 @@ const EditCryptoConsultingSignalsForm = () => {
         </div>
 
         {/* Progress Steps */}
-        <div className="mb-8">
+        <div className="mb-4 sm:mb-8">
           <div className="flex items-center justify-between">
             {[1, 2, 3].map((step) => (
-              <div key={step} className="flex items-center flex-1">
+              <div key={step} className="items-center flex-1">
                 <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
                   currentStep >= step
                     ? 'bg-blue-600 text-white'
@@ -426,23 +426,23 @@ const EditCryptoConsultingSignalsForm = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 mr-3 flex-shrink-0 mt-0.5" />
+          <div className="mb-4 sm:mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 rounded-lg flex items-start">
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 mr-3 flex-shrink-0 mt-0.5" />
             <p className="text-red-600 dark:text-red-400">{error}</p>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6">
           {/* Step 1: Basic Information */}
           {currentStep === 1 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <div className="space-y-3 sm:space-y-6">
+              <h2 className="font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                 Basic Information
               </h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Name *
                 </label>
                 <input
@@ -450,21 +450,21 @@ const EditCryptoConsultingSignalsForm = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="Enter your name or business name"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Type *
                 </label>
                 <select
                   name="type"
                   value={formData.type}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   required
                 >
                   <option value="">Select Type</option>
@@ -474,7 +474,7 @@ const EditCryptoConsultingSignalsForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Specialist Areas * (Add multiple)
                 </label>
                 <div className="flex gap-2 mb-2">
@@ -483,7 +483,7 @@ const EditCryptoConsultingSignalsForm = () => {
                     value={specialistInput}
                     onChange={(e) => setSpecialistInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSpecialist())}
-                    className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="flex-1 px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="e.g., Bitcoin Expert, DeFi Specialist"
                   />
                   <button
@@ -491,14 +491,14 @@ const EditCryptoConsultingSignalsForm = () => {
                     onClick={addSpecialist}
                     className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
                   >
-                    <Plus className="w-5 h-5" />
+                    <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex-wrap gap-2">
                   {formData.specialist.map((spec, index) => (
                     <span
                       key={index}
-                      className="inline-flex items-center px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-sm"
+                      className="inline-flex items-center px-3 py-1 bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300 rounded-full text-sm"
                     >
                       {spec}
                       <button
@@ -512,21 +512,21 @@ const EditCryptoConsultingSignalsForm = () => {
                   ))}
                 </div>
                 {formData.specialist.length === 0 && (
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                  <p className="text-gray-500 dark:text-gray-400 mt-2">
                     Add at least one specialist area
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Category *
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   required
                 >
                   <option value="">Select Category</option>
@@ -540,7 +540,7 @@ const EditCryptoConsultingSignalsForm = () => {
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  className="px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
                 >
                   Next Step
                 </button>
@@ -550,13 +550,13 @@ const EditCryptoConsultingSignalsForm = () => {
 
           {/* Step 2: Details */}
           {currentStep === 2 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <div className="space-y-3 sm:space-y-6">
+              <h2 className="font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                 Service Details
               </h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Description *
                 </label>
                 <textarea
@@ -564,14 +564,14 @@ const EditCryptoConsultingSignalsForm = () => {
                   value={formData.description}
                   onChange={handleInputChange}
                   rows="6"
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="Describe your crypto consulting/signals service in detail..."
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Charges (LKR) *
                 </label>
                 <input
@@ -581,7 +581,7 @@ const EditCryptoConsultingSignalsForm = () => {
                   onChange={handleInputChange}
                   min="0"
                   step="0.01"
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="Enter your charges in LKR"
                   required
                 />
@@ -589,7 +589,7 @@ const EditCryptoConsultingSignalsForm = () => {
 
               {/* Contact Number */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Contact Number *
                 </label>
                 <input
@@ -597,25 +597,25 @@ const EditCryptoConsultingSignalsForm = () => {
                   name="contactNumber"
                   value={formData.contactNumber}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="Enter your contact number (any country)"
                   required
                 />
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <p className="text-gray-500 dark:text-gray-400 mt-1">
                   Include country code (e.g., +94771234567, +1234567890)
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     Province *
                   </label>
                   <select
                     name="province"
                     value={formData.province}
                     onChange={handleProvinceChange}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   >
                     <option value="">Select Province</option>
@@ -626,14 +626,14 @@ const EditCryptoConsultingSignalsForm = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     City *
                   </label>
                   <select
                     name="city"
                     value={formData.city}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                     disabled={!formData.province}
                   >
@@ -646,17 +646,17 @@ const EditCryptoConsultingSignalsForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Service Type * (Select at least one)
                 </label>
-                <div className="flex gap-6">
+                <div className="flex gap-3 sm:gap-4">
                   <label className="flex items-center">
                     <input
                       type="checkbox"
                       name="online"
                       checked={formData.online}
                       onChange={handleInputChange}
-                      className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     />
                     <span className="ml-2 text-gray-700 dark:text-gray-300">Online</span>
                   </label>
@@ -666,7 +666,7 @@ const EditCryptoConsultingSignalsForm = () => {
                       name="physical"
                       checked={formData.physical}
                       onChange={handleInputChange}
-                      className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                     />
                     <span className="ml-2 text-gray-700 dark:text-gray-300">Physical</span>
                   </label>
@@ -674,7 +674,7 @@ const EditCryptoConsultingSignalsForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   What's Included (Optional)
                 </label>
                 <div className="flex gap-2 mb-2">
@@ -683,7 +683,7 @@ const EditCryptoConsultingSignalsForm = () => {
                     value={includesInput}
                     onChange={(e) => setIncludesInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addIncludes())}
-                    className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                    className="flex-1 px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="e.g., 6 Modules, Portfolio Tools, Case Studies"
                   />
                   <button
@@ -691,14 +691,14 @@ const EditCryptoConsultingSignalsForm = () => {
                     onClick={addIncludes}
                     className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
                   >
-                    <Plus className="w-5 h-5" />
+                    <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex-wrap gap-2">
                   {formData.includes.map((item, index) => (
                     <span
                       key={index}
-                      className="inline-flex items-center px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-full text-sm"
+                      className="inline-flex items-center px-3 py-1 bg-green-100 dark:bg-green-900/30 dark:text-green-300 rounded-full text-sm"
                     >
                       {item}
                       <button
@@ -717,14 +717,14 @@ const EditCryptoConsultingSignalsForm = () => {
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="px-6 py-3 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors font-medium"
+                  className="px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors font-medium"
                 >
                   Previous
                 </button>
                 <button
                   type="button"
                   onClick={nextStep}
-                  className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                  className="px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
                 >
                   Next Step
                 </button>
@@ -734,16 +734,16 @@ const EditCryptoConsultingSignalsForm = () => {
 
           {/* Step 3: Media & Update */}
           {currentStep === 3 && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <div className="space-y-3 sm:space-y-6">
+              <h2 className="font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                 Media & Social Links
               </h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Service Image *
                 </label>
-                <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6">
+                <div className="border-gray-300 dark:border-gray-600 rounded-lg p-4 sm:p-6">
                   {image.url ? (
                     <div className="relative">
                       <img
@@ -756,12 +756,12 @@ const EditCryptoConsultingSignalsForm = () => {
                         onClick={() => setImage({ url: '', publicId: '', uploading: false })}
                         className="absolute top-2 right-2 p-2 bg-red-600 text-white rounded-full hover:bg-red-700"
                       >
-                        <X className="w-5 h-5" />
+                        <X className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
                     </div>
                   ) : (
                     <div className="text-center">
-                      <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                      <Upload className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-4" />
                       <label className="cursor-pointer">
                         <span className="text-blue-600 hover:text-blue-700 font-medium">
                           {image.uploading ? 'Uploading...' : 'Click to upload'}
@@ -774,7 +774,7 @@ const EditCryptoConsultingSignalsForm = () => {
                           disabled={image.uploading}
                         />
                       </label>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                      <p className="text-gray-500 dark:text-gray-400 mt-2">
                         PNG, JPG up to 5MB
                       </p>
                     </div>
@@ -783,7 +783,7 @@ const EditCryptoConsultingSignalsForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Facebook (Optional)
                 </label>
                 <input
@@ -791,13 +791,13 @@ const EditCryptoConsultingSignalsForm = () => {
                   name="facebook"
                   value={formData.facebook}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="https://facebook.com/yourpage"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Website (Optional)
                 </label>
                 <input
@@ -805,16 +805,16 @@ const EditCryptoConsultingSignalsForm = () => {
                   name="website"
                   value={formData.website}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                  className="w-full px-4 py-3 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="https://yourwebsite.com"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Courses Details PDF (Optional)
                 </label>
-                <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6">
+                <div className="border-gray-300 dark:border-gray-600 rounded-lg p-4 sm:p-6">
                   {coursesPDF.url ? (
                     <div className="flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                       <div className="flex items-center">
@@ -823,7 +823,7 @@ const EditCryptoConsultingSignalsForm = () => {
                           <p className="font-medium text-gray-900 dark:text-white">
                             {coursesPDF.fileName || 'Courses Details.pdf'}
                           </p>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">PDF Document</p>
+                          <p className="text-gray-500 dark:text-gray-400">PDF Document</p>
                         </div>
                       </div>
                       <button
@@ -831,12 +831,12 @@ const EditCryptoConsultingSignalsForm = () => {
                         onClick={() => setCoursesPDF({ url: '', publicId: '', uploading: false, fileName: '' })}
                         className="p-2 bg-red-600 text-white rounded-full hover:bg-red-700"
                       >
-                        <X className="w-5 h-5" />
+                        <X className="w-4 h-4 sm:w-5 sm:h-5" />
                       </button>
                     </div>
                   ) : (
                     <div className="text-center">
-                      <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                      <FileText className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-4" />
                       <label className="cursor-pointer">
                         <span className="text-blue-600 hover:text-blue-700 font-medium">
                           {coursesPDF.uploading ? 'Uploading...' : 'Click to upload PDF'}
@@ -849,7 +849,7 @@ const EditCryptoConsultingSignalsForm = () => {
                           disabled={coursesPDF.uploading}
                         />
                       </label>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                      <p className="text-gray-500 dark:text-gray-400 mt-2">
                         PDF up to 10MB
                       </p>
                     </div>
@@ -861,18 +861,18 @@ const EditCryptoConsultingSignalsForm = () => {
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="px-6 py-3 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors font-medium"
+                  className="px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors font-medium"
                 >
                   Previous
                 </button>
                 <button
                   type="submit"
                   disabled={loading || image.uploading || coursesPDF.uploading}
-                  className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                  className="px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
                 >
                   {loading ? (
                     <>
-                      <Loader className="w-5 h-5 mr-2 animate-spin" />
+                      <Loader className="w-4 h-4 sm:w-5 sm:h-5 mr-2 animate-spin" />
                       Updating...
                     </>
                   ) : (
@@ -887,18 +887,18 @@ const EditCryptoConsultingSignalsForm = () => {
 
       {/* Success Modal */}
       {showSuccessModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full text-center">
+        <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 lg:p-8 max-w-md w-full text-center">
             <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="w-10 h-10 text-green-600 dark:text-green-400" />
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+            <h3 className="font-bold text-gray-900 dark:text-white mb-2">
               Success!
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
+            <p className="text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">
               Your crypto consulting/signals profile has been updated successfully!
             </p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
+            <p className="text-gray-500 dark:text-gray-400">
               Redirecting to My Advertisements...
             </p>
           </div>

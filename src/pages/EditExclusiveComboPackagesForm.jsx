@@ -274,57 +274,57 @@ const EditExclusiveComboPackagesForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8">
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
-        <div className="flex items-center mb-8">
+        <div className="flex items-center mb-4 sm:mb-8">
           <button
             onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
             className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Back</span>
           </button>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white ml-4">
+          <h1 className="sm:text-3xl lg:text-2xl font-bold text-gray-900 dark:text-white ml-4">
             Edit Exclusive Combo Package
           </h1>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+          <div className="mb-4 sm:mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
             <p className="text-red-700 dark:text-red-300">{error}</p>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 space-y-8">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 lg:p-8 space-y-8">
           {/* Basic Information */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Basic Information</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Basic Information</h2>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Package Title *
               </label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Category Type *
                 </label>
                 <select
                   value={formData.categoryType}
                   onChange={(e) => setFormData(prev => ({ ...prev, categoryType: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Select Category</option>
                   {categoryTypeOptions.map(cat => (
@@ -334,7 +334,7 @@ const EditExclusiveComboPackagesForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Days *
                 </label>
                 <input
@@ -342,51 +342,51 @@ const EditExclusiveComboPackagesForm = () => {
                   min="1"
                   value={formData.days}
                   onChange={(e) => setFormData(prev => ({ ...prev, days: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Locations *
                 </label>
                 <input
                   type="text"
                   value={formData.locations}
                   onChange={(e) => setFormData(prev => ({ ...prev, locations: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Pax (Participants) *
                 </label>
                 <input
                   type="text"
                   value={formData.pax}
                   onChange={(e) => setFormData(prev => ({ ...prev, pax: e.target.value }))}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Description *
               </label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 rows="4"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Price (LKR) *
               </label>
               <input
@@ -395,16 +395,16 @@ const EditExclusiveComboPackagesForm = () => {
                 step="0.01"
                 value={formData.price}
                 onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
           </div>
 
           {/* Images Section */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Images (Max 3) *</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Images (Max 3) *</h2>
             
-            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
+            <div className="border-gray-300 dark:border-gray-600 rounded-lg p-4 sm:p-6 text-center">
               <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
               <input
                 type="file"
@@ -418,16 +418,16 @@ const EditExclusiveComboPackagesForm = () => {
               <label htmlFor="image-upload" className="cursor-pointer">
                 <span className="text-blue-600 dark:text-blue-400 hover:underline">Click to upload</span>
               </label>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              <p className="text-gray-500 dark:text-gray-400 mt-1">
                 {images.length}/3 images uploaded
               </p>
             </div>
 
             {/* Image Preview */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
               {images.map((img, idx) => (
                 <div key={idx} className="relative">
-                  <img src={img.url} alt={`Package ${idx + 1}`} className="w-full h-32 object-cover rounded-lg" />
+                  <img src={img.url} alt={`Package ${idx + 1}`} className="w-full h-24 sm:h-32 object-cover rounded-lg" />
                   <button
                     type="button"
                     onClick={() => removeImage(idx)}
@@ -441,8 +441,8 @@ const EditExclusiveComboPackagesForm = () => {
           </div>
 
           {/* Activities Section */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Activities</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Activities</h2>
             
             <div className="flex gap-2">
               <input
@@ -451,19 +451,19 @@ const EditExclusiveComboPackagesForm = () => {
                 value={activitiesInput}
                 onChange={(e) => setActivitiesInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addActivity())}
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="flex-1 px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
               <button
                 type="button"
                 onClick={addActivity}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="px-4 sm:px-4 md:px-6 py-2.5 sm:py-3 sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700"
               >
                 Add
               </button>
             </div>
 
             {/* Activity Suggestions */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex-wrap gap-2">
               {activitySuggestions.map(activity => (
                 <button
                   key={activity}
@@ -476,7 +476,7 @@ const EditExclusiveComboPackagesForm = () => {
                       }));
                     }
                   }}
-                  className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-gray-300 dark:hover:bg-gray-600"
+                  className="px-3 py-1 bg-gray-200 dark:bg-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-gray-300 dark:hover:bg-gray-600"
                 >
                   {activity}
                 </button>
@@ -484,7 +484,7 @@ const EditExclusiveComboPackagesForm = () => {
             </div>
 
             {/* Selected Activities */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex-wrap gap-2">
               {formData.activities.map((activity, idx) => (
                 <div key={idx} className="flex items-center gap-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full">
                   <span>{activity}</span>
@@ -501,8 +501,8 @@ const EditExclusiveComboPackagesForm = () => {
           </div>
 
           {/* Includes Section */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">What's Included</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">What's Included</h2>
             
             <div className="flex gap-2">
               <input
@@ -511,19 +511,19 @@ const EditExclusiveComboPackagesForm = () => {
                 value={includesInput}
                 onChange={(e) => setIncludesInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addInclude())}
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="flex-1 px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
               <button
                 type="button"
                 onClick={addInclude}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="px-4 sm:px-4 md:px-6 py-2.5 sm:py-3 sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700"
               >
                 Add
               </button>
             </div>
 
             {/* Include Suggestions */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex-wrap gap-2">
               {includeSuggestions.map(include => (
                 <button
                   key={include}
@@ -536,7 +536,7 @@ const EditExclusiveComboPackagesForm = () => {
                       }));
                     }
                   }}
-                  className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-gray-300 dark:hover:bg-gray-600"
+                  className="px-3 py-1 bg-gray-200 dark:bg-gray-700 dark:text-gray-300 rounded-full text-sm hover:bg-gray-300 dark:hover:bg-gray-600"
                 >
                   {include}
                 </button>
@@ -544,7 +544,7 @@ const EditExclusiveComboPackagesForm = () => {
             </div>
 
             {/* Selected Includes */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex-wrap gap-2">
               {formData.includes.map((include, idx) => (
                 <div key={idx} className="flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 px-3 py-1 rounded-full">
                   <span>{include}</span>
@@ -561,15 +561,15 @@ const EditExclusiveComboPackagesForm = () => {
           </div>
 
           {/* Provider Information */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Provider Information</h2>
+          <div className="space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white">Provider Information</h2>
             
             {/* Provider Avatar */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Provider Avatar *
               </label>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3 sm:gap-4">
                 {providerAvatar ? (
                   <div className="relative">
                     <img src={providerAvatar.url} alt="Provider" className="w-24 h-24 object-cover rounded-lg" />
@@ -582,8 +582,8 @@ const EditExclusiveComboPackagesForm = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
-                    <Upload className="w-6 h-6 text-gray-400" />
+                  <div className="border-gray-300 dark:border-gray-600 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
+                    <Upload className="w-4 h-4 sm:w-6 sm:h-6 text-gray-400" />
                   </div>
                 )}
                 <input
@@ -601,7 +601,7 @@ const EditExclusiveComboPackagesForm = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Provider Name *
               </label>
               <input
@@ -611,12 +611,12 @@ const EditExclusiveComboPackagesForm = () => {
                   ...prev,
                   provider: { ...prev.provider, name: e.target.value }
                 }))}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Contact (Phone/WhatsApp) *
               </label>
               <input
@@ -626,13 +626,13 @@ const EditExclusiveComboPackagesForm = () => {
                   ...prev,
                   provider: { ...prev.provider, contact: e.target.value }
                 }))}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Facebook (Optional)
                 </label>
                 <input
@@ -642,12 +642,12 @@ const EditExclusiveComboPackagesForm = () => {
                     ...prev,
                     provider: { ...prev.provider, facebook: e.target.value }
                   }))}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Website (Optional)
                 </label>
                 <input
@@ -657,27 +657,27 @@ const EditExclusiveComboPackagesForm = () => {
                     ...prev,
                     provider: { ...prev.provider, website: e.target.value }
                   }))}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 />
               </div>
             </div>
           </div>
 
           {/* Submit Button */}
-          <div className="flex gap-4">
+          <div className="flex gap-3 sm:gap-4">
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="flex items-center justify-center space-x-2 px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
             >
               {submitting ? (
                 <>
-                  <Loader className="w-5 h-5 animate-spin" />
+                  <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                   <span>Updating...</span>
                 </>
               ) : (
                 <>
-                  <CheckCircle className="w-5 h-5" />
+                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Update Package</span>
                 </>
               )}
@@ -689,13 +689,13 @@ const EditExclusiveComboPackagesForm = () => {
       {/* Success Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 lg:p-8 max-w-md w-full mx-4 text-center">
             <div className="flex justify-center mb-4">
               <div className="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
                 <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400" />
               </div>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+            <h3 className="font-bold text-gray-900 dark:text-white mb-2">
               Updated Successfully!
             </h3>
             <p className="text-gray-600 dark:text-gray-400 mb-4">

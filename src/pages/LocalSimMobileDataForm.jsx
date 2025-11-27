@@ -262,18 +262,18 @@ const LocalSimMobileDataForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-4 sm:mb-8">
           <button
             onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
             className="flex items-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-4"
           >
-            <ArrowLeft className="w-5 h-5 mr-2" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
             Back to My Advertisements
           </button>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="sm:text-3xl lg:text-2xl font-bold text-gray-900 dark:text-white">
             Publish Local SIM & Mobile Data Advertisement
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
@@ -283,17 +283,17 @@ const LocalSimMobileDataForm = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 rounded">
+          <div className="mb-4 sm:mb-6 bg-red-50 dark:bg-red-900/20 border-red-500 p-4 rounded">
             <p className="text-red-700 dark:text-red-300">{error}</p>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-6">
           {/* Logo Upload */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Company Logo *</h2>
-            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">Company Logo *</h2>
+            <div className="border-gray-300 dark:border-gray-600 rounded-lg p-4 sm:p-6">
               {logo.uploading ? (
                 <div className="flex items-center justify-center">
                   <Loader className="w-8 h-8 animate-spin text-blue-500" />
@@ -311,9 +311,9 @@ const LocalSimMobileDataForm = () => {
                   </button>
                 </div>
               ) : (
-                <label className="cursor-pointer flex flex-col items-center">
-                  <Upload className="w-12 h-12 text-gray-400 mb-2" />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Click to upload logo (Max 5MB)</span>
+                <label className="cursor-pointer flex-col items-center">
+                  <Upload className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mb-2" />
+                  <span className="text-gray-600 dark:text-gray-400">Click to upload logo (Max 5MB)</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -326,13 +326,13 @@ const LocalSimMobileDataForm = () => {
           </div>
 
           {/* Basic Information */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               {/* Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Company/Provider Name *
                 </label>
                 <input
@@ -341,14 +341,14 @@ const LocalSimMobileDataForm = () => {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="e.g., Dialog, Mobitel, Hutch"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500"
                   required
                 />
               </div>
 
               {/* Category */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Category *
                 </label>
                 <input
@@ -357,14 +357,14 @@ const LocalSimMobileDataForm = () => {
                   value={formData.category}
                   onChange={handleInputChange}
                   placeholder="e.g., Telecommunication, Mobile Network"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500"
                   required
                 />
               </div>
 
               {/* Experience Years */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Experience Years *
                 </label>
                 <input
@@ -375,14 +375,14 @@ const LocalSimMobileDataForm = () => {
                   min="0"
                   max="100"
                   placeholder="e.g., 25"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500"
                   required
                 />
               </div>
 
               {/* Contact */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Contact *
                 </label>
                 <input
@@ -391,7 +391,7 @@ const LocalSimMobileDataForm = () => {
                   value={formData.contact}
                   onChange={handleInputChange}
                   placeholder="Phone or Email (any format/country)"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500"
                   required
                 />
               </div>
@@ -399,7 +399,7 @@ const LocalSimMobileDataForm = () => {
 
             {/* Description */}
             <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Description *
               </label>
               <textarea
@@ -408,16 +408,16 @@ const LocalSimMobileDataForm = () => {
                 onChange={handleInputChange}
                 rows="6"
                 placeholder="Describe your services, coverage areas, and what makes you unique..."
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500"
                 required
               />
             </div>
           </div>
 
           {/* Specialties */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Specialties</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">Specialties</h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
               Add up to 10 specialties (e.g., 4G LTE, Broadband, Mobile Payments, International Roaming)
             </p>
 
@@ -428,19 +428,19 @@ const LocalSimMobileDataForm = () => {
                 onChange={(e) => setCurrentSpecialty(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddSpecialty())}
                 placeholder="Enter a specialty"
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500"
               />
               <button
                 type="button"
                 onClick={handleAddSpecialty}
-                className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                className="px-3 sm:px-4 md:px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
               >
                 Add
               </button>
             </div>
 
             {formData.specialties.length > 0 && (
-              <div className="flex flex-wrap gap-2">
+              <div className="flex-wrap gap-2">
                 {formData.specialties.map((specialty, index) => (
                   <div
                     key={index}
@@ -461,11 +461,11 @@ const LocalSimMobileDataForm = () => {
           </div>
 
           {/* Packages PDF Upload */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">
               Packages PDF (Optional)
             </h2>
-            <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6">
+            <div className="border-gray-300 dark:border-gray-600 rounded-lg p-4 sm:p-6">
               {packagesPDF.uploading ? (
                 <div className="flex items-center justify-center">
                   <Loader className="w-8 h-8 animate-spin text-blue-500" />
@@ -481,7 +481,7 @@ const LocalSimMobileDataForm = () => {
                         href={packagesPDF.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-blue-500 hover:underline"
+                        className="text-blue-500 hover:underline"
                       >
                         View PDF
                       </a>
@@ -496,9 +496,9 @@ const LocalSimMobileDataForm = () => {
                   </button>
                 </div>
               ) : (
-                <label className="cursor-pointer flex flex-col items-center">
-                  <Upload className="w-12 h-12 text-gray-400 mb-2" />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Click to upload PDF (Max 10MB)</span>
+                <label className="cursor-pointer flex-col items-center">
+                  <Upload className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mb-2" />
+                  <span className="text-gray-600 dark:text-gray-400">Click to upload PDF (Max 10MB)</span>
                   <input
                     type="file"
                     accept="application/pdf"
@@ -511,15 +511,15 @@ const LocalSimMobileDataForm = () => {
           </div>
 
           {/* Social Media Links */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 sm:p-6">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">
               Social Media & Website (Optional)
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               {/* Facebook */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Facebook URL
                 </label>
                 <input
@@ -528,13 +528,13 @@ const LocalSimMobileDataForm = () => {
                   value={formData.facebook}
                   onChange={handleInputChange}
                   placeholder="https://facebook.com/yourpage"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500"
                 />
               </div>
 
               {/* Website */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Website URL
                 </label>
                 <input
@@ -543,29 +543,29 @@ const LocalSimMobileDataForm = () => {
                   value={formData.website}
                   onChange={handleInputChange}
                   placeholder="https://yourwebsite.com"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500"
                 />
               </div>
             </div>
           </div>
 
           {/* Submit Button */}
-          <div className="flex justify-end gap-4">
+          <div className="flex justify-end gap-3 sm:gap-4">
             <button
               type="button"
               onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-              className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              className="px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || logo.uploading || packagesPDF.uploading}
-              className="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+              className="px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
             >
               {loading ? (
                 <>
-                  <Loader className="w-5 h-5 animate-spin mr-2" />
+                  <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin mr-2" />
                   Publishing...
                 </>
               ) : (
@@ -577,20 +577,20 @@ const LocalSimMobileDataForm = () => {
 
         {/* Success Modal */}
         {showSuccessModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full">
+          <div className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 lg:p-8 max-w-md w-full">
               <div className="text-center">
                 <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 dark:bg-green-900/30 mb-4">
                   <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                <h3 className="font-medium text-gray-900 dark:text-white mb-2">
                   Advertisement Published Successfully!
                 </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                <p className="text-gray-500 dark:text-gray-400 mb-4">
                   Your Local SIM & Mobile Data advertisement has been published and is now live.
                 </p>
                 <div className="mt-4">
-                  <div className="animate-pulse text-sm text-gray-600 dark:text-gray-400">
+                  <div className="animate-pulse text-gray-600 dark:text-gray-400">
                     Redirecting to My Advertisements...
                   </div>
                 </div>

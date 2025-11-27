@@ -254,30 +254,30 @@ const EditJobOpportunitiesForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8 px-4">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Edit Job Opportunity</h1>
+        <h1 className="sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-8">Edit Job Opportunity</h1>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+          <div className="mb-4 sm:mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3">
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
             <p className="text-red-700 dark:text-red-300">{error}</p>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-6">
           {/* Basic Information */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 space-y-4">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6 space-y-3 sm:space-y-4">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">Basic Information</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <input
                 type="text"
                 name="title"
                 placeholder="Job Title *"
                 value={formData.title}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
               <input
                 type="text"
@@ -285,24 +285,24 @@ const EditJobOpportunitiesForm = () => {
                 placeholder="Company Name *"
                 value={formData.company}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
               <input
                 type="text"
                 name="specialization"
                 placeholder="Specialization *"
                 value={formData.specialization}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
               <select
                 name="type"
                 value={formData.type}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 sm:text-base sm:py-2.5 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="">Select Employment Type *</option>
                 <option value="Full Time">Full Time</option>
@@ -314,9 +314,9 @@ const EditJobOpportunitiesForm = () => {
           </div>
 
           {/* Company Logo */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Company Logo</h2>
-            <label className="flex items-center justify-center w-full px-4 py-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-4 sm:p-6">
+            <h2 className="sm:text-xl font-semibold text-gray-900 dark:text-white mb-4">Company Logo</h2>
+            <label className="flex items-center justify-center w-full px-4 py-4 sm:py-6 lg:py-8 border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400">
               <div className="text-center">
                 <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
                 <p className="text-gray-600 dark:text-gray-400">Click to upload company logo</p>
@@ -329,7 +329,7 @@ const EditJobOpportunitiesForm = () => {
                 <button
                   type="button"
                   onClick={() => setImages(prev => ({ ...prev, companyLogo: { url: '', publicId: '' } }))}
-                  className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                  className="absolute -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -345,12 +345,12 @@ const EditJobOpportunitiesForm = () => {
           >
             {submitting ? (
               <>
-                <Loader className="w-5 h-5 animate-spin" />
+                <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                 Updating...
               </>
             ) : (
               <>
-                <CheckCircle className="w-5 h-5" />
+                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                 Update Job Opportunity
               </>
             )}

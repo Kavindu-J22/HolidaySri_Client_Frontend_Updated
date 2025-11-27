@@ -353,35 +353,35 @@ const EditFitnessHealthSpasGymForm = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 py-4 sm:py-6 lg:py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-4 sm:mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Edit Fitness Profile</h1>
+            <h1 className="sm:text-3xl lg:text-2xl font-bold text-slate-900 dark:text-white">Edit Fitness Profile</h1>
             <p className="text-slate-600 dark:text-slate-400 mt-2">Update your fitness and wellness services</p>
           </div>
           <button
             onClick={() => navigate(-1)}
             className="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors"
           >
-            <ArrowLeft className="w-6 h-6 text-slate-600 dark:text-slate-400" />
+            <ArrowLeft className="w-4 h-4 sm:w-6 sm:h-6 text-slate-600 dark:text-slate-400" />
           </button>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+          <div className="mb-4 sm:mb-6 p-4 bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
+            <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
             <p className="text-red-700 dark:text-red-300">{error}</p>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-8 space-y-6">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 rounded-xl shadow-lg p-4 sm:p-6 lg:p-8 space-y-3 sm:space-y-6">
           {/* Name */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
               Business Name *
             </label>
             <input
@@ -390,20 +390,20 @@ const EditFitnessHealthSpasGymForm = () => {
               value={formData.name}
               onChange={handleInputChange}
               placeholder="Enter business name"
-              className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+              className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
             />
           </div>
 
           {/* Type */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
               Type *
             </label>
             <select
               name="type"
               value={formData.type}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+              className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
             >
               <option value="">Select Type</option>
               <option value="Service">Service</option>
@@ -413,14 +413,14 @@ const EditFitnessHealthSpasGymForm = () => {
 
           {/* Category */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
               Category *
             </label>
             <select
               name="category"
               value={formData.category}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+              className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
             >
               <option value="">Select Category</option>
               {categoryOptions.map(cat => (
@@ -431,14 +431,14 @@ const EditFitnessHealthSpasGymForm = () => {
 
           {/* Specialization */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
               Specialization *
             </label>
             <select
               name="specialization"
               value={formData.specialization}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+              className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
             >
               <option value="">Select Specialization</option>
               {specializationOptions.map(spec => (
@@ -449,7 +449,7 @@ const EditFitnessHealthSpasGymForm = () => {
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
               Description *
             </label>
             <textarea
@@ -458,21 +458,21 @@ const EditFitnessHealthSpasGymForm = () => {
               onChange={handleInputChange}
               placeholder="Describe your services in detail"
               rows="5"
-              className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+              className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
             />
           </div>
 
           {/* Province and City */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Province *
               </label>
               <select
                 name="province"
                 value={formData.province}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
               >
                 <option value="">Select Province</option>
                 {Object.keys(provincesAndDistricts).map(province => (
@@ -482,7 +482,7 @@ const EditFitnessHealthSpasGymForm = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 City *
               </label>
               <select
@@ -490,7 +490,7 @@ const EditFitnessHealthSpasGymForm = () => {
                 value={formData.city}
                 onChange={handleInputChange}
                 disabled={!formData.province}
-                className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white disabled:opacity-50"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white disabled:opacity-50"
               >
                 <option value="">Select City</option>
                 {formData.province && provincesAndDistricts[formData.province]?.map(city => (
@@ -502,17 +502,17 @@ const EditFitnessHealthSpasGymForm = () => {
 
           {/* Avatar Upload */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
               Avatar Image *
             </label>
-            <div className="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center">
+            <div className="border-slate-300 dark:border-slate-600 rounded-lg p-4 sm:p-6 text-center">
               {images.avatar.url ? (
                 <div className="space-y-3">
                   <img src={images.avatar.url} alt="Avatar" className="w-24 h-24 rounded-lg mx-auto object-cover" />
                   <button
                     type="button"
                     onClick={() => setImages(prev => ({ ...prev, avatar: { url: '', publicId: '', uploading: false } }))}
-                    className="text-red-600 dark:text-red-400 hover:underline text-sm"
+                    className="dark:text-red-400 hover:underline text-sm"
                   >
                     Remove
                   </button>
@@ -520,7 +520,7 @@ const EditFitnessHealthSpasGymForm = () => {
               ) : (
                 <label className="cursor-pointer">
                   <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Click to upload avatar</p>
+                  <p className="text-slate-600 dark:text-slate-400">Click to upload avatar</p>
                   <input
                     type="file"
                     accept="image/*"
@@ -530,14 +530,14 @@ const EditFitnessHealthSpasGymForm = () => {
                   />
                 </label>
               )}
-              {images.avatar.uploading && <Loader className="w-5 h-5 animate-spin mx-auto text-blue-500" />}
+              {images.avatar.uploading && <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin mx-auto text-blue-500" />}
             </div>
           </div>
 
           {/* Availability */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Weekdays Hours *
               </label>
               <input
@@ -546,12 +546,12 @@ const EditFitnessHealthSpasGymForm = () => {
                 value={formData.weekdays}
                 onChange={handleInputChange}
                 placeholder="e.g., 9:00 AM - 8:00 PM"
-                className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Weekends Hours *
               </label>
               <input
@@ -560,21 +560,21 @@ const EditFitnessHealthSpasGymForm = () => {
                 value={formData.weekends}
                 onChange={handleInputChange}
                 placeholder="e.g., 10:00 AM - 6:00 PM"
-                className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
               />
             </div>
           </div>
 
           {/* Includes */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
               Services Included *
             </label>
             <div className="flex gap-2 mb-3">
               <select
                 value={includesInput}
                 onChange={(e) => setIncludesInput(e.target.value)}
-                className="flex-1 px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+                className="flex-1 px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
               >
                 <option value="">Select or type service</option>
                 {includesOptions.map(opt => (
@@ -584,14 +584,14 @@ const EditFitnessHealthSpasGymForm = () => {
               <button
                 type="button"
                 onClick={addInclude}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-4 sm:px-4 md:px-6 py-2.5 sm:py-3 sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 Add
               </button>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex-wrap gap-2">
               {formData.includes.map((inc, idx) => (
-                <span key={idx} className="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1 rounded-full text-sm flex items-center gap-2">
+                <span key={idx} className="bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300 px-3 py-1 rounded-full text-sm flex items-center gap-2">
                   {inc}
                   <button
                     type="button"
@@ -607,7 +607,7 @@ const EditFitnessHealthSpasGymForm = () => {
 
           {/* Contact */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
               Phone Number *
             </label>
             <input
@@ -616,14 +616,14 @@ const EditFitnessHealthSpasGymForm = () => {
               value={formData.contact}
               onChange={handleInputChange}
               placeholder="Enter phone number"
-              className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+              className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
             />
           </div>
 
           {/* Social Links */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Facebook (Optional)
               </label>
               <input
@@ -632,12 +632,12 @@ const EditFitnessHealthSpasGymForm = () => {
                 value={formData.facebook}
                 onChange={handleInputChange}
                 placeholder="Facebook URL"
-                className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+              <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
                 Website (Optional)
               </label>
               <input
@@ -646,25 +646,25 @@ const EditFitnessHealthSpasGymForm = () => {
                 value={formData.website}
                 onChange={handleInputChange}
                 placeholder="Website URL"
-                className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
+                className="w-full px-3 sm:px-3 md:px-6 py-2.5 text-sm sm:text-base sm:py-2.5 border-slate-300 dark:border-slate-600 rounded-lg focus:ring-blue-500 dark:bg-slate-700 dark:text-white"
               />
             </div>
           </div>
 
           {/* Packages PDF */}
           <div>
-            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            <label className="block font-semibold text-slate-700 dark:text-slate-300 mb-2">
               Packages PDF (Optional)
             </label>
-            <div className="border-2 border-dashed border-slate-300 dark:border-slate-600 rounded-lg p-6 text-center">
+            <div className="border-slate-300 dark:border-slate-600 rounded-lg p-4 sm:p-6 text-center">
               {images.packages.url ? (
                 <div className="space-y-3">
                   <CheckCircle className="w-8 h-8 text-green-600 dark:text-green-400 mx-auto" />
-                  <p className="text-sm text-slate-600 dark:text-slate-400">{images.packages.fileName}</p>
+                  <p className="text-slate-600 dark:text-slate-400">{images.packages.fileName}</p>
                   <button
                     type="button"
                     onClick={() => setImages(prev => ({ ...prev, packages: { url: '', publicId: '', fileName: '', uploading: false } }))}
-                    className="text-red-600 dark:text-red-400 hover:underline text-sm"
+                    className="dark:text-red-400 hover:underline text-sm"
                   >
                     Remove
                   </button>
@@ -672,7 +672,7 @@ const EditFitnessHealthSpasGymForm = () => {
               ) : (
                 <label className="cursor-pointer">
                   <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
-                  <p className="text-sm text-slate-600 dark:text-slate-400">Click to upload PDF</p>
+                  <p className="text-slate-600 dark:text-slate-400">Click to upload PDF</p>
                   <input
                     type="file"
                     accept=".pdf"
@@ -682,7 +682,7 @@ const EditFitnessHealthSpasGymForm = () => {
                   />
                 </label>
               )}
-              {images.packages.uploading && <Loader className="w-5 h-5 animate-spin mx-auto text-blue-500" />}
+              {images.packages.uploading && <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin mx-auto text-blue-500" />}
             </div>
           </div>
 
@@ -693,30 +693,30 @@ const EditFitnessHealthSpasGymForm = () => {
               name="available"
               checked={formData.available}
               onChange={handleInputChange}
-              className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+              className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
             />
-            <label className="ml-2 text-sm text-slate-700 dark:text-slate-300">
+            <label className="ml-2 text-slate-700 dark:text-slate-300">
               Currently Available
             </label>
           </div>
 
           {/* Submit Button */}
-          <div className="flex gap-4 pt-6">
+          <div className="flex gap-3 sm:gap-4 pt-6">
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="flex-1 px-6 py-3 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors font-semibold"
+              className="flex-1 px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors font-semibold"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
+              className="px-3 sm:px-3 md:px-6 py-2.5 sm:py-3 sm:text-base bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all font-semibold flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {submitting ? (
                 <>
-                  <Loader className="w-5 h-5 animate-spin" />
+                  <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                   Updating...
                 </>
               ) : (
@@ -730,15 +730,15 @@ const EditFitnessHealthSpasGymForm = () => {
       {/* Success Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 text-center space-y-4">
+          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-4 sm:p-6 lg:p-8 max-w-md w-full mx-4 text-center space-y-3 sm:space-y-4">
             <div className="flex justify-center">
               <CheckCircle className="w-16 h-16 text-green-600 dark:text-green-400" />
             </div>
-            <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Success!</h2>
+            <h2 className="font-bold text-slate-900 dark:text-white">Success!</h2>
             <p className="text-slate-600 dark:text-slate-400">
               Your profile has been updated successfully!
             </p>
-            <p className="text-sm text-slate-500 dark:text-slate-500">
+            <p className="text-slate-500 dark:text-slate-500">
               Redirecting to My Advertisements...
             </p>
           </div>

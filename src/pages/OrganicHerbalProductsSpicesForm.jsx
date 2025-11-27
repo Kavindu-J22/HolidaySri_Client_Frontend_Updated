@@ -247,23 +247,23 @@ const OrganicHerbalProductsSpicesForm = () => {
   const availableCities = formData.province ? provincesData[formData.province] || [] : [];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8">
+      <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <button
             onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-            className="flex items-center space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-4"
+            className="flex items-center space-x-1.5 sm:space-x-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors mb-3 sm:mb-4 text-sm sm:text-base"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Back to My Advertisements</span>
           </button>
 
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2">
               Publish Organic Herbal Products & Spices
             </h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">
               Share your organic products with customers
             </p>
           </div>
@@ -271,25 +271,25 @@ const OrganicHerbalProductsSpicesForm = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+          <div className="mb-4 sm:mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 sm:p-4">
             <div className="flex items-center space-x-2">
-              <AlertCircle className="w-5 h-5 text-red-500" />
-              <span className="text-red-800 dark:text-red-200">{error}</span>
+              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0" />
+              <span className="text-sm sm:text-base text-red-800 dark:text-red-200">{error}</span>
             </div>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
           {/* Basic Information */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">
               Basic Information
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Product Name *
                 </label>
                 <input
@@ -297,20 +297,20 @@ const OrganicHerbalProductsSpicesForm = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="Enter product name"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Specialization *
                 </label>
                 <select
                   name="specialization"
                   value={formData.specialization}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Select specialization</option>
                   {specializationOptions.map(option => (
@@ -320,14 +320,14 @@ const OrganicHerbalProductsSpicesForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Category *
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Select category</option>
                   {categoryOptions.map(option => (
@@ -337,7 +337,7 @@ const OrganicHerbalProductsSpicesForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Price (LKR) *
                 </label>
                 <input
@@ -345,7 +345,7 @@ const OrganicHerbalProductsSpicesForm = () => {
                   name="price"
                   value={formData.price}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="Enter price"
                   min="0"
                   step="0.01"
@@ -353,8 +353,8 @@ const OrganicHerbalProductsSpicesForm = () => {
               </div>
             </div>
 
-            <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <div className="mt-4 sm:mt-6">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Description *
               </label>
               <textarea
@@ -362,7 +362,7 @@ const OrganicHerbalProductsSpicesForm = () => {
                 value={formData.description}
                 onChange={handleInputChange}
                 rows="5"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 placeholder="Describe your product in detail"
               />
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -372,22 +372,22 @@ const OrganicHerbalProductsSpicesForm = () => {
           </div>
 
           {/* Location */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-              <MapPin className="w-5 h-5 mr-2" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center">
+              <MapPin className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Location
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Province *
                 </label>
                 <select
                   name="province"
                   value={formData.province}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Select province</option>
                   {Object.keys(provincesData).map(province => (
@@ -397,7 +397,7 @@ const OrganicHerbalProductsSpicesForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   City *
                 </label>
                 <select
@@ -405,7 +405,7 @@ const OrganicHerbalProductsSpicesForm = () => {
                   value={formData.city}
                   onChange={handleInputChange}
                   disabled={!formData.province}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
                 >
                   <option value="">Select city</option>
                   {availableCities.map(city => (
@@ -417,21 +417,21 @@ const OrganicHerbalProductsSpicesForm = () => {
           </div>
 
           {/* Payment Methods */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6">
               Payment Methods *
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {paymentMethodOptions.map(method => (
-                <label key={method} className="flex items-center space-x-3 cursor-pointer">
+                <label key={method} className="flex items-center space-x-2 sm:space-x-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={formData.paymentMethods.includes(method)}
                     onChange={() => handlePaymentMethodChange(method)}
                     className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                   />
-                  <span className="text-gray-700 dark:text-gray-300 capitalize">
+                  <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300 capitalize">
                     {method.replace('_', ' ')}
                   </span>
                 </label>
@@ -440,14 +440,14 @@ const OrganicHerbalProductsSpicesForm = () => {
           </div>
 
           {/* Delivery & Availability */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-              <Truck className="w-5 h-5 mr-2" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center">
+              <Truck className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Delivery & Availability
             </h2>
 
-            <div className="space-y-4">
-              <label className="flex items-center space-x-3 cursor-pointer">
+            <div className="space-y-3 sm:space-y-4">
+              <label className="flex items-center space-x-2 sm:space-x-3 cursor-pointer">
                 <input
                   type="checkbox"
                   name="deliveryAvailable"
@@ -455,10 +455,10 @@ const OrganicHerbalProductsSpicesForm = () => {
                   onChange={handleInputChange}
                   className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                 />
-                <span className="text-gray-700 dark:text-gray-300">Delivery Available</span>
+                <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">Delivery Available</span>
               </label>
 
-              <label className="flex items-center space-x-3 cursor-pointer">
+              <label className="flex items-center space-x-2 sm:space-x-3 cursor-pointer">
                 <input
                   type="checkbox"
                   name="available"
@@ -466,21 +466,21 @@ const OrganicHerbalProductsSpicesForm = () => {
                   onChange={handleInputChange}
                   className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                 />
-                <span className="text-gray-700 dark:text-gray-300">Currently Available</span>
+                <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">Currently Available</span>
               </label>
             </div>
           </div>
 
           {/* Contact Information */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-              <Phone className="w-5 h-5 mr-2" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center">
+              <Phone className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Contact Information
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Phone Number *
                 </label>
                 <input
@@ -488,13 +488,13 @@ const OrganicHerbalProductsSpicesForm = () => {
                   name="contact.phone"
                   value={formData.contact.phone}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="Enter phone number"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Email *
                 </label>
                 <input
@@ -502,13 +502,13 @@ const OrganicHerbalProductsSpicesForm = () => {
                   name="contact.email"
                   value={formData.contact.email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="Enter email"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Facebook (Optional)
                 </label>
                 <input
@@ -516,13 +516,13 @@ const OrganicHerbalProductsSpicesForm = () => {
                   name="contact.facebook"
                   value={formData.contact.facebook}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="Facebook profile URL"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   WhatsApp (Optional)
                 </label>
                 <input
@@ -530,13 +530,13 @@ const OrganicHerbalProductsSpicesForm = () => {
                   name="contact.whatsapp"
                   value={formData.contact.whatsapp}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="WhatsApp number"
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Website (Optional)
                 </label>
                 <input
@@ -544,7 +544,7 @@ const OrganicHerbalProductsSpicesForm = () => {
                   name="website"
                   value={formData.website}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="https://example.com"
                 />
               </div>
@@ -552,17 +552,17 @@ const OrganicHerbalProductsSpicesForm = () => {
           </div>
 
           {/* Images */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center">
-              <ImageIcon className="w-5 h-5 mr-2" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center">
+              <ImageIcon className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Product Images (Maximum 3)
             </h2>
 
-            <div className="mb-6">
-              <label className="flex items-center justify-center w-full px-4 py-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
+            <div className="mb-4 sm:mb-6">
+              <label className="flex items-center justify-center w-full px-4 py-4 sm:py-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors">
                 <div className="text-center">
-                  <ImageIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                  <ImageIcon className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400 mx-auto mb-2" />
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     Click to upload or drag and drop
                   </p>
                   <p className="text-xs text-gray-500 dark:text-gray-500">
@@ -581,18 +581,18 @@ const OrganicHerbalProductsSpicesForm = () => {
 
             {/* Image Preview */}
             {images.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                 {images.map((image, index) => (
                   <div key={index} className="relative group">
                     <img
                       src={image.url}
                       alt={`Preview ${index + 1}`}
-                      className="w-full h-40 object-cover rounded-lg"
+                      className="w-full h-32 sm:h-40 object-cover rounded-lg"
                     />
                     <button
                       type="button"
                       onClick={() => removeImage(index)}
-                      className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute top-2 right-2 bg-red-500 text-white p-1.5 sm:p-2 rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
                     >
                       ×
                     </button>
@@ -603,27 +603,27 @@ const OrganicHerbalProductsSpicesForm = () => {
           </div>
 
           {/* Submit Button */}
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <button
               type="button"
               onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-              className="flex-1 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              className="w-full sm:flex-1 px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full sm:flex-1 flex items-center justify-center space-x-2 px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
-                  <Loader className="w-5 h-5 animate-spin" />
+                  <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                   <span>Publishing...</span>
                 </>
               ) : (
                 <>
-                  <CheckCircle className="w-5 h-5" />
+                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Publish Now</span>
                 </>
               )}
