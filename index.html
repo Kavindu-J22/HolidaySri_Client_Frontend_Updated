@@ -32,15 +32,115 @@
         }
       })();
 
+      // Console Protection - Only in Production (not localhost)
+      (function() {
+        // Check if running in production (not localhost)
+        const isProduction = !window.location.hostname.includes('localhost') &&
+                            !window.location.hostname.includes('127.0.0.1');
+
+        if (isProduction) {
+          // Disable all console methods
+          const disableConsole = () => {
+            const noop = () => {};
+            const methods = ['log', 'debug', 'info', 'warn', 'error', 'table', 'trace', 'dir', 'dirxml', 'group', 'groupCollapsed', 'groupEnd', 'clear', 'count', 'countReset', 'assert', 'profile', 'profileEnd', 'time', 'timeLog', 'timeEnd', 'timeStamp', 'context', 'memory'];
+
+            methods.forEach(method => {
+              if (console[method]) {
+                console[method] = noop;
+              }
+            });
+          };
+
+          // Detect DevTools opening
+          const detectDevTools = () => {
+            const threshold = 160;
+            const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+            const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+
+            if (widthThreshold || heightThreshold) {
+              // DevTools detected - redirect or show warning
+              document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Arial;"><h1>Access Denied</h1></div>';
+              window.location.reload();
+            }
+          };
+
+          // Prevent right-click
+          document.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            return false;
+          });
+
+          // Prevent keyboard shortcuts for DevTools
+          document.addEventListener('keydown', (e) => {
+            // F12
+            if (e.keyCode === 123) {
+              e.preventDefault();
+              return false;
+            }
+            // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+              e.preventDefault();
+              return false;
+            }
+            // Ctrl+U (view source)
+            if (e.ctrlKey && e.keyCode === 85) {
+              e.preventDefault();
+              return false;
+            }
+            // Cmd+Option+I (Mac)
+            if (e.metaKey && e.altKey && e.keyCode === 73) {
+              e.preventDefault();
+              return false;
+            }
+            // Cmd+Option+J (Mac)
+            if (e.metaKey && e.altKey && e.keyCode === 74) {
+              e.preventDefault();
+              return false;
+            }
+            // Cmd+Option+C (Mac)
+            if (e.metaKey && e.altKey && e.keyCode === 67) {
+              e.preventDefault();
+              return false;
+            }
+          });
+
+          // Anti-debugging
+          const antiDebug = () => {
+            const start = new Date();
+            debugger;
+            const end = new Date();
+            if (end - start > 100) {
+              window.location.reload();
+            }
+          };
+
+          // Initialize protection
+          disableConsole();
+
+          // Check for DevTools periodically
+          setInterval(detectDevTools, 1000);
+          setInterval(antiDebug, 2000);
+
+          // Disable console on window load
+          window.addEventListener('load', disableConsole);
+        }
+      })();
+
       // Register Service Worker for PWA
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
-              console.log('Service Worker registered successfully:', registration.scope);
+              // Only log in development
+              if (window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')) {
+                console.log('Service Worker registered successfully:', registration.scope);
+              }
             })
             .catch((error) => {
-              console.log('Service Worker registration failed:', error);
+              // Only log in development
+              if (window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1')) {
+                console.log('Service Worker registration failed:', error);
+              }
             });
         });
       }
