@@ -151,7 +151,20 @@ const HotelsAccommodationsForm = () => {
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
-    
+
+    // Enforce max 5 stars validation
+    if (name === 'howManyStars') {
+      const numValue = parseInt(value, 10);
+      if (numValue > 5) {
+        setFormData(prev => ({ ...prev, [name]: 5 }));
+        return;
+      }
+      if (numValue < 1 && value !== '') {
+        setFormData(prev => ({ ...prev, [name]: 1 }));
+        return;
+      }
+    }
+
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
       setFormData(prev => ({
@@ -930,51 +943,244 @@ const HotelsAccommodationsForm = () => {
               {/* Policies */}
               <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Policies</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                {/* Check-in/Check-out Times */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   <div>
-                    <label className="block text-sm text-gray-700 dark:text-gray-300 mb-2">Check-in Time</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Check-in Time</label>
                     <input
                       type="text"
                       name="policies.checkInTime"
                       value={formData.policies.checkInTime}
                       onChange={handleInputChange}
+                      placeholder="e.g., 2:00 PM"
                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm text-gray-700 dark:text-gray-300 mb-2">Check-out Time</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Check-out Time</label>
                     <input
                       type="text"
                       name="policies.checkOutTime"
                       value={formData.policies.checkOutTime}
                       onChange={handleInputChange}
+                      placeholder="e.g., 12:00 PM"
                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
                     />
                   </div>
                 </div>
 
-                <div className="mt-4 space-y-3">
-                  {['allowsLiquor', 'allowsSmoking', 'pets', 'parties'].map((policy) => (
-                    <label key={policy} className="flex items-center space-x-2">
-                      <input
-                        type="checkbox"
-                        name={`policies.${policy}`}
-                        checked={formData.policies[policy]}
-                        onChange={handleInputChange}
-                        className="w-4 h-4 text-blue-600 rounded"
-                      />
-                      <span className="text-sm text-gray-700 dark:text-gray-300 capitalize">
-                        {policy.replace(/([A-Z])/g, ' $1').trim()}
-                      </span>
+                {/* Property Rules */}
+                <div className="mb-6">
+                  <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Property Rules</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <label className="flex items-center space-x-2 p-3 border border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <input type="checkbox" name="policies.allowsLiquor" checked={formData.policies.allowsLiquor} onChange={handleInputChange} className="w-4 h-4 text-blue-600 rounded" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">🍷 Allows Liquor</span>
                     </label>
-                  ))}
+                    <label className="flex items-center space-x-2 p-3 border border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <input type="checkbox" name="policies.allowsSmoking" checked={formData.policies.allowsSmoking} onChange={handleInputChange} className="w-4 h-4 text-blue-600 rounded" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">🚬 Allows Smoking</span>
+                    </label>
+                    <label className="flex items-center space-x-2 p-3 border border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <input type="checkbox" name="policies.pets" checked={formData.policies.pets} onChange={handleInputChange} className="w-4 h-4 text-blue-600 rounded" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">🐾 Pets Allowed</span>
+                    </label>
+                    <label className="flex items-center space-x-2 p-3 border border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <input type="checkbox" name="policies.parties" checked={formData.policies.parties} onChange={handleInputChange} className="w-4 h-4 text-blue-600 rounded" />
+                      <span className="text-sm text-gray-700 dark:text-gray-300">🎉 Parties Allowed</span>
+                    </label>
+                  </div>
                 </div>
 
-                <div className="mt-4">
-                  <label className="block text-sm text-gray-700 dark:text-gray-300 mb-2">Accepted Payment Methods</label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {['Card', 'Cash', 'Bank Transfer', 'Mobile Payment'].map((method) => (
-                      <label key={method} className="flex items-center space-x-2">
+                {/* Conditional Policy Details */}
+                {formData.policies.pets && (
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Pet Policy Details</label>
+                    <textarea
+                      name="policies.petPolicyDetails"
+                      value={formData.policies.petPolicyDetails}
+                      onChange={handleInputChange}
+                      placeholder="Specify pet rules, restrictions, and any additional charges..."
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                      rows="2"
+                    />
+                  </div>
+                )}
+
+                {formData.policies.parties && (
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Party Policy Details</label>
+                    <textarea
+                      name="policies.partyPolicyDetails"
+                      value={formData.policies.partyPolicyDetails}
+                      onChange={handleInputChange}
+                      placeholder="Specify party rules, noise restrictions, and any additional charges..."
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                      rows="2"
+                    />
+                  </div>
+                )}
+
+                {/* Age Restriction */}
+                <div className="mb-6 p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                  <label className="flex items-center space-x-2 mb-3">
+                    <input type="checkbox" name="policies.ageRestriction" checked={formData.policies.ageRestriction} onChange={handleInputChange} className="w-4 h-4 text-blue-600 rounded" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Age Restriction Applies</span>
+                  </label>
+                  {formData.policies.ageRestriction && (
+                    <div className="ml-6">
+                      <label className="block text-sm text-gray-700 dark:text-gray-300 mb-2">Minimum Check-in Age</label>
+                      <input
+                        type="number"
+                        name="policies.minimumCheckInAge"
+                        value={formData.policies.minimumCheckInAge}
+                        onChange={handleInputChange}
+                        min="1"
+                        className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Damage Deposit */}
+                <div className="mb-6 p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                  <label className="flex items-center space-x-2 mb-3">
+                    <input type="checkbox" name="policies.damageDeposit" checked={formData.policies.damageDeposit} onChange={handleInputChange} className="w-4 h-4 text-blue-600 rounded" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Damage Deposit Required</span>
+                  </label>
+                  {formData.policies.damageDeposit && (
+                    <div className="ml-6">
+                      <label className="block text-sm text-gray-700 dark:text-gray-300 mb-2">Deposit Amount (LKR)</label>
+                      <input
+                        type="number"
+                        name="policies.damageDepositAmount"
+                        value={formData.policies.damageDepositAmount}
+                        onChange={handleInputChange}
+                        min="0"
+                        className="w-40 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Tax & Charges */}
+                <div className="mb-6 p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
+                  <label className="flex items-center space-x-2 mb-3">
+                    <input type="checkbox" name="policies.taxAndCharges" checked={formData.policies.taxAndCharges} onChange={handleInputChange} className="w-4 h-4 text-blue-600 rounded" />
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Additional Tax & Charges Apply</span>
+                  </label>
+                  {formData.policies.taxAndCharges && (
+                    <div className="ml-6">
+                      <label className="block text-sm text-gray-700 dark:text-gray-300 mb-2">Tax & Charges Amount (%)</label>
+                      <input
+                        type="number"
+                        name="policies.taxAndChargesAmount"
+                        value={formData.policies.taxAndChargesAmount}
+                        onChange={handleInputChange}
+                        min="0"
+                        max="100"
+                        className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Policy Text Fields */}
+                <div className="space-y-4 mb-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Cancellation Policy</label>
+                    <textarea
+                      name="policies.cancellationPolicy"
+                      value={formData.policies.cancellationPolicy}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                      rows="2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Child Policy</label>
+                    <textarea
+                      name="policies.childPolicy"
+                      value={formData.policies.childPolicy}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                      rows="2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Refund Policy</label>
+                    <textarea
+                      name="policies.refundPolicy"
+                      value={formData.policies.refundPolicy}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                      rows="2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">No-Show Policy</label>
+                    <textarea
+                      name="policies.noShowPolicy"
+                      value={formData.policies.noShowPolicy}
+                      onChange={handleInputChange}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                      rows="2"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Early Check-in Policy</label>
+                      <textarea
+                        name="policies.earlyCheckInPolicy"
+                        value={formData.policies.earlyCheckInPolicy}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                        rows="2"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Late Check-out Policy</label>
+                      <textarea
+                        name="policies.lateCheckOutPolicy"
+                        value={formData.policies.lateCheckOutPolicy}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                        rows="2"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Quiet Hours</label>
+                      <input
+                        type="text"
+                        name="policies.quietHours"
+                        value={formData.policies.quietHours}
+                        onChange={handleInputChange}
+                        placeholder="e.g., 10:00 PM - 7:00 AM"
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Additional Charges Info</label>
+                      <input
+                        type="text"
+                        name="policies.additionalCharges"
+                        value={formData.policies.additionalCharges}
+                        onChange={handleInputChange}
+                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Payment Methods */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Accepted Payment Methods</label>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {['Card', 'Cash', 'Bank Transfer', 'Mobile Payment', 'PayPal', 'Crypto', 'Cheque', 'Other'].map((method) => (
+                      <label key={method} className="flex items-center space-x-2 p-2 border border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
                         <input
                           type="checkbox"
                           checked={formData.policies.acceptedPaymentMethods.includes(method)}
