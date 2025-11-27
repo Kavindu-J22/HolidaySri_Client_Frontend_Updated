@@ -346,22 +346,22 @@ const VehicleRepairsMechanicsForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-6 lg:py-8 px-3 sm:px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-4 sm:mb-6 lg:mb-8">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-4"
+            className="flex items-center space-x-1.5 sm:space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-3 sm:mb-4 text-sm sm:text-base"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Back</span>
           </button>
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white flex items-center space-x-3">
-            <Wrench className="w-8 h-8 text-blue-600" />
+          <h1 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 dark:text-white flex items-center space-x-2 sm:space-x-3">
+            <Wrench className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-blue-600" />
             <span>Vehicle Repairs & Mechanics</span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">Publish your vehicle repair services</p>
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1.5 sm:mt-2">Publish your vehicle repair services</p>
         </div>
 
         {/* Success Modal */}
@@ -375,26 +375,26 @@ const VehicleRepairsMechanicsForm = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+          <div className="mb-4 sm:mb-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 sm:p-4">
             <div className="flex items-center space-x-2">
-              <AlertCircle className="w-5 h-5 text-red-500" />
-              <span className="text-red-800 dark:text-red-200">{error}</span>
+              <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500" />
+              <span className="text-sm sm:text-base text-red-800 dark:text-red-200">{error}</span>
             </div>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-8">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 lg:space-y-8">
           {/* Personal Information */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
-              <User className="w-5 h-5" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center space-x-2">
+              <User className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Personal Information</span>
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Full Name *
                 </label>
                 <input
@@ -402,13 +402,13 @@ const VehicleRepairsMechanicsForm = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="Enter your full name"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Experience (Years) *
                 </label>
                 <input
@@ -418,38 +418,38 @@ const VehicleRepairsMechanicsForm = () => {
                   onChange={handleInputChange}
                   min="0"
                   max="70"
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="0"
                 />
               </div>
             </div>
 
             {/* Avatar Upload */}
-            <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <div className="mt-4 sm:mt-6">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Profile Photo *
               </label>
-              <div className="flex items-center space-x-4">
+              <div className="flex flex-col sm:flex-row items-center space-y-3 sm:space-y-0 sm:space-x-4">
                 {images.avatar.url && (
                   <div className="relative">
                     <img
                       src={images.avatar.url}
                       alt="Avatar"
-                      className="w-24 h-24 rounded-lg object-cover"
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-lg object-cover"
                     />
                     <button
                       type="button"
                       onClick={() => setImages(prev => ({ ...prev, avatar: { url: '', publicId: '', uploading: false } }))}
                       className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
                     >
-                      <X className="w-4 h-4" />
+                      <X className="w-3 h-3 sm:w-4 sm:h-4" />
                     </button>
                   </div>
                 )}
-                <label className="flex-1 flex items-center justify-center px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400">
+                <label className="w-full sm:flex-1 flex items-center justify-center px-3 py-2.5 sm:px-4 sm:py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400">
                   <div className="text-center">
-                    <ImageIcon className="w-6 h-6 text-gray-400 mx-auto mb-2" />
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                    <ImageIcon className="w-5 h-5 sm:w-6 sm:h-6 text-gray-400 mx-auto mb-1 sm:mb-2" />
+                    <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                       {images.avatar.uploading ? 'Uploading...' : 'Click to upload'}
                     </span>
                   </div>
@@ -466,15 +466,15 @@ const VehicleRepairsMechanicsForm = () => {
           </div>
 
           {/* Professional Details */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
-              <Wrench className="w-5 h-5" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center space-x-2">
+              <Wrench className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Professional Details</span>
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Specialization *
                 </label>
                 <input
@@ -482,20 +482,20 @@ const VehicleRepairsMechanicsForm = () => {
                   name="specialization"
                   value={formData.specialization}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
-                  placeholder="e.g., Engine Repair, Transmission, Brake System"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  placeholder="e.g., Engine Repair"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Category *
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Select a category</option>
                   {VEHICLE_REPAIR_CATEGORIES.map(cat => (
@@ -505,8 +505,8 @@ const VehicleRepairsMechanicsForm = () => {
               </div>
             </div>
 
-            <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <div className="mt-4 sm:mt-6">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Description *
               </label>
               <textarea
@@ -514,29 +514,29 @@ const VehicleRepairsMechanicsForm = () => {
                 value={formData.description}
                 onChange={handleInputChange}
                 rows="4"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 placeholder="Describe your experience, expertise, and services..."
               />
             </div>
 
             {/* Services */}
-            <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <div className="mt-4 sm:mt-6">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Services Offered *
               </label>
-              <div className="flex gap-2 mb-3">
+              <div className="flex flex-col sm:flex-row gap-2 mb-2 sm:mb-3">
                 <input
                   type="text"
                   value={serviceInput}
                   onChange={(e) => setServiceInput(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addService())}
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="flex-1 px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="e.g., Engine Diagnostics"
                 />
                 <button
                   type="button"
                   onClick={addService}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center space-x-1"
+                  className="px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center space-x-1"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add</span>
@@ -544,14 +544,14 @@ const VehicleRepairsMechanicsForm = () => {
               </div>
               <div className="flex flex-wrap gap-2">
                 {formData.services.map((service, index) => (
-                  <div key={index} className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full flex items-center space-x-2">
-                    <span>{service}</span>
+                  <div key={index} className="bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full flex items-center space-x-1.5 sm:space-x-2">
+                    <span className="text-xs sm:text-sm break-all">{service}</span>
                     <button
                       type="button"
                       onClick={() => removeService(index)}
-                      className="hover:text-red-600"
+                      className="hover:text-red-600 flex-shrink-0"
                     >
-                      <X className="w-4 h-4" />
+                      <X className="w-3 h-3 sm:w-4 sm:h-4" />
                     </button>
                   </div>
                 ))}
@@ -560,22 +560,22 @@ const VehicleRepairsMechanicsForm = () => {
           </div>
 
           {/* Location & Contact */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
-              <MapPin className="w-5 h-5" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center space-x-2">
+              <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Location & Contact</span>
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Province *
                 </label>
                 <select
                   name="province"
                   value={formData.province}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 >
                   <option value="">Select Province</option>
                   {Object.keys(provincesData).map(province => (
@@ -585,14 +585,14 @@ const VehicleRepairsMechanicsForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   City *
                 </label>
                 <select
                   name="city"
                   value={formData.city}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   disabled={!formData.province}
                 >
                   <option value="">Select City</option>
@@ -603,8 +603,8 @@ const VehicleRepairsMechanicsForm = () => {
               </div>
             </div>
 
-            <div className="mt-6">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <div className="mt-4 sm:mt-6">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                 Contact Number *
               </label>
               <input
@@ -612,14 +612,14 @@ const VehicleRepairsMechanicsForm = () => {
                 name="contact"
                 value={formData.contact}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 placeholder="Enter contact number"
               />
             </div>
 
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="mt-4 sm:mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Website (Optional)
                 </label>
                 <input
@@ -627,13 +627,13 @@ const VehicleRepairsMechanicsForm = () => {
                   name="website"
                   value={formData.website}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="https://example.com"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Facebook (Optional)
                 </label>
                 <input
@@ -641,7 +641,7 @@ const VehicleRepairsMechanicsForm = () => {
                   name="facebook"
                   value={formData.facebook}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="https://facebook.com/..."
                 />
               </div>
@@ -649,15 +649,15 @@ const VehicleRepairsMechanicsForm = () => {
           </div>
 
           {/* Availability */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
-              <Clock className="w-5 h-5" />
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center space-x-2">
+              <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>Availability</span>
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Weekdays *
                 </label>
                 <input
@@ -665,13 +665,13 @@ const VehicleRepairsMechanicsForm = () => {
                   name="weekdays"
                   value={formData.availability.weekdays}
                   onChange={handleAvailabilityChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="e.g., 8:00 AM - 6:00 PM"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5 sm:mb-2">
                   Weekends *
                 </label>
                 <input
@@ -679,14 +679,14 @@ const VehicleRepairsMechanicsForm = () => {
                   name="weekends"
                   value={formData.availability.weekends}
                   onChange={handleAvailabilityChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="e.g., 9:00 AM - 3:00 PM"
                 />
               </div>
             </div>
 
-            <div className="mt-6">
-              <label className="flex items-center space-x-3">
+            <div className="mt-4 sm:mt-6">
+              <label className="flex items-center space-x-2 sm:space-x-3">
                 <input
                   type="checkbox"
                   name="available"
@@ -694,22 +694,22 @@ const VehicleRepairsMechanicsForm = () => {
                   onChange={handleInputChange}
                   className="w-4 h-4 text-blue-600 rounded"
                 />
-                <span className="text-gray-700 dark:text-gray-300">Currently Available</span>
+                <span className="text-xs sm:text-sm text-gray-700 dark:text-gray-300">Currently Available</span>
               </label>
             </div>
           </div>
 
           {/* Gallery Images */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center space-x-2">
-              <ImageIcon className="w-5 h-5" />
-              <span>Gallery Images (Max 4) *</span>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+            <h2 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-4 sm:mb-6 flex items-center space-x-2">
+              <ImageIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-sm sm:text-base">Gallery Images (Max 4) *</span>
             </h2>
 
-            <label className="flex items-center justify-center px-4 py-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400">
+            <label className="flex items-center justify-center px-3 py-4 sm:px-4 sm:py-6 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400">
               <div className="text-center">
-                <ImageIcon className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <ImageIcon className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400 mx-auto mb-1.5 sm:mb-2" />
+                <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   Click to upload images
                 </span>
               </div>
@@ -723,20 +723,20 @@ const VehicleRepairsMechanicsForm = () => {
               />
             </label>
 
-            <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="mt-3 sm:mt-4 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
               {images.gallery.map((image, index) => (
                 <div key={index} className="relative">
                   <img
                     src={image.url}
                     alt={`Gallery ${index + 1}`}
-                    className="w-full h-24 rounded-lg object-cover"
+                    className="w-full h-20 sm:h-24 rounded-lg object-cover"
                   />
                   <button
                     type="button"
                     onClick={() => removeGalleryImage(index)}
                     className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-3 h-3 sm:w-4 sm:h-4" />
                   </button>
                 </div>
               ))}
@@ -744,27 +744,27 @@ const VehicleRepairsMechanicsForm = () => {
           </div>
 
           {/* Submit Button */}
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
             <button
               type="button"
               onClick={() => navigate(-1)}
-              className="flex-1 px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              className="w-full sm:flex-1 px-4 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors flex items-center justify-center space-x-2"
+              className="w-full sm:flex-1 px-4 py-2.5 sm:px-6 sm:py-3 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 transition-colors flex items-center justify-center space-x-2"
             >
               {loading ? (
                 <>
-                  <Loader className="w-5 h-5 animate-spin" />
+                  <Loader className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
                   <span>Publishing...</span>
                 </>
               ) : (
                 <>
-                  <FileText className="w-5 h-5" />
+                  <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Publish Now</span>
                 </>
               )}
