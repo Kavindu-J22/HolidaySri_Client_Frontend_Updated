@@ -186,10 +186,10 @@ const AdvisorsCounselorsForm = () => {
   // Success Modal Component
   const SuccessModal = () => (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center">
+      <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 text-center">
         <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Success!</h2>
-        <p className="text-gray-600 mb-6">Your advisor/counselor profile has been published successfully.</p>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Success!</h2>
+        <p className="text-gray-600 dark:text-gray-400 mb-6">Your advisor/counselor profile has been published successfully.</p>
         <button
           onClick={() => {
             setShowSuccessModal(false);
@@ -262,17 +262,17 @@ const AdvisorsCounselorsForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-4 sm:py-6 lg:py-8 px-3 xs:px-4 sm:px-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800 py-4 sm:py-6 lg:py-8 px-3 xs:px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 lg:mb-8 gap-3 sm:gap-4">
           <div>
-            <h1 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-gray-800">Publish Your Profile</h1>
-            <p className="text-sm sm:text-base text-gray-600 mt-1 sm:mt-2">Share your expertise as an Advisor/Counselor</p>
+            <h1 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white">Publish Your Profile</h1>
+            <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1 sm:mt-2">Share your expertise as an Advisor/Counselor</p>
           </div>
           <button
             onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-            className="flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base text-gray-600 hover:text-gray-800 transition-colors"
+            className="flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Back</span>
@@ -281,32 +281,32 @@ const AdvisorsCounselorsForm = () => {
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start space-x-3">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-            <p className="text-red-700">{error}</p>
+          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
+            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+            <p className="text-red-700 dark:text-red-400">{error}</p>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-lg p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 lg:space-y-8">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 lg:space-y-8">
           {/* Avatar Upload */}
           <div>
-            <label className="block text-lg font-semibold text-gray-800 mb-4">Profile Photo *</label>
+            <label className="block text-lg font-semibold text-gray-800 dark:text-white mb-4">Profile Photo *</label>
             <div className="flex items-center space-x-6">
               {images.avatar.url && (
                 <img
                   src={images.avatar.url}
                   alt="Avatar preview"
-                  className="w-24 h-24 rounded-full object-cover border-4 border-blue-200"
+                  className="w-24 h-24 rounded-full object-cover border-4 border-blue-200 dark:border-blue-600"
                 />
               )}
-              <label className="flex-1 flex items-center justify-center px-6 py-4 border-2 border-dashed border-blue-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
+              <label className="flex-1 flex items-center justify-center px-6 py-4 border-2 border-dashed border-blue-300 dark:border-blue-600 rounded-lg cursor-pointer hover:border-blue-500 dark:hover:border-blue-400 transition-colors bg-white dark:bg-gray-700">
                 <div className="text-center">
-                  <Upload className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                  <p className="text-sm font-medium text-gray-700">
+                  <Upload className="w-8 h-8 text-blue-600 dark:text-blue-400 mx-auto mb-2" />
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     {images.avatar.uploading ? 'Uploading...' : 'Click to upload'}
                   </p>
-                  <p className="text-xs text-gray-500">PNG, JPG up to 5MB</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG up to 5MB</p>
                 </div>
                 <input
                   type="file"
@@ -322,18 +322,18 @@ const AdvisorsCounselorsForm = () => {
           {/* Personal Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name *</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Full Name *</label>
               <input
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Experience (Years) *</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Experience (Years) *</label>
               <input
                 type="number"
                 name="experience"
@@ -341,7 +341,7 @@ const AdvisorsCounselorsForm = () => {
                 onChange={handleInputChange}
                 min="0"
                 max="70"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 required
               />
             </div>
@@ -350,26 +350,26 @@ const AdvisorsCounselorsForm = () => {
           {/* Specialization and Category */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Specialization *</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Specialization *</label>
               <input
                 type="text"
                 name="specialization"
                 value={formData.specialization}
                 onChange={handleInputChange}
                 placeholder="e.g., Career Counseling, Life Coaching"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Category *</label>
               <input
                 type="text"
                 name="category"
                 value={formData.category}
                 onChange={handleInputChange}
                 placeholder="e.g., Consultation, Coaching"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
                 required
               />
             </div>
@@ -377,14 +377,14 @@ const AdvisorsCounselorsForm = () => {
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Description *</label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Description *</label>
             <textarea
               name="description"
               value={formData.description}
               onChange={handleInputChange}
               rows="5"
               placeholder="Describe your expertise, services, and approach..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
               required
             />
           </div>
@@ -392,12 +392,12 @@ const AdvisorsCounselorsForm = () => {
           {/* Location */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Province *</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Province *</label>
               <select
                 name="province"
                 value={formData.province}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 required
               >
                 <option value="">Select Province</option>
@@ -407,13 +407,13 @@ const AdvisorsCounselorsForm = () => {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">City *</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">City *</label>
               <select
                 name="city"
                 value={formData.city}
                 onChange={handleInputChange}
                 disabled={!formData.province}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:bg-gray-100 dark:disabled:bg-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 required
               >
                 <option value="">Select City</option>
@@ -427,40 +427,40 @@ const AdvisorsCounselorsForm = () => {
           {/* Contact Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Contact Number *</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Contact Number *</label>
               <input
                 type="text"
                 name="contact"
                 value={formData.contact}
                 onChange={handleInputChange}
                 placeholder="+94 77 123 4567"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Website (Optional)</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Website (Optional)</label>
               <input
                 type="url"
                 name="website"
                 value={formData.website}
                 onChange={handleInputChange}
                 placeholder="https://example.com"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
           </div>
 
           {/* Facebook */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">Facebook Profile (Optional)</label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Facebook Profile (Optional)</label>
             <input
               type="url"
               name="facebook"
               value={formData.facebook}
               onChange={handleInputChange}
               placeholder="https://facebook.com/..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
 
@@ -474,13 +474,13 @@ const AdvisorsCounselorsForm = () => {
                 onChange={handleInputChange}
                 className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
               />
-              <span className="text-sm font-semibold text-gray-700">Available for Consultations</span>
+              <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Available for Consultations</span>
             </label>
           </div>
 
           {/* Weekdays */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-3">Available Weekdays</label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Available Weekdays</label>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
               {['Mon', 'Tue', 'Wed', 'Thu', 'Fri'].map(day => (
                 <label key={day} className="flex items-center space-x-2 cursor-pointer">
@@ -490,7 +490,7 @@ const AdvisorsCounselorsForm = () => {
                     onChange={() => handleWeekdayChange(day)}
                     className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                   />
-                  <span className="text-sm text-gray-700">{day}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{day}</span>
                 </label>
               ))}
             </div>
@@ -498,7 +498,7 @@ const AdvisorsCounselorsForm = () => {
 
           {/* Weekends */}
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-3">Available Weekends</label>
+            <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">Available Weekends</label>
             <div className="grid grid-cols-2 gap-3">
               {['Sat', 'Sun'].map(day => (
                 <label key={day} className="flex items-center space-x-2 cursor-pointer">
@@ -508,7 +508,7 @@ const AdvisorsCounselorsForm = () => {
                     onChange={() => handleWeekendChange(day)}
                     className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
                   />
-                  <span className="text-sm text-gray-700">{day}</span>
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{day}</span>
                 </label>
               ))}
             </div>
@@ -517,11 +517,11 @@ const AdvisorsCounselorsForm = () => {
           {/* Time Slots */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <label className="block text-sm font-semibold text-gray-700">Available Time Slots</label>
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300">Available Time Slots</label>
               <button
                 type="button"
                 onClick={handleAddTime}
-                className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
               >
                 + Add Time Slot
               </button>
@@ -534,12 +534,12 @@ const AdvisorsCounselorsForm = () => {
                     value={time}
                     onChange={(e) => handleTimeChange(index, e.target.value)}
                     placeholder="e.g., 8:00 AM - 11:00 AM"
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
                   />
                   <button
                     type="button"
                     onClick={() => handleRemoveTime(index)}
-                    className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    className="px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
                   >
                     Remove
                   </button>

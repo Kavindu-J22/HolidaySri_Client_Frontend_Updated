@@ -259,7 +259,7 @@ const EditAdvisorsCounselorsProfile = () => {
         <div className="flex items-center space-x-3 sm:space-x-4 mb-4 sm:mb-6 lg:mb-8">
           <button
             onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-            className="flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base text-gray-600 hover:text-gray-800 transition-colors"
+            className="flex items-center space-x-1.5 sm:space-x-2 px-3 sm:px-4 py-1.5 sm:py-2 text-sm sm:text-base text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>Back</span>
@@ -269,9 +269,9 @@ const EditAdvisorsCounselorsProfile = () => {
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start space-x-3">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-            <p className="text-red-700">{error}</p>
+          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg flex items-start space-x-3">
+            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+            <p className="text-red-700 dark:text-red-400">{error}</p>
           </div>
         )}
 
@@ -287,7 +287,7 @@ const EditAdvisorsCounselorsProfile = () => {
                 <img
                   src={images.avatar.url}
                   alt="Avatar"
-                  className="w-24 h-24 rounded-full object-cover border-2 border-blue-200"
+                  className="w-24 h-24 rounded-full object-cover border-2 border-blue-200 dark:border-blue-600"
                 />
               )}
               <label className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer transition-colors">
@@ -330,7 +330,7 @@ const EditAdvisorsCounselorsProfile = () => {
               value={formData.specialization}
               onChange={handleInputChange}
               placeholder="e.g., Career Counseling, Life Coaching"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
               required
             />
           </div>
@@ -346,7 +346,7 @@ const EditAdvisorsCounselorsProfile = () => {
               value={formData.category}
               onChange={handleInputChange}
               placeholder="e.g., Consultation, Coaching"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
               required
             />
           </div>
@@ -433,7 +433,7 @@ const EditAdvisorsCounselorsProfile = () => {
               value={formData.contact}
               onChange={handleInputChange}
               placeholder="Phone or contact method"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
               required
             />
           </div>
@@ -450,7 +450,7 @@ const EditAdvisorsCounselorsProfile = () => {
                 value={formData.website}
                 onChange={handleInputChange}
                 placeholder="https://example.com"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
 
@@ -464,7 +464,7 @@ const EditAdvisorsCounselorsProfile = () => {
                 value={formData.facebook}
                 onChange={handleInputChange}
                 placeholder="https://facebook.com/..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
               />
             </div>
           </div>
@@ -495,7 +495,7 @@ const EditAdvisorsCounselorsProfile = () => {
             <button
               type="button"
               onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-              className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors font-semibold order-2 sm:order-2"
+              className="flex-1 px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors font-semibold order-2 sm:order-2"
             >
               Cancel
             </button>
@@ -505,10 +505,10 @@ const EditAdvisorsCounselorsProfile = () => {
         {/* Success Modal */}
         {showSuccessModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-8 max-w-md w-full mx-4 text-center">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full mx-4 text-center">
               <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">Success!</h2>
-              <p className="text-gray-600 mb-6">Your profile has been updated successfully.</p>
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-2">Success!</h2>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">Your profile has been updated successfully.</p>
               <button
                 onClick={() => {
                   setShowSuccessModal(false);
