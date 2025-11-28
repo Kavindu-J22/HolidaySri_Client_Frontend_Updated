@@ -62,7 +62,7 @@ const ExpertArchitectsDetailView = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/expert-architects/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/expert-architects/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
