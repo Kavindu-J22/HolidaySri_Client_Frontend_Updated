@@ -134,26 +134,45 @@ const FeaturedAds = () => {
     if (!publishedAd) return null;
 
     // Extract title from various possible fields
+    // Added: eventName for Events Updates, vehicleOwnerName for Live Rides Carpooling
     let title = publishedAd.title ||
                 publishedAd.name ||
                 publishedAd.businessName ||
                 publishedAd.companyName ||
+                publishedAd.eventName ||          // Events Updates
                 publishedAd.eventTitle ||
                 publishedAd.hotelName ||
                 publishedAd.restaurantName ||
                 publishedAd.serviceName ||
                 publishedAd.packageTitle ||
                 publishedAd.propertyName ||
+                publishedAd.vehicleOwnerName ||   // Live Rides Carpooling
                 'Featured Ad';
+
+    // Extract image from various possible fields
+    // Added: companyLogo for Job Opportunities, images.vehicleImage for Live Rides Carpooling
+    let image = publishedAd.images?.[0]?.url ||
+                publishedAd.avatar?.url ||
+                publishedAd.coverPhoto?.url ||
+                publishedAd.image?.url ||
+                publishedAd.photos?.[0]?.url ||
+                publishedAd.companyLogo?.url ||              // Job Opportunities
+                publishedAd.images?.vehicleImage?.url ||     // Live Rides Carpooling
+                null;
+
+    // Extract rating - some schemas use 'rating' instead of 'averageRating'
+    // LanguageTranslators uses 'rating' and 'reviewCount'
+    let rating = publishedAd.averageRating || publishedAd.rating || 0;
+    let reviews = publishedAd.totalReviews || publishedAd.reviewCount || 0;
 
     // Common fields across most schemas
     return {
       title: title,
       description: publishedAd.description || publishedAd.bio || publishedAd.overview || publishedAd.about || '',
-      image: publishedAd.images?.[0]?.url || publishedAd.avatar?.url || publishedAd.coverPhoto?.url || publishedAd.image?.url || publishedAd.photos?.[0]?.url || null,
+      image: image,
       location: publishedAd.location || publishedAd.city || publishedAd.address || null,
-      rating: publishedAd.averageRating || 0,
-      reviews: publishedAd.totalReviews || 0,
+      rating: rating,
+      reviews: reviews,
       price: publishedAd.price || null,
       specialization: publishedAd.specialization || publishedAd.category || null
     };
