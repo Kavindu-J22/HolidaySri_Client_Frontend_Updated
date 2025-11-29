@@ -267,7 +267,7 @@ const ExpertDoctorsBrowse = () => {
                     {doctor.engagement?.totalReviews > 0 && (
                       <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm text-gray-900 dark:text-white px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm flex items-center space-x-1 shadow-lg">
                         <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span className="font-semibold">{doctor.viewCount || 0}</span>
+                        <span className="font-semibold">{doctor.engagement.viewCount || 0}</span>
                       </div>
                     )}
                     {doctor.available && (
