@@ -342,14 +342,14 @@ const CaregiversTimeCurrencyForm = () => {
   const totalSteps = 5;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-4 sm:py-6 lg:py-12 px-3 xs:px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-4 sm:py-6 lg:py-12 px-3 xs:px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-4 sm:mb-6 lg:mb-8">
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-gray-900 mb-1.5 sm:mb-2">
+          <h1 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-1.5 sm:mb-2">
             Compassionate Caregivers & Earn Time Currency
           </h1>
-          <p className="text-sm sm:text-base text-gray-600">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
             Share your care services or find the support you need
           </p>
         </div>
@@ -363,7 +363,7 @@ const CaregiversTimeCurrencyForm = () => {
                   className={`w-7 h-7 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-xs sm:text-base font-semibold ${
                     step <= currentStep
                       ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-600'
+                      : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
                   }`}
                 >
                   {step}
@@ -371,14 +371,14 @@ const CaregiversTimeCurrencyForm = () => {
                 {step < totalSteps && (
                   <div
                     className={`w-8 sm:w-16 h-1 ${
-                      step < currentStep ? 'bg-blue-600' : 'bg-gray-200'
+                      step < currentStep ? 'bg-blue-600' : 'bg-gray-200 dark:bg-gray-700'
                     }`}
                   />
                 )}
               </div>
             ))}
           </div>
-          <div className="flex justify-between text-[10px] xs:text-xs text-gray-600 mt-2">
+          <div className="flex justify-between text-[10px] xs:text-xs text-gray-600 dark:text-gray-400 mt-2">
             <span>Basic Info</span>
             <span>Location</span>
             <span>Type</span>
@@ -389,22 +389,22 @@ const CaregiversTimeCurrencyForm = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-400">
             {error}
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8">
           {/* Step 1: Basic Information */}
           {currentStep === 1 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
                 <User className="mr-2" /> Basic Information
               </h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Full Name *
                 </label>
                 <input
@@ -412,21 +412,21 @@ const CaregiversTimeCurrencyForm = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your full name"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Gender *
                 </label>
                 <select
                   name="gender"
                   value={formData.gender}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 >
                   <option value="">Select Gender</option>
@@ -437,7 +437,7 @@ const CaregiversTimeCurrencyForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Age *
                 </label>
                 <input
@@ -447,14 +447,14 @@ const CaregiversTimeCurrencyForm = () => {
                   onChange={handleInputChange}
                   min="18"
                   max="100"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your age"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Contact Number *
                 </label>
                 <input
@@ -462,14 +462,14 @@ const CaregiversTimeCurrencyForm = () => {
                   name="contact"
                   value={formData.contact}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Any type of contact number"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Description *
                 </label>
                 <textarea
@@ -477,7 +477,7 @@ const CaregiversTimeCurrencyForm = () => {
                   value={formData.description}
                   onChange={handleInputChange}
                   rows="4"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Tell us about yourself..."
                   required
                 />
@@ -488,19 +488,19 @@ const CaregiversTimeCurrencyForm = () => {
           {/* Step 2: Location Information */}
           {currentStep === 2 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
                 <MapPin className="mr-2" /> Location Information
               </h2>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Province *
                 </label>
                 <select
                   name="province"
                   value={formData.province}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 >
                   <option value="">Select Province</option>
@@ -513,14 +513,14 @@ const CaregiversTimeCurrencyForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   City *
                 </label>
                 <select
                   name="city"
                   value={formData.city}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                   disabled={!formData.province}
                 >
@@ -538,7 +538,7 @@ const CaregiversTimeCurrencyForm = () => {
           {/* Step 3: Type Selection */}
           {currentStep === 3 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
                 <Heart className="mr-2" /> Select Your Type
               </h2>
 
@@ -547,17 +547,17 @@ const CaregiversTimeCurrencyForm = () => {
                   onClick={() => setFormData(prev => ({ ...prev, type: 'Care Giver' }))}
                   className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
                     formData.type === 'Care Giver'
-                      ? 'border-blue-600 bg-blue-50'
-                      : 'border-gray-300 hover:border-blue-400'
+                      ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/30'
+                      : 'border-gray-300 dark:border-gray-600 hover:border-blue-400'
                   }`}
                 >
                   <div className="text-center">
                     <div className="text-4xl mb-4">👨‍⚕️</div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Care Giver</h3>
-                    <p className="text-gray-600 text-sm">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Care Giver</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">
                       I provide care services to those in need
                     </p>
-                    <div className="mt-4 text-sm text-blue-600 font-semibold">
+                    <div className="mt-4 text-sm text-blue-600 dark:text-blue-400 font-semibold">
                       HSTC: 36
                     </div>
                   </div>
@@ -567,17 +567,17 @@ const CaregiversTimeCurrencyForm = () => {
                   onClick={() => setFormData(prev => ({ ...prev, type: 'Care Needer' }))}
                   className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
                     formData.type === 'Care Needer'
-                      ? 'border-purple-600 bg-purple-50'
-                      : 'border-gray-300 hover:border-purple-400'
+                      ? 'border-purple-600 bg-purple-50 dark:bg-purple-900/30'
+                      : 'border-gray-300 dark:border-gray-600 hover:border-purple-400'
                   }`}
                 >
                   <div className="text-center">
                     <div className="text-4xl mb-4">🤝</div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Care Needer</h3>
-                    <p className="text-gray-600 text-sm">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Care Needer</h3>
+                    <p className="text-gray-600 dark:text-gray-400 text-sm">
                       I need care services and support
                     </p>
-                    <div className="mt-4 text-sm text-purple-600 font-semibold">
+                    <div className="mt-4 text-sm text-purple-600 dark:text-purple-400 font-semibold">
                       HSTC: 720
                     </div>
                   </div>
@@ -589,14 +589,14 @@ const CaregiversTimeCurrencyForm = () => {
           {/* Step 4: Type-Specific Details */}
           {currentStep === 4 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                 {formData.type === 'Care Giver' ? 'Care Giver Details' : 'Care Needer Details'}
               </h2>
 
               {formData.type === 'Care Giver' && (
                 <>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Years of Experience *
                     </label>
                     <input
@@ -606,14 +606,14 @@ const CaregiversTimeCurrencyForm = () => {
                       onChange={handleInputChange}
                       min="0"
                       max="70"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       placeholder="Enter years of experience"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                       Services Provided * (Select at least one)
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -623,8 +623,8 @@ const CaregiversTimeCurrencyForm = () => {
                           onClick={() => toggleService(service)}
                           className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
                             formData.services.includes(service)
-                              ? 'border-blue-600 bg-blue-50'
-                              : 'border-gray-300 hover:border-blue-400'
+                              ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/30'
+                              : 'border-gray-300 dark:border-gray-600 hover:border-blue-400'
                           }`}
                         >
                           <div className="flex items-center">
@@ -634,7 +634,7 @@ const CaregiversTimeCurrencyForm = () => {
                               onChange={() => {}}
                               className="mr-2"
                             />
-                            <span className="text-sm font-medium">{service}</span>
+                            <span className="text-sm font-medium text-gray-900 dark:text-white">{service}</span>
                           </div>
                         </div>
                       ))}
@@ -646,7 +646,7 @@ const CaregiversTimeCurrencyForm = () => {
               {formData.type === 'Care Needer' && (
                 <>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Reason for Needing Care *
                     </label>
                     <textarea
@@ -654,14 +654,14 @@ const CaregiversTimeCurrencyForm = () => {
                       value={formData.reason}
                       onChange={handleInputChange}
                       rows="4"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       placeholder="Please describe why you need care services..."
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                       Special Needs (Optional)
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -671,8 +671,8 @@ const CaregiversTimeCurrencyForm = () => {
                           onClick={() => toggleSpecialNeed(need)}
                           className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
                             formData.specialNeeds.includes(need)
-                              ? 'border-purple-600 bg-purple-50'
-                              : 'border-gray-300 hover:border-purple-400'
+                              ? 'border-purple-600 bg-purple-50 dark:bg-purple-900/30'
+                              : 'border-gray-300 dark:border-gray-600 hover:border-purple-400'
                           }`}
                         >
                           <div className="flex items-center">
@@ -682,7 +682,7 @@ const CaregiversTimeCurrencyForm = () => {
                               onChange={() => {}}
                               className="mr-2"
                             />
-                            <span className="text-sm font-medium">{need}</span>
+                            <span className="text-sm font-medium text-gray-900 dark:text-white">{need}</span>
                           </div>
                         </div>
                       ))}
@@ -696,13 +696,13 @@ const CaregiversTimeCurrencyForm = () => {
           {/* Step 5: Finalize */}
           {currentStep === 5 && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
                 Finalize Your Profile
               </h2>
 
               {/* Avatar Upload */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Avatar Image *
                 </label>
                 <div className="flex items-center space-x-4">
@@ -710,14 +710,14 @@ const CaregiversTimeCurrencyForm = () => {
                     <img
                       src={avatar.url}
                       alt="Avatar"
-                      className="w-24 h-24 rounded-full object-cover border-4 border-blue-200"
+                      className="w-24 h-24 rounded-full object-cover border-4 border-blue-200 dark:border-blue-700"
                     />
                   )}
                   <div className="flex-1">
                     <label className="cursor-pointer">
-                      <div className="flex items-center justify-center px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 transition-colors">
-                        <Upload className="mr-2" size={20} />
-                        <span className="text-sm font-medium">
+                      <div className="flex items-center justify-center px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 transition-colors bg-white dark:bg-gray-700">
+                        <Upload className="mr-2 text-gray-600 dark:text-gray-300" size={20} />
+                        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                           {uploadingAvatar ? 'Uploading...' : avatar.url ? 'Change Avatar' : 'Upload Avatar'}
                         </span>
                       </div>
@@ -735,7 +735,7 @@ const CaregiversTimeCurrencyForm = () => {
 
               {/* Speaking Languages */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                   Speaking Languages * (Select at least one)
                 </label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -745,13 +745,13 @@ const CaregiversTimeCurrencyForm = () => {
                       onClick={() => toggleLanguage(language)}
                       className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
                         formData.speakingLanguages.includes(language)
-                          ? 'border-green-600 bg-green-50'
-                          : 'border-gray-300 hover:border-green-400'
+                          ? 'border-green-600 bg-green-50 dark:bg-green-900/30'
+                          : 'border-gray-300 dark:border-gray-600 hover:border-green-400'
                       }`}
                     >
                       <div className="flex items-center justify-center">
-                        <Languages className="mr-2" size={16} />
-                        <span className="text-sm font-medium">{language}</span>
+                        <Languages className="mr-2 text-gray-600 dark:text-gray-300" size={16} />
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">{language}</span>
                       </div>
                     </div>
                   ))}
@@ -760,7 +760,7 @@ const CaregiversTimeCurrencyForm = () => {
 
               {/* Availability */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex items-center space-x-3 p-4 border border-gray-300 rounded-lg">
+                <div className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700">
                   <input
                     type="checkbox"
                     name="available"
@@ -768,12 +768,12 @@ const CaregiversTimeCurrencyForm = () => {
                     onChange={handleInputChange}
                     className="w-5 h-5"
                   />
-                  <label className="text-sm font-medium text-gray-700">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Currently Available
                   </label>
                 </div>
 
-                <div className="flex items-center space-x-3 p-4 border border-gray-300 rounded-lg">
+                <div className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700">
                   <input
                     type="checkbox"
                     name="occupied"
@@ -781,7 +781,7 @@ const CaregiversTimeCurrencyForm = () => {
                     onChange={handleInputChange}
                     className="w-5 h-5"
                   />
-                  <label className="text-sm font-medium text-gray-700">
+                  <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     Currently Occupied
                   </label>
                 </div>
@@ -789,34 +789,34 @@ const CaregiversTimeCurrencyForm = () => {
 
               {/* Optional Social Links */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Facebook Profile (Optional)
                 </label>
                 <div className="flex items-center">
-                  <Facebook className="mr-2 text-blue-600" size={20} />
+                  <Facebook className="mr-2 text-blue-600 dark:text-blue-400" size={20} />
                   <input
                     type="url"
                     name="facebook"
                     value={formData.facebook}
                     onChange={handleInputChange}
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="https://facebook.com/yourprofile"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Website (Optional)
                 </label>
                 <div className="flex items-center">
-                  <Globe className="mr-2 text-gray-600" size={20} />
+                  <Globe className="mr-2 text-gray-600 dark:text-gray-400" size={20} />
                   <input
                     type="url"
                     name="website"
                     value={formData.website}
                     onChange={handleInputChange}
-                    className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="https://yourwebsite.com"
                   />
                 </div>
@@ -825,12 +825,12 @@ const CaregiversTimeCurrencyForm = () => {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex justify-between mt-4 sm:mt-6 lg:mt-8 pt-4 sm:pt-6 border-t border-gray-200">
+          <div className="flex justify-between mt-4 sm:mt-6 lg:mt-8 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
             {currentStep > 1 && (
               <button
                 type="button"
                 onClick={handlePrevious}
-                className="px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors"
+                className="px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
               >
                 Previous
               </button>
@@ -874,19 +874,19 @@ const CaregiversTimeCurrencyForm = () => {
       {/* Success Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center animate-fade-in">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full p-8 text-center animate-fade-in">
             <div className="mb-6">
-              <div className="mx-auto w-20 h-20 bg-green-100 rounded-full flex items-center justify-center">
-                <CheckCircle className="text-green-600" size={48} />
+              <div className="mx-auto w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                <CheckCircle className="text-green-600 dark:text-green-400" size={48} />
               </div>
             </div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
               Profile Published Successfully!
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
               Your {formData.type} profile has been published. Redirecting to My Advertisements...
             </p>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
               <div className="bg-green-600 h-2 rounded-full animate-progress" style={{ width: '100%' }}></div>
             </div>
           </div>

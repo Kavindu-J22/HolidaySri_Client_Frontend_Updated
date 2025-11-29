@@ -340,35 +340,35 @@ const EditCaregiversTimeCurrency = () => {
 
   if (fetchingData) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading profile data...</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading profile data...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-4 sm:py-6 lg:py-12 px-3 xs:px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-4 sm:py-6 lg:py-12 px-3 xs:px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-4 sm:mb-6 lg:mb-8">
           <button
             onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-            className="flex items-center text-sm sm:text-base text-blue-600 hover:text-blue-700 mb-3 sm:mb-4"
+            className="flex items-center text-sm sm:text-base text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 mb-3 sm:mb-4"
           >
             <ArrowLeft className="mr-1.5 sm:mr-2" size={16} />
             Back to My Advertisements
           </button>
-          <h1 className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1.5 sm:mb-2">
+          <h1 className="text-xl xs:text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-1.5 sm:mb-2">
             Edit Caregivers Time Currency Profile
           </h1>
-          <p className="text-sm sm:text-base text-gray-600">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300">
             Update your {formData.type} profile information
           </p>
-          <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="text-xs sm:text-sm text-yellow-800">
+          <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+            <p className="text-xs sm:text-sm text-yellow-800 dark:text-yellow-300">
               <strong>Note:</strong> Your HSTC value ({formData.HSTC}h) cannot be changed.
             </p>
           </div>
@@ -376,22 +376,22 @@ const EditCaregiversTimeCurrency = () => {
 
         {/* Error Message */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+          <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-400">
             {error}
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 lg:space-y-8">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-lg sm:rounded-2xl shadow-xl p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6 lg:space-y-8">
           {/* Basic Information */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center border-b pb-3">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center border-b border-gray-200 dark:border-gray-700 pb-3">
               <User className="mr-2" /> Basic Information
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Full Name *
                 </label>
                 <input
@@ -399,20 +399,20 @@ const EditCaregiversTimeCurrency = () => {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Gender *
                 </label>
                 <select
                   name="gender"
                   value={formData.gender}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 >
                   <option value="">Select Gender</option>
@@ -423,7 +423,7 @@ const EditCaregiversTimeCurrency = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Age *
                 </label>
                 <input
@@ -433,13 +433,13 @@ const EditCaregiversTimeCurrency = () => {
                   onChange={handleInputChange}
                   min="18"
                   max="100"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Contact Number *
                 </label>
                 <input
@@ -447,14 +447,14 @@ const EditCaregiversTimeCurrency = () => {
                   name="contact"
                   value={formData.contact}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Description *
               </label>
               <textarea
@@ -462,7 +462,7 @@ const EditCaregiversTimeCurrency = () => {
                 value={formData.description}
                 onChange={handleInputChange}
                 rows="4"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 required
               />
             </div>
@@ -470,20 +470,20 @@ const EditCaregiversTimeCurrency = () => {
 
           {/* Location Information */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center border-b pb-3">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center border-b border-gray-200 dark:border-gray-700 pb-3">
               <MapPin className="mr-2" /> Location Information
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   Province *
                 </label>
                 <select
                   name="province"
                   value={formData.province}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 >
                   <option value="">Select Province</option>
@@ -496,14 +496,14 @@ const EditCaregiversTimeCurrency = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                   City *
                 </label>
                 <select
                   name="city"
                   value={formData.city}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                   disabled={!formData.province}
                 >
@@ -520,7 +520,7 @@ const EditCaregiversTimeCurrency = () => {
 
           {/* Type Selection */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center border-b pb-3">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center border-b border-gray-200 dark:border-gray-700 pb-3">
               <Heart className="mr-2" /> Type Selection
             </h2>
 
@@ -529,14 +529,14 @@ const EditCaregiversTimeCurrency = () => {
                 onClick={() => setFormData(prev => ({ ...prev, type: 'Care Giver' }))}
                 className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
                   formData.type === 'Care Giver'
-                    ? 'border-blue-600 bg-blue-50'
-                    : 'border-gray-300 hover:border-blue-400'
+                    ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/30'
+                    : 'border-gray-300 dark:border-gray-600 hover:border-blue-400'
                 }`}
               >
                 <div className="text-center">
                   <div className="text-4xl mb-4">👨‍⚕️</div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Care Giver</h3>
-                  <p className="text-gray-600 text-sm">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Care Giver</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
                     I provide care services to those in need
                   </p>
                 </div>
@@ -546,14 +546,14 @@ const EditCaregiversTimeCurrency = () => {
                 onClick={() => setFormData(prev => ({ ...prev, type: 'Care Needer' }))}
                 className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
                   formData.type === 'Care Needer'
-                    ? 'border-purple-600 bg-purple-50'
-                    : 'border-gray-300 hover:border-purple-400'
+                    ? 'border-purple-600 bg-purple-50 dark:bg-purple-900/30'
+                    : 'border-gray-300 dark:border-gray-600 hover:border-purple-400'
                 }`}
               >
                 <div className="text-center">
                   <div className="text-4xl mb-4">🤝</div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Care Needer</h3>
-                  <p className="text-gray-600 text-sm">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Care Needer</h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm">
                     I need care services and support
                   </p>
                 </div>
@@ -564,14 +564,14 @@ const EditCaregiversTimeCurrency = () => {
           {/* Type-Specific Details */}
           {formData.type && (
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 border-b pb-3">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-b border-gray-200 dark:border-gray-700 pb-3">
                 {formData.type === 'Care Giver' ? 'Care Giver Details' : 'Care Needer Details'}
               </h2>
 
               {formData.type === 'Care Giver' && (
                 <>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Years of Experience *
                     </label>
                     <input
@@ -581,13 +581,13 @@ const EditCaregiversTimeCurrency = () => {
                       onChange={handleInputChange}
                       min="0"
                       max="70"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                       Services Provided * (Select at least one)
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -597,8 +597,8 @@ const EditCaregiversTimeCurrency = () => {
                           onClick={() => toggleService(service)}
                           className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
                             formData.services.includes(service)
-                              ? 'border-blue-600 bg-blue-50'
-                              : 'border-gray-300 hover:border-blue-400'
+                              ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/30'
+                              : 'border-gray-300 dark:border-gray-600 hover:border-blue-400'
                           }`}
                         >
                           <div className="flex items-center">
@@ -608,7 +608,7 @@ const EditCaregiversTimeCurrency = () => {
                               onChange={() => {}}
                               className="mr-2"
                             />
-                            <span className="text-sm font-medium">{service}</span>
+                            <span className="text-sm font-medium text-gray-900 dark:text-white">{service}</span>
                           </div>
                         </div>
                       ))}
@@ -620,7 +620,7 @@ const EditCaregiversTimeCurrency = () => {
               {formData.type === 'Care Needer' && (
                 <>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                       Reason for Needing Care *
                     </label>
                     <textarea
@@ -628,13 +628,13 @@ const EditCaregiversTimeCurrency = () => {
                       value={formData.reason}
                       onChange={handleInputChange}
                       rows="4"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                       required
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                       Special Needs (Optional)
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -644,8 +644,8 @@ const EditCaregiversTimeCurrency = () => {
                           onClick={() => toggleSpecialNeed(need)}
                           className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
                             formData.specialNeeds.includes(need)
-                              ? 'border-purple-600 bg-purple-50'
-                              : 'border-gray-300 hover:border-purple-400'
+                              ? 'border-purple-600 bg-purple-50 dark:bg-purple-900/30'
+                              : 'border-gray-300 dark:border-gray-600 hover:border-purple-400'
                           }`}
                         >
                           <div className="flex items-center">
@@ -655,7 +655,7 @@ const EditCaregiversTimeCurrency = () => {
                               onChange={() => {}}
                               className="mr-2"
                             />
-                            <span className="text-sm font-medium">{need}</span>
+                            <span className="text-sm font-medium text-gray-900 dark:text-white">{need}</span>
                           </div>
                         </div>
                       ))}
@@ -668,13 +668,13 @@ const EditCaregiversTimeCurrency = () => {
 
           {/* Additional Information */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 border-b pb-3">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 border-b border-gray-200 dark:border-gray-700 pb-3">
               Additional Information
             </h2>
 
             {/* Avatar Upload */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Avatar Image *
               </label>
               <div className="flex items-center space-x-4">
@@ -682,14 +682,14 @@ const EditCaregiversTimeCurrency = () => {
                   <img
                     src={avatar.url}
                     alt="Avatar"
-                    className="w-24 h-24 rounded-full object-cover border-4 border-blue-200"
+                    className="w-24 h-24 rounded-full object-cover border-4 border-blue-200 dark:border-blue-700"
                   />
                 )}
                 <div className="flex-1">
                   <label className="cursor-pointer">
-                    <div className="flex items-center justify-center px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 transition-colors">
-                      <Upload className="mr-2" size={20} />
-                      <span className="text-sm font-medium">
+                    <div className="flex items-center justify-center px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-400 transition-colors bg-white dark:bg-gray-700">
+                      <Upload className="mr-2 text-gray-600 dark:text-gray-300" size={20} />
+                      <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                         {uploadingAvatar ? 'Uploading...' : avatar.url ? 'Change Avatar' : 'Upload Avatar'}
                       </span>
                     </div>
@@ -707,7 +707,7 @@ const EditCaregiversTimeCurrency = () => {
 
             {/* Speaking Languages */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-3">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                 Speaking Languages * (Select at least one)
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -717,13 +717,13 @@ const EditCaregiversTimeCurrency = () => {
                     onClick={() => toggleLanguage(language)}
                     className={`p-3 border-2 rounded-lg cursor-pointer transition-all ${
                       formData.speakingLanguages.includes(language)
-                        ? 'border-green-600 bg-green-50'
-                        : 'border-gray-300 hover:border-green-400'
+                        ? 'border-green-600 bg-green-50 dark:bg-green-900/30'
+                        : 'border-gray-300 dark:border-gray-600 hover:border-green-400'
                     }`}
                   >
                     <div className="flex items-center justify-center">
-                      <Languages className="mr-2" size={16} />
-                      <span className="text-sm font-medium">{language}</span>
+                      <Languages className="mr-2 text-gray-600 dark:text-gray-300" size={16} />
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">{language}</span>
                     </div>
                   </div>
                 ))}
@@ -732,7 +732,7 @@ const EditCaregiversTimeCurrency = () => {
 
             {/* Availability */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex items-center space-x-3 p-4 border border-gray-300 rounded-lg">
+              <div className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700">
                 <input
                   type="checkbox"
                   name="available"
@@ -740,12 +740,12 @@ const EditCaregiversTimeCurrency = () => {
                   onChange={handleInputChange}
                   className="w-5 h-5"
                 />
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   Currently Available
                 </label>
               </div>
 
-              <div className="flex items-center space-x-3 p-4 border border-gray-300 rounded-lg">
+              <div className="flex items-center space-x-3 p-4 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700">
                 <input
                   type="checkbox"
                   name="occupied"
@@ -753,7 +753,7 @@ const EditCaregiversTimeCurrency = () => {
                   onChange={handleInputChange}
                   className="w-5 h-5"
                 />
-                <label className="text-sm font-medium text-gray-700">
+                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   Currently Occupied
                 </label>
               </div>
@@ -761,34 +761,34 @@ const EditCaregiversTimeCurrency = () => {
 
             {/* Optional Social Links */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Facebook Profile (Optional)
               </label>
               <div className="flex items-center">
-                <Facebook className="mr-2 text-blue-600" size={20} />
+                <Facebook className="mr-2 text-blue-600 dark:text-blue-400" size={20} />
                 <input
                   type="url"
                   name="facebook"
                   value={formData.facebook}
                   onChange={handleInputChange}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="https://facebook.com/yourprofile"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 Website (Optional)
               </label>
               <div className="flex items-center">
-                <Globe className="mr-2 text-gray-600" size={20} />
+                <Globe className="mr-2 text-gray-600 dark:text-gray-400" size={20} />
                 <input
                   type="url"
                   name="website"
                   value={formData.website}
                   onChange={handleInputChange}
-                  className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="https://yourwebsite.com"
                 />
               </div>
@@ -796,11 +796,11 @@ const EditCaregiversTimeCurrency = () => {
           </div>
 
           {/* Submit Button */}
-          <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-4 sm:pt-6 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-end gap-3 sm:gap-4 pt-4 sm:pt-6 border-t border-gray-200 dark:border-gray-700">
             <button
               type="button"
               onClick={() => navigate('/profile', { state: { activeSection: 'advertisements' } })}
-              className="px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gray-200 text-gray-700 rounded-lg font-semibold hover:bg-gray-300 transition-colors order-2 sm:order-1"
+              className="px-4 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors order-2 sm:order-1"
             >
               Cancel
             </button>
