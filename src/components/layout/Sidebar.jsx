@@ -13,6 +13,7 @@ import {
   Building,
   ChevronDown,
   ChevronRight,
+  ChevronLeft,
   Star,
   TrendingUp,
   Clock,
@@ -65,10 +66,12 @@ import {
   Percent,
   AlertTriangle,
   FileText,
-  Bell
+  Bell,
+  PanelLeftClose,
+  PanelLeftOpen
 } from 'lucide-react';
 
-const Sidebar = ({ isOpen, onClose }) => {
+const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
   const [expandedCategories, setExpandedCategories] = useState({});
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
@@ -361,16 +364,32 @@ const Sidebar = ({ isOpen, onClose }) => {
       {/* Sidebar */}
       <div
         className={`
-          fixed lg:static inset-y-0 left-0 z-50 w-80
+          fixed lg:static inset-y-0 left-0 z-50
+          ${isCollapsed ? 'w-20' : 'w-80'}
           bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
-          border-r border-gray-200 dark:border-gray-700 transform transition-transform duration-300 ease-in-out
+          border-r border-gray-200 dark:border-gray-700 transform transition-all duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-          overflow-y-auto shadow-xl lg:shadow-none
+          overflow-y-auto overflow-x-hidden shadow-xl lg:shadow-none
         `}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
+        {/* Desktop collapse toggle button */}
+        <div className="hidden lg:flex justify-end p-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
+          <button
+            onClick={onToggleCollapse}
+            className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-200 transition-all duration-200"
+            title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            {isCollapsed ? (
+              <PanelLeftOpen className="w-5 h-5" />
+            ) : (
+              <PanelLeftClose className="w-5 h-5" />
+            )}
+          </button>
+        </div>
+
         {/* Mobile close button */}
         <div className="lg:hidden flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -383,30 +402,44 @@ const Sidebar = ({ isOpen, onClose }) => {
             <X className="w-5 h-5" />
           </button>
         </div>
-        <div className="p-6">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
-            Advertisement Categories
-          </h2>
+        <div className={`${isCollapsed ? 'p-3' : 'p-6'} transition-all duration-300`}>
+          {/* Header - only show when expanded */}
+          {!isCollapsed && (
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+              Advertisement Categories
+            </h2>
+          )}
 
           {/* Featured Sections */}
-          <div className="mb-8">
-            <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
-              Featured
-            </h3>
-            <div className="space-y-1">
+          <div className={`${isCollapsed ? 'mb-4' : 'mb-8'}`}>
+            {!isCollapsed && (
+              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-3">
+                Featured
+              </h3>
+            )}
+            <div className={`${isCollapsed ? 'space-y-2' : 'space-y-1'}`}>
               {featuredSections.map((section) => (
                 <Link
                   key={section.title}
                   to={section.path}
-                  className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors duration-200 ${
+                  className={`group relative flex items-center ${isCollapsed ? 'justify-center' : 'space-x-3'} ${isCollapsed ? 'p-3' : 'px-3 py-2'} rounded-lg transition-all duration-200 ${
                     isActive(section.path)
                       ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
                   }`}
                   onClick={onClose}
+                  title={isCollapsed ? section.title : undefined}
                 >
-                  <section.icon className={`w-5 h-5 ${section.color}`} />
-                  <span className="text-sm font-medium">{section.title}</span>
+                  <section.icon className={`w-5 h-5 ${section.color} flex-shrink-0`} />
+                  {!isCollapsed && <span className="text-sm font-medium">{section.title}</span>}
+
+                  {/* Tooltip for collapsed mode */}
+                  {isCollapsed && (
+                    <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
+                      {section.title}
+                      <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900 dark:border-r-gray-700" />
+                    </div>
+                  )}
                 </Link>
               ))}
             </div>
@@ -414,41 +447,50 @@ const Sidebar = ({ isOpen, onClose }) => {
 
           {/* Advertisement Categories */}
           <div>
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                Categories
-              </h3>
-              {searchTerm && (
-                <span className="text-xs text-gray-400 dark:text-gray-500">
-                  {filteredCategories.length} found
-                </span>
-              )}
-            </div>
+            {/* Divider line when collapsed */}
+            {isCollapsed && (
+              <div className="border-t border-gray-200 dark:border-gray-700 mb-4" />
+            )}
 
-            {/* Search Input */}
-            <div className="mb-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
-                <input
-                  type="text"
-                  placeholder="Search categories..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-10 py-2.5 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200"
-                />
+            {!isCollapsed && (
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Categories
+                </h3>
                 {searchTerm && (
-                  <button
-                    onClick={clearSearch}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
+                  <span className="text-xs text-gray-400 dark:text-gray-500">
+                    {filteredCategories.length} found
+                  </span>
                 )}
               </div>
-            </div>
+            )}
 
-            {/* No Results Message */}
-            {searchTerm && filteredCategories.length === 0 && (
+            {/* Search Input - only show when expanded */}
+            {!isCollapsed && (
+              <div className="mb-4">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
+                  <input
+                    type="text"
+                    placeholder="Search categories..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-full pl-10 pr-10 py-2.5 text-sm bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 transition-all duration-200"
+                  />
+                  {searchTerm && (
+                    <button
+                      onClick={clearSearch}
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* No Results Message - only when expanded */}
+            {!isCollapsed && searchTerm && filteredCategories.length === 0 && (
               <div className="text-center py-8">
                 <Search className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
                 <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -463,28 +505,59 @@ const Sidebar = ({ isOpen, onClose }) => {
               </div>
             )}
 
-            <div className="space-y-2">
+            <div className={`${isCollapsed ? 'space-y-2' : 'space-y-2'}`}>
               {filteredCategories.map((category) => (
-                <div key={category.id}>
+                <div key={category.id} className="relative group/category">
                   <button
-                    onClick={() => toggleCategory(category.id)}
-                    className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200"
+                    onClick={() => isCollapsed ? null : toggleCategory(category.id)}
+                    className={`w-full flex items-center ${isCollapsed ? 'justify-center p-3' : 'justify-between px-3 py-2'} rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200`}
                   >
-                    <div className="flex items-center space-x-3">
-                      <div className={`p-1.5 rounded-md ${category.bgColor} dark:bg-gray-800`}>
-                        <category.icon className={`w-4 h-4 ${category.color}`} />
+                    <div className={`flex items-center ${isCollapsed ? '' : 'space-x-3'}`}>
+                      <div className={`${isCollapsed ? 'p-2' : 'p-1.5'} rounded-md ${category.bgColor} dark:bg-gray-800`}>
+                        <category.icon className={`${isCollapsed ? 'w-5 h-5' : 'w-4 h-4'} ${category.color}`} />
                       </div>
-                      <span className="text-sm font-medium">{category.name}</span>
+                      {!isCollapsed && <span className="text-sm font-medium">{category.name}</span>}
                     </div>
-                    {expandedCategories[category.id] ? (
-                      <ChevronDown className="w-4 h-4" />
-                    ) : (
-                      <ChevronRight className="w-4 h-4" />
+                    {!isCollapsed && (
+                      expandedCategories[category.id] ? (
+                        <ChevronDown className="w-4 h-4" />
+                      ) : (
+                        <ChevronRight className="w-4 h-4" />
+                      )
                     )}
                   </button>
 
-                  {/* Subcategories */}
-                  {expandedCategories[category.id] && (
+                  {/* Tooltip with subcategories for collapsed mode */}
+                  {isCollapsed && (
+                    <div className="absolute left-full ml-3 top-0 px-4 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl opacity-0 invisible group-hover/category:opacity-100 group-hover/category:visible transition-all duration-200 z-50 shadow-xl border border-gray-200 dark:border-gray-700 min-w-64 max-h-80 overflow-y-auto">
+                      <div className="flex items-center space-x-2 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">
+                        <div className={`p-1.5 rounded-md ${category.bgColor} dark:bg-gray-700`}>
+                          <category.icon className={`w-4 h-4 ${category.color}`} />
+                        </div>
+                        <span className="font-semibold text-sm">{category.name}</span>
+                      </div>
+                      <div className="space-y-1">
+                        {category.subcategories.filter(sub => !sub.hidden).map((subcategory) => (
+                          <Link
+                            key={subcategory.path}
+                            to={subcategory.path}
+                            onClick={onClose}
+                            className={`block px-3 py-2 text-sm rounded-lg transition-colors duration-200 ${
+                              isActive(subcategory.path)
+                                ? `${category.bgColor} dark:bg-gray-700 ${category.color}`
+                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
+                            }`}
+                          >
+                            {subcategory.name}
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="absolute right-full top-4 border-8 border-transparent border-r-white dark:border-r-gray-800" />
+                    </div>
+                  )}
+
+                  {/* Subcategories - only show when expanded and not collapsed */}
+                  {!isCollapsed && expandedCategories[category.id] && (
                     <div className="ml-6 mt-3 space-y-1 relative animate-slide-down">
                       {/* Connecting line */}
                       <div className="absolute left-3 top-0 bottom-0 w-px bg-gradient-to-b from-gray-300 via-gray-200 to-transparent dark:from-gray-600 dark:via-gray-700 dark:to-transparent" />
@@ -601,22 +674,40 @@ const Sidebar = ({ isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* HSC Information */}
-          <div className="mt-8 p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-lg">
-            <h4 className="text-sm font-semibold text-primary-900 dark:text-primary-100 mb-2">
-              HSC Token System
-            </h4>
-            <p className="text-xs text-primary-700 dark:text-primary-300 mb-3">
-              Use HSC tokens to publish your advertisements and reach more customers.
-            </p>
-            <Link
-              to="/hsc"
-              className="inline-flex items-center text-xs font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
-              onClick={onClose}
-            >
-              Buy HSC Tokens →
-            </Link>
-          </div>
+          {/* HSC Information - conditionally render based on collapsed state */}
+          {isCollapsed ? (
+            <div className="mt-4 flex justify-center">
+              <Link
+                to="/hsc"
+                onClick={onClose}
+                className="group relative p-3 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/30 dark:to-primary-800/30 rounded-lg hover:shadow-md transition-all duration-200"
+                title="HSC Token System"
+              >
+                <Coins className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                {/* Tooltip */}
+                <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
+                  HSC Token System
+                  <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900 dark:border-r-gray-700" />
+                </div>
+              </Link>
+            </div>
+          ) : (
+            <div className="mt-8 p-4 bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 rounded-lg">
+              <h4 className="text-sm font-semibold text-primary-900 dark:text-primary-100 mb-2">
+                HSC Token System
+              </h4>
+              <p className="text-xs text-primary-700 dark:text-primary-300 mb-3">
+                Use HSC tokens to publish your advertisements and reach more customers.
+              </p>
+              <Link
+                to="/hsc"
+                className="inline-flex items-center text-xs font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300"
+                onClick={onClose}
+              >
+                Buy HSC Tokens →
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </>

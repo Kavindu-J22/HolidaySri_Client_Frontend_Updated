@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Layers, Sparkles } from 'lucide-react';
 import Navbar from './Navbar';
@@ -8,6 +8,16 @@ import BackgroundAnimation from '../common/BackgroundAnimation';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // Load collapsed state from localStorage, default to true (collapsed)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => {
+    const saved = localStorage.getItem('sidebarCollapsed');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+
+  // Save collapsed state to localStorage
+  useEffect(() => {
+    localStorage.setItem('sidebarCollapsed', JSON.stringify(isSidebarCollapsed));
+  }, [isSidebarCollapsed]);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -15,6 +25,10 @@ const Layout = () => {
 
   const closeSidebar = () => {
     setIsSidebarOpen(false);
+  };
+
+  const toggleSidebarCollapse = () => {
+    setIsSidebarCollapsed(!isSidebarCollapsed);
   };
 
   return (
@@ -26,7 +40,12 @@ const Layout = () => {
 
       {/* Add padding-top to account for fixed navbar */}
       <div className="flex flex-1 relative z-10 pt-16">
-        <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
+        <Sidebar
+          isOpen={isSidebarOpen}
+          onClose={closeSidebar}
+          isCollapsed={isSidebarCollapsed}
+          onToggleCollapse={toggleSidebarCollapse}
+        />
 
         <main className="flex-1 lg:ml-0 flex flex-col">
           <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
