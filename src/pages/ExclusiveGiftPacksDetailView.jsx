@@ -48,7 +48,7 @@ const ExclusiveGiftPacksDetailView = () => {
       setSubmittingReview(true);
       const token = localStorage.getItem('token');
 
-      const response = await fetch(`/api/exclusive-gift-packs/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/exclusive-gift-packs/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
