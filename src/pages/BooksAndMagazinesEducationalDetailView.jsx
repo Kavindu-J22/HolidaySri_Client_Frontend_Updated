@@ -85,7 +85,7 @@ const BooksAndMagazinesEducationalDetailView = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`/api/books-magazines-educational/${id}/reviews`, {
+      const response = await fetch(`https://holidaysri-backend-9xm4.onrender.com/api/books-magazines-educational/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

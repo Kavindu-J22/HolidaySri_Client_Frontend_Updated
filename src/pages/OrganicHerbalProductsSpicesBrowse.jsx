@@ -165,7 +165,7 @@ export default function OrganicHerbalProductsSpicesBrowse() {
                     alt={product.name}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-white rounded-full px-2 sm:px-3 py-1 flex items-center gap-1 shadow-lg">
+                  <div className={`absolute top-2 sm:top-3 right-2 sm:right-3 rounded-full px-2 sm:px-3 py-1 flex items-center gap-1 shadow-lg ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'}`}>
                     <Star size={14} className="sm:w-4 sm:h-4 fill-yellow-400 text-yellow-400" />
                     <span className="font-semibold text-xs sm:text-sm">{product.averageRating.toFixed(1)}</span>
                   </div>
