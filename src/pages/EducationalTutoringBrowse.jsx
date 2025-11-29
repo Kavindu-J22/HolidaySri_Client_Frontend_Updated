@@ -274,7 +274,7 @@ const EducationalTutoringBrowse = () => {
                       />
                     )}
                     <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-white dark:bg-gray-800 rounded-full px-2 sm:px-3 py-1 flex items-center space-x-1">
-                      {renderStars(profile.overallRating || 0)}
+                      {renderStars(profile.averageRating || 0)}
                     </div>
                   </div>
 

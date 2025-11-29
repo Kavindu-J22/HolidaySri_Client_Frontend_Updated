@@ -214,9 +214,9 @@ const EducationalTutoringDetailView = () => {
                   {profile.category}
                 </p>
                 <div className="flex items-center space-x-2 sm:space-x-4 flex-wrap">
-                  {renderStars(profile.overallRating || 0)}
+                  {renderStars(profile.averageRating || 0)}
                   <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
-                    ({profile.reviews?.length || 0} reviews)
+                    ({profile.totalReviews || profile.reviews?.length || 0} reviews)
                   </span>
                 </div>
               </div>
