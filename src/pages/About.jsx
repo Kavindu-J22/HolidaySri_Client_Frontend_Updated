@@ -59,7 +59,7 @@ const About = () => {
   ];
 
   const milestones = [
-    { year: '2023', event: 'Holidaysri PVT LTD Founded', description: 'Started our journey on November 11, 2023' },
+    { year: '2023', event: 'Holidaysri.com PVT LTD Founded', description: 'Started our journey on November 11, 2023' },
     { year: '2024', event: 'Platform Launch', description: 'Launched our comprehensive travel platform' },
     { year: '2024', event: 'HSC Token System', description: 'Introduced innovative HSC token ecosystem' },
     { year: '2025', event: 'Global Expansion', description: 'Expanding services to international markets' },
@@ -115,7 +115,7 @@ const About = () => {
         
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
           <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
-            <span className="font-bold text-primary-600 dark:text-primary-400">Holidaysri PVT LTD</span> is a pioneering travel technology company dedicated to revolutionizing the way people experience Sri Lanka. Founded on November 11, 2023, we've quickly become a trusted platform connecting travelers with authentic Sri Lankan experiences.
+            <span className="font-bold text-primary-600 dark:text-primary-400">Holidaysri.com PVT LTD</span> is a pioneering travel technology company dedicated to revolutionizing the way people experience Sri Lanka. Founded on November 11, 2023, we've quickly become a trusted platform connecting travelers with authentic Sri Lankan experiences.
           </p>
           <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
             Our innovative platform combines cutting-edge technology with local expertise to offer a comprehensive ecosystem of travel services. From tour packages and accommodations to local guides and unique experiences, we provide everything you need for an unforgettable journey through the Pearl of the Indian Ocean.

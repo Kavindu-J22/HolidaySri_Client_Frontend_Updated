@@ -9,7 +9,9 @@ import {
   CreditCard,
   AlertCircle,
   CheckCircle,
-  Loader
+  Loader,
+  Gift,
+  Sparkles
 } from 'lucide-react';
 import { hscAPI, userAPI } from '../config/api';
 import { useAuth } from '../contexts/AuthContext';
@@ -315,6 +317,33 @@ const HSCTreasure = () => {
                     <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 px-2">
                       {pkg.description}
                     </p>
+                  )}
+
+                  {/* Bonus Tokens Display */}
+                  {(pkg.bonusHsgAmount > 0 || pkg.bonusHsdAmount > 0) && (
+                    <div className="mt-3 mb-2 p-3 sm:p-4 bg-gradient-to-r from-purple-50 via-pink-50 to-purple-50 dark:from-purple-900/30 dark:via-pink-900/30 dark:to-purple-900/30 rounded-xl border-2 border-purple-200 dark:border-purple-600 shadow-inner">
+                      <div className="flex items-center justify-center mb-2">
+                        <Gift className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400 mr-1.5" />
+                        <span className="text-xs sm:text-sm font-bold text-purple-700 dark:text-purple-300">
+                          Bonus Rewards
+                        </span>
+                        <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-400 ml-1.5" />
+                      </div>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        {pkg.bonusHsgAmount > 0 && (
+                          <div className="flex items-center bg-gradient-to-r from-yellow-400 to-amber-500 text-white px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-md">
+                            <span className="mr-1">🥇</span>
+                            +{pkg.bonusHsgAmount} HSG
+                          </div>
+                        )}
+                        {pkg.bonusHsdAmount > 0 && (
+                          <div className="flex items-center bg-gradient-to-r from-blue-400 to-cyan-500 text-white px-3 py-1.5 rounded-full text-xs sm:text-sm font-bold shadow-md">
+                            <span className="mr-1">💎</span>
+                            +{pkg.bonusHsdAmount} HSD
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   )}
                 </div>
 
