@@ -49,9 +49,19 @@ const services = [
   { name: 'Find Emergency Services & Insurance', path: '/ads/essential-services/emergency-services-insurance', icon: AlertTriangle }
 ];
 
-const LeftSidebar = ({ provinceFilter, setProvinceFilter }) => {
+const LeftSidebar = ({ provinceFilter, setProvinceFilter, otherCountryFilter, setOtherCountryFilter }) => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
+
+  const handleProvinceClick = (province) => {
+    setOtherCountryFilter(false);
+    setProvinceFilter(province);
+  };
+
+  const handleOtherCountryClick = () => {
+    setProvinceFilter('');
+    setOtherCountryFilter(true);
+  };
 
   return (
     <div className="space-y-6">
@@ -65,9 +75,12 @@ const LeftSidebar = ({ provinceFilter, setProvinceFilter }) => {
         </div>
         <div className="space-y-2">
           <button
-            onClick={() => setProvinceFilter('')}
+            onClick={() => {
+              setProvinceFilter('');
+              setOtherCountryFilter(false);
+            }}
             className={`w-full text-left px-3 py-2 rounded-lg transition-all ${
-              provinceFilter === ''
+              provinceFilter === '' && !otherCountryFilter
                 ? 'bg-blue-600 text-white'
                 : isDarkMode
                 ? 'hover:bg-gray-700 text-gray-300'
@@ -79,9 +92,9 @@ const LeftSidebar = ({ provinceFilter, setProvinceFilter }) => {
           {provinces.map((province) => (
             <button
               key={province}
-              onClick={() => setProvinceFilter(province)}
+              onClick={() => handleProvinceClick(province)}
               className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm ${
-                provinceFilter === province
+                provinceFilter === province && !otherCountryFilter
                   ? 'bg-blue-600 text-white'
                   : isDarkMode
                   ? 'hover:bg-gray-700 text-gray-300'
@@ -91,6 +104,22 @@ const LeftSidebar = ({ provinceFilter, setProvinceFilter }) => {
               {province}
             </button>
           ))}
+        </div>
+
+        {/* Other Countries Section */}
+        <div className={`mt-4 pt-4 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+          <button
+            onClick={handleOtherCountryClick}
+            className={`w-full text-left px-3 py-2 rounded-lg transition-all text-sm font-medium ${
+              otherCountryFilter
+                ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+                : isDarkMode
+                ? 'hover:bg-gray-700 text-gray-300'
+                : 'hover:bg-gray-100 text-gray-700'
+            }`}
+          >
+            🌍 Other Countries
+          </button>
         </div>
       </div>
 

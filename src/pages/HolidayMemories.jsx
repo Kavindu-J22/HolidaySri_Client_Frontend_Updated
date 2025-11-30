@@ -45,6 +45,7 @@ const HolidayMemories = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('random');
   const [provinceFilter, setProvinceFilter] = useState('');
+  const [otherCountryFilter, setOtherCountryFilter] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showMobileFilter, setShowMobileFilter] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(false);
@@ -58,7 +59,8 @@ const HolidayMemories = () => {
         limit: 12,
         sortBy,
         ...(searchTerm && { search: searchTerm }),
-        ...(provinceFilter && { province: provinceFilter })
+        ...(provinceFilter && { province: provinceFilter }),
+        ...(otherCountryFilter && { otherCountry: 'true' })
       };
 
       const response = await axios.get(`${API_URL}/holiday-memories/browse`, { params });
@@ -80,7 +82,7 @@ const HolidayMemories = () => {
 
   useEffect(() => {
     fetchPosts(1, true);
-  }, [sortBy, searchTerm, provinceFilter]);
+  }, [sortBy, searchTerm, provinceFilter, otherCountryFilter]);
 
   const handleLoadMore = () => {
     if (hasMore && !loading) {
@@ -216,6 +218,8 @@ const HolidayMemories = () => {
               <LeftSidebar
                 provinceFilter={provinceFilter}
                 setProvinceFilter={setProvinceFilter}
+                otherCountryFilter={otherCountryFilter}
+                setOtherCountryFilter={setOtherCountryFilter}
               />
             </div>
           </div>
@@ -422,10 +426,11 @@ const HolidayMemories = () => {
                   <button
                     onClick={() => {
                       setProvinceFilter('');
+                      setOtherCountryFilter(false);
                       setShowMobileFilter(false);
                     }}
                     className={`w-full text-left px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${
-                      provinceFilter === ''
+                      provinceFilter === '' && !otherCountryFilter
                         ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md'
                         : isDarkMode
                         ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -439,10 +444,11 @@ const HolidayMemories = () => {
                       key={province}
                       onClick={() => {
                         setProvinceFilter(province);
+                        setOtherCountryFilter(false);
                         setShowMobileFilter(false);
                       }}
                       className={`w-full text-left px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${
-                        provinceFilter === province
+                        provinceFilter === province && !otherCountryFilter
                           ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-md'
                           : isDarkMode
                           ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -453,6 +459,29 @@ const HolidayMemories = () => {
                     </button>
                   ))}
                 </div>
+              </div>
+
+              {/* Other Countries Section */}
+              <div className={`pt-3 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+                <h4 className={`text-xs font-semibold mb-2 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} uppercase tracking-wide`}>
+                  International
+                </h4>
+                <button
+                  onClick={() => {
+                    setProvinceFilter('');
+                    setOtherCountryFilter(true);
+                    setShowMobileFilter(false);
+                  }}
+                  className={`w-full text-left px-3 py-2.5 rounded-lg transition-all text-sm font-medium ${
+                    otherCountryFilter
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-md'
+                      : isDarkMode
+                      ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  🌍 Other Countries
+                </button>
               </div>
 
               {/* Bottom Padding for safe area */}
