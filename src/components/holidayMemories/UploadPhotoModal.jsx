@@ -24,6 +24,34 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
   const [province, setProvince] = useState('');
   const [mapLink, setMapLink] = useState('');
   const [tags, setTags] = useState('');
+  const [isOtherCountry, setIsOtherCountry] = useState(false);
+  const [country, setCountry] = useState('');
+
+  // List of countries
+  const countries = [
+    "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Argentina", "Armenia", "Australia",
+    "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium",
+    "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei",
+    "Bulgaria", "Burkina Faso", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Central African Republic",
+    "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Costa Rica", "Croatia", "Cuba", "Cyprus",
+    "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "Ecuador", "Egypt", "El Salvador",
+    "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia", "Fiji", "Finland", "France", "Gabon",
+    "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guyana", "Haiti",
+    "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy",
+    "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan", "Laos", "Latvia",
+    "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Madagascar", "Malawi",
+    "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia",
+    "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar", "Namibia", "Nauru", "Nepal",
+    "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway",
+    "Oman", "Pakistan", "Palau", "Palestine", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines",
+    "Poland", "Portugal", "Qatar", "Romania", "Russia", "Rwanda", "Saint Kitts and Nevis", "Saint Lucia",
+    "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Saudi Arabia", "Senegal", "Serbia", "Seychelles",
+    "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea",
+    "South Sudan", "Spain", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan",
+    "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey",
+    "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States",
+    "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"
+  ];
 
   // Image protection handlers
   const handleContextMenu = (e) => {
@@ -95,8 +123,10 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
           caption,
           location: {
             name: locationName,
-            city,
-            province
+            city: isOtherCountry ? '' : city,
+            province: isOtherCountry ? '' : province,
+            country: isOtherCountry ? country : 'Sri Lanka',
+            isOtherCountry
           },
           mapLink,
           tags: tagArray
@@ -113,6 +143,8 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
       setProvince('');
       setMapLink('');
       setTags('');
+      setIsOtherCountry(false);
+      setCountry('');
       setStep(1);
 
       onSuccess && onSuccess(response.data.post);
@@ -133,6 +165,10 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
     }
     if (step === 2 && (!caption || !locationName)) {
       setError('Please fill in caption and location name');
+      return;
+    }
+    if (step === 2 && isOtherCountry && !country) {
+      setError('Please select a country');
       return;
     }
     setError('');
@@ -397,51 +433,101 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div>
-                  <label className={`block text-xs sm:text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    City
-                  </label>
+              {/* Other Country Checkbox */}
+              <div className={`p-3 rounded-lg border ${isDarkMode ? 'bg-gray-700/50 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
+                <label className="flex items-center gap-3 cursor-pointer">
                   <input
-                    type="text"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    placeholder="e.g., Sigiriya"
-                    className={`w-full px-3 py-2 text-sm rounded-lg border ${
-                      isDarkMode
-                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                    } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    type="checkbox"
+                    checked={isOtherCountry}
+                    onChange={(e) => {
+                      setIsOtherCountry(e.target.checked);
+                      if (e.target.checked) {
+                        setCity('');
+                        setProvince('');
+                      } else {
+                        setCountry('');
+                      }
+                    }}
+                    className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
-                </div>
+                  <span className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    Other Country (Outside Sri Lanka)
+                  </span>
+                </label>
+              </div>
 
+              {/* Country Dropdown - Only show when Other Country is checked */}
+              {isOtherCountry && (
                 <div>
                   <label className={`block text-xs sm:text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    Province
+                    Select Country *
                   </label>
                   <select
-                    value={province}
-                    onChange={(e) => setProvince(e.target.value)}
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
                     className={`w-full px-3 py-2 text-sm rounded-lg border ${
                       isDarkMode
                         ? 'bg-gray-700 border-gray-600 text-white'
                         : 'bg-white border-gray-300 text-gray-900'
                     } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   >
-                    <option value="">Select Province</option>
-                    <option value="Western Province">Western Province</option>
-                    <option value="Central Province">Central Province</option>
-                    <option value="Southern Province">Southern Province</option>
-                    <option value="Northern Province">Northern Province</option>
-                    <option value="Eastern Province">Eastern Province</option>
-                    <option value="North Western Province">North Western Province</option>
-                    <option value="North Central Province">North Central Province</option>
-                    <option value="Uva Province">Uva Province</option>
-                    <option value="Sabaragamuwa Province">Sabaragamuwa Province</option>
+                    <option value="">Select Country</option>
+                    {countries.map((c) => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
                   </select>
                 </div>
-              </div>
+              )}
 
+              {/* City and Province - Only show when NOT Other Country */}
+              {!isOtherCountry && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                  <div>
+                    <label className={`block text-xs sm:text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      placeholder="e.g., Sigiriya"
+                      className={`w-full px-3 py-2 text-sm rounded-lg border ${
+                        isDarkMode
+                          ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
+                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
+                      } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    />
+                  </div>
+
+                  <div>
+                    <label className={`block text-xs sm:text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      Province
+                    </label>
+                    <select
+                      value={province}
+                      onChange={(e) => setProvince(e.target.value)}
+                      className={`w-full px-3 py-2 text-sm rounded-lg border ${
+                        isDarkMode
+                          ? 'bg-gray-700 border-gray-600 text-white'
+                          : 'bg-white border-gray-300 text-gray-900'
+                      } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                    >
+                      <option value="">Select Province</option>
+                      <option value="Western Province">Western Province</option>
+                      <option value="Central Province">Central Province</option>
+                      <option value="Southern Province">Southern Province</option>
+                      <option value="Northern Province">Northern Province</option>
+                      <option value="Eastern Province">Eastern Province</option>
+                      <option value="North Western Province">North Western Province</option>
+                      <option value="North Central Province">North Central Province</option>
+                      <option value="Uva Province">Uva Province</option>
+                      <option value="Sabaragamuwa Province">Sabaragamuwa Province</option>
+                    </select>
+                  </div>
+                </div>
+              )}
+
+              {/* Google Maps Link with Tip */}
               <div>
                 <label className={`block text-xs sm:text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                   Google Maps Link
@@ -459,6 +545,17 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                         : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
                     } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   />
+                </div>
+                {/* Google Maps Link Tip */}
+                <div className={`mt-2 p-2 rounded-lg text-xs ${isDarkMode ? 'bg-blue-900/20 border border-blue-800' : 'bg-blue-50 border border-blue-200'}`}>
+                  <p className={`font-medium mb-1 ${isDarkMode ? 'text-blue-400' : 'text-blue-700'}`}>
+                    💡 How to get Google Maps link:
+                  </p>
+                  <ol className={`list-decimal list-inside space-y-0.5 ${isDarkMode ? 'text-blue-300' : 'text-blue-600'}`}>
+                    <li>Open Google Maps and search for the location</li>
+                    <li>Click "Share" button → "Copy link"</li>
+                    <li>Or right-click on the location → "What's here?" → Copy the link from address bar</li>
+                  </ol>
                 </div>
               </div>
 
@@ -540,15 +637,26 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                   <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
                     <strong>Location:</strong> {locationName}
                   </p>
-                  {city && (
+                  {isOtherCountry ? (
                     <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                      <strong>City:</strong> {city}
+                      <strong>Country:</strong> {country || 'Not selected'}
                     </p>
-                  )}
-                  {province && (
-                    <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
-                      <strong>Province:</strong> {province}
-                    </p>
+                  ) : (
+                    <>
+                      {city && (
+                        <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                          <strong>City:</strong> {city}
+                        </p>
+                      )}
+                      {province && (
+                        <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                          <strong>Province:</strong> {province}
+                        </p>
+                      )}
+                      <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>
+                        <strong>Country:</strong> Sri Lanka
+                      </p>
+                    </>
                   )}
                   {tags && (
                     <p className={isDarkMode ? 'text-gray-300' : 'text-gray-700'}>

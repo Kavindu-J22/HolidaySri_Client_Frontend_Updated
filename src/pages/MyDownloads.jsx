@@ -147,13 +147,26 @@ const MyDownloads = () => {
                   <div className={`flex items-start gap-2 mb-2 sm:mb-3 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                     <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 mt-0.5 flex-shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs sm:text-sm font-medium truncate">
-                        {download.location.name}
-                      </p>
-                      {download.location.city && (
-                        <p className="text-[10px] sm:text-xs truncate">
-                          {download.location.city}, {download.location.province}
-                        </p>
+                      {download.location?.isOtherCountry ? (
+                        <>
+                          <p className="text-xs sm:text-sm font-medium truncate">
+                            {download.location.country || 'Other Country'}
+                          </p>
+                          <p className="text-[10px] sm:text-xs truncate">
+                            {download.location.name}
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-xs sm:text-sm font-medium truncate">
+                            {download.location.name}
+                          </p>
+                          {download.location.city && (
+                            <p className="text-[10px] sm:text-xs truncate">
+                              {download.location.city}, {download.location.province}
+                            </p>
+                          )}
+                        </>
                       )}
                     </div>
                   </div>

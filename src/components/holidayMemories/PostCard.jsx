@@ -320,7 +320,11 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
                 <div className="flex items-center gap-1">
                   <MapPin className="w-3 h-3" />
                   <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
-                    {post.location?.province}
+                    {post.location?.isOtherCountry
+                      ? post.location?.country || 'Other Country'
+                      : post.location?.province
+                        ? `${post.location.province}, Sri Lanka`
+                        : 'Sri Lanka'}
                   </span>
                 </div>
               </div>
@@ -934,7 +938,13 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
               {post.location && (
                 <div className="flex items-center gap-2 text-sm">
                   <MapPin className="w-4 h-4" />
-                  <span>{post.location.province}</span>
+                  <span>
+                    {post.location.isOtherCountry
+                      ? post.location.country || 'Other Country'
+                      : post.location.province
+                        ? `${post.location.province}, Sri Lanka`
+                        : 'Sri Lanka'}
+                  </span>
                 </div>
               )}
             </div>
