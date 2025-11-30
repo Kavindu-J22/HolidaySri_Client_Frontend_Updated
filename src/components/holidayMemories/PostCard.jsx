@@ -317,9 +317,9 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
                   {new Date(post.createdAt).toLocaleDateString()}
                 </span>
                 <span className={isDarkMode ? 'text-gray-600' : 'text-gray-400'}>•</span>
-                <div className="flex items-center gap-1">
-                  <MapPin className="w-3 h-3" />
-                  <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>
+                <div className="flex items-center gap-1 min-w-0">
+                  <MapPin className="w-3 h-3 flex-shrink-0" />
+                  <span className={`truncate max-w-[120px] sm:max-w-none ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                     {post.location?.isOtherCountry
                       ? 'Other Country'
                       : post.location?.province
