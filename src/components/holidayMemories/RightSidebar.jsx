@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapPin, TrendingUp } from 'lucide-react';
 import { useTheme } from '../../contexts/ThemeContext';
+import { useAuth } from '../../contexts/AuthContext';
 import axios from 'axios';
 import QuickActionsMenu from './QuickActionsMenu';
 
@@ -10,6 +11,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'https://holidaysri-backend-9xm4
 const RightSidebar = () => {
   const navigate = useNavigate();
   const { isDarkMode } = useTheme();
+  const { user } = useAuth();
   const [popularLocations, setPopularLocations] = useState([]);
   const [popularDestinations, setPopularDestinations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -43,7 +45,7 @@ const RightSidebar = () => {
         <h3 className={`text-lg font-semibold mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
           Quick Actions
         </h3>
-        <QuickActionsMenu />
+        <QuickActionsMenu user={user} />
       </div>
 
       {/* Popular Locations */}

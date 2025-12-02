@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
-import { X, Upload, MapPin, Tag, Link as LinkIcon, Image as ImageIcon, CheckCircle, AlertCircle, Sparkles, DollarSign, Camera } from 'lucide-react';
+import { X, Upload, MapPin, Tag, Link as LinkIcon, Image as ImageIcon, CheckCircle, AlertCircle, Sparkles, DollarSign, Camera, ShieldAlert } from 'lucide-react';
 import './ImageProtection.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://holidaysri-backend-9xm4.onrender.com/api';
@@ -306,6 +306,38 @@ const UploadPhotoModal = ({ isOpen, onClose, isDarkMode, onSuccess }) => {
                 <p className={`text-[10px] sm:text-xs mt-2 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
                   Max file size: 10MB • Supported: JPG, PNG, WEBP
                 </p>
+              </div>
+
+              {/* Copyright Warning Tip */}
+              <div className={`mx-2 sm:mx-4 p-3 sm:p-4 rounded-xl border-2 ${
+                isDarkMode
+                  ? 'bg-amber-900/20 border-amber-600/50'
+                  : 'bg-amber-50 border-amber-300'
+              }`}>
+                <div className="flex items-start gap-3">
+                  <div className={`p-2 rounded-full flex-shrink-0 ${
+                    isDarkMode ? 'bg-amber-600/30' : 'bg-amber-100'
+                  }`}>
+                    <ShieldAlert className={`w-5 h-5 sm:w-6 sm:h-6 ${
+                      isDarkMode ? 'text-amber-400' : 'text-amber-600'
+                    }`} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className={`text-sm sm:text-base font-semibold mb-1 ${
+                      isDarkMode ? 'text-amber-400' : 'text-amber-700'
+                    }`}>
+                      ⚠️ Important: Copyright Policy
+                    </h4>
+                    <p className={`text-xs sm:text-sm leading-relaxed ${
+                      isDarkMode ? 'text-amber-300/90' : 'text-amber-800'
+                    }`}>
+                      Please upload <strong>unique photos that you have personally captured</strong>.
+                      Uploading copyrighted images, stock photos, or content owned by others
+                      will result in <strong>immediate account suspension</strong>.
+                      We take copyright violations seriously to protect our community.
+                    </p>
+                  </div>
+                </div>
               </div>
 
               {preview && (

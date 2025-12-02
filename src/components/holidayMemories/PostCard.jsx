@@ -468,23 +468,37 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
           )}
 
           {/* Download Button - Attractive & Responsive */}
-          <button
-            onClick={() => setShowDownloadModal(true)}
-            className="w-full mt-3 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group"
-          >
-            <Download className="w-5 h-5 group-hover:animate-bounce flex-shrink-0" />
-            {downloadButtonText ? (
-              <span>{downloadButtonText}</span>
-            ) : (
-              <>
-                <span className="hidden sm:inline">Download Original Image + Location Info</span>
-                <span className="sm:hidden">Download Image + Info</span>
-              </>
-            )}
-            <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs flex-shrink-0">
-              {post.downloadPrice || 2.5} HSC
-            </span>
-          </button>
+          {user ? (
+            <button
+              onClick={() => setShowDownloadModal(true)}
+              className="w-full mt-3 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group"
+            >
+              <Download className="w-5 h-5 group-hover:animate-bounce flex-shrink-0" />
+              {downloadButtonText ? (
+                <span>{downloadButtonText}</span>
+              ) : (
+                <>
+                  <span className="hidden sm:inline">Download Original Image + Location Info</span>
+                  <span className="sm:hidden">Download Image + Info</span>
+                </>
+              )}
+              <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs flex-shrink-0">
+                {post.downloadPrice || 2.5} HSC
+              </span>
+            </button>
+          ) : (
+            <button
+              onClick={() => navigate('/login')}
+              className="w-full mt-3 py-3 bg-gradient-to-r from-gray-400 to-gray-500 hover:from-blue-500 hover:to-blue-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group"
+            >
+              <Download className="w-5 h-5 flex-shrink-0" />
+              <span className="hidden sm:inline">Login to Download + Location Info</span>
+              <span className="sm:hidden">Login to Download + Info</span>
+              <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs flex-shrink-0">
+                {post.downloadPrice || 2.5} HSC
+              </span>
+            </button>
+          )}
 
           {/* Comments Section */}
           {showComments && (

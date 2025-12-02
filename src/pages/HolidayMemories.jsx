@@ -16,7 +16,8 @@ import {
   DownloadCloud,
   Filter,
   Menu,
-  X
+  X,
+  LogIn
 } from 'lucide-react';
 
 const API_URL = import.meta.env.VITE_API_URL || 'https://holidaysri-backend-9xm4.onrender.com/api';
@@ -107,14 +108,25 @@ const HolidayMemories = () => {
             <h1 className={`text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent truncate`}>
               Holiday Memories
             </h1>
-            <button
-              onClick={() => setShowUploadModal(true)}
-              className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl flex-shrink-0"
-            >
-              <Upload className="w-4 h-4 flex-shrink-0" />
-              <span className="hidden sm:inline font-semibold whitespace-nowrap">Create Post</span>
-              <span className="sm:hidden font-semibold text-sm whitespace-nowrap">Post</span>
-            </button>
+            {user ? (
+              <button
+                onClick={() => setShowUploadModal(true)}
+                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl flex-shrink-0"
+              >
+                <Upload className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden sm:inline font-semibold whitespace-nowrap">Create Post</span>
+                <span className="sm:hidden font-semibold text-sm whitespace-nowrap">Post</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => navigate('/login')}
+                className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-gray-400 to-gray-500 hover:from-blue-500 hover:to-purple-600 text-white rounded-full transition-all shadow-lg hover:shadow-xl flex-shrink-0"
+              >
+                <LogIn className="w-4 h-4 flex-shrink-0" />
+                <span className="hidden sm:inline font-semibold whitespace-nowrap">Login to Post</span>
+                <span className="sm:hidden font-semibold text-sm whitespace-nowrap">Login</span>
+              </button>
+            )}
           </div>
 
           {/* Search Bar */}
@@ -258,12 +270,22 @@ const HolidayMemories = () => {
                 <p className={`mb-6 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                   Be the first to share your travel memories!
                 </p>
-                <button
-                  onClick={() => setShowUploadModal(true)}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
-                >
-                  Share Your First Memory
-                </button>
+                {user ? (
+                  <button
+                    onClick={() => setShowUploadModal(true)}
+                    className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg"
+                  >
+                    Share Your First Memory
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => navigate('/login')}
+                    className="flex items-center gap-2 mx-auto px-6 py-3 bg-gradient-to-r from-gray-400 to-gray-500 hover:from-blue-500 hover:to-purple-600 text-white rounded-full transition-all shadow-lg"
+                  >
+                    <LogIn className="w-5 h-5" />
+                    Login to Share Memory
+                  </button>
+                )}
               </div>
             ) : (
               <>
@@ -525,7 +547,7 @@ const HolidayMemories = () => {
                 <h3 className={`text-lg font-semibold mb-3 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
                   Quick Actions
                 </h3>
-                <QuickActionsMenu onActionClick={() => setShowQuickActions(false)} />
+                <QuickActionsMenu onActionClick={() => setShowQuickActions(false)} user={user} />
               </div>
             </div>
           </>
