@@ -128,6 +128,21 @@ const FeaturedAds = () => {
     return category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
   };
 
+  // Calculate lowest price from hotel rooms (same logic as HotelsAccommodationsBrowse)
+  const getLowestPrice = (hotel) => {
+    if (!hotel.rooms || hotel.rooms.length === 0) return null;
+
+    const prices = [];
+    hotel.rooms.forEach(room => {
+      if (room.pricePerNight > 0) prices.push(room.pricePerNight);
+      if (room.pricePerFullDay > 0) prices.push(room.pricePerFullDay);
+      if (room.pricing?.fullboardPrice > 0) prices.push(room.pricing.fullboardPrice);
+      if (room.pricing?.halfboardPrice > 0) prices.push(room.pricing.halfboardPrice);
+    });
+
+    return prices.length > 0 ? Math.min(...prices) : null;
+  };
+
   // Get display data from published ad
   const getDisplayData = (ad) => {
     const publishedAd = ad.publishedAdId;
@@ -165,6 +180,15 @@ const FeaturedAds = () => {
     let rating = publishedAd.averageRating || publishedAd.rating || 0;
     let reviews = publishedAd.totalReviews || publishedAd.reviewCount || 0;
 
+    // For hotels_accommodations, calculate lowest room price
+    let price = publishedAd.price || null;
+    if (ad.category === 'hotels_accommodations') {
+      const lowestPrice = getLowestPrice(publishedAd);
+      if (lowestPrice) {
+        price = lowestPrice;
+      }
+    }
+
     // Common fields across most schemas
     return {
       title: title,
@@ -173,8 +197,9 @@ const FeaturedAds = () => {
       location: publishedAd.location || publishedAd.city || publishedAd.address || null,
       rating: rating,
       reviews: reviews,
-      price: publishedAd.price || null,
-      specialization: publishedAd.specialization || publishedAd.category || null
+      price: price,
+      specialization: publishedAd.specialization || publishedAd.category || null,
+      isHotel: ad.category === 'hotels_accommodations'
     };
   };
 
@@ -437,6 +462,7 @@ const FeaturedAds = () => {
                     {/* Price Badge - Shows for categories with price */}
                     {displayData.price && displayData.price > 0 && (
                       <div className="absolute bottom-1.5 right-1.5 sm:bottom-2 sm:right-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-2 py-0.5 sm:px-3 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold shadow-lg">
+                        {displayData.isHotel && <span className="mr-1">From</span>}
                         LKR {displayData.price.toLocaleString()}
                       </div>
                     )}
@@ -505,6 +531,23 @@ const FeaturedAds = () => {
                         <span className="text-[11px] sm:text-xs text-gray-500 dark:text-gray-500">Location not specified</span>
                       )}
                     </div>
+
+                    {/* Hotel Lowest Price Section - Only for hotels with rooms */}
+                    {displayData.isHotel && displayData.price && displayData.price > 0 && (
+                      <div className="mb-2 sm:mb-3 p-2 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600 rounded-lg border border-blue-100 dark:border-gray-600">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-1">
+                            <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-green-600 dark:text-green-400" />
+                            <span className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">From</span>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm sm:text-base font-bold text-blue-600 dark:text-blue-400">
+                              LKR {displayData.price.toLocaleString()}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Spacer to push button to bottom */}
                     <div className="flex-grow"></div>
