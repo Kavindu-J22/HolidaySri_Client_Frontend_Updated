@@ -231,7 +231,7 @@ const PromoCodePayment = () => {
                 </p>
 
                 <div className="space-y-3">
-                  <div className="flex space-x-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <input
                       type="text"
                       value={promoCodeInput}
@@ -243,7 +243,7 @@ const PromoCodePayment = () => {
                     <button
                       onClick={validateAndApplyPromoCode}
                       disabled={validatingPromo || !promoCodeInput.trim()}
-                      className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+                      className="w-full sm:w-auto px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
                     >
                       {validatingPromo ? (
                         <>
@@ -273,38 +273,38 @@ const PromoCodePayment = () => {
               </div>
             ) : (
               <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
                   <div className="flex items-center space-x-2">
-                    <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+                    <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0" />
                     <span className="font-medium text-green-800 dark:text-green-300">Promo Code Applied</span>
                   </div>
                   <button
                     onClick={removePromoCode}
-                    className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm underline"
+                    className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 text-sm underline self-start sm:self-auto"
                   >
                     Remove
                   </button>
                 </div>
-                
+
                 <div className="space-y-2">
-                  <p className="text-green-700 dark:text-green-400">
+                  <p className="text-green-700 dark:text-green-400 break-all">
                     <strong>Code:</strong> {appliedPromoCode}
                   </p>
                   <p className="text-green-700 dark:text-green-400">
                     <strong>Discount:</strong> {discountAmount} HSC
                   </p>
-                  
+
                   {promoCodeAgent && (
                     <div className="mt-3 pt-3 border-t border-green-200 dark:border-green-800">
                       <p className="text-sm text-green-600 dark:text-green-400 mb-2">Agent Details:</p>
-                      <div className="flex items-center space-x-4 text-sm">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm">
                         <span className="flex items-center">
-                          <User className="w-3 h-3 mr-1" />
-                          {promoCodeAgent.username}
+                          <User className="w-3 h-3 mr-1 flex-shrink-0" />
+                          <span className="break-all">{promoCodeAgent.username}</span>
                         </span>
                         <span className="flex items-center">
-                          <Mail className="w-3 h-3 mr-1" />
-                          {promoCodeAgent.email}
+                          <Mail className="w-3 h-3 mr-1 flex-shrink-0" />
+                          <span className="break-all">{promoCodeAgent.email}</span>
                         </span>
                       </div>
                     </div>
