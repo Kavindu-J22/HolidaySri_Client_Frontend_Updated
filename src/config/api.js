@@ -146,6 +146,7 @@ export const travelBuddyAPI = {
   getCountries: () => api.get('/travel-buddy/countries'),
   publishTravelBuddy: (data) => api.post('/travel-buddy/publish', data),
   checkEligibility: () => api.get('/travel-buddy/check-eligibility'),
+  getPlatformStats: () => api.get('/travel-buddy/platform-stats'),
 };
 
 // Admin API calls

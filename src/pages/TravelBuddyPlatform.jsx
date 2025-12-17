@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { travelBuddyAPI, tripRequestAPI, API_BASE_URL } from '../config/api';
-import TravelBuddyAccessModal from '../components/common/TravelBuddyAccessModal';
+import TravelBuddyAccessPage from '../components/TravelBuddyAccessPage';
 import TripRequestModal from '../components/TripRequestModal';
 import TripRequestCard from '../components/TripRequestCard';
 
@@ -80,8 +80,16 @@ const TravelBuddyPlatform = () => {
   // Check user eligibility to access travel buddy platform
   const checkEligibility = async () => {
     if (!user) {
-      // User not logged in - redirect to login
-      navigate('/login', { state: { from: { pathname: '/travel-buddy-platform' } } });
+      // User not logged in - show access page with login/register options
+      setCanAccessPlatform(false);
+      setEligibilityChecked(true);
+      setAccessModalData({
+        reason: 'not_logged_in',
+        message: 'Please login or register to access the Travel Buddies Platform.',
+        redirectTo: '/login'
+      });
+      setShowAccessModal(true);
+      setLoading(false);
       return;
     }
 
@@ -437,18 +445,11 @@ const TravelBuddyPlatform = () => {
   // Don't render platform content if user doesn't have access
   if (!canAccessPlatform) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <TravelBuddyAccessModal
-          isOpen={showAccessModal}
-          onClose={() => {
-            setShowAccessModal(false);
-            // Navigation to home page is handled inside the modal component
-          }}
-          reason={accessModalData.reason}
-          message={accessModalData.message}
-          redirectTo={accessModalData.redirectTo}
-        />
-      </div>
+      <TravelBuddyAccessPage
+        reason={accessModalData.reason}
+        message={accessModalData.message}
+        redirectTo={accessModalData.redirectTo}
+      />
     );
   }
 
@@ -868,18 +869,6 @@ const TravelBuddyPlatform = () => {
           </>
         )}
       </div>
-
-      {/* Access Control Modal */}
-      <TravelBuddyAccessModal
-        isOpen={showAccessModal}
-        onClose={() => {
-          setShowAccessModal(false);
-          // Navigation to home page is handled inside the modal component
-        }}
-        reason={accessModalData.reason}
-        message={accessModalData.message}
-        redirectTo={accessModalData.redirectTo}
-      />
     </div>
   );
 };
