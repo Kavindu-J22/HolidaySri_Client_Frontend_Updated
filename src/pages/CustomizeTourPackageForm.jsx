@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Package, Calendar, Users, Clock, Home, Activity, MessageSquare, DollarSign, CheckCircle, XCircle, Eye } from 'lucide-react';
+import { Package, Calendar, Users, Clock, Home, Activity, MessageSquare, DollarSign, CheckCircle, XCircle, Eye, FileText, Upload, X } from 'lucide-react';
 import api, { userAPI } from '../config/api';
 
 const CustomizeTourPackageForm = () => {
@@ -16,6 +16,11 @@ const CustomizeTourPackageForm = () => {
   const [partnerRequests, setPartnerRequests] = useState([]);
   const [partnerRequestsCount, setPartnerRequestsCount] = useState(0);
   const [expandedRequest, setExpandedRequest] = useState(null);
+  const [proposalPDF, setProposalPDF] = useState({ url: '', publicId: '', uploading: false });
+  const [sendingProposal, setSendingProposal] = useState(false);
+  const [requestProposals, setRequestProposals] = useState({});
+  const [loadingProposals, setLoadingProposals] = useState({});
+  const [acceptingProposal, setAcceptingProposal] = useState(false);
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -156,25 +161,126 @@ const CustomizeTourPackageForm = () => {
     }
   };
 
-  const handleApproveRequest = async (requestId) => {
-    if (!window.confirm('Are you sure you want to approve this request? Your email will be shared with the customer.')) {
+  // Upload PDF to Cloudinary
+  const handleProposalPDFUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    if (file.type !== 'application/pdf') {
+      alert('Please upload a PDF file');
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert('PDF file must be less than 10MB');
+      return;
+    }
+
+    setProposalPDF(prev => ({ ...prev, uploading: true }));
+
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', 'ml_default');
+      formData.append('cloud_name', 'daa9e83as');
+
+      const response = await fetch('https://api.cloudinary.com/v1_1/daa9e83as/raw/upload', {
+        method: 'POST',
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.secure_url) {
+        setProposalPDF({
+          url: data.secure_url,
+          publicId: data.public_id,
+          uploading: false
+        });
+      } else {
+        throw new Error('Upload failed');
+      }
+    } catch (error) {
+      console.error('Error uploading PDF:', error);
+      alert('Failed to upload PDF. Please try again.');
+      setProposalPDF({ url: '', publicId: '', uploading: false });
+    }
+  };
+
+  const handleSendProposal = async (requestId) => {
+    if (!proposalPDF.url) {
+      alert('Please upload a proposal PDF first');
+      return;
+    }
+
+    if (!window.confirm('Are you sure you want to send this proposal? The client will be notified.')) {
       return;
     }
 
     try {
-      setLoading(true);
-      const response = await api.put(`/customize-tour-package/partner/request/${requestId}/approve`);
+      setSendingProposal(true);
+      const response = await api.post(`/customize-tour-package/partner/request/${requestId}/send-proposal`, {
+        proposalPDF: {
+          url: proposalPDF.url,
+          publicId: proposalPDF.publicId
+        }
+      });
+
       if (response.data.success) {
-        alert('Request approved successfully! The customer will be notified with your contact details.');
+        alert('Proposal sent successfully! The client will be notified.');
+        setProposalPDF({ url: '', publicId: '', uploading: false });
+        setExpandedRequest(null);
         fetchPartnerRequests();
         fetchPartnerRequestsCount();
-        setExpandedRequest(null);
       }
     } catch (error) {
-      console.error('Error approving request:', error);
-      alert(error.response?.data?.message || 'Failed to approve request');
+      console.error('Error sending proposal:', error);
+      alert(error.response?.data?.message || 'Failed to send proposal');
     } finally {
-      setLoading(false);
+      setSendingProposal(false);
+    }
+  };
+
+  // Fetch proposals for a request
+  const fetchProposalsForRequest = async (requestId) => {
+    if (requestProposals[requestId]) return; // Already loaded
+
+    try {
+      setLoadingProposals(prev => ({ ...prev, [requestId]: true }));
+      const response = await api.get(`/customize-tour-package/request/${requestId}/proposals`);
+      if (response.data.success) {
+        setRequestProposals(prev => ({
+          ...prev,
+          [requestId]: response.data.data
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching proposals:', error);
+    } finally {
+      setLoadingProposals(prev => ({ ...prev, [requestId]: false }));
+    }
+  };
+
+  // Accept a proposal
+  const handleAcceptProposal = async (requestId, proposalId, partnerName) => {
+    if (!window.confirm(`Are you sure you want to accept the proposal from ${partnerName}? This will notify all partners who submitted proposals.`)) {
+      return;
+    }
+
+    try {
+      setAcceptingProposal(true);
+      const response = await api.put(`/customize-tour-package/request/${requestId}/proposal/${proposalId}/accept`);
+
+      if (response.data.success) {
+        alert('Proposal accepted successfully! The partner will be notified with your contact details.');
+        fetchMyRequests();
+        setRequestProposals(prev => ({ ...prev, [requestId]: null }));
+      }
+    } catch (error) {
+      console.error('Error accepting proposal:', error);
+      alert(error.response?.data?.message || 'Failed to accept proposal');
+    } finally {
+      setAcceptingProposal(false);
     }
   };
 
@@ -599,6 +705,7 @@ const CustomizeTourPackageForm = () => {
                   <option value="rejected">Rejected</option>
                   <option value="show-partners">Show Partners</option>
                   <option value="partner-approved">Partner Approved</option>
+                  <option value="proposal-accepted">Proposal Accepted</option>
                 </select>
               </div>
 
@@ -635,7 +742,7 @@ const CustomizeTourPackageForm = () => {
                           </span>
                         </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-3 sm:mb-4">
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4 mb-3 sm:mb-4">
                           <div>
                             <p className="text-xs text-gray-500 dark:text-gray-400">Accommodation</p>
                             <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white capitalize break-words">
@@ -660,6 +767,13 @@ const CustomizeTourPackageForm = () => {
                               {request.activities?.length || 0} selected
                             </p>
                           </div>
+                          <div>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Proposals</p>
+                            <p className="text-xs sm:text-sm font-medium text-blue-600 dark:text-blue-400 flex items-center gap-1">
+                              <FileText className="w-3 h-3" />
+                              {request.proposals?.length || 0} received
+                            </p>
+                          </div>
                         </div>
 
                         {request.specialRequests && (
@@ -670,9 +784,68 @@ const CustomizeTourPackageForm = () => {
                         )}
 
                         {request.adminNote && (
-                          <div className="bg-blue-50 dark:bg-blue-900/20 rounded p-2.5 sm:p-3">
+                          <div className="bg-blue-50 dark:bg-blue-900/20 rounded p-2.5 sm:p-3 mb-2.5 sm:mb-3">
                             <p className="text-xs text-blue-600 dark:text-blue-400 mb-1">Admin Note</p>
                             <p className="text-xs sm:text-sm text-gray-700 dark:text-gray-300 break-words">{request.adminNote}</p>
+                          </div>
+                        )}
+
+                        {/* Proposals Section - Show if status is show-partners */}
+                        {request.status === 'show-partners' && request.proposals && request.proposals.length > 0 && (
+                          <div className="border-t border-gray-200 dark:border-gray-700 pt-3 sm:pt-4 mt-3 sm:mt-4">
+                            <div className="flex items-center justify-between mb-3">
+                              <h4 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                                <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+                                Received Proposals ({request.proposals.length})
+                              </h4>
+                              {!requestProposals[request._id] && (
+                                <button
+                                  onClick={() => fetchProposalsForRequest(request._id)}
+                                  disabled={loadingProposals[request._id]}
+                                  className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:underline"
+                                >
+                                  {loadingProposals[request._id] ? 'Loading...' : 'View Proposals'}
+                                </button>
+                              )}
+                            </div>
+
+                            {requestProposals[request._id] && (
+                              <div className="space-y-2 sm:space-y-3">
+                                {requestProposals[request._id].map((proposal) => (
+                                  <div key={proposal._id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 sm:p-4">
+                                    <div className="flex flex-col sm:flex-row justify-between items-start gap-3">
+                                      <div className="flex-1">
+                                        <h5 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
+                                          {proposal.partnerName}
+                                        </h5>
+                                        <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                          Submitted: {new Date(proposal.submittedAt).toLocaleDateString()}
+                                        </p>
+                                      </div>
+                                      <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                                        <a
+                                          href={proposal.proposalPDF.url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="px-3 sm:px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors text-xs sm:text-sm font-medium flex items-center justify-center gap-2"
+                                        >
+                                          <Eye className="w-4 h-4" />
+                                          View Proposal
+                                        </a>
+                                        <button
+                                          onClick={() => handleAcceptProposal(request._id, proposal._id, proposal.partnerName)}
+                                          disabled={acceptingProposal}
+                                          className="px-3 sm:px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm font-medium flex items-center justify-center gap-2"
+                                        >
+                                          <CheckCircle className="w-4 h-4" />
+                                          {acceptingProposal ? 'Accepting...' : 'Accept Proposal'}
+                                        </button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         )}
                       </div>
@@ -732,7 +905,7 @@ const CustomizeTourPackageForm = () => {
                             </button>
                           </div>
 
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                          <div className="grid grid-cols-2 md:grid-cols-5 gap-3 sm:gap-4">
                             <div>
                               <p className="text-xs text-gray-500 dark:text-gray-400">Accommodation</p>
                               <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white capitalize break-words">
@@ -755,6 +928,13 @@ const CustomizeTourPackageForm = () => {
                               <p className="text-xs text-gray-500 dark:text-gray-400">Activities</p>
                               <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white">
                                 {request.activities?.length || 0} selected
+                              </p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">Proposals</p>
+                              <p className="text-xs sm:text-sm font-medium text-blue-600 dark:text-blue-400 flex items-center gap-1">
+                                <FileText className="w-3 h-3" />
+                                {request.proposals?.length || 0} received
                               </p>
                             </div>
                           </div>
@@ -828,21 +1008,86 @@ const CustomizeTourPackageForm = () => {
                               </div>
                             )}
 
-                            {/* Approve Button */}
-                            <div className="pt-3 sm:pt-4">
+                            {/* Send Proposal Section */}
+                            <div className="pt-3 sm:pt-4 space-y-3 sm:space-y-4">
+                              {/* PDF Upload */}
+                              <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                  Upload Proposal (PDF) *
+                                </label>
+                                <div className="relative">
+                                  <input
+                                    type="file"
+                                    accept=".pdf"
+                                    onChange={handleProposalPDFUpload}
+                                    disabled={proposalPDF.uploading || sendingProposal}
+                                    className="hidden"
+                                    id={`proposal-upload-${request._id}`}
+                                  />
+                                  <label
+                                    htmlFor={`proposal-upload-${request._id}`}
+                                    className={`flex items-center justify-center gap-2 w-full px-4 py-3 border-2 border-dashed rounded-lg cursor-pointer transition-all ${
+                                      proposalPDF.uploading
+                                        ? 'border-orange-400 bg-orange-50 dark:bg-orange-900/20'
+                                        : proposalPDF.url
+                                        ? 'border-green-400 bg-green-50 dark:bg-green-900/20'
+                                        : 'border-gray-300 dark:border-gray-600 hover:border-orange-400 dark:hover:border-orange-400'
+                                    }`}
+                                  >
+                                    {proposalPDF.uploading ? (
+                                      <>
+                                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-orange-600"></div>
+                                        <span className="text-sm text-orange-600 dark:text-orange-400">Uploading...</span>
+                                      </>
+                                    ) : proposalPDF.url ? (
+                                      <>
+                                        <CheckCircle className="w-5 h-5 text-green-600" />
+                                        <span className="text-sm text-green-600 dark:text-green-400">PDF Uploaded</span>
+                                        <button
+                                          onClick={(e) => {
+                                            e.preventDefault();
+                                            setProposalPDF({ url: '', publicId: '', uploading: false });
+                                          }}
+                                          className="ml-auto p-1 hover:bg-red-100 dark:hover:bg-red-900/30 rounded"
+                                        >
+                                          <X className="w-4 h-4 text-red-600" />
+                                        </button>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Upload className="w-5 h-5 text-gray-400" />
+                                        <span className="text-sm text-gray-600 dark:text-gray-400">Click to upload proposal PDF</span>
+                                      </>
+                                    )}
+                                  </label>
+                                </div>
+                                {proposalPDF.url && (
+                                  <a
+                                    href={proposalPDF.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-xs text-blue-600 dark:text-blue-400 hover:underline mt-2 inline-flex items-center gap-1"
+                                  >
+                                    <FileText className="w-3 h-3" />
+                                    View uploaded PDF
+                                  </a>
+                                )}
+                              </div>
+
+                              {/* Send Proposal Button */}
                               <button
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleApproveRequest(request._id);
+                                  handleSendProposal(request._id);
                                 }}
-                                disabled={loading}
-                                className="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-green-600 to-green-700 text-white text-sm sm:text-base rounded-lg hover:from-green-700 hover:to-green-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
+                                disabled={!proposalPDF.url || sendingProposal}
+                                className="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-sm sm:text-base rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
                               >
-                                <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-                                {loading ? 'Processing...' : 'Approve Request & Share Contact'}
+                                <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
+                                {sendingProposal ? 'Sending...' : 'Send Proposal'}
                               </button>
-                              <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-2">
-                                By approving, your email will be shared with the customer
+                              <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+                                Upload your proposal PDF and send it to the client for review
                               </p>
                             </div>
                           </div>
