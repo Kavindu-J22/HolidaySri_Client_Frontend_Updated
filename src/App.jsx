@@ -260,6 +260,7 @@ import MyDownloads from './pages/MyDownloads';
 import MySavedPosts from './pages/MySavedPosts';
 import MyPhotoEarnings from './pages/MyPhotoEarnings';
 import MyPosts from './pages/MyPosts';
+import UserProfile from './pages/UserProfile';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -1061,6 +1062,7 @@ function App() {
                 <Route path="my-saved-posts" element={<MySavedPosts />} />
                 <Route path="my-photo-earnings" element={<MyPhotoEarnings />} />
                 <Route path="my-posts" element={<MyPosts />} />
+                <Route path="user-profile/:userId" element={<UserProfile />} />
               </Route>
 
               {/* 404 Not Found */}

@@ -43,8 +43,9 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
   const [reportReason, setReportReason] = useState('');
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [showImageModal, setShowImageModal] = useState(false);
+  const [hasDownloaded, setHasDownloaded] = useState(false);
 
-  // Initialize state only once when component mounts or post ID changes
+  // Initialize state when component mounts or post ID changes
   useEffect(() => {
     // Check if current user has liked this post
     if (user?._id && post.likes) {
@@ -68,11 +69,26 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
       setSaved(false);
     }
 
+    // Check if current user has downloaded this post
+    const currentUserId = user?._id || user?.id;
+    if (currentUserId && post.downloads) {
+      const userDownloaded = post.downloads.some(download => {
+        const downloadUserId = typeof download.userId === 'object'
+          ? (download.userId._id || download.userId.id)
+          : download.userId;
+        return downloadUserId?.toString() === currentUserId.toString();
+      });
+      setHasDownloaded(userDownloaded);
+      console.log('Download check:', { userDownloaded, currentUserId, downloads: post.downloads });
+    } else {
+      setHasDownloaded(false);
+    }
+
     // Initialize counts
     setLikeCount(post.likeCount || 0);
     setSaveCount(post.saveCount || 0);
     setComments(post.comments || []);
-  }, [post._id, user?._id]); // Run when post ID changes or user loads
+  }, [post._id, post.downloads, user?._id, user?.id]); // Run when post ID, downloads, or user changes
 
   // Prevent right-click on image
   const handleContextMenu = (e) => {
@@ -232,6 +248,7 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
       setDownloadSuccess(true);
       setShowDownloadModal(false);
       setDownloadCount(prev => prev + 1);
+      setHasDownloaded(true); // Mark as downloaded
 
       // Navigate to My Downloads after 3 seconds
       setTimeout(() => {
@@ -245,6 +262,7 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
         setDownloadError(`Insufficient HSC balance. You need ${error.response.data.required} HSC. Current balance: ${error.response.data.current} HSC`);
       } else if (error.response?.data?.alreadyDownloaded) {
         setDownloadError('You have already downloaded this photo');
+        setHasDownloaded(true); // Mark as downloaded if already downloaded
       } else {
         setDownloadError(error.response?.data?.message || 'Failed to download photo');
       }
@@ -306,10 +324,22 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
             <img
               src={post.userId?.profileImage || 'https://via.placeholder.com/40'}
               alt={post.userId?.name || 'User'}
-              className="w-10 h-10 rounded-full object-cover ring-2 ring-blue-500"
+              className="w-10 h-10 rounded-full object-cover ring-2 ring-blue-500 cursor-pointer hover:ring-4 transition-all"
+              onClick={() => {
+                if (post.userId?._id) {
+                  navigate(`/user-profile/${post.userId._id}`);
+                }
+              }}
             />
             <div>
-              <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+              <p
+                className={`font-semibold cursor-pointer hover:underline ${isDarkMode ? 'text-white' : 'text-gray-900'}`}
+                onClick={() => {
+                  if (post.userId?._id) {
+                    navigate(`/user-profile/${post.userId._id}`);
+                  }
+                }}
+              >
                 {post.userId?.name || 'Anonymous'}
               </p>
               <div className="flex items-center gap-2 text-xs">
@@ -395,7 +425,22 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
               </button>
 
               <button
-                onClick={() => setShowComments(!showComments)}
+                onClick={() => {
+                  if (!user) {
+                    navigate('/login');
+                    return;
+                  }
+                  // Check if user is the post owner
+                  const postUserId = post.userId?._id || post.userId;
+                  const currentUserId = user._id || user.id;
+                  const isOwner = postUserId && currentUserId && postUserId.toString() === currentUserId.toString();
+                  console.log('Comment button clicked:', { hasDownloaded, isOwner, postUserId, currentUserId });
+                  if (!hasDownloaded && !isOwner) {
+                    alert('You need to download this image first to view and add comments.');
+                    return;
+                  }
+                  setShowComments(!showComments);
+                }}
                 className="hover:scale-110 transition-transform active:scale-95"
               >
                 <MessageCircle className={`w-6 h-6 ${isDarkMode ? 'text-gray-400 hover:text-gray-300' : 'text-gray-700 hover:text-gray-900'}`} />
@@ -435,32 +480,25 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
             </p>
           </div>
 
-          {/* Caption */}
-          <div className="mb-2">
-            <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-800'} break-words`}>
-              <span className="font-semibold mr-2">{post.userId?.name || 'Anonymous'}</span>
-              {post.caption}
-            </p>
-          </div>
-
-          {/* Tags */}
-          {post.tags && post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mb-3">
-              {post.tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className={`text-xs font-medium ${isDarkMode ? 'text-blue-400' : 'text-blue-600'} break-all`}
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          )}
+          {/* Caption and Tags are hidden as per requirements */}
 
           {/* View Comments */}
           {comments.length > 0 && !showComments && (
             <button
-              onClick={() => setShowComments(true)}
+              onClick={() => {
+                if (!user) {
+                  navigate('/login');
+                  return;
+                }
+                const postUserId = post.userId?._id || post.userId;
+                const currentUserId = user._id || user.id;
+                const isOwner = postUserId && currentUserId && postUserId.toString() === currentUserId.toString();
+                if (!hasDownloaded && !isOwner) {
+                  alert('You need to download this image first to view and add comments.');
+                  return;
+                }
+                setShowComments(true);
+              }}
               className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-2`}
             >
               View all {comments.length} {comments.length === 1 ? 'comment' : 'comments'}
