@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { X, CheckCircle, XCircle, Loader, Bell, Clock, Grid3x3 } from 'lucide-react';
 import { API_BASE_URL } from '../config/api';
+import { useNavigate } from 'react-router-dom';
 
 const SlotAvailabilityModal = ({ isOpen, onClose }) => {
+  const navigate = useNavigate();
   const [slots, setSlots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [hasNotificationRequest, setHasNotificationRequest] = useState(false);
   const [showNotifyModal, setShowNotifyModal] = useState(false);
+  const [notifyModalType, setNotifyModalType] = useState('subscribe'); // 'subscribe' or 'unsubscribe'
   const [notifyLoading, setNotifyLoading] = useState(false);
 
   useEffect(() => {
@@ -58,32 +61,72 @@ const SlotAvailabilityModal = ({ isOpen, onClose }) => {
       const token = localStorage.getItem('token');
       if (!token) {
         alert('Please login to use this feature');
+        navigate('/login');
         return;
       }
-
-      const userEmail = JSON.parse(atob(token.split('.')[1])).email;
 
       const response = await fetch(`${API_BASE_URL}/home-banner-slot/notify-me`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ email: userEmail })
+        }
       });
 
       const data = await response.json();
 
       if (data.success) {
         setHasNotificationRequest(true);
+        setNotifyModalType('subscribe');
         setShowNotifyModal(true);
         setTimeout(() => setShowNotifyModal(false), 3000);
       } else {
-        alert(data.message || 'Failed to register notification');
+        if (data.requiresLogin) {
+          alert('Session expired. Please login again.');
+          navigate('/login');
+        } else {
+          alert(data.message || 'Failed to register notification');
+        }
       }
     } catch (error) {
       console.error('Error registering notification:', error);
       alert('Failed to register notification');
+    } finally {
+      setNotifyLoading(false);
+    }
+  };
+
+  const handleCancelNotification = async () => {
+    setNotifyLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please login to use this feature');
+        navigate('/login');
+        return;
+      }
+
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/cancel-notification`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setHasNotificationRequest(false);
+        setNotifyModalType('unsubscribe');
+        setShowNotifyModal(true);
+        setTimeout(() => setShowNotifyModal(false), 3000);
+      } else {
+        alert(data.message || 'Failed to cancel notification');
+      }
+    } catch (error) {
+      console.error('Error cancelling notification:', error);
+      alert('Failed to cancel notification');
     } finally {
       setNotifyLoading(false);
     }
@@ -242,11 +285,30 @@ const SlotAvailabilityModal = ({ isOpen, onClose }) => {
                             )}
                           </button>
                         ) : (
-                          <div className="flex items-center justify-center space-x-2 p-3 bg-green-100 dark:bg-green-900/40 border border-green-300 dark:border-green-700 rounded-lg">
-                            <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
-                            <span className="font-semibold text-green-700 dark:text-green-300">
-                              You'll be notified when a slot is available
-                            </span>
+                          <div className="space-y-3">
+                            <div className="flex items-center justify-center space-x-2 p-3 bg-green-100 dark:bg-green-900/40 border border-green-300 dark:border-green-700 rounded-lg">
+                              <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+                              <span className="font-semibold text-green-700 dark:text-green-300">
+                                You'll be notified when a slot is available
+                              </span>
+                            </div>
+                            <button
+                              onClick={handleCancelNotification}
+                              disabled={notifyLoading}
+                              className="w-full px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors flex items-center justify-center space-x-2 disabled:opacity-50"
+                            >
+                              {notifyLoading ? (
+                                <>
+                                  <Loader className="w-5 h-5 animate-spin" />
+                                  <span>Cancelling...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <X className="w-5 h-5" />
+                                  <span>Stop Notifying Me</span>
+                                </>
+                              )}
+                            </button>
                           </div>
                         )}
                       </div>
@@ -282,15 +344,31 @@ const SlotAvailabilityModal = ({ isOpen, onClose }) => {
       {showNotifyModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full text-center">
-            <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Bell className="w-10 h-10 text-blue-600 dark:text-blue-400" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-              Notification Registered!
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              We'll notify you via email when a slot becomes available.
-            </p>
+            {notifyModalType === 'subscribe' ? (
+              <>
+                <div className="w-16 h-16 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-10 h-10 text-green-600 dark:text-green-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  Notification Registered!
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  We'll notify you via email when a slot becomes available.
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="w-16 h-16 bg-gray-100 dark:bg-gray-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-10 h-10 text-gray-600 dark:text-gray-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  Notification Cancelled
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  You will no longer receive notifications when slots become available.
+                </p>
+              </>
+            )}
           </div>
         </div>
       )}

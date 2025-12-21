@@ -27,6 +27,7 @@ const HomeBannerSlotForm = () => {
   const [error, setError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showNotifyModal, setShowNotifyModal] = useState(false);
+  const [notifyModalType, setNotifyModalType] = useState('subscribe'); // 'subscribe' or 'unsubscribe'
 
   const [formData, setFormData] = useState({
     title: '',
@@ -99,29 +100,81 @@ const HomeBannerSlotForm = () => {
   // Request notification when slot becomes available
   const handleNotifyMe = async () => {
     try {
-      const userEmail = localStorage.getItem('userEmail') || '';
+      // Check if user is logged in
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Please login to use this feature');
+        setTimeout(() => {
+          navigate('/login', { state: { from: location } });
+        }, 2000);
+        return;
+      }
 
       const response = await fetch(`${API_BASE_URL}/home-banner-slot/notify-me`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ email: userEmail })
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       const data = await response.json();
 
       if (data.success) {
         setHasNotificationRequest(true);
+        setNotifyModalType('subscribe');
         setShowNotifyModal(true);
         setTimeout(() => setShowNotifyModal(false), 3000);
       } else {
-        setError(data.message || 'Failed to register for notifications');
+        if (data.requiresLogin) {
+          setError('Session expired. Please login again.');
+          setTimeout(() => {
+            navigate('/login', { state: { from: location } });
+          }, 2000);
+        } else {
+          setError(data.message || 'Failed to register for notifications');
+        }
       }
     } catch (error) {
       console.error('Error requesting notification:', error);
       setError('Failed to register for notifications');
+    }
+  };
+
+  // Cancel notification request
+  const handleCancelNotification = async () => {
+    try {
+      // Check if user is logged in
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Please login to use this feature');
+        setTimeout(() => {
+          navigate('/login', { state: { from: location } });
+        }, 2000);
+        return;
+      }
+
+      const response = await fetch(`${API_BASE_URL}/home-banner-slot/cancel-notification`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setHasNotificationRequest(false);
+        setNotifyModalType('unsubscribe');
+        setShowNotifyModal(true);
+        setTimeout(() => setShowNotifyModal(false), 3000);
+      } else {
+        setError(data.message || 'Failed to cancel notification');
+      }
+    } catch (error) {
+      console.error('Error cancelling notification:', error);
+      setError('Failed to cancel notification');
     }
   };
 
@@ -678,15 +731,25 @@ const HomeBannerSlotForm = () => {
                               Don't worry! We'll notify you via email as soon as a slot becomes available.
                             </p>
                             {hasNotificationRequest ? (
-                              <div className="flex items-center text-green-600 dark:text-green-400">
-                                <CheckCircle className="w-5 h-5 mr-2" />
-                                <span className="font-medium">You're on the notification list!</span>
+                              <div className="space-y-3">
+                                <div className="flex items-center text-green-600 dark:text-green-400">
+                                  <CheckCircle className="w-5 h-5 mr-2" />
+                                  <span className="font-medium">You're on the notification list!</span>
+                                </div>
+                                <button
+                                  type="button"
+                                  onClick={handleCancelNotification}
+                                  className="px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-semibold flex items-center transition-colors"
+                                >
+                                  <X className="w-5 h-5 mr-2" />
+                                  Stop Notifying Me
+                                </button>
                               </div>
                             ) : (
                               <button
                                 type="button"
                                 onClick={handleNotifyMe}
-                                className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-semibold flex items-center"
+                                className="px-6 py-3 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg font-semibold flex items-center transition-colors"
                               >
                                 <Bell className="w-5 h-5 mr-2" />
                                 Notify Me When Available
@@ -785,15 +848,31 @@ const HomeBannerSlotForm = () => {
       {showNotifyModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full text-center">
-            <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Bell className="w-10 h-10 text-blue-600 dark:text-blue-400" />
-            </div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-              Notification Registered!
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              We'll send you an email as soon as a slot becomes available.
-            </p>
+            {notifyModalType === 'subscribe' ? (
+              <>
+                <div className="w-16 h-16 bg-green-100 dark:bg-green-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-10 h-10 text-green-600 dark:text-green-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  Notification Registered!
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  We'll send you an email as soon as a slot becomes available.
+                </p>
+              </>
+            ) : (
+              <>
+                <div className="w-16 h-16 bg-gray-100 dark:bg-gray-900/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="w-10 h-10 text-gray-600 dark:text-gray-400" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  Notification Cancelled
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  You will no longer receive notifications when slots become available.
+                </p>
+              </>
+            )}
           </div>
         </div>
       )}
