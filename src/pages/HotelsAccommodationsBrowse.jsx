@@ -200,19 +200,42 @@ const ClientBookingCard = ({ booking, onUpdate }) => {
           {/* Pricing Section */}
           <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 sm:p-5 rounded-lg border border-green-200 dark:border-green-800 mb-4">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-              <div className="space-y-1">
-                <div className="flex items-baseline gap-2">
+              <div className="space-y-1.5 w-full sm:w-auto">
+                {/* Total Amount */}
+                <div className="flex items-baseline justify-between sm:justify-start gap-2">
                   <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Amount:</span>
                   <span className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">LKR {booking.totalAmount.toLocaleString()}</span>
                 </div>
-                {booking.discountedAmount > 0 && (
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">After Discount:</span>
-                    <span className="text-base sm:text-lg font-semibold text-green-600 dark:text-green-400">LKR {booking.discountedAmount.toLocaleString()}</span>
-                  </div>
+
+                {booking.totalDiscount > 0 && (
+                  <>
+                    {/* Discounted Amount (with minus) */}
+                    <div className="flex items-baseline justify-between sm:justify-start gap-2">
+                      <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Discounted Amount:</span>
+                      <span className="text-sm sm:text-base font-semibold text-red-600 dark:text-red-400">- LKR {booking.totalDiscount.toLocaleString()}</span>
+                    </div>
+
+                    {/* After Discount */}
+                    <div className="flex items-baseline justify-between sm:justify-start gap-2">
+                      <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">After Discount:</span>
+                      <span className="text-base sm:text-lg font-semibold text-green-600 dark:text-green-400">LKR {booking.discountedAmount.toLocaleString()}</span>
+                    </div>
+                  </>
                 )}
-                <div className="flex items-baseline gap-2">
-                  <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Final Amount:</span>
+
+                {booking.totalEarnRate > 0 && (
+                  <>
+                    {/* Paid Agent Rate (with minus) */}
+                    <div className="flex items-baseline justify-between sm:justify-start gap-2">
+                      <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Paid Agent Rate:</span>
+                      <span className="text-sm sm:text-base font-semibold text-red-600 dark:text-red-400">- LKR {booking.totalEarnRate.toLocaleString()}</span>
+                    </div>
+                  </>
+                )}
+
+                {/* Final Amount */}
+                <div className="flex items-baseline justify-between sm:justify-start gap-2 pt-1.5 border-t border-green-300 dark:border-green-700">
+                  <span className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">Final Amount:</span>
                   <span className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">LKR {booking.finalAmount.toLocaleString()}</span>
                 </div>
               </div>
@@ -1242,17 +1265,40 @@ const HotelsAccommodationsBrowse = () => {
 
                       {/* Pricing */}
                       <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800 mb-4">
-                        <div className="space-y-1">
+                        <div className="space-y-1.5">
+                          {/* Total Amount */}
                           <div className="flex items-baseline justify-between">
                             <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Amount:</span>
                             <span className="text-base sm:text-lg font-bold text-gray-900 dark:text-white">LKR {booking.totalAmount.toLocaleString()}</span>
                           </div>
-                          {booking.discountedAmount > 0 && (
-                            <div className="flex items-baseline justify-between">
-                              <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">After Discount:</span>
-                              <span className="text-sm sm:text-base font-semibold text-green-600 dark:text-green-400">LKR {booking.discountedAmount.toLocaleString()}</span>
-                            </div>
+
+                          {booking.totalDiscount > 0 && (
+                            <>
+                              {/* Discounted Amount (with minus) */}
+                              <div className="flex items-baseline justify-between">
+                                <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Discounted Amount:</span>
+                                <span className="text-sm sm:text-base font-semibold text-red-600 dark:text-red-400">- LKR {booking.totalDiscount.toLocaleString()}</span>
+                              </div>
+
+                              {/* After Discount */}
+                              <div className="flex items-baseline justify-between">
+                                <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">After Discount:</span>
+                                <span className="text-sm sm:text-base font-semibold text-green-600 dark:text-green-400">LKR {booking.discountedAmount.toLocaleString()}</span>
+                              </div>
+                            </>
                           )}
+
+                          {booking.totalEarnRate > 0 && (
+                            <>
+                              {/* Paid Agent Rate (with minus) */}
+                              <div className="flex items-baseline justify-between">
+                                <span className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Paid Agent Rate:</span>
+                                <span className="text-sm sm:text-base font-semibold text-red-600 dark:text-red-400">- LKR {booking.totalEarnRate.toLocaleString()}</span>
+                              </div>
+                            </>
+                          )}
+
+                          {/* Final Amount */}
                           <div className="flex items-baseline justify-between pt-2 border-t border-green-300 dark:border-green-700">
                             <span className="text-sm sm:text-base font-semibold text-gray-700 dark:text-gray-300">Final Amount:</span>
                             <span className="text-lg sm:text-xl font-bold text-blue-600 dark:text-blue-400">LKR {booking.finalAmount.toLocaleString()}</span>
