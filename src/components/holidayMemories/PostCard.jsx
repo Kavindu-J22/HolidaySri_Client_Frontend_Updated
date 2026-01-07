@@ -15,7 +15,8 @@ import {
   X,
   Flag,
   MoreHorizontal,
-  Send
+  Send,
+  ShoppingCart
 } from 'lucide-react';
 import './ImageProtection.css';
 
@@ -35,6 +36,7 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
   const [downloading, setDownloading] = useState(false);
   const [downloadSuccess, setDownloadSuccess] = useState(false);
   const [downloadError, setDownloadError] = useState('');
+  const [isInsufficientBalance, setIsInsufficientBalance] = useState(false);
   const [touchTimer, setTouchTimer] = useState(null);
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -220,6 +222,7 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
 
     setDownloading(true);
     setDownloadError('');
+    setIsInsufficientBalance(false);
 
     try {
       const token = localStorage.getItem('token');
@@ -260,6 +263,7 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
       console.error('Error downloading photo:', error);
       if (error.response?.data?.insufficientBalance) {
         setDownloadError(`Insufficient HSC balance. You need ${error.response.data.required} HSC. Current balance: ${error.response.data.current} HSC`);
+        setIsInsufficientBalance(true);
       } else if (error.response?.data?.alreadyDownloaded) {
         setDownloadError('You have already downloaded this photo');
         setHasDownloaded(true); // Mark as downloaded if already downloaded
@@ -269,6 +273,11 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
     } finally {
       setDownloading(false);
     }
+  };
+
+  const handleGoToHSCTreasure = () => {
+    setShowDownloadModal(false);
+    navigate('/hsc-treasure');
   };
 
   const handleShare = () => {
@@ -734,9 +743,20 @@ const PostCard = ({ post, isDarkMode, onUpdate, skipSaveConfirmation = false, do
             </div>
 
             {downloadError && (
-              <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-lg flex items-start gap-2">
-                <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
-                <p className="text-sm text-red-700 dark:text-red-300">{downloadError}</p>
+              <div className="mb-4">
+                <div className="p-3 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-lg flex items-start gap-2">
+                  <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm text-red-700 dark:text-red-300">{downloadError}</p>
+                </div>
+                {isInsufficientBalance && (
+                  <button
+                    onClick={handleGoToHSCTreasure}
+                    className="w-full mt-3 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2"
+                  >
+                    <ShoppingCart className="w-5 h-5" />
+                    <span>Recharge HSC Now</span>
+                  </button>
+                )}
               </div>
             )}
 
