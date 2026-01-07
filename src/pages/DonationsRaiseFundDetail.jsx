@@ -390,6 +390,19 @@ const DonationsRaiseFundDetail = () => {
                     <span className="inline-flex items-center bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-900/40 dark:to-purple-900/40 text-blue-800 dark:text-blue-200 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold shadow-sm">
                       {campaign.category}
                     </span>
+                    {campaign.adminApprove && (
+                      <span className={`inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold shadow-sm ${
+                        campaign.adminApprove === 'Approved'
+                          ? 'bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/40 dark:to-emerald-900/40 text-green-800 dark:text-green-200'
+                          : campaign.adminApprove === 'Rejected'
+                          ? 'bg-gradient-to-r from-red-100 to-rose-100 dark:from-red-900/40 dark:to-rose-900/40 text-red-800 dark:text-red-200'
+                          : 'bg-gradient-to-r from-yellow-100 to-amber-100 dark:from-yellow-900/40 dark:to-amber-900/40 text-yellow-800 dark:text-yellow-200'
+                      }`}>
+                        {campaign.adminApprove === 'Approved' && <Check className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />}
+                        {campaign.adminApprove === 'Rejected' && <X className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />}
+                        {campaign.adminApprove}
+                      </span>
+                    )}
                   </div>
                   <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3 leading-tight">
                     {campaign.title}

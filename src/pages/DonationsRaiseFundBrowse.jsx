@@ -75,12 +75,14 @@ const DonationsRaiseFundBrowse = () => {
       if (response.data.success) {
         console.log('Raw data from API:', response.data.data.length, 'campaigns');
 
-        // Filter out expired campaigns
+        // Filter out expired campaigns and only show approved campaigns
         const activeCampaigns = response.data.data.filter(campaign => {
-          return campaign.publishedAdId && campaign.publishedAdId.status !== 'expired';
+          return campaign.publishedAdId &&
+                 campaign.publishedAdId.status !== 'expired' &&
+                 campaign.adminApprove === 'Approved';
         });
 
-        console.log('After filtering expired:', activeCampaigns.length, 'campaigns');
+        console.log('After filtering expired and approved:', activeCampaigns.length, 'campaigns');
 
         // Remove duplicates based on _id using Map for better performance
         const uniqueCampaignsMap = new Map();

@@ -15,6 +15,7 @@ const EditDonationsRaiseFund = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [hscValue, setHscValue] = useState(100);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [adminApprove, setAdminApprove] = useState('Pending');
 
   const [provincesData, setProvincesData] = useState({
     "Western Province": ["Colombo", "Gampaha", "Kalutara"],
@@ -83,6 +84,7 @@ const EditDonationsRaiseFund = () => {
           requestedAmountLKR: campaign.requestedAmountLKR
         });
         setImages(campaign.images || []);
+        setAdminApprove(campaign.adminApprove || 'Pending');
       }
     } catch (error) {
       console.error('Error fetching campaign:', error);
@@ -252,6 +254,66 @@ const EditDonationsRaiseFund = () => {
             <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1 sm:mb-2">Edit Donation Campaign</h1>
             <p className="text-sm sm:text-base text-blue-100">Update your fundraising campaign details</p>
           </div>
+
+          {/* Admin Approval Status Bar */}
+          {adminApprove && (
+            <div className={`p-4 sm:p-6 border-b ${
+              adminApprove === 'Approved'
+                ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'
+                : adminApprove === 'Rejected'
+                ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800'
+                : 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800'
+            }`}>
+              <div className="flex items-start gap-3">
+                <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center ${
+                  adminApprove === 'Approved'
+                    ? 'bg-green-500'
+                    : adminApprove === 'Rejected'
+                    ? 'bg-red-500'
+                    : 'bg-yellow-500'
+                }`}>
+                  {adminApprove === 'Approved' && <span className="text-white text-sm">✓</span>}
+                  {adminApprove === 'Rejected' && <span className="text-white text-sm">✕</span>}
+                  {adminApprove === 'Pending' && <span className="text-white text-sm">⏱</span>}
+                </div>
+                <div className="flex-1">
+                  <h3 className={`font-semibold text-sm sm:text-base mb-1 ${
+                    adminApprove === 'Approved'
+                      ? 'text-green-900 dark:text-green-100'
+                      : adminApprove === 'Rejected'
+                      ? 'text-red-900 dark:text-red-100'
+                      : 'text-yellow-900 dark:text-yellow-100'
+                  }`}>
+                    {adminApprove === 'Approved' && 'Campaign Approved ✓'}
+                    {adminApprove === 'Rejected' && 'Campaign Rejected'}
+                    {adminApprove === 'Pending' && 'Pending Admin Review'}
+                  </h3>
+                  <p className={`text-xs sm:text-sm ${
+                    adminApprove === 'Approved'
+                      ? 'text-green-700 dark:text-green-300'
+                      : adminApprove === 'Rejected'
+                      ? 'text-red-700 dark:text-red-300'
+                      : 'text-yellow-700 dark:text-yellow-300'
+                  }`}>
+                    {adminApprove === 'Approved' && 'Your campaign has been approved and is now visible to the public.'}
+                    {adminApprove === 'Rejected' && 'Your campaign was not approved. Please review the feedback and make necessary changes before resubmitting.'}
+                    {adminApprove === 'Pending' && 'Your campaign is currently under review by our admin team. You will be notified once it has been reviewed.'}
+                  </p>
+                  {adminApprove !== 'Approved' && (
+                    <p className={`text-xs sm:text-sm mt-2 font-medium ${
+                      adminApprove === 'Rejected'
+                        ? 'text-red-800 dark:text-red-200'
+                        : 'text-yellow-800 dark:text-yellow-200'
+                    }`}>
+                      {adminApprove === 'Rejected'
+                        ? '⚠️ Note: Any edits you make will reset the approval status to "Pending" and require a new review.'
+                        : '⚠️ Note: Making edits will reset the approval status to "Pending" and require a new review.'}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Step Indicator */}
           <div className="flex justify-between items-center p-4 sm:p-6 bg-gray-50 dark:bg-gray-700">
