@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, MapPin, Briefcase, Mail, Phone, Facebook, Globe, Star, Loader, Calendar, FileText, Download, Share2 } from 'lucide-react';
+import { ArrowLeft, MapPin, Briefcase, Mail, Phone, Facebook, Globe, Star, Loader, Calendar, FileText, Download, Share2, ExternalLink } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import RatingDisplay from '../components/common/RatingDisplay';
 import axios from 'axios';
@@ -262,6 +262,17 @@ const TourGuiderDetailView = () => {
                     {tourGuider.city}, {tourGuider.province}
                   </p>
                 </div>
+              </div>
+
+              {/* View On Map Button */}
+              <div className="mt-4">
+                <button
+                  onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(tourGuider.city + ', ' + tourGuider.province + ', Sri Lanka')}`, '_blank')}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+                >
+                  <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base font-medium">View On Map</span>
+                </button>
               </div>
 
               {/* Availability Status */}

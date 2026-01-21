@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Star, Phone, MessageCircle, Globe, Facebook, Download, Loader, AlertCircle, Share2 } from 'lucide-react';
+import { ArrowLeft, Star, Phone, MessageCircle, Globe, Facebook, Download, Loader, AlertCircle, Share2, ExternalLink } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const TrustedAstrologistsDetailView = () => {
@@ -254,6 +254,17 @@ const TrustedAstrologistsDetailView = () => {
                 <p className="text-gray-700 dark:text-gray-300">
                   <span className="font-semibold">Location:</span> {astrologist.city}, {astrologist.province}
                 </p>
+              </div>
+
+              {/* View On Map Button */}
+              <div className="mb-6">
+                <button
+                  onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(astrologist.city + ', ' + astrologist.province + ', Sri Lanka')}`, '_blank')}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+                >
+                  <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base font-medium">View On Map</span>
+                </button>
               </div>
 
               {/* Contact Buttons */}

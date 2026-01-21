@@ -12,7 +12,8 @@ import {
   Loader,
   MapPinIcon,
   Truck,
-  Check
+  Check,
+  ExternalLink
 } from 'lucide-react';
 import SuccessModal from '../components/common/SuccessModal';
 
@@ -382,15 +383,23 @@ const DailyGroceryEssentialsDetailView = () => {
                     </a>
                   </div>
                 )}
-                {listing.mapLink && (
-                  <div>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Location</p>
+                <div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Location</p>
+                  {listing.mapLink ? (
                     <a href={listing.mapLink} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-semibold flex items-center gap-1">
                       <MapPinIcon className="w-4 h-4" />
                       View on Map
                     </a>
-                  </div>
-                )}
+                  ) : (
+                    <button
+                      onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(listing.city + ', ' + listing.province + ', Sri Lanka')}`, '_blank')}
+                      className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      <span className="text-sm font-medium">View On Map</span>
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
 

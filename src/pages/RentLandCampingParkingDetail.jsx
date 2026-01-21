@@ -14,7 +14,8 @@ import {
   ChevronLeft,
   ChevronRight,
   Eye,
-  Share2
+  Share2,
+  ExternalLink
 } from 'lucide-react';
 import axios from 'axios';
 import SuccessModal from '../components/common/SuccessModal';
@@ -399,8 +400,8 @@ const RentLandCampingParkingDetail = () => {
               </div>
 
               {/* Map Link */}
-              {listing.mapLink && (
-                <div className="mb-4 sm:mb-6">
+              <div className="mb-4 sm:mb-6">
+                {listing.mapLink ? (
                   <a
                     href={listing.mapLink}
                     target="_blank"
@@ -410,8 +411,16 @@ const RentLandCampingParkingDetail = () => {
                     <MapPin className="w-4 h-4 sm:w-5 sm:h-5" />
                     View on Google Maps
                   </a>
-                </div>
-              )}
+                ) : (
+                  <button
+                    onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(listing.location.city + ', ' + listing.location.province + ', Sri Lanka')}`, '_blank')}
+                    className="flex items-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+                  >
+                    <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span className="text-sm sm:text-base font-medium">View On Map</span>
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Reviews Section */}

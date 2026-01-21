@@ -16,7 +16,8 @@ import {
   Share2,
   Copy,
   X,
-  MessageCircle
+  MessageCircle,
+  ExternalLink
 } from 'lucide-react';
 import SuccessModal from '../components/common/SuccessModal';
 
@@ -277,9 +278,18 @@ const ExpertDoctorsDetailView = () => {
                 <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
                 Location
               </h2>
-              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 font-medium">
+              <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 font-medium mb-4">
                 {expertDoctor.location.city}, {expertDoctor.location.province}
               </p>
+
+              {/* View On Map Button */}
+              <button
+                onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(expertDoctor.location.city + ', ' + expertDoctor.location.province + ', Sri Lanka')}`, '_blank')}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+              >
+                <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="text-sm sm:text-base font-medium">View On Map</span>
+              </button>
             </div>
 
             {/* Contact Information */}

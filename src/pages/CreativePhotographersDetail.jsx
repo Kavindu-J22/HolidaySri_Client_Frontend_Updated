@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
   MapPin, Phone, Globe, Facebook, Instagram, Calendar, Award, Briefcase,
   Star, MessageCircle, Send, Trash2, Edit2, FileText, ArrowLeft,
-  Share2, Clock, Users, CheckCircle, Camera
+  Share2, Clock, Users, CheckCircle, Camera, ExternalLink
 } from 'lucide-react';
 
 const CreativePhotographersDetail = () => {
@@ -254,6 +254,17 @@ const CreativePhotographersDetail = () => {
                         <span className="text-xs sm:text-sm font-semibold text-white">Available</span>
                       </div>
                     )}
+                  </div>
+
+                  {/* View On Map Button */}
+                  <div className="mt-4">
+                    <button
+                      onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(photographer.city + ', ' + photographer.province + ', Sri Lanka')}`, '_blank')}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white rounded-lg transition-colors shadow-md hover:shadow-lg border border-white/30"
+                    >
+                      <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                      <span className="text-sm sm:text-base font-medium">View On Map</span>
+                    </button>
                   </div>
                 </div>
               </div>

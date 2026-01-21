@@ -24,7 +24,8 @@ import {
   Calendar,
   Clock,
   MapPinned,
-  Info
+  Info,
+  ExternalLink
 } from 'lucide-react';
 import axios from 'axios';
 import SuccessModal from '../components/common/SuccessModal';
@@ -460,14 +461,25 @@ const VehicleRentalsHireDetail = () => {
               </div>
 
               {/* Location */}
-              <div className="flex items-start gap-3 mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
-                <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-1" />
-                <div>
-                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Location</p>
-                  <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
-                    {listing.city}, {listing.province}
-                  </p>
+              <div className="mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
+                <div className="flex items-start gap-3 mb-4">
+                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0 mt-1" />
+                  <div>
+                    <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Location</p>
+                    <p className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
+                      {listing.city}, {listing.province}
+                    </p>
+                  </div>
                 </div>
+
+                {/* View On Map Button */}
+                <button
+                  onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(listing.city + ', ' + listing.province + ', Sri Lanka')}`, '_blank')}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+                >
+                  <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base font-medium">View On Map</span>
+                </button>
               </div>
 
               {/* Status Information */}

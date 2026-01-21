@@ -13,7 +13,8 @@ import {
   AlertCircle,
   Truck,
   CheckCircle,
-  Share2
+  Share2,
+  ExternalLink
 } from 'lucide-react';
 
 const FoodsBeveragesDetail = () => {
@@ -477,7 +478,7 @@ const FoodsBeveragesDetail = () => {
 
               {/* Location */}
               <div className="mb-4 sm:mb-6 pb-4 sm:pb-6 border-b border-gray-200 dark:border-gray-700">
-                <div className="flex items-start gap-3">
+                <div className="flex items-start gap-3 mb-4">
                   <MapPin className="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" />
                   <div>
                     <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">Location</p>
@@ -486,6 +487,15 @@ const FoodsBeveragesDetail = () => {
                     </p>
                   </div>
                 </div>
+
+                {/* View On Map Button */}
+                <button
+                  onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(foodsBeverages.location.city + ', ' + foodsBeverages.location.province + ', Sri Lanka')}`, '_blank')}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+                >
+                  <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base font-medium">View On Map</span>
+                </button>
               </div>
 
               {/* Phone */}

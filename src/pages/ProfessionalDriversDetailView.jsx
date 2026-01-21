@@ -22,7 +22,8 @@ import {
   MapPinned,
   Info,
   Users,
-  MessageCircle
+  MessageCircle,
+  ExternalLink
 } from 'lucide-react';
 import { professionalDriversAPI } from '../config/api';
 import SuccessModal from '../components/common/SuccessModal';
@@ -406,6 +407,17 @@ const ProfessionalDriversDetailView = () => {
                 <div className="inline-flex items-center gap-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700/50 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg mx-auto md:mx-0">
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-400" />
                   <span className="text-sm sm:text-base font-medium">{profile.city}, {profile.province}</span>
+                </div>
+
+                {/* View On Map Button */}
+                <div className="mt-4 mx-auto md:mx-0 max-w-xs md:max-w-none">
+                  <button
+                    onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(profile.city + ', ' + profile.province + ', Sri Lanka')}`, '_blank')}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+                  >
+                    <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span className="text-sm sm:text-base font-medium">View On Map</span>
+                  </button>
                 </div>
               </div>
             </div>

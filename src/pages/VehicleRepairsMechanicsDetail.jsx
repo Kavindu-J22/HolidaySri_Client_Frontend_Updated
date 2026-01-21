@@ -18,7 +18,8 @@ import {
   Check,
   FileText,
   Wrench,
-  Camera
+  Camera,
+  ExternalLink
 } from 'lucide-react';
 import { vehicleRepairsMechanicsAPI } from '../config/api';
 import SuccessModal from '../components/common/SuccessModal';
@@ -279,6 +280,17 @@ const VehicleRepairsMechanicsDetail = () => {
               <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-base">
                 {profile.description}
               </p>
+            </div>
+
+            {/* View On Map Button */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 border border-gray-100 dark:border-gray-700">
+              <button
+                onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(profile.location?.city + ', ' + profile.location?.province + ', Sri Lanka')}`, '_blank')}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+              >
+                <ExternalLink className="w-5 h-5" />
+                <span className="text-base font-medium">View On Map</span>
+              </button>
             </div>
 
             {/* Services */}

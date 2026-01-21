@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Star, MapPin, DollarSign, Phone, AlertCircle, Loader, ChevronLeft, ChevronRight, Share2, X, MessageCircle, Copy, Facebook as FacebookIcon } from 'lucide-react';
+import { Star, MapPin, DollarSign, Phone, AlertCircle, Loader, ChevronLeft, ChevronRight, Share2, X, MessageCircle, Copy, Facebook as FacebookIcon, ExternalLink } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const RentPropertyBuyingSellingDetailView = () => {
@@ -286,10 +286,19 @@ const RentPropertyBuyingSellingDetailView = () => {
             {/* Location */}
             <div className="mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-gray-200 dark:border-gray-700">
               <h2 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">Location</h2>
-              <div className="flex items-center space-x-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+              <div className="flex items-center space-x-2 text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-4">
                 <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
                 <span>{property.location.city}, {property.location.province}</span>
               </div>
+
+              {/* View On Map Button */}
+              <button
+                onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(property.location.city + ', ' + property.location.province + ', Sri Lanka')}`, '_blank')}
+                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+              >
+                <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="text-sm sm:text-base font-medium">View On Map</span>
+              </button>
             </div>
 
             {/* Description */}

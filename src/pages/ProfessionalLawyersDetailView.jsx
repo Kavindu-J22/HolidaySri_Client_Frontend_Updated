@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Star, MessageCircle, Phone, Globe, Facebook, Loader, AlertCircle, CheckCircle, Share2, X } from 'lucide-react';
+import { ArrowLeft, Star, MessageCircle, Phone, Globe, Facebook, Loader, AlertCircle, CheckCircle, Share2, X, ExternalLink } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const ProfessionalLawyersDetailView = () => {
@@ -326,6 +326,17 @@ const ProfessionalLawyersDetailView = () => {
                       </a>
                     </div>
                   )}
+                </div>
+
+                {/* View On Map Button */}
+                <div className="mt-4">
+                  <button
+                    onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lawyer.city + ', ' + lawyer.province + ', Sri Lanka')}`, '_blank')}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+                  >
+                    <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span className="text-sm sm:text-base font-medium">View On Map</span>
+                  </button>
                 </div>
               </div>
             </div>

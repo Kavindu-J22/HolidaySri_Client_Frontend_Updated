@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { ArrowLeft, Star, MessageCircle, Loader, MapPin, Users, DollarSign, Calendar, Phone, Mail, Globe, Share2, Facebook, Twitter, Link2, Check } from 'lucide-react';
+import { ArrowLeft, Star, MessageCircle, Loader, MapPin, Users, DollarSign, Calendar, Phone, Mail, Globe, Share2, Facebook, Twitter, Link2, Check, ExternalLink } from 'lucide-react';
 import SuccessModal from '../components/common/SuccessModal';
 
 const LocalTourPackageDetail = () => {
@@ -349,6 +349,17 @@ const LocalTourPackageDetail = () => {
                     </p>
                   </div>
                 </div>
+              </div>
+
+              {/* View On Map Button */}
+              <div className="mb-6">
+                <button
+                  onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(packageData.location.city + ', ' + packageData.location.province + ', Sri Lanka')}`, '_blank')}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors shadow-md hover:shadow-lg"
+                >
+                  <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm sm:text-base font-medium">View On Map</span>
+                </button>
               </div>
 
               {/* Description */}
