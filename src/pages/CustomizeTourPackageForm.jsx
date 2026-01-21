@@ -261,6 +261,17 @@ const CustomizeTourPackageForm = () => {
     }
   };
 
+  // Auto-fetch proposals for requests with proposals when they are loaded
+  useEffect(() => {
+    if (activeTab === 'my-requests' && myRequests.length > 0) {
+      myRequests.forEach(request => {
+        if (request.status === 'show-partners' && request.proposals && request.proposals.length > 0) {
+          fetchProposalsForRequest(request._id);
+        }
+      });
+    }
+  }, [myRequests, activeTab]);
+
   // Accept a proposal
   const handleAcceptProposal = async (requestId, proposalId, partnerName) => {
     if (!window.confirm(`Are you sure you want to accept the proposal from ${partnerName}? This will notify all partners who submitted proposals.`)) {
@@ -798,18 +809,14 @@ const CustomizeTourPackageForm = () => {
                                 <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                                 Received Proposals ({request.proposals.length})
                               </h4>
-                              {!requestProposals[request._id] && (
-                                <button
-                                  onClick={() => fetchProposalsForRequest(request._id)}
-                                  disabled={loadingProposals[request._id]}
-                                  className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 hover:underline"
-                                >
-                                  {loadingProposals[request._id] ? 'Loading...' : 'View Proposals'}
-                                </button>
-                              )}
                             </div>
 
-                            {requestProposals[request._id] && (
+                            {loadingProposals[request._id] ? (
+                              <div className="text-center py-4">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+                                <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-2">Loading proposals...</p>
+                              </div>
+                            ) : requestProposals[request._id] && requestProposals[request._id].length > 0 ? (
                               <div className="space-y-2 sm:space-y-3">
                                 {requestProposals[request._id].map((proposal) => (
                                   <div key={proposal._id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3 sm:p-4">
@@ -832,19 +839,31 @@ const CustomizeTourPackageForm = () => {
                                           <Eye className="w-4 h-4" />
                                           View Proposal
                                         </a>
-                                        <button
-                                          onClick={() => handleAcceptProposal(request._id, proposal._id, proposal.partnerName)}
-                                          disabled={acceptingProposal}
-                                          className="px-3 sm:px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm font-medium flex items-center justify-center gap-2"
-                                        >
-                                          <CheckCircle className="w-4 h-4" />
-                                          {acceptingProposal ? 'Accepting...' : 'Accept Proposal'}
-                                        </button>
+                                        {proposal.status === 'pending' && (
+                                          <button
+                                            onClick={() => handleAcceptProposal(request._id, proposal._id, proposal.partnerName)}
+                                            disabled={acceptingProposal}
+                                            className="px-3 sm:px-4 py-2 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-xs sm:text-sm font-medium flex items-center justify-center gap-2"
+                                          >
+                                            <CheckCircle className="w-4 h-4" />
+                                            {acceptingProposal ? 'Accepting...' : 'Accept Proposal'}
+                                          </button>
+                                        )}
+                                        {proposal.status === 'accepted' && (
+                                          <span className="px-3 sm:px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-lg flex items-center justify-center gap-2 text-xs sm:text-sm font-medium">
+                                            <CheckCircle className="w-4 h-4" />
+                                            Accepted
+                                          </span>
+                                        )}
                                       </div>
                                     </div>
                                   </div>
                                 ))}
                               </div>
+                            ) : (
+                              <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-center py-4">
+                                No proposals available
+                              </p>
                             )}
                           </div>
                         )}
