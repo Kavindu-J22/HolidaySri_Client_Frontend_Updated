@@ -254,7 +254,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
 
   const holidayMemoriesSection = {
     title: 'Holiday Memories',
-    subtitle: 'Photos & Locations from Travelers',
+    subtitle: 'Photos & Locations from Travelers (Earn Mony 💰)',
     icon: Camera,
     color: 'text-pink-600',
     path: '/ads/entertainment/holiday-memories'
