@@ -306,12 +306,7 @@ const Home = () => {
     }
   ];
 
-  const stats = [
-    { label: 'Active Listings', value: '2,500+', icon: MapPin, color: 'text-blue-600' },
-    { label: 'Happy Travelers', value: '10,000+', icon: Users, color: 'text-green-600' },
-    { label: 'Partner Hotels', value: '500+', icon: Hotel, color: 'text-purple-600' },
-    { label: 'Tour Packages', value: '1,000+', icon: Compass, color: 'text-orange-600' }
-  ];
+
 
   // Popular Categories
   const popularCategories = [
@@ -427,6 +422,192 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Unforgettable Sri Lankan Adventures - 4 Box Section */}
+      <section className="relative overflow-hidden px-3 sm:px-4 lg:px-0">
+        {/* Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 via-purple-50/50 to-pink-50/50 dark:from-blue-900/5 dark:via-purple-900/5 dark:to-pink-900/5 rounded-3xl"></div>
+
+        <div className="relative py-12 sm:py-16">
+          {/* Section Header */}
+          <div className="text-center mb-8 sm:mb-12">
+            <div className="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-amber-100 to-orange-100 dark:from-amber-900/30 dark:to-orange-900/30 rounded-full mb-4">
+              <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 mr-2" />
+              <span className="text-sm font-bold text-amber-600 dark:text-amber-400">
+                EXPLORE OUR SERVICES
+              </span>
+            </div>
+
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+              <span className="block text-gray-800 dark:text-gray-100 tracking-wide">
+                Unforgettable Sri Lankan
+              </span>
+              <span className="block bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 bg-clip-text text-transparent mt-1">
+                Adventures
+              </span>
+            </h2>
+
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto px-4">
+              Everything you need for your perfect Sri Lankan journey, all in one place
+            </p>
+          </div>
+
+          {/* 4 Box Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-7xl mx-auto">
+            {/* Box 1: Hotels & Bookings */}
+            <Link
+              to="/hotels-accommodations"
+              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-200 dark:border-gray-700 overflow-hidden"
+            >
+              {/* Background Image */}
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-500"
+                style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop)' }}
+              ></div>
+
+              {/* Gradient Background on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div className="relative">
+                {/* Icon */}
+                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/30 dark:to-cyan-900/30 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Hotel className="w-7 h-7 sm:w-8 sm:h-8 text-blue-600 dark:text-blue-400" />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
+                  Hotels & Bookings
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                  Discover luxury hotels, cozy guesthouses, and unique stays across Sri Lanka
+                </p>
+
+                {/* Arrow */}
+                <div className="flex items-center text-blue-600 dark:text-blue-400 font-semibold text-sm group-hover:translate-x-2 transition-transform duration-300">
+                  Explore Now
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </div>
+              </div>
+            </Link>
+
+            {/* Box 2: Transport & Rentals */}
+            <Link
+              to="/vehicle-rentals-hire"
+              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-200 dark:border-gray-700 overflow-hidden"
+            >
+              {/* Background Image */}
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-500"
+                style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&h=600&fit=crop)' }}
+              ></div>
+
+              {/* Gradient Background on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div className="relative">
+                {/* Icon */}
+                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Car className="w-7 h-7 sm:w-8 sm:h-8 text-purple-600 dark:text-purple-400" />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
+                  Transport & Rentals
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                  Rent vehicles, hire drivers, and explore Sri Lanka at your own pace
+                </p>
+
+                {/* Arrow */}
+                <div className="flex items-center text-purple-600 dark:text-purple-400 font-semibold text-sm group-hover:translate-x-2 transition-transform duration-300">
+                  Explore Now
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </div>
+              </div>
+            </Link>
+
+            {/* Box 3: Social Media & Memories */}
+            <Link
+              to="/ads/entertainment/holiday-memories"
+              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-200 dark:border-gray-700 overflow-hidden"
+            >
+              {/* Background Image */}
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-500"
+                style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop)' }}
+              ></div>
+
+              {/* Gradient Background on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-rose-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div className="relative">
+                {/* Icon */}
+                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Camera className="w-7 h-7 sm:w-8 sm:h-8 text-pink-600 dark:text-pink-400" />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors duration-300">
+                  Social Media & Memories
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                  Share your journey, connect with travelers, and create lasting memories
+                </p>
+
+                {/* Arrow */}
+                <div className="flex items-center text-pink-600 dark:text-pink-400 font-semibold text-sm group-hover:translate-x-2 transition-transform duration-300">
+                  Explore Now
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </div>
+              </div>
+            </Link>
+
+            {/* Box 4: Exclusive Travel Packages */}
+            <Link
+              to="/exclusive-combo-packages"
+              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-200 dark:border-gray-700 overflow-hidden"
+            >
+              {/* Background Image */}
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-500"
+                style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&h=600&fit=crop)' }}
+              ></div>
+
+              {/* Gradient Background on Hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div className="relative">
+                {/* Icon */}
+                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <Package className="w-7 h-7 sm:w-8 sm:h-8 text-orange-600 dark:text-orange-400" />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
+                  Exclusive Travel Packages
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+                  Curated tour packages for unforgettable Sri Lankan adventures
+                </p>
+
+                {/* Arrow */}
+                <div className="flex items-center text-orange-600 dark:text-orange-400 font-semibold text-sm group-hover:translate-x-2 transition-transform duration-300">
+                  Explore Now
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </div>
+              </div>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Welcome Section - Professional & Engaging */}
       <section className="relative overflow-hidden">
         {/* Animated Background */}
@@ -456,20 +637,8 @@ const Home = () => {
               </span>
             </div>
 
-            <h1 className="font-bold mb-4 sm:mb-6 leading-tight">
-              <div className="mb-2 sm:mb-3">
-                <h1 className="text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Welcome to Holidaysri.com
-              </h1>
-              </div>
-              <div className="relative">
-                <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 dark:text-gray-100 tracking-wide">
-                  Unforgettable Sri Lankan
-                </span>
-                <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 bg-clip-text text-transparent mt-1">
-                  Adventures
-                </span>
-              </div>
+            <h1 className="text-4xl sm:text-6xl font-bold mb-6 bg-gradient-to-r from-primary-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              Welcome to Holidaysri.com
             </h1>
 
             <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300 mb-6 sm:mb-10 max-w-3xl mx-auto leading-relaxed px-2 sm:px-4">
@@ -655,22 +824,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Stats Section - Enhanced */}
-      <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 px-2 sm:px-0">
-        {stats.map((stat, index) => (
-          <div key={index} className="card p-4 sm:p-6 text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-            <div className="inline-flex items-center justify-center w-10 h-10 sm:w-14 sm:h-14 bg-gradient-to-br from-primary-100 to-purple-100 dark:from-primary-900/30 dark:to-purple-900/30 rounded-xl mb-3 sm:mb-4">
-              <stat.icon className={`w-5 h-5 sm:w-7 sm:h-7 ${stat.color} dark:opacity-90`} />
-            </div>
-            <div className="text-xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-1">
-              {stat.value}
-            </div>
-            <div className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-400">
-              {stat.label}
-            </div>
-          </div>
-        ))}
-      </section>
+
 
       {/* Core Services Section - Professional Grid */}
       <section className="px-3 sm:px-4 lg:px-0">

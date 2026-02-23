@@ -101,7 +101,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
   const advertisementCategories = [
     {
       id: 'tourism-travel',
-      name: 'Tourism And Travel',
+      name: 'Travel And Tourism',
       icon: Compass,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
@@ -113,6 +113,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
         { name: 'Customize Tour Package', path: '/ads/tourism/customize-package' },
         { name: 'TravelSafe & Help Professionals', path: '/ads/tourism/travel-safe' },
         { name: 'Rent a Land for Camping or Parking purposes', path: '/rent-land-camping-parking' },
+        { name: 'Exclusive Combo Packages (Wedding, Tour and More)', path: '/exclusive-combo-packages' },
       ]
     },
     {
@@ -216,8 +217,6 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
       color: 'text-cyan-600',
       bgColor: 'bg-cyan-50',
       subcategories: [
-        { name: 'Holiday Memories (Photos & Locations from Travelers)', path: '/ads/entertainment/holiday-memories' },
-        { name: 'Exclusive Combo Packages (Wedding, Tour and More)', path: '/exclusive-combo-packages' },
         { name: 'Talented Entertainers & Artists', path: '/ads/entertainment/entertainers-artists' },
         { name: 'Fitness & Health : Spas, Gym Ect. & Professionals', path: '/ads/professionals/fitness-health-spas-gym' },
         { name: 'Cinema & Movie Hub', path: '/ads/entertainment/cinema-movies', hidden: true },
@@ -252,6 +251,14 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
       ]
     }
   ];
+
+  const holidayMemoriesSection = {
+    title: 'Holiday Memories',
+    subtitle: 'Photos & Locations from Travelers',
+    icon: Camera,
+    color: 'text-pink-600',
+    path: '/ads/entertainment/holiday-memories'
+  };
 
   const featuredSections = [
     {
@@ -462,6 +469,41 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                   )}
                 </Link>
               ))}
+
+              {/* Holiday Memories - At End of Featured Section */}
+              <Link
+                to={holidayMemoriesSection.path}
+                className={`group relative flex items-center ${effectiveCollapsed ? 'justify-center p-3' : 'space-x-3 px-4 py-3'} rounded-xl transition-all duration-300 transform hover:scale-105 ${
+                  isActive(holidayMemoriesSection.path)
+                    ? 'bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/30 dark:to-purple-900/30 shadow-md'
+                    : 'bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 hover:from-pink-100 hover:to-purple-100 dark:hover:from-pink-900/30 dark:hover:to-purple-900/30 shadow-sm hover:shadow-md'
+                }`}
+                onClick={onClose}
+                title={effectiveCollapsed ? holidayMemoriesSection.title : undefined}
+              >
+                <div className={`${effectiveCollapsed ? 'p-2' : 'p-2'} rounded-lg bg-white dark:bg-gray-800 shadow-sm`}>
+                  <holidayMemoriesSection.icon className={`${effectiveCollapsed ? 'w-5 h-5' : 'w-5 h-5'} ${holidayMemoriesSection.color}`} />
+                </div>
+                {!effectiveCollapsed && (
+                  <div className="flex-1">
+                    <div className="text-sm font-bold text-gray-900 dark:text-white">
+                      {holidayMemoriesSection.title}
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400">
+                      {holidayMemoriesSection.subtitle}
+                    </div>
+                  </div>
+                )}
+
+                {/* Tooltip for collapsed mode */}
+                {effectiveCollapsed && (
+                  <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
+                    <div className="font-semibold">{holidayMemoriesSection.title}</div>
+                    <div className="text-xs opacity-90">{holidayMemoriesSection.subtitle}</div>
+                    <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900 dark:border-r-gray-700" />
+                  </div>
+                )}
+              </Link>
             </div>
           </div>
 

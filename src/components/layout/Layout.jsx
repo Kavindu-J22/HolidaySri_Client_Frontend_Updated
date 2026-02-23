@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Layers, Sparkles } from 'lucide-react';
+import { LayoutGrid, Sparkles } from 'lucide-react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
@@ -65,7 +65,7 @@ const Layout = () => {
             aria-label="Open categories"
           >
             <div className="relative">
-              <Layers className="w-6 h-6 transition-transform duration-300 group-hover:rotate-12" />
+              <LayoutGrid className="w-6 h-6 transition-transform duration-300 group-hover:rotate-12" />
             </div>
 
             {/* Animated sparkle effect */}
@@ -82,11 +82,6 @@ const Layout = () => {
                 Browse Categories
               </div>
               <div className="absolute right-full top-1/2 transform -translate-y-1/2 border-4 border-transparent border-r-gray-900"></div>
-            </div>
-
-            {/* Category indicator badge */}
-            <div className="absolute -bottom-1 -right-1 bg-yellow-400 text-gray-900 text-xs font-bold px-1.5 py-0.5 rounded-full animate-bounce">
-              60+
             </div>
           </button>
         </div>
