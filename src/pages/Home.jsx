@@ -475,7 +475,7 @@ const Home = () => {
 
                 {/* Title */}
                 <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
-                  Hotels & Bookings
+                  Hotels with Bookings
                 </h3>
 
                 {/* Description */}
