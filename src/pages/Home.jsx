@@ -28,11 +28,13 @@ import {
   Coffee,
   Phone,
   BadgeCheck,
+  UserCheck,
   Briefcase,
+  Navigation,
+  Dumbbell,
   Package,
   Clock,
   Map,
-  Navigation,
   Crown,
   Handshake,
   Rocket,
@@ -47,7 +49,10 @@ import {
   ShoppingBag,
   Wrench,
   LifeBuoy,
-  Layers
+  Layers,
+  Waves,
+  Music,
+  Ambulance
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -59,6 +64,7 @@ const Home = () => {
   const [popularDestinations, setPopularDestinations] = useState([]);
   const [loadingDestinations, setLoadingDestinations] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [showSidebarArrow, setShowSidebarArrow] = useState(false);
 
   // Default banner slideshow data (fallback)
   const defaultBannerSlides = [
@@ -451,162 +457,425 @@ const Home = () => {
             </p>
           </div>
 
-          {/* 4 Box Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-7xl mx-auto">
-            {/* Box 1: Hotels & Bookings */}
+          {/* Mobile App Style Grid - 15 Apps */}
+          <div className="grid grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6 lg:gap-10 max-w-7xl mx-auto px-4 lg:px-8">
+            {/* App 1: Hotels */}
             <Link
               to="/hotels-accommodations"
-              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-200 dark:border-gray-700 overflow-hidden"
+              className="group flex flex-col items-center"
             >
-              {/* Background Image */}
-              <div
-                className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-500"
-                style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop)' }}
-              ></div>
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                {/* App Icon Container */}
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  {/* Background Image */}
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/60 to-cyan-500/60"></div>
+                  </div>
 
-              {/* Gradient Background on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-              <div className="relative">
-                {/* Icon */}
-                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-100 to-cyan-100 dark:from-blue-900/30 dark:to-cyan-900/30 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Hotel className="w-7 h-7 sm:w-8 sm:h-8 text-blue-600 dark:text-blue-400" />
-                </div>
-
-                {/* Title */}
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">
-                  Hotels with Bookings
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                  Discover luxury hotels, cozy guesthouses, and unique stays across Sri Lanka
-                </p>
-
-                {/* Arrow */}
-                <div className="flex items-center text-blue-600 dark:text-blue-400 font-semibold text-sm group-hover:translate-x-2 transition-transform duration-300">
-                  Explore Now
-                  <ArrowRight className="ml-2 w-4 h-4" />
+                  {/* Icon */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Hotel className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
                 </div>
               </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                Hotels
+              </span>
             </Link>
 
-            {/* Box 2: Transport & Rentals */}
+            {/* App 2: Vehicles */}
             <Link
               to="/vehicle-rentals-hire"
-              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-200 dark:border-gray-700 overflow-hidden"
+              className="group flex flex-col items-center"
             >
-              {/* Background Image */}
-              <div
-                className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-500"
-                style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&h=600&fit=crop)' }}
-              ></div>
-
-              {/* Gradient Background on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 via-pink-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-              <div className="relative">
-                {/* Icon */}
-                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Car className="w-7 h-7 sm:w-8 sm:h-8 text-purple-600 dark:text-purple-400" />
-                </div>
-
-                {/* Title */}
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
-                  Transport & Rentals
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                  Rent vehicles, hire drivers, and explore Sri Lanka at your own pace
-                </p>
-
-                {/* Arrow */}
-                <div className="flex items-center text-purple-600 dark:text-purple-400 font-semibold text-sm group-hover:translate-x-2 transition-transform duration-300">
-                  Explore Now
-                  <ArrowRight className="ml-2 w-4 h-4" />
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/60 to-pink-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Car className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
                 </div>
               </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                Vehicles
+              </span>
             </Link>
 
-            {/* Box 3: Social Media & Memories */}
+            {/* App 3: HS Memories */}
             <Link
               to="/ads/entertainment/holiday-memories"
-              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-200 dark:border-gray-700 overflow-hidden"
+              className="group flex flex-col items-center"
             >
-              {/* Background Image */}
-              <div
-                className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-500"
-                style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&h=600&fit=crop)' }}
-              ></div>
-
-              {/* Gradient Background on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-pink-500/10 via-rose-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-              <div className="relative">
-                {/* Icon */}
-                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Camera className="w-7 h-7 sm:w-8 sm:h-8 text-pink-600 dark:text-pink-400" />
-                </div>
-
-                {/* Title */}
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors duration-300">
-                  Social Media & Memories
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                  Share your journey, connect with travelers, and create lasting memories
-                </p>
-
-                {/* Arrow */}
-                <div className="flex items-center text-pink-600 dark:text-pink-400 font-semibold text-sm group-hover:translate-x-2 transition-transform duration-300">
-                  Explore Now
-                  <ArrowRight className="ml-2 w-4 h-4" />
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500/60 to-rose-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Camera className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
                 </div>
               </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">
+                HS Memories
+              </span>
             </Link>
 
-            {/* Box 4: Exclusive Travel Packages */}
+            {/* App 4: Agents */}
+            <Link
+              to="/promo-codes-travel-agents"
+              className="group flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/60 to-blue-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Briefcase className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                Agents
+              </span>
+            </Link>
+
+            {/* App 5: Travel Buddies */}
+            <Link
+              to="/travel-buddies"
+              className="group flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/60 to-emerald-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Users className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                Travel Buddies
+              </span>
+            </Link>
+
+            {/* App 6: Tour Guiders */}
+            <Link
+              to="/ads/tourism/tour-guiders"
+              className="group flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/60 to-orange-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Navigation className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                Tour Guiders
+              </span>
+            </Link>
+
+            {/* App 7: Restaurants */}
+            <Link
+              to="/cafes-restaurants"
+              className="group flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/60 to-rose-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <UtensilsCrossed className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                Restaurants
+              </span>
+            </Link>
+
+            {/* App 8: Foods */}
+            <Link
+              to="/foods-beverages"
+              className="group flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/60 to-orange-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Coffee className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">
+                Foods
+              </span>
+            </Link>
+
+            {/* App 9: Live Rides */}
+            <Link
+              to="/ads/vehicles-transport/live-rides-carpooling"
+              className="group flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-teal-500/60 to-cyan-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Zap className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                Live Rides
+              </span>
+            </Link>
+
+            {/* App 10: Marketplaces */}
+            <Link
+              to="/rent-property-buying-selling"
+              className="group flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-violet-500/60 to-purple-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Building2 className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                Marketplaces
+              </span>
+            </Link>
+
+            {/* App 11: Fitness & Spa */}
+            <Link
+              to="/ads/professionals/fitness-health-spas-gym"
+              className="group flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-lime-500/60 to-green-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Dumbbell className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-lime-600 dark:group-hover:text-lime-400 transition-colors">
+                Fitness & Spa
+              </span>
+            </Link>
+
+            {/* App 12: Customize Tour */}
+            <Link
+              to="/ads/tourism/customize-package"
+              className="group flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/60 to-blue-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Settings className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
+                Customize Tour
+              </span>
+            </Link>
+
+            {/* App 13: Cultural Events */}
+            <Link
+              to="/ads/events-management/events-updates"
+              className="group flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-rose-500/60 to-orange-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Music className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
+                Cultural Events
+              </span>
+            </Link>
+
+            {/* App 14: Emergency Services */}
+            <Link
+              to="/ads/essential-services/emergency-services-insurance"
+              className="group flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1587745416684-47953f16f02f?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/60 to-red-700/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Ambulance className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
+                </div>
+              </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                Emergency Services
+              </span>
+            </Link>
+
+            {/* App 15: Combo Packages */}
             <Link
               to="/exclusive-combo-packages"
-              className="group relative bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 border border-gray-200 dark:border-gray-700 overflow-hidden"
+              className="group flex flex-col items-center"
             >
-              {/* Background Image */}
-              <div
-                className="absolute inset-0 bg-cover bg-center opacity-10 group-hover:opacity-20 transition-opacity duration-500"
-                style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&h=600&fit=crop)' }}
-              ></div>
-
-              {/* Gradient Background on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-              <div className="relative">
-                {/* Icon */}
-                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-orange-100 to-amber-100 dark:from-orange-900/30 dark:to-amber-900/30 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Package className="w-7 h-7 sm:w-8 sm:h-8 text-orange-600 dark:text-orange-400" />
-                </div>
-
-                {/* Title */}
-                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors duration-300">
-                  Exclusive Travel Packages
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
-                  Curated tour packages for unforgettable Sri Lankan adventures
-                </p>
-
-                {/* Arrow */}
-                <div className="flex items-center text-orange-600 dark:text-orange-400 font-semibold text-sm group-hover:translate-x-2 transition-transform duration-300">
-                  Explore Now
-                  <ArrowRight className="ml-2 w-4 h-4" />
+              <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1488085061387-422e29b40080?w=400&h=400&fit=crop)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-500/60 to-pink-500/60"></div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Package className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                  </div>
                 </div>
               </div>
+              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors">
+                Combo Packages
+              </span>
             </Link>
+          </div>
+
+          {/* Explore More Button */}
+          <div className="flex justify-center" style={{ marginTop: '40px', marginBottom: '5px' }}>
+            <button
+              onClick={() => {
+                // Check if desktop or mobile
+                const isDesktop = window.innerWidth >= 1024;
+
+                if (isDesktop) {
+                  // Desktop: Scroll to top with animation and show arrow
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  setShowSidebarArrow(true);
+
+                  // Hide arrow after 4 seconds
+                  setTimeout(() => {
+                    setShowSidebarArrow(false);
+                  }, 4000);
+                } else {
+                  // Mobile: Open sidebar
+                  const menuButton = document.querySelector('[aria-label="Open categories"]');
+                  if (menuButton) {
+                    menuButton.click();
+                  }
+                }
+              }}
+              className="group relative inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 text-white font-semibold text-sm sm:text-base rounded-xl shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300 overflow-hidden"
+            >
+              {/* Animated background shimmer */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+
+              <Layers className="w-4 h-4 sm:w-5 sm:h-5 relative z-10" />
+              <span className="relative z-10">Explore More</span>
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform relative z-10" />
+
+              {/* Sparkle effect */}
+              <div className="absolute -top-0.5 -right-0.5">
+                <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-yellow-300 animate-pulse" />
+              </div>
+            </button>
           </div>
         </div>
       </section>
+
+      {/* Creative Arrow Animation for Desktop - Points to Sidebar */}
+      {showSidebarArrow && (
+        <div className="hidden lg:block fixed top-8 left-16 z-50 animate-bounce">
+          <div className="relative">
+            {/* Glowing effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full blur-xl opacity-75 animate-pulse"></div>
+
+            {/* Arrow pointing left to sidebar */}
+            <div className="relative bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 text-white px-6 py-3 rounded-2xl shadow-2xl">
+              <div className="flex flex-col">
+                <span className="font-bold text-sm whitespace-nowrap">Open Sidebar</span>
+                <span className="text-xs opacity-90">Click here to explore categories</span>
+              </div>
+
+              {/* Sparkles around arrow */}
+              <div className="absolute -top-2 -left-2">
+                <Sparkles className="w-5 h-5 text-yellow-300 animate-spin" />
+              </div>
+              <div className="absolute -bottom-2 -left-2">
+                <Sparkles className="w-4 h-4 text-yellow-300 animate-ping" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Welcome Section - Professional & Engaging */}
       <section className="relative overflow-hidden">

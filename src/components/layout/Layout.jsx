@@ -19,6 +19,18 @@ const Layout = () => {
     localStorage.setItem('sidebarCollapsed', JSON.stringify(isSidebarCollapsed));
   }, [isSidebarCollapsed]);
 
+  // Listen for custom openSidebar event (for desktop)
+  useEffect(() => {
+    const handleOpenSidebar = () => {
+      setIsSidebarOpen(true);
+    };
+
+    window.addEventListener('openSidebar', handleOpenSidebar);
+    return () => {
+      window.removeEventListener('openSidebar', handleOpenSidebar);
+    };
+  }, []);
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };

@@ -252,12 +252,36 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
     }
   ];
 
+  const promoCodesSection = {
+    title: 'Promo Codes & Travel Agents',
+    subtitle: 'Exclusive Deals & Trusted Travel Partners 🎁',
+    icon: Gift,
+    color: 'text-purple-600',
+    path: '/promo-codes-travel-agents'
+  };
+
+  const planYourDreamTourSection = {
+    title: 'Plan Your Dream Tour',
+    subtitle: 'Create Your Perfect Sri Lankan Adventure 🗺️',
+    icon: MapPin,
+    color: 'text-green-600',
+    path: '/plan-dream-tour'
+  };
+
   const holidayMemoriesSection = {
     title: 'Holiday Memories',
     subtitle: 'Photos & Locations from Travelers (Earn Mony 💰)',
     icon: Camera,
     color: 'text-pink-600',
     path: '/ads/entertainment/holiday-memories'
+  };
+
+  const coinsTreasureSection = {
+    title: 'Coins (HSC) & Treasure',
+    subtitle: 'Buy HSC Coins Tokens & Discover Rewards 💰💎',
+    icon: Coins,
+    color: 'text-yellow-600',
+    path: '/hsc-treasure'
   };
 
   const featuredSections = [
@@ -272,24 +296,6 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
       icon: PlusCircle,
       color: 'text-blue-600',
       path: '/post-advertisement'
-    },
-    {
-      title: 'Promo codes & Travel Agents',
-      icon: Gift,
-      color: 'text-purple-600',
-      path: '/promo-codes-travel-agents'
-    },
-    {
-      title: 'Coins (HSC) and Treasure',
-      icon: Coins,
-      color: 'text-yellow-600',
-      path: '/hsc-treasure'
-    },
-    {
-      title: 'Plan Your Dream Tour',
-      icon: MapPin,
-      color: 'text-green-600',
-      path: '/plan-dream-tour'
     },
     {
       title: 'Download App',
@@ -470,7 +476,77 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                 </Link>
               ))}
 
-              {/* Holiday Memories - At End of Featured Section */}
+              {/* Promo Codes & Travel Agents */}
+              <Link
+                to={promoCodesSection.path}
+                className={`group relative flex items-center ${effectiveCollapsed ? 'justify-center p-3' : 'space-x-3 px-4 py-3'} rounded-xl transition-all duration-300 transform hover:scale-105 ${
+                  isActive(promoCodesSection.path)
+                    ? 'bg-gradient-to-r from-purple-100 to-indigo-100 dark:from-purple-900/30 dark:to-indigo-900/30 shadow-md'
+                    : 'bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 hover:from-purple-100 hover:to-indigo-100 dark:hover:from-purple-900/30 dark:hover:to-indigo-900/30 shadow-sm hover:shadow-md'
+                }`}
+                onClick={onClose}
+                title={effectiveCollapsed ? promoCodesSection.title : undefined}
+              >
+                <div className={`${effectiveCollapsed ? 'p-2' : 'p-2'} rounded-lg bg-white dark:bg-gray-800 shadow-sm`}>
+                  <promoCodesSection.icon className={`${effectiveCollapsed ? 'w-5 h-5' : 'w-5 h-5'} ${promoCodesSection.color}`} />
+                </div>
+                {!effectiveCollapsed && (
+                  <div className="flex-1">
+                    <div className="text-sm font-bold text-gray-900 dark:text-white">
+                      {promoCodesSection.title}
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400">
+                      {promoCodesSection.subtitle}
+                    </div>
+                  </div>
+                )}
+
+                {/* Tooltip for collapsed mode */}
+                {effectiveCollapsed && (
+                  <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
+                    <div className="font-semibold">{promoCodesSection.title}</div>
+                    <div className="text-xs opacity-90">{promoCodesSection.subtitle}</div>
+                    <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900 dark:border-r-gray-700" />
+                  </div>
+                )}
+              </Link>
+
+              {/* Plan Your Dream Tour */}
+              <Link
+                to={planYourDreamTourSection.path}
+                className={`group relative flex items-center ${effectiveCollapsed ? 'justify-center p-3' : 'space-x-3 px-4 py-3'} rounded-xl transition-all duration-300 transform hover:scale-105 ${
+                  isActive(planYourDreamTourSection.path)
+                    ? 'bg-gradient-to-r from-green-100 to-emerald-100 dark:from-green-900/30 dark:to-emerald-900/30 shadow-md'
+                    : 'bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 hover:from-green-100 hover:to-emerald-100 dark:hover:from-green-900/30 dark:hover:to-emerald-900/30 shadow-sm hover:shadow-md'
+                }`}
+                onClick={onClose}
+                title={effectiveCollapsed ? planYourDreamTourSection.title : undefined}
+              >
+                <div className={`${effectiveCollapsed ? 'p-2' : 'p-2'} rounded-lg bg-white dark:bg-gray-800 shadow-sm`}>
+                  <planYourDreamTourSection.icon className={`${effectiveCollapsed ? 'w-5 h-5' : 'w-5 h-5'} ${planYourDreamTourSection.color}`} />
+                </div>
+                {!effectiveCollapsed && (
+                  <div className="flex-1">
+                    <div className="text-sm font-bold text-gray-900 dark:text-white">
+                      {planYourDreamTourSection.title}
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400">
+                      {planYourDreamTourSection.subtitle}
+                    </div>
+                  </div>
+                )}
+
+                {/* Tooltip for collapsed mode */}
+                {effectiveCollapsed && (
+                  <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
+                    <div className="font-semibold">{planYourDreamTourSection.title}</div>
+                    <div className="text-xs opacity-90">{planYourDreamTourSection.subtitle}</div>
+                    <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900 dark:border-r-gray-700" />
+                  </div>
+                )}
+              </Link>
+
+              {/* Holiday Memories */}
               <Link
                 to={holidayMemoriesSection.path}
                 className={`group relative flex items-center ${effectiveCollapsed ? 'justify-center p-3' : 'space-x-3 px-4 py-3'} rounded-xl transition-all duration-300 transform hover:scale-105 ${
@@ -500,6 +576,41 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                   <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
                     <div className="font-semibold">{holidayMemoriesSection.title}</div>
                     <div className="text-xs opacity-90">{holidayMemoriesSection.subtitle}</div>
+                    <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900 dark:border-r-gray-700" />
+                  </div>
+                )}
+              </Link>
+
+              {/* Coins (HSC) & Treasure - Below Holiday Memories */}
+              <Link
+                to={coinsTreasureSection.path}
+                className={`group relative flex items-center ${effectiveCollapsed ? 'justify-center p-3' : 'space-x-3 px-4 py-3'} rounded-xl transition-all duration-300 transform hover:scale-105 ${
+                  isActive(coinsTreasureSection.path)
+                    ? 'bg-gradient-to-r from-yellow-100 to-amber-100 dark:from-yellow-900/30 dark:to-amber-900/30 shadow-md'
+                    : 'bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-900/20 dark:to-amber-900/20 hover:from-yellow-100 hover:to-amber-100 dark:hover:from-yellow-900/30 dark:hover:to-amber-900/30 shadow-sm hover:shadow-md'
+                }`}
+                onClick={onClose}
+                title={effectiveCollapsed ? coinsTreasureSection.title : undefined}
+              >
+                <div className={`${effectiveCollapsed ? 'p-2' : 'p-2'} rounded-lg bg-white dark:bg-gray-800 shadow-sm`}>
+                  <coinsTreasureSection.icon className={`${effectiveCollapsed ? 'w-5 h-5' : 'w-5 h-5'} ${coinsTreasureSection.color}`} />
+                </div>
+                {!effectiveCollapsed && (
+                  <div className="flex-1">
+                    <div className="text-sm font-bold text-gray-900 dark:text-white">
+                      {coinsTreasureSection.title}
+                    </div>
+                    <div className="text-xs text-gray-600 dark:text-gray-400">
+                      {coinsTreasureSection.subtitle}
+                    </div>
+                  </div>
+                )}
+
+                {/* Tooltip for collapsed mode */}
+                {effectiveCollapsed && (
+                  <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
+                    <div className="font-semibold">{coinsTreasureSection.title}</div>
+                    <div className="text-xs opacity-90">{coinsTreasureSection.subtitle}</div>
                     <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900 dark:border-r-gray-700" />
                   </div>
                 )}
