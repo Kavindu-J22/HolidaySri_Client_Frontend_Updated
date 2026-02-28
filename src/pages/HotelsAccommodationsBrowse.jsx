@@ -347,6 +347,106 @@ const ClientBookingCard = ({ booking, onUpdate }) => {
   );
 };
 
+// Image Slider Component for Hotel Cards
+const HotelCardImageSlider = ({ hotel, isAgentFriendly }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const images = hotel.images || [];
+  const hasMultiple = images.length > 1;
+
+  const goToPrev = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setCurrentIndex(prev => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const goToNext = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setCurrentIndex(prev => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  return (
+    <div className="relative h-56 bg-gray-200 dark:bg-gray-700 overflow-hidden">
+      {images.length > 0 ? (
+        <img
+          key={currentIndex}
+          src={images[currentIndex].url}
+          alt={`${hotel.hotelName} - ${currentIndex + 1}`}
+          className="w-full h-full object-cover transition-opacity duration-300"
+        />
+      ) : (
+        <div className="flex items-center justify-center h-full">
+          <Building2 className="w-16 h-16 text-gray-400" />
+        </div>
+      )}
+
+      {/* Gradient Overlay — pointer-events-none so it never blocks buttons */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+
+      {/* Prev / Next Arrows — always visible when multiple images exist */}
+      {hasMultiple && (
+        <>
+          <button
+            type="button"
+            onClick={goToPrev}
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-black/55 hover:bg-black/80 active:scale-95 text-white rounded-full p-1.5 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-white shadow-lg"
+            aria-label="Previous image"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            onClick={goToNext}
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-black/55 hover:bg-black/80 active:scale-95 text-white rounded-full p-1.5 transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-white shadow-lg"
+            aria-label="Next image"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+
+          {/* Image counter — bottom-centre */}
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 bg-black/60 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full pointer-events-none">
+            {currentIndex + 1} / {images.length}
+          </div>
+
+          {/* Dot indicators */}
+          <div className="absolute bottom-3 left-0 right-0 z-20 flex justify-center gap-1.5 pointer-events-none">
+            {images.map((_, i) => (
+              <span
+                key={i}
+                className={`block w-1.5 h-1.5 rounded-full transition-all duration-200 ${
+                  i === currentIndex ? 'bg-white scale-125' : 'bg-white/50'
+                }`}
+              />
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* Category Badge */}
+      <div className="absolute top-3 right-3 z-20 bg-blue-600 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg pointer-events-none">
+        {hotel.category}
+      </div>
+
+      {/* Star Rating Badge */}
+      {hotel.isHaveStars && hotel.howManyStars && (
+        <div className="absolute top-3 left-3 z-20 bg-yellow-500 text-white px-2.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg pointer-events-none">
+          <Sparkles className="w-3 h-3" />
+          {hotel.howManyStars} Star
+        </div>
+      )}
+
+      {/* Agent Badge */}
+      {isAgentFriendly && (
+        <div className="absolute bottom-3 left-3 z-20 bg-green-600 text-white px-2.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg pointer-events-none">
+          <DoorOpen className="w-3 h-3" />
+          Open for Agents
+        </div>
+      )}
+    </div>
+  );
+};
+
 const HotelsAccommodationsBrowse = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -935,44 +1035,8 @@ const HotelsAccommodationsBrowse = () => {
                   key={hotel._id}
                   className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col h-full border border-gray-100 dark:border-gray-700"
                 >
-                  {/* Image */}
-                  <div className="relative h-56 bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                    {hotel.images && hotel.images.length > 0 ? (
-                      <img
-                        src={hotel.images[0].url}
-                        alt={hotel.hotelName}
-                        className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="flex items-center justify-center h-full">
-                        <Building2 className="w-16 h-16 text-gray-400" />
-                      </div>
-                    )}
-
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-
-                    {/* Category Badge */}
-                    <div className="absolute top-3 right-3 bg-blue-600 text-white px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg">
-                      {hotel.category}
-                    </div>
-
-                    {/* Star Rating Badge */}
-                    {hotel.isHaveStars && hotel.howManyStars && (
-                      <div className="absolute top-3 left-3 bg-yellow-500 text-white px-2.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg">
-                        <Sparkles className="w-3 h-3" />
-                        {hotel.howManyStars} Star
-                      </div>
-                    )}
-
-                    {/* Agent Badge */}
-                    {isAgentFriendly && (
-                      <div className="absolute bottom-3 left-3 bg-green-600 text-white px-2.5 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1 shadow-lg">
-                        <DoorOpen className="w-3 h-3" />
-                        Open for Agents
-                      </div>
-                    )}
-                  </div>
+                  {/* Image Slider */}
+                  <HotelCardImageSlider hotel={hotel} isAgentFriendly={isAgentFriendly} />
 
                   {/* Content */}
                   <div className="p-5 flex flex-col flex-grow">

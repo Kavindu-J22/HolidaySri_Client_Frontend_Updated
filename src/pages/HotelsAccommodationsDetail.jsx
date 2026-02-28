@@ -62,6 +62,7 @@ const HotelsAccommodationsDetail = () => {
   const [uploadingRoomImages, setUploadingRoomImages] = useState(false);
   const [selectedRoomImages, setSelectedRoomImages] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [heroImageIndex, setHeroImageIndex] = useState(0);
   const [additionalRoomCharge, setAdditionalRoomCharge] = useState(50);
 
   // Touch gesture state for image gallery
@@ -634,13 +635,14 @@ const HotelsAccommodationsDetail = () => {
 
         {/* Header Card - Mobile Responsive */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-6">
-          {/* Hero Image */}
-          <div className="relative h-48 sm:h-64 md:h-80 lg:h-96 bg-gray-200 dark:bg-gray-700">
+          {/* Hero Image Slider */}
+          <div className="relative h-48 sm:h-64 md:h-80 lg:h-96 bg-gray-200 dark:bg-gray-700 overflow-hidden">
             {hotel.images && hotel.images.length > 0 ? (
               <img
-                src={hotel.images[0].url}
-                alt={hotel.hotelName}
-                className="w-full h-full object-cover"
+                key={heroImageIndex}
+                src={hotel.images[heroImageIndex].url}
+                alt={`${hotel.hotelName} - ${heroImageIndex + 1}`}
+                className="w-full h-full object-cover transition-opacity duration-300"
               />
             ) : (
               <div className="flex items-center justify-center h-full">
@@ -648,8 +650,50 @@ const HotelsAccommodationsDetail = () => {
               </div>
             )}
 
+            {/* Gradient overlay — non-interactive */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+
+            {/* Prev / Next arrows — only when multiple images */}
+            {hotel.images && hotel.images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setHeroImageIndex(prev => (prev === 0 ? hotel.images.length - 1 : prev - 1))}
+                  className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-20 bg-black/55 hover:bg-black/80 active:scale-95 text-white rounded-full p-2 sm:p-2.5 transition-all duration-150 shadow-lg focus:outline-none focus:ring-2 focus:ring-white"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setHeroImageIndex(prev => (prev === hotel.images.length - 1 ? 0 : prev + 1))}
+                  className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-20 bg-black/55 hover:bg-black/80 active:scale-95 text-white rounded-full p-2 sm:p-2.5 transition-all duration-150 shadow-lg focus:outline-none focus:ring-2 focus:ring-white"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                </button>
+
+                {/* Counter */}
+                <div className="absolute bottom-10 sm:bottom-12 left-1/2 -translate-x-1/2 z-20 bg-black/60 text-white text-xs sm:text-sm font-semibold px-3 py-1 rounded-full pointer-events-none">
+                  {heroImageIndex + 1} / {hotel.images.length}
+                </div>
+
+                {/* Dot indicators */}
+                <div className="absolute bottom-4 left-0 right-0 z-20 flex justify-center gap-2 pointer-events-none">
+                  {hotel.images.map((_, i) => (
+                    <span
+                      key={i}
+                      className={`block w-2 h-2 rounded-full transition-all duration-200 ${
+                        i === heroImageIndex ? 'bg-white scale-125' : 'bg-white/50'
+                      }`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
             {/* Badges - Mobile Responsive */}
-            <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 flex flex-col gap-1.5 sm:gap-2">
+            <div className="absolute top-2 sm:top-3 md:top-4 right-2 sm:right-3 md:right-4 z-20 flex flex-col gap-1.5 sm:gap-2 pointer-events-none">
               <div className="bg-blue-600 text-white px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 rounded-full text-xs sm:text-sm font-semibold shadow-lg">
                 {hotel.category}
               </div>
