@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
+    hmr: {
+      port: 3000,
+    },
     proxy: {
       '/api': {
         target: 'https://holidaysri-backend-9xm4.onrender.com',
@@ -13,5 +16,8 @@ export default defineConfig({
         secure: false,
       },
     },
+  },
+  resolve: {
+    dedupe: ['react', 'react-dom'],
   },
 })
