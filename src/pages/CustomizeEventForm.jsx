@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, Users, DollarSign, CheckCircle, XCircle, Eye, Clock, MessageSquare, Briefcase, Camera, Music, Flower2, Sparkles, Shirt, Wrench, User, Mail, Phone, Coins, Upload, FileText, Send } from 'lucide-react';
+import { Calendar, Users, DollarSign, CheckCircle, XCircle, Eye, Clock, MessageSquare, Briefcase, Camera, Music, Flower2, Sparkles, Shirt, Wrench, User, Mail, Phone, Coins, Upload, FileText, Send, X } from 'lucide-react';
 import { customizeEventRequestAPI, userAPI } from '../config/api';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -27,6 +27,10 @@ const CustomizeEventForm = () => {
   const [proposalPDF, setProposalPDF] = useState({ url: '', publicId: '', uploading: false });
   const [sendingProposal, setSendingProposal] = useState(false);
   const [requestProposals, setRequestProposals] = useState({});
+  const [acceptingProposal, setAcceptingProposal] = useState(false);
+  const [confirmingProposal, setConfirmingProposal] = useState(false);
+  const [rejectingConfirmation, setRejectingConfirmation] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -127,6 +131,7 @@ const CustomizeEventForm = () => {
 
       setIsPartner(validPartner);
       setIsMember(validMember);
+      setCurrentUserId(user?._id || null);
     } catch (error) {
       console.error('Error checking partner/member status:', error);
     }
@@ -274,25 +279,75 @@ const CustomizeEventForm = () => {
     }
   };
 
-  // Accept a proposal
+  // Auto-fetch proposals for requests with proposals when they are loaded
+  useEffect(() => {
+    if (activeTab === 'my-requests' && myRequests.length > 0) {
+      myRequests.forEach(request => {
+        if ((request.status === 'show-partners-members' || request.status === 'proposal-accepted') && request.proposals && request.proposals.length > 0) {
+          fetchProposalsForRequest(request._id);
+        }
+      });
+    }
+  }, [myRequests, activeTab]);
+
+  // Accept a proposal (Client) - now sends to partner/member for confirmation
   const handleAcceptProposal = async (requestId, proposalId, partnerName) => {
-    if (!window.confirm(`Are you sure you want to accept the proposal from ${partnerName}? This will reject all other proposals.`)) {
+    if (!window.confirm(`Are you sure you want to select the proposal from ${partnerName}? They will be notified to confirm.`)) {
       return;
     }
 
     try {
+      setAcceptingProposal(true);
       const response = await customizeEventRequestAPI.acceptProposal(requestId, proposalId);
       if (response.data.success) {
-        alert('Proposal accepted successfully! The partner/member has been notified with your contact details.');
+        alert('Proposal selection sent to partner/member for confirmation. You will be notified once they respond.');
         fetchMyRequests();
-        setRequestProposals(prev => ({
-          ...prev,
-          [requestId]: []
-        }));
       }
     } catch (error) {
       console.error('Error accepting proposal:', error);
       alert(error.response?.data?.message || 'Failed to accept proposal');
+    } finally {
+      setAcceptingProposal(false);
+    }
+  };
+
+  // Partner/Member: Confirm a proposal (after client accepted)
+  const handleConfirmProposal = async (requestId, proposalId) => {
+    if (!window.confirm('Are you sure you want to CONFIRM this proposal? The client\'s contact details will be shared with you and the booking will be finalized.')) {
+      return;
+    }
+    try {
+      setConfirmingProposal(true);
+      const response = await customizeEventRequestAPI.confirmProposal(requestId, proposalId);
+      if (response.data.success) {
+        alert('Proposal confirmed successfully! The client\'s contact details have been sent to your email.');
+        fetchOpenRequests();
+      }
+    } catch (error) {
+      console.error('Error confirming proposal:', error);
+      alert(error.response?.data?.message || 'Failed to confirm proposal');
+    } finally {
+      setConfirmingProposal(false);
+    }
+  };
+
+  // Partner/Member: Reject confirmation (after client accepted)
+  const handleRejectConfirmation = async (requestId, proposalId) => {
+    if (!window.confirm('Are you sure you want to REJECT this proposal? The client will be notified and can select another proposal.')) {
+      return;
+    }
+    try {
+      setRejectingConfirmation(true);
+      const response = await customizeEventRequestAPI.rejectConfirmation(requestId, proposalId);
+      if (response.data.success) {
+        alert('You have rejected the confirmation. The client has been notified by email.');
+        fetchOpenRequests();
+      }
+    } catch (error) {
+      console.error('Error rejecting confirmation:', error);
+      alert(error.response?.data?.message || 'Failed to reject confirmation');
+    } finally {
+      setRejectingConfirmation(false);
     }
   };
 
@@ -1015,68 +1070,113 @@ const CustomizeEventForm = () => {
                             </div>
 
                             {/* Proposals Section */}
-                            {request.status === 'show-partners-members' && (
-                              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                                <h5 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                                  <FileText className="w-4 h-4 mr-2" />
-                                  Received Proposals
-                                </h5>
-                                {requestProposals[request._id] && requestProposals[request._id].length > 0 ? (
-                                  <div className="space-y-3">
-                                    {requestProposals[request._id].map((proposal) => (
-                                      <div
-                                        key={proposal._id}
-                                        className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border border-gray-200 dark:border-gray-600"
-                                      >
-                                        <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
-                                          <div className="flex-1">
-                                            <p className="font-medium text-gray-900 dark:text-white mb-1">
-                                              {proposal.partnerName}
-                                            </p>
-                                            <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
-                                              {proposal.partnerEmail}
-                                            </p>
-                                            <p className="text-xs text-gray-500 dark:text-gray-400">
-                                              Submitted on {new Date(proposal.submittedAt).toLocaleDateString()} at {new Date(proposal.submittedAt).toLocaleTimeString()}
-                                            </p>
+                            {(request.status === 'show-partners-members' || request.status === 'proposal-accepted') && request.proposals && request.proposals.length > 0 && (() => {
+                              const allProposals = requestProposals[request._id] || [];
+                              const hasAwaitingConfirmation = allProposals.some(p => p.status === 'awaiting-confirmation');
+                              return (
+                                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+                                  <h5 className="text-sm font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
+                                    <FileText className="w-4 h-4 mr-2" />
+                                    Received Proposals ({request.proposals.length})
+                                  </h5>
+
+                                  {hasAwaitingConfirmation && (
+                                    <div className="mb-3 px-3 py-2 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg">
+                                      <p className="text-xs sm:text-sm text-yellow-800 dark:text-yellow-300 flex items-center gap-2">
+                                        <Clock className="w-4 h-4 flex-shrink-0" />
+                                        A partner/member is reviewing your acceptance. Please wait for their confirmation. If they reject, you can select another proposal.
+                                      </p>
+                                    </div>
+                                  )}
+
+                                  {allProposals.length > 0 ? (
+                                    <div className="space-y-3">
+                                      {allProposals.map((proposal) => {
+                                        const isPartnerRejected = proposal.status === 'partner-rejected';
+                                        const isAwaitingConfirmation = proposal.status === 'awaiting-confirmation';
+                                        const isAccepted = proposal.status === 'accepted';
+                                        const isRejected = proposal.status === 'rejected';
+                                        return (
+                                          <div
+                                            key={proposal._id}
+                                            className={`bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 border ${
+                                              isPartnerRejected ? 'border-red-200 dark:border-red-700 opacity-75' :
+                                              isRejected ? 'border-gray-200 dark:border-gray-600 opacity-50' :
+                                              isAwaitingConfirmation ? 'border-yellow-300 dark:border-yellow-600' :
+                                              isAccepted ? 'border-green-300 dark:border-green-600' :
+                                              'border-gray-200 dark:border-gray-600'
+                                            }`}
+                                          >
+                                            <div className="flex flex-col sm:flex-row items-start justify-between gap-3">
+                                              <div className="flex-1">
+                                                <p className="font-medium text-gray-900 dark:text-white mb-1">
+                                                  {proposal.partnerName}
+                                                </p>
+                                                <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">
+                                                  {proposal.partnerEmail}
+                                                </p>
+                                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                                  Submitted on {new Date(proposal.submittedAt).toLocaleDateString()}
+                                                </p>
+                                                {isAwaitingConfirmation && (
+                                                  <p className="text-xs text-yellow-700 dark:text-yellow-400 mt-1 font-medium">
+                                                    ⏳ Awaiting partner/member confirmation...
+                                                  </p>
+                                                )}
+                                                {isPartnerRejected && (
+                                                  <p className="text-xs text-red-600 dark:text-red-400 mt-1 font-medium">
+                                                    ❌ Partner/member could not confirm this proposal
+                                                  </p>
+                                                )}
+                                              </div>
+                                              <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+                                                {!isRejected && (
+                                                  <a
+                                                    href={proposal.proposalPDF.url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors flex items-center justify-center gap-2 text-sm"
+                                                  >
+                                                    <FileText className="w-4 h-4" />
+                                                    View Proposal
+                                                  </a>
+                                                )}
+                                                {proposal.status === 'pending' && !hasAwaitingConfirmation && (
+                                                  <button
+                                                    onClick={() => handleAcceptProposal(request._id, proposal._id, proposal.partnerName)}
+                                                    disabled={acceptingProposal}
+                                                    className="px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors flex items-center justify-center gap-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                                                  >
+                                                    <CheckCircle className="w-4 h-4" />
+                                                    {acceptingProposal ? 'Accepting...' : 'Accept Proposal'}
+                                                  </button>
+                                                )}
+                                                {isAwaitingConfirmation && (
+                                                  <span className="px-4 py-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300 rounded-lg flex items-center justify-center gap-2 text-sm font-medium">
+                                                    <Clock className="w-4 h-4" />
+                                                    Awaiting Confirmation
+                                                  </span>
+                                                )}
+                                                {isAccepted && (
+                                                  <span className="px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-lg flex items-center justify-center gap-2 text-sm font-medium">
+                                                    <CheckCircle className="w-4 h-4" />
+                                                    Confirmed & Accepted
+                                                  </span>
+                                                )}
+                                              </div>
+                                            </div>
                                           </div>
-                                          <div className="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-                                            <a
-                                              href={proposal.proposalPDF.url}
-                                              target="_blank"
-                                              rel="noopener noreferrer"
-                                              className="px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors flex items-center justify-center gap-2 text-sm"
-                                            >
-                                              <FileText className="w-4 h-4" />
-                                              View Proposal
-                                            </a>
-                                            {proposal.status === 'pending' && (
-                                              <button
-                                                onClick={() => handleAcceptProposal(request._id, proposal._id, proposal.partnerName)}
-                                                className="px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-colors flex items-center justify-center gap-2 text-sm"
-                                              >
-                                                <CheckCircle className="w-4 h-4" />
-                                                Accept Proposal
-                                              </button>
-                                            )}
-                                            {proposal.status === 'accepted' && (
-                                              <span className="px-4 py-2 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-lg flex items-center justify-center gap-2 text-sm font-medium">
-                                                <CheckCircle className="w-4 h-4" />
-                                                Accepted
-                                              </span>
-                                            )}
-                                          </div>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                ) : (
-                                  <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
-                                    No proposals received yet
-                                  </p>
-                                )}
-                              </div>
-                            )}
+                                        );
+                                      })}
+                                    </div>
+                                  ) : (
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
+                                      No proposals received yet
+                                    </p>
+                                  )}
+                                </div>
+                              );
+                            })()}
                           </div>
                         )}
                       </div>
@@ -1231,93 +1331,188 @@ const CustomizeEventForm = () => {
                               </div>
                             )}
 
-                            {/* Send Proposal Section */}
-                            <div className="pt-3 space-y-3">
-                              <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg p-4">
-                                <h6 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
-                                  <Send className="w-4 h-4 mr-2" />
-                                  Send Your Proposal
-                                </h6>
+                            {/* Send Proposal / Confirmation Section */}
+                            {(() => {
+                              const myProposal = currentUserId
+                                ? request.proposals?.find(p => p.partnerId?.toString() === currentUserId?.toString())
+                                : null;
 
-                                {/* PDF Upload Area */}
-                                <div className="mb-3">
-                                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-2">
-                                    Upload Proposal PDF (Max 10MB)
-                                  </label>
-                                  <div className="relative">
-                                    <input
-                                      type="file"
-                                      accept="application/pdf"
-                                      onChange={(e) => handleProposalPDFUpload(e, request._id)}
-                                      disabled={proposalPDF.uploading || sendingProposal}
-                                      className="hidden"
-                                      id={`pdf-upload-${request._id}`}
-                                    />
-                                    <label
-                                      htmlFor={`pdf-upload-${request._id}`}
-                                      className={`flex items-center justify-center gap-2 w-full px-4 py-3 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
-                                        proposalPDF.uploading
-                                          ? 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 cursor-not-allowed'
-                                          : proposalPDF.url
-                                          ? 'border-green-300 dark:border-green-700 bg-green-50 dark:bg-green-900/20'
-                                          : 'border-purple-300 dark:border-purple-700 bg-white dark:bg-gray-800 hover:bg-purple-50 dark:hover:bg-purple-900/10'
+                              // My proposal is awaiting confirmation – show Confirm / Reject
+                              if (myProposal && myProposal.status === 'awaiting-confirmation') {
+                                return (
+                                  <div className="pt-3 sm:pt-4">
+                                    <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 mb-4">
+                                      <p className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 flex items-center gap-2 mb-1">
+                                        <Clock className="w-4 h-4" />
+                                        Client Accepted Your Proposal!
+                                      </p>
+                                      <p className="text-xs text-yellow-700 dark:text-yellow-400">
+                                        The client has selected your proposal. Please confirm if you can fulfil this event request, or reject if you are unable to do so.
+                                      </p>
+                                    </div>
+                                    <div className="flex flex-col sm:flex-row gap-3">
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleConfirmProposal(request._id, myProposal._id);
+                                        }}
+                                        disabled={confirmingProposal || rejectingConfirmation}
+                                        className="flex-1 px-4 py-2.5 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm font-semibold flex items-center justify-center gap-2"
+                                      >
+                                        <CheckCircle className="w-4 h-4" />
+                                        {confirmingProposal ? 'Confirming...' : 'Confirm – I Can Do This!'}
+                                      </button>
+                                      <button
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleRejectConfirmation(request._id, myProposal._id);
+                                        }}
+                                        disabled={confirmingProposal || rejectingConfirmation}
+                                        className="flex-1 px-4 py-2.5 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg hover:from-red-700 hover:to-red-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm font-semibold flex items-center justify-center gap-2"
+                                      >
+                                        <X className="w-4 h-4" />
+                                        {rejectingConfirmation ? 'Rejecting...' : 'Reject – Cannot Fulfil'}
+                                      </button>
+                                    </div>
+                                  </div>
+                                );
+                              }
+
+                              // My proposal was accepted (confirmed)
+                              if (myProposal && myProposal.status === 'accepted') {
+                                return (
+                                  <div className="pt-3 sm:pt-4">
+                                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-lg p-4 flex items-center gap-3">
+                                      <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0" />
+                                      <div>
+                                        <p className="text-sm font-semibold text-green-800 dark:text-green-300">Proposal Confirmed & Accepted</p>
+                                        <p className="text-xs text-green-700 dark:text-green-400 mt-0.5">You have confirmed this proposal. The client&apos;s contact details have been emailed to you.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              }
+
+                              // My proposal was rejected by me
+                              if (myProposal && myProposal.status === 'partner-rejected') {
+                                return (
+                                  <div className="pt-3 sm:pt-4">
+                                    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-lg p-4 flex items-center gap-3">
+                                      <X className="w-5 h-5 text-red-600 flex-shrink-0" />
+                                      <div>
+                                        <p className="text-sm font-semibold text-red-800 dark:text-red-300">You Rejected This Proposal</p>
+                                        <p className="text-xs text-red-700 dark:text-red-400 mt-0.5">You were unable to fulfil this event request. The client has been notified.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              }
+
+                              // My proposal is pending (sent, waiting for client)
+                              if (myProposal && myProposal.status === 'pending') {
+                                return (
+                                  <div className="pt-3 sm:pt-4">
+                                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg p-4 flex items-center gap-3">
+                                      <FileText className="w-5 h-5 text-blue-600 flex-shrink-0" />
+                                      <div>
+                                        <p className="text-sm font-semibold text-blue-800 dark:text-blue-300">Proposal Sent – Awaiting Client Review</p>
+                                        <p className="text-xs text-blue-700 dark:text-blue-400 mt-0.5">You have already sent a proposal for this request. Please wait for the client&apos;s response.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              }
+
+                              // No proposal yet – show Send Proposal form
+                              return (
+                                <div className="pt-3 space-y-3">
+                                  <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg p-4">
+                                    <h6 className="text-sm font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
+                                      <Send className="w-4 h-4 mr-2" />
+                                      Send Your Proposal
+                                    </h6>
+
+                                    {/* PDF Upload Area */}
+                                    <div className="mb-3">
+                                      <label className="block text-xs text-gray-600 dark:text-gray-400 mb-2">
+                                        Upload Proposal PDF (Max 10MB)
+                                      </label>
+                                      <div className="relative">
+                                        <input
+                                          type="file"
+                                          accept="application/pdf"
+                                          onChange={(e) => handleProposalPDFUpload(e, request._id)}
+                                          disabled={proposalPDF.uploading || sendingProposal}
+                                          className="hidden"
+                                          id={`pdf-upload-${request._id}`}
+                                        />
+                                        <label
+                                          htmlFor={`pdf-upload-${request._id}`}
+                                          className={`flex items-center justify-center gap-2 w-full px-4 py-3 border-2 border-dashed rounded-lg cursor-pointer transition-colors ${
+                                            proposalPDF.uploading
+                                              ? 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 cursor-not-allowed'
+                                              : proposalPDF.url
+                                              ? 'border-green-300 dark:border-green-700 bg-green-50 dark:bg-green-900/20'
+                                              : 'border-purple-300 dark:border-purple-700 bg-white dark:bg-gray-800 hover:bg-purple-50 dark:hover:bg-purple-900/10'
+                                          }`}
+                                        >
+                                          {proposalPDF.uploading ? (
+                                            <>
+                                              <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-purple-600"></div>
+                                              <span className="text-sm text-gray-600 dark:text-gray-400">Uploading...</span>
+                                            </>
+                                          ) : proposalPDF.url ? (
+                                            <>
+                                              <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
+                                              <span className="text-sm text-green-700 dark:text-green-300 font-medium">PDF Uploaded Successfully</span>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <Upload className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                                              <span className="text-sm text-gray-700 dark:text-gray-300">Click to upload PDF</span>
+                                            </>
+                                          )}
+                                        </label>
+                                      </div>
+                                      {proposalPDF.url && (
+                                        <a
+                                          href={proposalPDF.url}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="text-xs text-purple-600 dark:text-purple-400 hover:underline mt-2 inline-flex items-center"
+                                        >
+                                          <FileText className="w-3 h-3 mr-1" />
+                                          View uploaded PDF
+                                        </a>
+                                      )}
+                                    </div>
+
+                                    {/* Send Proposal Button */}
+                                    <button
+                                      onClick={() => handleSendProposal(request._id)}
+                                      disabled={!proposalPDF.url || sendingProposal || proposalPDF.uploading}
+                                      className={`w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 ${
+                                        !proposalPDF.url || sendingProposal || proposalPDF.uploading
+                                          ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                                          : 'bg-purple-600 dark:bg-purple-700 text-white hover:bg-purple-700 dark:hover:bg-purple-600'
                                       }`}
                                     >
-                                      {proposalPDF.uploading ? (
+                                      {sendingProposal ? (
                                         <>
-                                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-purple-600"></div>
-                                          <span className="text-sm text-gray-600 dark:text-gray-400">Uploading...</span>
-                                        </>
-                                      ) : proposalPDF.url ? (
-                                        <>
-                                          <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
-                                          <span className="text-sm text-green-700 dark:text-green-300 font-medium">PDF Uploaded Successfully</span>
+                                          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                                          Sending...
                                         </>
                                       ) : (
                                         <>
-                                          <Upload className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                                          <span className="text-sm text-gray-700 dark:text-gray-300">Click to upload PDF</span>
+                                          <Send className="w-5 h-5" />
+                                          Send Proposal
                                         </>
                                       )}
-                                    </label>
+                                    </button>
                                   </div>
-                                  {proposalPDF.url && (
-                                    <a
-                                      href={proposalPDF.url}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="text-xs text-purple-600 dark:text-purple-400 hover:underline mt-2 inline-flex items-center"
-                                    >
-                                      <FileText className="w-3 h-3 mr-1" />
-                                      View uploaded PDF
-                                    </a>
-                                  )}
                                 </div>
-
-                                {/* Send Proposal Button */}
-                                <button
-                                  onClick={() => handleSendProposal(request._id)}
-                                  disabled={!proposalPDF.url || sendingProposal || proposalPDF.uploading}
-                                  className={`w-full py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 ${
-                                    !proposalPDF.url || sendingProposal || proposalPDF.uploading
-                                      ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                                      : 'bg-purple-600 dark:bg-purple-700 text-white hover:bg-purple-700 dark:hover:bg-purple-600'
-                                  }`}
-                                >
-                                  {sendingProposal ? (
-                                    <>
-                                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
-                                      Sending...
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Send className="w-5 h-5" />
-                                      Send Proposal
-                                    </>
-                                  )}
-                                </button>
-                              </div>
-                            </div>
+                              );
+                            })()}
                           </div>
                         )}
                       </div>

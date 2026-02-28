@@ -269,6 +269,8 @@ export const customizeEventRequestAPI = {
   sendProposal: (id, data) => api.post(`/customize-event-request/partner/request/${id}/send-proposal`, data),
   getProposals: (id) => api.get(`/customize-event-request/request/${id}/proposals`),
   acceptProposal: (requestId, proposalId) => api.put(`/customize-event-request/request/${requestId}/proposal/${proposalId}/accept`),
+  confirmProposal: (requestId, proposalId) => api.put(`/customize-event-request/partner/request/${requestId}/proposal/${proposalId}/confirm`),
+  rejectConfirmation: (requestId, proposalId) => api.put(`/customize-event-request/partner/request/${requestId}/proposal/${proposalId}/reject-confirmation`),
 };
 
 // Trip Request API calls
