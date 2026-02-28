@@ -348,6 +348,23 @@ const TourGuiderDetailView = () => {
               </div>
             )}
 
+            {/* Languages Spoken */}
+            {tourGuider.languagesSpoken && tourGuider.languagesSpoken.length > 0 && (
+              <div className="mb-8">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4">Languages Spoken</h2>
+                <div className="flex flex-wrap gap-3">
+                  {tourGuider.languagesSpoken.map((lang, index) => (
+                    <span
+                      key={index}
+                      className="px-4 py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium border border-blue-200 dark:border-blue-700"
+                    >
+                      {lang}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Certificate */}
             {tourGuider.certificate?.url && (
               <div className="mb-8">
