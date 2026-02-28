@@ -578,7 +578,7 @@ const CaregiversTimeCurrencyForm = () => {
                       I need care services and support
                     </p>
                     <div className="mt-4 text-sm text-purple-600 dark:text-purple-400 font-semibold">
-                      HSTC: 720
+                      HSTC: 240
                     </div>
                   </div>
                 </div>
