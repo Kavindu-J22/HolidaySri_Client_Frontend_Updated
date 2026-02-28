@@ -245,13 +245,22 @@ const RentPropertyBuyingSellingForm = () => {
                 onChange={handleInputChange}
                 className="w-full px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
               >
-                <option value="House">House</option>
-                <option value="Apartment">Apartment</option>
-                <option value="Land">Land</option>
-                <option value="Commercial">Commercial</option>
-                <option value="Office">Office</option>
-                <option value="Shop">Shop</option>
-                <option value="Warehouse">Warehouse</option>
+                <optgroup label="Property">
+                  <option value="House">House</option>
+                  <option value="Apartment">Apartment</option>
+                  <option value="Land">Land</option>
+                  <option value="Commercial">Commercial</option>
+                  <option value="Office">Office</option>
+                  <option value="Shop">Shop</option>
+                  <option value="Warehouse">Warehouse</option>
+                </optgroup>
+                <optgroup label="Vehicles">
+                  <option value="Car">Car</option>
+                  <option value="Van">Van</option>
+                  <option value="Three-Wheeler">Three-Wheeler</option>
+                  <option value="Bike">Bike</option>
+                  <option value="Other Vehicles">Other Vehicles</option>
+                </optgroup>
                 <option value="Other">Other</option>
               </select>
             </div>
