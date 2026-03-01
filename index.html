@@ -122,6 +122,19 @@
                             !window.location.hostname.includes('127.0.0.1');
 
         if (isProduction) {
+          // Detect if device is mobile (iOS, Android, tablets)
+          const isMobileDevice = () => {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            // Check for mobile devices including iOS, Android, Windows Phone, tablets
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/i.test(userAgent) ||
+                   // Additional iOS detection
+                   (/iPad|iPhone|iPod/.test(navigator.platform)) ||
+                   // iPad on iOS 13+ detection
+                   (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
+                   // Check for touch support
+                   ('ontouchstart' in window);
+          };
+
           // Disable all console methods
           const disableConsole = () => {
             const noop = () => {};
@@ -134,8 +147,13 @@
             });
           };
 
-          // Detect DevTools opening
+          // Detect DevTools opening - ONLY on desktop devices
           const detectDevTools = () => {
+            // Skip DevTools detection on mobile devices to prevent false positives
+            if (isMobileDevice()) {
+              return;
+            }
+
             const threshold = 160;
             const widthThreshold = window.outerWidth - window.innerWidth > threshold;
             const heightThreshold = window.outerHeight - window.innerHeight > threshold;
@@ -187,8 +205,13 @@
             }
           });
 
-          // Anti-debugging
+          // Anti-debugging - ONLY on desktop devices
           const antiDebug = () => {
+            // Skip anti-debugging on mobile devices
+            if (isMobileDevice()) {
+              return;
+            }
+
             const start = new Date();
             debugger;
             const end = new Date();
@@ -200,7 +223,7 @@
           // Initialize protection
           disableConsole();
 
-          // Check for DevTools periodically
+          // Check for DevTools periodically - only on desktop
           setInterval(detectDevTools, 1000);
           setInterval(antiDebug, 2000);
 
