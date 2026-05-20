@@ -38,7 +38,32 @@ import {
   Settings,
   Music,
   Ambulance,
-  Layers
+  Layers,
+  TreePine,
+  Shield,
+  Wrench,
+  Calendar,
+  Stethoscope,
+  Scale,
+  MessageCircle,
+  Languages,
+  Building,
+  Stars,
+  Truck,
+  Monitor,
+  GraduationCap,
+  CreditCard,
+  HandHeart,
+  Baby,
+  PawPrint,
+  Gem,
+  Laptop,
+  Shirt,
+  Apple,
+  Leaf,
+  Book,
+  Smartphone,
+  Gift
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -51,6 +76,117 @@ const Home = () => {
   const [loadingDestinations, setLoadingDestinations] = useState(true);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showSidebarArrow, setShowSidebarArrow] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("Top");
+
+  const filterCategories = [
+    "Top",
+    "Tourism And Travel",
+    "Accommodation & Dining",
+    "Vehicles & Transport",
+    "Events & Management",
+    "Professionals & Services",
+    "Caring & Donations",
+    "Marketplace & Shopping",
+    "Entertainment & Fitness",
+    "Special Opportunities",
+    "Essential Services"
+  ];
+
+  const appData = {
+    "Top": [
+      { name: "Hotels", path: "/hotels-accommodations", icon: Hotel, bgImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=400&fit=crop", color: "from-blue-500/60 to-cyan-500/60", iconColor: "text-blue-600 dark:text-blue-400" },
+      { name: "Vehicles", path: "/vehicle-rentals-hire", icon: Car, bgImage: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&h=400&fit=crop", color: "from-purple-500/60 to-pink-500/60", iconColor: "text-purple-600 dark:text-purple-400" },
+      { name: "HS Memories", path: "/ads/entertainment/holiday-memories", icon: Camera, bgImage: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=400&fit=crop", color: "from-pink-500/60 to-rose-500/60", iconColor: "text-pink-600 dark:text-pink-400" },
+      { name: "Agents", path: "/promo-codes-travel-agents", icon: Briefcase, bgImage: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop", color: "from-indigo-500/60 to-blue-500/60", iconColor: "text-indigo-600 dark:text-indigo-400" },
+      { name: "Travel Buddies", path: "/travel-buddies", icon: Users, bgImage: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=400&fit=crop", color: "from-green-500/60 to-emerald-500/60", iconColor: "text-green-600 dark:text-green-400" },
+      { name: "Tour Guiders", path: "/ads/tourism/tour-guiders", icon: Navigation, bgImage: "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=400&h=400&fit=crop", color: "from-amber-500/60 to-orange-500/60", iconColor: "text-amber-600 dark:text-amber-400" },
+      { name: "Restaurants", path: "/cafes-restaurants", icon: UtensilsCrossed, bgImage: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=400&fit=crop", color: "from-red-500/60 to-rose-500/60", iconColor: "text-red-600 dark:text-red-400" },
+      { name: "Foods", path: "/foods-beverages", icon: Coffee, bgImage: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=400&fit=crop", color: "from-yellow-500/60 to-orange-500/60", iconColor: "text-yellow-600 dark:text-yellow-400" },
+      { name: "Live Rides", path: "/ads/vehicles-transport/live-rides-carpooling", icon: Zap, bgImage: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=400&fit=crop", color: "from-teal-500/60 to-cyan-500/60", iconColor: "text-teal-600 dark:text-teal-400" },
+      { name: "Marketplaces", path: "/rent-property-buying-selling", icon: Building2, bgImage: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=400&h=400&fit=crop", color: "from-violet-500/60 to-purple-500/60", iconColor: "text-violet-600 dark:text-violet-400" },
+      { name: "Fitness & Spa", path: "/ads/professionals/fitness-health-spas-gym", icon: Dumbbell, bgImage: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=400&h=400&fit=crop", color: "from-lime-500/60 to-green-500/60", iconColor: "text-lime-600 dark:text-lime-400" },
+      { name: "Customize Tour", path: "/ads/tourism/customize-package", icon: Settings, bgImage: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=400&fit=crop", color: "from-cyan-500/60 to-blue-500/60", iconColor: "text-cyan-600 dark:text-cyan-400" },
+      { name: "Cultural Events", path: "/ads/events-management/events-updates", icon: Music, bgImage: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=400&fit=crop", color: "from-rose-500/60 to-orange-500/60", iconColor: "text-rose-600 dark:text-rose-400" },
+      { name: "Emergency Services", path: "/ads/essential-services/emergency-services-insurance", icon: Ambulance, bgImage: "https://images.unsplash.com/photo-1587745416684-47953f16f02f?w=400&h=400&fit=crop", color: "from-red-600/60 to-red-700/60", iconColor: "text-red-600 dark:text-red-400" },
+      { name: "Combo Packages", path: "/exclusive-combo-packages", icon: Package, bgImage: "https://images.unsplash.com/photo-1488085061387-422e29b40080?w=400&h=400&fit=crop", color: "from-fuchsia-500/60 to-pink-500/60", iconColor: "text-fuchsia-600 dark:text-fuchsia-400" },
+    ],
+    "Tourism And Travel": [
+      { name: "Explore Locations", path: "/explore-locations", icon: MapPin, bgImage: "https://images.unsplash.com/photo-1588168233345-0909c2d1b7ee?w=400&h=400&fit=crop", color: "from-blue-500/60 to-cyan-500/60", iconColor: "text-blue-600 dark:text-blue-400" },
+      { name: "Find Travel Buddies", path: "/travel-buddies", icon: Users, bgImage: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=400&fit=crop", color: "from-green-500/60 to-emerald-500/60", iconColor: "text-green-600 dark:text-green-400" },
+      { name: "Expert Tour Guiders", path: "/ads/tourism/tour-guiders", icon: Navigation, bgImage: "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=400&h=400&fit=crop", color: "from-amber-500/60 to-orange-500/60", iconColor: "text-amber-600 dark:text-amber-400" },
+      { name: "Local Tour Packages", path: "/local-tour-packages", icon: Map, bgImage: "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=400&h=400&fit=crop", color: "from-purple-500/60 to-pink-500/60", iconColor: "text-purple-600 dark:text-purple-400" },
+      { name: "Customize Tour Package", path: "/ads/tourism/customize-package", icon: Settings, bgImage: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=400&fit=crop", color: "from-cyan-500/60 to-blue-500/60", iconColor: "text-cyan-600 dark:text-cyan-400" },
+      { name: "TravelSafe & Help Professionals", path: "/ads/tourism/travel-safe", icon: Shield, bgImage: "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=400&h=400&fit=crop", color: "from-red-500/60 to-rose-500/60", iconColor: "text-red-600 dark:text-red-400" },
+      { name: "Rent a Land for Camping or Parking purposes", path: "/rent-land-camping-parking", icon: TreePine, bgImage: "https://images.unsplash.com/photo-153756526675b-349f359bf4e2?w=400&h=400&fit=crop", color: "from-lime-500/60 to-green-500/60", iconColor: "text-lime-600 dark:text-lime-400" },
+    ],
+    "Accommodation & Dining": [
+      { name: "Hotels & Accommodations", path: "/hotels-accommodations", icon: Hotel, bgImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=400&fit=crop", color: "from-blue-500/60 to-cyan-500/60", iconColor: "text-blue-600 dark:text-blue-400" },
+      { name: "Cafes & Restaurants", path: "/cafes-restaurants", icon: UtensilsCrossed, bgImage: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=400&fit=crop", color: "from-red-500/60 to-rose-500/60", iconColor: "text-red-600 dark:text-red-400" },
+      { name: "Foods & Beverages", path: "/foods-beverages", icon: Coffee, bgImage: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=400&fit=crop", color: "from-yellow-500/60 to-orange-500/60", iconColor: "text-yellow-600 dark:text-yellow-400" },
+    ],
+    "Vehicles & Transport": [
+      { name: "Vehicle Rentals & Hire Services", path: "/vehicle-rentals-hire", icon: Car, bgImage: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&h=400&fit=crop", color: "from-purple-500/60 to-pink-500/60", iconColor: "text-purple-600 dark:text-purple-400" },
+      { name: "Live Rides Updates & Carpooling", path: "/ads/vehicles-transport/live-rides-carpooling", icon: Zap, bgImage: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=400&fit=crop", color: "from-teal-500/60 to-cyan-500/60", iconColor: "text-teal-600 dark:text-teal-400" },
+      { name: "Professional Drivers", path: "/professional-drivers", icon: Users, bgImage: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&h=400&fit=crop", color: "from-blue-500/60 to-cyan-500/60", iconColor: "text-blue-600 dark:text-blue-400" },
+      { name: "Vehicle Repairs & Mechanics", path: "/vehicle-repairs-mechanics", icon: Wrench, bgImage: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=400&fit=crop", color: "from-gray-500/60 to-slate-500/60", iconColor: "text-gray-600 dark:text-gray-400" },
+    ],
+    "Events & Management": [
+      { name: "Events & Festivals Updates", path: "/ads/events-management/events-updates", icon: Music, bgImage: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=400&fit=crop", color: "from-rose-500/60 to-orange-500/60", iconColor: "text-rose-600 dark:text-rose-400" },
+      { name: "Manage or Customize Your Event", path: "/ads/events-management/customize-event", icon: Calendar, bgImage: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&h=400&fit=crop", color: "from-purple-500/60 to-pink-500/60", iconColor: "text-purple-600 dark:text-purple-400" },
+      { name: "Expert Event Planners & day Coordinators", path: "/event-planners-coordinators", icon: Briefcase, bgImage: "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=400&h=400&fit=crop", color: "from-blue-500/60 to-cyan-500/60", iconColor: "text-blue-600 dark:text-blue-400" },
+      { name: "Creative Photographers", path: "/ads/events/photographers", icon: Camera, bgImage: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=400&h=400&fit=crop", color: "from-indigo-500/60 to-blue-500/60", iconColor: "text-indigo-600 dark:text-indigo-400" },
+      { name: "Decorators & Florists", path: "/decorators-florists", icon: Star, bgImage: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400&h=400&fit=crop", color: "from-pink-500/60 to-rose-500/60", iconColor: "text-pink-600 dark:text-pink-400" },
+      { name: "Salon & Makeup Artists", path: "/salon-makeup-artists", icon: Heart, bgImage: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?w=400&h=400&fit=crop", color: "from-fuchsia-500/60 to-pink-500/60", iconColor: "text-fuchsia-600 dark:text-fuchsia-400" },
+      { name: "Fashion Designers", path: "/ads/events/fashion-designers", icon: Shirt, bgImage: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&h=400&fit=crop", color: "from-yellow-500/60 to-amber-500/60", iconColor: "text-yellow-600 dark:text-yellow-400" },
+    ],
+    "Professionals & Services": [
+      { name: "Meet Expert Doctors", path: "/expert-doctors", icon: Stethoscope, bgImage: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=400&h=400&fit=crop", color: "from-blue-500/60 to-cyan-500/60", iconColor: "text-blue-600 dark:text-blue-400" },
+      { name: "Professional Lawyers", path: "/professional-lawyers", icon: Scale, bgImage: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=400&h=400&fit=crop", color: "from-gray-500/60 to-slate-500/60", iconColor: "text-gray-600 dark:text-gray-400" },
+      { name: "Experienced Advisors & Counselors", path: "/advisors-counselors", icon: MessageCircle, bgImage: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&h=400&fit=crop", color: "from-purple-500/60 to-pink-500/60", iconColor: "text-purple-600 dark:text-purple-400" },
+      { name: "Language Translators & Interpreters", path: "/language-translators", icon: Languages, bgImage: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400&h=400&fit=crop", color: "from-green-500/60 to-emerald-500/60", iconColor: "text-green-600 dark:text-green-400" },
+      { name: "Expert Architects", path: "/expert-architects-browse", icon: Building, bgImage: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=400&h=400&fit=crop", color: "from-amber-500/60 to-orange-500/60", iconColor: "text-amber-600 dark:text-amber-400" },
+      { name: "Trusted Astrologists", path: "/ads/professionals/astrologists", icon: Stars, bgImage: "https://images.unsplash.com/photo-1532968961962-8a0cb3a2d4f5?w=400&h=400&fit=crop", color: "from-indigo-500/60 to-purple-500/60", iconColor: "text-indigo-600 dark:text-indigo-400" },
+      { name: "Delivery Partners", path: "/delivery-partners", icon: Truck, bgImage: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=400&h=400&fit=crop", color: "from-teal-500/60 to-cyan-500/60", iconColor: "text-teal-600 dark:text-teal-400" },
+      { name: "Graphics/IT Supports & Tech Repair Services", path: "/graphics-it-tech-repair", icon: Monitor, bgImage: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=400&fit=crop", color: "from-blue-500/60 to-indigo-500/60", iconColor: "text-blue-600 dark:text-blue-400" },
+      { name: "Educational & Tutoring Services", path: "/educational-tutoring", icon: GraduationCap, bgImage: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&h=400&fit=crop", color: "from-yellow-500/60 to-amber-500/60", iconColor: "text-yellow-600 dark:text-yellow-400" },
+      { name: "Currency Exchange Rates & Services", path: "/currency-exchange", icon: CreditCard, bgImage: "https://images.unsplash.com/photo-1580519542036-ed47f3ec9b07?w=400&h=400&fit=crop", color: "from-emerald-500/60 to-teal-500/60", iconColor: "text-emerald-600 dark:text-emerald-400" },
+      { name: "Other Professionals & Services", path: "/other-professionals-services", icon: Briefcase, bgImage: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=400&fit=crop", color: "from-gray-500/60 to-slate-500/60", iconColor: "text-gray-600 dark:text-gray-400" },
+    ],
+    "Caring & Donations": [
+      { name: "Compassionate Caregivers & Earn Time Currency", path: "/caregivers-time-currency-browse", icon: HandHeart, bgImage: "https://images.unsplash.com/photo-1576765608532-0739c13b2838?w=400&h=400&fit=crop", color: "from-rose-500/60 to-pink-500/60", iconColor: "text-rose-600 dark:text-rose-400" },
+      { name: "Trusted Babysitters & Childcare Help", path: "/babysitters-childcare", icon: Baby, bgImage: "https://images.unsplash.com/photo-1519689680058-324335c77eba?w=400&h=400&fit=crop", color: "from-purple-500/60 to-pink-500/60", iconColor: "text-purple-600 dark:text-purple-400" },
+      { name: "Pet Care & Animal Services", path: "/pet-care-animal-services", icon: PawPrint, bgImage: "https://images.unsplash.com/photo-1450778869180-41d0601e046e?w=400&h=400&fit=crop", color: "from-amber-500/60 to-orange-500/60", iconColor: "text-amber-600 dark:text-amber-400" },
+      { name: "Donations / Raise Your Fund", path: "/donations-raise-fund-browse", icon: Heart, bgImage: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?w=400&h=400&fit=crop", color: "from-red-500/60 to-rose-500/60", iconColor: "text-red-600 dark:text-red-400" },
+    ],
+    "Marketplace & Shopping": [
+      { name: "Rent & Property Buying & Selling Platform", path: "/rent-property-buying-selling", icon: Building2, bgImage: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=400&h=400&fit=crop", color: "from-violet-500/60 to-purple-500/60", iconColor: "text-violet-600 dark:text-violet-400" },
+      { name: "Exclusive Gift Packs", path: "/ads/marketplace/gift-packs", icon: Gift, bgImage: "https://images.unsplash.com/photo-1513201099705-a9746e1e201f?w=400&h=400&fit=crop", color: "from-pink-500/60 to-rose-500/60", iconColor: "text-pink-600 dark:text-pink-400" },
+      { name: "Souvenirs & Collectibles", path: "/ads/marketplace/souvenirs", icon: Camera, bgImage: "https://images.unsplash.com/photo-1555529733-0e670560f4e1?w=400&h=400&fit=crop", color: "from-amber-500/60 to-orange-500/60", iconColor: "text-amber-600 dark:text-amber-400" },
+      { name: "Jewelry & Gem Sellers", path: "/ads/marketplace/jewelry-gem-sellers", icon: Gem, bgImage: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=400&fit=crop", color: "from-teal-500/60 to-cyan-500/60", iconColor: "text-teal-600 dark:text-teal-400" },
+      { name: "Home/Office Accessories & Tech Gadgets", path: "/ads/marketplace/home-office-accessories-tech", icon: Laptop, bgImage: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=400&h=400&fit=crop", color: "from-blue-500/60 to-indigo-500/60", iconColor: "text-blue-600 dark:text-blue-400" },
+      { name: "Fashion/Beauty & Clothing Items", path: "/ads/marketplace/fashion-beauty-clothing", icon: Shirt, bgImage: "https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=400&fit=crop", color: "from-fuchsia-500/60 to-pink-500/60", iconColor: "text-fuchsia-600 dark:text-fuchsia-400" },
+      { name: "Daily Grocery Essentials", path: "/ads/marketplace/daily-grocery-essentials", icon: Apple, bgImage: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&h=400&fit=crop", color: "from-green-500/60 to-emerald-500/60", iconColor: "text-green-600 dark:text-green-400" },
+      { name: "Organic Herbal Products & Spices", path: "/ads/marketplace/organic-herbal-products-spices", icon: Leaf, bgImage: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400&h=400&fit=crop", color: "from-lime-500/60 to-green-500/60", iconColor: "text-lime-600 dark:text-lime-400" },
+      { name: "Books, Magazines & Educational Materials", path: "/books-magazines-educational", icon: Book, bgImage: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400&h=400&fit=crop", color: "from-yellow-500/60 to-amber-500/60", iconColor: "text-yellow-600 dark:text-yellow-400" },
+      { name: "Other Items", path: "/other-items", icon: Package, bgImage: "https://images.unsplash.com/photo-1513530176992-0cf73cb3a435?w=400&h=400&fit=crop", color: "from-gray-500/60 to-slate-500/60", iconColor: "text-gray-600 dark:text-gray-400" },
+    ],
+    "Entertainment & Fitness": [
+      { name: "Holiday Memories (Photos & Locations from Travelers)", path: "/ads/entertainment/holiday-memories", icon: Camera, bgImage: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=400&fit=crop", color: "from-pink-500/60 to-rose-500/60", iconColor: "text-pink-600 dark:text-pink-400" },
+      { name: "Exclusive Combo Packages (Wedding, Tour and More)", path: "/exclusive-combo-packages", icon: Package, bgImage: "https://images.unsplash.com/photo-1488085061387-422e29b40080?w=400&h=400&fit=crop", color: "from-fuchsia-500/60 to-pink-500/60", iconColor: "text-fuchsia-600 dark:text-fuchsia-400" },
+      { name: "Talented Entertainers & Artists", path: "/ads/entertainment/entertainers-artists", icon: Music, bgImage: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=400&fit=crop", color: "from-purple-500/60 to-indigo-500/60", iconColor: "text-purple-600 dark:text-purple-400" },
+      { name: "Fitness & Health : Spas, Gym Ect. & Professionals", path: "/ads/professionals/fitness-health-spas-gym", icon: Dumbbell, bgImage: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=400&h=400&fit=crop", color: "from-lime-500/60 to-green-500/60", iconColor: "text-lime-600 dark:text-lime-400" },
+    ],
+    "Special Opportunities": [
+      { name: "Exciting Job Opportunities", path: "/ads/professionals/job-opportunities", icon: Briefcase, bgImage: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=400&h=400&fit=crop", color: "from-blue-500/60 to-indigo-500/60", iconColor: "text-blue-600 dark:text-blue-400" },
+      { name: "Crypto Consulting & Courses", path: "/crypto-consulting-signals", icon: Zap, bgImage: "https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=400&h=400&fit=crop", color: "from-amber-500/60 to-yellow-500/60", iconColor: "text-amber-600 dark:text-amber-400" },
+      { name: "Local SIM Cards & Mobile Data Plans", path: "/ads/special-opportunities/local-sim-mobile-data", icon: Smartphone, bgImage: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=400&fit=crop", color: "from-teal-500/60 to-emerald-500/60", iconColor: "text-teal-600 dark:text-teal-400" },
+    ],
+    "Essential Services": [
+      { name: "Emergency Services & Insurance", path: "/ads/essential-services/emergency-services-insurance", icon: Ambulance, bgImage: "https://images.unsplash.com/photo-1587745416684-47953f16f02f?w=400&h=400&fit=crop", color: "from-red-600/60 to-red-700/60", iconColor: "text-red-600 dark:text-red-400" },
+      { name: "Become a Holidaysri Member", path: "/ads/essential/pricing-memberships", icon: Star, bgImage: "https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop", color: "from-yellow-500/60 to-amber-500/60", iconColor: "text-yellow-600 dark:text-yellow-400" },
+      { name: "Com.Partners & Partnerships", path: "/ads/opportunities/partnerships", icon: Handshake, bgImage: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=400&h=400&fit=crop", color: "from-indigo-500/60 to-blue-500/60", iconColor: "text-indigo-600 dark:text-indigo-400" },
+    ]
+  };
 
   // Default banner slideshow data (fallback)
   const defaultBannerSlides = [
@@ -350,356 +486,56 @@ const Home = () => {
             </p>
           </div>
 
-          {/* Mobile App Style Grid - 15 Apps */}
-          <div className="grid grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6 lg:gap-10 max-w-7xl mx-auto px-4 lg:px-8">
-            {/* App 1: Hotels */}
-            <Link
-              to="/hotels-accommodations"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                {/* App Icon Container */}
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  {/* Background Image */}
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/60 to-cyan-500/60"></div>
-                  </div>
+          {/* Filter Chips */}
+          <div className="flex flex-wrap justify-center gap-2 mb-8 max-w-7xl mx-auto px-4">
+            {filterCategories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 ${
+                  activeCategory === cat 
+                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg transform scale-105' 
+                    : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 shadow border border-gray-200 dark:border-gray-700'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
 
-                  {/* Icon */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Hotel className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                Hotels
-              </span>
-            </Link>
+          {/* Dynamic Mobile App Style Grid */}
+          <div className="flex flex-wrap justify-center gap-5 sm:gap-6 lg:gap-10 max-w-7xl mx-auto px-4 lg:px-8">
+            {appData[activeCategory]?.map((app, idx) => {
+              const Icon = app.icon;
+              return (
+                <Link
+                  key={idx}
+                  to={app.path}
+                  className="group flex flex-col items-center w-[28%] sm:w-[20%] md:w-[18%] lg:w-[15%] xl:w-[12%]"
+                >
+                  <div className="relative w-full aspect-square mb-2 sm:mb-3">
+                    {/* App Icon Container */}
+                    <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
+                      {/* Background Image */}
+                      <div
+                        className="absolute inset-0 bg-cover bg-center"
+                        style={{ backgroundImage: `url(${app.bgImage})` }}
+                      >
+                        <div className={`absolute inset-0 bg-gradient-to-br ${app.color}`}></div>
+                      </div>
 
-            {/* App 2: Vehicles */}
-            <Link
-              to="/vehicle-rentals-hire"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/60 to-pink-500/60"></div>
+                      {/* Icon */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Icon className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
+                      </div>
+                    </div>
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Car className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                Vehicles
-              </span>
-            </Link>
-
-            {/* App 3: HS Memories */}
-            <Link
-              to="/ads/entertainment/holiday-memories"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-pink-500/60 to-rose-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Camera className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">
-                HS Memories
-              </span>
-            </Link>
-
-            {/* App 4: Agents */}
-            <Link
-              to="/promo-codes-travel-agents"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1556761175-b413da4baf72?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/60 to-blue-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Briefcase className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                Agents
-              </span>
-            </Link>
-
-            {/* App 5: Travel Buddies */}
-            <Link
-              to="/travel-buddies"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/60 to-emerald-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Users className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
-                Travel Buddies
-              </span>
-            </Link>
-
-            {/* App 6: Tour Guiders */}
-            <Link
-              to="/ads/tourism/tour-guiders"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-amber-500/60 to-orange-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Navigation className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-                Tour Guiders
-              </span>
-            </Link>
-
-            {/* App 7: Restaurants */}
-            <Link
-              to="/cafes-restaurants"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-red-500/60 to-rose-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <UtensilsCrossed className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
-                Restaurants
-              </span>
-            </Link>
-
-            {/* App 8: Foods */}
-            <Link
-              to="/foods-beverages"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/60 to-orange-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Coffee className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">
-                Foods
-              </span>
-            </Link>
-
-            {/* App 9: Live Rides */}
-            <Link
-              to="/ads/vehicles-transport/live-rides-carpooling"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-teal-500/60 to-cyan-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Zap className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
-                Live Rides
-              </span>
-            </Link>
-
-            {/* App 10: Marketplaces */}
-            <Link
-              to="/rent-property-buying-selling"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-violet-500/60 to-purple-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Building2 className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
-                Marketplaces
-              </span>
-            </Link>
-
-            {/* App 11: Fitness & Spa */}
-            <Link
-              to="/ads/professionals/fitness-health-spas-gym"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-lime-500/60 to-green-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Dumbbell className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-lime-600 dark:group-hover:text-lime-400 transition-colors">
-                Fitness & Spa
-              </span>
-            </Link>
-
-            {/* App 12: Customize Tour */}
-            <Link
-              to="/ads/tourism/customize-package"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/60 to-blue-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Settings className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors">
-                Customize Tour
-              </span>
-            </Link>
-
-            {/* App 13: Cultural Events */}
-            <Link
-              to="/ads/events-management/events-updates"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-rose-500/60 to-orange-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Music className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
-                Cultural Events
-              </span>
-            </Link>
-
-            {/* App 14: Emergency Services */}
-            <Link
-              to="/ads/essential-services/emergency-services-insurance"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1587745416684-47953f16f02f?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-red-600/60 to-red-700/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Ambulance className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
-                Emergency Services
-              </span>
-            </Link>
-
-            {/* App 15: Combo Packages */}
-            <Link
-              to="/exclusive-combo-packages"
-              className="group flex flex-col items-center"
-            >
-              <div className="relative w-full aspect-square mb-2 sm:mb-3">
-                <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-lg group-hover:shadow-2xl transition-all duration-300 transform group-hover:scale-105">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1488085061387-422e29b40080?w=400&h=400&fit=crop)' }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-500/60 to-pink-500/60"></div>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Package className="w-8 h-8 sm:w-10 sm:h-10 lg:w-8 lg:h-8 text-white drop-shadow-lg" />
-                  </div>
-                </div>
-              </div>
-              <span className="text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center group-hover:text-fuchsia-600 dark:group-hover:text-fuchsia-400 transition-colors">
-                Combo Packages
-              </span>
-            </Link>
+                  <span className={`text-xs sm:text-sm font-semibold text-gray-800 dark:text-gray-200 text-center transition-colors group-hover:${app.iconColor.split(' ')[0]} dark:group-hover:${app.iconColor.split(' ')[1].replace('dark:', '')}`}>
+                    {app.name}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Explore More Button */}
