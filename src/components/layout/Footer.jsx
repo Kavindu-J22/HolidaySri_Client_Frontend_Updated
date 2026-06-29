@@ -9,6 +9,7 @@ import {
   Youtube,
   Mail,
   Phone,
+  MessageCircle,
   MapPin,
   Globe,
   Heart,
@@ -147,14 +148,29 @@ const Footer = () => {
             
             {/* Contact Info */}
             <div className="space-y-3">
-              <div className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
+              <a
+                href="tel:+94779620434"
+                className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
+              >
                 <Phone className="w-4 h-4 text-primary-600" />
-                <span>+94 11 234 5678</span>
-              </div>
-              <div className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
+                <span>+94 77 962 0434</span>
+              </a>
+              <a
+                href="https://wa.me/41786200434"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
+              >
+                <MessageCircle className="w-4 h-4 text-primary-600" />
+                <span>+41 78 620 0434</span>
+              </a>
+              <a
+                href="mailto:holidaysri.notifications@gmail.com"
+                className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors duration-200"
+              >
                 <Mail className="w-4 h-4 text-primary-600" />
-                <span>info@holidaysri.com</span>
-              </div>
+                <span>holidaysri.notifications@gmail.com</span>
+              </a>
               <div className="flex items-center space-x-3 text-sm text-gray-600 dark:text-gray-400">
                 <MapPin className="w-4 h-4 text-primary-600" />
                 <span>Colombo, Sri Lanka</span>

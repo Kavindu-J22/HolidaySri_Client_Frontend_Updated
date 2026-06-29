@@ -11,8 +11,8 @@ export const getOrganizationSchema = () => ({
   "url": "https://www.holidaysri.com",
   "logo": "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712705/Hsllogo_3_gye6nd.png",
   "image": "https://res.cloudinary.com/dqdcmluxj/image/upload/v1752712705/Hsllogo_3_gye6nd.png",
-  "telephone": "+94-XXX-XXXXXXX",
-  "email": "info@holidaysri.com",
+  "telephone": "+94779620434",
+  "email": "holidaysri.notifications@gmail.com",
   "address": {
     "@type": "PostalAddress",
     "addressCountry": "LK",

@@ -48,7 +48,7 @@ const Contact = () => {
       description: 'Learn how to use HolidaySri',
       color: 'bg-blue-50 dark:bg-blue-900/20',
       iconColor: 'text-blue-600 dark:text-blue-400',
-      link: '/help/getting-started'
+      link: '/services'
     },
     {
       icon: CreditCard,
@@ -153,27 +153,27 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Phone Support',
-      value: '+94 11 234 5678',
+      value: '+94 77 962 0434',
       description: 'Mon-Sat, 9:00 AM - 6:00 PM',
-      action: 'tel:+94112345678',
+      action: 'tel:+94779620434',
       color: 'bg-blue-50 dark:bg-blue-900/20',
       iconColor: 'text-blue-600 dark:text-blue-400'
     },
     {
       icon: MessageCircle,
       title: 'WhatsApp',
-      value: '+94 77 123 4567',
+      value: '+41 78 620 0434',
       description: 'Quick responses 24/7',
-      action: 'https://wa.me/94771234567',
+      action: 'https://wa.me/41786200434',
       color: 'bg-green-50 dark:bg-green-900/20',
       iconColor: 'text-green-600 dark:text-green-400'
     },
     {
       icon: Mail,
       title: 'Email Support',
-      value: 'support@holidaysri.com',
+      value: 'holidaysri.notifications@gmail.com',
       description: 'Response within 24 hours',
-      action: 'mailto:support@holidaysri.com',
+      action: 'mailto:holidaysri.notifications@gmail.com',
       color: 'bg-purple-50 dark:bg-purple-900/20',
       iconColor: 'text-purple-600 dark:text-purple-400'
     },
@@ -671,14 +671,14 @@ const Contact = () => {
             </p>
             <div className="flex flex-wrap gap-4">
               <a
-                href="tel:+94112345678"
+                href="tel:+94779620434"
                 className="inline-flex items-center px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors"
               >
                 <Phone className="w-4 h-4 mr-2" />
                 Call Emergency Line
               </a>
               <a
-                href="https://wa.me/94771234567"
+                href="https://wa.me/41786200434"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-colors"
