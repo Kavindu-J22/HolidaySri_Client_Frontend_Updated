@@ -5,19 +5,9 @@ import {
   MapPin,
   Car,
   UtensilsCrossed,
-  Camera,
   Compass,
   Mountain,
-  Waves,
-  TreePine,
-  Building,
-  ChevronDown,
-  ChevronRight,
-  ChevronLeft,
   Star,
-  TrendingUp,
-  Clock,
-  DollarSign,
   PlusCircle,
   Gift,
   Coins,
@@ -25,67 +15,35 @@ import {
   Shield,
   Wrench,
   Calendar,
-  Briefcase,
-  Heart,
-  ShoppingBag,
-  Music,
   Search,
   X,
-  Zap,
   Settings,
-  Stethoscope,
-  Scale,
-  MessageCircle,
-  Languages,
-  Home as HomeIcon,
-  Stars,
   Truck,
-  Monitor,
-  GraduationCap,
-  CreditCard,
-  Baby,
-  PawPrint,
-  HandHeart,
-  Store,
   Package,
-  Gem,
-  Laptop,
-  Shirt,
   Apple,
-  Leaf,
-  Book,
-  Plus,
-  Dumbbell,
-  Film,
-  Share2,
-  Bitcoin,
   Download,
-  Smartphone,
-  Target,
   Handshake,
-  Percent,
   AlertTriangle,
-  FileText,
-  Bell,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  Crown,
+  Sparkles,
+  UserCheck
 } from 'lucide-react';
 
 const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
-  const [expandedCategories, setExpandedCategories] = useState({});
   const [touchStart, setTouchStart] = useState(null);
   const [touchEnd, setTouchEnd] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  // Initialize isDesktop based on current window width
+  
   const [isDesktop, setIsDesktop] = useState(() => {
     if (typeof window !== 'undefined') {
       return window.innerWidth >= 1024;
     }
-    return true; // Default to desktop for SSR
+    return true;
   });
   const location = useLocation();
 
-  // Check if we're on desktop (lg breakpoint = 1024px)
   React.useEffect(() => {
     const checkIsDesktop = () => {
       setIsDesktop(window.innerWidth >= 1024);
@@ -95,159 +53,184 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
     return () => window.removeEventListener('resize', checkIsDesktop);
   }, []);
 
-  // Only apply collapsed state on desktop
   const effectiveCollapsed = isDesktop && isCollapsed;
 
-  const advertisementCategories = [
+  const categorySections = [
     {
-      id: 'tourism-travel',
-      name: 'Travel And Tourism',
-      icon: Compass,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      subcategories: [
-        { name: 'Explore Locations', path: '/explore-locations' },
-        { name: 'Find Travel Buddies', path: '/travel-buddies' },
-        { name: 'Expert Tour Guiders', path: '/ads/tourism/tour-guiders' },
-        { name: 'Local Tour Packages', path: '/local-tour-packages' },
-        { name: 'Customize Tour Package', path: '/ads/tourism/customize-package' },
-        { name: 'TravelSafe & Help Professionals', path: '/ads/tourism/travel-safe' },
-        { name: 'Rent a Land for Camping or Parking purposes', path: '/rent-land-camping-parking' },
-        { name: 'Exclusive Combo Packages (Wedding, Tour and More)', path: '/exclusive-combo-packages' },
+      title: 'Tourism And Travel',
+      items: [
+        {
+          name: 'Explore Locations',
+          path: '/explore-locations',
+          icon: MapPin,
+          color: 'text-sky-600 dark:text-sky-400',
+          bgColor: 'bg-sky-50 dark:bg-sky-950/40',
+          activeBorder: 'border-sky-500'
+        },
+        {
+          name: 'Find Travel Buddies',
+          path: '/travel-buddies',
+          icon: Users,
+          color: 'text-indigo-600 dark:text-indigo-400',
+          bgColor: 'bg-indigo-50 dark:bg-indigo-950/40',
+          activeBorder: 'border-indigo-500'
+        },
+        {
+          name: 'Expert Tour Guiders',
+          path: '/ads/tourism/tour-guiders',
+          icon: Compass,
+          color: 'text-blue-600 dark:text-blue-400',
+          bgColor: 'bg-blue-50 dark:bg-blue-950/40',
+          activeBorder: 'border-blue-500'
+        },
+        {
+          name: 'Local Tour Packages',
+          path: '/local-tour-packages',
+          icon: Package,
+          color: 'text-teal-600 dark:text-teal-400',
+          bgColor: 'bg-teal-50 dark:bg-teal-950/40',
+          activeBorder: 'border-teal-500'
+        },
+        {
+          name: 'Customize Tour Package',
+          path: '/ads/tourism/customize-package',
+          icon: Settings,
+          color: 'text-violet-600 dark:text-violet-400',
+          bgColor: 'bg-violet-50 dark:bg-violet-950/40',
+          activeBorder: 'border-violet-500'
+        },
+        {
+          name: 'TravelSafe & Help Professionals',
+          path: '/ads/tourism/travel-safe',
+          icon: Shield,
+          color: 'text-emerald-600 dark:text-emerald-400',
+          bgColor: 'bg-emerald-50 dark:bg-emerald-950/40',
+          activeBorder: 'border-emerald-500'
+        },
+        {
+          name: 'Rent a Land for Camping or Parking purposes',
+          path: '/rent-land-camping-parking',
+          icon: Mountain,
+          color: 'text-green-600 dark:text-green-400',
+          bgColor: 'bg-green-50 dark:bg-green-950/40',
+          activeBorder: 'border-green-500'
+        },
       ]
     },
     {
-      id: 'accommodation-dining',
-      name: 'Accommodation & Dining',
-      icon: Hotel,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
-      subcategories: [
-        { name: 'Hotels & Accommodations', path: '/hotels-accommodations' },
-        { name: 'Cafes & Restaurants', path: '/cafes-restaurants' },
-        { name: 'Foods & Beverages', path: '/foods-beverages' },
+      title: 'Accommodation & Dining',
+      items: [
+        {
+          name: 'Hotels & Accommodations',
+          path: '/hotels-accommodations',
+          icon: Hotel,
+          color: 'text-rose-600 dark:text-rose-400',
+          bgColor: 'bg-rose-50 dark:bg-rose-950/40',
+          activeBorder: 'border-rose-500'
+        },
+        {
+          name: 'Cafes & Restaurants',
+          path: '/cafes-restaurants',
+          icon: UtensilsCrossed,
+          color: 'text-amber-600 dark:text-amber-400',
+          bgColor: 'bg-amber-50 dark:bg-amber-950/40',
+          activeBorder: 'border-amber-500'
+        },
+        {
+          name: 'Foods & Beverages',
+          path: '/foods-beverages',
+          icon: Apple,
+          color: 'text-orange-600 dark:text-orange-400',
+          bgColor: 'bg-orange-50 dark:bg-orange-950/40',
+          activeBorder: 'border-orange-500'
+        },
       ]
     },
     {
-      id: 'vehicles-transport',
-      name: 'Vehicles & Transport',
-      icon: Car,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50',
-      subcategories: [
-        { name: 'Vehicle Rentals & Hire Services', path: '/vehicle-rentals-hire' },
-        { name: 'Live Rides Updates & Carpooling', path: '/ads/vehicles-transport/live-rides-carpooling' },
-        { name: 'Professional Drivers', path: '/professional-drivers' },
-        { name: 'Vehicle Repairs & Mechanics', path: '/vehicle-repairs-mechanics' },
+      title: 'Vehicles & Transport',
+      items: [
+        {
+          name: 'Vehicle Rentals & Hire Services',
+          path: '/vehicle-rentals-hire',
+          icon: Car,
+          color: 'text-cyan-600 dark:text-cyan-400',
+          bgColor: 'bg-cyan-50 dark:bg-cyan-950/40',
+          activeBorder: 'border-cyan-500'
+        },
+        {
+          name: 'Live Rides Updates & Carpooling',
+          path: '/ads/vehicles-transport/live-rides-carpooling',
+          icon: Truck,
+          color: 'text-purple-600 dark:text-purple-400',
+          bgColor: 'bg-purple-50 dark:bg-purple-950/40',
+          activeBorder: 'border-purple-500'
+        },
+        {
+          name: 'Professional Drivers',
+          path: '/professional-drivers',
+          icon: UserCheck,
+          color: 'text-blue-700 dark:text-blue-300',
+          bgColor: 'bg-blue-100 dark:bg-blue-900/50',
+          activeBorder: 'border-blue-700'
+        },
+        {
+          name: 'Vehicle Repairs & Mechanics',
+          path: '/vehicle-repairs-mechanics',
+          icon: Wrench,
+          color: 'text-slate-700 dark:text-slate-300',
+          bgColor: 'bg-slate-100 dark:bg-slate-800',
+          activeBorder: 'border-slate-600'
+        },
       ]
     },
     {
-      id: 'events-management',
-      name: 'Events & Management',
-      icon: Calendar,
-      color: 'text-red-600',
-      bgColor: 'bg-red-50',
-      subcategories: [
-        { name: 'Events & Festivals Updates', path: '/ads/events-management/events-updates' },
-        { name: 'Manage or Customize Your Event', path: '/ads/events-management/customize-event' },
-        { name: 'Expert Event Planners & day Coordinators', path: '/event-planners-coordinators' },
-        { name: 'Creative Photographers', path: '/ads/events/photographers' },
-        { name: 'Decorators & Florists', path: '/decorators-florists' },
-        { name: 'Salon & Makeup Artists', path: '/salon-makeup-artists' },
-        { name: 'Fashion Designers', path: '/ads/events/fashion-designers' },
+      title: 'Events & Management',
+      items: [
+        {
+          name: 'Events & Festivals Updates',
+          path: '/ads/events-management/events-updates',
+          icon: Calendar,
+          color: 'text-fuchsia-600 dark:text-fuchsia-400',
+          bgColor: 'bg-fuchsia-50 dark:bg-fuchsia-950/40',
+          activeBorder: 'border-fuchsia-500'
+        },
+        {
+          name: 'Manage or Customize Your Event',
+          path: '/ads/events-management/customize-event',
+          icon: Sparkles,
+          color: 'text-pink-600 dark:text-pink-400',
+          bgColor: 'bg-pink-50 dark:bg-pink-950/40',
+          activeBorder: 'border-pink-500'
+        },
       ]
     },
     {
-      id: 'professionals-services',
-      name: 'Professionals & Services',
-      icon: Briefcase,
-      color: 'text-indigo-600',
-      bgColor: 'bg-indigo-50',
-      subcategories: [
-        { name: 'Meet Expert Doctors', path: '/expert-doctors' },
-        { name: 'Professional Lawyers', path: '/professional-lawyers' },
-        { name: 'Experienced Advisors & Counselors', path: '/advisors-counselors' },
-        { name: 'Language Translators & Interpreters', path: '/language-translators' },
-        { name: 'Expert Architects', path: '/expert-architects-browse' },
-        { name: 'Trusted Astrologists', path: '/ads/professionals/astrologists' },
-        { name: 'Delivery Partners', path: '/delivery-partners' },
-        { name: 'Graphics/IT Supports & Tech Repair Services', path: '/graphics-it-tech-repair' },
-        { name: 'Educational & Tutoring Services', path: '/educational-tutoring' },
-        { name: 'Currency Exchange Rates & Services', path: '/currency-exchange' },
-        { name: 'Other Professionals & Services', path: '/other-professionals-services' },
-      ]
-    },
-    {
-      id: 'caring-donations',
-      name: 'Caring & Donations',
-      icon: Heart,
-      color: 'text-pink-600',
-      bgColor: 'bg-pink-50',
-      subcategories: [
-        { name: 'Compassionate Caregivers & Earn Time Currency', path: '/caregivers-time-currency-browse' },
-        { name: 'Trusted Babysitters & Childcare Help', path: '/babysitters-childcare' },
-        { name: 'Pet Care & Animal Services', path: '/pet-care-animal-services' },
-        { name: 'Donations / Raise Your Fund', path: '/donations-raise-fund-browse' },
-      ]
-    },
-    {
-      id: 'marketplace-shopping',
-      name: 'Marketplace & Shopping',
-      icon: ShoppingBag,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50',
-      subcategories: [
-        { name: 'Rent & Property Buying & Selling Platform', path: '/rent-property-buying-selling' },
-        { name: 'Exclusive Gift Packs', path: '/ads/marketplace/gift-packs' },
-        { name: 'Souvenirs & Collectibles', path: '/ads/marketplace/souvenirs' },
-        { name: 'Jewelry & Gem Sellers', path: '/ads/marketplace/jewelry-gem-sellers' },
-        { name: 'Home/Office Accessories & Tech Gadgets', path: '/ads/marketplace/home-office-accessories-tech' },
-        { name: 'Fashion/Beauty & Clothing Items', path: '/ads/marketplace/fashion-beauty-clothing' },
-        { name: 'Daily Grocery Essentials', path: '/ads/marketplace/daily-grocery-essentials' },
-        { name: 'Organic Herbal Products & Spices', path: '/ads/marketplace/organic-herbal-products-spices' },
-        { name: 'Books, Magazines & Educational Materials', path: '/books-magazines-educational' },
-        { name: 'Other Items', path: '/other-items' },
-        { name: 'Create Your Own Store : It\'s Time To Shoping', path: '/ads/marketplace/create-store', hidden: true },
-      ]
-    },
-    {
-      id: 'entertainment-fitness',
-      name: 'Entertainment & Fitness',
-      icon: Music,
-      color: 'text-cyan-600',
-      bgColor: 'bg-cyan-50',
-      subcategories: [
-        { name: 'Talented Entertainers & Artists', path: '/ads/entertainment/entertainers-artists' },
-        { name: 'Fitness & Health : Spas, Gym Ect. & Professionals', path: '/ads/professionals/fitness-health-spas-gym' },
-        { name: 'Cinema & Movie Hub', path: '/ads/entertainment/cinema-movies', hidden: true },
-        { name: 'Social Media Promotions', path: '/ads/entertainment/social-media', hidden: true },
-      ]
-    },
-    {
-      id: 'special-opportunities',
-      name: 'Special Opportunities',
-      icon: Zap,
-      color: 'text-yellow-600',
-      bgColor: 'bg-yellow-50',
-      subcategories: [
-        { name: 'Exciting Job Opportunities', path: '/ads/professionals/job-opportunities' },
-        { name: 'Crypto Consulting & Courses', path: '/crypto-consulting-signals' },
-        { name: 'Local SIM Cards & Mobile Data Plans', path: '/ads/special-opportunities/local-sim-mobile-data' },
-        { name: 'Custom Ads Campaigns', path: '/ads/opportunities/ads-campaigns', hidden: true },
-        { name: 'Exclusive Offers & Promotions', path: '/ads/opportunities/offers-promotions', hidden: true },
-      ]
-    },
-    {
-      id: 'essential-services',
-      name: 'Essential Services',
-      icon: Settings,
-      color: 'text-gray-600',
-      bgColor: 'bg-gray-50',
-      subcategories: [
-        { name: 'Emergency Services & Insurance', path: '/ads/essential-services/emergency-services-insurance' },
-        { name: 'Become a Holidaysri Member', path: '/ads/essential/pricing-memberships' },
-        { name: 'Com.Partners & Partnerships', path: '/ads/opportunities/partnerships' },
-        { name: 'Mission Board, User Manual & Important Notice', path: '/ads/essential/mission-manual', hidden: true },
+      title: 'Essential Services',
+      items: [
+        {
+          name: 'Emergency Services & Insurance',
+          path: '/ads/essential-services/emergency-services-insurance',
+          icon: AlertTriangle,
+          color: 'text-red-600 dark:text-red-400',
+          bgColor: 'bg-red-50 dark:bg-red-950/40',
+          activeBorder: 'border-red-500'
+        },
+        {
+          name: 'Become a Holidaysri Member',
+          path: '/ads/essential/pricing-memberships',
+          icon: Crown,
+          color: 'text-yellow-600 dark:text-yellow-400',
+          bgColor: 'bg-yellow-50 dark:bg-yellow-950/40',
+          activeBorder: 'border-yellow-500'
+        },
+        {
+          name: 'Com.Partners & Partnerships',
+          path: '/ads/opportunities/partnerships',
+          icon: Handshake,
+          color: 'text-lime-600 dark:text-lime-400',
+          bgColor: 'bg-lime-50 dark:bg-lime-950/40',
+          activeBorder: 'border-lime-500'
+        },
       ]
     }
   ];
@@ -266,14 +249,6 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
     icon: MapPin,
     color: 'text-green-600',
     path: '/plan-dream-tour'
-  };
-
-  const holidayMemoriesSection = {
-    title: 'Holiday Memories',
-    subtitle: 'Photos & Locations from Travelers (Earn Mony 💰)',
-    icon: Camera,
-    color: 'text-pink-600',
-    path: '/ads/entertainment/holiday-memories'
   };
 
   const coinsTreasureSection = {
@@ -305,54 +280,30 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
     }
   ];
 
-  // Filter categories and subcategories based on search term
-  const filteredCategories = useMemo(() => {
+  // Filter sections and items based on search term
+  const filteredSections = useMemo(() => {
     if (!searchTerm.trim()) {
-      return advertisementCategories;
+      return categorySections;
     }
 
     const searchLower = searchTerm.toLowerCase();
-    return advertisementCategories.map(category => {
-      // Check if category name matches
-      const categoryMatches = category.name.toLowerCase().includes(searchLower);
+    return categorySections
+      .map(section => {
+        const sectionMatches = section.title.toLowerCase().includes(searchLower);
+        const filteredItems = section.items.filter(item =>
+          item.name.toLowerCase().includes(searchLower)
+        );
 
-      // Filter subcategories that match the search term
-      const filteredSubcategories = category.subcategories.filter(subcategory =>
-        subcategory.name.toLowerCase().includes(searchLower)
-      );
-
-      // Include category if either the category name matches or it has matching subcategories
-      if (categoryMatches || filteredSubcategories.length > 0) {
-        return {
-          ...category,
-          subcategories: categoryMatches ? category.subcategories : filteredSubcategories,
-          // Auto-expand categories when searching and they have matching subcategories
-          autoExpand: !categoryMatches && filteredSubcategories.length > 0
-        };
-      }
-      return null;
-    }).filter(Boolean);
-  }, [searchTerm, advertisementCategories]);
-
-  // Auto-expand categories when searching
-  React.useEffect(() => {
-    if (searchTerm.trim()) {
-      const newExpandedCategories = {};
-      filteredCategories.forEach(category => {
-        if (category.autoExpand) {
-          newExpandedCategories[category.id] = true;
+        if (sectionMatches || filteredItems.length > 0) {
+          return {
+            ...section,
+            items: sectionMatches ? section.items : filteredItems
+          };
         }
-      });
-      setExpandedCategories(prev => ({ ...prev, ...newExpandedCategories }));
-    }
-  }, [searchTerm, filteredCategories]);
-
-  const toggleCategory = (categoryId) => {
-    setExpandedCategories(prev => ({
-      ...prev,
-      [categoryId]: !prev[categoryId]
-    }));
-  };
+        return null;
+      })
+      .filter(Boolean);
+  }, [searchTerm, categorySections]);
 
   const clearSearch = () => {
     setSearchTerm('');
@@ -362,7 +313,6 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
     return location.pathname === path;
   };
 
-  // Touch gesture handlers for mobile swipe
   const handleTouchStart = (e) => {
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientX);
@@ -374,12 +324,8 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
 
   const handleTouchEnd = () => {
     if (!touchStart || !touchEnd) return;
-
     const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe && isOpen) {
+    if (distance > 50 && isOpen) {
       onClose();
     }
   };
@@ -394,7 +340,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
         />
       )}
 
-      {/* Sidebar */}
+      {/* Sidebar container */}
       <div
         className={`
           fixed lg:static inset-y-0 left-0 z-50
@@ -423,7 +369,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
           </button>
         </div>
 
-        {/* Mobile close button */}
+        {/* Mobile header */}
         <div className="lg:hidden flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
             Categories
@@ -435,6 +381,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
             <X className="w-5 h-5" />
           </button>
         </div>
+
         <div className={`${effectiveCollapsed ? 'p-3' : 'p-6'} transition-all duration-300`}>
           {/* Header - only show when expanded */}
           {!effectiveCollapsed && (
@@ -455,7 +402,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                 <Link
                   key={section.title}
                   to={section.path}
-                  className={`group relative flex items-center ${effectiveCollapsed ? 'justify-center' : 'space-x-3'} ${effectiveCollapsed ? 'p-3' : 'px-3 py-2'} rounded-lg transition-all duration-200 ${
+                  className={`group relative flex items-center ${effectiveCollapsed ? 'justify-center p-3' : 'space-x-3 px-3 py-2'} rounded-lg transition-all duration-200 ${
                     isActive(section.path)
                       ? 'bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300'
                       : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
@@ -466,7 +413,6 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                   <section.icon className={`w-5 h-5 ${section.color} flex-shrink-0`} />
                   {!effectiveCollapsed && <span className="text-sm font-medium">{section.title}</span>}
 
-                  {/* Tooltip for collapsed mode */}
                   {effectiveCollapsed && (
                     <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
                       {section.title}
@@ -487,8 +433,8 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                 onClick={onClose}
                 title={effectiveCollapsed ? promoCodesSection.title : undefined}
               >
-                <div className={`${effectiveCollapsed ? 'p-2' : 'p-2'} rounded-lg bg-white dark:bg-gray-800 shadow-sm`}>
-                  <promoCodesSection.icon className={`${effectiveCollapsed ? 'w-5 h-5' : 'w-5 h-5'} ${promoCodesSection.color}`} />
+                <div className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
+                  <promoCodesSection.icon className={`w-5 h-5 ${promoCodesSection.color}`} />
                 </div>
                 {!effectiveCollapsed && (
                   <div className="flex-1">
@@ -501,7 +447,6 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                   </div>
                 )}
 
-                {/* Tooltip for collapsed mode */}
                 {effectiveCollapsed && (
                   <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
                     <div className="font-semibold">{promoCodesSection.title}</div>
@@ -522,8 +467,8 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                 onClick={onClose}
                 title={effectiveCollapsed ? planYourDreamTourSection.title : undefined}
               >
-                <div className={`${effectiveCollapsed ? 'p-2' : 'p-2'} rounded-lg bg-white dark:bg-gray-800 shadow-sm`}>
-                  <planYourDreamTourSection.icon className={`${effectiveCollapsed ? 'w-5 h-5' : 'w-5 h-5'} ${planYourDreamTourSection.color}`} />
+                <div className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
+                  <planYourDreamTourSection.icon className={`w-5 h-5 ${planYourDreamTourSection.color}`} />
                 </div>
                 {!effectiveCollapsed && (
                   <div className="flex-1">
@@ -536,7 +481,6 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                   </div>
                 )}
 
-                {/* Tooltip for collapsed mode */}
                 {effectiveCollapsed && (
                   <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
                     <div className="font-semibold">{planYourDreamTourSection.title}</div>
@@ -546,42 +490,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                 )}
               </Link>
 
-              {/* Holiday Memories */}
-              <Link
-                to={holidayMemoriesSection.path}
-                className={`group relative flex items-center ${effectiveCollapsed ? 'justify-center p-3' : 'space-x-3 px-4 py-3'} rounded-xl transition-all duration-300 transform hover:scale-105 ${
-                  isActive(holidayMemoriesSection.path)
-                    ? 'bg-gradient-to-r from-pink-100 to-purple-100 dark:from-pink-900/30 dark:to-purple-900/30 shadow-md'
-                    : 'bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 hover:from-pink-100 hover:to-purple-100 dark:hover:from-pink-900/30 dark:hover:to-purple-900/30 shadow-sm hover:shadow-md'
-                }`}
-                onClick={onClose}
-                title={effectiveCollapsed ? holidayMemoriesSection.title : undefined}
-              >
-                <div className={`${effectiveCollapsed ? 'p-2' : 'p-2'} rounded-lg bg-white dark:bg-gray-800 shadow-sm`}>
-                  <holidayMemoriesSection.icon className={`${effectiveCollapsed ? 'w-5 h-5' : 'w-5 h-5'} ${holidayMemoriesSection.color}`} />
-                </div>
-                {!effectiveCollapsed && (
-                  <div className="flex-1">
-                    <div className="text-sm font-bold text-gray-900 dark:text-white">
-                      {holidayMemoriesSection.title}
-                    </div>
-                    <div className="text-xs text-gray-600 dark:text-gray-400">
-                      {holidayMemoriesSection.subtitle}
-                    </div>
-                  </div>
-                )}
-
-                {/* Tooltip for collapsed mode */}
-                {effectiveCollapsed && (
-                  <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
-                    <div className="font-semibold">{holidayMemoriesSection.title}</div>
-                    <div className="text-xs opacity-90">{holidayMemoriesSection.subtitle}</div>
-                    <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900 dark:border-r-gray-700" />
-                  </div>
-                )}
-              </Link>
-
-              {/* Coins (HSC) & Treasure - Below Holiday Memories */}
+              {/* Coins (HSC) & Treasure */}
               <Link
                 to={coinsTreasureSection.path}
                 className={`group relative flex items-center ${effectiveCollapsed ? 'justify-center p-3' : 'space-x-3 px-4 py-3'} rounded-xl transition-all duration-300 transform hover:scale-105 ${
@@ -592,8 +501,8 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                 onClick={onClose}
                 title={effectiveCollapsed ? coinsTreasureSection.title : undefined}
               >
-                <div className={`${effectiveCollapsed ? 'p-2' : 'p-2'} rounded-lg bg-white dark:bg-gray-800 shadow-sm`}>
-                  <coinsTreasureSection.icon className={`${effectiveCollapsed ? 'w-5 h-5' : 'w-5 h-5'} ${coinsTreasureSection.color}`} />
+                <div className="p-2 rounded-lg bg-white dark:bg-gray-800 shadow-sm">
+                  <coinsTreasureSection.icon className={`w-5 h-5 ${coinsTreasureSection.color}`} />
                 </div>
                 {!effectiveCollapsed && (
                   <div className="flex-1">
@@ -606,7 +515,6 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                   </div>
                 )}
 
-                {/* Tooltip for collapsed mode */}
                 {effectiveCollapsed && (
                   <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
                     <div className="font-semibold">{coinsTreasureSection.title}</div>
@@ -620,7 +528,6 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
 
           {/* Advertisement Categories */}
           <div>
-            {/* Divider line when collapsed */}
             {effectiveCollapsed && (
               <div className="border-t border-gray-200 dark:border-gray-700 mb-4" />
             )}
@@ -632,13 +539,13 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                 </h3>
                 {searchTerm && (
                   <span className="text-xs text-gray-400 dark:text-gray-500">
-                    {filteredCategories.length} found
+                    {filteredSections.reduce((acc, sec) => acc + sec.items.length, 0)} found
                   </span>
                 )}
               </div>
             )}
 
-            {/* Search Input - only show when expanded */}
+            {/* Search Input */}
             {!effectiveCollapsed && (
               <div className="mb-4">
                 <div className="relative">
@@ -662,8 +569,8 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
               </div>
             )}
 
-            {/* No Results Message - only when expanded */}
-            {!effectiveCollapsed && searchTerm && filteredCategories.length === 0 && (
+            {/* No Results Message */}
+            {!effectiveCollapsed && searchTerm && filteredSections.length === 0 && (
               <div className="text-center py-8">
                 <Search className="w-8 h-8 text-gray-300 dark:text-gray-600 mx-auto mb-2" />
                 <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -678,176 +585,66 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
               </div>
             )}
 
-            <div className={`${effectiveCollapsed ? 'space-y-2' : 'space-y-2'}`}>
-              {filteredCategories.map((category) => (
-                <div key={category.id} className="relative group/category">
-                  <button
-                    onClick={() => effectiveCollapsed ? null : toggleCategory(category.id)}
-                    className={`w-full flex items-center ${effectiveCollapsed ? 'justify-center p-3' : 'justify-between px-3 py-2'} rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-200`}
-                  >
-                    <div className={`flex items-center ${effectiveCollapsed ? '' : 'space-x-3'}`}>
-                      <div className={`${effectiveCollapsed ? 'p-2' : 'p-1.5'} rounded-md ${category.bgColor} dark:bg-gray-800`}>
-                        <category.icon className={`${effectiveCollapsed ? 'w-5 h-5' : 'w-4 h-4'} ${category.color}`} />
-                      </div>
-                      {!effectiveCollapsed && <span className="text-sm font-medium">{category.name}</span>}
+            {/* Categories List */}
+            <div className="space-y-5">
+              {filteredSections.map((section) => (
+                <div key={section.title} className="space-y-1.5">
+                  {/* Section Title Header */}
+                  {!effectiveCollapsed && (
+                    <div className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800/60 mb-2 pb-1">
+                      {section.title}
                     </div>
-                    {!effectiveCollapsed && (
-                      expandedCategories[category.id] ? (
-                        <ChevronDown className="w-4 h-4" />
-                      ) : (
-                        <ChevronRight className="w-4 h-4" />
-                      )
-                    )}
-                  </button>
+                  )}
 
-                  {/* Tooltip with subcategories for collapsed mode */}
-                  {effectiveCollapsed && (
-                    <div className="absolute left-full ml-3 top-0 px-4 py-3 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-xl opacity-0 invisible group-hover/category:opacity-100 group-hover/category:visible transition-all duration-200 z-50 shadow-xl border border-gray-200 dark:border-gray-700 min-w-64 max-h-80 overflow-y-auto">
-                      <div className="flex items-center space-x-2 mb-3 pb-2 border-b border-gray-200 dark:border-gray-700">
-                        <div className={`p-1.5 rounded-md ${category.bgColor} dark:bg-gray-700`}>
-                          <category.icon className={`w-4 h-4 ${category.color}`} />
+                  {section.items.map((item) => {
+                    const active = isActive(item.path);
+                    const ItemIcon = item.icon;
+
+                    return (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        onClick={onClose}
+                        className={`group relative flex items-center ${
+                          effectiveCollapsed ? 'justify-center p-3' : 'space-x-3 px-3 py-2.5'
+                        } rounded-xl transition-all duration-200 ${
+                          active
+                            ? `${item.bgColor} ${item.color} font-semibold shadow-sm border-l-4 ${item.activeBorder}`
+                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/80 hover:text-gray-900 dark:hover:text-white'
+                        }`}
+                        title={effectiveCollapsed ? `${item.name} (${section.title})` : undefined}
+                      >
+                        <div
+                          className={`flex-shrink-0 ${
+                            effectiveCollapsed ? 'p-2' : 'p-1.5'
+                          } rounded-lg ${item.bgColor} transition-transform duration-200 group-hover:scale-110`}
+                        >
+                          <ItemIcon className={`${effectiveCollapsed ? 'w-5 h-5' : 'w-4 h-4'} ${item.color}`} />
                         </div>
-                        <span className="font-semibold text-sm">{category.name}</span>
-                      </div>
-                      <div className="space-y-1">
-                        {category.subcategories.filter(sub => !sub.hidden).map((subcategory) => (
-                          <Link
-                            key={subcategory.path}
-                            to={subcategory.path}
-                            onClick={onClose}
-                            className={`block px-3 py-2 text-sm rounded-lg transition-colors duration-200 ${
-                              isActive(subcategory.path)
-                                ? `${category.bgColor} dark:bg-gray-700 ${category.color}`
-                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
-                            }`}
-                          >
-                            {subcategory.name}
-                          </Link>
-                        ))}
-                      </div>
-                      <div className="absolute right-full top-4 border-8 border-transparent border-r-white dark:border-r-gray-800" />
-                    </div>
-                  )}
 
-                  {/* Subcategories - only show when expanded and not collapsed */}
-                  {!effectiveCollapsed && expandedCategories[category.id] && (
-                    <div className="ml-6 mt-3 space-y-1 relative animate-slide-down">
-                      {/* Connecting line */}
-                      <div className="absolute left-3 top-0 bottom-0 w-px bg-gradient-to-b from-gray-300 via-gray-200 to-transparent dark:from-gray-600 dark:via-gray-700 dark:to-transparent" />
+                        {!effectiveCollapsed && (
+                          <span className="text-sm leading-snug flex-1">
+                            {item.name}
+                          </span>
+                        )}
 
-                      {category.subcategories.filter(sub => !sub.hidden).map((subcategory, index) => {
-                        const isActiveSubcat = isActive(subcategory.path);
-                        const categoryColorClass = category.color;
-                        const categoryBgClass = category.bgColor;
-
-                        return (
-                          <Link
-                            key={subcategory.path}
-                            to={subcategory.path}
-                            className={`sidebar-subcategory flex items-center space-x-3 px-4 py-2.5 text-sm rounded-lg transition-all duration-300 group relative transform hover:translate-x-1 animate-slide-in-left ${
-                              isActiveSubcat
-                                ? `${categoryBgClass} dark:bg-gray-800 ${categoryColorClass} dark:text-white border-l-3 shadow-sm`
-                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200 hover:shadow-sm'
-                            } ${
-                              isActiveSubcat && categoryColorClass === 'text-blue-600' ? 'border-blue-600' :
-                              isActiveSubcat && categoryColorClass === 'text-green-600' ? 'border-green-600' :
-                              isActiveSubcat && categoryColorClass === 'text-purple-600' ? 'border-purple-600' :
-                              isActiveSubcat && categoryColorClass === 'text-red-600' ? 'border-red-600' :
-                              isActiveSubcat && categoryColorClass === 'text-indigo-600' ? 'border-indigo-600' :
-                              isActiveSubcat && categoryColorClass === 'text-pink-600' ? 'border-pink-600' :
-                              isActiveSubcat && categoryColorClass === 'text-orange-600' ? 'border-orange-600' :
-                              isActiveSubcat && categoryColorClass === 'text-cyan-600' ? 'border-cyan-600' :
-                              isActiveSubcat && categoryColorClass === 'text-yellow-600' ? 'border-yellow-600' :
-                              isActiveSubcat && categoryColorClass === 'text-gray-600' ? 'border-gray-600' :
-                              'hover:border-l-3 hover:border-gray-300 dark:hover:border-gray-600'
-                            }`}
-                            onClick={onClose}
-                            style={{ animationDelay: `${index * 50}ms` }}
-                          >
-                            {/* Creative bullet point with category-specific colors */}
-                            <div className={`relative flex-shrink-0 ${isActiveSubcat ? 'animate-pulse' : ''}`}>
-                              <div className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                                isActiveSubcat
-                                  ? `shadow-lg ${
-                                      categoryColorClass === 'text-blue-600' ? 'bg-blue-600' :
-                                      categoryColorClass === 'text-green-600' ? 'bg-green-600' :
-                                      categoryColorClass === 'text-purple-600' ? 'bg-purple-600' :
-                                      categoryColorClass === 'text-red-600' ? 'bg-red-600' :
-                                      categoryColorClass === 'text-indigo-600' ? 'bg-indigo-600' :
-                                      categoryColorClass === 'text-pink-600' ? 'bg-pink-600' :
-                                      categoryColorClass === 'text-orange-600' ? 'bg-orange-600' :
-                                      categoryColorClass === 'text-cyan-600' ? 'bg-cyan-600' :
-                                      categoryColorClass === 'text-yellow-600' ? 'bg-yellow-600' :
-                                      'bg-gray-600'
-                                    }`
-                                  : `bg-gray-300 dark:bg-gray-600 group-hover:shadow-md group-hover:scale-110 ${
-                                      categoryColorClass === 'text-blue-600' ? 'group-hover:bg-blue-600' :
-                                      categoryColorClass === 'text-green-600' ? 'group-hover:bg-green-600' :
-                                      categoryColorClass === 'text-purple-600' ? 'group-hover:bg-purple-600' :
-                                      categoryColorClass === 'text-red-600' ? 'group-hover:bg-red-600' :
-                                      categoryColorClass === 'text-indigo-600' ? 'group-hover:bg-indigo-600' :
-                                      categoryColorClass === 'text-pink-600' ? 'group-hover:bg-pink-600' :
-                                      categoryColorClass === 'text-orange-600' ? 'group-hover:bg-orange-600' :
-                                      categoryColorClass === 'text-cyan-600' ? 'group-hover:bg-cyan-600' :
-                                      categoryColorClass === 'text-yellow-600' ? 'group-hover:bg-yellow-600' :
-                                      'group-hover:bg-gray-600'
-                                    }`
-                              }`} />
-                              {/* Outer ring on hover */}
-                              <div className={`absolute inset-0 w-2.5 h-2.5 rounded-full opacity-0 group-hover:opacity-30 transition-all duration-300 group-hover:scale-150 ${
-                                categoryColorClass === 'text-blue-600' ? 'bg-blue-600' :
-                                categoryColorClass === 'text-green-600' ? 'bg-green-600' :
-                                categoryColorClass === 'text-purple-600' ? 'bg-purple-600' :
-                                categoryColorClass === 'text-red-600' ? 'bg-red-600' :
-                                categoryColorClass === 'text-indigo-600' ? 'bg-indigo-600' :
-                                categoryColorClass === 'text-pink-600' ? 'bg-pink-600' :
-                                categoryColorClass === 'text-orange-600' ? 'bg-orange-600' :
-                                categoryColorClass === 'text-cyan-600' ? 'bg-cyan-600' :
-                                categoryColorClass === 'text-yellow-600' ? 'bg-yellow-600' :
-                                'bg-gray-600'
-                              }`} />
-                            </div>
-
-                            {/* Subcategory name with enhanced typography */}
-                            <span className="flex-1 leading-relaxed font-medium group-hover:font-semibold transition-all duration-200">
-                              {subcategory.name}
-                            </span>
-
-                            {/* Enhanced arrow indicator with slide animation */}
-                            <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-                              <div className={`w-1 h-1 rounded-full ${
-                                isActiveSubcat
-                                  ? categoryColorClass.replace('text-', 'bg-')
-                                  : `bg-gray-400 dark:bg-gray-500 ${
-                                      categoryColorClass === 'text-blue-600' ? 'group-hover:bg-blue-600' :
-                                      categoryColorClass === 'text-green-600' ? 'group-hover:bg-green-600' :
-                                      categoryColorClass === 'text-purple-600' ? 'group-hover:bg-purple-600' :
-                                      categoryColorClass === 'text-red-600' ? 'group-hover:bg-red-600' :
-                                      categoryColorClass === 'text-indigo-600' ? 'group-hover:bg-indigo-600' :
-                                      categoryColorClass === 'text-pink-600' ? 'group-hover:bg-pink-600' :
-                                      categoryColorClass === 'text-orange-600' ? 'group-hover:bg-orange-600' :
-                                      categoryColorClass === 'text-cyan-600' ? 'group-hover:bg-cyan-600' :
-                                      categoryColorClass === 'text-yellow-600' ? 'group-hover:bg-yellow-600' :
-                                      'group-hover:bg-gray-600'
-                                    }`
-                              }`} />
-                              <ChevronRight className={`w-3.5 h-3.5 flex-shrink-0 ${
-                                isActiveSubcat
-                                  ? categoryColorClass
-                                  : `text-gray-400 dark:text-gray-500 ${categoryColorClass.replace('text-', 'group-hover:text-')}`
-                              }`} />
-                            </div>
-                          </Link>
-                        );
-                      })}
-                    </div>
-                  )}
+                        {/* Collapsed mode tooltip */}
+                        {effectiveCollapsed && (
+                          <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
+                            <div className="font-semibold">{item.name}</div>
+                            <div className="text-xs text-gray-300">{section.title}</div>
+                            <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900 dark:border-r-gray-700" />
+                          </div>
+                        )}
+                      </Link>
+                    );
+                  })}
                 </div>
               ))}
             </div>
           </div>
 
-          {/* HSC Information - conditionally render based on collapsed state */}
+          {/* HSC Information */}
           {effectiveCollapsed ? (
             <div className="mt-4 flex justify-center">
               <Link
@@ -857,7 +654,6 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
                 title="HSC Token System"
               >
                 <Coins className="w-5 h-5 text-primary-600 dark:text-primary-400" />
-                {/* Tooltip */}
                 <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-2 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 whitespace-nowrap z-50 shadow-lg">
                   HSC Token System
                   <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-900 dark:border-r-gray-700" />
