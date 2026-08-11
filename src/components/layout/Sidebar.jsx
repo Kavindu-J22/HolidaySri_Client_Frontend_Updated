@@ -346,17 +346,21 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
         className={`
           fixed lg:static inset-y-0 left-0 z-50
           ${effectiveCollapsed ? 'w-20' : 'w-80'}
-          bg-cover bg-center bg-no-repeat
+          bg-repeat bg-top
           border-r border-gray-200/80 dark:border-gray-700/80 transform transition-all duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           overflow-y-auto overflow-x-hidden shadow-xl lg:shadow-none
         `}
-        style={{ backgroundImage: `url(${sideBarBG})` }}
+        style={{
+          backgroundImage: `url(${sideBarBG})`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: 'auto',
+        }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="min-h-full bg-white/85 dark:bg-gray-900/85 backdrop-blur-sm flex flex-col">
+        <div className="min-h-full bg-white/40 dark:bg-gray-900/60 backdrop-blur-[1px] flex flex-col">
         {/* Desktop collapse toggle button */}
         <div className="hidden lg:flex justify-end p-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
           <button
