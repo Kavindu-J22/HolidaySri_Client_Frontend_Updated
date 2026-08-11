@@ -59,8 +59,11 @@ const Layout = () => {
           onToggleCollapse={toggleSidebarCollapse}
         />
 
-        <main className="flex-1 lg:ml-0 flex flex-col">
-          <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <main className="flex-1 lg:ml-0 flex flex-col relative">
+          {/* Main Background Overlay */}
+          <div className="absolute inset-0 bg-white/60 dark:bg-gray-900/75 backdrop-blur-[2px] pointer-events-none" />
+
+          <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full relative z-10">
             <Outlet />
           </div>
         </main>
