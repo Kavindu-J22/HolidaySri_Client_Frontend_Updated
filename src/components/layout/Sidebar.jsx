@@ -30,6 +30,7 @@ import {
   Sparkles,
   UserCheck
 } from 'lucide-react';
+import sideBarBG from '../../assets/sideBarBG.webp';
 
 const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
   const [touchStart, setTouchStart] = useState(null);
@@ -345,15 +346,17 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
         className={`
           fixed lg:static inset-y-0 left-0 z-50
           ${effectiveCollapsed ? 'w-20' : 'w-80'}
-          bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm
-          border-r border-gray-200 dark:border-gray-700 transform transition-all duration-300 ease-in-out
+          bg-cover bg-center bg-no-repeat
+          border-r border-gray-200/80 dark:border-gray-700/80 transform transition-all duration-300 ease-in-out
           ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           overflow-y-auto overflow-x-hidden shadow-xl lg:shadow-none
         `}
+        style={{ backgroundImage: `url(${sideBarBG})` }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
+        <div className="min-h-full bg-white/85 dark:bg-gray-900/85 backdrop-blur-sm flex flex-col">
         {/* Desktop collapse toggle button */}
         <div className="hidden lg:flex justify-end p-2 border-b border-gray-200 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-800/50">
           <button
@@ -679,6 +682,7 @@ const Sidebar = ({ isOpen, onClose, isCollapsed, onToggleCollapse }) => {
           )}
         </div>
       </div>
+    </div>
     </>
   );
 };

@@ -4,7 +4,7 @@ import { LayoutGrid, Sparkles } from 'lucide-react';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
-import BackgroundAnimation from '../common/BackgroundAnimation';
+import MainBgImage from '../../assets/MainBgImage.webp';
 
 const Layout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -44,10 +44,10 @@ const Layout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col relative">
-      {/* Background Animation */}
-      <BackgroundAnimation />
-
+    <div
+      className="min-h-screen bg-cover bg-center bg-fixed bg-no-repeat flex flex-col relative"
+      style={{ backgroundImage: `url(${MainBgImage})` }}
+    >
       <Navbar />
 
       {/* Add padding-top to account for fixed navbar */}
